@@ -1,0 +1,110 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[12pt,twoside]{article}
+
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{amssymb}
+
+% Will Robertson's fontspec.sty can be used to simplify font choices.
+% To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
+% and change "Hoefler Text" to any of these choices.
+
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont[Mapping=tex-text]{Hoefler Text}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Optima}
+\setmonofont[Scale=MatchLowercase]{Andale Mono}
+
+%%%% Graphics
+\usepackage{graphicx}
+\usepackage{tikz}
+\definecolor{unilublue}{RGB}{55,149,218}
+\definecolor{sntred}{RGB}{219,46,27}
+\definecolor{sntpurple}{RGB}{86,30,130}
+%\definecolor{sntblue}{RGB}{50,130,207}
+\definecolor{sntblue}{RGB}{55,149,218}
+
+\pgfdeclareimage[width=30mm]{logo-snt}{logos/logo-snt}
+\pgfdeclareimage[width=30mm]{logo-uni-lu}{logos/logo-uni-lu}
+
+%%%% Fancy
+\usepackage{fancyhdr}
+
+%%%% Increase page length
+\addtolength{\textheight}{1in}
+
+%%%% Sections
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+%%%% Title
+\newcommand{\titleone}{\textsf{Mutation Testing Survey:}}
+\newcommand{\titletwo}{\textsf{FAQAS}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
+
+\renewcommand{\headrulewidth}{2pt}% 2pt header rule
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{sntblue}\leaders\hrule height \headrulewidth\hfill}}
+
+\fancyhf{}
+
+%\lhead{\fancyplain{}{\setlength{\unitlength}{1mm}
+%\begin{picture}(0,0)
+%\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
+%\end{picture}}} 
+
+\lhead{\fancyplain{}{\textit{Mutation Testing Survey}}}
+
+\rhead{\fancyplain{}{\rightmark }}
+
+\fancyfoot[C]{%
+\begin{tikzpicture}[remember picture,overlay]
+\path [fill=sntred]    ([xshift=88pt,yshift=20pt]current page.south west) rectangle
+                       ([xshift=229pt,yshift=50pt] current page.south west);
+\path [fill=sntpurple] ([xshift=229pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=370pt,yshift=50pt] current page.south west);
+\path [fill=sntblue]   ([xshift=370pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=510pt,yshift=50pt] current page.south west);
+\end{tikzpicture}
+}
+
+\fancyfoot[RO]{
+\begin{tikzpicture}[remember picture,overlay]
+\node [circle, ultra thick, fill=white, draw=sntblue] at ([xshift=530pt,yshift=35pt] current page.south west) {\thepage};
+\end{tikzpicture}}
+
+\fancyfoot[LE]{
+\begin{tikzpicture}[remember picture,overlay]
+\node [circle, ultra thick, fill=white, draw=sntblue] at ([xshift=65pt,yshift=35pt] current page.south west) {\thepage};
+\end{tikzpicture}}
+
+\thispagestyle{empty}
+
+\include{titlepage}
+
+\section{Introduction}\label{sec:intro}
+
+\cite{jia2010analysis}
+
+\mbox{}\newpage
+
+\newpage
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+
+\end{document}  
