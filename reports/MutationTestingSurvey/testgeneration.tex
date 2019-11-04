@@ -1,0 +1,39 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\section{Mutation-based test generation}
+
+\subsection{Symbolic execution test generation} % (fold)
+\label{sub:static_constraint_based_test_generation}
+
+These methods turn each of the RIPR conditions into a constraint and build a system that is passed to a constraint solver (critical).
+
+\begin{itemize}
+	\item Use of symbolic execution engines (JPF-SE \cite{anand2007jpf} and KLEE \cite{holling2016nequivack} (READ)) to generate mutation-based test cases. 
+	The process consists of instrumenting the original program with mutant killing conditions that the symbolic execution is asked to cover (transforms the mutant killing problem to code reachability problem). 
+	\item Use of bounded model checking techniques to search for solutions that expose the studied mutants \cite{riener2011test}. (READ)
+
+	\item Dynamic symbolic execution approaches: embed the mutant killing conditions within the executable program and guide test generation towards these conditions.
+
+	\item Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards}:
+	Embed mutant infection conditions (cause a corruption to the program state) within the schematic functions that are produced by mutant schemata. Basically, we have all mutants encoded in a single executable with their killing conditions. Then, using dynamic symbolic execution we can directly produce test cases that targets those infection conditions.
+
+	\item Zhang et al. \cite{zhang2010test} and Bardin et al. \cite{papadakis2011automatically,papadakis2010towards} use annotations to embed the mutant infection conditions within the program under test. Also, Jamrozik et al. \cite{jamrozik2013generating} enriched path conditions with constraints to target mutants.
+
+	\item critical: performing weak mutation often results in tests that can strongly kill many mutants, but in general they only kill trivial mutants that fails to reveal faults.
+	
+	\item critical: there is a need to formulate the mutant propagation condition (propagate the corruption to the program output) on top of the reachability and infection conditions (cause a corruption). This is complex, because involves running two executions, the original program along the mutated one, along all possible execution paths.
+
+	\item idea: Papadakis and Malevris \cite{papadakis2010automatic} worked on searching the path space between the mutation point until the program output, for finding inputs that satisfy the propagation condition.  
+
+\end{itemize}
+% subsection static_constraint_based_test_generation (end)
+
+\subsection{Search-based test generation} % (fold)
+\label{sub:search_based_test_generation}
+
+\begin{itemize}
+	\item critical: define a fitness function that is capable of capturing the RIPR conditions and effectively identify test inputs that satisfy these conditions
+	\item use hill climbing and genetic algorithms (main concern: definition of fitness function) 
+\end{itemize}
+% subsection search_based_test_generation (end)
+

@@ -1,0 +1,108 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\section{Equivalent Mutants}
+\label{sec:equivalent}
+
+Mutants that are semantically equivalent to the original program despite being syntactically different. The process of identifying equivalent mutant is a undecidable problem \cite{madeyski2013overcoming}.
+
+\subsection{Overcoming Equivalent Mutants} % (fold)
+\label{sub:overcoming_equivalent_mutants}
+
+The only way to overcome equivalent mutants is to define heuristics for removing them.
+
+\subsubsection{Detecting equivalent mutants technique (harder to implement)}
+
+\begin{itemize}
+	\item \textbf{Trivial Compiler Optimisation} \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}: code optimisations transforms mutants to the optimised version. Hence, equivalent mutants are transformed to the same optimised version. TCE identifies at least 30\% of equivalent mutants.
+	Baldwin and Sayward \cite{baldwin1979heuristics}, proposed six types of compiler optimization rules, the rules were studied by Offutt and Craft \cite{offutt1994using} and they discover that 10\% of all mutants were equivalent for 15 subject programs.
+	\item Constraint satisfaction problem \cite{offutt1996detecting,offutt1997automatically}: the problem is formulated as a constraint satisfaction problem by analyzing the path condition of a mutant. The mutant is defined equivalent iff the input constraint is unsatisfiable. The technique detected 47\% of equivalent mutants among 11 subject programs.
+	\item Program slicing \cite{voas1997software, hierons1999using, harman2001relationship}: generation of a sliced program that denotes the answer to an equivalent mutant. (READ)
+	\item Using semantic differences in terms of a running profile to detect non-equivalent mutants \cite{ellims2007csaw} (READ)
+	\item Margrave's change-impact analysis \cite{martin2007fault} (READ)
+	\item Using Lesar model-checker for eliminating equivalent mutants \cite{du2008towards} (READ)
+\end{itemize}
+
+\subsubsection{Avoiding equivalent mutant generation techniques}
+
+\begin{itemize}
+	\item \textbf{Selective mutation} \cite{mresa1999efficiency}:
+	Randomly selecting 10\%, 20\%, 30\%, 40\%, 50\% and 60\% of the mutants results in a fault loss of approximately 26\%, 16\%, 13\%, 10\%, 7\% and 6\% respectively \cite{papadakis2010empirical}.
+
+	Rothermel et al. \cite{rothermel1996experimental} and then Andrews et al. \cite{andrews2005mutation} proposed a small set of operators that is a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., Replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls).
+
+	Namin et al. \cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score (reduce mutants in a 93\%), the developed tool aims C programs.
+
+	Delamaro et al. \cite{delamaro2014designing} designed new deletion operators, and found that they form a cost-effective alternative to other operators, i.e., they produce less equivalent mutants.
+
+	\item \textbf{Avoiding equivalent mutation generation using program dependence analyisis} \cite{harman2001relationship}: use of program dependence analysis for careful selection of the variables and statements to be mutated and where these variables need to be inspected, in order to avoid the equivalent mutant problem. The idea is to avoid mutants that fail to propagate \textit{corrupted data} to the inspection set at the probe point which will be equivalent.
+
+	They use a method called JR-dependence, which allow them to relate variable and nodes pairs, rather than simple to relate nodes. This is good for mutation testing, because we want to know the set of variables which can be used to kill a mutant and which set of variables store values which cannot be used to kill a mutant.
+
+	\item Co-evolutionary approach \cite{adamopoulos2004overcome}: define a fitness function that sets a poor fitness value to an equivalent mutans. Through this function equivalent mutants are removed during the co-evolution process and only mutants that are hard to kill and tests cases that are good at detecting mutants are selected.
+
+	\item Using equivalency conditions to eliminate equivalent mutants for object oriented mutation operators \cite{offutt2006class} (READ)
+
+	\item Using a fault hierarchy to improve the efficiency of the DNF logic mutation testing \cite{kaminski2009using} (READ)
+
+	\item \textbf{Distinguishing the equivalent mutants by semantic exception hierarchy} (Java - Javalanche) \cite{grun2009impact}. They discovered that mutation that alter the dynamic control flow are less likely to be equivalent; the higher the imapct, less chance to be equivalent. They focuses on developing a mutation tool based on sufficient mutation operators, mutant schemata, coverage based data.
+
+	They measure changes in program behavior between the mutant and the original version (i.e., control flow). They compute the code coverage of a program, the program records the statement coverage for each test case and every mutation, that is, the number of times a statement is executed.
+	By comparing the coverage of the original execution with the coverage of the mutated execution, they determine the coverage difference (number of classes that have different coverage). 
+
+	\item \textbf{High order mutation testing} \cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}:
+	
+	Mutants that are composed by combining two or more mutants at the same time. 
+
+	Offutt demonstrated that \textit{the set of test data developed for FOMs actually killed a higher percentage of mutants when applied to SOMs} \cite{offutt1992investigations}.
+
+	Jia and Harman identified six different types of HOMs \cite{jia2009higher} and presented a categorization of HOMs. They introduced the concept of subsuming and strongly subsuming HOMs.
+
+	Polo et al. \cite{polo2009decreasing} studied three strategies to combine FOMs and generate mutants and found that they can achieve significant cost reductions without losing any effectivenes (they reduced the number of mutants in a approximately 50\%, without much decrease in the quality of the test suite).
+
+	Papadakis and Malevris \cite{papadakis2010empirical} worked on a approach for the C programming language that leads to the reduction of approximately 80-90\% of the generated equivalent mutants and a fault detecetion ability loss from 11-15\%. 
+
+	Kintis et al. \cite{kintis2010evaluating} developed a solution for the Java language, they state that SOMs achieve higher collateral coverage for strong mutation as compared with third or higher order mutants. With their approach they obtained a mutant reduction of between 65-87\% and a loss of test effectiveness from 1.75-4.2\%.
+
+	Mateo et al \cite{mateo2012validating,madeyski2013overcoming} found that second order mutants (SOM) are significantly more efficient that first order mutants (FOM).
+
+\end{itemize}	
+
+\subsubsection{Suggesting equivalent mutants techniques}
+
+\begin{itemize}
+	\item Using bayesian-learning based guidelines to help to determine equivalent mutants \cite{maldonado2005bayesian}
+	\item Examining the impact of equivalent mutants on coverage \cite{grun2009impact}
+	\item Using the impact of dynamic invariants \cite{schuler2009efficient}
+	\item Examining changes in coverage to distinguish equivalent mutants \cite{schuler2010covering,schuler2013covering} (most effective approach, if the mutation changes coverage, there is 75\% chances of being non-equivalent)
+	\item Identifying Killable Mutants (symbolic execution based) \cite{papadakis2012mutation, holling2016nequivack}: Execute mutants symbolically and assess whether these can be killable with symbolic input data. 
+	Other approaches consider the use of software clones to detect equivalent mutants \cite{kintis2013identifying} (READ).
+	\item Data Flow Patterns \cite{kintis2014using,kintis2015medic}: equivalent mutants have specific data-flow patterns which form data-flow anomalies, through static data-flow analysis we can eliminate equivalent mutants.
+\end{itemize}
+
+\begin{table*}[ht]
+\centering
+\scriptsize
+\begin{tabular}{lllllllp{4cm}}
+\toprule
+Author(s)          & Year   & Language & \begin{tabular}[c]{@{}l@{}}Largest\\Subject\end{tabular} & \begin{tabular}[c]{@{}l@{}}\#Eq. \\ Mutants\end{tabular} & \begin{tabular}[c]{@{}l@{}}Available \\ Tool\end{tabular} & Category                                                 & Findings                                                                                      \\
+\midrule
+Baldwin \& Sayward \cite{baldwin1979heuristics} & 1979   &          &                                                           &                                                          &                                                           & Detect                                                   & Compiler optimization can be used to detect equivalent mutants                                \\
+Acree  \cite{acree1980mutation}       & 1980   & Fortran  &                                                           & 25                                                       &                                                           & Detect                                                   & Human make mistakes when they identify equivalent mutants                                     \\
+Offutt \& Craft \cite{offutt1994using}   & 1994   & Fortran  & 52                                                        & 255                                                      &                                                           & Detect                                                   & Compiler optimisation can detect on average 45\% of equivalent mutants                        \\
+Offutt \& Pan \cite{offutt1996detecting,offutt1997automatically}     & 1996-7 & Fortran  & 29                                                        & 695                                                      & Yes                                                       & Detect                                                   & Constraint-based testing can detect on average 47\% of equivalent mutants                     \\
+Voas \& McGraw \cite{voas1997software}    & 1997   &          &                                                           &                                                          &                                                           & Detect                                                   & Slicing may be helpful in detecting equivalent mutants                                        \\
+Hierons et al. \cite{hierons1999using}      & 1999   &          &                                                           &                                                          &                                                           & \begin{tabular}[c]{@{}l@{}}Detect/\\ Reduce\end{tabular} & Program slicing can be used to detect and assist the identification of equivalent mutants     \\
+Harman et al.  \cite{harman2001relationship}    & 2001   &          &                                                           &                                                          &                                                           & \begin{tabular}[c]{@{}l@{}}Detect/\\ Reduce\end{tabular} & Dependence analysis can be used to detect and assist the identification of equivalent mutants \\
+Adamopoulos et al  & 2004 \cite{adamopoulos2004overcome}  &          &                                                           &                                                          &                                                           & Reduce                                                   & Co-evolution can help in reducing the effects of equivalent mutants                           \\
+Grun et al. \cite{grun2009impact}       & 2009   & Java     & 12,449                                                     & 8                                                        & Yes                                                       & Reduce                                                   & Coverage Impact can be used to classify killable mutants                                      \\
+Schuler et al. \cite{schuler2009efficient}    & 2009   & Java     & 94,902                                                     & 10                                                       & Yes                                                       & Reduce                                                   & Invariants violations can be used to classify killable mutants                                \\
+Schuler \& Zeller \cite{schuler2010covering,schuler2013covering} & 2010-2 & Java     & 94,902                                                     & 63                                                       & Yes                                                       & Reduce                                                   & Coverage impact can be used to classify killable mutants                                      \\
+Nica \& Wotawa \cite{nica2012using}    & 2012   & Java     & 380                                                       & 1,424                                                     &                                                           & Detect                                                   & Constraint-based testing can detect equivalent mutants                                        \\
+Kintis et al. \cite{kintis2012isolating,kintis2015employing}     & 2012-4 & Java     & 94,902                                                     & 89                                                       &                                                           & Reduce                                                   & Higher order mutants can be used to classify killable mutants                                 \\
+Kintis \& Malevris \cite{kintis2014using} & 2014   & Java     & 25,909                                                     & 84                                                       &                                                           & Detect                                                   & Data-flow patterns can detect 69\% of the equivalent mutants introduced by the AOIS operator  \\
+Papadakis et al. \cite{papadakis2014mitigating}    & 2014   & C        & 513                                                       & 5,589                                                     &                                                           & Reduce                                                   & Coverage impact can be used to classify killable mutants                                      \\
+Papadakis et al. \cite{papadakis2015trivial}    & 2014   & C        & 362,769                                                    & 9,551                                                     & Yes                                                       & Detect                                                   & Compilers can be used to effectively automate the mutant equivalence detection               \\
+\bottomrule
+\end{tabular}
+\end{table*}
+

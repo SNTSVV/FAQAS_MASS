@@ -13,6 +13,9 @@
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{amssymb}
+\usepackage{todonotes}
+\usepackage{booktabs}
+
 
 % Will Robertson's fontspec.sty can be used to simplify font choices.
 % To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
@@ -49,6 +52,13 @@
 %%%% Title
 \newcommand{\titleone}{\textsf{Mutation Testing Survey:}}
 \newcommand{\titletwo}{\textsf{FAQAS}}
+
+\newcommand{\commentsize}{\scriptsize}
+\newcommand{\fabriziocomment}[1]{{\commentsize \setstretch{1.0} \textbf{Fabrizio}: #1 \par}}
+\newcommand{\oscarcomment}[1]{ { \commentsize \setstretch{1.0} \textbf{Oscar}: #1 \par} }
+\newcommand{\oscar}[1]{\todo[color=yellow,inline]{ \oscarcomment{#1}  } } 
+\newcommand{\fabrizio}[1]{\todo[color=red,inline]{ \fabriziocomment{#1}  } } 
+
 
 \begin{document}
 
@@ -95,11 +105,18 @@
 
 \include{titlepage}
 
-\section{Introduction}\label{sec:intro}
+\include{equivalents}
 
-\cite{jia2010analysis}
+\include{redundant}
 
-\mbox{}\newpage
+\include{testgeneration}
+
+\include{execution}
+
+\include{mutationscore}
+
+\include{reduceprioritize}
+
 
 \newpage
 

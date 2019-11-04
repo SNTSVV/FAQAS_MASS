@@ -1,0 +1,30 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\section{Redundant Mutants}\label{sec:redundant}
+
+Mutants that are not contributing to the test assessment process, since they are killed whenever other mutants are killed. The presence of redundant mutants, can artificially inflate the apparent ability of a test technique to detect faults.
+There are two categories of redundant mutants. 
+
+There are \textit{duplicated mutants}, mutants equivalent between them but different from the original program.
+
+Also, there are \textit{subsumed-joint mutants}, mutants that are killed jointly when other mutants are killed.
+
+The current research shows that only few of the mutants produced, approximately 5\% are subsuming \cite{papadakis2016threats}. 
+
+In this study, the authors present evidence from experiments conducted with sets of mutants applied to five Unix utilities (Grep, Sed, Flex, Make and Gzip), using the mutation tool Coccinelle \cite{padioleau2008documenting}. 
+
+The experimentation was conducted by appliying the available operators from Coccinelle, then discarding subsumed mutants by using the TCE method of Papadakis et al. for removing trivial duplicated ones \cite{papadakis2015trivial}. 
+The tool also supports \textit{restrictive operators}, that produces less subsumed mutants \cite{just2012redundant,kaminski2013improving}.
+
+Critical: Redundant mutants tend to skew the mutation score measurement leading to serious threats to the validity of empirical research.
+Idea: use of disjoint mutants, a way to subset mutants that kills the original set of mutants
+\oscar{Does compiler optimization go well with schemata? Should we introduce temporary variable to detect redundant mutants with schemata and optimization?}
+
+Idea: use of compiler optimisations to remove duplicated mutants
+
+Delgado et al. \cite{delgado2017assessment} developed a selective approach for reducing the number of mutants withous loosing much effectiveness for C++ programs.
+	
+
+
+
+
