@@ -53,12 +53,7 @@
 \newcommand{\titleone}{\textsf{Mutation Testing Survey:}}
 \newcommand{\titletwo}{\textsf{FAQAS}}
 
-\newcommand{\commentsize}{\scriptsize}
-\newcommand{\fabriziocomment}[1]{{\commentsize \setstretch{1.0} \textbf{Fabrizio}: #1 \par}}
-\newcommand{\oscarcomment}[1]{ { \commentsize \setstretch{1.0} \textbf{Oscar}: #1 \par} }
-\newcommand{\oscar}[1]{\todo[color=yellow,inline]{ \oscarcomment{#1}  } } 
-\newcommand{\fabrizio}[1]{\todo[color=red,inline]{ \fabriziocomment{#1}  } } 
-
+\newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{Note}: #1 }}
 
 \begin{document}
 
@@ -113,9 +108,9 @@
 
 \include{execution}
 
-\include{mutationscore}
+\include{reduceprioritise}
 
-\include{reduceprioritize}
+\include{mutationscore}
 
 
 \newpage

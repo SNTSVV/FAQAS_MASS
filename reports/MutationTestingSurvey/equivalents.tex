@@ -15,7 +15,12 @@ The only way to overcome equivalent mutants is to define heuristics for removing
 \begin{itemize}
 	\item \textbf{Trivial Compiler Optimisation} \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}: code optimisations transforms mutants to the optimised version. Hence, equivalent mutants are transformed to the same optimised version. TCE identifies at least 30\% of equivalent mutants.
 	Baldwin and Sayward \cite{baldwin1979heuristics}, proposed six types of compiler optimization rules, the rules were studied by Offutt and Craft \cite{offutt1994using} and they discover that 10\% of all mutants were equivalent for 15 subject programs.
-	\item Constraint satisfaction problem \cite{offutt1996detecting,offutt1997automatically}: the problem is formulated as a constraint satisfaction problem by analyzing the path condition of a mutant. The mutant is defined equivalent iff the input constraint is unsatisfiable. The technique detected 47\% of equivalent mutants among 11 subject programs.
+	
+	\item \textbf{Constraint satisfaction problem}: the problem is formulated as a constraint satisfaction problem by analyzing the path condition of a mutant. The mutant is defined equivalent iff the input constraint is unsatisfiable. The technique detected 47\% of equivalent mutants among 11 subject programs \cite{offutt1996detecting,offutt1997automatically}.
+
+	Holling et al. \cite{holling2016nequivack} presented an approach for identifying non-equivalent mutants and improving the confidence of the mutation score. Using static analysis and symbolic execution (KLEE) they define a six-steps procedure to determine which mutants are \textit{non-equivalent} or \textit{unknown}.
+
+
 	\item Program slicing \cite{voas1997software, hierons1999using, harman2001relationship}: generation of a sliced program that denotes the answer to an equivalent mutant. (READ)
 	\item Using semantic differences in terms of a running profile to detect non-equivalent mutants \cite{ellims2007csaw} (READ)
 	\item Margrave's change-impact analysis \cite{martin2007fault} (READ)

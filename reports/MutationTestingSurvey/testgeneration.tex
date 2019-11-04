@@ -23,7 +23,7 @@ These methods turn each of the RIPR conditions into a constraint and build a sys
 	
 	\item critical: there is a need to formulate the mutant propagation condition (propagate the corruption to the program output) on top of the reachability and infection conditions (cause a corruption). This is complex, because involves running two executions, the original program along the mutated one, along all possible execution paths.
 
-	\item idea: Papadakis and Malevris \cite{papadakis2010automatic} worked on searching the path space between the mutation point until the program output, for finding inputs that satisfy the propagation condition.  
+	\item idea: Papadakis and Malevris \cite{papadakis2010automatic} used symbolic execution for mutants to automatically derive test suites. By using this approach mutation testing is used for test case generation instead of assessment.
 
 \end{itemize}
 % subsection static_constraint_based_test_generation (end)
