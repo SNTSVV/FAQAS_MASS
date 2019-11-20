@@ -1,0 +1,70 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\section{Survey of Mutation Operators}
+\label{sec:operators}
+
+Mutation testing introduces small syntactical changes into the source code through mutant operators.
+Mutant operators has two goals, (1) to induce simple syntax changes based on errors that programmers typically make, and (2) to force common testing goals (e.g., code coverage testing).
+
+Table XX provides an overview of existing mutation operators that can be applied to space software.
+We selected operator for programming languages likely adopted in space context, these includes C/C++, Low-Level Intermediate Representation (LLVM-IR), Object Oriented programming languages, ADA, SQL and Simulink programming languages.
+
+The operators appearing in Table XX are organized according to XX categories: ADA tasks, arithmetic, bitwise, casts, constants, control-flow, coverage, deletion, ADA expressions, floating points, function calls, logical, memory operations, object-oriented, ADA operands, relational, variable references, shift, SQL, statements, strings, structures and system-level operators.
+
+Category \emph{ADA expressions} indicate operators that works by introducing mutations at an expression-level granularity in the ADA programming language. 
+
+Category \emph{ADA operands} indicate operators that performs mutations by replacing operands in ADA expressions (e.g., variables, constants, records, arrays, pointers).
+
+Category \emph{ADA tasks} indicate operators that mutates ADA code at a task-level granularity, intended for targeting possible concurrent problems in the program.
+
+Category \emph{arithmetic} indicate operators that performs mutations on arithmetic expressions and assignments, usually these mutations replaces an element by an operator $op \in \{+, -, *, /, \%\}$. 
+
+Category \emph{bitwise} indicate operators that performs bitwise mutations on expressions and assignments, these mutations aims for replacing an element of an expression by an operator $op \in \{\mid, \&, \^{}, \sim\}$. 
+
+Category \emph{casts} indicate the operators that works by mutating casting expressions.
+
+Category \emph{constants} indicate operators that mutates constant variables in the code. 
+
+Category \emph{control-flow} indicate operators that modify and alters the execution flow of the running application.
+
+Category \emph{coverage} indicate operators that mutates the code for achieving a high level of code coverage.
+
+Category \emph{deletion} indicate operators that mutates the code by deleting statements, operators, constants and variables.  
+
+Category \emph{floating points} indicate operators working on the Floating Point Comparison (FPC) problem, that is, the problem arising when comparing two operands considered to not be equal using FPCs when they might be equal when approaching with real numbers.
+
+Category \emph{function calls} indicate operators that mutates function calls and its components (e.g., signature and parameters).
+
+Category \emph{logical} indicate operators that performs logical mutations on expressions and assignments, these mutations replaces an element of an expression by an operator $op \in \{\&\&, \|, !\}$.
+
+Category \emph{memory operations} indicate operators seeking memory issues such as buffer overflow vulnerabilities, uninitialized memory access, NULL point dereferencing, and memory leaks caused by fault heap management.
+
+Category \emph{object-oriented} indicate operators related to object oriented programming languages, the mutations include simulating problems on encapsulation, inheritance, method overloading, object and member replacement, polymorphism and language-specific features (e.g., Java and C++).
+
+Category \emph{relational} indicate a set of operators that performs relational mutations on expressions and assignments, usually these mutations replaces an element by an operator $op \in \{<, <=, ==, !=, >, >=\}$.
+
+Category \emph{variable references} indicate operators mutating different type of variables references in the code (e.g., scalars, arrays and pointers).
+
+Category \emph{shift} indicate operators that performs shift mutations on expressions and assignments, usually these mutations replaces an element by an operator $op \in \{<<, <<<, >>, >>>\}$.
+
+Category \emph{SQL} indicate operators that include mutations on SQL clauses, SQL NULL operators, and SQL WHERE operators.
+
+Category \emph{statements} indicate operators performing syntactical changes at a statement-level granularity.
+
+Category \emph{strings} indicate operators that performs mutations on string type of variables.
+
+Category \emph{structures} indicate operators that mutates C/C++ structures.
+
+Category \emph{system-level} indicate operators that performs mutations at a system-level, usually these mutations seek vulnerabilities on the different system functionalities. 
+
+
+% SQL operators: SQL clauses, SQL NULL operators, SQL replacement operators, SQL WHERE operators
+% object oriented: encapsulation, inheritance, method overloading, object and member replacement, polymorphism, language-specific features.
+
+
+The last six columns in Table XX indicate the programming language targeted by the operator.
+
+
+
+
+

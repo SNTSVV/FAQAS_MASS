@@ -1,16 +1,16 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Equivalent Mutants}
-\label{sec:equivalent}
+\subsection{Equivalent Mutants}
+\label{sub:equivalent}
 
 Mutants that are semantically equivalent to the original program despite being syntactically different. The process of identifying equivalent mutant is a undecidable problem \cite{madeyski2013overcoming}.
 
-\subsection{Overcoming Equivalent Mutants} % (fold)
+\subsubsection{Overcoming Equivalent Mutants} % (fold)
 \label{sub:overcoming_equivalent_mutants}
 
 The only way to overcome equivalent mutants is to define heuristics for removing them.
 
-\subsubsection{Detecting equivalent mutants technique (harder to implement)}
+\textbf{Detecting equivalent mutants technique (harder to implement)}
 
 \begin{itemize}
 	\item \textbf{Trivial Compiler Optimisation} \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}: code optimisations transforms mutants to the optimised version. Hence, equivalent mutants are transformed to the same optimised version. TCE identifies at least 30\% of equivalent mutants.
@@ -18,8 +18,7 @@ The only way to overcome equivalent mutants is to define heuristics for removing
 	
 	\item \textbf{Constraint satisfaction problem}: the problem is formulated as a constraint satisfaction problem by analyzing the path condition of a mutant. The mutant is defined equivalent iff the input constraint is unsatisfiable. The technique detected 47\% of equivalent mutants among 11 subject programs \cite{offutt1996detecting,offutt1997automatically}.
 
-	Holling et al. \cite{holling2016nequivack} presented an approach for identifying non-equivalent mutants and improving the confidence of the mutation score. Using static analysis and symbolic execution (KLEE) they define a six-steps procedure to determine which mutants are \textit{non-equivalent} or \textit{unknown}.
-
+	Holling et al. \cite{holling2016nequivack} presented an approach for identifying non-equivalent mutants and improving the confidence of the mutation score. Using static analysis and symbolic execution (KLEE \cite{cadar2008klee}) they define a six-steps procedure to determine which mutants are \textit{non-equivalent} or \textit{unknown}. \textit{Non-equivalent} mutants are identified if they find a counter-example input for which the outpus of a pair of functions (the original function and the mutant one) is different. If no counter-example is find, then is classified as \textit{unknown}.
 
 	\item Program slicing \cite{voas1997software, hierons1999using, harman2001relationship}: generation of a sliced program that denotes the answer to an equivalent mutant. (READ)
 	\item Using semantic differences in terms of a running profile to detect non-equivalent mutants \cite{ellims2007csaw} (READ)
@@ -27,7 +26,7 @@ The only way to overcome equivalent mutants is to define heuristics for removing
 	\item Using Lesar model-checker for eliminating equivalent mutants \cite{du2008towards} (READ)
 \end{itemize}
 
-\subsubsection{Avoiding equivalent mutant generation techniques}
+\textbf{Avoiding equivalent mutant generation techniques}
 
 \begin{itemize}
 	\item \textbf{Selective mutation} \cite{mresa1999efficiency}:
@@ -72,7 +71,7 @@ The only way to overcome equivalent mutants is to define heuristics for removing
 
 \end{itemize}	
 
-\subsubsection{Suggesting equivalent mutants techniques}
+\textbf{Suggesting equivalent mutants techniques}
 
 \begin{itemize}
 	\item Using bayesian-learning based guidelines to help to determine equivalent mutants \cite{maldonado2005bayesian}

@@ -1,9 +1,9 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Mutation-based test generation}
+\subsection{Mutation-based test generation}
+\label{sub:test_generation}
 
-\subsection{Symbolic execution test generation} % (fold)
-\label{sub:static_constraint_based_test_generation}
+\subsubsection{Symbolic execution test generation} % (fold)
 
 These methods turn each of the RIPR conditions into a constraint and build a system that is passed to a constraint solver (critical).
 
@@ -28,8 +28,7 @@ These methods turn each of the RIPR conditions into a constraint and build a sys
 \end{itemize}
 % subsection static_constraint_based_test_generation (end)
 
-\subsection{Search-based test generation} % (fold)
-\label{sub:search_based_test_generation}
+\subsubsection{Search-based test generation} % (fold)
 
 \begin{itemize}
 	\item critical: define a fitness function that is capable of capturing the RIPR conditions and effectively identify test inputs that satisfy these conditions
