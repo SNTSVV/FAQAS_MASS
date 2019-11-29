@@ -1,6 +1,6 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Data Mutation Operators}
+\section{Data-driven Mutation Operators}
 \label{sec:data_operators}
 
 Table XX provides an overview of the data mutation operators available in the literature that can be applied to the space software context.
@@ -11,5 +11,5 @@ First, we identified faults simulating hardware errors, so we include the catego
 	\item Category \emph{CPU Faults} consider operators that perform mutations in the contents of an individual bit, byte or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
 	\item Category \emph{Memory Faults} consider operators that perform mutations in the contents of an individual bit, byte or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
 	\item Category \emph{Communication Faults} considers operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages and the addresses of the messages to be exchanged.
-	\item Category \emph{Data Processing Faults} considers techniques that include 
+	\item Category \emph{Data Processing Faults} consider techniques that perform mutation on data being processed by systems. These techniques can be aware of the source code of the application, in order to generate more effective inputs. The mutations in this category can target input or output parameters of a software interface.
 \end{itemize}
