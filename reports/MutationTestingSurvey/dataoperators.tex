@@ -3,42 +3,78 @@
 \section{Data-driven Mutation Operators}
 \label{sec:data_operators}
 
-Table XX provides an overview of the data mutation operators available in the literature that can be applied to the space software context.
-We selected operators based on the different type of faults likely to occur in the context of space and embedded systems. 
-First, we identified faults simulating hardware errors, so we include the categories \emph{CPU Faults}, \emph{Memory Faults} and \emph{Communication Faults}. Then, we identified faults simulating software errors, in particular we include the category of \emph{Data Processing Faults}. The last column indicates the tools that has an implementation of the simulated faults through a certain data mutation operator. In the following, we provide a brief definition of each type of fault:
+As mentioned in Section~\ref{sec:dataProcess}, the software engineering literature does not include any study on data-driven mutation testing but only testing approaches based on the injection of data faults.
+For this reason, 
+in this section we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
+More precisely, we focus on the techniques for the modification of data that are presented in software testing research papers.
+We refer to these techniques as \emph{data-driven mutation operators}.
 
+Table~\ref{table:dataOperators} provides an overview of the data-driven mutation operators that can be applied to the case of space software and embedded systems. 
+We selected the set of data-driven mutation operators in Table~\ref{table:dataOperators} based on the different type of faults commonly affecting space and embedded systems. 
+Each operator aims to create data faults that might be observed in real systems either because of hardware errors or software errors.
+
+In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the specific operator described, column Model-based indicates if the operator requires a model of the structure of the data to be mutated, 
+ column \emph{Type of fault} indicates the type of faults each operator aims to simulate,
+ column \emph{Definition} provides a brief description of the mutation operator, column \emph{Target} indicates the type of data targeted by the approach,
+ column \emph{Reference} provides a reference to a research paper or tool describing the operator more in detail.
+ 
+%Fabrizio: "First" and "Then" read like a story, which is not good in a Tech Report
+Concerning the type of faults considered, we focus both on hardware and software errors.
+For hardware errors, we include the categories \emph{CPU Faults}, \emph{Memory Faults}, and \emph{Signal Faults}. 
+For software errors, we include the category of \emph{Data Processing Faults}.
+Category \emph{Communication Faults} simulates problems that can be caused either by software or hardware errors.
+
+In the following, we provide a brief overview of the operators generating each type of fault:
 \begin{itemize}
-	\item Category \emph{CPU Faults} consider operators that perform mutations in the contents of an individual bit, byte or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
-	\item Category \emph{Memory Faults} consider operators that perform mutations in the contents of an individual bit, byte or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
-	\item Category \emph{Communication Faults} considers operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages and the addresses of the messages to be exchanged.
-	\item Category \emph{Data Processing Faults} consider techniques that perform mutation on data being processed by systems. These techniques can be aware of the source code of the application, in order to generate more effective inputs. The mutations in this category can target input or output parameters of a software interface.
+	%Note: always put a comma at the end of a list before "or" "and"
+	\item Category \emph{CPU Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
+	\item Category \emph{Memory Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
+	\item Category \emph{Communication Faults} includes operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
+	\item Category \emph{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
 \end{itemize}
 
 
-%% OSCAR, kind of summary of papers on data mutation 
 
-\emph{Fuzzing Software with AFL (Technical Report) \cite{gutmann2016fuzzing}}: AFL introduces instrumentation-guided fuzzers, it uses a form of edge coverage to pick up subtle changes to program control-flow. In this way, it ensures that the fuzzer generates input that exercises all of the different code paths.
-Although AFL tackles the redundant mutant problem (i.e., does not generate test different test cases for the same execution path), still could produces equivalent mutants (i.e., correct fuzzed data, but semantically meaningless).
+Among all the data mutation operators reported in Table~\ref{table:dataOperators}, the ones targeting \emph{Data Processing Faults} are more powerful since they concern the modification of complex data structures. They are briefly overviewed in the following.
 
-\emph{Parser-Directed Fuzzing (Research paper) \cite{mathis2019parser}}: The paper proposes a fuzzing-based test generator technique aimed at producing valid inputs for input parsers. The challenge is to find a test generator that covers all lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and track comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
+\emph{AFL} introduces instrumentation-guided fuzzers, it uses a form of edge coverage to pick up subtle changes to program control-flow~\cite{gutmann2016fuzzing}. This way, it ensures to generate inputs that exercise all the different code paths.
+Although AFL tackles the redundant mutants problem (i.e., does not generate different test inputs for the same execution path), it may produce equivalent mutants.
+%Fabrizio: you had this definition of equivalent: "(i.e., correct fuzzed data, but semantically meaningless)." it is difficult to understand
+
+\emph{Parser-Directed Fuzzing} aims at producing valid inputs for input parsers~\cite{mathis2019parser}. The challenge is to cover all the lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and tracks all the comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
 Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} prototype covers more tokens than both lexical-based (AFL) and constraint-based approaches (KLEE).
-Even though, it tackles the problem of the redundant mutant problem by well covering the space of possible inputs, it does not tackle the redundant mutant problem.
-Cannot handle semantic restrictions imposed by certain nontrivial input languages. The approach has difficulties to handle complex sequences recursion.
+%Fabrizio: I cannot understand the following sentences
+%Although it tackles the problem of redundant mutants by well covering the space of possible inputs, it does not tackle the redundant mutant problem.
+%Cannot handle semantic restrictions imposed by certain nontrivial input languages. The approach has difficulties to handle complex sequences recursion.
 
-\emph{Testing the Robustness of Windows NT Software (Research paper) \cite{ghosh1998testing}}: RIDDLE adopts a grammar to describe the format of inputs; random and boundary values are generated for tokens representing input parameters.
-One of its drawback is the cost of setting up a grammar to describe the space of program inputs, also it requires more knowledge about the target than purely random ones.
+\emph{RIDDLE}~\cite{ghosh1998testing} adopts a grammar to describe the format of inputs; random and boundary values are generated for tokens representing input parameters.
+One of its drawbacks is the cost of setting up a grammar to describe the space of program inputs.
+%, also, it requires more knowledge about the target than purely random ones.
 
-\emph{SAGE: whitebox fuzzing for security testing (Research paper) \cite{godefroid2012sage}}: To make fuzzing testing more efficient, recent work adopted symbolic execution to systematically generate malformed inputs. SAGE performs fuzzing on file- and packet-parsing applications. 
-The program is first executed with concrete inputs, in order to identify the set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints. 
-In this way, SAGE forces the program to execute corner cases not covered by the initial inputs (e.g., reached one-third of all bugs found by fuzz testing in Microsoft projects \cite{bounimova2013billions}). 
-However, the high cost of symbolic execution is a known issue of these suymbolic execution-based fuzzers.
+\emph{SAGE} adopts symbolic execution to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications. 
+The program is first executed with concrete inputs; in order to identify a set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints. 
+The main benefit of SAGE is that it forces the program to execute corner cases not covered by the initial inputs; for example, 
+%Fabrizio: you wrote the following, which I could not understand please check if my sentence is correct
+%(e.g., reached one-third of all bugs found by fuzz testing in Microsoft projects \cite{bounimova2013billions}). 
+one-third of all the bugs found by means of fuzz testing are detected thanks to SAGE \cite{bounimova2013billions}.
+Unfortunately the main limitation of SAGE and symbolic execution-based fuzzers is limited scalability, due to the high execution time required by symbolic execution.
 
-\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
+%Fabrizio: not sure what the following is about, ignoring
+%\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
 
-\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: The paper introduces a technique to test the capability of data processing software to identify invalid test inputs that match a given fault model. The technique uses a set of generic mutation operators to generate test inputs by sampling and mutating field data. The paper also addresses the problem of equivalent mutant through a model-based approach (i.e., they specify which anomalies should be reported by the SUT, also, they explicitely indicate a fault model i.e., which mutations always lead to non-equivalent mutants).
+%Fabrizio: we miss the pro/cons from the following
+\emph{Model-Based Whitebox Fuzzing} targets program binaries that process structured inputs~\cite{pham2016model}. It efficiently generates valid inputs that exercise critical target locations. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
 
-\emph{Evolutionary Robustness Testing of Data Processing Systems Using Models and Data Mutation \cite{di2015evolutionary}}: The paper addresses the problem of generating minimal robustness test suites with high fault revealing power for data processing systems, as a solution they propose a model-based evolutionary algorithm that relies on a data model and a set of data mutation operators to build systems test suites that optimises multiple objectives.
-The evolutionary algorithms use four different fitness functions to evaluate how well each test input contributes to a propoer robustness test suite.
-The paper addresses the problem of redundant mutants because it includes a coverage objective in the fitness, so if two mutants cover different code they are distinct.
+%\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
+\emph{Model-based data mutation} concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
+The technique relies upon six generic mutation operators to automatically generate faulty data. The technique receives two inputs: field data and a data model, i.e., a UML class diagram annotated with stereotypes and OCL constraints. Stereotypes are used to tailor the behaviour of the generic mutation operators to the fault model that is assumed for the system under test and the environment in which it is deployed. 
+OCL constraints are used to capture the characteristics of valid inputs and to indicate which error messages should be produced by the system in the presence of violations of input constraints.
+The use of stereotypes and OCL constraints enable the approach to partially addresses the problem of equivalent mutants. Indeed stereotypes indicate which data fields to mutate, while OCL constraints indicates which violations should be reported by the SUT.
 
-\emph{Model-Based Whitebox Fuzzing for Program Binaries \cite{pham2016model}}: The paper introduces an automated testing technique for program binaries that process structured inputs, and generates valid inputs efficiently that exercise critical target locations effectively. (It is a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs).
+\emph{Search-based data mutation} relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:  
+cover all the classes of the data-model, cover all the possible faults of the fault model, cover all the clauses of the input/output constraints,
+maximise code coverage~\cite{di2015evolutionary}.
+The coverage of each objective is encoded by means of boolean arrays; this information is used to select a minimal set of inputs that maximize the coverage of the different objectives.
+At every iteration, the evolutionary algorithm keeps only inputs that contribute to increase the coverage of at least one of the objectives (e.g., inputs that cover one instruction not covered by other inputs).
+The paper indirectly addresses the problem of redundant mutants thanks to the inclusion of a coverage objective in the fitness; indeed only mutants that cover different portions of the code are kept, by definition these mutants are distinct because they trigger distinct software behaviours.
+

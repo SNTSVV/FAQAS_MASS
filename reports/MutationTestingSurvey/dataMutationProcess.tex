@@ -12,16 +12,20 @@
 
 
 
-This Chapter is a first attempt towards the formalization of a test suite assessment process based on the adoption of fault injection techniques that alter the data processed by software components; we refer to this process as \emph{data-driven mutation testing}. 
-Data-driven mutation testing aims to assess test suites by simulating software faults that affect the data produced, received, or exchanged by the software and its components.
-It is based on a fault model capturing the type of data fault that might affect the system, based on domain knowledge and engineers experience~\cite{di2015generating}.
-Data-driven mutation testing has the following objectives:
-(i) ensure that the test suite is capable of detecting software faults that affect the data processed by the software components 
-(e.g., we expect a test suite to fail in case the data exchanged by two components contains invalid values)
-(ii) ensure that the test suite exercises enough software behaviours to discover all the possible faults that may affect the data produced by the system
-(i.e., it should be possible to alter the processed data to generate faulty data matching the fault model).
+This Chapter is a first attempt towards the formalization of a test suite assessment process based on the injection of faults in the data processed by software components; we refer to this process as \emph{data-driven mutation testing}. 
 
-Figure \ref{fig:data:process} shows the reference code-driven mutation testing process that will be considered in this book. The process is based on two main sub-processes, \emph{test suite evaluation} and \emph{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. 
+Data-driven mutation testing aims to assess test suites by simulating software faults that affect the data produced, received, or exchanged by the software and its components.
+It is based on a fault model capturing the type of data fault that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}.
+
+Data-driven mutation testing has the following objectives:
+\begin{itemize}
+\item[(O1)] ensure that the test suite is capable of detecting software faults that affect the data processed by the software components 
+(e.g., we expect a test suite to fail in case the data exchanged by two components contains invalid values)
+\item[(O2)] ensure that the test suite exercises enough software behaviours to discover all the possible faults that may affect the data produced by the system
+(i.e., it should be possible to alter the processed data to generate faulty data according to the fault model).
+\end{itemize}
+
+Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in this book. The process is based on two main sub-processes, \emph{test suite evaluation} and \emph{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. 
 Techniques to inject data faults in the data processed by software systems have been applied mostly to test software systems (e.g., to determine if the software is robust against errors in the data being processed) but not to assess the quality of test suites.
 For systems, or components, exchanging structured data (e.g., message sequences), a data fault may consist of either an invalid data structure (i.e., a structure that does not respect the data model of the system) or an illegal data value.
 For systems, or components, processing signals, a data fault may result in signals that do not respect the characteristics observed in the original signal. Example of signal features are value, derivative, second derivative~\cite{Matinnejad19}.
@@ -39,13 +43,22 @@ In Figure~\ref{fig:data:process}, the activity \emph{Mutate Data} is executed in
 The activity \emph{Mutate Data} requires a data model that captures the characteristics and structure of the data to be mutated. 
 For example, the data model is used to load a stream of bytes in structured form (e.g., an instance of a given data structure), which is necessary to drive the data mutation. 
 The activity \emph{Mutate Data} should be driven by a fault model that specifies the set of mutation operators to apply~\cite{di2015generating}. 
-The data model enables engineers to minimize the presence of equivalent mutants.
+The fault model enables engineers to minimize the presence of equivalent mutants.
 %The data model may capture the relation between inputs and outputs of the system
 
+Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. The figure shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime. Such components can be installed either on the channel or they might be integrated at the boundaries of the software (e.g., by modifying API functions to redirect calls to the mutating component before computing the expected computation).
 
-The activity \emph{Analyze Results} processes all the outputs generated during test case execution.
-The collected outputs includes the result of test cases execution (i.e., the list of test cases that either passed or failed) and the logs generated by the SUT during testing.
-In the context of data mutation both test outcome and log files are necessary to determine if a test suite kills a mutant.
+	\begin{figure}
+	\centering
+		\includegraphics[width=10cm]{images/dataMutationExample}
+		\caption{Example of implementation of a data mutation solution.}
+		\label{fig:data:mutateData}
+	\end{figure}
+
+
+The activity \emph{Analyze Results} processes all the outputs generated during the execution of test cases.
+The collected outputs include the result of test cases execution (i.e., the list of test cases that either passed or failed) and the logs generated by the SUT during testing.
+In the context of data-driven mutation testing both the test results and log files are necessary to determine if a test suite kills a mutant.
 Indeed, \emph{in the context of data-driven mutation testing a mutant is killed either if a test case fail, or if the software activates robustness features capable of handling the specific data fault.}
 We need log files to determine if robustness features had been triggered.
 For example, a system that implement a robust communication protocol might simply request again the packets affected by errors thus avoiding failures. In this case, we need to inspect the log files to determine if the robustness features had been triggered.
@@ -55,11 +68,13 @@ This is the case when \emph{Missing Error Reports} or \emph{Unexpected Failures 
 
 The outcome of the activity \emph{Analyze Results} is a mutation score that is based on
 the percentage of mutants being killed and the percentage of mutation operators applied. 
-The former enables data-driven mutation to achieve objective (i) indicated above, the latter objective (ii). 
+The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
 The mutation score can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operators applied.
 
 In addition to the SUT outputs, the activity \emph{Analyze Results} requires also the data model, the fault model, and the list of mutation operators applied. 
-The fault model and the data model are used to determine which mutations are expected to cause only error messages in the log and which ones should lead to test failures.
+The fault model and the data model are used to distinguish between 
+data faults that affect the SUT output (i.e., lead to test failures) and
+data faults that should be transparently handled by the software (i.e., lead to error messages in the log).
 For example, the data model may indicate in which cases an error message should be reported~\cite{di2015generating}.
 The list of applied mutation operators should enable engineers to determine if all the available mutation operators have been applied.
 
@@ -73,7 +88,7 @@ The list of applied mutation operators should enable engineers to determine if a
 \subsection{Test Suite Augmentation} % (fold)
 \label{sec:data:test_suite_augmentation}
 
-The test suite augmentation process concerns the definition of test cases that kill live mutants.
+The test suite augmentation process concerns the definition of additional test cases to increase the mutation score.
 It consists of four activities \emph{Identify Test Inputs}, \emph{Generate Test Oracles}, \emph{Execute the SUT}, \emph{Fix the SUT}. 
 Despite these activities match the ones performed in the case of code-driven mutation testing, they are triggered and implemented in a different manner, as described below.
 
@@ -85,13 +100,14 @@ In the presence of mutants not killed by test cases (i.e., when the \emph{\% of 
 Automated approaches for performing this activity in the presence of system or integration test suites are not available.
 
 In the presence of operators not being applied (i.e., the \emph{\% Operators Applied} is not equal to 100\%), engineers are expected to generate new test inputs for the SUT that enable the application of all the mutation operators. 
-For example, in the presence of components that exchange message sequences, if the existing test suite cause the components to exchange sequences containing only one message, the mutation operator concerning the swapping of two packets in a sequence of packets cannot be applied. In this case, to achieve 100\% of Operators Applied engineers should generate inputs that enable the application of the mutation operator (e.g., inputs that lead to a sequence of packets containing more than one packet). 
+For example, in the presence of components that exchange message sequences,  we may need to improve the quality of a test suite that leads to executions in which the SUT components exchange message sequences containing only one message. 
+Indeed, in this situation, the mutation operator concerning the swapping of two packets in a sequence of packets cannot be applied. In this case, to achieve 100\% of Operators Applied, engineers should generate inputs that enable the application of the mutation operator (e.g., inputs that lead to a sequence of packets containing more than one packet). 
 Fully automated approaches to achieve this objective are unavailable; however, techniques that generate input data from scratch~\cite{gligoric2010test} or augment input data~\cite{DiNardo:TOSEM:2017} can be adopted. 
-Also, when data is used by means of simulators, meta-heuristic search can be used to drive the generation of input data. 
+Also, when the data used by test cases is generated by simulators, meta-heuristic search can be used to drive the generation of input data~\cite{Abdessalem:ICSE:2018}. 
 
 The execution of the SUT and the repair of the SUT are performed manually as in the case of code-driven data mutation.
 
-Section~\ref{} provides details about the existing solutions to  \emph{Identify Test Inputs} and \emph{Generate Test Oracles}.
+Section~\ref{sec:testGenerationData} provides details about the existing solutions to  \emph{Identify Test Inputs} and \emph{Generate Test Oracles}.
 
 %
 %In this book we focus on the techniques that can be applied to automate the first two activities (i.e., \emph{Identify Test Inputs}, and \emph{Generate Test Oracles}).
