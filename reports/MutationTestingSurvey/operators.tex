@@ -7,10 +7,10 @@ Mutation testing introduces small syntactical changes into the code of a program
 Mutation operators have two goals, (1) induce simple syntax changes based on errors that programmers typically make, and (2) force common testing goals (e.g., code coverage testing).
 %FABRIZIO: not clear what you mean with "force common testing goals (e.g., code coverage testing)."
 
-Table XX provides an overview of existing mutation operators that can be applied in the context of space software and embedded systems.
-We selected operators for programming languages likely adopted in the context of space and embedded systems. These include operators dedicated to the C and C++ programming language, operators targeting Low-Level Intermediate Representation (LLVM-IR), operators dedicated to the ADA programming language, operators for the SQL and Simulink languages, operators that can be applied to any Object Oriented programming language but for which an implementation dedicated to C++ is not available. The last six columns of Table XX indicate the programming language targeted by the operator; when an operator support one of the specified programming languages we report a reference to the tool implementing the operator or, in case an implementation is not available, the paper in which the operator has been described.
+Table~\ref{table:codeoperators} provides an overview of existing mutation operators that can be applied in the context of space software and embedded systems.
+We selected operators for programming languages likely adopted in the context of space and embedded systems. These include operators dedicated to the C and C++ programming language, operators targeting Low-Level Intermediate Representation (LLVM-IR), operators dedicated to the ADA programming language, operators for the SQL and Simulink languages, operators that can be applied to any Object Oriented programming language but for which an implementation dedicated to C++ is not available.
 
-The operators appearing in Table XX are organized in XX categories: ADA tasks, arithmetic, bitwise, casts, constants, control-flow, coverage, deletion, ADA expressions, floating points, function calls, logical, memory operations, object-oriented, ADA operands, relational, variable references, shift, SQL, statements, strings, structures and system-level operators. In the following, we provide an overview of each category:
+The operators appearing in Table~\ref{table:codeoperators} are organized in 26 categories: ADA tasks, arithmetic, bitwise, casts, constants, control-flow, coverage, deletion, ADA expressions, floating points, function calls, logical, memory operations, object-oriented, ADA operands, relational, variable references, shift, SQL, statements, strings, structures, higher-order, system-configuration and system-level operators. In the following, we provide an overview of each category:
 \begin{itemize}
 \item Category \emph{arithmetic} includes operators that performs mutations on arithmetic expressions and assignments, usually these mutations replaces an element by an operator $op \in \{+, -, *, /, \%\}$. 
 \item Category \emph{bitwise} includes operators that performs bitwise mutations on expressions and assignments, these mutations aims for replacing an element of an expression by an operator $op \in \{\mid, \&, \^{}, \sim\}$. 
@@ -32,9 +32,11 @@ The operators appearing in Table XX are organized in XX categories: ADA tasks, a
 \item Category \emph{statements} includes operators performing syntactical changes at a statement-level granularity.
 \item Category \emph{strings} includes operators that performs mutations on variables of string type.
 \item Category \emph{structures} includes operators that mutate C/C++ structures.
+\item Category \emph{higher-order} includes operators for generating second- and higher-order mutants. These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults \cite{jia2009higher}.  
 %Fabrizio: "vulnerability" is a term relates to security, we should not use it except of these system-level class concerns only security
 %Category \emph{system-level} includes operators that performs mutations at a system-level; usually, these mutations seek vulnerabilities on the different system functionalities. 
-\item Category \emph{system-level} includes operators that performs mutations at a system-level; usually, these mutation operators aim to cause faults concerning the integration of system components or the configuration of the system itself. 
+\item Category \emph{system-configuration} includes operators that performs mutations at a system-configuration level; usually, these mutation operators aim to cause faults concerning fault concerning the configuration of the system itself.
+\item Category \emph{system-level} includes operators that performs mutations at a system-level; usually, these mutation operators aim to cause faults concerning the integration of system components. 
 \item Category \emph{ADA expressions} includes operators that work by modifying expressions in the ADA programming language. 
 \item Category \emph{ADA operands} includes operators that perform mutations by replacing operands in ADA expressions (e.g., variables, constants, records, arrays, pointers).
 \item Category \emph{ADA tasks} includes operators that mutate ADA code at the granularity of tasks and aim to trigger problems related to concurrency in the program.
@@ -46,9 +48,5 @@ With a vast set of operators available in the literature, multiple studies for t
 The sufficient set was then updated by Andrews et al.~\cite{andrews2005mutation} with the deletion statement operator (SDL), the operator was included because it ensures that every pointer-manipulation and field-assignment statement is properly tested, and avoids vulnerabilities that might not be checked by the rest of the sufficient operators. However, recent research has proven that the SDL operator is the most effective for fault detection~\cite{delamaro2014designing}.
 
 
-
-
-
-
-
+\input{tables/code_operators}
 
