@@ -13,3 +13,32 @@ First, we identified faults simulating hardware errors, so we include the catego
 	\item Category \emph{Communication Faults} considers operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages and the addresses of the messages to be exchanged.
 	\item Category \emph{Data Processing Faults} consider techniques that perform mutation on data being processed by systems. These techniques can be aware of the source code of the application, in order to generate more effective inputs. The mutations in this category can target input or output parameters of a software interface.
 \end{itemize}
+
+
+%% OSCAR, kind of summary of papers on data mutation 
+
+\emph{Fuzzing Software with AFL (Technical Report) \cite{gutmann2016fuzzing}}: AFL introduces instrumentation-guided fuzzers, it uses a form of edge coverage to pick up subtle changes to program control-flow. In this way, it ensures that the fuzzer generates input that exercises all of the different code paths.
+Although AFL tackles the redundant mutant problem (i.e., does not generate test different test cases for the same execution path), still could produces equivalent mutants (i.e., correct fuzzed data, but semantically meaningless).
+
+\emph{Parser-Directed Fuzzing (Research paper) \cite{mathis2019parser}}: The paper proposes a fuzzing-based test generator technique aimed at producing valid inputs for input parsers. The challenge is to find a test generator that covers all lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and track comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
+Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} prototype covers more tokens than both lexical-based (AFL) and constraint-based approaches (KLEE).
+Even though, it tackles the problem of the redundant mutant problem by well covering the space of possible inputs, it does not tackle the redundant mutant problem.
+Cannot handle semantic restrictions imposed by certain nontrivial input languages. The approach has difficulties to handle complex sequences recursion.
+
+\emph{Testing the Robustness of Windows NT Software (Research paper) \cite{ghosh1998testing}}: RIDDLE adopts a grammar to describe the format of inputs; random and boundary values are generated for tokens representing input parameters.
+One of its drawback is the cost of setting up a grammar to describe the space of program inputs, also it requires more knowledge about the target than purely random ones.
+
+\emph{SAGE: whitebox fuzzing for security testing (Research paper) \cite{godefroid2012sage}}: To make fuzzing testing more efficient, recent work adopted symbolic execution to systematically generate malformed inputs. SAGE performs fuzzing on file- and packet-parsing applications. 
+The program is first executed with concrete inputs, in order to identify the set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints. 
+In this way, SAGE forces the program to execute corner cases not covered by the initial inputs (e.g., reached one-third of all bugs found by fuzz testing in Microsoft projects \cite{bounimova2013billions}). 
+However, the high cost of symbolic execution is a known issue of these suymbolic execution-based fuzzers.
+
+\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
+
+\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: The paper introduces a technique to test the capability of data processing software to identify invalid test inputs that match a given fault model. The technique uses a set of generic mutation operators to generate test inputs by sampling and mutating field data. The paper also addresses the problem of equivalent mutant through a model-based approach (i.e., they specify which anomalies should be reported by the SUT, also, they explicitely indicate a fault model i.e., which mutations always lead to non-equivalent mutants).
+
+\emph{Evolutionary Robustness Testing of Data Processing Systems Using Models and Data Mutation \cite{di2015evolutionary}}: The paper addresses the problem of generating minimal robustness test suites with high fault revealing power for data processing systems, as a solution they propose a model-based evolutionary algorithm that relies on a data model and a set of data mutation operators to build systems test suites that optimises multiple objectives.
+The evolutionary algorithms use four different fitness functions to evaluate how well each test input contributes to a propoer robustness test suite.
+The paper addresses the problem of redundant mutants because it includes a coverage objective in the fitness, so if two mutants cover different code they are distinct.
+
+\emph{Model-Based Whitebox Fuzzing for Program Binaries \cite{pham2016model}}: The paper introduces an automated testing technique for program binaries that process structured inputs, and generates valid inputs efficiently that exercise critical target locations effectively. (It is a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs).
