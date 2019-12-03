@@ -56,7 +56,7 @@ Table~\ref{table:dataMutation:references} provides the names of the tools and ap
 \input{tables/table_data_operators}
 
 Among all the data mutation operators reported in Table~\ref{table:dataOperators}, the ones targeting \emph{Data Processing Faults} are more powerful since they concern the modification of complex data structures. %Oscar: not sure that "overviewed" is spelled right %They are briefly overviewed in the following.
-\CHANGED{We provide an overview in the following.}
+We provide an overview in the following.
 
 \emph{AFL} introduces instrumentation-guided fuzzers, it uses a form of edge coverage to pick up subtle changes to program control-flow~\cite{gutmann2016fuzzing}. This way, it ensures to generate inputs that exercise all the different code paths.
 Although AFL tackles the redundant mutants problem (i.e., does not generate different test inputs for the same execution path), it may produce equivalent mutants.
@@ -64,7 +64,7 @@ Although AFL tackles the redundant mutants problem (i.e., does not generate diff
 
 \emph{Parser-Directed Fuzzing} aims at producing valid inputs for input parsers~\cite{mathis2019parser}. The challenge is to cover all the lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and tracks all the comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
 Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} prototype covers more tokens than both lexical-based (AFL) and constraint-based approaches (KLEE).
-\CHANGED{Even though, \emph{pFuzzer} tackles the problem of redundant mutant by well covering the space of possible inputs, it may produce equivalent mutants.}
+Although \emph{pFuzzer} addresses the problem of redundant mutant by systematically generating valid inputs that cover diverse sets of lexical and syntactical features, it may still produce equivalent mutants.
 %Fabrizio: I cannot understand the following sentences
 %Although it tackles the problem of redundant mutants by well covering the space of possible inputs, it does not tackle the redundant mutant problem.
 %Cannot handle semantic restrictions imposed by certain nontrivial input languages. The approach has difficulties to handle complex sequences recursion.
@@ -87,7 +87,7 @@ Unfortunately the main limitation of SAGE and symbolic execution-based fuzzers i
 
 %Fabrizio: we miss the pro/cons from the following
 \emph{Model-Based Whitebox Fuzzing} targets program binaries that process structured inputs~\cite{pham2016model}. It efficiently generates valid inputs that exercise critical target locations. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
-\CHANGED{Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. The paper indirectly addresses the problem of redundant mutants by performing a systematic path exploration search covering critical locations in the source code (e.g., well covering the space of possible inputs).} 
+Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. The paper indirectly addresses the problem of redundant mutants by performing a systematic path exploration search covering critical locations in the source code (i.e., by well covering the space of possible inputs).
 
 %\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
 \emph{Model-based data mutation} concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
