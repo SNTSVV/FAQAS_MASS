@@ -1,59 +1,22 @@
 % !TEX root =  ../MutationTestingSurvey.tex
 
-\newcommand{\OffuttADA}{\cite{rothermel1996experimental}}
-\newcommand{\MUSIC}{\cite{phan2018music}}
-\newcommand{\Sciror}{\cite{hariri2018srciror}}
-\newcommand{\Mull}{\cite{denisov2018mull}}
-\newcommand{\Accmut}{\cite{wang2017faster}}
-\newcommand{\Major}{\cite{just2014major}}
-\newcommand{\MuJava}{\cite{ma2006mujava}}
-\newcommand{\TuyaSQL}{\cite{tuya2007mutating}}
-\newcommand{\BinhSimulink}{\cite{binh2012mutation}}
-\newcommand{\Proteum}{\cite{delamaro2001interface}}
-\newcommand{\Shahriar}{\cite{shahriar2008mutation}} % not a tool 
-\newcommand{\SMT}{\cite{dan2012semantic}}
-\newcommand{\MUSICShahriar}{\cite{shahriar2008music}}
-\newcommand{\MuCPP}{\cite{delgado2017assessment}}
-\newcommand{\jMINT}{\cite{grechanik2016mutation}}
-\newcommand{\ILMutator}{\cite{derezinska2011object}}
-\newcommand{\SQLChan}{\cite{chan2005fault}}
-\newcommand{\BacterioSystem}{\cite{mateo2012validating}}
-\newcommand{\Milu}{\cite{jia2008milu}}
-\newcommand{\Judy}{\cite{madeyski2010judy}}
+
+\clearpage
 
 
-The last six columns of Table~\ref{table:codeoperators} indicate the programming language targeted by the operator; when an operator supports one of the specified programming languages we report a reference to the tool implementing the operator or, in case an implementation is not available, the paper in which the operator has been described. In the following, we provide the references for each tool and paper we report in Table~\ref{table:codeoperators}:
 
-\begin{itemize}
-	\item MUSIC tool: \cite{phan2018music}
-	\item SRCiror tool: \cite{hariri2018srciror}
-	\item Mull tool: \cite{denisov2018mull}
-	\item Accmut tool: \cite{wang2017faster}
-	\item Major tool: \cite{just2014major}
-	\item MuJava tool: \cite{ma2006mujava}
-	\item Tuya et al. SQL tool: \cite{tuya2007mutating}
-	\item Simulink tool: \cite{binh2012mutation}
-	\item Proteum tool: \cite{delamaro2001interface}
-	\item Shahriar et al. C/C++ function calls mutation operators description: \cite{shahriar2008mutation} % not a tool
-	\item Floating Point tool: \cite{dan2012semantic}
-	\item SQL MUSIC tool: \cite{shahriar2008music}
-	\item MuCPP tool: \cite{delgado2017assessment}
-	\item jMINT tool: \cite{grechanik2016mutation}
-	\item ILMutator tool: \cite{derezinska2011object}
-	\item Chan et al. SQL operators description: \cite{chan2005fault}
-	\item Bacterio tool: \cite{mateo2012validating}
-	\item Milu tool: \cite{jia2008milu}
-	\item Judy tool: \cite{madeyski2010judy}
-	\item Offutt et al. ADA mutation operators description: \cite{rothermel1996experimental} 
-\end{itemize}
-
-\tiny
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
+\tiny 
 \begin{longtable}{@{\extracolsep{\fill}}|p{1.2cm}|l|p{1.2cm}|p{3.5cm}|p{0.9cm}|p{0.9cm}|p{0.9cm}|p{0.4cm}|p{0.4cm}|p{0.8cm}|@{}}
-	\toprule
+\caption{\normalsize Code-driven Mutation Operators. Column \emph{S} indicates if the operator is a sufficient operator.}
+\label{table:codeoperators} \\
+%	\toprule 
+\hline
+
 	\textbf{Name}	&	\textbf{S}	&	\textbf{Category}	&	\textbf{Definition}	&	\textbf{C/C++}	&	\textbf{LLVM}		&	 \textbf{\begin{tabular}[c]{@{}l@{}}Other OO\\ Languages\end{tabular}} 	&	\textbf{ADA} 	&	\textbf{SQL} 	&  \textbf{Simulink}	\\
-	\midrule
+%	\midrule
+\hline
 	OAAN & Yes & arithmetic & The operator OAAN performs arithmetic mutations.  Given $\alpha$ is an arithmetic operator (e.g., +), $\beta$ is another arithmetic operator (e.g., *), the mutation is performed by replacing $a\:\alpha\:b$ with $a\:\beta\:b$. & \MUSIC, \Sciror & \Mull, \Sciror, \Accmut & \Major, \MuJava &  & \TuyaSQL & \BinhSimulink\\
 	OABN &  & arithmetic & The operator OABN performs arithmetic mutations.  Given $\alpha$ is an arithmetic operator (e.g., +), $\beta$ is another bitwise operator (e.g., \&), the mutation is performed by replacing $a\:\alpha\:b$ with $a\:\beta\:b$. & \MUSIC &  &  &  &  & \\
 	OALN &  & arithmetic & The operator OALN performs arithmetic mutations.  Given $\alpha$ is an arithmetic operator (e.g., +), $\beta$ is another logical operator (e.g., \&\&), the mutation is performed by replacing $a\:\alpha\:b$ with $a\:\beta\:b$. & \MUSIC &  &  &  &  & \\
@@ -240,19 +203,19 @@ The last six columns of Table~\ref{table:codeoperators} indicate the programming
 	PCD &  & polymorphism & The PCD operator deletes type casting operators; the inverse of PCI. & \MuCPP &  & \MuJava &  &  & \\
 	PCC &  & polymorphism & The PCC operator changes the type to which an object reference is being cast. The new type must be in the type hierarchy of the declared type, that is, a valid cast. & \MuCPP &  & \MuJava &  &  & \\
 	PRV &  & polymorphism & The PRV operator replaces a reference assignment with other comparable variable. &  &  & \MuJava, \jMINT &  &  & \\
-	L2F &  & higher-order & This operator uses the list of $n$ first order mutants (FOM) and generate second order mutants (SOM). This can be obtained by the combination of the first FOM in the list with the last FOM in the list and so on. &  &  & \MuJava &  &  & \\
+	L2F &  & higher-order & This operator uses a list of $n$ first order mutants (FOM) to generate second order mutants (SOM). This is achieved through the combination of the first FOM in the list with the last FOM in the list and so on. &  &  & \MuJava &  &  & \\
 	DiffOp &  & higher-order & This operator generates SOMs by combining two FOMs, each FOM should be created using a different mutation operator. &  &  & \MuJava &  &  & \\
 	RMix &  & higher-order & This operator combines any two randomly selected FOMs to generate a SOM. &  &  & \MuJava &  &  & \\
-	F2L &  & higher-order & This operator orders FOMs according to their respective statement appearance in the objective source code. The mutant pairs are then constructed based on the combination of the first with the ultimate mutant, the second with the penultimate one, etc. & \Proteum &  &  &  &  & \\
-	SNode &  & higher-order & This operator combines the mutants by selecting them from the same basic block. & \Proteum &  &  &  &  & \\
+	F2L &  & higher-order & This operator orders FOMs according to their respective statement appearance in the objective source code. The mutant pairs are then constructed based on the combination of the first with the last mutant, the second mutant with the second last one, and so on. & \Proteum &  &  &  &  & \\
+	SNode &  & higher-order & This operator combines mutants by selecting them from the same basic block. & \Proteum &  &  &  &  & \\
 	SUnit &  & higher-order & This operator selects the mutant pairs from the same program unit, in order to generate a SOM. & \Proteum &  &  &  &  & \\
-	SU\_F2Last &  & higher-order & This operator select candidate mutants based on the use of the \emph{F2L} approach by applying them individually to each program unit. & \Proteum &  &  &  &  & \\
-	SU\_DiffOp &  & higher-order & This operator select candidate mutants based on the use of the \emph{DiffOp} approach by applying them individually to each program unit. & \Proteum &  &  &  &  & \\
-	NeighPair &  & higher-order & This operator combines FOMs which are as close to each other as possible, i.e., a list of mutation points for FOMs is created and neighboring pairs are selected to construct SOMs. The number of generated SOMs is, thus, reduced by half. &  &  & \Judy &  &  & \\
-	JudyDiffOp &  & higher-order & This operator works similar as \emph{DiffOp}, but by definition does not create SOMs from two consecutive FOMs, if the latter involve the same operator. &  &  & \Judy &  &  & \\
+	SU\_F2Last &  & higher-order & This operator selects candidate mutants based on the use of the \emph{F2L} approach by applying them individually to each program unit. & \Proteum &  &  &  &  & \\
+	SU\_DiffOp &  & higher-order & This operator selects candidate mutants based on the use of the \emph{DiffOp} approach by applying them individually to each program unit. & \Proteum &  &  &  &  & \\
+	NeighPair &  & higher-order & This operator combines FOMs which are as close to each other as possible, i.e., a list of mutation points for FOMs is created and neighbouring pairs are selected to construct SOMs. The number of generated SOMs is, thus, reduced by half. &  &  & \Judy &  &  & \\
+	JudyDiffOp &  & higher-order & This operator works similar as \emph{DiffOp} but it does not create SOMs from two consecutive FOMs, if the latter involve the same operator. &  &  & \Judy &  &  & \\
 	Greedy &  & higher-order & By using this operator, an initial FOM is chosen at random as a starting point. Subsequently, the normal greedy algorithm process is performed to incrementally augment with additional the correct solution FOMs. An archive operation is used to store the HOM found. The overall algorithm is iterated with repeated randomized initial position, much like a random-restart hill climbing algorithm. The fitness function measures the ease with which the S/HOM can be killed. & \Milu &  &  &  &  & \\
 	Genetic Algorithm &  & higher-order & This operator proposes the use of a genetic algorithm. Each gene of a chromosome represents the position and possible types of mutation operators, and in additional to crossover and mutation operators, an archive operator is used to store the HOMs found. The fitness function measures the ease with which the S/HOM can be killed. & \Milu &  &  &  &  & \\
-	Hill Climbing &  & higher-order & The process starts from random initial solution (a FOM). By comparing the current solution and its neighbour solution’s fitness, the greater one becomes the new current solution, until fitness cannot be further improved. The algorithm is based on a random-restart hill climbing algorithm, which chooses a random starting solution for each run. The fitness function measures the ease with which the S/HOM can be killed. & \Milu &  &  &  &  & \\
+	Hill Climbing &  & higher-order & The process starts from random initial solution (a FOM). By comparing the current solution and its neighbour solutions' fitness, the greater one becomes the new current solution, until the fitness cannot be further improved. The algorithm is based on a random-restart hill climbing algorithm, which chooses a random starting solution for each run. The fitness function measures the ease with which the S/HOM can be killed. & \Milu &  &  &  &  & \\
 	TFLD &  & system-configuration & The TFLD operator removes a line of a text in a configuration file. &  &  & \BacterioSystem &  &  & \\
 	TFLI &  & system-configuration & The TFLI operator inserts an empty line into a configuration file. &  &  & \BacterioSystem &  &  & \\
 	TFALD &  & system-configuration & The TFALD operator removes all lines from configuration file. &  &  & \BacterioSystem &  &  & \\
@@ -374,7 +337,5 @@ The last six columns of Table~\ref{table:codeoperators} indicate the programming
 	SSO &  & statements & The SSO (statement swap) operator is responsible for swapping the first and the third input of the \texttt{switch} block. &  &  &  &  &  & \BinhSimulink\\
 	TRO &  & variable references & The TRO (types replacement) operator replaces the type indicated in the variable declaration statement with a compatible type. A set of compatible types is, for example, \texttt{double, single, int8, uint8, int16, uint16, int32, uint32} and \texttt{boolean}. &  &  &  &  &  & \BinhSimulink \\
 \bottomrule                                                             
-\caption{Code-driven Mutation Operators (\emph{S} column stands for sufficient operator).}
-\label{table:codeoperators}
 \end{longtable}
 \normalsize
