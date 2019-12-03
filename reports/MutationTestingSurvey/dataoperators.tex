@@ -33,6 +33,26 @@ In the following, we provide a brief overview of the operators generating each t
 	\item Category \emph{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
 \end{itemize}
 
+\newcommand{\FTAPE}{\cite{tsai1999stress}}
+\newcommand{\FIAT}{\cite{barton1990fault}}
+\newcommand{\GOOFI}{\cite{aidemark2001goofi}}
+\newcommand{\DOCTOR}{\cite{han1995doctor}}
+\newcommand{\ORCHESTRA}{\cite{dawson1996testing}}
+\newcommand{\Fuzz}{\cite{miller1995fuzz}}
+\newcommand{\Ballista}{\cite{koopman2000exception}}
+\newcommand{\RIDDLE}{\cite{ghosh1998testing}}
+\newcommand{\AFL}{\cite{gutmann2016fuzzing}}
+\newcommand{\SAGE}{\cite{godefroid2012sage}}
+\newcommand{\pFuzzer}{\cite{mathis2019parser}} 
+\newcommand{\MoWF}{\cite{pham2016model}}
+\newcommand{\DiNardoICST}{\cite{di2015generating}}
+\newcommand{\DiNardoASE}{\cite{di2015evolutionary}}
+\newcommand{\Matinnejad}{\cite{Matinnejad19}}
+
+Table~\ref{table:dataMutation:references} provides the names of the tools and approaches referenced in Table~\ref{table:dataOperators}, along with a URL for the download of the tool, if available.
+
+\input{tables/data_operators_references}
+
 \input{tables/table_data_operators}
 
 Among all the data mutation operators reported in Table~\ref{table:dataOperators}, the ones targeting \emph{Data Processing Faults} are more powerful since they concern the modification of complex data structures. %Oscar: not sure that "overviewed" is spelled right %They are briefly overviewed in the following.
