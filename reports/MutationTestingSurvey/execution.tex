@@ -3,41 +3,16 @@
 \subsection{Run-time Scalability}
 \label{sec:opt:execution}
 
-\endinput
+In the mutation testing process, running the mutants is considered to be the most expensive phase, consider having for a program under test $n$ mutants, and a test suite consisting of $m$ tests, this means that we have to perform at maximum $n \times m$ executions.
+For example, consider the ESAIL SVF test suite that requires approximately 10 hours to run for the original program, if we produce 100,000 mutants, it means that we would require 1,000,000 hours or 114 years to cover all mutant executions.
+To cope with the high cost of mutation testing research has make some advances in this area. For example, mutants that are not exercised by any test case should not be considered, since there is no chance of being killed, this approach has been implement in the Proteum mutation tool \cite{delamaro1996proteum}. In the same way, mutants that have been already killed by a test case should not be executed again with other test cases, since this would only increase the overhead of the technique. Similarly, Just et al. \cite{just2012using} and Zhang et al. \cite{zhang2013faster} proposed prioritizing test cases, that is, ordering test cases in a way that mutants are killed as early as possible, e.g., Just et al. \cite{just2012using} proposed to execute first the test cases with a shorter runtime. Papadakis and Malevris \cite{papadakis2011automatically} gave a step further in this research line, and proposed that a way to prioritise the different mutants is by assessing in advance which of the mutants are actually modifying the variables that check the killing condition of the mutant, i.e., the final assertion of a test case, and prioritise them over mutants that do not modify variables related to the killing condition.
 
+To decrease the run-time cost of mutation testing, two additional types of killing conditions can be considered: weak and firm mutation. Unlike strong mutation, i.e., the mutant and the original program must show an observable difference (e.g., the result of an assertion), in weak mutation \cite{ammann2016introduction} instead, the mutant is considered killed if the program state is modified immediately after the mutation, the advantage of weak mutation is that a complete execution to determine the killing condition is not required, such as strong mutation, the main drawback is that sacrifices test effectiveness with test effort. Similarly to weak mutation, in firm mutation \cite{ammann2016introduction}, the assessment of the killing condition is placed in between weak and strong mutation. In a nutshell, weak mutation is considered less effective than firm mutation, and firm mutation is considered less effective than strong mutation.
 
+To further avoid unnecessary test runtime, several mutation tools include time threshold for running executions, in general if a test case employs three times during mutation execution with respect the original program, the execution is terminated.
 
-If we have $n$ mutants and a test suite of $m$ tests, we have to perform $n \times m$ program executions at maximum.
-The main issue remains the scalability of the amount of runnings needed to cover all mutants.
+King and Offutt \cite{king1991fortran} presented split-stream execution, a technique that takes advantage of the fact that a program and its mutants share most of the execution parts, so instead of having one executable per mutant it could be possible to generate a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}, in this way saving time and resources. 
 
-\begin{itemize}
-	\item execute only mutants that are reachable by test cases
-	\todoinline{easy to reimplement}
-	\item is possible to record with one execution all the mutants that can be infected by a test
-	\item instead of executing every mutant with every test, it is possible to execute all mutants at once, by monitoring the coverage of the infection conditions
-	\item When mutation testing targets strong mutation and the case of test suites take a long execution time, we can reduce the execution time by checking if every mutant achieve weak mutation.
-	\todoinline{How easy it is to determine if we have weak mutation in C programs? I think that one of the solutions is linked to split stream.} 
-	If weak mutation is not achieved, i.e., if the program state is not infected, there is no point to execute the test case till the end. We can simply report it as not killed and save time.
-	\item criticality: since determining whether a test execution can terminate or not is an undecidable problem, heuristic solutions are needed. Such as establishing time thresholds for running executions.
-	\todoinline{but if we face this problem, isn't it enough to check if a test execution is taking twice the expected time? I mean, if the test case does not fail in 3 times the original execution time we can report the mutant as not killed. But the solution to this problem might be to add a timeout inside the test suite.}
-	\item take advantage of common executions parts (between the original program and mutants). Called as Split-Stream execution
-\end{itemize} 
+% \todoinline{How easy it is to determine if we have weak mutation in C programs? I think that one of the solutions is linked to split stream. If weak mutation is not achieved, i.e., if the program state is not infected, there is no point to execute the test case till the end. We can simply report it as not killed and save time.}
 
-Strong, weak and firm mutation
-\begin{itemize}
-	\item Strong mutation:
-	\item Weak mutation: the mutant is killed if any mutated component changes its state (variable reference, variable assignment, arithmetic expression, relational expression, boolean expression). Advantages: weak mutation does not need a complete execution. Cons: sacrifices test effectiveness with test effort.
-	\item Firm mutation: the killing process occurs between weak and strong mutation
-\end{itemize} 
-
-Runtime optimization techniques
-\begin{itemize}
-	\item Interpreter based technique: results are analysed from the source code
-	\item Compiler based technique: results are analysed from the execution of binary code 
-	\todoinline{how much gain can it give?}
-	\item Mutant Schema Generation: creates a metaprogram, there is research on mutating bytecode
-	\todoinline{Does MUSIC implement it? We can implement it as a postprocessing. We compare files generated by MUSIC. We identify the changed lines (mutants). Then we generate a single file where we have options for each changed line.}
-\end{itemize}
-
-\input{reduceprioritise}
-
+An orthogonal solution is to reduce the test cases conforming a test suite to decrease the run-time cost of the mutation process. For instance, it is possible to remove redundant test cases, e.g., test cases that do not alter mutation score in case of test case deletion. Shi et al. \cite{shi2014balancing} assessed the effects of reducing the size of test suites, and confirmed empirically on an experiment guided on 18 projects with a total of 261,235 tests, that is actually possible to maintain the mutation score and reduce test suite size without loss of fault detection.
