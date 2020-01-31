@@ -3,7 +3,14 @@
 \subsection{Compile-time Scalability}
 \label{sub:compileTime}
 \label{sec:opt:selection}
-\endinput
+
+Another limitation of the mutation testing process is the cost of the compilation of mutants, as mentioned above in the example of Section \ref{sec:opt:execution}, the number of samples to be mutated are not negligible for real software, in this direction, research has worked on approaches based on optimising the compilation process.
+
+Untch et al. \cite{untch1993mutation} proposed a technique called mutant schemata, the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through a parametrization that allows to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
+
+A different paradigm is to modify the compiled code to introduce the syntax changes made by the mutation process \cite{ma2006mujava}, in a way that mutants can be executed directly without going into the compilation phase. This optimisation has been applied on Java bytecode \cite{ma2006mujava}, Common Intermediate Language (.NET) \cite{derezinska2011object} and LLVM bitcode \cite{hariri2016evaluating}. Results obtained by Derezinska and Kowalski \cite{derezinska2011object} shows that in average the speed improvement is on average 50\% faster when mutating compiled code instead of source code.
+
+Other approaches involve the use of trivial compiler optimisations \cite{papadakis2015trivial,kintis2017detecting} as way to speed up the mutant compilation phase, Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} developed the technique that relies on the idea that compiler optimisations transforms mutants to the optimised version, thus when the original program can be transformed by an optimisation to one of its mutants, the mutant is said to be equivalent and get discarded. In this way, the amount of compiled mutants get naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.
 
 
 
