@@ -1,4 +1,6 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\subsection{Equivalent Mutants}
+\subsection{Equivalent and Redundant Mutants}
 \label{sec:dataequivalent}
+
+Data-driven mutations may lead to the generation of equivalent mutants (i.e., mutants that make the software behave the same manner as with the original data) and redundant mutants (i.e., mutants lead to the same test failures). Literature lacks approaches to directly target equivalent and redundant mutants. However, approaches that are driven by code coverage may prevent the generation of both type of mutants. Indeed, mutants that lead to a different set of instructions being covered, by definition, trigger different software behaviours.
