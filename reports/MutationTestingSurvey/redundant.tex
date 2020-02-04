@@ -3,17 +3,37 @@
 \subsection{Redundant Mutants}
 \label{sec:opt:redundant}
 
-Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research \cite{papadakis2016threats}, Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. In the literature, it is described two categories of redundant mutants, the first category are duplicated mutants, that is, mutants equivalent between them but different from the original program. The second category concerns subsumed-joint mutants, that is, mutants that are killed jointly when other mutants are killed.
+The term \emph{redundant mutant} is used to refer to mutants that show the same behaviour of other mutants, i.e., they
+are killed every time other mutants are also being killed. 
+%Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. 
+%Fabrizio: Pay attention, you have used a sentence from another source, if you take it as-is you have to highlight it
+\emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}~\cite{papadakis2016threats}.
+Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. In the literature, redundant mutants are divided into two categories. The first is the category of duplicated mutants, that is, mutants equivalent between them but different from the original program. The second category concerns subsumed-joint mutants, that is, mutants that are killed jointly when other mutants are killed.
 
-Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. For instance, Rothermel et al. \cite{rothermel1996experimental} and then Andrews et al. \cite{andrews2005mutation} proposed a small set of operators that is a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). In the same direction, Namin et al. \cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
+Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. For instance, Rothermel et al. \cite{rothermel1996experimental} and then Andrews et al. \cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). In the same direction, Namin et al. \cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
+%Fabrizio "new deletion operators" did they propose more than one ?
 More recently, Delamaro et al. \cite{delamaro2014designing} designed new deletion operators, and found that they form a cost-effective alternative to other operators, i.e., they produce less redundant mutants. The deletion operator by itself has been proven to be the most effective for fault detection \cite{delamaro2014designing}.
 
-With a different perspective, Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy for selecting the test cases able to effectively kill mutants using symbolic execution, and to consequently decrease the number of redundant mutants. The authors suggest constrained versions of the logical, relational and unary operators for generating less redundant mutants. In a similar manner, Just et al. \cite{just2012redundant,just2015higher} proved that these three operators are better at detecting faults that the rest of mutation operators.
+%With a different perspective, 
+%Fabrizio: I cannot understand. What is a "path selection strategy"? do they generate new test inputs?
+Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy for selecting the test cases able to effectively kill mutants using symbolic execution, and to consequently decrease the number of redundant mutants. 
+The authors suggest constrained versions of the logical, relational and unary operators for generating less redundant mutants. 
+In a similar manner, Just et al. \cite{just2012redundant,just2015higher} proved that these three operators are better at detecting faults that the rest of mutation operators.
 
-Since by nature some operators produce more redundant mutants than others, Delgado et al. \cite{delgado2017assessment} developed a selective approach for reducing the number of mutants without lose of effectiveness for C++ programs. The approach introduces the degree of redundancy for operators that help developers to choose the mutation operators with a lower degree of redundancy.
+Delgado et al. \cite{delgado2017assessment} show that some operators naturally produce more redundant mutants than others and
+developed a selective approach for reducing the number of mutants without loss of effectiveness for C++ programs. 
+%Fabrizio: is this "degree of redundacy" defined per project or is expected to be absolut for any project in the world?
+The approach introduces a degree of redundancy for every mutation operator that helps developers to choosing the mutation operators with a lower degree of redundancy.
 
-A concrete idea for reducing the redundant mutants is to apply the Trivial Compiler Optimisation \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation} technique. In particular, it can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al. \cite{kintis2017detecting} showed that by using compiler optimisations is possible to reveal 21\% and 5.4\% of C and Java mutants respectively.
+Another solution to reduce the number of redundant mutants is the application of trivial compiler optimisations \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
+It can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al. \cite{kintis2017detecting} showed that by using compiler optimisations it is possible to reveal 21\% and 5.4\% of C and Java mutants, respectively.
 
+
+Finally, Shin et al. suggest to avoid discarding redundant mutants but, instead, augment the test suite with additional test cases so that 
+each mutant can trigger a test failure that cannot be observed with other mutants~\cite{Shin:TSE:DCriterion:2018}. 
+They introduce the distinguishing mutation adequacy criterion to characterize test suites in which every mutant triggers a test failure that is not observed with other mutants.
+Empirical results show that test suites that satisfy the distinguishing mutation adequacy criterion have a higher
+ fault detection effectiveness than test suites that simply satisfy mutation coverage.
 
 % The current research shows that only few of the mutants produced, approximately 5\% are subsuming \cite{papadakis2016threats}. 
 

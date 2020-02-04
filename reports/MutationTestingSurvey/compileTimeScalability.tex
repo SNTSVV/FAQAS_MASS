@@ -4,13 +4,27 @@
 \label{sub:compileTime}
 \label{sec:opt:selection}
 
-Another limitation of the mutation testing process is the cost of the compilation of mutants, as mentioned above in the example of Section \ref{sec:opt:execution}, the number of samples to be mutated are not negligible for real software, in this direction, research has worked on approaches based on optimising the compilation process.
+Another source of scalability issues is the compilation of mutants;
+%Fabrizio: we explicitely point to another section only if we refer to a (critical) concept that is explained in that section and we are farid that the reader does not remember it. Here the problem is that the reader have no means to understand what you are talking about. ESAIL ?
+%
+%, as mentioned above in the example of Section \ref{sec:opt:execution}, 
+indeed, because of the large number of mutation operators available in the literature, the number of mutants to be compiled is not negligible. In this section we report the main research results aiming at reducing the time required to compile mutants.
+%Fabrizio: optmizing soudns like a keyword, bette rto avoid
+%has worked on approaches based on optimising the compilation process.
 
-Untch et al. \cite{untch1993mutation} proposed a technique called mutant schemata, the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through a parametrization that allows to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
+%Fabrizio: "allow" is used when the subject of the sentence permit the object to perform something that is general forbidden. You usually want to use "enable". 
+Untch et al. \cite{untch1993mutation} proposed a technique called \emph{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
 
-A different paradigm is to modify the compiled code to introduce the syntax changes made by the mutation process \cite{ma2006mujava}, in a way that mutants can be executed directly without going into the compilation phase. This optimisation has been applied on Java bytecode \cite{ma2006mujava}, Common Intermediate Language (.NET) \cite{derezinska2011object} and LLVM bitcode \cite{hariri2016evaluating}. Results obtained by Derezinska and Kowalski \cite{derezinska2011object} shows that in average the speed improvement is on average 50\% faster when mutating compiled code instead of source code.
+%Fabrizio: the shorter the better
+%A different paradigm is to modify the compiled code to introduce the syntax changes made by the mutation process \cite{ma2006mujava}, in a way that mutants can be executed directly without going into the compilation phase. 
+Another solution consists of mutating directly the compiled code so that mutants can be executed without compiling each of them.
+This optimisation has been applied on Java bytecode \cite{ma2006mujava}, Common Intermediate Language (.NET) \cite{derezinska2011object} and LLVM bitcode \cite{hariri2016evaluating}. Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, 
+the mutation testing process mutating compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code.
+%Fabrizio: I could not understand the following
+%the speed improvement is on average 50\% faster when mutating compiled code instead of source code.
 
-Other approaches involve the use of trivial compiler optimisations \cite{papadakis2015trivial,kintis2017detecting} as way to speed up the mutant compilation phase, Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} developed the technique that relies on the idea that compiler optimisations transforms mutants to the optimised version, thus when the original program can be transformed by an optimisation to one of its mutants, the mutant is said to be equivalent and get discarded. In this way, the amount of compiled mutants get naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.
+%Fabrizio: the following should go to the previous section, no? I alreayd moved
+%Other approaches involve the use of compiler optimisations \cite{papadakis2015trivial,kintis2017detecting} as way to identify equivalent and redundant mutants and, consequently, speed up the mutant compilation phase. Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} developed the technique that relies on the idea that compiler optimisations transforms mutants to the optimised version, thus when the original program can be transformed by an optimisation to one of its mutants, the mutant is said to be equivalent and get discarded. In this way, the amount of compiled mutants get naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.
 
 
 
