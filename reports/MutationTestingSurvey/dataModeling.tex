@@ -9,11 +9,11 @@ These approaches are the ones that perform low level changes (e.g., bit flips) o
 The main drawback of approaches that do not require a data model is that they can hardly be used in a mutation testing context.
 Indeed, without additional information (e.g., a data model) it is not possible to determine what should be the expected effect of modifying a randomly selected portion of an input, in turn, it is not possible to determine if the mutated data should lead to a test failure, trigger a robustness feature of the SUT, or simply go unnoticed because it does not alter the behaviour of the software (e.g., because it alters bytes that are copied as is by a data processing system).
 
-Three are the main solutions adopted for data modelling, the use of grammars~\cite{Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, the use of UML models~\cite{di2015evolutionary}, and the use of custom models~\cite{pham2016model,PeachFuzzer}.
+Three are the main solutions adopted for data modelling, the use of grammars~\cite{ghosh1998testing,Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, the use of UML models~\cite{di2015evolutionary}, and the use of custom models~\cite{pham2016model,PeachFuzzer}.
 
 \subsubsection{Data modeling with grammars}
 
-Grammar-based approaches rely on a context-free grammar to specify the format of the data to be mutated. Grammars are used by fuzzying approaches that alter input files to perform robustness testing.
+Grammar-based approaches rely on a context-free grammar to specify the format of the data to be mutated. Grammars are used by fuzzying approaches that alter input files to perform robustness testing~\cite{ghosh1998testing}. They might be used to perform black-box mutations~\cite{ghosh1998testing} or white-box mutations that leverage code analysis to augment the coverage of the SUT~\cite{Godefroid:GrammarBasedFuzzying:2008}.
 The main limitation of grammars is that they cannot be used to encode integrity constraints such as size-of, offset-of, length-of and checksums~\cite{pham2016model}. 
 
 \subsubsection{Data modeling with UML models}
