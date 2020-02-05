@@ -15,14 +15,11 @@ If the executable code generated for the original and the mutated program match,
 Recent studies \cite{papadakis2015trivial} show that the trivial compiler optimisation approach is able to detect approximately up to 30\% of the equivalent mutants.
 
 A different approach for detecting equivalent mutants is to formulate the problem as a constraint satisfaction problem. 
-%Fabrizio: I cannot understand the following sentence. Based on what is written, it seems they are simply checking if the mutated code is reachable. In practice they check if there exist one input that exercise the mutant, not if teh mutant is equivalent to the original program.
-% The main idea is to analyze the path condition of a mutant, in which the mutant is defined equivalent if and only if the input constraint is unsatisfiable. 
 The main idea is to formulate the mutated and the original program as a constraint satisfaction problem, and to check if there exist one input that satisfies the formula, in the positive case, the mutant is said to be \textit{non-equivalent}.
 
 Offutt et al. \cite{offutt1996detecting,offutt1997automatically} carried out an experimental evaluation on 11 Fortran subject programs and detected 47\% of the existing equivalent mutants by applying this heuristic.
 Similarly, Holling et al. \cite{holling2016nequivack,papadakis2012mutation} presented an approach for identifying non-equivalent mutants and improving the confidence of the mutation score. By using static analysis and symbolic execution they defined a six-steps procedure to determine which mutants are \textit{non-equivalent}. \textit{Non-equivalent} mutants are identified every time they find a counter-example input for which the outputs of a pair of functions (the original function and the mutant one) is different. In the case no counter-example is found, then the mutant is classified as \textit{unknown}. 
-%Fabrizio: not necessaty, it is also strange
-%In like manner, 
+
 Riener et al. \cite{riener2011test} proposed the Symbolic Bounded Model Checking (SymBMC) procedure for the automated generation of test cases from a set of mutants. The approach examines the original program and its mutants assuming they are given the same set of symbolic  inputs and seeks for executions resulting in different observable output for the program and mutants. If the procedure finds a failing execution, the input data is saved as an effective new test case. Every time a new test case is found, the mutant is defined as non-equivalent, in a similar way to Holling's approach \cite{holling2016nequivack}.
 
 %Fabrizio: info is missing to understand the case below.
@@ -30,21 +27,18 @@ Riener et al. \cite{riener2011test} proposed the Symbolic Bounded Model Checking
 %Other approaches consider the use of software clones (i.e., similar code fragments) to detect equivalent mutants \cite{kintis2013identifying}, in this work Kintis proposed that mirrored mutants (i.e., mutants that belong to the same software clone) present the same behavior with respect to each other. So, for a set of mirrored mutants, is enough to prove equivalence of one mutant, instead of trying to detect equivalence for the whole set.
 Other approaches consider the use of software clones (i.e., similar code fragments) to reduce the costs of detecting equivalent mutants \cite{kintis2013identifying}. More precisely, the approach rely on the idea that mirrored mutants (i.e., mutants that belong to the same software clone) present the same behavior with respect to each other. So, for a set of mirrored mutants, is enough to prove equivalence of one mutant, instead of trying to detect equivalence for the whole set.
 
-%Fabrizio: what it means that "a fitness function that sets a poor fitness value to an equivalent mutant" Does it mean that they defined a fitness functiona that enable t spot an equivalent mutant? How this is done?
 With a different approach, Adamopoulos et al. \cite{adamopoulos2004overcome} introduced a co-evolutionary technique for detecting equivalent mutants. The technique defines a fitness function that sets a poor fitness value to an equivalent mutant (e.g., a mutant that cannot be killed by an existing test case). Through the fitness function equivalent mutants are removed during the co-evolutionary process, and only mutants that are hard to kill and test cases that are good at detecting mutants are kept for future iterations of the algorithm. On the other hand, Maldonado et al. \cite{maldonado2005bayesian} developed a Bayesian Learning-Based technique for helping tester to detect equivalent mutants using an inference algorithm.
 
 \subsubsection{Reducing Equivalent Mutants}
 
 The second group of techniques aims to reduce the amount equivalent mutants produced during mutation process.
 
-%Fabrizio: try to minimize the use of passive form
 Gr\"{u}n et al. \cite{grun2009impact} propose to avoid the execution of mutants presenting the same dynamic control-flow of the original program.
 %Fabrizio: should we say "ignoring the mutated function/code?" What they do exactly?
 To measure the difference in the dynamic control-flow of two program executions, they defined a metric, called control-flow impact, that measures
 the number of classes with different statement coverage.
 % If a mutation alters the control flow of the execution, different statements would be executed in a different order
 
-%Fabrizio: please double check that what we write is correct. It sounds strange that we use statement coverage as a replacement for control flow
 Indeed, for multiple executions of a same program, differences in statement coverage are the result of changes in the valuations of branch conditions.
 %To measure the dynamic control-flow difference (i.e., the impact), they defined the impact as the number of classes with different statement coverage. 
 
@@ -65,22 +59,21 @@ Despite interesting, the main limitation of the works of Gr\"{u}n et al. \cite{g
 
 %A different perspective is to focus in code coverage of mutants, for example, 
 In line with the results of Gr\"{u}n et al. \cite{grun2009impact},
-%You mean " both change code and data coverage" or "either code or data coverage" ?
+
 Schuler et al. \cite{schuler2010covering,schuler2013covering} discovered that mutants that show both change code and data coverage with respect to the original program, have a likelihood of 68\%-79\% to be non-equivalent.
 This result was based on an empirical evaluation performed on 140 mutations from seven open-source projects.
 In addition, authors discovered that operators that modify the control-flow (e.g., \textit{negate jump condition} and \textit{omit method call}) produce less equivalent mutants (30\%) 
 than operators (e.g., \textit{replace numerical constant} and \textit{replace arithmetic operator}) that only change data (57\%).
 Finally, 
  authors show that by measuring the impact on both data and code coverage it is possible to obtain few false negatives (61\%), that is, a mutant indicated to be non-equivalent while being equivalent. 
- %Fabrizio: do they use one statement coverage metric or many?
-Data and code coverage can be captured by metrics that focus on differences in statement (i.e., number of methods that have at least one statement that is executed at a different frequency between mutated and original program) and data (i.e., number of methods that have at least one different return value between mutated and original program) coverage. 
+
+Data and code coverage can be captured by metrics that focus on differences in statement (e.g., number of methods that have at least one statement that is executed at a different frequency between mutated and original program) and data (e.g., number of methods that have at least one different return value between mutated and original program) coverage. 
  %if a mutant is equivalent or not, in comparison with measuring data and code coverage independently (56\% and 67\% ,respectively).
 %Fabrizio: we have a problem. In the sentence above you say that 61 is lower than 56. I sthis what they say in their papers?
 When differences in data and code coverage are considered separately, false negatives grow to 56\% and 67\% ,respectively.
 
 %Fabrizio: I think there are some problems with the following. Maybe I have introduced the issue when rewriting. But basically it seems that they ignore mutants that are not killed (i.e., the mutants that are useful for mutation testing).
 Program slicing has been adopted for reducing equivalent mutants \cite{voas1997software, hierons1999using, harman2001relationship}. Harman et al. \cite{harman2001relationship} presented a technique 
-%Fabrizio: is this what you actually meant?
 for selecting a subset of the generated equivalent mutants using program dependence analysis. 
 %for reducing the number of equivalent mutants being generated using program dependence analysis. 
 The idea is to 
@@ -103,7 +96,6 @@ Static data-flow analysis enables the identification of def-use anti-patterns fo
 Such anti-patterns can be used to spot code locations that are sensitive to produce equivalent mutants 
 %together with the mutation operators being applied. 
 and to determine the subset of mutation operators that may lead to such equivalent mutants.
-%Fabrizio: at this point you never said that they rely on patterns.
 The first anti-pattern is called \textit{Use-Def} Problematic Pattern and seeks for uses of variables that reach a definition and can be mutated by a mutation operator that produces in-place changes (e.g., $\{x = (m + x)/2\}$ mutated to $\{x = (m + x++)/2\}$), specifically this pattern can be applied on definitions at the same line, basic block and between different basic blocks. 
 The second pattern is called \textit{Def-Def} Problematic Pattern and seeks for subsequent definitions of a certain variable, in other words, if a definition reaches another definition of the same variable without a prior use of the variable, then any mutation to the first definition cannot be revealed since its being redefined. 
 Experimental evaluation based on six real-world programs show that the anti-patterns enable the automatic detection of 58 out of 84 equivalent mutants, leaving only 30\% of mutants to be analyzed manually.

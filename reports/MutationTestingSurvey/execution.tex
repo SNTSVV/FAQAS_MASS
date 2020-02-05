@@ -31,8 +31,8 @@ in weak mutation \cite{ammann2016introduction}, the mutant is killed if the prog
 
 Sometimes mutation operators introduce code changes that prevent the termination of test cases (e.g., infinite loops), which requires the intervention of human operators and, consequently, a delay in the completion of the mutation testing process.
 For this reason, several mutation tools rely on time thresholds to force the termination of test case executions. 
-%Fabrizio: "Usually" should be followed at least by a citation
-Usually the execution is terminated when the execution time of a test case against a mutated program takes more than three times the execution time required for the original program.
+
+Usually \cite{papadakis2019mutation} the execution is terminated when the execution time of a test case against a mutated program takes more than three times the execution time required for the original program.
 
 King and Offutt \cite{king1991fortran} presented split-stream execution, a technique that takes advantage of the fact that a program and its mutants share most of the execution parts. Instead of having one executable per mutant it could be possible to generate a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}, thus saving time and resources. 
 
