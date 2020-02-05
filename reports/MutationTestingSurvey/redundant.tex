@@ -6,17 +6,16 @@
 The term \emph{redundant mutant} is used to refer to mutants that show the same behaviour of other mutants, i.e., they
 are killed every time other mutants are also being killed. 
 %Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. 
-%Fabrizio: Pay attention, you have used a sentence from another source, if you take it as-is you have to highlight it
+
 \emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}~\cite{papadakis2016threats}.
 Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. In the literature, redundant mutants are divided into two categories. The first is the category of duplicated mutants, that is, mutants equivalent between them but different from the original program. The second category concerns subsumed-joint mutants, that is, mutants that are killed jointly when other mutants are killed.
 
 Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. For instance, Rothermel et al. \cite{rothermel1996experimental} and then Andrews et al. \cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). In the same direction, Namin et al. \cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
-%Fabrizio "new deletion operators" did they propose more than one ?
-More recently, Delamaro et al. \cite{delamaro2014designing} designed new deletion operators, and found that they form a cost-effective alternative to other operators, i.e., they produce less redundant mutants. The deletion operator by itself has been proven to be the most effective for fault detection \cite{delamaro2014designing}.
+
+More recently, Delamaro et al. \cite{delamaro2014designing} designed deletion operators, and found that they form a cost-effective alternative to other operators, i.e., they produce less redundant mutants. The deletion operator by itself has been proven to be the most effective for fault detection \cite{delamaro2014designing}.
 
 %With a different perspective, 
-%Fabrizio: I cannot understand. What is a "path selection strategy"? do they generate new test inputs?
-Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy for selecting the test cases able to effectively kill mutants using symbolic execution, and to consequently decrease the number of redundant mutants. 
+Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy (i.e., they generate new test inputs) for selecting the test cases able to effectively kill mutants using symbolic execution, and to consequently decrease the number of redundant mutants. 
 The authors suggest constrained versions of the logical, relational and unary operators for generating less redundant mutants. 
 In a similar manner, Just et al. \cite{just2012redundant,just2015higher} proved that these three operators are better at detecting faults that the rest of mutation operators.
 
@@ -35,13 +34,5 @@ They introduce the distinguishing mutation adequacy criterion to characterize te
 Empirical results show that test suites that satisfy the distinguishing mutation adequacy criterion have a higher
  fault detection effectiveness than test suites that simply satisfy mutation coverage.
 
-% The current research shows that only few of the mutants produced, approximately 5\% are subsuming \cite{papadakis2016threats}. 
-
-% The experimentation was conducted by applying the available operators from Coccinelle, then discarding subsumed mutants by using the TCE method of Papadakis et al. for removing trivial duplicated ones \cite{papadakis2015trivial}. 
-% The tool also supports \textit{restrictive operators}, that produces less subsumed mutants \cite{just2012redundant,kaminski2013improving}.
-
-% Critical: 
-% Idea: use of disjoint mutants, a way to subset mutants that kills the original set of mutants
-%\todoinline{Does compiler optimization go well with schemata? Should we introduce temporary variable to detect redundant mutants with schemata and optimization?}
 
 
