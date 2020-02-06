@@ -41,6 +41,7 @@ In the following, we provide a brief overview of the operators generating each t
 \newcommand{\Fuzz}{\cite{miller1995fuzz}}
 \newcommand{\Ballista}{\cite{koopman2000exception}}
 \newcommand{\RIDDLE}{\cite{ghosh1998testing}}
+\newcommand{\Superion}{\cite{Wang:GrammarAwareFuzzying:ICSE:2019}}
 \newcommand{\AFL}{\cite{gutmann2016fuzzing}}
 \newcommand{\SAGE}{\cite{godefroid2012sage}}
 \newcommand{\pFuzzer}{\cite{mathis2019parser}} 
@@ -48,6 +49,8 @@ In the following, we provide a brief overview of the operators generating each t
 \newcommand{\DiNardoICST}{\cite{di2015generating}}
 \newcommand{\DiNardoASE}{\cite{di2015evolutionary}}
 \newcommand{\Matinnejad}{\cite{Matinnejad19}}
+\newcommand{\MongoDB}{\cite{Guo:MongoDBFuzzer:CACM:2017}}
+
 
 Table~\ref{table:dataMutation:references} provides the names of the tools and approaches referenced in Table~\ref{table:dataOperators}, along with a URL for the download of the tool, if available.
 
@@ -70,7 +73,19 @@ Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} pro
 %Cannot handle semantic restrictions imposed by certain nontrivial input languages. The approach has difficulties to handle complex sequences recursion.
 
 \emph{RIDDLE}~\cite{ghosh1998testing} adopts a grammar to describe the format of inputs; random and boundary values are generated for tokens representing input parameters.
-One of its drawbacks is the cost of setting up a grammar to describe the space of program inputs.
+
+\emph{Superion}~\Superion extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar. 
+It performs mutations that consist of \emph{grammar-aware trimming}, \emph{dictionary-based mutations}, and \emph{tree-based mutation}.
+Grammar-aware trimming is performed by generating an AST tree from the input and by deleting a randomly-selected subtree. 
+It aims to generate trimmed inputs that do not alter code coverage in the SUT.
+Dictionary-based mutations are performed by building a dictionary using every token in the input file and by inserting the elements of the dictionary in the boundaries of every token in the input file.
+Tree-based mutation is performed by processing two input files and replacing the subtrees of one file with the ones of another.
+
+One of the major limitations of grammar-based approaches is the cost of defining an input grammar. MongoDB's javascript fuzzer addresses the problem of grammar-based mutation when a grammar is not available. Instead of mutating input files for the SUT based on the input grammar of  the SUT, it mutates test cases for the SUT (in this case theJavascript test cases)~\MongoDB. It replaces subtrees in the AST tree generated from the test cases either other subtrees belonging to the same input file or with subtrees generated following encoded production rules.
+
+
+
+
 %, also, it requires more knowledge about the target than purely random ones.
 
 \emph{SAGE} adopts symbolic execution to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications. 
@@ -102,4 +117,5 @@ maximise code coverage~\cite{di2015evolutionary}.
 The coverage of each objective is encoded by means of boolean arrays; this information is used to select a minimal set of inputs that maximize the coverage of the different objectives.
 At every iteration, the evolutionary algorithm keeps only inputs that contribute to increase the coverage of at least one of the objectives (e.g., inputs that cover one instruction not covered by other inputs).
 
+In addition to the tools mentioned above, a description of mutation-based approaches to perform software testing is provided in the Fuzzing Book~\cite{fuzzingbook2019:GrammarFuzzer}.
 
