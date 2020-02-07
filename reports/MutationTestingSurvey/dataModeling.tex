@@ -9,7 +9,7 @@ These approaches are the ones that perform low level changes (e.g., bit flips) o
 The main drawback of approaches that do not require a data model is that they can hardly be used in a mutation testing context.
 Indeed, without additional information (e.g., a data model) it is not possible to determine what should be the expected effect of modifying a randomly selected portion of an input, in turn, it is not possible to determine if the mutated data should lead to a test failure, trigger a robustness feature of the SUT, or simply go unnoticed because it does not alter the behaviour of the software (e.g., because it alters bytes that are copied as is by a data processing system).
 
-Three are the main solutions adopted for data modelling, the use of grammars~\cite{ghosh1998testing,Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, the use of UML models~\cite{di2015evolutionary}, and the use of custom models~\cite{pham2016model,PeachFuzzer}.
+Three are the main solutions adopted for data modelling, the use of grammars~\cite{ghosh1998testing,Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, the use of UML models~\cite{di2015evolutionary}, and the use of block models~\cite{pham2016model,PeachFuzzer}.
 
 \subsubsection{Data modeling with grammars}
 
@@ -72,15 +72,18 @@ For example, Figure~\ref{fig:costraint:firstHeader} shows an OCL constraint that
 
 The main limitation of UML based approaches is the lack of generalistic binary parsers capable of loading data as an instance of a UML class diagram. Existing approaches rely on custom parsers~\cite{di2015generating,di2015evolutionary}.
 
-\subsubsection{Data modeling with custom formats}
+\subsubsection{Data modeling with Block Models}
 
-Approaches relying on custom models, require that engineers specify input data according to a specific format that typically captures the size of specific portions of the input data. Figure~\ref{fig:pit} show a portion of an example custom data model taken from related work~\cite{pham2016model}.
-Compared to UML-based modelling, custom formats provide more limited modelling capabilities; however, they are often used by toolset that implement parsers capable of handling generic data~\cite{PeachFuzzer}.
+Approaches relying on block models~\cite{PeachFuzzer,spike,pham2016model}, require that engineers specify input data according to a specific format that typically captures the size of specific portions of the input data. 
+Figure~\ref{fig:pit} show a portion of an example custom data model taken from related work~\cite{pham2016model}.
+For example, Spike~\cite{spike} and Peach~\cite{PeachFuzzer} require input models that specify the format of data chunks and integrity constraints. 
+While being effective in fuzzing programs that process weakly-structured inputs (e.g., images and protocols), these approaches become less effective for highly-structured inputs (e.g., JavaScript).
+Compared to UML-based modelling, block models provide more limited modelling capabilities, for instance, they are less effective for highly-structured inputs; however, they are often integrated into general-purpose tools that can be easily integrated in software projects~\cite{PeachFuzzer}.
 
 
 \begin{figure}[t!]
   \centering
-    \includegraphics[width=5cm]{images/PeachPit}
+    \includegraphics[width=7cm]{images/PeachPit}
       \caption{Data model with a custom format.}
       \label{fig:pit}
 \end{figure}
