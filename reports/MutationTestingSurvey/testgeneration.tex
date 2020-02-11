@@ -3,6 +3,57 @@
 \section{Automated Augmentation of Test Suites}
 \label{sec:testGeneration}
 
+The mutation process relies on the existence of a test suite containing test cases that may or may not kill the mutants.
+To kill a mutant we need test cases that reach the mutation point, causes changes, or corruptions, in the program state right after the mutation, in comparison to the non-mutated version of the program, and manifest these corruptions into the program output (e.g., test assertion) with a software failure \cite{papadakis2019mutation}.
+In the literature, there exists two groups of approaches for driving automated test generation processes aimed to kill mutants, based on the above mentioned conditions. The first group are techniques based on symbolic procedures and the second group relies on search-based test generation techniques.
+
+Techniques based on symbolic procedures determine the existence of input data that can satisfy the requirements of a test case to kill a mutant \cite{offutt1997automatically}. A way to prove such existence is to use constraint-based methods, in which each test killing requirement represents a constraint in a constraint system, the solution to such system will be a test case that kills the mutant demillo1991.
+
+Recently, Holling et al. \cite{holling2016nequivack} proposed to use a symbolic execution approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. Each non-equivalent value proves that a new input, that make the original and the mutated function generate different results, has been found. 
+
+We introduce an example of Holling's approach in Listing \ref{function}. We show the \texttt{isPositive} function that checks if an integer number is positive or not. Also, we present the mutated version of \texttt{isPositive}, that mutates the relational $\geq$ into $>$.
+
+First, the \texttt{isPositive} parameter \texttt{num} needs to be treated as symbolic, this is carried out by the function \texttt{make\_symbolic} which converts concrete variables to symbolic by considering its memory address and size. Then, the original and mutated functions are called using the \texttt{numSymbolic} argument (see Listing \ref{example}), which is done in lines 5 and 6. Finally, the \texttt{assert} function of line 8 verifies if the integer return values of both functions are equal.
+
+In the concrete, if we consider the implementation of \texttt{isPositive} and \texttt{MUTATED\_isPositive}, the symbolic execution engine will detect the case when \texttt{num} is equal to 0, input that will make both the original and mutated version to behave different. In this case, the input 0 will be added as a new test case of the \texttt{isPositive} function.
+
+\begin{lstlisting}[style=CStyle, caption=isPositive and MUTATED\_isPositive functions, label=function]
+int isPositive(int num){
+	if (num >= 0){
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+int MUTATED_isPositive(int num){
+	if (num > 0){
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[style=CStyle, caption=Example, label=example]
+void test () { 
+	int numSymbolic; 
+	make_symbolic(&numSymbolic, sizeof(numSymbolic), "numSymbolic"); 
+ 	
+ 	int original_ret = isPositive(numSymbolic); 
+	int transformed_ret = MUTATED_isPositive(numSymbolic); 
+ 
+	assert(original_ret == transformed_ret); 
+} 
+ 
+int main(int argc, char* argv[]) { 
+	test (); 
+	return 0; 
+}
+\end{lstlisting}
+
+
 \endinput
 
 \subsubsection{Symbolic execution test generation} % (fold)

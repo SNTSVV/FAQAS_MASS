@@ -21,8 +21,8 @@ In a similar manner, Just et al. \cite{just2012redundant,just2015higher} proved 
 
 Delgado et al. \cite{delgado2017assessment} show that some operators naturally produce more redundant mutants than others and
 developed a selective approach for reducing the number of mutants without loss of effectiveness for C++ programs. 
-%Fabrizio: is this "degree of redundacy" defined per project or is expected to be absolut for any project in the world?
-The approach introduces a degree of redundancy for every mutation operator that helps developers to choosing the mutation operators with a lower degree of redundancy.
+
+The approach introduces a degree of redundancy for every mutation operator that helps developers to choosing the mutation operators with a lower degree of redundancy, based on the test cases defined in the project.
 
 Another solution to reduce the number of redundant mutants is the application of trivial compiler optimisations \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
 It can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al. \cite{kintis2017detecting} showed that by using compiler optimisations it is possible to reveal 21\% and 5.4\% of C and Java mutants, respectively.

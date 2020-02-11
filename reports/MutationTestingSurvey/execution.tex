@@ -5,7 +5,6 @@
 
 In the mutation testing process, the execution of mutants is the major source of scalability problems (i.e., it requires a lot of time to be completed). Indeed, with $n$ mutants for a program under test and a test suite of $m$ test cases, $n \times m$ executions are required to apply mutation testing.
 
-%For example, consider the ESAIL SVF test suite that requires approximately 10 hours to run for the original program, if we produce 100,000 mutants, it means that we would require 1,000,000 hours or 114 years to cover all mutant executions.
 %Fabrizio: I am not sure which formatting we should use for ESA. Let's try to follow the SI System
 This might make mutation testing infeasible. For example, a test suite that requires 10 hours to be executed against software under test, would require 1\,000\,000 hours or 114 years be executed against 100\,000 mutants; for a large space system with 10\,000 lines of code, 100\,000 mutants can be easily generated  with 10 mutants generated for each line of code, on average.
 
@@ -14,11 +13,10 @@ To cope with the run-time cost of mutation testing, several solutions had been p
 Some solutions rely on code coverage. Mutants that belong to code locations that are not exercised by any test case should not be executed because there is no chance of being killed. Code coverage collected during the execution of the test suite against the original software can be used to determine if a code location is exercised; this approach has been implement by the Proteum tool \cite{delamaro1996proteum}.
 Similarly, mutants that have been already killed by a test case should not be executed against other test cases.
 
-%Fabrizio: you mention "killing condition" did we introduce the concept before?
 Other solutions concern the prioritization of test cases. Just et al. \cite{just2012using} and Zhang et al. \cite{zhang2013faster} proposed to sort test cases to kill mutants as early as possible, e.g., by executing first the test cases with a shorter runtime~\cite{just2012using}. 
 
 %Papadakis and Malevris \cite{papadakis2011automatically} gave a step further in this research line, and proposed that a way to prioritise the  different mutants is by assessing in advance which of the mutants are actually modifying the variables that check the killing condition of the mutant, i.e., the final assertion of a test case, and prioritise them over mutants that do not modify variables related to the killing condition.
-Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the killing condition of the mutant (e.g., the final assertion of a test case). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
+Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the killing condition of the mutant (i.e., the test inputs that lead the mutant to be killed). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
 
 
 The use of weak and firm mutation over strong mutation may speed up mutation testing as well.
