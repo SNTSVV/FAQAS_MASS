@@ -46,7 +46,7 @@ The activity \emph{Mutate Data} should be driven by a fault model that specifies
 The fault model enables engineers to minimize the presence of equivalent mutants.
 %The data model may capture the relation between inputs and outputs of the system
 
-Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. The figure shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime. Such components can be installed either on the channel or they might be integrated at the boundaries of the software (e.g., by modifying API functions to redirect calls to the mutating component before computing the expected computation).
+Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. The figure shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime on a certain communication layer. Such components can be installed either on the channel or they might be integrated at the boundaries of the software (e.g., by modifying API functions to redirect calls to the mutating component before computing the expected computation).
 
 	\begin{figure}
 	\centering
@@ -63,7 +63,7 @@ Indeed, \emph{in the context of data-driven mutation testing a mutant is killed 
 We need log files to determine if robustness features had been triggered.
 For example, a system that implement a robust communication protocol might simply request again the packets affected by errors thus avoiding failures. In this case, we need to inspect the log files to determine if the robustness features had been triggered.
 
-Since data-driven mutation testing does not alter the software implementation but only the data processed by components, it may help engineers to identify faults. 
+Since data-driven mutation testing does not alter the software implementation but only the data processed by components, it may help engineers to identify existing faults. 
 This is the case when \emph{Missing Error Reports} or \emph{Unexpected Failures }(e.g, crashes) are observed. In both the two cases, engineers should fix the system.
 
 The outcome of the activity \emph{Analyze Results} is a mutation score that is based on
