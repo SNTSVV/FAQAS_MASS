@@ -1,0 +1,20 @@
+\begin{table}[h]
+\begin{center}
+\tiny
+\begin{tabular}{|p{2.5cm}|p{5.3cm}|}
+\hline
+\textbf{Fault}&\textbf{Description}\\
+\hline
+Duplicate VCDU/Packet&The same VCDU/Packet appears twice in the transmission.\\
+Missing VCDU/Packet& A VCDU/Packet is omitted during transmission.\\
+Wrong Sequence& VCDUs/Packets are sent out of order. \\
+Incorrect Identifier& Several transmission data fields have fixed values, for example fields identifying the transmitting satellite. Hardware/software errors may assign incorrect identifiers.\\
+Incorrect Checksum& Hardware/software errors may result in an incorrect checksum for a Packet or VCDU.\\
+Incorrect Counter& Counters are used to track Packet or VCDU ordering. Hardware/software errors may assign incorrect counter values.\\
+Flipped Data Bits& Physical channel noise may flip one or more bits in the data transmission.\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Fault Model of from \cite{di2015generating}}
+\label{table:faultModel:SES}
+\end{table}%
