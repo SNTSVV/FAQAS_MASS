@@ -29,7 +29,7 @@ approaches based on constraint-programming, and approaches based on evolutionary
 Techniques based on constraint programming use some form of automated reasoning (e.g., Propositional Satisfiability or Constraint Solving~\cite{SATandCPsurvey:2006}) to derive data that satisfy all the conditions necessary to kill a mutant~\cite{offutt1997automatically}.
 
 One possibility consists of generating constraints that capture the three killing conditions of a mutant: reachability (i.e, the test case should execute the mutated statement), necessity (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and sufficiency (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
-Offutt et al. \cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
+Offutt et al. \cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph. Then, such constraints are encoded to form a constraint system, in their approach, they propose three strategies for identifying infeasible constraint systems, the contradictions to such systems are the new test cases for the program under analysis.
 
 Holling et al. \cite{holling2016nequivack} proposed to use a symbolic execution approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
 %F: I'm expecting a sentence as "Values are considered equivalent when ... "
@@ -85,7 +85,7 @@ Instead, Papadakis et al. \cite{papadakis2011automatically} rely on fitness func
 
 Fraser and Arcuri \cite{fraser2015achieving} propose to use distinct distance metrics tailored to the specific operator used to generate the mutants.
 %F: we need more examples for multiple operators. Also, you should clarify why distinct metrics are needed
-In some cases, the mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
+The necessity killing condition relies on changes in the program state, and in some cases, the mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
 For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
 The \textit{insert unary operator} adds or subtracts 1 to a numerical value. The mutants produced by this operator will always affect the program state, so the distance is 0.
 The \textit{replace variable operator} replaces a specific variable with all other variables of the same type in the program scope. In this case, the distance will be 0 if the values of the variables being exchanged are different, otherwise it is 1.
