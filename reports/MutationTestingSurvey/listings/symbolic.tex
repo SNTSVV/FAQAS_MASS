@@ -1,0 +1,12 @@
+\begin{lstlisting}[style=CStyle, caption=Symbolic Execution Example., label=symbolic]
+int f() {
+	int y, z;
+	y = read();
+	z = y * 2;
+	if (z == 12) {
+		fail();
+	} else {
+		printf("OK");
+	}
+}
+\end{lstlisting}

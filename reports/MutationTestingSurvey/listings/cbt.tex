@@ -1,0 +1,25 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\begin{lstlisting}[style=CStyle, caption=midval function returns the mid value between three integers., label=midval, mathescape=true]
+int midval (int x, int y, int z) {
+	int midval;
+
+	midval = z;
+	if (y < z) {
+		if (x < y) {
+			midval = y;
+		}
+		else if (x < z) 
+ $\Delta$ else if (x <= z) {
+			midval = x;	
+		}
+	}
+	else 
+		if (x > y) {
+			midval = y;
+		} else if (x > z) {
+			midval = x;
+		}
+	return midval;
+}
+\end{lstlisting}
