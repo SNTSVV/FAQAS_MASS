@@ -96,4 +96,14 @@ If test failures are not observed, engineers evaluate the quality of the newly g
 
 Section~\ref{sec:testGeneration} provides an overview of approaches for the automated generation of test cases.
 
-% subsection test_suite_augmentation (end)
+\subsection{Mutation Testing Example} 
+
+In the following, we introduce an example of the application of a mutation operator to the isPalindrome function in Listing \ref{mutationtestingexample}. The mutation operator being applied is the \textit{SSDL}, in particular, this operator mutates the code by deleting one or more statements at the time.
+
+\input{listings/mutationtestingexample}
+
+The mutants produced by the \textit{SSDL} operator can be seen in Table \ref{table:mutants}. In this case, it has been produced six mutants, for example, \textit{M1} deletes the line 12 from Listing \ref{mutationtestingexample}, that is, the \texttt{return 0;} statement. Also, \textit{M6} deletes the statements in Listing \ref{mutationtestingexample} from line 6 to 16.
+
+Besides, in Listing \ref{mutantts} we introduce an example of a test suite for the \texttt{isPalindrome} function. The outcome of the execution of the test suite against the \texttt{isPalindrome} function is that all the four test cases are passing.
+Instead, if now the same test suite is executed against the mutant \textit{M1}, we observe that again all the test cases are passing. This means that the existing test suite is not adequate, since a test suite should identify all the faults introduced, and in this particular case introduced by the mutation operator \textit{SSDL}.
+The solution proposed by the mutation testing process would be to introduce a new test case that exercises the deleted statement by the operator. Particularly, we should introduce a test case that exercises a non-palindrome string. In Listing \ref{mutantts_improved}, we added a test case with the input \textit{abbaa}, this test case will fail against \textit{M1}. This process should be done iteratively for all the live mutants of Table \ref{table:mutants}. 

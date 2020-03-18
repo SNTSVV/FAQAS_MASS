@@ -1,0 +1,63 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\begin{lstlisting}[style=CStyle, caption=Function isPalindrome., label=mutationtestingexample]
+#include <stdio.h> 
+#include <string.h> 
+
+int isPalindrome(char str[]) 
+{ 
+    int l = 0; 
+    int h = strlen(str) - 1; 
+    while (h > l) 
+    { 
+        if (str[l] != str[h]) 
+        { 
+            return 0;
+        } 
+        l++;
+        h--;
+    } 
+    return 1; 
+} 
+\end{lstlisting}
+
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{|l|l|}
+			\hline
+			\textbf{ID}&\textbf{Lines removed}\\
+			\hline
+			M1 & 12\\
+			M2 & 11 -- 13\\
+			M3 & 10 -- 13\\
+			M4 & 14\\
+			M5 & 15\\
+			M6 & 6 -- 16\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Example of \textit{SSDL} \texttt{isPalindrome} mutants.}
+	\label{table:mutants}
+\end{table}%
+
+\begin{lstlisting}[style=CStyle, caption=Example of a Test Suite for \texttt{isPalindrome} function., label=mutantts]
+void test() { assertTrue(isPalindrome("abba")); }
+
+void test() { assertTrue(isPalindrome("aba")); }
+
+void test() { assertTrue(isPalindrome("a")); }
+
+void test() { assertTrue(isPalindrome("")); }
+\end{lstlisting}
+
+\begin{lstlisting}[style=CStyle, caption=Example of an Improved Test Suite for \texttt{isPalindrome} function., label=mutantts_improved]
+void test() { assertTrue(isPalindrome("abba")); }
+
+void test() { assertTrue(isPalindrome("aba")); }
+
+void test() { assertTrue(isPalindrome("a")); }
+
+void test() { assertTrue(isPalindrome("")); }
+
+void test() { assertFalse(isPalindrome("abbaa")); }
+\end{lstlisting}
