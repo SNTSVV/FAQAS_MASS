@@ -2,22 +2,27 @@
 
 \chapter*{Introduction}
 \label{sec:introduction}
+\addcontentsline{toc}{chapter}{Introduction}
 
 From spacecrafts to automobiles, software has a prominent role in modern embedded, safety-critical systems; for this reason, the safety and reliability of these systems 
 depends on the quality of the system hardware as much on the quality of its software.
 
 International standards for the development of safety-critical systems~\cite{ecss40C,ecss80C,ISO26262} emphasize the importance of software quality assurance and regulate the procedures to ensure the quality of the developed software. In general, software testing has a prominent role in software quality assurance activities and standards enforce the adoption of software testing best practices.
 
-Unfortunately, the software testing procedures enforced by international standards heavily rely on the capability of software engineers to define test suites that extensively exercise the software. Automated and effective methods to evaluate the quality of test suites are thus necessary. Also, methods to automatically generate test cases will speed-up the improvement of test suites. 
+Unfortunately, the software testing procedures enforced by international standards heavily rely on the capability of software engineers to define test suites that extensively exercise the software. \EMPH{Automated and effective methods to evaluate the quality of test suites are thus necessary.} 
+Also, \EMPH{methods to automatically generate test cases} will speed-up the improvement of test suites. 
 
 Since the primary objective of software testing is to identify the presence of software faults, an effective way to assess the quality of a test suite consists of artificially injecting faults in the software and verifying if the test suite can detect the injected faults. 
-This approach is known as \emph{mutation testing}~\cite{DeMillo78}. Mutation testing refers to methods that evaluate the effectiveness of software testing procedures based on the percentage of injected faults being discovered; ideally, an effective software test suite should be able to identify all the injected faults. Also, ideally, injected faults should be representative of actual faults. 
-In mutation testing, faults are automatically injected in the program thus creating multiple faulty versions; these faulty versions are referred to as \emph{mutants}.  The term \emph{mutation coverage} is used to indicate a quality metric that consists of measuring the percentage of mutants detected by a test suite (ideally, a test suite should achieve 100\% mutation coverage). 
+This approach is known as \EMPH{mutation testing}~\cite{DeMillo78}. Mutation testing refers to methods that evaluate the effectiveness of software testing procedures based on the percentage of injected faults being discovered; ideally, an effective software test suite should be able to identify all the injected faults. Also, ideally, injected faults should be representative of actual faults. 
+In mutation testing, faults are automatically injected in the program thus creating multiple faulty versions; these faulty versions are referred to as \EMPH{mutants}.  The term \EMPH{mutation coverage} is used to indicate a quality metric that consists of measuring the percentage of mutants detected by a test suite (ideally, a test suite should achieve 100\% mutation coverage). 
 
 Despite its high-potential, mutation testing is not adopted by industry. The main reasons are its limited scalability and the lack of guidelines for the adoption of mutation score as a quality criterion. Another limitation is the absence of automated means to support engineers towards the definition of test suites with high-mutation coverage.
 
-This book provides a detailed overview of  the mutation testing process and how it can be applied in the context of space and embedded systems. It describes common limitations of mutation testing and countermeasures to these limitations; finally, it provides a description of the approaches that can be applied to automatically generate test cases to achieve high mutation coverage.
-Based on the literature on fault injection~\cite{natella2016assessing}, we focus on two major families of mutation approaches: (1) code-driven mutation testing approaches that alter the software code to mimic programming errors, (2) data-driven mutation techniques that alter runtime data to simulate failures in communicating components. Code-driven techniques have shown to be an effective means to evaluate the effectiveness of test suites~\cite{Andrews06} while data-driven mutation techniques can identify complex boundary cases not handled by the developed software~\cite{di2015evolutionary}.
+This book provides a detailed \EMPH{overview of  the mutation testing process} and how it can be applied in the context of space and embedded systems. 
+\MREVISION{C10}{Despite the proposed solutions can be applied to different kinds of software for space systems (i.e., ground desktop software, ground embedded software, on-board embedded software), in this book, the term \emph{space software} is used to refer to on-board embedded software.}
+This book also describes the \EMPH{common limitations} of mutation testing and \EMPH{countermeasures} to these limitations; finally, it provides a description of the approaches that can be applied to automatically \EMPH{generate test cases} to achieve high mutation coverage.
+
+We focus on two major families of mutation approaches~\cite{natella2016assessing}: (1) \EMPH{code-driven mutation testing approaches} that alter the software code to mimic programming errors, (2) \EMPH{data-driven mutation techniques} that alter runtime data to simulate failures in communicating components. Code-driven techniques have shown to be an effective means to evaluate the effectiveness of test suites~\cite{Andrews06} while data-driven mutation techniques can identify complex boundary cases not handled by the developed software~\cite{di2015evolutionary}.
 
 This book is structured as follows. 
 Chapter~\ref{chapter:codemutation} describes code-driven mutation testing approaches. 

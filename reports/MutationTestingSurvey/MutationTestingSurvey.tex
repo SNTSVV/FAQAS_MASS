@@ -13,7 +13,8 @@
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{amssymb}
-\usepackage{todonotes}
+%\usepackage{todonotes}
+\usepackage[backgroundcolor=white,bordercolor=blue,linecolor=blue]{todonotes}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{url}
@@ -97,13 +98,18 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
+\setlength{\parskip}{1em}
+
 %%%% Title
 \newcommand{\titleone}{\textsf{Fault-based Automated Quality Assurance of Test Suites:}}
 \newcommand{\titletwo}{\textsf{A Survey of Mutation Testing and Test Suite Augmentation Approaches}}
 \newcommand{\titlethree}{\textsf{for Satellite and Embedded Systems}}
 
-\newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{Note}: #1 }}
+\newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
+\newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
+
+\newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 
 \begin{document}
 
@@ -149,15 +155,23 @@
 
 \newcommand{\CHANGED}[1]{\textcolor{blue}{#1}}
 
+\newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+
 \thispagestyle{empty}
 
 \include{titlepage}
 
-\printindex
+\include{revisions}
+
+
 
 \tableofcontents
 
+
+
 \include{introduction}
+
+\include{acronyms}
 
 \include{codemutation}
 
@@ -166,6 +180,12 @@
 \include{industry}
 
 \newpage
+
+\include{ESA_comments_1}
+
+\newpage
+
+\printindex
 
 \bibliographystyle{IEEEtran}
 \bibliography{bibliography}
