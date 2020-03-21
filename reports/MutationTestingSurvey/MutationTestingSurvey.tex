@@ -14,7 +14,8 @@
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{amssymb}
 %\usepackage{todonotes}
-\usepackage[backgroundcolor=white,bordercolor=blue,linecolor=blue]{todonotes}
+\setlength{\marginparwidth}{2cm}
+\usepackage[backgroundcolor=white,bordercolor=blue,linecolor=blue,textwidth=1cm]{todonotes}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{url}
@@ -110,6 +111,7 @@
 \newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
+\newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}#1}
 
 \begin{document}
 

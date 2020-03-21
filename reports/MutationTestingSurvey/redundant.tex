@@ -6,9 +6,15 @@
 The term \emph{redundant mutant} is used to refer to mutants that show the same behaviour of other mutants, i.e., they
 are killed every time other mutants are also being killed. 
 %Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. 
-
 \emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}~\cite{papadakis2016threats}.
-Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. In the literature, redundant mutants are divided into two categories. The first is the category of duplicated mutants, that is, mutants equivalent between them but different from the original program. The second category concerns subsumed-joint mutants, that is, mutants that are killed jointly when other mutants are killed.
+
+\TODO{Is it possible to add an example?}
+
+\TODO{The following sentence is not good. Can we say something more, for example how many SUT they considered, which mutation operators they considered?}
+To highlight that redundant mutants are a recurrent problem, Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. 
+
+\TODO{The definition below is not clear. I cannot understand teh difference between them}
+In the literature, redundant mutants are divided into two categories. The first is the category of duplicated mutants, that is, mutants equivalent between them but different from the original program. The second category concerns subsumed-joint mutants, that is, mutants that are killed jointly when other mutants are killed.
 
 Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. For instance, Rothermel et al. \cite{rothermel1996experimental} and then Andrews et al. \cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). In the same direction, Namin et al. \cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
 
