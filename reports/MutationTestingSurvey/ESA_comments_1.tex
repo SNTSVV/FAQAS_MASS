@@ -143,6 +143,70 @@ Could we say that Objective 1 is linked to Test Suite Assessment and Objective 2
 \\
 This is not exactly the case, we have clarified in the text.
 \\
+
+
+C20&As for code mutation, please elaborate a bit more on this \% operators applied (why it is important), and why we need a threshold to stop the process.
+\\
+
+\\
+
+C21&The fact of needing modifications at runtime, is it not a hard constraint for Data Mutation?Depending on where the mutation is done, we may need to modify the code itself, or the test harnesses. This, in my opinion, adds an extra complexitycompared to Code Mutation.
+\\
+
+\\
+
+
+C22&Could you please add the definition of a test oracle? We are not used to this naming e.g. is it the set of inputs and their corresponding outputs for a testcase?
+\\
+Thank you. We have added a definition for test oracles in section 1.1. (the first time it appears).
+\\
+
+C23&
+\begin{minipage}{10cm}a. Is this lack impacting somehow the objectives of this activity, or would it be enough to try Data Mutation with the fault injection techniques alreadyexisting?\\b. Is the lack stated in this paragraph a potential research area for SnT?\\c. Is it an area that you would like to explore a bit more?\\
+\end{minipage}
+\\
+\begin{minipage}{10cm}
+(C23.a) We believe that current approaches should be reusable. We refer especially to references~\cite{di2015evolutionary} and \cite{di2015generating}, which have been developed at SnT. To address scalability issues, however, such work may need to be adapted or reimplemented in a simpler fashion.
+(C23.b and C23.c) Data-driven mutation is a research direction for SnT. FAQAS might be a starting point for a broader future project. We believe that data-driven mutation testing might be useful for a large set of cyber-physical systems, including space systems; indeed, they work by analysing an modelling a large quantity of data, their system test suites require the execution of simulators to generate streams of sensor data that follow specific environmental rules.  Data-driven mutation testing might be a solution to evaluate the quality of these test suites.
+\end{minipage}
+\\
+
+C24&As for code mutation, this is to be refined.
+\\
+We believe that the change in the introduction to address C10 should clarify the misunderstanding.
+\\
+
+
+C25&This column is missing in the table
+\\
+Thank you. We have fixed the table.
+\\
+
+
+C26&Is there any research needed to improve this table i.e. to come up with more mutation operators; or it is enough for this activity?
+\\
+We believe this set of mutation operators to be sufficient for the project.
+\\
+
+C27&Is there any convention on the operator names?
+\\
+In this case, since operators are defined in different contexts, there is no convention in the literature.
+\\
+
+
+C28&a. Is Run-Time Scalability a limitation in data mutation?b. My impression is that in order to do data mutation, we must have a thorough knowledge on the SUT and its operating environment (e.g. hardwarearound, the communication protocols, etc). Is this a limitation on the approach?c. The integration of Data Mutation in a specific validation environment looks more challenging than for Code Mutation. Is that a limitation of theapproach?
+\\
+
+
+C29&Why is Data Modeling a limitation? Is it because of the need to define a data model and that is time consuming?
+\\
+
+
+C30&This concept is difficult to understand. Maybe it would help by adding an example?
+\\
+
+\\
+
 %Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:11%Comment #4:%It is perhaps interesting to add a chapter with some basic definitions?%e.g. equivalent mutant, redundant mutant, mutation score, killed mutant, live mutant, weak mutation, ...%Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:18%Comment #5:%Please, consider to add more examples.
 
 \bottomrule                                                             
