@@ -23,7 +23,7 @@ int isPalindrome(char str[])
 
 \TODO{please always put tables in separate .tex files}
 
-\TODO{please make 6 different versions of the same source file with lines being commented, this is not understandable}
+\TODO{please make 6 different versions of the same source file with lines being commented, the table is too high level, not understandable. We need to show concrete cases for each.}
 
 \begin{table}[h]
 	\begin{center}
@@ -44,7 +44,10 @@ int isPalindrome(char str[])
 	\label{table:mutants}
 \end{table}%
 
-\begin{lstlisting}[style=CStyle, caption=Example of a Test Suite for \texttt{isPalindrome} function., label=mutantts]
+\TODO{listings in separate files}
+
+\begin{minipage}{12cm}
+\begin{lstlisting}[style=CStyle, caption=Example of a Test Suite for the function \texttt{isPalindrome}., label=mutantts]
 void test() { assertTrue(isPalindrome("abba")); }
 
 void test() { assertTrue(isPalindrome("aba")); }
@@ -53,8 +56,10 @@ void test() { assertTrue(isPalindrome("a")); }
 
 void test() { assertTrue(isPalindrome("")); }
 \end{lstlisting}
+\end{minipage}
 
-\begin{lstlisting}[style=CStyle, caption=Example of an Improved Test Suite for \texttt{isPalindrome} function., label=mutantts_improved]
+\begin{minipage}{12cm}
+\begin{lstlisting}[style=CStyle, caption=Example of an Improved Test Suite for the function \texttt{isPalindrome}., label=mutantts_improved]
 void test() { assertTrue(isPalindrome("abba")); }
 
 void test() { assertTrue(isPalindrome("aba")); }
@@ -65,3 +70,4 @@ void test() { assertTrue(isPalindrome("")); }
 
 void test() { assertFalse(isPalindrome("abbaa")); }
 \end{lstlisting}
+\end{minipage}
