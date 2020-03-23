@@ -1,0 +1,79 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\scriptsize 
+\begin{longtable}{@{\extracolsep{\fill}}|p{3.2cm}|p{2.5cm}|p{2.5cm}|p{3.2cm}|p{0.7cm}|@{}}
+\caption{\normalsize Summary of Mutation Testing Benchmarks present in the literature.}
+\label{table:benchmarks} \\
+
+\hline
+
+\textbf{Case Study (SUT)}	&	\textbf{Size of SUT}	&	\textbf{\begin{tabular}[c]{@{}l@{}}Size of Test Suite\\(test cases)\end{tabular}}	&	\textbf{Goal of Evaluation}	&	\textbf{Paper}	\\
+\hline
+
+Coreutils 6.11 (chmod, cut, dd, expr, factor, head, readlink, seq, stat, sum, tac, tail, touch, unexpand, wc) & 8430 LOC & 1022 & Compare the mutation testing process between source code and intermediate representation level. & \cite{hariri2019comparing} \\
+\hline
+
+RODOS (real-time operating system), OpenSSL (implementation of TLS and SSL protocols) and LLVM (compiler infrastructure project) & 125 KLOC, 311 KLOC and 1.3 MLOC & 48, 77 and 625 & Evaluate ease of integration, performance and practical applicability of Mull mutation testing tool. & \cite{denisov2018mull} \\
+\hline
+
+Coreutils, Findutils, Grep and Make & 83 KLOC, 18 KLOC, 9 KLOC and 35 KLOC & 58131 and 22208 & Assessment of the mutation score and fault detection. & \cite{papadakis2018mutation} \\
+\hline
+
+Coreutils, Findutils, Grep and Make & 83 KLOC, 18 KLOC, 9 KLOC and 35 KLOC & 58131 and 22208 & Determine fault revelation capabilities of strong mutation, weak mutation, branch coverage and statement coverage. & \cite{chekam2017empirical} \\
+\hline
+
+Siemens and cURL-HTTP & 2188 and 12753 LOC & Test suite evaluation was out of the scope. & Assess applicability and efficiency of the MUSIC mutation testing tool. & \cite{phan2018music} \\
+\hline
+
+Gzip-1.6, MSMTP-1.4.32, Make 4.0, Git-2.1, GSL-1.16 and Vim-7.2 & 67950 LOC & Test suite evaluation was out of the scope. & Evaluation of a technique for identification of equivalent mutants through trivial compiler optimizations. & \cite{kintis2017detecting} \\
+\hline
+
+Codeflaws benchmark & 266099 LOC & 122261 & Assessment of the ability of mutants to reveal faults. & \cite{papadakis2018mutant} \\
+\hline
+
+Matrix TCL PRO, XmlRPC++, Dolphin, Tinyxml2, KmyMoney, QtDom & 3228, 2194, 3667, 2620, 13709 and 2117 LOC & 24, 34, 70, 62, 248 and 56  & Evaluation and ranking of mutation operators according to their redundancy degree. & \cite{delgado2017assessment} \\
+\hline
+
+PeerWireProtocol, Craft, CfixedArraylist, ChashMapViaLinkedList, CAVLTree, CpseudoLRU, CHashMapViaQuadraticProbing, CtextureAtlas, Csplaytree, CstreamingBencodeReader, CSparseCounter, Cheap, CcircularBuffer, ClinkedListQueue, CbipBuffer, Cbitfield, libdssl, libksi & 1547, 731, 497, 488, 405, 384, 391, 301, 319, 371, 328,  207, 118, 200, 118, 87, 6600 and 19445 LOC & 54, 71, 1, 21, 9, 16, 21, 7, 14, 30, 30, 16, 12, 7,12, 4, 48 and 130 & Evaluation of nine memory mutation operators. & \cite{wu2017memory} \\
+\hline
+
+Siemens and Vim 7.4 (eval and spell) & 10334, 4331, 10102, 475, 401, 512, 292, 297, 135, 346 and 42073 LOC & 42, 214, 75, 4130, 4115, 5542, 2650, 2710, 1608, 1052 and 98 & Technique for the detection of equivalent mutants. & \cite{wang2017faster} \\
+\hline
+
+Siemens (Grep, Sed, Flex, Make, Gzip) & 12826, 18687, 12249, 20461 and 5048 LOC & 440, 324, 500, 111 and 156  & Assessment of subsumed and subsuming mutants. & \cite{papadakis2016threats} \\
+\hline
+
+abs, rand\_r, ascii\_to\_bin, cal, tcas, strtol, space & 6, 23, 16, 27, 137, 93 and 5905 LOC  & 2,1, 7, 10, 1608, 628 and 100 & Evaluation of a higher order mutation testing tool. & \cite{tokumoto2016muvm} \\
+\hline
+
+branching, looping, msb, msb1, factorial, fibonacci, gcd, primepalindrome, simplemath, bubble, insertion, merge, quick, selection & 75, 48, 17,18, 11, 12, 12, 65, 32, 16, 16, 31, 29 and 21 LOC & Test suite evaluation was out of the scope. & Detection of non-equivalent mutants. & \cite{holling2016nequivack} \\
+\hline
+
+Gzip-1.6, MSMTP-1.4.32, Make 4.0, Git-2.1, GSL-1.16 and Vim-7.2 & 67950 LOC & Test suite evaluation was out of the scope. & Technique for detection of equivalent mutants & \cite{papadakis2015trivial} \\
+\hline
+
+TinyXml2 and XmlRpc++ & 2620 and 2194 LOC & 62 and 34 & Assessment of class mutation operators for C++. & \cite{delgado2015class} \\
+\hline
+
+boundedQueue, cal, Calculation, checkIt, CheckPalindrome, countPositive, date-plus, DigitReverser, findLast, findVal, Gaussian, Heap, InversePermutation, jday-jdate, lastZero, LRS, MergeSort, LRS, oddOrPos, pcal, power, print\_tokens, print\_tokens2, printPrimes, Queue, quicksort, RecursiveSort, replace, schedule, schedule2, Stack, stats, sum, tcas, testPad, totInfo, trashAndTakeOut, twoPred, UnixCal & 2853 LOC & 814 & Experimentation with mutants that involve deleting variables, operators and constants.  & \cite{delamaro2014designing} \\
+\hline
+
+Siemens (Schedule, Schedule2, Tcas, Totinfo, Replace, Printtokens, Printtokens2), Space and Flex & (296, 263, 137, 281, 513, 343, 355), 9564 and 14120 LOC & (2650 , 2710 , 1608 , 1052 , 5542 ,4130 , 4115), 13585 and 567 & Technique for detection of equivalent mutants. & \cite{papadakis2014mitigating} \\
+\hline
+
+Siemens (Tcas, Schedule, Replace), Min, Bubble Sort, Profit, Mid, Prime\_num, Triangle, Insert, Day, Calendar, Carsim, Defroster, Hashmap, Space, Flex, Make & (173, 412, 564), 10, 16, 24, 26, 27, 35, 35, 42, 137, 171, 230, 455, 9564, 10459, 35545 LOC & Test suite information not provided & Relation between operators and equivalent and stubborn mutants. & \cite{yao2014study} \\
+\hline
+
+boundedQueue, cal, Calculation, checkIt, CheckPalindrome, countPositive, date-plus, DigitReverser, findLast, findVal, Gaussian, Heap, InversePermutation, jday-jdate, lastZero, LRS, MergeSort, LRS, oddOrPos, pcal, power, print\_tokens, print\_tokens2, printPrimes, Queue, quicksort, RecursiveSort, replace, schedule, schedule2, Stack, stats, sum, tcas, testPad, totInfo, trashAndTakeOut, twoPred, UnixCal & 2853 LOC & 814 & Experimentation with mutants that involve deletion operations (delete statements). & \cite{delamaro2014experimental} \\
+\hline
+
+Siemens (Printtokens, Printtokens2, Replace, Schedule, Schedule2. Space, Tcas, Totinfo) & 343, 355, 513, 296, 263, 5905, 137 and 281 LOC & 4130, 4115, 5542, 2650, 2710, 13585, 1608 and 1052 & Semantic mutation testing approach. & \cite{clark2013semantic} \\
+\hline
+
+TimeMoney, JDepend, JTopas, Barbecue, Mime4J, Jaxen, XStream, XmlSecurity, CommonsLang, JodaTime, JMeter & 2681 , 2721 , 2901 , 5391 , 6954 , 13946 , 18369 , 19796 , 23355 , 32892 and 36910 LOC & 236, 55, 128, 154, 120, 690, 1200, 83, 1691, 3818 and 60 & Comparison between random and selective mutation testing. & \cite{zhang2013operator} \\
+
+\bottomrule                                                             
+\end{longtable}
