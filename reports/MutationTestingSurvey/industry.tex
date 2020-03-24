@@ -2,3 +2,30 @@
 
 \chapter{Mutation Testing Benchmarks}
 \label{chapter:industry}
+
+
+\section{Mutation Testing Benchmarks}
+
+In Section \ref{sec:limitations} we presented the limitations, and concretely the scalability issues of the mutation testing process. We also explained that the scalability issues of the mutation testing process are directly related to the size of the system under test and the respective test suite used to assess its adequacy. 
+
+To cope with the limitations of the mutation testing process, in Section \ref{sec:limitations} we also introduced several approaches and strategies present in the scientific literature. 
+Each of these studies, usually introduce an empirical evaluation aimed to prove or disprove a specific theory proposed by the authors. Since the size of these software under test and test suite are important to prove the validity of the proposed approach on real life software (e.g., space context software), in this chapter we present a benchmark of the most relevant empirical evaluations performed in the last eight years, collected from most important software engineering venues and journals (e.g., ICSE, ICST, ISSTA, ISSRE, AST, TSE and TOSEM), in the context of mutation testing process for C software. Section \ref{sec:benchmark} introduces a summary of the benchmark with the respective analysis.
+
+\section{Benchmarks Present in the Literature}
+\label{sec:benchmark}
+
+In the following, we introduce Table \ref{table:benchmarks}, the table shows a summary of the most relevant benchmarks targeting C software systems, used in the software engineering literature in the last eight years. 
+
+For each benchmark identified in the literature, we report (1) the case study (i.e., the software under system), (2) the size of the system being analyzed in terms of lines of code (LOC), (3) the size of the used test suite in terms of number of test cases, (4) the original goal of the evaluation for which the benchmark was performed, and (5) the actual reference to the paper in which the benchmark was originally presented. 
+
+From Table \ref{table:benchmarks} can be seen that the most used benchmark for assessing C software systems has been the Siemens suite, the programs belonging to this suite are commonly used in the software testing community, because they also provide a set of real fault useful for the validation of software testing techniques.
+From Table \ref{table:benchmarks}, it also can be appreciated the wide variety of case studies selected in the literature, while some authors decide to assess their techniques using very simple programs such as \textit{abs} \cite{tokumoto2016muvm}. Other authors preferred using Unix applications such as the Coreutils package \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}. 
+On the other hand, some authors selected very complex programs such as OpenSSL and LLVM \cite{denisov2018mull}, but usually the experiments are exercised only on small components of these large applications.
+
+Concerning the size of the selected softwares under test, the most relevant studies has been presented by Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant}. Specifically, these authors employed the case studies Coreutils, Findutils, Grep, Make and Codeflaws (83 KLOC, 18 KLOC, 9 KLOC, 35 KLOC and 266 KLOC respectively). 
+Concerning the size of the test suite employed to assess their adequacy, again Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} present the most comprehensive studies with test suite sizes ranging from 58 131, to 122 261 test cases.
+
+\input{tables/industry}
+
+
+
