@@ -40,6 +40,8 @@
 	OBSA &  & bitwise assignment & The operator OBSA performs bitwise assignment mutations.  Given $\alpha$ is a bitwise assignment operator (e.g., \&=), $\beta$ is another shift assignment operator (e.g., \textless \textless=), the mutation is performed by replacing $a\:\alpha\:b$ with $a\:\beta\:b$. & \MUSIC &  & \MuJava &  &  & \\
 	OEBA &  & bitwise assignment & The operator OEBA performs plain assignment mutations. Given $\alpha$ is a plain assignment (e.g., =), $\beta$ is another bitwise assignment operator (e.g., \&=), the mutation is performed by replacing $a\:\alpha\:b$ with $a\:\beta\:b$. & \MUSIC &  &  &  &  & \\
 	OCOR &  & casts & The operator OCOR performs mutations on cast types. In particular, modifies the type of the cast being applied by a different one. & \MUSIC &  &  &  &  & \\
+	OPPO & Yes & constants & The operator OPPO mutate expressions such as \texttt{x++} into \texttt{++x} and \texttt{x-}\texttt{-}. & \MUSIC &  &  &  &  & \\
+	OMMO & Yes & constants & The operator OMMO mutate expressions such as \texttt{-}\texttt{-x} into \texttt{x-}\texttt{-} and \texttt{++x}. & \MUSIC &  &  &  &  & \\
 	CGCR &  & constants & The operator CGCR mutate constants using other global constants in the program. & \MUSIC &  &  &  &  & \\
 	CLSR &  & constants & The operator CLSR mutates the program by replacing scalar variables with local constants. & \MUSIC &  &  &  &  & \\
 	CGSR &  & constants & The operator CGSR mutates the program by replacing scalar variables with global constants. & \MUSIC &  &  &  &  & \\
