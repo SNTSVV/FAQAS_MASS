@@ -3,14 +3,14 @@
 \subsection{Solutions to Improve Run-time Scalability}
 \label{sec:opt:execution}
 
-In the mutation testing process, the execution of mutants is the major source of scalability problems (i.e., it requires a lot of time to be completed). Indeed, with $n$ mutants for a program under test and a test suite of $m$ test cases, $n \times m$ executions are required to apply mutation testing.
+In the mutation testing process, the execution of mutants is the major source of \INDEX{scalability issues} (i.e., it requires a lot of time to be completed). Indeed, with $n$ mutants for a program under test and a test suite of $m$ test cases, $n \times m$ executions are required to apply mutation testing.
 
 %Fabrizio: I am not sure which formatting we should use for ESA. Let's try to follow the SI System
 This might make mutation testing infeasible. For example, a test suite that requires 10 hours to be executed against software under test, would require 1\,000\,000 hours or 114 years be executed against 100\,000 mutants; for a large space system with 10\,000 lines of code, 100\,000 mutants can be easily generated  with 10 mutants generated for each line of code, on average.
 
 To cope with the run-time cost of mutation testing, several solutions had been proposed in the literature, they are summarized in the following paragraphs.
 
-Random mutation testing consists of selecting randomly a certain percentage of the generated mutants. So, instead of executing all mutants only a reduced percentage is evaluated.
+\INDEX{Random mutation testing} consists of selecting randomly a certain percentage of the generated mutants. So, instead of executing all mutants only a reduced percentage is evaluated.
 
 Zhang et al. \cite{zhang2010operator} demonstrated that a test suite that is capable of killing 50\% of the mutants, results in killing more than 99\% of all mutants.
 
@@ -18,20 +18,20 @@ Gopinath et al \cite{gopinath2015hard} show that the mutation score obtained for
 In a similar fashion, Zhang et al. \cite{zhang2013operator} demonstrated that with a 5\% of random selected mutants is sufficient for predicting the mutation score.
 
 \INDEX{Selective mutation testing} relies on the idea that certain type of mutants are more important than others and may result in more representative faults. In selective mutation only a subset of operators are applied to the source code application.
-Offutt et al. \cite{offutt1996experimental}, then Andrews et al. \cite{andrews2005mutation}, and more recently Namin et al. \cite{siami2008sufficient} have worked on the sufficient set of operators. This restricted set of operators produce equivalent mutation score as broader classes of operators. Initially, this set was composed by the \textit{ABS, AOR, LCR, ROR} and \textit{UOI} classes of operators, but in the more recent work from Namin et al. \cite{siami2008sufficient} they redefined this set through a statistical analysis which identified 28 operators as the new sufficient set. According to their results, by using this set is possible to reduce the number of mutants up to 93\%. 
+Offutt et al. \cite{offutt1996experimental}, then Andrews et al. \cite{andrews2005mutation}, and more recently Namin et al. \cite{siami2008sufficient} have worked on the \INDEX{sufficient set of operators}. This restricted set of operators produce equivalent mutation score as broader classes of operators. Initially, this set was composed by the \textit{ABS, AOR, LCR, ROR} and \textit{UOI} classes of operators, but in the more recent work from Namin et al. \cite{siami2008sufficient} they redefined this set through a statistical analysis which identified 28 operators as the new sufficient set. According to their results, by using this set is possible to reduce the number of mutants up to 93\%. 
 
 More recently, Gopinath et al. \cite{gopinath2016limits} demonstrated that a maximum improvement of random over selective mutation is only a 13\%.
 
 In a different direction, Delamaro et al. \cite{delamaro2014designing,delamaro2014experimental} experimented with mutants that involve deletion operations (delete statements) and found that they form a cost-effective alternative to other operators, and selective mutation strategies, as it was found that they produce significantly less equivalent mutants (8.5\% in comparison to the average of 11.9\% during experimentation). 
 In \cite{delamaro2014experimental}, Delamaro et al. experimented with mutation operators that delete variables, operators, and constants. They show that a test suite that kills the mix of OODL (arithmetic and relational operators) and SSDL (statements) mutants kill a very high percentage of all mutants (97\% of mutation score).
 
-Some other solutions rely on code coverage. Mutants that belong to code locations that are not exercised by any test case should not be executed because there is no chance of being killed. Code coverage collected during the execution of the test suite against the original software can be used to determine if a code location is exercised; this approach has been implement by the Proteum tool \cite{delamaro1996proteum}.
+Some other solutions rely on \INDEX{code coverage}. Mutants that belong to code locations that are not exercised by any test case should not be executed because there is no chance of being killed. Code coverage collected during the execution of the test suite against the original software can be used to determine if a code location is exercised; this approach has been implement by the Proteum tool \cite{delamaro1996proteum}.
 Similarly, mutants that have been already killed by a test case should not be executed against other test cases.
 
-Other solutions concern the prioritization of test cases. Just et al. \cite{just2012using} and Zhang et al. \cite{zhang2013faster} proposed to sort test cases to kill mutants as early as possible, e.g., by executing first the test cases with a shorter runtime~\cite{just2012using}. 
+Other solutions concern the \INDEX{prioritization of test cases}. Just et al. \cite{just2012using} and Zhang et al. \cite{zhang2013faster} proposed to sort test cases to kill mutants as early as possible, e.g., by executing first the test cases with a shorter runtime~\cite{just2012using}. 
 
 %Papadakis and Malevris \cite{papadakis2011automatically} gave a step further in this research line, and proposed that a way to prioritise the  different mutants is by assessing in advance which of the mutants are actually modifying the variables that check the killing condition of the mutant, i.e., the final assertion of a test case, and prioritise them over mutants that do not modify variables related to the killing condition.
-Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the killing condition of the mutant (i.e., the test inputs that lead the mutant to be killed). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
+Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the \INDEX{killing condition} of the mutant (i.e., the test inputs that lead the mutant to be killed). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
 
 
 The use of weak and firm mutation over strong mutation may speed up mutation testing as well.
@@ -47,17 +47,17 @@ For this reason, several mutation tools rely on time thresholds to force the ter
 
 Usually \cite{papadakis2019mutation} the execution is terminated when the execution time of a test case against a mutated program takes more than three times the execution time required for the original program.
 
-King and Offutt \cite{king1991fortran} presented split-stream execution, a technique that takes advantage of the fact that a program and its mutants share most of the execution parts. Instead of having one executable per mutant it could be possible to generate a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}, thus saving time and resources. 
+King and Offutt \cite{king1991fortran} presented \INDEX{split-stream} execution, a technique that takes advantage of the fact that a program and its mutants share most of the execution parts. Instead of having one executable per mutant it could be possible to generate a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}, thus saving time and resources. 
 
 An orthogonal solution is to reduce and/or prioritise the number of test cases that are executed during mutation testing.
 
-For test case reduction, the idea is to remove those test cases that are somehow redundant (e.g., test cases that when removed from the test suites do not change the mutation score).
+For \INDEX{test case reduction}, the idea is to remove those test cases that are somehow redundant (e.g., test cases that when removed from the test suites do not change the mutation score).
 
 In this direction, Usaola et al. \cite{usaola2012reduction} proposed a greedy algorithm that selects iteratively the test cases that kill the most mutants that were not killed by the previously selected test cases. 
 Also, Shi et al. \cite{shi2014balancing} assessed the effects of reducing the size of test suites, and confirmed empirically on an experiment guided on 18 projects with a total of 261\,235 test cases, that is actually possible to maintain the mutation score and reduce test suite size without loss of fault detection. 
 In the same line, Zhang et al. \cite{zhang2013faster} suggest to define a subset of tests of the original test suite and to run the mutants against the subset, their assumption is that if the mutants cannot be killed by the subset, neither the original test suite will be able to kill the mutants.
 
-For test case prioritization, the idea is to sort the test cases in order to kill the mutants as early as possible. For instance, Just et al. \cite{just2012using} proposed to use execute first those test cases with shorter runtime for time saving.
+For \INDEX{test case prioritization}, the idea is to sort the test cases in order to kill the mutants as early as possible. For instance, Just et al. \cite{just2012using} proposed to use execute first those test cases with shorter runtime for time saving.
 Zhang et al. \cite{zhang2013faster} proposed two approaches for sorting the test cases; the first is based on the coverage and states that test executing the mutated statement more times have a higher probability to kill the mutant and therefore should be prioritized, the second approach states that a test that killed more mutants that are close to the mutant being tested has a higher likelihood to kill the current mutant. 
 
-Other approaches involve the use of compiler optimisations \cite{papadakis2015trivial,kintis2017detecting} as a way to identify equivalent and redundant mutants and, consequently, speed up the mutant execution phase. Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} rely on compiler optimisations to compile mutants and original programs; if the executable code of the original program and one of its mutants match, then the mutant is said to be equivalent and discarded. The same solution can be used to determine if one or more mutants are redundant with each other. The number of compiled mutants gets naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.
+Other approaches involve the use of \INDEX{compiler optimisations} \cite{papadakis2015trivial,kintis2017detecting} as a way to identify equivalent and redundant mutants and, consequently, speed up the mutant execution phase. Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} rely on compiler optimisations to compile mutants and original programs; if the executable code of the original program and one of its mutants match, then the mutant is said to be equivalent and discarded. The same solution can be used to determine if one or more mutants are redundant with each other. The number of compiled mutants gets naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.

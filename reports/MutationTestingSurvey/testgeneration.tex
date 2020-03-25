@@ -12,7 +12,7 @@ in the program state right after the mutated code in comparison to the non-mutat
 and manifest these corruptions into the program output 
 %Fabrizio: an assertion is not an output
 (e.g., by producing an erroneous value in a state variable verified by a test assertion) 
-thus leading to a software failure \cite{papadakis2019mutation}, these conditions are also known as the killing conditions of a mutant.
+thus leading to a software failure \cite{papadakis2019mutation}, these conditions are also known as the \INDEX{killing conditions} of a mutant.
 
 In the literature, there exist two groups of approaches for 
 %driving automated test generation processes aimed to kill mutants, based on the above mentioned conditions. 
@@ -28,7 +28,7 @@ approaches based on constraint-programming, and approaches based on evolutionary
 
 Techniques based on constraint programming use some form of automated reasoning (e.g., Propositional Satisfiability or Constraint Solving~\cite{SATandCPsurvey:2006}) to derive data that satisfy all the conditions necessary to kill a mutant~\cite{offutt1997automatically}.
 
-One possibility consists of generating constraints that capture the three killing conditions of a mutant: reachability (i.e, the test case should execute the mutated statement), necessity (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and sufficiency (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
+One possibility consists of generating constraints that capture the three killing conditions of a mutant: \INDEX{reachability} (i.e, the test case should execute the mutated statement), \INDEX{necessity} (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and \INDEX{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
 
 Offutt et al. \cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
 Then, such constraints are encoded to form a constraint system, in their approach, they propose three strategies for identifying infeasible constraint systems, the contradictions to such systems are the new test cases for the program under analysis.
@@ -45,7 +45,7 @@ In the following, we introduce an example of the application of Offutt's \cite{o
 
 $C_R$ defines the condition required to reach the mutated statement, in this case the conjunction between the predicate of the first if condition and the negation of the second if condition. $C_N$ defines the condition required to assure a different program state between the original and mutated version of the program right after the mutation point. Finally, $C_S$ defines the condition necessary to demonstrate that both the original and the mutated program returns different values.
 
-Holling et al. \cite{holling2016nequivack} proposed to use a symbolic execution approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
+Holling et al. \cite{holling2016nequivack} proposed to use a \INDEX{symbolic execution} approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
 
 % Symbolic execution
 
@@ -90,18 +90,18 @@ A new test case exercising function \texttt{isPositive} with \texttt{num=0} shou
 
 \input{listings/holling_approach}
 
-Similarly to Holling's approach, Riener et al. \cite{riener2011test} proposed to use bounded model checking techniques to search for these counter examples.
+Similarly to Holling's approach, Riener et al. \cite{riener2011test} proposed to use \INDEX{bounded model checking} techniques to search for these counter examples.
 In their bounded model checking approach, the original program and the mutant are unrolled with respect to a certain maximum bound. In program unrolling, loops are re-written as a repeated sequence of similar independent statements. Then, both unrolled programs are encoded into a logic formula over the same input variables. To ensure that the mutation affects the output of the mutant, a propagation condition is encoded and added to the previous logic formula, the condition asserts that there exist at least one pair of different outputs under the assumption of equal inputs. In the last step, the formula is handled by a SMT-solver, if the solver finds a satisfying assignment, the inputs of the formula are translated into a new test case for the current program under analysis.
 
 %F: you should explain what is bounded-model checking. If Riener do not provide background you can check my ISSTA'14 paper (Verification-Aided Regression Testing), there is a background section (2) on bounded model checking that starts with "The idea in BMC is to represent ..."
 
 Compared to symbolic execution, one advantage of bounded model checking is that it does not require to process all the functions.
 
-To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and mutant schemata to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets weak mutation testing and may not generalize to firm mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
+To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and \INDEX{mutant schemata} to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets \INDEX{weak mutation} testing and may not generalize to firm mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
 
 \subsection{Test Generation based on Evolutionary Computation}
 
-Test generation approaches based on evolutionary computation typically rely on population-based meta-heuristic optimization algorithms~\cite{harman2011strong}. 
+Test generation approaches based on \INDEX{evolutionary computation} typically rely on population-based meta-heuristic optimization algorithms~\cite{harman2011strong}. 
 They search for program inputs that could kill mutants under the guidance of a fitness function~\cite{harman2011strong}. 
 
 The main research problem of these methods is the definition of fitness functions that capture the killing conditions of a mutant, and that identifies test inputs that satisfies those conditions.

@@ -27,7 +27,7 @@ Previous studies showed redundancies between mutation operators and proved that 
 More recently, Delamaro et al. \cite{delamaro2014designing} designed deletion operators, and found that they form a cost-effective alternative to other operators, i.e., they produce less redundant mutants. The deletion operator by itself has been proven to be the most effective for fault detection \cite{delamaro2014designing}.
 
 %With a different perspective, 
-Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy (i.e., they generate new test inputs) for selecting the test cases able to effectively kill mutants using symbolic execution, and to consequently decrease the number of redundant mutants. 
+Papadakis and Malevris \cite{papadakis2012mutation} and then Kurtz et al. \cite{kurtz2015static} proposed a path selection strategy (i.e., they generate new test inputs) for selecting the test cases able to effectively kill mutants using \INDEX{symbolic execution}, and to consequently decrease the number of redundant mutants. 
 The authors suggest constrained versions of the logical, relational and unary operators for generating less redundant mutants. 
 In a similar manner, Just et al. \cite{just2012redundant,just2015higher} proved that these three operators are better at detecting faults that the rest of mutation operators.
 
@@ -36,13 +36,13 @@ developed a selective approach for reducing the number of mutants without loss o
 
 The approach introduces a degree of redundancy for every mutation operator that helps developers to choosing the mutation operators with a lower degree of redundancy, based on the test cases defined in the project.
 
-Another solution to reduce the number of redundant mutants is the application of trivial compiler optimisations \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
+Another solution to reduce the number of redundant mutants is the application of trivial \INDEX{compiler optimisations} \cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
 It can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al. \cite{kintis2017detecting} showed that by using compiler optimisations it is possible to reveal 21\% and 5.4\% of C and Java mutants, respectively.
 
 
 Finally, Shin et al. suggest to avoid discarding redundant mutants but, instead, augment the test suite with additional test cases so that 
 each mutant can trigger a test failure that cannot be observed with other mutants~\cite{Shin:TSE:DCriterion:2018}. 
-They introduce the distinguishing mutation adequacy criterion to characterize test suites in which every mutant triggers a test failure that is not observed with other mutants.
+They introduce the \INDEX{distinguishing mutation adequacy criterion} to characterize test suites in which every mutant triggers a test failure that is not observed with other mutants.
 Empirical results show that test suites that satisfy the distinguishing mutation adequacy criterion have a higher
  fault detection effectiveness than test suites that simply satisfy mutation coverage.
 

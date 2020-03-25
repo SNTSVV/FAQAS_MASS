@@ -4,11 +4,11 @@
 \label{sub:compileTime}
 \label{sec:opt:selection}
 
-Another source of scalability issues is the compilation of mutants;
+Another source of \INDEX{scalability issues} is the compilation of mutants;
 indeed, because of the large number of mutation operators available in the literature, the number of mutants to be compiled is not negligible. In this section we report the main research results aiming at reducing the time required to compile mutants.
 %has worked on approaches based on optimising the compilation process.
 
-Untch et al. \cite{untch1993mutation} proposed a technique called \emph{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
+Untch et al. \cite{untch1993mutation} proposed a technique called \INDEX{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
 
 Another solution consists of mutating directly the compiled code so that mutants can be executed without compiling each of them.
 This optimisation has been applied on Java bytecode \cite{ma2006mujava}, Common Intermediate Language (.NET) \cite{derezinska2011object} and LLVM bitcode \cite{hariri2016evaluating}. Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, 

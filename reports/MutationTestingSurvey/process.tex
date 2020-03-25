@@ -85,7 +85,7 @@ the reduction of the compilation iterations, the reduction of the execution time
 To reduce the number of program versions that need to be compiled and executed, existing approaches automatically select subsets of the generated mutants. Two main mutant selection approaches have been defined: the selection of representative mutation operators and the random selection of mutants \cite{zhang2010operator}. The first approach consists of the empirical identification of a subset of mutation operators that is sufficient to predict the mutation score \cite{siami2008sufficient,barbosa2001toward}. The second approach consists of randomly selecting a certain percentage of mutants from the generated ones \cite{wong1995reducing}, possibly with a uniform distribution of the different mutation operators \cite{zhang2010operator}. Empirical results with academic case studies \cite{zhang2010operator} show that the first approach is not superior to random selection when selecting the same number of mutants. Other work \cite{zhang2013operator} show that the combination of operator-based selection and random sampling leads to better results since it leads to high mutation score (above 98\%) while reducing the average mutation testing time to 6.54\%. The use of higher-order mutants is another solution to reduce the overall number of mutants. 
 Other optimizations are framework specific, for example, Mull limits mutations to reachable code \cite{hariri2018srciror}. Section~\ref{sec:opt:selection} provides an overview of mutant selection approaches.
 
-To reduce the time spent in the compilation of the generated mutants, mutant schemata \cite{untch1993mutation} consist of encoding all the mutants in a single file and parametrize the mutant execution so that mutants are compiled in a single pass and selected at runtime. Section~\ref{sub:compileTime} provides an overview of compile-time optimization approaches.
+To reduce the time spent in the compilation of the generated mutants, \INDEX{mutant schemata} \cite{untch1993mutation} consist of encoding all the mutants in a single file and parametrize the mutant execution so that mutants are compiled in a single pass and selected at runtime. Section~\ref{sub:compileTime} provides an overview of compile-time optimization approaches.
 
 Another optimization that speeds up the compilation of mutants concerns the identification of equivalent and redundant mutants. Equivalent mutants are mutants that behave as the original program, while redundant mutants are mutants that lead to the same test failures. 
 
@@ -98,12 +98,12 @@ Even though, both versions of the function are syntactically different, semantic
 
 To detect if a program and one of its mutants are
 equivalent is undecidable~\cite{Budd:1982}; however, heuristics to partially address the problems have been defined in the literature.
-Trivial compiler optimization might be adopted to detect both equivalent and redundant mutants; it relies on the idea that source code that leads to the same program behaviour often belongs to the same optimized compiled code \cite{papadakis2015trivial}. Other approaches concern the adoption of symbolic execution \cite{papadakis2012mutation,kurtz2015static} and the runtime monitoring of the SUT (e.g., mutants that lead to the same execution paths are likely equivalent \cite{schuler2013covering}). Finally, Shin et al. proposed the \emph{distinguishing mutation adequacy criterion}, which aims to ensure that the test suite includes enough different test inputs so that every mutant is distinguished by each other, if feasible~\cite{shin2017theoretical}. 
+Trivial compiler optimization might be adopted to detect both equivalent and redundant mutants; it relies on the idea that source code that leads to the same program behaviour often belongs to the same optimized compiled code \cite{papadakis2015trivial}. Other approaches concern the adoption of \INDEX{symbolic execution} \cite{papadakis2012mutation,kurtz2015static} and the runtime monitoring of the SUT (e.g., mutants that lead to the same execution paths are likely equivalent \cite{schuler2013covering}). Finally, Shin et al. proposed the \emph{distinguishing mutation adequacy criterion}, which aims to ensure that the test suite includes enough different test inputs so that every mutant is distinguished by each other, if feasible~\cite{shin2017theoretical}. 
 Solutions to address the problem of identifying equivalent and redundant mutants are detailed in Sections~\ref{sec:opt:equivalent} and~\ref{sec:opt:redundant}, respectively.
 
 
-A well-known optimization to \emph{reduce execution time} is the split-stream optimization, which consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}. With split-stream, the code shared among multiple mutants is executed only once thus saving time and resources. Other execution optimizations consist of minimizing the number of processes being created by sharing one single process among mutants that bring the system into the same state \cite{wang2017faster}.
-Section~\ref{sec:opt:execution} provides an overview of techniques to reduce execution time and, more generally, address run-time scalability issues.
+A well-known optimization to \emph{reduce execution time} is the \INDEX{split-stream} optimization, which consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{tokumoto2016muvm}. With split-stream, the code shared among multiple mutants is executed only once thus saving time and resources. Other execution optimizations consist of minimizing the number of processes being created by sharing one single process among mutants that bring the system into the same state \cite{wang2017faster}.
+Section~\ref{sec:opt:execution} provides an overview of techniques to reduce execution time and, more generally, address run-time \INDEX{scalability issues}.
 
 \subsubsection{Analyze results}
 
@@ -112,7 +112,7 @@ The \emph{analysis of test results} concerns the identification of mutants that 
 
 In the examples concerning the mutation of function \texttt{isPalindrome}, mutants \textit{M1, M2, M3, M4, M5} and \textit{M6} are killed, instead mutant \textit{M7} is alive.
 
-The identification of killed and live mutants enable the definition of a mutation adequacy criterion as follow, \emph{a test suite is mutation-adequate if all mutants are killed by at least one test of the test suite}. 
+The identification of killed and live mutants enable the definition of a \INDEX{mutation adequacy criterion} as follow, \emph{a test suite is mutation-adequate if all mutants are killed by at least one test of the test suite}. 
 Also, the percentage of killed mutants is used to quantitatively measure the quality of a test suite. This measure is referred to as \emph{mutation score}.
 
 \DONE{Add comment concerning the example.}
@@ -161,7 +161,7 @@ More precisely, we should introduce a test case that exercises an odd non-palind
 \DONE{If there are multiple live mutant, please add an example for each}
 
 %To this end, mutants could be ranked according to their importance in order to ensure that, for a given test budget, the most relevant mutants are considered first. MuRanker \cite{namin2015muranker}, for example, ranks mutants according to their predicted difficulty and complexity in being detected. 
-To automate the generation of test cases, existing work investigates the adoption of the KLEE symbolic execution engine \cite{holling2016nequivack} and the use of bounded model checking \cite{riener2011test}. Other work combines dynamic symbolic execution (DSE) with search-based software testing (SBST) to generate test inputs that lead to strong mutations \cite{harman2011strong}. 
+To automate the generation of test cases, existing work investigates the adoption of the KLEE \INDEX{symbolic execution} engine \cite{holling2016nequivack} and the use of \INDEX{bounded model checking} \cite{riener2011test}. Other work combines dynamic symbolic execution (DSE) with \INDEX{search-based software testing} (SBST) to generate test inputs that lead to strong mutations \cite{harman2011strong}. 
 
 
 Concerning the automated generation of test oracles, 
