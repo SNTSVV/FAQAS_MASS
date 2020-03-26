@@ -1,7 +1,7 @@
 % !TEX root = ../MutationTestingSurvey.tex
-\begin{minipage}{10cm}
+\begin{minipage}{14cm}
 \footnotesize
-\begin{lstlisting}[caption=JSON grammar provided in~\cite{GramTest}., label=JSONgrammar]
+\begin{lstlisting}[caption=JSON grammar provided in~\cite{GramTest}. BNF notation with optional items enclosed in square brackets., label=JSONgrammar]
 <JSON>      ::= <object> | <array>
 <array>     ::= "[" <value> {"," <value>} "]"
 <object>    ::= "{" <property> {"," <property>} "}"
@@ -11,10 +11,60 @@
 <string>    ::= """ <alphas> """
 <alphas>    ::= <alpha> [<alphas>]
 <number>    ::= <digit> [<number>]
-<alpha>	    ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | 
-		p | q | r | s | t | u | v | w | x | y | z | A | B | C | D | 
-		E | F | G | H | I | J | K | L | M | N | O | P | Q | R | 
-		S | T | U | V | W | X | Y | Z
+<alpha>	    ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 <digit>     ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+\end{lstlisting}
+\end{minipage}
+
+
+%for https://bnfplayground.pauliankline.com/?bnf=%3Creal%3E%20%3A%3A%3D%20%3Cpos%3E%20%7C%20%3Cneg%3E%0A%3Cpos%3E%20%3A%3A%3D%20(%220%22%20%7C%20%20%5B1-9%5D%20%5B0-9%5D*)%20(%22.%22%20%5B0-9%5D%2B%20)%3F%0A%3Cneg%3E%20%3A%3A%3D%20%22-%22%20%3Cpos%3E&name=Real%20Numbers
+%
+
+\begin{minipage}{14cm}
+\footnotesize
+\begin{lstlisting}[caption=JSON grammar provided in~\cite{GramTest}. EBNF notation that can be parsed with online tools~\cite{bnfplayground}., label=JSONgrammarEBNF]
+<JSON>      ::= <object> | <array>
+<array>     ::= "[" <value> ("," <value>)? "]"
+<object>    ::= "{" <property> ("," <property>)+ "}"
+<property>  ::= <string> ":" <value>
+<value>     ::= <object> | <array> | <boolean> | <string> | <number>
+<boolean>   ::= "true" | "false"
+<string>    ::= "'" <alphas> "'"
+<alphas>    ::= <alpha> (<alphas>)?
+<number>    ::= <digit> (<number>)?
+<alpha>	    ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+<digit>     ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+\end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{14cm}
+\footnotesize
+\begin{lstlisting}[caption=Example JSON file with information about a person., label=JSONfile]
+{
+ [
+ {
+  "firstName": "Fabrizio",
+  "lastName": "Pastore",
+  "isAlive": true,
+  "address": {
+    "streetAddress": "29, Avenue J.F Kennedy",
+    "city": "Luxembourg",
+    "state": "Luxembourg",
+    "postalCode": "L-1855"
+  },
+  },
+  {
+  "firstName": "Oscar",
+  "lastName": "Cornejo",
+  "isAlive": true,
+  "address": {
+    "streetAddress": "29, Avenue J.F Kennedy",
+    "city": "Luxembourg",
+    "state": "Luxembourg",
+    "postalCode": "L-1855"
+  },
+  }
+  ]
+}
 \end{lstlisting}
 \end{minipage}

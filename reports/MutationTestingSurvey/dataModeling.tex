@@ -14,9 +14,9 @@ Three are the main solutions adopted for data modeling, the use of grammars~\cit
 \subsubsection{Data modeling with grammars}
 
 Grammar-based approaches rely on a context-free grammar to specify the format of the data to be mutated. 
-\MREVISION{C30}{Listing~\ref{JSONgrammar} shows an example of grammar for the JSON format.}
+\MREVISION{C30}{Listing~\ref{JSONgrammar} shows an example of a grammar for the JSON format in BNF notation. Listing~\ref{JSONgrammarEBNF} shows the same grammar in EBNF notation. Listing~\ref{JSONfile} shows an example JSON file.}
 
-Grammars are used by fuzzying approaches that alter input files to perform robustness testing~\cite{ghosh1998testing} and security testing. They might be used to perform black-box mutations~\cite{ghosh1998testing} or white-box mutations that leverage code analysis to augment the coverage of the SUT~\cite{Godefroid:GrammarBasedFuzzying:2008}.
+Grammars are used by fuzzing approaches that alter input files to perform robustness testing~\cite{ghosh1998testing} and security testing. They might be used to perform black-box mutations~\cite{ghosh1998testing} or white-box mutations that leverage code analysis to augment the coverage of the SUT~\cite{Godefroid:GrammarBasedFuzzying:2008}.
 The main limitation of grammars is that they cannot be used to encode integrity constraints such as size-of, offset-of, length-of and checksums~\cite{pham2016model}. 
 %JSONgrammar
 
