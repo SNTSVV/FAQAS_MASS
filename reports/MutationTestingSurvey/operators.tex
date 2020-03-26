@@ -1,15 +1,16 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Mutation Operators}
+\subsection{Mutation Operators}
 \label{sec:operators}
 
-Mutation testing introduces small syntactical changes into the code of a program (source code, intermediate representation, or executable code) through a set of mutation operators.
-The goal of the mutation operators is to simulate artificial faults by systematically introducing  simple syntax changes based on errors that programmers typically make.
+Mutation testing introduces small syntactical changes into the code of a program \MREVISION{C8}{(source code, intermediate representation, or executable code)} through a set of mutation operators.
+The goal of the mutation operators is to simulate artificial faults by systematically introducing  simple syntax changes \MREVISION{C9}{based on errors that programmers typically make. 
+Each of these operators model a specific type of fault. For example the use of a wrong variable is a fault, and the \emph{variable references} category of operators, introduced later in this section, model this type of fault.}
 
 %Mutation operators have two goals, (1) induce simple syntax changes based on errors that programmers typically make, and (2) force common testing goals (e.g., code coverage testing).
 %FABRIZIO: not clear what you mean with "force common testing goals (e.g., code coverage testing)."
 
-Table~\ref{table:codeoperators} provides an overview of existing mutation operators that can be applied in the context of space software and embedded systems.
+Table~\ref{table:codeoperators} provides an overview of existing mutation operators that can be applied in \MREVISION{C10}{the context of space software and embedded systems.}
 We selected operators for programming languages likely adopted in the context of space and embedded systems. These include operators dedicated to the C and C++ programming language, operators targeting Low-Level Intermediate Representation (LLVM-IR), operators dedicated to the ADA programming language, operators for the SQL and Simulink languages, operators that can be applied to any Object Oriented programming language but for which an implementation dedicated to C++ is not available.
 
 The operators appearing in Table~\ref{table:codeoperators} are organized in 26 categories: ADA tasks, arithmetic, bitwise, casts, constants, control-flow, coverage, deletion, ADA expressions, floating points, function calls, logical, memory operations, object-oriented, ADA operands, relational, variable references, shift, SQL, statements, strings, structures, higher-order, system-configuration and system-level operators. \MREVISION{C11.d}{For each operator, we provide the name consistently used in the literature. The name of an operator is usually an acronym for the change performed in the source code (e.g., \emph{SDL} stands for \emph{statement deletion operator}).} In the following, we provide an overview of each category:
@@ -34,7 +35,7 @@ The operators appearing in Table~\ref{table:codeoperators} are organized in 26 c
 \item Category \emph{statements} includes operators performing syntactical changes at a statement-level granularity.
 \item Category \emph{strings} includes operators that performs mutations on variables of string type.
 \item Category \emph{structures} includes operators that mutate C/C++ structures.
-\item Category \emph{higher-order} includes operators for generating second- and higher-order mutants. These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults \cite{jia2009higher}. 
+\item Category \emph{higher-order} includes operators for generating second- and higher-order mutants. \MREVISION{C11.c}{These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults \cite{jia2009higher}. Usually, each operator of this category introduce a strategy on how to combine first order operators to form a higher-order one. For example, the \emph{RMix} operator combines any two randomly selected first order operator to generate a higher-order mutant.} 
 %Fabrizio: "vulnerability" is a term relates to security, we should not use it except of these system-level class concerns only security
 %Category \emph{system-level} includes operators that performs mutations at a system-level; usually, these mutations seek vulnerabilities on the different system functionalities. 
 \item Category \emph{system-configuration} includes operators that perform mutations at a system-configuration level; usually, these mutation operators aim to cause faults concerning the configuration of the system itself.
@@ -78,4 +79,11 @@ Table~\ref{table:codeMutation:references} provides the names of the tools and ap
 \input{tables/code_operators_references}
 
 \input{tables/code_operators}
+
+\MREVISION{C11.b}{Table \ref{table:codeoperatorssummary} shows a summary of the number of operators we collected for each category and the context where they can be applied. The table also provides a strategy to prioritize the mutation operators for space-context software. In particular, in the last column \textit{Relevance for FAQAS} we prioritized the categories according to the effectiveness and ease of implementation. 
+Based on this criterion, we selected \INDEX{deletion operators} as the most relevant, since according to the literature they form a cost-effective alternative to other operators in terms of amount of mutants produced and equivalent mutants \cite{delamaro2014designing}. 
+Following the same criterion, we then selected the \INDEX{sufficient set of operators}, because most of the mutation tools already implement them, and because they are proven to be fault-detection effective \cite{offutt1996experimental,andrews2005mutation,siami2008sufficient}.
+}
+
+\input{tables/code_operators_summary}
 
