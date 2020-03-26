@@ -4,24 +4,38 @@
 \label{chapter:trends}
 
 
-\section{Mutation Testing Trends}
+%\section{Mutation Testing Trends}
 
-This section introduces the trends on how mutation testing has been used beyond test assessment.
+This chapter provides an introductory overview on the use of mutation testing beyond test assessment.
 
-Mutation testing has been used since it was introduced in the early 1970s, as an indicator of test effectiveness \cite{DeMillo78}. Actually, mutation testing is being used increasingly as baseline methodology for assessing different testing techniques \cite{chekam2017empirical}.
+Since it's definition in the early 1970s, mutation testing has been used 
+%Fabrizio: the sentence below means "test assessment" so is our of the scope of this chapter
+%as an indicator of test cases effectiveness \cite{DeMillo78} and 
+as baseline methodology for assessing software testing techniques \cite{chekam2017empirical}.
 
-Contrarily to this focus, now researchers are shifting their interest into the exploration of the mutant behaviors \cite{papadakis2019mutation}. The idea nowadays is to focus on the functional and non-functional characteristics that each mutant can introduce into the software under test.
-Researchers have exploited this concept to develop methods that automatically localize faults \cite{papadakis2015metallaxis}, repair software \cite{le2011genprog}, improve security properties \cite{loise2017towards} and improves memory consumption \cite{langdon2017genetic}.
 
+Nowadays, researchers are shifting their interest to the exploration of mutants' behaviors \cite{papadakis2019mutation}. 
+More precisely, there is interest into studying the functional and non-functional characteristics that each mutant can introduce into the software under test.
+Researchers have exploited this concept to develop methods that automatically \INDEX{improve fault detection}~\cite{zhang2016isomorphic}, \INDEX{localize faults} \cite{papadakis2015metallaxis}, \INDEX{repair software}~\cite{le2011genprog}, \INDEX{improve security properties}~\cite{loise2017towards} and \INDEX{reduce memory consumption}~\cite{langdon2017genetic}.
+For example, Zhang et al. \cite{zhang2016isomorphic} used mutants to improve the fault detection ability of regression test suites. The approach mutates both the old and new version of the program under analysis. For every mutation applied, the approach executes the old and the new version against the same test suite, if there are differences between the output of the two executions then a problem has been found.
 
-Beyond typical code-drive mutation testing process, the mutation concept has been also applied to model artifacts, this line of research is called model-based mutation testing. The objective of these techniques is to identify defects related to missing functionalities and misinterpreted specifications \cite{devroey2016featured,belli2016model}.
+\TODO{It would be nice to have a more detailed description of model based mutation testing, not sure what is feasible.}
 
-Lately, the mutation testing approach has been also applied to security testing, specifically to applications on testing security policies. For example, Mouelhi et al. \cite{mouelhiv2008generic} proposed a meta-model that captures security policy rules, then they mutate the model by applying a set of operators that will simulate faults in the instantiations of the model. 
+Beyond typical code-drive mutation testing process, the mutation concept has also been applied to model artifacts, this line of research is called \INDEX{model-based mutation testing}. The objective of these techniques is to identify faults related to missing functionalities and misinterpreted specifications \cite{devroey2016featured,belli2016model}.
+In a similar fashion, it has been applied to relational database schemas \cite{wright2013efficient}.
 
-On a different perspective, Patrick and Jia \cite{patrick2015kernel} proposed a technique to support adaptive random testing (i.e., adaptive random testing seeks to distribute test cases more evenly within the input space). In particular, this technique guides the test selection process based on the killed mutants to improve the fault revelation ability of the approach.
+\TODO{We may write what is the objective of mutating DB schema}
 
-Additionally, mutation testing has been used to automatically detect loop invariants by applying mutations to postconditions clauses \cite{galeotti2015inferring}. It has been used also for measuring code coverage in time-sensitive systems \cite{pankumhang2015iterative}. It has been used for supporting software verification tasks \cite{groce2015verified}. Mutation analysis has been also used for creating software clones \cite{roy2009mutation}. In other contexts, Zhang et al. \cite{zhang2016isomorphic} used mutants to improve the fault detection ability of regression test suites, the approach mutates both the old and new version of the program under analysis, then both versions are executed against the same test suite, if there are differences between the output of both execution then a problem has been found.
-The mutation testing approach has been also applied to relational database schemas \cite{wright2013efficient}. More recent approaches such as Predictive Mutation Testing \cite{zhang2018predictive} make use of machine learning techniques for predicting if a certain mutant will be killed against a certain test suite.
+\index{Testing security policies}
+Mutation testing has been also applied to security testing, specifically to test security policies. For example, Mouelhi et al. \cite{mouelhiv2008generic} proposed a meta-model that captures security policy rules, then they mutate the model by applying a set of operators that will simulate faults in the instantiations of the model. 
+
+On a different perspective, Patrick and Jia \cite{patrick2015kernel} proposed a technique based on mutation testing to support \INDEX{adaptive random testing}.
+\TODO{Is this ok?}
+Adaptive random testing is an approach to select test inputs to maximize the exploration of the input space.
+%seeks to distribute test cases more evenly within the input space). 
+The proposed technique improves the fault revelation ability of adaptive random testing by guiding the test input selection process towards the generation of test cases that kill mutants.
+
+Mutation testing has also been used to \INDEX{automatically detect loop invariants} by applying mutations to postconditions clauses \cite{galeotti2015inferring}. It has been used to measure code coverage in time-sensitive systems \cite{pankumhang2015iterative}, to support software verification tasks \cite{groce2015verified}, and to create software clones \cite{roy2009mutation}.  \INDEX{Predictive mutation testing}\cite{zhang2018predictive} makes use of machine learning to predict if a certain mutant will likely be killed by a test suite.
 
 
 
