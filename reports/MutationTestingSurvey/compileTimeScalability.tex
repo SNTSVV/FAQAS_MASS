@@ -11,5 +11,16 @@ indeed, because of the large number of mutation operators available in the liter
 Untch et al. \cite{untch1993mutation} proposed a technique called \INDEX{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
 
 Another solution consists of mutating directly the compiled code so that mutants can be executed without compiling each of them.
-This optimisation has been applied on Java bytecode \cite{ma2006mujava}, Common Intermediate Language (.NET) \cite{derezinska2011object} and LLVM bitcode \cite{hariri2016evaluating}. Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, 
-the mutation testing process mutating compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code.
+This optimisation has been applied on 
+Assembly languages \cite{crouzet2006sesame},
+Java bytecode \cite{ma2006mujava}, 
+binary code for embedded software \cite{becker2012xemu},
+Common Intermediate Language (.NET) \cite{derezinska2011object} 
+and LLVM IR \cite{hariri2016evaluating}. 
+Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, the mutation testing process mutating compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code. 
+Additionally, the mutations performed on compiled code can be applied directly to multiple source languages (e.g., LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA) \cite{hariri2019comparing}.
+However, there are some drawbacks when mutating compiled code, for example many of the mutations generated cannot be represented at the source code level \cite{jia2010analysis}, creating not relevant mutations. 
+In the case of mutation of binary code, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions \cite{becker2012xemu}.
+
+
+

@@ -11,8 +11,12 @@
 \begin{longtable}{|p{1.2cm}|p{12cm}|@{}}
 %\caption{\normalsize .}
 \label{table:comments:responses} \\
-C1&
-\begin{minipage}{8cm}Please, consider the following suggestions:\\- Add a table to keep the change record or the document (the table could have e.g. Issue number, Date, Change description, and Author)\\- Add a Table of Contents\\- Add an introduction chapter, with scope of the document, applicable and reference documents, and acronyms and abbreviations\\
+C1&
+\begin{minipage}{8cm}
+Please, consider the following suggestions:\\
+- Add a table to keep the change record or the document (the table could have e.g. Issue number, Date, Change description, and Author)\\
+- Add a Table of Contents\\
+- Add an introduction chapter, with scope of the document, applicable and reference documents, and acronyms and abbreviations\\
 \end{minipage}
 \\
 \cmidrule{2-2}
@@ -23,35 +27,45 @@ We have added acronyms to the introduction.
 \end{minipage}
 \\
 \hline
-C2&When generating the pdf file, make sure to have the index of the document on the left, so that the document is easier to navigate.
+C2
+&When generating the pdf file, make sure to have the index of the document on the left, so that the document is easier to navigate.
 \\
 \cmidrule{2-2}
 &
-\TODO{Cannot understand what is the point of this comment.}\\
-\hlineC3&Try to make the document a bit more friendly to read (e.g. by adding some sentences in bold (see the highlighted ones for this paragraph), making biggerseparation between paragraphs, ...).
+\DONE{Cannot understand what is the point of this comment. Oscar: I can see the bookmarks of the document on the left, I think that is what he wants.}
+\\
+\hline
+C3&
+Try to make the document a bit more friendly to read (e.g. by adding some sentences in bold (see the highlighted ones for this paragraph), making bigger
+separation between paragraphs, ...).
 \\
 \cmidrule{2-2}
 &We have implemented the two suggestions proposed.
 \\
 \hline
-C4&It is perhaps interesting to add a chapter with some basic definitions?e.g. equivalent mutant, redundant mutant, mutation score, killed mutant, live mutant, weak mutation, ...
+C4&
+It is perhaps interesting to add a chapter with some basic definitions?
+e.g. equivalent mutant, redundant mutant, mutation score, killed mutant, live mutant, weak mutation, ...
 \\
 \cmidrule{2-2}
 &
 We have added an index with the references to the page where terms are introduced. We decided to not add a glossary because it would lead to a duplication of definitions.
 
-\TODO{Oscar, please add the 'backslash INDEX' command where appropriate in the source.}
+\TODO{Oscar, please add the 'backslash INDEX' command where appropriate in the source. Oscar: I added already several terms, I'll keep doing it during the next days.}
 
 \\
 \hline
 C5&
-Please, consider to add more examples. Similar to what is presented in the slides in the different progress meetings, where often the different conceptsare introduced with an example.
+Please, consider to add more examples. Similar to what is presented in the slides in the different progress meetings, where often the different concepts
+are introduced with an example.
 \\
 \cmidrule{2-2}
 &We have added more examples as suggested.
 \\
 \hline
-C6&Elaborate a bit more on the mutation score concept (e.g. what is achievable in reality e.g. can we target 100\%?, how this number can be correlated withthe quality of a test suite e.g. if a test suite presents 80\% score, can it be considered very good?
+C6&
+Elaborate a bit more on the mutation score concept (e.g. what is achievable in reality e.g. can we target 100\%?, how this number can be correlated with
+the quality of a test suite e.g. if a test suite presents 80\% score, can it be considered very good?
 \\
 \cmidrule{2-2}
 &
@@ -59,26 +73,36 @@ C6&Elaborate a bit more on the mutation score concept (e.g. what is achievable 
 \\
 
 \hline
-C7&Please, elaborate on the concept of having a threshold to stop the process.
+C7&
+Please, elaborate on the concept of having a threshold to stop the process.
 \\
 \cmidrule{2-2}
 &
 \TODO{Please try to say something, based on references.}
 \\
+
 \hline
-C8:&Please, comment a bit on the possibility to mutate the IR, executable, assembly code; and pros and cons.\\
+C8&
+Please, comment a bit on the possibility to mutate the IR, executable, assembly code; and pros and cons.\\
 \cmidrule{2-2}
 &
-\TODO{Please try to say something, based on references.}
+\DONE{Please try to say something, based on references.}
+We added a discussion on the pros and cons of mutating compiled code on Section \ref{sub:compileTime}.
 \\
 \hline
-C9&Is this really the only criteria to select the mutation operators?
-\\
-&\TODO{Can we say anything?}
+C9&
+Is this really the only criteria to select the mutation operators?\\
+\cmidrule{2-2}
+&\DONE{Can we say anything?}
+We added an explanation on how the syntactical changes introduced by mutation operators are related to a specific fault model.
 \\
 \hline
 C10&
-\begin{minipage}{8cm}"the context of space software and embedded systems"This is to be refined:\\- embedded systems is clear\\- space software term can be ambiguous... (ground desktop SW, ground embedded SW, on-board embedded SW, ...)\\
+\begin{minipage}{8cm}
+"the context of space software and embedded systems"
+This is to be refined:\\
+- embedded systems is clear\\
+- space software term can be ambiguous... (ground desktop SW, ground embedded SW, on-board embedded SW, ...)\\
 \end{minipage}
 \\
 \cmidrule{2-2}
@@ -87,7 +111,11 @@ C10&
 
 \hline
 C11&
-\begin{minipage}{8cm}a. There is a minimum set of operators. Is there anything for the Maximum?b. There are many operators. Any preliminary idea of the ones we should try (or the strategy to follow) within this activity?c. High-order operators: Is there any strategy to combine operators to define the high order ones?d. Is there any logic followed for naming the different mutation operators? (e.g. OBBN). Are those terms consistently used by practitioners?
+\begin{minipage}{8cm}
+a. There is a minimum set of operators. Is there anything for the Maximum?
+b. There are many operators. Any preliminary idea of the ones we should try (or the strategy to follow) within this activity?
+c. High-order operators: Is there any strategy to combine operators to define the high order ones?
+d. Is there any logic followed for naming the different mutation operators? (e.g. OBBN). Are those terms consistently used by practitioners?
 \end{minipage}
 \\
 \cmidrule{2-2}
@@ -101,7 +129,10 @@ We have addressed the comments above. Concerning \emph{C11.a} we can only provid
 
 \hline
 C12&
-\begin{minipage}{8cm}a. There are many techniques presented for the different limitations. Do you have any idea already on the techniques that you would like to try withinFAQAS?\\b. Is there any particular technique that you would like to perform some research on?
+\begin{minipage}{8cm}
+a. There are many techniques presented for the different limitations. Do you have any idea already on the techniques that you would like to try within
+FAQAS?\\
+b. Is there any particular technique that you would like to perform some research on?
 \end{minipage}
 \\
 \cmidrule{2-2}
@@ -122,7 +153,9 @@ C12&
 \hline
 C13&
 \begin{minipage}{8cm}
-a. It is not trivial to understand why Equivalent Mutants may lead mutation testing infeasible.\\b. The fact of having a high number of equivalent / redundant mutants suggests that the quality of the source code is not that great; or that the used mutationoperators are not good. \\
+a. It is not trivial to understand why Equivalent Mutants may lead mutation testing infeasible.\\
+b. The fact of having a high number of equivalent / redundant mutants suggests that the quality of the source code is not that great; or that the used mutation
+operators are not good. \\
 c. Also, the observability of the system may not be good enough to see the effects of the mutation.\\
 \end{minipage}
 \\
@@ -135,34 +168,43 @@ Concerning .b and .c, it is not possible to provide a general rule relating the 
 \end{minipage}
 \\
 \hline
-C14&Do you have general numbers? e.g. what was the percentage of killed mutants?
+C14&
+Do you have general numbers? e.g. what was the percentage of killed mutants?
 \\
 \cmidrule{2-2}
 &\TODO{can you check the numbers in the paper and add something?}
 \\
 \hline
 C15&
-As for equivalent mutants, it is not trivial to understand the consequences of redundant mutants. It also suggest poor source code / mutation selection /system visibility.
+As for equivalent mutants, it is not trivial to understand the consequences of redundant mutants. It also suggest poor source code / mutation selection /
+system visibility.
 \\
 \cmidrule{2-2}
 &\TODO{Is there any research in this?}
 \\
 \hline
-C16&Within the report, there are several numbers like this 9\%, or the 45\% in equivalent mutants, etc. Do you plan to do some research within FAQAS to checkon those numbers?
+C16&
+Within the report, there are several numbers like this 9\%, or the 45\% in equivalent mutants, etc. Do you plan to do some research within FAQAS to check
+on those numbers?
 \\
 \cmidrule{2-2}
 &\TODO{Check TODO in chapter}
 \\
 
 \hline
-C17&My first impression after reading this chapter is that Data Mutation would be quite applicable to our software systems (perhaps a bit more from the point ofview of verifying robustness of the system, rather than assessing an existing test suite).Do you already have an idea on how to apply this within this activity and how deep to go in the approach?
+C17&
+My first impression after reading this chapter is that Data Mutation would be quite applicable to our software systems (perhaps a bit more from the point of
+view of verifying robustness of the system, rather than assessing an existing test suite).
+Do you already have an idea on how to apply this within this activity and how deep to go in the approach?
 \\
 \cmidrule{2-2}
 &\TODO{TODO for Fabrizio}
 \\
 
 \hline
-C18&Only Software faults? This can be true for data exchanged among SW components; but if the data comes from somewhere else, it can be any kind ofissue.
+C18&
+Only Software faults? This can be true for data exchanged among SW components; but if the data comes from somewhere else, it can be any kind of
+issue.
 \\
 \cmidrule{2-2}
 &We have clarified in the paragraph.
@@ -176,27 +218,37 @@ Could we say that Objective 1 is linked to Test Suite Assessment and Objective 2
 \\
 
 \hline
-C20&As for code mutation, please elaborate a bit more on this \% operators applied (why it is important), and why we need a threshold to stop the process.
+C20&
+As for code mutation, please elaborate a bit more on this \% operators applied (why it is important), and why we need a threshold to stop the process.
 \\
 \cmidrule{2-2}
 &We have clarified in Section~\ref{sec:data:mutationscore}.
 \\
 \hline
-C21&The fact of needing modifications at runtime, is it not a hard constraint for Data Mutation?Depending on where the mutation is done, we may need to modify the code itself, or the test harnesses. This, in my opinion, adds an extra complexitycompared to Code Mutation.
+C21&
+The fact of needing modifications at runtime, is it not a hard constraint for Data Mutation?
+Depending on where the mutation is done, we may need to modify the code itself, or the test harnesses. This, in my opinion, adds an extra complexity
+compared to Code Mutation.
 \\
 \cmidrule{2-2}
 &We agree, the changes for C28 apply also for this case.
 \\
 
 \hline
-C22&Could you please add the definition of a test oracle? We are not used to this naming e.g. is it the set of inputs and their corresponding outputs for a testcase?
+C22&
+Could you please add the definition of a test oracle? We are not used to this naming e.g. is it the set of inputs and their corresponding outputs for a test
+case?
 \\
 \cmidrule{2-2}
 &Thank you. We have added a definition for test oracles in section 1.1. (the first time it appears).
 \\
 \hline
 C23&
-\begin{minipage}{10cm}a. Is this lack impacting somehow the objectives of this activity, or would it be enough to try Data Mutation with the fault injection techniques alreadyexisting?\\b. Is the lack stated in this paragraph a potential research area for SnT?\\c. Is it an area that you would like to explore a bit more?\\
+\begin{minipage}{10cm}
+a. Is this lack impacting somehow the objectives of this activity, or would it be enough to try Data Mutation with the fault injection techniques already
+existing?\\
+b. Is the lack stated in this paragraph a potential research area for SnT?\\
+c. Is it an area that you would like to explore a bit more?\\
 \end{minipage}
 \\
 \cmidrule{2-2}
@@ -207,26 +259,30 @@ C23&
 \end{minipage}
 \\
 \hline
-C24&As for code mutation, this is to be refined.
+C24&
+As for code mutation, this is to be refined.
 \\
 \cmidrule{2-2}
 &We believe that the change in the introduction to address C10 should clarify the misunderstanding.
 \\
 
 \hline
-C25&This column is missing in the table
+C25&
+This column is missing in the table
 \\
 \cmidrule{2-2}
 &Thank you. We have fixed the table.
 \\
 
 \hline
-C26&Is there any research needed to improve this table i.e. to come up with more mutation operators; or it is enough for this activity?
+C26&
+Is there any research needed to improve this table i.e. to come up with more mutation operators; or it is enough for this activity?
 \\
 &We believe this set of mutation operators to be sufficient for the project.
 \\
 \hline
-C27&Is there any convention on the operator names?
+C27&
+Is there any convention on the operator names?
 \\
 \cmidrule{2-2}
 &In this case, since operators are defined in different contexts, there is no convention in the literature.
@@ -234,26 +290,39 @@ C27&Is there any convention on the operator names?
 
 \hline
 C28&
-\begin{minipage}{10cm}a. Is Run-Time Scalability a limitation in data mutation?\\b. My impression is that in order to do data mutation, we must have a thorough knowledge on the SUT and its operating environment (e.g. hardwarearound, the communication protocols, etc). Is this a limitation on the approach?\\c. The integration of Data Mutation in a specific validation environment looks more challenging than for Code Mutation. Is that a limitation of theapproach?
+\begin{minipage}{10cm}
+a. Is Run-Time Scalability a limitation in data mutation?\\
+b. My impression is that in order to do data mutation, we must have a thorough knowledge on the SUT and its operating environment (e.g. hardware
+around, the communication protocols, etc). Is this a limitation on the approach?\\
+c. The integration of Data Mutation in a specific validation environment looks more challenging than for Code Mutation. Is that a limitation of the
+approach?
 \end{minipage}
 \\
 \cmidrule{2-2}
 &Yes, we have clarified it at the end of Section~\ref{sec:data:test_suite_evaluation}
 \\
 \hline
-C29&Why is Data Modeling a limitation? Is it because of the need to define a data model and that is time consuming?
+C29&
+Why is Data Modeling a limitation? Is it because of the need to define a data model and that is time consuming?
 \\
 \cmidrule{2-2}
 &Yes, we have clarified it at the end of Section~\ref{sec:data:test_suite_evaluation}.
 \\
 \hline
-C30&This concept is difficult to understand. Maybe it would help by adding an example?
+C30&
+This concept is difficult to understand. Maybe it would help by adding an example?
 \\
 \cmidrule{2-2}
 &We have added an example of BNF grammar in Section~\cite{sec:dataModeling}.
 \\
 
-%Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:11%Comment #4:%It is perhaps interesting to add a chapter with some basic definitions?%e.g. equivalent mutant, redundant mutant, mutation score, killed mutant, live mutant, weak mutation, ...%Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:18%Comment #5:%Please, consider to add more examples.
+%Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:11
+%Comment #4:
+%It is perhaps interesting to add a chapter with some basic definitions?
+%e.g. equivalent mutant, redundant mutant, mutation score, killed mutant, live mutant, weak mutation, ...
+%Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:18
+%Comment #5:
+%Please, consider to add more examples.
 
 \bottomrule                                                             
 \end{longtable}
