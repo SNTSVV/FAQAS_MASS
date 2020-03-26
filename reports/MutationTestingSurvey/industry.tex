@@ -3,15 +3,6 @@
 \chapter{Mutation Testing Benchmarks}
 \label{chapter:industry}
 
-\DONE{I removed the sections because useless.}
-
-%\section{Mutation Testing Benchmarks}
-
-\DONE{I removed the first paragraph. A little too wordy. The limitations do not concern only scalability.}
-%In Section \ref{sec:limitations} we presented the limitations, and concretely the scalability issues of the mutation testing process. We also explained that the scalability issues of the mutation testing process are directly related to the size of the system under test and the respective test suite used to assess its adequacy. 
-%
-%To cope with the limitations of the mutation testing process, in Section \ref{sec:limitations} we also introduced several approaches and strategies present in the scientific literature. 
-
 In Section \ref{sec:limitations} we have provided an overview of state-of the-art solutions to perform mutation testing and address limitations of the mutation testing process.
 Each of these solutions had been evaluated against a set of case study systems deemed representative for the usage context. Such case study systems consist of a software under test (SUT) and a test suite for the software.
 Hereafter, we'll use the term benchmark to indicate the set of case study systems used in the empirical evaluation presented in a research paper.
@@ -19,12 +10,13 @@ Hereafter, we'll use the term benchmark to indicate the set of case study system
 These benchmarks can be used as reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
-\DONE{most important = > top}
-\TODO{check the date}
+\DONE{check the date}
 
-In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2012 and 2020. Table~\ref{} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the work evaluated against C and C++ software.
+\input{tables/papers}
 
-\TODO{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
+In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the work evaluated against C and C++ software. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, whether if it is a journal of a conference proceedings, and the publisher of the venue. 
+
+\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
 
 %Since the size of these bechmarks (e.g., under test and test suite are important to prove the validity of the proposed approach on real life software (e.g., space context software), in this chapter we present a benchmark of the most relevant empirical evaluations performed in the last eight years, collected from most important software engineering venues and journals (e.g., ICSE, ICST, ISSTA, ISSRE, AST, TSE and TOSEM), in the context of mutation testing process for C software. Section \ref{sec:benchmark} introduces a summary of the benchmark with the respective analysis.
 
