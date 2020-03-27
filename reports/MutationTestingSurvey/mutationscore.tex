@@ -3,17 +3,13 @@
 \subsection{Mutation Score Calculation}
 \label{sub:mutationscore}
 
-\TODO{Is there anything we can add here?}
+\DONE{Is there anything we can add here?}
 
-\endinput
+\MREVISION{C6}{The mutation score indicates quantitatively the quality of a test suite, the score is estimated by taking into account the proportion of killed mutants with respect to total amount of mutants.} 
+As introduced in Section \ref{sec:process}, the mutation testing process is leaded by the mutation score, that is, the process will iterate multiple times until the test suite adequacy is such that the mutation score reaches a certain threshold. 
 
-Mutation score calculation and refinement
-\begin{itemize}
-	\item Critical: observing and comparing program outputs often requires a test driver that it is program specific and, thus, researchers usually approximate program outputs by observing a subset of it, usually defined by the test assertions (and program crashes)
-	\item Critical: Computing mutation score requires removal of equivalent mutants
-	\item Critical: Mutant selection and classification strategies.
-	\item Mutant selection provides opportunities to achieve good trade-offs between effectiveness and efficiency
-	\item Critical: definition of the mutation score threshold (measuring the relationship between mutation score and fault revelation). Few studies in this area.
-	\item Higher mutation scores improves significantly the fault detection
-	\item Critical: Equivalent and redundant mutants tends to obscure the mutation score.
-\end{itemize}
+According to recent studies, there is a relation between the mutation score and fault revelation ability of mutation testing.
+\MREVISION{C7}{Particularly, Papadakis et al. \cite{papadakis2018mutation} states that \textit{achieving higher mutation scores improves significantly the fault detection}. In an experimental evaluation they demonstrate that a test suite that reaches a mutation score of 80\% has similar fault detection ability that statement and branch coverage, instead a test suite that reaches a mutation score of 90\% or 95\% outperforms code coverage test criterion. This means that the fault detection ability of mutation testing can be trusted only at higher mutation score levels.}
+
+Computing the mutation score includes the task of identifying equivalent and redundant mutants. As seen in Section \ref{sec:opt:equivalent} and \ref{sec:opt:redundant}, these type of mutants can obscure and overestimate or underestimate the true score \cite{papadakis2016threats,kintis2017detecting}.
+Hence, these mutants must be assessed before estimating the fault revelation ability of a test suite through the mutation testing process.
