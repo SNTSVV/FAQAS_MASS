@@ -8,8 +8,7 @@
 \setlength\LTright{0pt}
 \tiny 
 %@{\extracolsep{\fill}}
-\begin{longtable}{|p{2cm}|p{2cm}|p{2cm}|p{8cm}|@{}}
-\caption{\normalsize .}
+\begin{longtable}{|p{2cm}|p{1cm}|p{1.5cm}|p{9cm}|@{}}
 \label{table:codeoperators} \\
 \textbf{Issue Number}&\textbf{Date}&\textbf{Authors}&\textbf{List of changes}\\
 
@@ -20,8 +19,9 @@ Fabrizio Pastore, Oscar Cornejo&
 \begin{minipage}{12cm}
 The following sections had been added:
 \begin{itemize}
-\item 1.4 Building Blocks of the Code-driven Automated Test Suites Augmentation Process
-\item 2.3.2 Analysis of Mutation Testing Results and Mutation Score Calculation\item 2.4 Building Blocks of the Data-driven Automated Test Suites Augmentation Process.
+\item \ref{sec:testGeneration} Building Blocks of the Code-driven Automated Test Suites Augmentation Process.
+\item \ref{sub:mutationscore} Analysis of Mutation Testing Results and Mutation Score Calculation.
+\item \ref{sec:testGenerationData} Building Blocks of the Data-driven Automated Test Suites Augmentation Process.
 \end{itemize}
 \end{minipage}
 \\
@@ -33,9 +33,12 @@ Issue 4
 &
 \begin{minipage}{12cm}
 The following sections had been added:
-%\begin{itemize}
-%\end{itemize}
-\todoinline{ADD}
+
+\DONE{ADD}
+\begin{itemize}
+	\item \ref{chapter:industry} Mutation Testing Benchmarks
+	\item \ref{chapter:trends} Mutation Testing Trends
+\end{itemize}
 \end{minipage}
 In addition, we have addressed ESA comments provided on date March 3rd, 2020. Modified text appears in blue with annotations containing a reference to the comment. The list of comments with a discussion of the changes made is provided in Section~\ref{sec:ESA:comments:1}.
 \\
@@ -54,7 +57,7 @@ In addition, we have addressed ESA comments provided on date March 3rd, 2020. Mo
 %Comment #5:
 %Please, consider to add more examples.
 
-\bottomrule                                                             
+\hline                                                           
 \end{longtable}
 \normalsize
 
