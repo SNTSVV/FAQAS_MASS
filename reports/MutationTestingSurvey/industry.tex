@@ -14,44 +14,42 @@ Also, a deep understanding of the characteristics of the benchmarks considered i
 
 \input{tables/papers}
 
-In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the work evaluated against C and C++ software. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, whether if it is a journal of a conference proceedings, and the publisher of the venue. 
+In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the work evaluated against C and C++ software. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
 
 \DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
 
-%Since the size of these bechmarks (e.g., under test and test suite are important to prove the validity of the proposed approach on real life software (e.g., space context software), in this chapter we present a benchmark of the most relevant empirical evaluations performed in the last eight years, collected from most important software engineering venues and journals (e.g., ICSE, ICST, ISSTA, ISSRE, AST, TSE and TOSEM), in the context of mutation testing process for C software. Section \ref{sec:benchmark} introduces a summary of the benchmark with the respective analysis.
-
-%\section{Benchmarks Present in the Literature}
-%\label{sec:benchmark}
-
 \DONE{I rewrote, I do not expect you to introduce a table. You may have writte someting like "In this section we describe of the most relevant benchmarks targeting C software systems, they are summarized in Table..". I rewrote differently.}
-%In the following, we introduce Table \ref{table:benchmarks}, the table shows a summary of the most relevant benchmarks targeting C software systems, used in the software engineering literature in the last eight years. 
 
-\TODO{I think we should have two tables. One for the single case studies and one for the benchmark. I call you.}
+\input{tables/case_studies}
 
-Table XX provides the list of the case study systems considered in the literature. COlumn....
+Table \ref{table:case_studies} provides the list of the case study systems considered in the literature. For each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size may vary according to the specific study), (3) the size of the test suite for the SUT, the size may vary according to the study, also in some cases the test suite details were not available (N/A) (4) the number of papers that report using the case study, and (5) the references to the papers that report the case study.
 
-\TODO{We should have a column counting the number of papers using the tool}
+\DONE{You have to describe what types of programs it contains, when it was developed.}
 
-Table \ref{table:benchmarks} shows the most used case study for assessing C software systems is the Siemens suite.
-\TODO{You have to describe what types of programs it contains, when it was developed.}
-The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because they it includes faulty versions affected by faults introduced by engineers during development.
+From Table \ref{table:case_studies} can be seen that the Siemens, Make and Space are the most common case studies with 6, 5 and 4 uses, respectively. 
+The most used case study for assessing C software systems is the Siemens suite. The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because they it includes faulty versions affected by faults introduced by engineers during development. The suite is available through the Subject Infrastructure Repository (SIR) from the University of Nebraska-Lincoln\footnote{https://sir.csc.ncsu.edu/portal/index.php}, in particular the suite contains a diverse collection of C programs that include code involving integer and floating-point operations, pointers, memory allocation, loops and complex conditional expressions.The Siemens suite was introduced in 1994 by Hutchins et al. \cite{hutchins1994experiments}, the programs from the suite come with a large pool of test cases written initially by Hutchins et al. and then augmented by Rothermel et al. \cite{rothermel1998empirical}.
+
+Table \ref{table:benchmarks} provides the list of benchmark identified in the literature, we report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of the system being analyzed in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. 
 
 
-Table provides the list of benchmark identified in the literature, we report (1) the case study (i.e., the software under test - SUT), (2) the size of the system being analyzed in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. 
 
 \DONE{"Appreciate" is a little too much :)}
 %From Table \ref{table:benchmarks}, it also can be appreciated the wide variety of case studies selected in the literature, while some authors decide to assess their techniques using very simple programs such as \textit{abs} \cite{tokumoto2016muvm}. Other authors preferred using Unix applications such as the Coreutils package \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}. 
 %On the other hand, some authors selected very complex programs such as OpenSSL and LLVM \cite{denisov2018mull}, but usually the experiments are exercised only on small components of these large applications.
 
-The dimension of the benchmark case studies vary a lot. They include simple programs such as \textit{abs} \cite{tokumoto2016muvm}, large Unix utilities such as the Coreutils package \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}, and programs implementing complex functions such as OpenSSL and LLVM \cite{denisov2018mull}.
+The dimension of the benchmark case studies vary a lot. They include simple algorithms such as \textit{abs} (6 LOC) \cite{tokumoto2016muvm}, large Unix utilities such as the Coreutils package \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}, and programs implementing complex functions such as OpenSSL and LLVM \cite{denisov2018mull}.
 However, when large and complex software systems are considered in the empirical evaluation, the evaluation concerns only a subset of the components of these large applications.
-For example... 
-\TODO{Provide an example. Describe what they did in a paper where they selected a component, otherwise the sentence above might not be understood}
+
+For example, in the study performed by Kintis et al. \cite{kintis2017detecting} they considered the assessment of Vim, a Unix text editor of 362 KLOC, in this case, where the SUT is a very large program, the authors decided to restrict the analysis only to a couple of components such as \texttt{spell} and \texttt{eval}, 16 and 22 KLOC, respectively. 
+
+\DONE{Provide an example. Describe what they did in a paper where they selected a component, otherwise the sentence above might not be understood}
 
 Concerning the size of the selected softwares under test, the most relevant studies has been presented by Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant}. Specifically, these authors employed the case studies Coreutils, Findutils, Grep, Make and Codeflaws (83 KLOC, 18 KLOC, 9 KLOC, 35 KLOC and 266 KLOC respectively). 
-Concerning the size of the test suite employed to assess their adequacy, again Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} present the most comprehensive studies with test suite sizes ranging from 58 131, to 122 261 test cases.
+Concerning the size of the test suite employed to assess their adequacy, again Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} present the most comprehensive studies with test suite sizes ranging from 58\,131, to 122\,261 test cases.
 
-\TODO{Can we give a final message?}
+\DONE{Can we give a final message?}
+
+Even though, the mutation of large software remains an open problem in the software engineering area, the efforts from Papadakis and Chekam \cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} shows that optimization techniques are iteratively scaling up to real-world size applications.
 
 \input{tables/industry}
 
