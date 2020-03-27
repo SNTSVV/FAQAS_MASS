@@ -19,9 +19,11 @@ More precisely, there is interest into studying the functional and non-functiona
 Researchers have exploited this concept to develop methods that automatically \INDEX{improve fault detection}~\cite{zhang2016isomorphic}, \INDEX{localize faults} \cite{papadakis2015metallaxis}, \INDEX{repair software}~\cite{le2011genprog}, \INDEX{improve security properties}~\cite{loise2017towards} and \INDEX{reduce memory consumption}~\cite{langdon2017genetic}.
 For example, Zhang et al. \cite{zhang2016isomorphic} used mutants to improve the fault detection ability of regression test suites. The approach mutates both the old and new version of the program under analysis. For every mutation applied, the approach executes the old and the new version against the same test suite, if there are differences between the output of the two executions then a problem has been found.
 
-\TODO{It would be nice to have a more detailed description of model based mutation testing, not sure what is feasible.}
+\DONE{It would be nice to have a more detailed description of model based mutation testing, not sure what is feasible.}
 
-Beyond typical code-drive mutation testing process, the mutation concept has also been applied to model artifacts, this line of research is called \INDEX{model-based mutation testing}. The objective of these techniques is to identify faults related to missing functionalities and misinterpreted specifications \cite{devroey2016featured,belli2016model}.
+Beyond typical code-drive mutation testing process, the mutation concept has also been applied to model artifacts, this line of research is called \INDEX{model-based mutation testing}. The objective of these techniques is to identify faults related to missing functionalities and misinterpreted specifications through the generation of effective test cases \cite{devroey2016featured,belli2016model}.
+Model-based mutation testing takes a model and mutates it according to different fault models (i.e., mutation operators). Then, each mutant is compared to the original model, this is done via conformance checks through model-checking or SMT-solvers. If a mutant does not conform to the original model, then the particular inputs are used to generate a new test case \cite{8411732}.
+
 In a similar fashion, it has been applied to relational database schemas \cite{wright2013efficient} to test the data that will be accepted and rejected by the database management system.
 
 \DONE{We may write what is the objective of mutating DB schema}
