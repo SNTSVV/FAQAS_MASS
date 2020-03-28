@@ -6,7 +6,7 @@
 The term \emph{redundant mutant} is used to refer to mutants that show the same behaviour of other mutants, i.e., they
 are killed every time other mutants are also being killed. 
 %Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. 
-\MREVISION{C15}{\emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}}~\cite{papadakis2016threats}.
+\emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}~\cite{papadakis2016threats}.
 
 \DONE{Is it possible to add an example?}
 
@@ -18,6 +18,8 @@ Listing \ref{redudantexample1} and \ref{redudantexample2} show excerpts from mut
 \DONE{The following sentence is not good. Can we say something more, for example how many SUT they considered, which mutation operators they considered?}
 
 To highlight that redundant mutants are a recurrent problem, Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. For the experimental evaluation the authors considered 15 SUT, on a total of 372 LOC, and 6\,127 test cases, and applied the sufficient set of operators for generating the mutants. 
+
+\MREVISION{C15}{Identifying all the redundant mutants is equal to finding the minimal set of mutants. \textit{A minimal set of mutants has no redundancy, that is, every test set that kills these mutants will also kill all remaining mutants} \cite{kurtz2015static}. Similar to \INDEX{equivalent mutants}, finding the minimal set of mutants is an undecidable problem, and it can be only approximated.}
 
 \DONE{The definition below is not clear. I cannot understand teh difference between them}
 In the literature, redundant mutants are divided into two categories. The first is the category of duplicated mutants, that is, mutants equivalent between them but not equivalent with respect to the original program. The second category concerns subsumed mutants, that is, mutants that are not equivalent between them, but that are killed together with the same test cases. 
