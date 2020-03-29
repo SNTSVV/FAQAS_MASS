@@ -49,75 +49,86 @@ Holling et al. \cite{holling2016nequivack} proposed to use a \INDEX{symbolic exe
 
 % Symbolic execution
 
-Symbolic execution determines what inputs cause each part of a function to execute. To symbolically execute a function is necessary to change the original inputs, or concrete values, by symbolic ones. The symbolic values represent a set of possible concrete values that lead to a certain program path (i.e., path condition). 
+Symbolic execution determines what inputs cause each part of a function to execute. To symbolically execute a function, it is necessary to replace the original inputs (i.e., concrete values) with symbolic ones. The \INDEX{symbolic values} represent a set of possible concrete values that lead to a certain program path (i.e., path condition). 
 
-In the following, we introduce an example of symbolic execution being applied to the function \texttt{f} presented in Listing \ref{symbolic}, the function \texttt{f} reads in a value and fails if the input is 6.
+In the following, we introduce an example of symbolic execution applied to the function \texttt{f} presented in Listing~\ref{symbolic}, the function \texttt{f} reads in a value and fails if the input is 6.
 
 \input{listings/symbolic}
 
-During a normal execution, the function \texttt{f} would read a concrete input value (e.g., 5) and assign it to \texttt{y}. The execution would then proceed with the multiplication and the conditional if branch, which would evaluate to false and print OK.
+During a concrete execution, the function \texttt{f} would read a concrete input value (e.g., 5) and assign it to \texttt{y}. The execution would then proceed with the multiplication and the conditional if branch, which would evaluate to false and print \emph{OK}.
 
-Instead, during symbolic execution, the function \texttt{f} reads a symbolic value (e.g., $\omega$) and assigns it to \texttt{y}. The function would then proceed with the multiplication and assign $\omega * 2$ to \texttt{z}. When reaching the if statement, it would evaluate to $\omega * 2 == 12$. 
+Instead, during symbolic execution, the function \texttt{f} reads a symbolic value (e.g., $\omega$) and assigns it to \texttt{y}. The function would then proceed with the multiplication and assign $\omega * 2$ to \texttt{z}. When reaching the if statement, the program would evaluate the expression $(\omega * 2 == 12)$. 
 At this point of the execution, $\omega$ could take any value, and symbolic execution can therefore proceed along both branches, by creating two paths. 
-Each path gets assigned a copy of the program state at the branch instruction as well as a path constraint. 
-In this example, the path constraint is $\omega * 2 == 12$ for the if branch and $\omega * 2 != 12$ for the else branch. 
-Both paths can be symbolically executed independently. When paths terminate (e.g., as a result of executing fail() or simply finishing the function), symbolic execution computes a concrete value for $\omega$ by solving the accumulated path constraints on each path. 
-These concrete values can be thought of as concrete test cases. In this example, the constraint solver would determine that in order to reach the fail() statement, $\omega$ would need to be equal to 6.
+Each path is associated to a path constraint and a copy of the program state.
+%Fabrizio: the following is misleading in the example because we do not have it...
+% a copy of the program state at the branch instruction and . 
+In this example, the path constraint is $(\omega * 2 == 12)$ for the if branch and $(\omega * 2 != 12)$ for the else branch. 
+Both paths can be symbolically executed independently. When a path terminates (e.g., as a result of executing the function \emph{fail()} or simply when it reaches the return instruction), the symbolic execution process computes a concrete value for $\omega$ by solving the path constraints accumulated on each path. 
+These concrete values can be used as inputs for concrete test cases that cover the paths. In this example, the constraint solver would determine that in order to reach the fail() statement, $\omega$ needs to be equal to 6.
 %%
 
-In Holling's approach \cite{holling2016nequivack}, if both the mutated and the original function return the same outputs, means that there are not concrete values making the mutated function to produce a different output.
-Each non-equivalent value proves that a new input that makes the original and the mutated function generate different results, has been found. 
+Holling's approach~\cite{holling2016nequivack} to automatically identify equivalent mutants relies on the observation that 
+%Fabrizio: the followng is very convoluted, it says the same thing in two different ways
+%when both the mutated and the original function return always the same outputs then 
+%means that there are not concrete values making the mutated function to produce a different output.
+two mutants are equivalent when there are no concrete values making the mutated function produce an output that is different from the one of the original function.
+If a value that makes the two functions generate distinct results can be found, the mutant is non-equivalent.
+%Fabrizio: also the following is not understandable
+%Each non-equivalent value proves that a new input that makes the original and the mutated function generate different results, has been found. 
+To automate the generation of inputs, Holling et al. rely on KLEE~\cite{cadar2008klee}, a symbolic execution tool for programs written in C/C++.
 
-To automate the generation of inputs, Holling et al. \cite{holling2016nequivack} rely on KLEE \cite{cadar2008klee}, a symbolic execution tool for programs written in C/C++.
-
-We introduce an example of Holling's approach in Listing \ref{function}. The top part of Listing \ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing \ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
+We introduce an example of Holling's approach in Listing~\ref{function}. The top part of Listing \ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing \ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
 To automate the generation of inputs using KLEE, all the parameters need to be treated as symbolic values.
 %F: "the \texttt{isPositive} parameter \texttt{num}" it's impossible to understand what is the parameter and who owns the parameter
 %In Holling's approach, first, the \texttt{isPositive} parameter \texttt{num} needs to be treated as symbolic value, which is done by the function \texttt{make\_symbolic} (see Listing \ref{example}) which converts concrete variables to symbolic by considering its memory address and size. 
-This is achieved by function \texttt{make\_symbolic} (see Listing \ref{example}) which converts concrete variables to symbolic by considering its memory address and size. 
+This is achieved by function \texttt{make\_symbolic} (see Listing \ref{example}) which converts concrete variables to symbolic ones by considering their memory address and size. 
 %F: please fix
 In Listing \ref{example}, the parameter \texttt{numSymbolic} is made symbolic in Line 3. Then, the original and mutated functions are called using the symbolic arguments in Lines 5 and 6.
 %Finally, the \texttt{assert} function of line 8 verifies if the integer return values of both functions are equal or not.
-Finally, we need to introduce an assertion that verifies that the output of the two functions are different. 
+Finally, we need to introduce an assertion that makes the symbolic execution engine \EMPH{look for inputs that make the output of the two functions different}. 
+In Listing \ref{example}, this is achieved with an assertion that verifies that the return values of the two functions the same (see Line 8). 
 
-In Listing \ref{example}, this is achieved by verifying that return values are different (see Line 8). 
-This is done because symbolic execution approaches aim to identify inputs that falsify the assertions in the program. 
-An input that falsifies such an equality is thus capable of identifying inputs that lead to different output falsifying the assertion.
+Despite being counterintuitive, this approach is effective because symbolic execution engines aim to identify inputs that falsify the assertions in the program. 
+When the equality is falsified, then the two functions can produce a different output for a same input\footnote{In the following sections, we will show that this same criterion also indicates that the two functions are non-equivalent}.
+The input that falsifies the equality can thus be used to improve the test suite enabling it to kill the mutant.
+% make the original an mutate function geenrate distinct results
+% of identifying inputs that lead to different output falsifying the assertion.
 
 %In the concrete, if we consider the implementation of \texttt{isPositive} and \texttt{MUT\_isPositive}, 
-In the example of Listing \ref{example}, KLEE will indicate that the return values differ when \texttt{num} is equal to zero.
+In the example of Listing \ref{example}, KLEE will indicate that the return values of the original and mutated function differ when \texttt{num} is equal to zero.
 A new test case exercising function \texttt{isPositive} with \texttt{num=0} should thus be added to the test suite in order to kill the mutant.
 
 \input{listings/holling_approach}
 
 Similarly to Holling's approach, Riener et al. \cite{riener2011test} proposed to use \INDEX{bounded model checking} techniques to search for these counter examples.
-In their bounded model checking approach, the original program and the mutant are unrolled with respect to a certain maximum bound. In program unrolling, loops are re-written as a repeated sequence of similar independent statements. Then, both unrolled programs are encoded into a logic formula over the same input variables. To ensure that the mutation affects the output of the mutant, a propagation condition is encoded and added to the previous logic formula, the condition asserts that there exist at least one pair of different outputs under the assumption of equal inputs. In the last step, the formula is handled by a SMT-solver, if the solver finds a satisfying assignment, the inputs of the formula are translated into a new test case for the current program under analysis.
+In their bounded model checking approach, the original program and the mutant are unrolled with respect to a certain maximum bound. In program unrolling, loops are re-written as a repeated sequence of similar independent statements. Then, both unrolled programs are encoded into a logic formula over the same input variables. To ensure that the mutation affects the output of the mutant, a propagation condition is encoded and added to the previous logic formula, the condition asserts that there exist at least one pair of different outputs under the assumption of equal inputs. In the last step, the formula is processed by a SMT-solver, if the solver finds a satisfying assignment, the inputs of the formula are translated into a new test case for the current program under analysis.
 
 %F: you should explain what is bounded-model checking. If Riener do not provide background you can check my ISSTA'14 paper (Verification-Aided Regression Testing), there is a background section (2) on bounded model checking that starts with "The idea in BMC is to represent ..."
 
-Compared to symbolic execution, one advantage of bounded model checking is that it does not require to process all the functions.
+Compared to symbolic execution, one advantage of bounded model checking is that it does not require to execute the whole program but may focus on the mutated functions only.
 
-To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and \INDEX{mutant schemata} to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets \INDEX{weak mutation} testing and may not generalize to firm mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
+To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and \INDEX{mutant schemata} to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets \INDEX{weak mutation} testing and may not generalize to strong mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
 
 \subsection{Test Generation based on Evolutionary Computation}
 
 Test generation approaches based on \INDEX{evolutionary computation} typically rely on population-based meta-heuristic optimization algorithms~\cite{harman2011strong}. 
 They search for program inputs that could kill mutants under the guidance of a fitness function~\cite{harman2011strong}. 
+The main research contribution of these methods is the definition of fitness functions that captures the killing conditions of a mutant and identifies test inputs that satisfy those conditions.
 
-The main research problem of these methods is the definition of fitness functions that capture the killing conditions of a mutant, and that identifies test inputs that satisfies those conditions.
-
-The fitness function captures the killing conditions of a mutant. For instance, Ayari et al. \cite{ayari2007automatic} proposed to use an evolutionary approach based on ant colony optimization (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of real ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al. \cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
+The \INDEX{fitness function} captures the killing conditions of a mutant. For instance, Ayari et al. \cite{ayari2007automatic} proposed to use an evolutionary approach based on ant colony optimization (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of real ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al. \cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
 %F: you have to provide more details what does it mean "close"?
-The fitness function measures the distance between the mutated statement, and the statement reached by the new test case (e.g., the reachability condition). Particularly, the distance is defined as the number of basic blocks existing between the two statements in the program's control flow graph.
-
-Instead, Papadakis et al. \cite{papadakis2011automatically} rely on fitness functions that capture the distance between mutated statement and the statement covering the branches of the different mutations (e.g., the necessity condition).
+The fitness function measures the distance between the mutated statement, and the statement reached by the new test case (e.g., the reachability condition). More precisely, the distance is defined as the number of basic blocks between the two statements in the program's control flow graph.
+Papadakis et al. \cite{papadakis2011automatically}, instead, rely on fitness functions that capture the distance between mutated statement and the statement covering the branches of the different mutations (e.g., the necessity condition).
 
 Fraser and Arcuri \cite{fraser2015achieving} propose to use distinct distance metrics tailored to the specific operator used to generate the mutants.
 %F: we need more examples for multiple operators. Also, you should clarify why distinct metrics are needed
-The necessity killing condition relies on changes in the program state, and in some cases, the mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
+This tailoring is needed because the necessity killing condition relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed.
+%Fabrizio: it was not comprehensible
+%mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
+\TODO{I cannot undertsand the following, we can ignore it.}
 For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
-The \textit{insert unary operator} adds or subtracts 1 to a numerical value. The mutants produced by this operator will always affect the program state, so the distance is 0.
-The \textit{replace variable operator} replaces a specific variable with all other variables of the same type in the program scope. In this case, the distance will be 0 if the values of the variables being exchanged are different, otherwise it is 1.
+For example, the \textit{insert unary operator} adds or subtracts 1 to a numerical value. For this reason, the mutants produced by this operator always affect the program state, so the distance is always 0 when the statement is reached.
+Instead, in the case of the \textit{replace variable operator}, which replaces a specific variable with all other variables of the same type in the program scope, the distance is 0 only if the values of the variables being exchanged are different before executing the statement, otherwise it is 1.
 
 \endinput
 

@@ -15,7 +15,7 @@ are killed every time other mutants are also being killed.
 In Section \ref{sec:process} we introduced a mutation testing example for the function \texttt{isPalindrome}. 
 Listing \ref{redudantexample1} and \ref{redudantexample2} show excerpts from mutants \textit{M4} and \textit{M5} obtained with the \textit{SSDL} operator. In this case, both mutants are considered not equivalent with respect to the original program, but they are redundant between each other, because they are being killed by the same test cases, that is, the test cases exercising the inputs \texttt{abba} and \texttt{aba}.
 
-\DONE{The following sentence is not good. Can we say something more, for example how many SUT they considered, which mutation operators they considered?}
+%\DONE{The following sentence is not good. Can we say something more, for example how many SUT they considered, which mutation operators they considered?}
 
 To highlight that redundant mutants are a recurrent problem, Kintis et al. \cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. For the experimental evaluation the authors considered 15 SUT, on a total of 372 LOC, and 6\,127 test cases, and applied the sufficient set of operators for generating the mutants. 
 

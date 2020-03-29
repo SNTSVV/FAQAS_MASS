@@ -3,13 +3,19 @@
 \subsection{Mutation Score Calculation}
 \label{sub:mutationscore}
 
-\DONE{Is there anything we can add here?}
+%\DONE{Is there anything we can add here?}
 
-\MREVISION{C6}{The mutation score indicates quantitatively the quality of a test suite, the score is estimated by taking into account the proportion of killed mutants with respect to total amount of mutants.} 
-As introduced in Section \ref{sec:process}, the mutation testing process is leaded by the mutation score, that is, the process will iterate multiple times until the test suite adequacy is such that the mutation score reaches a certain threshold. 
+\MREVISION{C6}{The \INDEX{mutation score} captures, in percentage points, the quality of a test suite. It measures the percentage of mutants that had been killed by the test suites.} 
+The mutation testing process is driven by the mutation score; the process iterates multiple times until the mutation score reaches a certain threshold. 
 
-According to recent studies, there is a relation between the mutation score and fault revelation ability of mutation testing.
-\MREVISION{C7}{Particularly, Papadakis et al. \cite{papadakis2018mutation} states that \textit{achieving higher mutation scores improves significantly the fault detection}. In an experimental evaluation they demonstrate that a test suite that reaches a mutation score of 80\% has similar fault detection ability that statement and branch coverage, instead a test suite that reaches a mutation score of 90\% or 95\% outperforms code coverage test criterion. This means that the fault detection ability of mutation testing can be trusted only at higher mutation score levels.}
+According to recent studies, there is a relation between the mutation score and the fault revelation ability of mutation testing.
+\MREVISION{C7}{A recent empirical evaluation, for example, has shown that \textit{achieving high mutation scores improves significantly the fault detection capability of a test suite}
+~\cite{papadakis2018mutation}. 
+\TODO{The following sentence is incomplete. You cannot say "similar fault detection ability that statement and branch coverage". Do you mean 100\% branch coverage (i.e., branch adequate)? Also putting together branch and statement is tricky, because branch is a stronger criterion. }
+This evaluation shows that a test suite that reaches a mutation score of 80\% has a similar  similar fault detection capability of one that achieves XX\% branch coverage. 
+\TODO{Why do we have to put both 90 and 95?}
+Instead, a test suite that reaches a mutation score of 90\% or 95\% outperforms this code coverage criterion. The drawback of this result, is, however, that the fault detection ability of mutation testing is high only with a high mutation score.}
 
-Computing the mutation score includes the task of identifying equivalent and redundant mutants. As seen in Section \ref{sec:opt:equivalent} and \ref{sec:opt:redundant}, these type of mutants can obscure and overestimate or underestimate the true score \cite{papadakis2016threats,kintis2017detecting}.
-Hence, these mutants must be assessed before estimating the fault revelation ability of a test suite through the mutation testing process.
+%To reliably compute the mutation score it is necessary to identify equivalent and redundant mutants. 
+As seen in Section \ref{sec:opt:equivalent} and \ref{sec:opt:redundant}, equivalent and redundant mutants can affect (i.e., cause an overestimation or underestimation) the mutation score \cite{papadakis2016threats,kintis2017detecting}.
+Hence, it is desirable to identify the presence of such mutants before estimating the fault revelation ability of a test suite.

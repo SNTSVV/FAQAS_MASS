@@ -26,7 +26,7 @@
 \usepackage{imakeidx}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\makeindex
+\makeindex[intoc]
 
 \usepackage[font=normalsize]{caption}  
 
@@ -130,6 +130,8 @@
 \allsectionsfont{\sffamily}
 
 \setlength{\parskip}{1em}
+
+%\renewcommand{\,}{$^{\cdot}$}
 
 %%%% Title
 \newcommand{\titleone}{\textsf{Fault-based Automated Quality Assurance of Test Suites:}}
