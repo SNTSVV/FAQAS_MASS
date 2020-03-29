@@ -1,6 +1,6 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Data-driven Mutation Operators}
+\subsection{Data-driven Mutation Operators}
 \label{sec:data_operators}
 
 As mentioned in Section~\ref{sec:dataProcess}, the software engineering literature does not include any study on data-driven mutation testing but only testing approaches based on the injection of data faults.
@@ -67,7 +67,7 @@ We provide an overview in the following.
 
 
 %\subsubsection{Approaches generating data from scratch}
-\emph{AFL} is an instrumentation-guided fuzzer~\cite{gutmann2016fuzzing}. It integrates genetic algorithms with a form of branch coverage called state transition coverage,
+\INDEX{AFL} is an instrumentation-guided fuzzer~\cite{gutmann2016fuzzing}. It integrates genetic algorithms with a form of branch coverage called state transition coverage,
 which captures the number of times each branch is taken in an execution. 
 AFL aims to generate inputs that exercise all the different code paths.
 %It is implemented by executing for every instruction of the program under test the following lines

@@ -48,7 +48,7 @@ The operators appearing in Table~\ref{table:codeoperators} are organized in 26 c
 % object oriented: encapsulation, inheritance, method overloading, object and member replacement, polymorphism, language-specific features.
 
 With a vast set of operators available in the literature, multiple studies for the identification of most efficient operators have been conducted~\cite{rothermel1996experimental}. The study conducted by Offutt et al.~\cite{rothermel1996experimental} identified the \INDEX{sufficient set of operators}, the set is composed by the absolute value insertion (ABS), arithmetic operator replacement (AOR), logical connector replacement (LCR), relational operator replacement (ROR) and unary operator insertion (UOI) operator. 
-\DONE{Is "deletion statement" or "statement deletion" ? OSCAR: Statement deletion}
+%\DONE{Is "deletion statement" or "statement deletion" ? OSCAR: Statement deletion}
 The sufficient set was then updated by Andrews et al.~\cite{andrews2005mutation} with the statement deletion operator (SDL), the operator was included because it ensures that every pointer-manipulation and field-assignment statement is properly tested, and avoids vulnerabilities that might not be checked by the rest of the sufficient operators. However, recent research has proven that the SDL operator is the most effective for fault detection~\cite{delamaro2014designing}. \MREVISION{C11.a}{In Section~\ref{sec:opt:execution}, we provide references to research work~\cite{gopinath2015hard,zhang2013operator} showing that a random subset of the generated mutants is sufficient to evaluate the quality of a test suite.}
 
 \newcommand{\OffuttADA}{\cite{offutt1996mutation}}

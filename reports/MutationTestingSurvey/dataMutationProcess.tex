@@ -15,7 +15,7 @@
 This Chapter is a first attempt towards the formalization of a test suite assessment process based on the injection of faults in the data processed by software components; we refer to this process as \emph{data-driven mutation testing}. 
 
 Data-driven mutation testing aims to assess test suites by simulating faults that affect the data produced, received, or exchanged by the software and its components.
-It is based on a fault model capturing the type of data fault that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. \MREVISION{C18}{The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel).} The data is the automatically mutated by a set of operators that aim to replicate the faults in the fault model. A simple operator is the \INDEX{bit flip operator}, which could be implemented through a procedure that flips a randomly selected bit of every field of the transmitted data (see Section~\ref{}).
+It is based on a fault model capturing the type of data fault that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. \MREVISION{C18}{The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel).} The data is the automatically mutated by a set of operators that aim to replicate the faults in the fault model. A simple operator is the \INDEX{bit flip operator}, which could be implemented through a procedure that flips a randomly selected bit of every field of the transmitted data (see Section~\ref{sec:data_operators}).
 
 
 Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in this book. The process is based on two main sub-processes, \EMPH{test suite evaluation} and \EMPH{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. 
@@ -109,6 +109,7 @@ The main \INDEX{limitations of data-driven mutation testing} concern:
 \item \MREVISION{C28.c}{the necessity for processing multiple system outputs, which makes data-driven mutation testing more difficult to integrate in a testing process}.
 \end{itemize}
 
+In the following sections, we present solutions to address the above-mentioned limitations.
 
 % subsection test_suite_evaluation (end)
 

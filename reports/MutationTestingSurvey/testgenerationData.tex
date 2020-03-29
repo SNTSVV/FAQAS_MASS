@@ -83,15 +83,15 @@ Similarly to the case of UML-based test case generation approaches that generate
 
 \subsubsection{Block-models}
 
-TO BE COMPLETED
+Among the existing toolsets based on block-models, Peach support the automated generation of test data. It's implementation simply generates random data, the process is referred to as 
+\INDEX{blind fuzzing}\footnote{https://wiki.mozilla.org/Security/Fuzzing/Peach$\#$Creating\_a\_Data\_Model}.
 
-\TODO{Fabrizio}
 
 \subsubsection{No models}
 
 
-TO BE COMPLETED
-\TODO{Fabrizio}
+The generation of test inputs without the need of data model is typically driven by code coverage. A representative solution is given by AFL, which has been introduced in Section~\ref{sec:data_operators}. More in general, approaches that address the problem of automatically testing programs that process structured data can be adopted for this purpose~\cite{Kiran:2008,Braione:2017,Braione:2018} For example, SUSHI~\cite{Braione:2018} is a tool that aims to cover test objectives that depend on non-trivial data structure instances. 
+It relies on symbolic execution to generate path conditions that capture the relationship between program paths and input data structures. The path conditions are then translated into fitness functions to enable testing based on meta-heuristic search. A solution for the search problem is a sequence of method invocations that instantiates the structured inputs to exercise the program paths identified by the path condition. 
 
 \endinput
 
