@@ -12,7 +12,7 @@ in the program state right after the mutated code in comparison to the non-mutat
 and manifest these corruptions into the program output 
 %Fabrizio: an assertion is not an output
 (e.g., by producing an erroneous value in a state variable verified by a test assertion) 
-thus leading to a software failure \cite{papadakis2019mutation}, these conditions are also known as the \INDEX{killing conditions} of a mutant.
+thus leading to a software failure~\cite{papadakis2019mutation}, these conditions are also known as the \INDEX{killing conditions} of a mutant.
 
 In the literature, there exist two groups of approaches for 
 %driving automated test generation processes aimed to kill mutants, based on the above mentioned conditions. 
@@ -30,12 +30,12 @@ Techniques based on constraint programming use some form of automated reasoning 
 
 One possibility consists of generating constraints that capture the three killing conditions of a mutant: \INDEX{reachability} (i.e, the test case should execute the mutated statement), \INDEX{necessity} (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and \INDEX{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
 
-Offutt et al. \cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
+Offutt et al.~\cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
 Then, such constraints are encoded to form a constraint system, in their approach, they propose three strategies for identifying infeasible constraint systems, the contradictions to such systems are the new test cases for the program under analysis.
 
 \input{listings/cbt}
 
-In the following, we introduce an example of the application of Offutt's \cite{offutt1997automatically} approach by using the \texttt{midval} function presented in Listing \ref{midval}. This function has a mutation on line 9, which has been mutated into line 10. According to their approach, the three killing conditions would be the following:
+In the following, we introduce an example of the application of Offutt's~\cite{offutt1997automatically} approach by using the \texttt{midval} function presented in Listing~\ref{midval}. This function has a mutation on line 9, which has been mutated into line 10. According to their approach, the three killing conditions would be the following:
 
 \begin{itemize}
 	\item Reachability $C_R: (y < z) \wedge (x \geq y)$
@@ -45,7 +45,7 @@ In the following, we introduce an example of the application of Offutt's \cite{o
 
 $C_R$ defines the condition required to reach the mutated statement, in this case the conjunction between the predicate of the first if condition and the negation of the second if condition. $C_N$ defines the condition required to assure a different program state between the original and mutated version of the program right after the mutation point. Finally, $C_S$ defines the condition necessary to demonstrate that both the original and the mutated program returns different values.
 
-Holling et al. \cite{holling2016nequivack} proposed to use a \INDEX{symbolic execution} approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
+Holling et al.~\cite{holling2016nequivack} proposed to use a \INDEX{symbolic execution} approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
 
 % Symbolic execution
 
@@ -77,16 +77,16 @@ If a value that makes the two functions generate distinct results can be found, 
 %Each non-equivalent value proves that a new input that makes the original and the mutated function generate different results, has been found. 
 To automate the generation of inputs, Holling et al. rely on KLEE~\cite{cadar2008klee}, a symbolic execution tool for programs written in C/C++.
 
-We introduce an example of Holling's approach in Listing~\ref{function}. The top part of Listing \ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing \ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
+We introduce an example of Holling's approach in Listing~\ref{function}. The top part of Listing~\ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing~\ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
 To automate the generation of inputs using KLEE, all the parameters need to be treated as symbolic values.
 %F: "the \texttt{isPositive} parameter \texttt{num}" it's impossible to understand what is the parameter and who owns the parameter
-%In Holling's approach, first, the \texttt{isPositive} parameter \texttt{num} needs to be treated as symbolic value, which is done by the function \texttt{make\_symbolic} (see Listing \ref{example}) which converts concrete variables to symbolic by considering its memory address and size. 
-This is achieved by function \texttt{make\_symbolic} (see Listing \ref{example}) which converts concrete variables to symbolic ones by considering their memory address and size. 
+%In Holling's approach, first, the \texttt{isPositive} parameter \texttt{num} needs to be treated as symbolic value, which is done by the function \texttt{make\_symbolic} (see Listing~\ref{example}) which converts concrete variables to symbolic by considering its memory address and size. 
+This is achieved by function \texttt{make\_symbolic} (see Listing~\ref{example}) which converts concrete variables to symbolic ones by considering their memory address and size. 
 %F: please fix
-In Listing \ref{example}, the parameter \texttt{numSymbolic} is made symbolic in Line 3. Then, the original and mutated functions are called using the symbolic arguments in Lines 5 and 6.
+In Listing~\ref{example}, the parameter \texttt{numSymbolic} is made symbolic in Line 3. Then, the original and mutated functions are called using the symbolic arguments in Lines 5 and 6.
 %Finally, the \texttt{assert} function of line 8 verifies if the integer return values of both functions are equal or not.
 Finally, we need to introduce an assertion that makes the symbolic execution engine \EMPH{look for inputs that make the output of the two functions different}. 
-In Listing \ref{example}, this is achieved with an assertion that verifies that the return values of the two functions the same (see Line 8). 
+In Listing~\ref{example}, this is achieved with an assertion that verifies that the return values of the two functions the same (see Line 8). 
 
 Despite being counterintuitive, this approach is effective because symbolic execution engines aim to identify inputs that falsify the assertions in the program. 
 When the equality is falsified, then the two functions can produce a different output for a same input\footnote{In the following sections, we will show that this same criterion also indicates that the two functions are non-equivalent}.
@@ -95,19 +95,19 @@ The input that falsifies the equality can thus be used to improve the test suite
 % of identifying inputs that lead to different output falsifying the assertion.
 
 %In the concrete, if we consider the implementation of \texttt{isPositive} and \texttt{MUT\_isPositive}, 
-In the example of Listing \ref{example}, KLEE will indicate that the return values of the original and mutated function differ when \texttt{num} is equal to zero.
+In the example of Listing~\ref{example}, KLEE will indicate that the return values of the original and mutated function differ when \texttt{num} is equal to zero.
 A new test case exercising function \texttt{isPositive} with \texttt{num=0} should thus be added to the test suite in order to kill the mutant.
 
 \input{listings/holling_approach}
 
-Similarly to Holling's approach, Riener et al. \cite{riener2011test} proposed to use \INDEX{bounded model checking} techniques to search for these counter examples.
+Similarly to Holling's approach, Riener et al.~\cite{riener2011test} proposed to use \INDEX{bounded model checking} techniques to search for these counter examples.
 In their bounded model checking approach, the original program and the mutant are unrolled with respect to a certain maximum bound. In program unrolling, loops are re-written as a repeated sequence of similar independent statements. Then, both unrolled programs are encoded into a logic formula over the same input variables. To ensure that the mutation affects the output of the mutant, a propagation condition is encoded and added to the previous logic formula, the condition asserts that there exist at least one pair of different outputs under the assumption of equal inputs. In the last step, the formula is processed by a SMT-solver, if the solver finds a satisfying assignment, the inputs of the formula are translated into a new test case for the current program under analysis.
 
 %F: you should explain what is bounded-model checking. If Riener do not provide background you can check my ISSTA'14 paper (Verification-Aided Regression Testing), there is a background section (2) on bounded model checking that starts with "The idea in BMC is to represent ..."
 
 Compared to symbolic execution, one advantage of bounded model checking is that it does not require to execute the whole program but may focus on the mutated functions only.
 
-To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and \INDEX{mutant schemata} to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets \INDEX{weak mutation} testing and may not generalize to strong mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
+To reduce the time required by the symbolic execution process, which needs to be performed against all the mutants of the software, Papadakis et al.~\cite{papadakis2011automatically, papadakis2010towards} propose to combine symbolic execution techniques and \INDEX{mutant schemata} to automatically generate test cases targeting the killing conditions induced by the different mutants embedded into the same executable. The approach targets \INDEX{weak mutation} testing and may not generalize to strong mutation testing. Indeed, ensuring the sufficiency property (i.e., verify that changes are propagated to outputs) for multiple mutants might lead to scalability issues not addressed by the proposed approach.
 
 \subsection{Test Generation based on Evolutionary Computation}
 
@@ -115,20 +115,24 @@ Test generation approaches based on \INDEX{evolutionary computation} typically r
 They search for program inputs that could kill mutants under the guidance of a fitness function~\cite{harman2011strong}. 
 The main research contribution of these methods is the definition of fitness functions that captures the killing conditions of a mutant and identifies test inputs that satisfy those conditions.
 
-The \INDEX{fitness function} captures the killing conditions of a mutant. For instance, Ayari et al. \cite{ayari2007automatic} proposed to use an evolutionary approach based on ant colony optimization (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of real ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al. \cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
+The \INDEX{fitness function} captures the killing conditions of a mutant. For instance, Ayari et al.~\cite{ayari2007automatic} proposed to use an evolutionary approach based on ant colony optimization (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of real ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al.~\cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
 %F: you have to provide more details what does it mean "close"?
 The fitness function measures the distance between the mutated statement, and the statement reached by the new test case (e.g., the reachability condition). More precisely, the distance is defined as the number of basic blocks between the two statements in the program's control flow graph.
-Papadakis et al. \cite{papadakis2011automatically}, instead, rely on fitness functions that capture the distance between mutated statement and the statement covering the branches of the different mutations (e.g., the necessity condition).
+Papadakis et al.~\cite{papadakis2011automatically}, instead, rely on fitness functions that capture the distance between mutated statement and the statement covering the branches of the different mutations (e.g., the necessity condition).
 
-Fraser and Arcuri \cite{fraser2015achieving} propose to use distinct distance metrics tailored to the specific operator used to generate the mutants.
+Fraser and Arcuri~\cite{fraser2015achieving} propose to use distinct distance metrics tailored to the specific operator used to generate the mutants.
 %F: we need more examples for multiple operators. Also, you should clarify why distinct metrics are needed
-This tailoring is needed because the necessity killing condition relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed.
+This tailoring is needed because the necessity killing condition relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed (i.e., values on the stack are different at the mutation point).
 %Fabrizio: it was not comprehensible
 %mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
-\TODO{I cannot undertsand the following, we can ignore it.}
-For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
-For example, the \textit{insert unary operator} adds or subtracts 1 to a numerical value. For this reason, the mutants produced by this operator always affect the program state, so the distance is always 0 when the statement is reached.
-Instead, in the case of the \textit{replace variable operator}, which replaces a specific variable with all other variables of the same type in the program scope, the distance is 0 only if the values of the variables being exchanged are different before executing the statement, otherwise it is 1.
+\DONE{I cannot undertsand the following, we can ignore it.}
+For example, the \textit{deletion operator}, which removes a statement, can or cannot change the program state. In case the mutation effectively changes the program state the distance is set to 0, otherwise the given value is 1.
+
+% For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
+In the case of the \textit{insert unary operator}, which adds or subtracts 1 to a numerical value, the operator always change the program state, so the distance is set to 0 when the statement is reached. 
+% For this reason, the mutants produced by this operator always affect the program state, so the distance is always 0 when the statement is reached.
+
+Instead, in the case of the \textit{replace variable operator}, which replaces a specific variable with all other variables of the same type in the program scope, the distance is set to 0 only if the values of the variables being exchanged are different before executing the statement, otherwise it is 1.
 
 \endinput
 
@@ -138,7 +142,7 @@ Instead, in the case of the \textit{replace variable operator}, which replaces a
 
 	\item Dynamic symbolic execution approaches: embed the mutant killing conditions within the executable program and guide test generation towards these conditions.
 
-	\item Papadakis et al. \cite{papadakis2011automatically, papadakis2010towards}:
+	\item Papadakis et al.~\cite{papadakis2011automatically, papadakis2010towards}:
 	Embed mutant infection conditions (cause a corruption to the program state) within the schematic functions that are produced by mutant schemata. Basically, we have all mutants encoded in a single executable with their killing conditions. Then, using dynamic symbolic execution we can directly produce test cases that targets those infection conditions.
 \end{itemize}
 

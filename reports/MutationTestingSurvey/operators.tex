@@ -35,7 +35,7 @@ The operators appearing in Table~\ref{table:codeoperators} are organized in 26 c
 \item Category \emph{statements} includes operators performing syntactical changes at a statement-level granularity.
 \item Category \emph{strings} includes operators that performs mutations on variables of string type.
 \item Category \emph{structures} includes operators that mutate C/C++ structures.
-\item Category \emph{higher-order} includes operators for generating second- and higher-order mutants. \MREVISION{C11.c}{These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults \cite{jia2009higher}. Usually, each operator of this category introduce a strategy on how to combine first order operators to form a higher-order one. For example, the \emph{RMix} operator combines any two randomly selected first order operator to generate a higher-order mutant.} 
+\item Category \emph{higher-order} includes operators for generating second- and higher-order mutants. \MREVISION{C11.c}{These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults~\cite{jia2009higher}. Usually, each operator of this category introduce a strategy on how to combine first order operators to form a higher-order one. For example, the \emph{RMix} operator combines any two randomly selected first order operator to generate a higher-order mutant.} 
 %Fabrizio: "vulnerability" is a term relates to security, we should not use it except of these system-level class concerns only security
 %Category \emph{system-level} includes operators that performs mutations at a system-level; usually, these mutations seek vulnerabilities on the different system functionalities. 
 \item Category \emph{system-configuration} includes operators that perform mutations at a system-configuration level; usually, these mutation operators aim to cause faults concerning the configuration of the system itself.
@@ -80,9 +80,9 @@ Table~\ref{table:codeMutation:references} provides the names of the tools and ap
 
 \input{tables/code_operators}
 
-\MREVISION{C11.b}{Table \ref{table:codeoperatorssummary} shows a summary of the number of operators we collected for each category and the context where they can be applied. The table also provides a strategy to prioritize the mutation operators for space-context software. In particular, in the last column \textit{Relevance for FAQAS} we prioritized the categories according to the effectiveness and ease of implementation. 
-Based on this criterion, we selected \INDEX{deletion operators} as the most relevant, since according to the literature they form a cost-effective alternative to other operators in terms of amount of mutants produced and equivalent mutants \cite{delamaro2014designing}. 
-Following the same criterion, we then selected the \INDEX{sufficient set of operators}, because most of the mutation tools already implement them, and because they are proven to be fault-detection effective \cite{offutt1996experimental,andrews2005mutation,siami2008sufficient}.
+\MREVISION{C11.b}{Table~\ref{table:codeoperatorssummary} shows a summary of the number of operators we collected for each category and the context where they can be applied. The table also provides a strategy to prioritize the mutation operators for space-context software. In particular, in the last column \textit{Relevance for FAQAS} we prioritized the categories according to the effectiveness and ease of implementation. 
+Based on this criterion, we selected \INDEX{deletion operators} as the most relevant, since according to the literature they form a cost-effective alternative to other operators in terms of amount of mutants produced and equivalent mutants~\cite{delamaro2014designing}. 
+Following the same criterion, we then selected the \INDEX{sufficient set of operators}, because most of the mutation tools already implement them, and because they are proven to be fault-detection effective~\cite{offutt1996experimental,andrews2005mutation,siami2008sufficient}.
 }
 
 \input{tables/code_operators_summary}
