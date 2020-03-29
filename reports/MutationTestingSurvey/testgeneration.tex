@@ -125,9 +125,8 @@ Fraser and Arcuri~\cite{fraser2015achieving} propose to use distinct distance me
 This tailoring is needed because the necessity killing condition relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed (i.e., values on the stack are different at the mutation point).
 %Fabrizio: it was not comprehensible
 %mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
-\DONE{I cannot undertsand the following, we can ignore it.}
+%\DONE{I cannot undertsand the following, we can ignore it.}
 For example, the \textit{deletion operator}, which removes a statement, can or cannot change the program state. In case the mutation effectively changes the program state the distance is set to 0, otherwise the given value is 1.
-
 % For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
 In the case of the \textit{insert unary operator}, which adds or subtracts 1 to a numerical value, the operator always change the program state, so the distance is set to 0 when the statement is reached. 
 % For this reason, the mutants produced by this operator always affect the program state, so the distance is always 0 when the statement is reached.
