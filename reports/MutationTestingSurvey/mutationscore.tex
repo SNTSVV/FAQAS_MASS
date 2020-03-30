@@ -9,11 +9,14 @@
 The mutation testing process is driven by the mutation score; the process iterates multiple times until the mutation score reaches a certain threshold. 
 
 According to recent studies, there is a relation between the mutation score and the fault revelation ability of mutation testing.
-\MREVISION{C7}{A recent empirical evaluation, for example, has shown that \textit{achieving high mutation scores improves significantly the fault detection capability of a test suite}
+\MREVISION{C7}{A recent empirical evaluation, for example, has shown that \textit{achieving a high mutation score improves significantly the fault detection capability of a test suite}
 ~\cite{papadakis2018mutation}. 
 %\DONE{The following sentence is incomplete. You cannot say "similar fault detection ability that statement and branch coverage". Do you mean 100\% branch coverage (i.e., branch adequate)? Also putting together branch and statement is tricky, because branch is a stronger criterion. }
-This evaluation shows that from a large set of test suites, the subsets of test suites with highest 10\% of branch coverage had a fault revelation rate of 0.542, while the subsets of test suites with highest 10\% of mutation coverage had a fault revelation of 0.639. Instead, when considering the subsets of test suites with highest 20\% of branch and mutation coverage, the fault revelation rates dropped in both cases to 0.524 and 0.565, respectively.
-The drawback of this result, is, however, that the fault detection ability of mutation testing is high only with a high mutation score.}
+%This evaluation shows that from a large set of test suites, the subsets of test suites with highest 10\% of branch coverage had a fault revelation rate of 0.542, while the subsets of test suites with highest 10\% of mutation coverage had a fault detection rate of 0.639. Instead, when considering the subsets of test suites with highest 20\% of branch and mutation coverage, the fault revelation rates dropped in both cases to 0.524 and 0.565, respectively.
+The evaluation shows that, from a large set of test suites, the top 10\% ranked according to branch coverage (i.e., the ones with the highest branch coverage) have a fault detection
+ rate (i.e., the portion of real faults being detected by the test suite)  of 0.542, while the top 10\% ranked according to mutation coverage (i.e., the ones with the highest mutation score) have a fault detection rate of 0.639. 
+If we consider, instead, test suites with lower branch and mutation coverage (i.e., top 20\% for both branch and mutation coverage), the fault detection rate drops to 0.524 and 0.565, for branch and mutation coverage, respectively.
+ The drawback of this result, is, however, that only a high mutation score ensures to have test suites with a fault detection rate above 0.6.}
 
 
 %This evaluation shows that a test suite that reaches a mutation score of 80\% has a similar  similar fault detection capability of one that achieves 80\% branch coverage. 

@@ -7,7 +7,7 @@ As mentioned in Section~\ref{sec:dataProcess}, the software engineering literatu
 For this reason, 
 in this section we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
 More precisely, we focus on the techniques for the modification of data that are presented in software testing research papers.
-We refer to these techniques as \emph{data-driven mutation operators}.
+We refer to these techniques as \INDEX{data-driven mutation operators}.
 
 Table~\ref{table:dataOperators} provides an overview of the data-driven mutation operators that can be applied to the case of space software and embedded systems. 
 We selected the set of data-driven mutation operators in Table~\ref{table:dataOperators} based on the different type of faults commonly affecting space and embedded systems. 
@@ -21,17 +21,17 @@ In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the 
  
 %Fabrizio: "First" and "Then" read like a story, which is not good in a Tech Report
 Concerning the type of faults considered, we focus both on hardware and software errors.
-For hardware errors, we include the categories \emph{CPU Faults}, \emph{Memory Faults}, and \emph{Signal Faults}. 
-For software errors, we include the category of \emph{Data Processing Faults}.
-Category \emph{Communication Faults} simulates problems that can be caused either by software or hardware errors.
+Hardware errors are captured by the categories \INDEX{CPU Faults}, \INDEX{Memory Faults}, and \INDEX{Signal Faults}. 
+Software errors are captured by the category \INDEX{Data Processing Faults}.
+Category \INDEX{Communication Faults} simulates problems that can be caused either by software or hardware errors.
 
 In the following, we provide a brief overview of the operators generating each type of fault:
 \begin{itemize}
 	%Note: always put a comma at the end of a list before "or" "and"
-	\item Category \emph{CPU Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
-	\item Category \emph{Memory Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
-	\item Category \emph{Communication Faults} includes operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
-	\item Category \emph{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
+	\item Category \INDEX{CPU Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
+	\item Category \INDEX{Memory Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
+	\item Category \INDEX{Communication Faults} includes operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
+	\item Category \INDEX{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
 \end{itemize}
 
 \newcommand{\FTAPE}{\cite{tsai1999stress}}
@@ -67,7 +67,7 @@ We provide an overview in the following.
 
 
 %\subsubsection{Approaches generating data from scratch}
-\INDEX{AFL} is an instrumentation-guided fuzzer~\cite{gutmann2016fuzzing}. It integrates genetic algorithms with a form of branch coverage called state transition coverage,
+\INDEX{AFL} is an \INDEX{instrumentation-guided fuzzer}~\cite{gutmann2016fuzzing}. It integrates \INDEX{genetic algorithms} with a form of branch coverage called state transition coverage,
 which captures the number of times each branch is taken in an execution. 
 AFL aims to generate inputs that exercise all the different code paths.
 %It is implemented by executing for every instruction of the program under test the following lines
@@ -80,8 +80,8 @@ If any of the generated mutations result in a change of the coverage for the sof
 
 \input{tables/table_AFL_operators}
 
-\emph{Superion}~\Superion~ extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar. 
-It performs mutations that consist of \emph{grammar-aware trimming}, \emph{dictionary-based mutations}, and \emph{tree-based mutation}.
+\INDEX{Superion}~\Superion~ extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar. 
+It performs mutations that consist of \INDEX{grammar-aware trimming}, \INDEX{dictionary-based mutations}, and \INDEX{tree-based mutation}.
 Grammar-aware trimming is performed by generating an AST tree from the input and by deleting a randomly-selected subtree. 
 It aims to generate trimmed inputs that do not alter code coverage in the SUT.
 Dictionary-based mutations are performed by building a dictionary using every token in the input file and by inserting the elements of the dictionary in the boundaries of every token in the input file.
@@ -100,7 +100,7 @@ Listing~\ref{mutatedJSONfile} shows a JSON file generated by deleting a randomly
 %\subsubsection{Approaches altering existing data}
 
 
-\emph{$\mu$4SQLi}~\cite{Appelt:SQLI:ISSTA:2014} relies on a SQL grammar to generate SQL injections. 
+\emph{$\mu$4SQLi}~\cite{Appelt:SQLI:ISSTA:2014} relies on a SQL grammar to generate \INDEX{SQL injections}. 
 SQL injections are generated by means of a set of mutation operators, shown in Table~\ref{table:Mu4SQLI}, that alter the values of an input according to predefined patterns.
 Similarly, SOLMI~\cite{Jan:ISSTA:2016} relies on the XML grammar to alter XML messages based on a predefined set of mutation operators and introduce potential XML injections. 
 SOLMI implements four operators that (1) introduce XML meta-characters, (2) introduce closing tags, (3) replicate XML elements, (4) replace XML content.
@@ -144,7 +144,7 @@ One of the major limitations of grammar-based approaches is the cost of defining
 
 %, also, it requires more knowledge about the target than purely random ones.
 
-\emph{SAGE} adopts symbolic execution to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications. 
+\INDEX{SAGE} adopts \INDEX{symbolic execution} to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications. 
 The program is first executed with concrete inputs; in order to identify a set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints. 
 The main benefit of SAGE is that it forces the program to execute corner cases not covered by the initial inputs; for example, 
 %Fabrizio: you wrote the following, which I could not understand please check if my sentence is correct
@@ -157,13 +157,13 @@ Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers 
 %\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
 
 %Fabrizio: we miss the pro/cons from the following
-\emph{Model-Based Whitebox Fuzzing} targets program binaries that process structured inputs~\cite{pham2016model}. It efficiently generates valid inputs that exercise critical target locations. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
+\INDEX{Model-Based Whitebox Fuzzing} targets program binaries that process structured inputs~\cite{pham2016model}. It efficiently generates valid inputs that exercise critical target locations. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
 Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. 
 
 
 
 %\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
-\emph{Model-based data mutation} concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
+\INDEX{Model-based data mutation} concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
 The technique receives two inputs: field data and a data model, i.e., a UML class diagram annotated with stereotypes and OCL constraints. 
 An example data model has been shown in Figure~\ref{fig:dataModel} while an example OCL constraint appears in Figure~\ref{fig:costraint:firstHeader}. 
 The technique relies upon six generic mutation operators to automatically generate faulty data. 
@@ -184,16 +184,13 @@ Inconsistent data might also be caused by mutation operators that target classes
 
 
 
-\emph{Search-based data mutation} relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:  
+\INDEX{Search-based data mutation} relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:  
 cover all the classes of the data-model, cover all the possible faults of the fault model, cover all the clauses of the input/output constraints,
 maximise code coverage~\cite{di2015evolutionary}.
 The coverage of each objective is encoded by means of boolean arrays; this information is used to select a minimal set of inputs that maximize the coverage of the different objectives.
 At every iteration, the evolutionary algorithm keeps only inputs that contribute to increase the coverage of at least one of the objectives (e.g., inputs that cover one instruction not covered by other inputs).
 
+An additional source of information concerning the adoption of fuzzing and grammar-based approaches to perform test input generation is the \emph{Fuzzing Book}~\cite{fuzzingbook2019:GrammarFuzzer}.
 
-Most of the approaches presented in table Table~\ref{table:dataOperators} work by altering existing data, one exception is
-\emph{Parser-Directed Fuzzing} (hereafter, \emph{pFuzzer}). Indeed, it aims at producing valid inputs for input parsers~\cite{mathis2019parser}. The challenge is to cover all the lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and tracks all the comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
-Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} prototype covers more tokens than both lexical-based (AFL) and constraint-based approaches (KLEE).
-An additional source of information concerning the adoption of fuzzying and grammar-based approaches to perform test input generation is the \emph{Fuzzing Book}~\cite{fuzzingbook2019:GrammarFuzzer}.
 
 \clearpage

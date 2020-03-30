@@ -5,15 +5,15 @@
 
 The objectives of test suites augmentation have been introduced in Section~\ref{sec:data:test_suite_augmentation}.
 In this section, we present solutions that automate two activities required to augment test suites
-\emph{Identify Test Inputs} and \emph{Generate Test Oracles}.
+\INDEX{Identify Test Inputs} and \INDEX{Generate Test Oracles}.
 
 \subsection{Automated Identification of Test Inputs}
 
-The goal of the automated identification of test inputs is to generate test inputs that increase the \emph{\% of Operators Applied} when performing data-driven mutation testing. Despite the literature does not address the problem of automatically generating test inputs for data mutation testing, in this section we provide references to related work that can be reused for this purpose. We group the applicable approaches according to the type of models used to drive the mutation testing process: UML models, grammars, block models, no models. 
+The goal of the automated identification of test inputs is to identify test inputs that increase the \emph{\% of Operators Applied} when performing data-driven mutation testing. Despite the literature does not address the problem of automatically generating test inputs for data mutation testing, in this section we provide references to related work that can be reused for this purpose. We group the applicable approaches according to the type of models used to drive the mutation testing process: \INDEX{UML models}, \INDEX{grammars}, \INDEX{block models}, \INDEX{no models}. 
 
 Automated test inputs generation aims to automatically generate data that can be altered through a mutation operator. 
 In the context of system testing, which is the target of data-driven mutation testing, test input data is provided through input interfaces. However, since data-driven mutation testing can be applied to target data exchanged through 
-every communication layer, including input interfaces and interfaces used for the communication among internal components, we may observe two possible situations. First, the data exchanged on the communication layer targeted by mutation testing coincide with the input data (i.e., it was not transformed internally). Second, the data exchanged on the communication layer targeted by mutation is the result of a transformation of the input data. For all the approaches targeted in our survey, we thus need to consider both the two cases.
+every communication layer, including input interfaces and interfaces used for the communication among internal components, we may observe two possible situations. First, the data exchanged on the communication layer targeted by mutation testing coincide with the input data (i.e., it was not transformed internally). Second, the data exchanged on the communication layer targeted by data mutation is the result of a transformation of the input data. For all the approaches targeted in our survey, we thus need to consider both the two cases.
 
 \subsubsection{UML models}
 %model-based fuzzying and 
@@ -25,20 +25,20 @@ For example, in the case of the data model in Figure~\ref{fig:dataModel}, we may
 
 When the data exchanged on the communication layer targeted by mutation testing coincide with the input data, existing approaches based on constraint-solvers can be adopted. 
 These approaches rely on a formal or semi-formal specification of the structure of the input data and the constraints among data fields.
-Some techniques target the generation of inputs whose data structure had been specified using a UML class diagram where the relations among data fields have been captured using OCL constraints. The data structure model is a UML class diagram and resemble the one reported in Figure~\ref{fig:dataModel}. The OCL language is instead used to capture all the constraints among data fields. Existing techniques in this category work by generating class diagram instances that satisfy a set of given OCL constraints by executing appropriate constraint solvers after having transformed the OCL constraints into other formalisms such as Alloy models~\cite{Uml2alloy}, constraint satisfaction~\cite{EMFTOCSP}, SMT~\cite{Przigoda2016}, or SAT problems~\cite{Soeken2011}. 
+Some techniques target the generation of inputs whose data structure had been specified using a UML class diagram where the relations among data fields have been captured using OCL constraints. The data structure model is a UML class diagram and resembles the one reported in Figure~\ref{fig:dataModel}. The OCL language is instead used to capture all the constraints among data fields. Existing techniques in this category work by generating class diagram instances that satisfy a set of given OCL constraints by executing appropriate constraint solvers after having transformed the OCL constraints into other formalisms such as \INDEX{Alloy models}~\cite{Uml2alloy}, \INDEX{constraint satisfaction}~\cite{EMFTOCSP}, \INDEX{SMT}~\cite{Przigoda2016}, or \INDEX{SAT} problems~\cite{Soeken2011}. 
 
 Other approaches, instead, work with models specified in formats other than UML class diagrams:
-Java classes~\cite{Boyapati-KORAT-ISSTA-2002,gligoric2010test}, constraint logic~\cite{Senni-CPLgeneration-TAP-2012}, Alloy~\cite{Khurshid-SpecificationBasedTesting-ASE-2004}, or Z specifications~\cite{Horcher-Z-1995}.
+\INDEX{Java classes}~\cite{Boyapati-KORAT-ISSTA-2002,gligoric2010test}, \INDEX{constraint logic}~\cite{Senni-CPLgeneration-TAP-2012}, \INDEX{Alloy}~\cite{Khurshid-SpecificationBasedTesting-ASE-2004}, or \INDEX{Z specifications}~\cite{Horcher-Z-1995}.
 These techniques have been proven to be effective for testing software systems that process classical data structures like trees. 
 Alloy is a modelling language for expressing complex structural constraints~\cite{Jackson:Alloy:2002},
 which has been successfully used to generate test inputs for testing object-oriented programs~\cite{Khurshid-SpecificationBasedTesting-ASE-2004}.
-Korat, instead, is a technique that allows to generate data structures to test Java programs~\cite{Boyapati-KORAT-ISSTA-2002}. Given a bound to the input structures, i.e. the maximum number of instances for each class to be used, Korat exhaustively generates all the nonisomorphic structures that are valid. 
+Korat, instead, is a technique that allows to generate data structures to test Java programs~\cite{Boyapati-KORAT-ISSTA-2002}. Given a bound to the input structures (i.e., the maximum number of instances for each class to be used), Korat exhaustively generates all the nonisomorphic structures that are valid. 
 Some of the limitations of Korat include requiring the definition of an imperative predicate that evaluates the correctness of the generated structure, which could be complex in the case of complex data models, requiring the manual definition of an input bound for each non primitive attribute or association, which might be particularly expensive in case of complex data structure,  not dealing with constraints defined over integers.
 A more efficient, black-box test generation approach is UDITA~\cite{gligoric2010test}.
 What contributes to the efficiency of UDITA is the combination of both generator methods and predicates.
 Generator methods are used to build instances of the data structure, while predicates are used to validate the generated instances. UDITA relies upon the Java Path Finder model checker~\cite{Visser-JPF-2004} to generate all the instances that satisfy the given predicates. However, the implementation of these generator methods that define the complete structure of a complex data model instance and lead to realistic test inputs can be quite expensive. 
 
-A common limitation of solutions based on constraint-solvers is their scalability~\cite{di2017augmenting}. In the context of mutation testing, where existing test inputs are available, a possible solution to address the scalability problem may consist of generating new test inputs by regenerating only portions of existing test inputs.
+A common limitation of solutions based on constraint-solvers is their scalability~\cite{di2017augmenting}. In the context of mutation testing, where existing test inputs are available, a possible solution to address the scalability problem may consist of generating new test inputs by \EMPH{regenerating only portions of existing test inputs}.
 For example, Di Nardo et al.~\cite{di2017augmenting} automatically generate test inputs for new requirements by adapting existing field data.
 This is achieved by combining model transformations with constraint solving as shown in Fig.~\ref{fig:DiNardo}.
 Model transformations enable the partial reuse of existing field data, while constraint solving allows for the generation of missing data. The approach requires a model of the structure of the data provided by using an UML class diagram with OCL expressions capturing the constraints among data fields. In the case of Di Nardo et al., the missing data corresponds to new data types and constraints introduced after updating the requirements of the software under test. In the context of mutation testing, these may correspond to data types not observed during the execution of the test suite.
@@ -58,7 +58,7 @@ Despite empirical results show a huge performance gain with respect to tradition
       \label{fig:DiNardo}
 \end{figure}
 
-Other approaches address the scalability problem by relying on hybrid approaches~\cite{soltana2019practical}.
+Other approaches address the scalability problem by relying on \INDEX{hybrid input generation approaches}~\cite{soltana2019practical}.
 For example, PLEDGE~\cite{soltana2019practical} combines metaheuristic search and Satisfiability Modulo Theories (SMT~\cite{SMT:2011}) to generate UML instance models from UML class diagrams annotated with OCL constraints. It  works by using the Negation Normal Form (NNF~\cite{NNF:2001}) to represent all the constraints derived from the UML data model. Different subformulas that build the NNF formula are then solved by combining metaheuristic search and SMT. Metaheuristic search is used to handle subformulas whose satisfaction involves structural tweaks to the instance model, i.e., additions and deletions of objects and links. SMT is used with subformulas involving only primitive attributes, i.e., attributes with primitive types. 
 
 
@@ -68,7 +68,7 @@ When the data exchanged on the communication layer targeted by mutation is the r
 
 \subsubsection{Grammars}
 
-When grammars are used to model the input, traditional grammar-based test input generation approaches relying on the expansion of the production rules of the grammar can be adopted~\cite{fuzzingbook2019:GrammarFuzzer}. 
+When grammars are used to model the input, \INDEX{grammar-based test input generation} approaches relying on the expansion of the production rules of the grammar can be adopted~\cite{fuzzingbook2019:GrammarFuzzer}. 
 Available tools are shown in Table~\ref{table:grammarGeneration}.
 
 Listing~\ref{TestJSON} shows the inputs generated by \emph{Coverage-based Fuzzer}~\cite{fuzzingbook2019:GrammarFuzzer} to cover all the production rules and terminals of the grammar (one input per line). Listing~\ref{TestJSON} shows that these automatically generated inputs are difficult to read. For example, for a human, is more difficult to  read Listing~\ref{TestJSON}  than Listing~\ref{JSONfile}.
@@ -77,20 +77,26 @@ Listing~\ref{TestJSON} shows the inputs generated by \emph{Coverage-based Fuzzer
 
 \input{tables/table_grammar_based_testing.tex}
 
+Among existing approaches, \INDEX{Parser-Directed Fuzzing} (hereafter, \emph{pFuzzer}) aims at producing valid inputs for input parsers~\cite{mathis2019parser}. The challenge is to cover all the lexical and syntactical features of a certain language. The approach systematically produces inputs for the parser and tracks all the comparisons made; after every rejection, it satisfies the comparisons leading to rejections, effectively covering the input space. 
+Evaluated on five subjects, from CSV files to JavaScript, the \emph{pFuzzer} prototype covers more tokens than both lexical-based (AFL) and constraint-based approaches (KLEE).
+
+
 Similarly to the case of UML-based test case generation approaches that generate inputs from scratch, these grammar-based approaches can be adopted when the communication layer targeted by mutation testing is either the input layer or an internal layer.However, they may suffer of inefficiency problems.
 
 %\cite{grammar:survey}
 
 \subsubsection{Block-models}
 
-Among the existing toolsets based on block-models, Peach support the automated generation of test data. It's implementation simply generates random data, the process is referred to as 
+Among the existing toolsets based on block-models, \INDEX{Peach} is the only one which supports the automated generation of test data. It's implementation simply generates random data, the process is referred to as 
 \INDEX{blind fuzzing}\footnote{https://wiki.mozilla.org/Security/Fuzzing/Peach$\#$Creating\_a\_Data\_Model}.
 
 
 \subsubsection{No models}
 
 
-The generation of test inputs without the need of data model is typically driven by code coverage. A representative solution is given by AFL, which has been introduced in Section~\ref{sec:data_operators}. More in general, approaches that address the problem of automatically testing programs that process structured data can be adopted for this purpose~\cite{Kiran:2008,Braione:2017,Braione:2018} For example, SUSHI~\cite{Braione:2018} is a tool that aims to cover test objectives that depend on non-trivial data structure instances. 
+The generation of test inputs without the need of data model is typically driven by code coverage. A representative solution is given by AFL, which has been introduced in Section~\ref{sec:data_operators}. 
+
+More in general, approaches that address the problem of automatically testing programs that process structured data can be adopted for this purpose~\cite{Kiran:2008,Braione:2017,Braione:2018}. For example, SUSHI~\cite{Braione:2018} is a tool that aims to cover test objectives that depend on non-trivial data structure instances. 
 It relies on symbolic execution to generate path conditions that capture the relationship between program paths and input data structures. The path conditions are then translated into fitness functions to enable testing based on meta-heuristic search. A solution for the search problem is a sequence of method invocations that instantiates the structured inputs to exercise the program paths identified by the path condition. 
 
 \endinput

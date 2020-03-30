@@ -10,7 +10,7 @@
 In the data-driven mutation testing process, the outcome of the activity \emph{Analyze Results} (see Figure~\ref{fig:data:process}) is a mutation score that is based on
 the percentage of mutants being killed and the percentage of mutation operators applied. 
 The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
-The mutation score can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operators applied, according to the following formula
+The \INDEX{mutation score} can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operators applied, according to the following formula
 
 \begin{equation}
 Score=w_{O1} \frac{\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}}{\mathit{overall} \# \mathit{of}\ \mathit{mutants}} + w_{O2} \frac{\# \mathit{of}\ \mathit{mutation} \ \mathit{operators} \ \mathit{applied}}{\mathit{overall} \# \mathit{of}\ \mathit{mutation} \ \mathit{operators}}
@@ -25,8 +25,8 @@ The $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ corresponds to the nu
 The $\ONMO$ corresponds with the number of different mutations that can be applied on the data, according to the data model. It depends on the strategy adopted to select the items to be mutated.
 % and may vary based on the strategy adopted to perform data mutation.
 For approaches relying on \textbf{UML models}, one possibility is to follow the approach of Di Nardo et al.~\cite{di2015generating}, which consists of mutating every model element (e.g., class or class attribute in the class diagram capturing the data model) with every mutation operator that is applicable to the specific model element, according to the fault model captured in the class diagram (see Section~\ref{sec:data_operators}).
-The $\ONMO$ (ONMO) could be thus computed as the sum of the number of applicable mutation operators for ever every model element.
-The $\NMOA$, (NMOA) consequently, should capture the number of mutations that were performed. When following the approach of Di Nardo et al.~\cite{di2015generating}, NMOA corresponds to the number of model elements for which at least one instance had been mutated. 
+The $\ONMO$ (\INDEX{ONMO}) could be thus computed as the sum of the number of applicable mutation operators for ever every model element.
+The $\NMOA$, (\INDEX{NMOA}) consequently, should capture the number of mutations that were performed. When following the approach of Di Nardo et al.~\cite{di2015generating}, NMOA corresponds to the number of model elements for which at least one instance had been mutated. 
 
 For the computation of ONMO and NMOA, a strategy similar to the one presented by Di Nardo et al. can be used also in the case of approaches relying on \textbf{grammars} or \textbf{block models}. Indeed, also for these two types of approaches, data mutation is performed by means of a set of mutation operators that are applied in the presence of specific data types. 
 These data types correspond to the production rules of the grammar or the blocks defined in the block model. 

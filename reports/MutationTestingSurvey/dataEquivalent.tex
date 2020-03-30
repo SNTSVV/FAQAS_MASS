@@ -4,13 +4,13 @@
 \label{sec:dataequivalent}
 
 Data-driven mutation operators may lead to the generation of both equivalent and redundant mutants.
-In the data-driven context, equivalent mutants consist of modified data (i.e., data altered by means of mutation operators) that do not lead to any noticeable difference in the output of the SUT with respect to the original version of the data.
+In the data-driven context, \INDEX{equivalent mutants} consist of modified data (i.e., data altered by means of mutation operators) that do not lead to any noticeable difference in the output of the SUT with respect to the original version of the data.
 Please note that an equivalent mutant differs in content from the original data (i.e., the data chunk has been altered).
 The possible reasons why a mutant may not lead to noticeable differences in the output of the SUT are two. First, changes may go unnoticed because they alter portions of the data that is not read by the SUT. This includes cases in which mutations alter the structure of the input data in such a way that the resulting mutated data is different from the original but still respect the data format. This might happen, for example, when a mutation operator swaps the CDATA section of an XML file and the SUT ignores CDATA content. Second, mutations may alter some of the outputs of the SUT but the test suite oracles ignore that portion of the output. This might happen in a data acquisition system that copies the data payload of network packets in a database; in such a context, a data mutation that alters the message and update the packet checksum might go unnoticed because the SUT would simply copy the message content to the database and the test suite may simply check if the database contains a new message.
 
-Redundant mutants cause the same failures in the test suite. Two are the reasons for redundant mutants. First, the mutations alter different instances of a same data structure in the same way (e.g., delete a message in a sequence). Second, the mutations alter data chunks that are ignored by the oracles of the test suite.
+\INDEX{Redundant mutants} cause the same failures in the test suite. Two are the reasons for redundant mutants. First, the mutations alter different instances of a same data structure in the same way (e.g., delete a message in a sequence). Second, the mutations alter data chunks that are ignored by the oracles of the test suite.
 
-Literature lacks approaches to directly target equivalent and redundant mutants. However, some of the solutions implemented in existing data mutation approaches might limit the presence of equivalent and redundant mutants. We observe three main solutions: driving mutations by means of code-coverage, driving mutations by means of coverage of model structure, and use of model-based oracles.
+Literature lacks approaches to directly target equivalent and redundant mutants. However, some of the solutions implemented in existing data mutation approaches might limit the presence of equivalent and redundant mutants. We observe three main solutions: (1) driving mutations by means of code-coverage, (2) driving mutations by means of coverage of model structure, and (3) use of model-based oracles.
 
 Code-coverage-driven mutations are the ones implemented by many automated fuzzers such as 
 MoWF~\cite{pham2016model} and AFL~\cite{gutmann2016fuzzing}.
