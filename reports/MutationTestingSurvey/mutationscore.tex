@@ -12,9 +12,14 @@ According to recent studies, there is a relation between the mutation score and 
 \MREVISION{C7}{A recent empirical evaluation, for example, has shown that \textit{achieving high mutation scores improves significantly the fault detection capability of a test suite}
 ~\cite{papadakis2018mutation}. 
 %\DONE{The following sentence is incomplete. You cannot say "similar fault detection ability that statement and branch coverage". Do you mean 100\% branch coverage (i.e., branch adequate)? Also putting together branch and statement is tricky, because branch is a stronger criterion. }
-This evaluation shows that a test suite that reaches a mutation score of 80\% has a similar  similar fault detection capability of one that achieves 80\% branch coverage. 
-\TODO{What does it mean outperforms? Can we be more precise?}
-Instead, a test suite that reaches a mutation score of 90\% outperforms this code coverage criterion. The drawback of this result, is, however, that the fault detection ability of mutation testing is high only with a high mutation score.}
+This evaluation shows that from a large set of test suites, the subsets of test suites with highest 10\% of branch coverage had a fault revelation rate of 0.542, while the subsets of test suites with highest 10\% of mutation coverage had a fault revelation of 0.639. Instead, when considering the subsets of test suites with highest 20\% of branch and mutation coverage, the fault revelation rates dropped in both cases to 0.524 and 0.565, respectively.
+The drawback of this result, is, however, that the fault detection ability of mutation testing is high only with a high mutation score.}
+
+
+%This evaluation shows that a test suite that reaches a mutation score of 80\% has a similar  similar fault detection capability of one that achieves 80\% branch coverage. 
+%\TODO{What does it mean outperforms? Can we be more precise?}
+%Instead, a test suite that reaches a mutation score of 90\% outperforms this code coverage criterion. 
+
 
 %To reliably compute the mutation score it is necessary to identify equivalent and redundant mutants. 
 As seen in Section~\ref{sec:opt:equivalent} and~\ref{sec:opt:redundant}, equivalent and redundant mutants can affect (i.e., cause an overestimation or underestimation) the mutation score~\cite{papadakis2016threats,kintis2017detecting}.
