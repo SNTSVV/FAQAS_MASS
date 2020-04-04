@@ -81,8 +81,12 @@ Table~\ref{table:codeMutation:references} provides the names of the tools and ap
 \input{tables/code_operators}
 
 \MREVISION{C11.b}{Table~\ref{table:codeoperatorssummary} shows a summary of the number of operators we collected for each category and the context where they can be applied. The table also provides a strategy to prioritize the mutation operators for space-context software. In particular, in the last column \textit{Relevance for FAQAS} we prioritized the categories according to the effectiveness and ease of implementation. 
-Based on this criterion, we selected \INDEX{deletion operators} as the most relevant, since according to the literature they form a cost-effective alternative to other operators in terms of amount of mutants produced and equivalent mutants~\cite{delamaro2014designing}. 
-Following the same criterion, we then selected the \INDEX{sufficient set of operators}, because most of the mutation tools already implement them, and because they are proven to be fault-detection effective~\cite{offutt1996experimental,andrews2005mutation,siami2008sufficient}.
+Based on this criterion, we selected \INDEX{deletion operators} as the most relevant, since according to the literature they form a cost-effective alternative to other operators in terms of number of mutants produced and equivalent mutants~\cite{delamaro2014designing}. 
+Following the same criterion, we then selected the \INDEX{sufficient set of operators}, because most of the mutation tools already implement them, and because 
+there is empirical evidence that \emph{(1) test suites that are \INDEX{mutation adequate} (i.e., achieve 100\% mutation score) with respect to the sufficient set of operators also achieve a very high mutation score if we consider a larger set of mutation operators}~\cite{offutt1996experimental}, \emph{(2) the sufficient set of operators enables an \EMPH{accurate estimation of the mutation score} of a test suite}~\cite{siami2008sufficient}, and (3) the mutation score can estimate the \INDEX{fault detection rate} (i.e., the number of real faults discovered) of a test suite~\cite{andrews2005mutation}.
+%Fabrizio: the following sentence is unclear and does not grasp the main points
+%they are proven to be fault-detection effective
+%~\cite{offutt1996experimental,andrews2005mutation,siami2008sufficient}.
 }
 
 \input{tables/code_operators_summary}
