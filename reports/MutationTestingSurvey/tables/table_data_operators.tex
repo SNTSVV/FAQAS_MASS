@@ -7,7 +7,38 @@
 \toprule
 	\textbf{Name}	&	\textbf{Type of Fault}	&	\textbf{Data Model}	&\textbf{Definition}	&	\textbf{Target}	&	\textbf{Reference} \\
 	\midrule
-stuck-at-0 & CPU Faults; Memory Faults & none
+	\CHANGEDTWO{Blind memory corruption}& CPU Faults; Memory Faults & none
+&These approaches corrupt data by replacing bits/bytes/words. & CPU registers; Memory registers& \FTAPE, \FIAT, \GOOFI \\	
+\CHANGEDTWO{Blind transmissions corruption}& Communication Faults & none
+&These approaches corrupt communication data by replacing bits/bytes/words or altering the order of messages. & Faulty link, Faulty direction, Single message& \DOCTOR, \ORCHESTRA \\
+
+
+Fuzzing & Data Processing Faults & none & Fuzzing techniques replace values with values (i.e., fuzz values) that are different and, usually, randomly generated. & Structured input data (e.g., files, streams) & \Fuzz, \Ballista \\
+Grammar-based fuzzing & Data Processing Faults & Grammars  & This fuzzing approach relies on a grammar that describes the format of the data to be altered; new values are generated either based on the production rules of the grammar, or according to mutation operators specific for each symbol of the grammar. The use of the grammar decreases the chances of generating invalid inputs. & Structured input data (e.g., files, streams) & \MUSQL, \SOLMI, \Superion, \MongoDB \\
+Evolutionary fuzzing & Data Processing Faults & none & This fuzzing approach relies on evolutionary algorithms (e.g., genetic algorithms) to generate fuzz values. It relies on a fitness function to maximize structural coverage (e.g., branches executed during testing). The fitness is implemented by instrumenting the code of the application to collect code coverage. & Structured input data (e.g., files, streams) & \AFL \\
+Whitebox fuzzing & Data Processing Faults & none & This fuzzing approach relies on symbolic execution techniques to cover corners cases on the different execution paths. & Structured input data (e.g., files, streams) & \SAGE \cite{bounimova2013billions} \\
+Parser-directed fuzzing & Data Processing Faults & none & This fuzzing approach is applied to programs that integrate a parser component to extract information from the provided inputs. It is implemented through a test generator technique that aims to produce valid inputs for the parser, the inputs are produced randomly and then checked using constraint solving techniques. & Structured input data (e.g., files, streams) & \pFuzzer \\
+\CHANGEDTWO{Model-based fuzzing}& \CHANGEDTWO{Data Processing Faults, Communication Faults} & Block models & \CHANGEDTWO{Fuzzing techniques replace a correct value with a newly generated one; in this case, the replacement is done through mutation operators tailored to a predefined set of data types. The model should specify the format of the data to be mutated including integrity constraints. They are also used to alter protocol messages or generating new ones, based on the provided model.}& Structured input data (e.g., files, streams) & \MoWF \cite{PeachFuzzer}, \cite{PeachMozilla}, \cite{BooFuzz}, \cite{spike}\\
+%data-type based injection & Data Processing Faults & This operator replaces a value with an invalid one, selected on the basis of the type of the parameter being corrupted. & Structured input data (e.g., files, streams) & \Fuzz, \Ballista, \RIDDLE \\
+Model-based data mutation & Data Processing Faults & UML models & This approach alters existing inputs by relying on a data model that capture the structure of the data and the constraints among data fields. A predefined set of operators indicating how to alter data based on its structure are provided. & Structured input data (e.g., files, streams) & \DiNardoICST \\
+Search-based data mutation & Data Processing Faults &UML models & This approach alters existing inputs by relying on a data model that captures the structure of the data and the constraints between data fields. A search-based, evolutionary algorithm is used to maximize a number of mutation objectives including the number of constraints being violated and code coverage. & Structured input data (e.g., files, streams) & \DiNardoASE \\
+Signal mutation & Signal faults & Simulink models & This approach alters signal by either shifting the signal based on a randomly selected value or shifting the signal and increasing the number of signal pieces (i.e., segments).  & Input signals & \Matinnejad \\
+
+	\bottomrule                                                             
+\caption{Families of techniques to perform data mutation.}
+\label{table:dataOperators}
+\end{longtable}
+\normalsize
+
+
+\tiny
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{@{\extracolsep{\fill}}|p{1.5cm}|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1cm}|@{}}
+\toprule
+	\textbf{Name}	&	\textbf{Type of Fault}	&	\textbf{Data Model}	&\textbf{Definition}	&	\textbf{Target}	&	\textbf{Reference} \\
+	\midrule	
+	stuck-at-0 & CPU Faults; Memory Faults & none
 &This operator corrupts data by replacing a bit/byte/word with zero. & CPU registers; Memory registers & \FTAPE, \FIAT, \GOOFI \\
 stuck-at-1 & CPU Faults; Memory Faults & none & This operator corrupts data by replacing a bit/byte/word with one. & CPU registers; Memory registers & \FTAPE, \FIAT, \GOOFI \\
 bit flips & CPU Faults; Memory Faults; Data Processing Faults & none & This operator mutates data by inverting the value of each bit (i.e., replacing 0 with 1 and 1 with 0). & CPU registers: saved registers, floating point registers, the program counter, global pointer, stack pointer; Local memory; Input or output parameters of a software interface. & \FTAPE, \FIAT, \GOOFI \\
@@ -16,24 +47,26 @@ set & CPU Faults; Communication Faults; Memory Faults & none& This operator sets
 clear & CPU Faults; Communication Faults; Memory Faults & none& This operator clears the value of a bit/byte by replacing the current value "v" with zero. & Memory: stack, heap, global data, user code, kernel code, user-defined memory location; Registers: data, stack, address, program counter, status register & \FTAPE, \FIAT, \GOOFI \\
 toggle & CPU Faults; Communication Faults; Memory Faults & none& This operator toggles (i.e., sets a bit to its complement state) a bit/byte. & Memory: stack, heap, global data, user code, kernel code, user-defined memory location; Registers: data, stack, address, program counter, status register & \FTAPE, \FIAT, \GOOFI \\
 lose message & Communication Faults & none& This operator causes a message to be lost in between two communicating components. Messages can be lost intermittently, with a probability distribution specified by the users, or alternatively, every message can be lost during a certain period. & Faulty link, Faulty direction, Single message & \DOCTOR, \ORCHESTRA \\
+		\bottomrule                                                             
+\caption{Operators to perform blind memory corruption.}
+\label{table:operators:blindMemory}
+\end{longtable}
+\normalsize
+
+
+\tiny
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{@{\extracolsep{\fill}}|p{1.5cm}|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1cm}|@{}}
+\toprule
+	\textbf{Name}	&	\textbf{Type of Fault}	&	\textbf{Data Model}	&\textbf{Definition}	&	\textbf{Target}	&	\textbf{Reference} \\
+	\midrule	
 duplicate message & Communication Faults & none & This operator causes a message to be duplicated in between two communicating components. & Faulty link, Faulty direction, Single message & \DOCTOR, \ORCHESTRA \\
 alter message header & Communication Faults & none & This operator alters a message. The change is performed in a similar manner as for memory faults, i.e., by performing bit flips. The mutation is performed in the message header. & Faulty link, Faulty direction, Single message & \DOCTOR, \ORCHESTRA \\
 alter message body & Communication Faults & none & This operator alters a message. The change is performed in a similar manner as for memory faults, i.e., by performing bit flips. The mutation is performed in the message body. & Faulty link, Faulty direction, Single message & \DOCTOR, \ORCHESTRA \\
 delay message & Communication Faults & none & This operator causes a message to be delayed in between two communicating components. The delay time can either be constant or follow a probability distribution. & Faulty link, Faulty direction, Single message & \DOCTOR, \ORCHESTRA \\
-fuzzing & Data Processing Faults & none & Fuzzing techniques replace values with values (i.e., fuzz values) that are different and, usually, randomly generated. & Structured input data (e.g., files, streams) & \Fuzz, \Ballista \\
-grammar-based fuzzing & Data Processing Faults & Grammars  & This fuzzing approach relies on a grammar that describes the format of the data to be altered; new values are generated either based on the production rules of the grammar, or according to mutation operators specific for each symbol of the grammar. The use of the grammar decreases the chances of generating invalid inputs. & Structured input data (e.g., files, streams) & \MUSQL, \SOLMI, \Superion, \MongoDB \\
-protocol fuzzing& Communication Faults & Block models & This fuzzing approach relies on block models that capture the format of a communication protocol. They work similarly to grammar-based fuzzing approaches by altering protocol messages or generating new ones, based on the provided model & Structured input data (e.g., files, streams) & \cite{BooFuzz}, \cite{spike} \\
-evolutionary fuzzing & Data Processing Faults & none & This fuzzing approach relies on evolutionary algorithms (e.g., genetic algorithms) to generate fuzz values. It relies on a fitness function to maximize structural coverage (e.g., branches executed during testing). The fitness is implemented by instrumenting the code of the application to collect code coverage. & Structured input data (e.g., files, streams) & \AFL \\
-whitebox fuzzing & Data Processing Faults & none & This fuzzing approach relies on symbolic execution techniques to cover corners cases on the different execution paths. & Structured input data (e.g., files, streams) & \SAGE \\
-parser-directed fuzzing & Data Processing Faults & none & This fuzzing operator is applied to programs that integrate a parser component to extract information from the provided inputs. It is implemented through a test generator technique that aims to produce valid inputs for the parser, the inputs are produced randomly and then checked using constraint solving techniques. & Structured input data (e.g., files, streams) & \pFuzzer \\
-\CHANGEDTWO{model-based fuzzing}& Data Processing Faults & Block models & \CHANGEDTWO{Fuzzing techniques replace a correct value with a randomly generated one; in this case, the replacement is done through mutation operators tailored to a predefined set of data types. The model should specify the format of the data to be mutated including integrity constraints.}& Structured input data (e.g., files, streams) & \MoWF \cite{PeachFuzzer} \cite{PeachMozilla}\\
-%data-type based injection & Data Processing Faults & This operator replaces a value with an invalid one, selected on the basis of the type of the parameter being corrupted. & Structured input data (e.g., files, streams) & \Fuzz, \Ballista, \RIDDLE \\
-model-based data mutation & Data Processing Faults & UML models & This approach alters existing inputs by relying on a data model that capture the structure of the data and the constraints among data fields. A predefined set of operators indicating how to alter data based on its structure are provided. & Structured input data (e.g., files, streams) & \DiNardoICST \\
-search-based data mutation & Data Processing Faults &UML models & This approach alters existing inputs by relying on a data model that captures the structure of the data and the constraints between data fields. A search-based, evolutionary algorithm is used to maximize a number of mutation objectives including the number of constraints being violated and code coverage. & Structured input data (e.g., files, streams) & \DiNardoASE \\
-signal mutation & Signal faults & Simulink models & This approach alters signal by either shifting the signal based on a randomly selected value or shifting the signal and increasing the number of signal pieces (i.e., segments).  & Input signals & \Matinnejad \\
-
-	\bottomrule                                                             
-\caption{Data-driven Mutation Operators.}
-\label{table:dataOperators}
+		\bottomrule                                                             
+\caption{Operators to perform blind transmission corruption.}
+\label{table:operators:blindTransmissions}
 \end{longtable}
 \normalsize

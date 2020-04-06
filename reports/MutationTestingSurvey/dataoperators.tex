@@ -6,18 +6,20 @@
 As mentioned in Section~\ref{sec:dataProcess}, the software engineering literature does not include any study on data-driven mutation testing but only testing approaches based on the injection of data faults.
 For this reason, 
 in this section we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
-More precisely, we focus on the techniques for the modification of data that are presented in software testing research papers.
-We refer to these techniques as \INDEX{data-driven mutation operators}.
+\CHANGEDTWO{More precisely, we focus on the techniques for the modification of data \CHANGEDTWO{(hereafter, \INDEX{data mutation techniques})} that are presented in software testing research papers.}
 
-Table~\ref{table:dataOperators} provides an overview of the data-driven mutation operators that can be applied to the case of space software and embedded systems. 
-We selected the set of data-driven mutation operators in Table~\ref{table:dataOperators} based on the different type of faults commonly affecting space and embedded systems. 
-Each operator aims to create data faults that might be observed in real systems either because of hardware errors or software errors.
 
-In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the specific operator described,  
+\CHANGEDTWO{Table~\ref{table:dataOperators} provides an overview of groups of data mutation techniques that can be applied to the case of space software and embedded systems. 
+We selected the set of data-driven mutation techniques in Table~\ref{table:dataOperators} based on the different type of faults commonly affecting space and embedded systems.} 
+Each technique aims to create data faults that might be observed in real systems either because of hardware errors or software errors.
+The \INDEX{data-driven mutation operators}, i.e., the specific functions implemented by each technique to alter the type of data they target, are described in separate tables, in the following paragraphs. 
+%Since, for each family of technique, multiple implementations of data-driven mutation operators are available
+
+In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the specific technique described,  
  column \emph{Type of fault} indicates the type of faults each operator aims to simulate,
- column \emph{Data model} indicates if the operator requires a model of the structure of the data to be mutated,
- column \emph{Definition} provides a brief description of the mutation operator, column \emph{Target} indicates the type of data targeted by the approach,
- column \emph{Reference} provides a reference to a research paper or tool describing the operator more in detail.
+ column \emph{Data model} indicates if the technique requires a model of the structure of the data to be mutated,
+ column \emph{Definition} provides a brief description of the technique, column \emph{Target} indicates the type of data targeted,
+ column \emph{Reference} provides a reference to a research paper or tool describing the technique more in detail.
  
 %Fabrizio: "First" and "Then" read like a story, which is not good in a Tech Report
 Concerning the type of faults considered, we focus both on hardware and software errors.
@@ -25,14 +27,7 @@ Hardware errors are captured by the categories \INDEX{CPU Faults}, \INDEX{Memory
 Software errors are captured by the category \INDEX{Data Processing Faults}.
 Category \INDEX{Communication Faults} simulates problems that can be caused either by software or hardware errors.
 
-In the following, we provide a brief overview of the operators generating each type of fault:
-\begin{itemize}
-	%Note: always put a comma at the end of a list before "or" "and"
-	\item Category \INDEX{CPU Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
-	\item Category \INDEX{Memory Faults} includes operators that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
-	\item Category \INDEX{Communication Faults} includes operators that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
-	\item Category \INDEX{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
-\end{itemize}
+
 
 \newcommand{\FTAPE}{\cite{tsai1999stress}}
 \newcommand{\FIAT}{\cite{barton1990fault}}
@@ -60,10 +55,27 @@ Table~\ref{table:dataMutation:references} provides the names of the tools and ap
 
 \input{tables/table_data_operators}
 
-Among all the data mutation operators reported in Table~\ref{table:dataOperators}, the ones targeting \emph{Data Processing Faults} are more powerful since they concern the modification of complex data structures. %Oscar: not sure that "overviewed" is spelled right %They are briefly overviewed in the following.
-We provide an overview in the following.
+To summarize the data in Table~\ref{table:dataOperators}, we observe that:
+\begin{itemize}
+	%Note: always put a comma at the end of a list before "or" "and"
+	\item Category \INDEX{CPU Faults} includes techniques that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
+	\item Category \INDEX{Memory Faults} includes techniques that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
+	\item Category \INDEX{Communication Faults} includes techniques that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
+	\item Category \INDEX{Data Processing Faults} includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
+	\item Category \INDEX{Signal Faults} includes techniques that alter the shape of the signals received by the software under test.
+\end{itemize}
 
+\CHANGEDTWO{In the following, we provide an overview of the mutation operators implemented by the most representative techniques.
+We do not present simple \INDEX{fuzzing} approaches because they simply perform random mutations and they include a subset of the operators implemented in more advanced evolutionary fuzzing approaches.}
 
+\subsubsection{Blind memory corruption and blind transmission corruption}
+
+\CHANGEDTWO{The mutation operators implemented by techniques performing \INDEX{blind memory corruption} and \INDEX{blind transmission corruption} are presented in Tables~\ref{table:operators:blindTransmissions} and ~\ref{table:operators:blindTransmissions}, respectively. These techniques do not require a data model. Unfortunately, they are of little usefulness to simulate subtle errors that affect relations among data (e.g., replacing an identifier with another legal one).}
+
+%Among all the data mutation operators reported in Table~\ref{table:dataOperators}, the ones targeting \emph{Data Processing Faults} are more powerful since they concern the modification of complex data structures. %Oscar: not sure that "overviewed" is spelled right %They are briefly overviewed in the following.
+%We provide an overview in the following.
+
+\CHANGEDTWO{\subsubsection{Evolutionary Fuzzing}}
 
 
 %\subsubsection{Approaches generating data from scratch}
@@ -79,6 +91,8 @@ Each provided input is processed in a queue. For each input in the queue, AFL tr
 If any of the generated mutations result in a change of the coverage for the software under test, the mutated input is added to the input queue.
 
 \input{tables/table_AFL_operators}
+
+\CHANGEDTWO{\subsubsection{Grammar-based fuzzing}}
 
 \INDEX{Superion}~\Superion~ extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar. 
 It performs mutations that consist of \INDEX{grammar-aware trimming}, \INDEX{dictionary-based mutations}, and \INDEX{tree-based mutation}.
@@ -140,7 +154,7 @@ MO\_keyw&Obfuscates SQL keywords by randomising the capitalisation and inserting
 One of the major limitations of grammar-based approaches is the cost of defining an input grammar. MongoDB's javascript fuzzer addresses the problem of grammar-based mutation when a grammar is not available. Instead of mutating input files for the SUT based on the input grammar of  the SUT, it mutates test cases for the SUT (in this case the Javascript test cases)~\MongoDB. It replaces subtrees in the AST tree generated from the test cases either other subtrees belonging to the same input file or with subtrees generated following encoded production rules.
 
 
-
+\CHANGEDTWO{\subsubsection{Whitebox fuzzing}}
 
 %, also, it requires more knowledge about the target than purely random ones.
 
@@ -156,14 +170,17 @@ Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers 
 %Fabrizio: not sure what the following is about, ignoring
 %\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
 
+\CHANGEDTWO{\subsubsection{Model-based fuzzing}}
+
 %Fabrizio: we miss the pro/cons from the following
-\CHANGEDTWO{\INDEX{Model-Based Fuzzing} targets program binaries that process structured inputs.
+\CHANGEDTWO{\INDEX{Model-based fuzzing} targets program binaries that process structured inputs.
 \INDEX{Model-Based Blackbox Fuzzing} (MoBF) is performed using block models that capture the structure of the input data for the SUT. A solution to perform MoBF is Peach~\cite{PeachFuzzer,PeachMozilla}, which alters data of an input files according to a large, predefined set of rules. We provide an overview of the mutation operators implemented by Peach in Table~\ref{table:PeachOperators}.
 \INDEX{Model-Based Whitebox Fuzzing}, instead, relies on additional information about code coverage to generates valid inputs that exercise critical target locations~\cite{pham2016model}.} This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
 Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. 
 
 \input{tables/pit_operators.tex}
 
+\CHANGEDTWO{\subsubsection{Model-based data mutation}}
 
 %\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
 \INDEX{Model-based data mutation} concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
@@ -185,7 +202,7 @@ Table~\ref{table:mapping} shows the mutation operators and the corresponding ste
 Data mutation may lead to the generation of inconsistent data containing trivial faults that do not comply with the given fault model (e.g., checksum errors). 
 Inconsistent data might also be caused by mutation operators that target classes. For example the swapping of packets that belong to two different virtual channels may lead to the generation of VCDUs that contain packets with a same id, i.e. inconsistent data. To preserve data consistency the approach in \cite{di2015generating} enables software engineers to configure the behaviour of mutation operators by means of OCL queries and UML stereotypes. OCL queries are used to enable software engineers to further restrict the characteristics of the object instances on which the mutation operators can be applied.   The UML stereotype, \emph{Derived}, instead, enables software engineers to specify which attributes need to be updated after a mutation in order to prevent trivial errors. The stereotype requires that software engineers specify the name of a method that is invoked at runtime by the mutation framework to regenerate the value of the tagged attribute. The implementation of this function should be provided by the software engineer (e.g., a utility function named that recalculates the checksum of a packet). 
 
-
+\CHANGEDTWO{\subsubsection{Search-based data mutation}}
 
 \INDEX{Search-based data mutation} relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:  
 cover all the classes of the data-model, cover all the possible faults of the fault model, cover all the clauses of the input/output constraints,
