@@ -1,3 +1,4 @@
+
 \begin{lstlisting}[style=CStyle, caption=isPositive and MUT\_isPositive functions, label=function]
 int isPositive(int num){
 	if (num >= 0){
@@ -28,3 +29,14 @@ void test () {
 	assert(original_ret == transformed_ret); 
 }
 \end{lstlisting}
+
+%
+%\begin{lstlisting}[style=CStyle, caption=Holling's approach for test case generation., label=example]
+%void test () { 
+%	int numSymbolic = 0;
+% 	
+% 	int ret = isPositive(numSymbolic); 
+%	
+%	assert( ret == 1); 
+%}
+%\end{lstlisting}

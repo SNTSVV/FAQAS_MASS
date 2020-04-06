@@ -157,9 +157,12 @@ Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers 
 %\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
 
 %Fabrizio: we miss the pro/cons from the following
-\INDEX{Model-Based Whitebox Fuzzing} targets program binaries that process structured inputs~\cite{pham2016model}. It efficiently generates valid inputs that exercise critical target locations. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
+\CHANGEDTWO{\INDEX{Model-Based Fuzzing} targets program binaries that process structured inputs.
+\INDEX{Model-Based Blackbox Fuzzing} (MoBF) is performed using block models that capture the structure of the input data for the SUT. A solution to perform MoBF is Peach~\cite{PeachFuzzer,PeachMozilla}, which alters data of an input files according to a large, predefined set of rules. We provide an overview of the mutation operators implemented by Peach in Table~\ref{table:PeachOperators}.
+\INDEX{Model-Based Whitebox Fuzzing}, instead, relies on additional information about code coverage to generates valid inputs that exercise critical target locations~\cite{pham2016model}.} This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
 Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. 
 
+\input{tables/pit_operators.tex}
 
 
 %\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
