@@ -19,20 +19,21 @@ More precisely, there is interest into studying the functional and non-functiona
 Researchers have exploited this concept to develop methods that automatically \INDEX{improve fault detection}~\cite{zhang2016isomorphic}, \INDEX{localize faults} \cite{papadakis2015metallaxis}, \INDEX{repair software}~\cite{le2011genprog}, \INDEX{improve security properties}~\cite{loise2017towards} and \INDEX{reduce memory consumption}~\cite{langdon2017genetic}.
 For example, Zhang et al. \cite{zhang2016isomorphic} used mutants to improve the fault detection ability of regression test suites. The approach mutates both the old and new version of the program under analysis. For every mutation applied, the approach executes the old and the new version against the same test suite, if there are differences between the output of the two executions then a problem has been found.
 
-\REVTWO{C45}{Unfortunately, there has not been efforts in the literature for code quality improvement based on mutation testing.}
-
-However,
-% Despite being the main objective of mutation testing assess the quality of existing test suites. 
-the mutation testing approach has been used also in literature as a way to improve code quality of non-functional properties,
-in fact Arcaini et al.~\cite{arcaini2017novel,arcaini2015rehabilitating} and then Lopez et al.~\cite{lopez2018source} proposed the idea of taking advantage of \INDEX{equivalent mutants} for improving the quality of the artefact under test.
-More precisely, to improve non-functional quality properties such as readability and efficiency.
-
+\REVTWO{C45}{Unfortunately, to the best of our knowledge, the literature lacks approaches that rely on mutation testing to evaluate non-functional properties of the software such as code readability or maintainability. The most related approaches are that of
+%
+%However,
+%% Despite being the main objective of mutation testing assess the quality of existing test suites. 
+%the mutation testing approach has been used also in literature as a way to improve code quality of non-functional properties,
+%in fact 
+Arcaini et al.~\cite{arcaini2017novel,arcaini2015rehabilitating} and then Lopez et al.~\cite{lopez2018source} who proposed the idea of taking advantage of \INDEX{equivalent mutants} for improving non-functional properties such as readability and efficiency.
 The authors proposed the following procedure for detecting mutants with improved readability. 
-First, to generate a mutant $M$ for a program $P$. Second, to check the equivalence between the generated mutant $M$ and $P$. Third, to compare the code readability quality $q(M)$ and $q(P)$ between $M$ and $P$. Finally, if $M$ and $P$ are equivalent and $q(M) > q(P)$ a subject with better code readability has been identified. An example is presented in Listings~\ref{equivalent1} and~\ref{equivalent2}.
+First, they generate a mutant $M$ for a program $P$. Second, they check the equivalence between the generated mutant $M$ and $P$. 
+Third, they compare the code readability quality $q(M)$ and $q(P)$ between $M$ and $P$. 
+Finally, they identify a subject with better code readability when $M$ and $P$ are equivalent and $q(M) > q(P)$. An example is presented in Listings~\ref{equivalent1} and~\ref{equivalent2}.
 %We introduced an example in the following:
 Listing~\ref{equivalent1} shows three statements that perform assignments on variables \texttt{x}, \texttt{y} and \texttt{z}. By applying the \textit{statement reordering operator} we can generate the mutant shown Listing~\ref{equivalent2}. The mutated version of Listing~\ref{equivalent2} has reordered statements 2 and 3, this version of Listing~\ref{equivalent1} is an equivalent mutant since its changes do not affect the execution of the code (i.e., both statements are independent). 
 Particularly, the code readability quality has been improved in Listing~\ref{equivalent2} because the distance between the definition and use of the variable \texttt{x} is shorter than in the original version. 
-Since the mutant fulfills both requirements of equivalence and improved code readability quality, hence the mutant of Listing~\ref{equivalent2} can be used as replacement of the original code.
+Since the mutant fulfills both requirements of equivalence and improved code readability quality, hence the mutant of Listing~\ref{equivalent2} can be used as replacement of the original code.}
 
 \input{listings/equivalent_code}
 
