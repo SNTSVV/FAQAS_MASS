@@ -10,11 +10,16 @@ Hereafter, we'll use the term \INDEX{benchmark} to indicate the set of case stud
 These benchmarks can be used as reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
+In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.
+
 %\DONE{check the date}
+
+\section{Code-Driven Mutation Testing Benchmarks}
+\label{section:industry:code}
 
 \input{tables/papers}
 
-In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the mutation testing empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
+In this section we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the code-driven mutation testing empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
 
 %\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
 
@@ -57,5 +62,24 @@ Despite these works, the applicability of mutation testing on large-scale satell
 
 \input{tables/industry}
 
+\clearpage
+
+\section{Data-Driven Mutation Testing Benchmarks}
+\label{section:industry:data}
+
+In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work and in industrial cases for data-driven mutation testing.
+
+Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems considered in the literature and industry. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases the test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
+
+Table~\ref{table:benchmarks_datadriven} presents case studies that were applied to UML models~\cite{di2017augmenting}, block models~\cite{pham2016model} and grammars~\cite{AFL:industrialcases}.
+
+Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} varies a lot.
+For instance, experimentation on block models has been applied to different types of desktop applications such as VLC, Adobe Reader, Real Player, and Windows Media Player~\cite{pham2016model} which sizes goes from 60 KB to 2.32 MB. 
+
+Experimentation on grammars has been widely studied, but for sake of simplicity we only reported the most important case studies from AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
+
+Regarding case studies applied to space context software we highlight SES-DAQ, which is a DAQ system developed by SES and processes bytestreams of transmitted satellite data. In particular, the version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting} had a size of 32\,469 bytecode instructions
+
+\input{tables/industry_datadriven}
 
 
