@@ -19,10 +19,13 @@ More precisely, there is interest into studying the functional and non-functiona
 Researchers have exploited this concept to develop methods that automatically \INDEX{improve fault detection}~\cite{zhang2016isomorphic}, \INDEX{localize faults} \cite{papadakis2015metallaxis}, \INDEX{repair software}~\cite{le2011genprog}, \INDEX{improve security properties}~\cite{loise2017towards} and \INDEX{reduce memory consumption}~\cite{langdon2017genetic}.
 For example, Zhang et al. \cite{zhang2016isomorphic} used mutants to improve the fault detection ability of regression test suites. The approach mutates both the old and new version of the program under analysis. For every mutation applied, the approach executes the old and the new version against the same test suite, if there are differences between the output of the two executions then a problem has been found.
 
-Despite being the main objective of mutation testing assess the quality of existing test suites. 
-The mutation testing approach has been used also in literature as a way to improve code quality,
+\MREVISION{C45}{Unfortunately, there has not been efforts in the literature for code quality improvement based on mutation testing.}
+
+However,
+% Despite being the main objective of mutation testing assess the quality of existing test suites. 
+the mutation testing approach has been used also in literature as a way to improve code quality of non-functional properties,
 in fact Arcaini et al.~\cite{arcaini2017novel,arcaini2015rehabilitating} and then Lopez et al.~\cite{lopez2018source} proposed the idea of taking advantage of \INDEX{equivalent mutants} for improving the quality of the artefact under test.
-More precisely, to improve \INDEX{code quality} properties such as readability and efficiency.
+More precisely, to improve non-functional quality properties such as readability and efficiency.
 
 \input{listings/equivalent_code}
 
@@ -30,7 +33,6 @@ In the case of code readability, for example, the mutation operator that swaps t
 
 Listing~\ref{equivalent1} and~\ref{equivalent2} introduce this case. The mutant of Listing~\ref{equivalent2} has been produced through of the \textit{statement reordering operator} on the code excerpt from Listing~\ref{equivalent1}.
 Particularly, the equivalent mutant shown in Listing~\ref{equivalent2} has better readability than the original code, because the distance between the definition and use of the variable \texttt{x} is shorter than in the original version.
-
 
 %\DONE{It would be nice to have a more detailed description of model based mutation testing, not sure what is feasible.}
 
