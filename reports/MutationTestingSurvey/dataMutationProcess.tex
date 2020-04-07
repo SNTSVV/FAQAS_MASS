@@ -68,7 +68,7 @@ It is driven by two objectives:
 (i.e., it should be possible to alter the processed data to generate faulty data according to the fault model). 
 \end{itemize}
 
-\MREVISION{C19}{Objectives O1 and O2 are complementary, \REVTWO{C34}{they both should be addressed by data mutation.}
+\MREVISION{C19}{Objectives O1 and O2 are complementary, \REVTWO{C33}{they both should be addressed by data mutation.}
 For example, a use case scenario for data-driven mutation testing could be the following: (i) data-driven mutation testing is applied to the data exchanged by \emph{component 1} and \emph{component 2} in Figure~\ref{fig:data:mutateData}, (ii) the data exchanged by the two components follow the data model in Figure~\ref{fig:DataDrivenSimpleExample}, and (iii) mutation testing is performed by applying the bit-flip mutation operator to every field of the messages being exchanged.
 The data model in Figure~\ref{fig:DataDrivenSimpleExample} consists of a UML class diagram that indicates that the two components can send messages whose type can be either \emph{TimeMessage} or \emph{DataMessage}. A \emph{TimeMessage} contains only one field of type Long, which is the timestamp. 
 A \emph{DataMessage} contains two fields, one field of type \emph{Integer} capturing the size of the payload, and one array of bytes containing the payload. 
