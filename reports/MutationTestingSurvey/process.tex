@@ -165,13 +165,12 @@ More precisely, we should introduce a test case that exercises an odd non-palind
 To automate the generation of test cases, existing work investigates the adoption of the KLEE \INDEX{symbolic execution} engine~\cite{holling2016nequivack} and the use of \INDEX{bounded model checking}~\cite{riener2011test}. Other work combines dynamic symbolic execution (DSE) with \INDEX{search-based software testing} (SBST) to generate test inputs that lead to strong mutations~\cite{harman2011strong}. 
 
 
-Concerning the automated generation of test oracles, 
+Concerning the automated \INDEX{generation of test oracles}, 
 %a state-of-the-art approach consists of the generation of assertions that verify the value of variables that enable the killing of mutants~\cite{fraser2011mutation}. 
 %In the case of test suite generation for mutation testing, 
 the generation of test oracles could be driven by the comparison of the outputs generate by the SUT and by the specific mutants targeted during test generation~\cite{Staats2012}.
 
-The generated oracles need to be validated, more precisely we need to ensure that the values expected by the oracles do not reflect a failure triggered by the test case (e.g, an erroneous value being returned). Such validation activity is typically performed manually by the engineers because it should be based on domain knowledge and system specifications. Specifications are generally written in natural language because, to reduce development costs, only few components of the system are specified using formal languages.
-Approaches that support engineers in the analysis of generated oracles exists and might be considered to speed up the process~\cite{PastoreICSE2015}.
+
 
 Test failures observed after updating the test suites should be investigated by the engineers who are expected to fix the SUT.
 If test failures are not observed, engineers evaluate the quality of the newly generated test suite by executing it against the mutants and by observing the mutation score achieved. 
