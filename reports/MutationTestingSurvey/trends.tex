@@ -32,7 +32,7 @@ First, to generate a mutant $M$ for a program $P$. Second, to check the equivale
 %We introduced an example in the following:
 Listing~\ref{equivalent1} shows three statements that perform assignments on variables \texttt{x}, \texttt{y} and \texttt{z}. By applying the \textit{statement reordering operator} we can generate the mutant shown Listing~\ref{equivalent2}. The mutated version of Listing~\ref{equivalent2} has reordered statements 2 and 3, this version of Listing~\ref{equivalent1} is an equivalent mutant since its changes do not affect the execution of the code (i.e., both statements are independent). 
 Particularly, the code readability quality has been improved in Listing~\ref{equivalent2} because the distance between the definition and use of the variable \texttt{x} is shorter than in the original version. 
-Since the mutant fulfill both requirements of equivalence and improved code readability quality, hence the mutant of Listing~\ref{equivalent2} can be used as replacement of the original code.
+Since the mutant fulfills both requirements of equivalence and improved code readability quality, hence the mutant of Listing~\ref{equivalent2} can be used as replacement of the original code.
 
 \input{listings/equivalent_code}
 
