@@ -70,18 +70,21 @@ Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-cr
 \section{Data-Driven Mutation Testing Benchmarks}
 \label{section:industry:data}
 
-In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work and in industrial cases for data-driven mutation testing.
+\REVTWO{C40}{In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.}
 
-Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems considered in the literature and industry. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases the test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
+Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems considered in the literature and industry. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
 
 Table~\ref{table:benchmarks_datadriven} presents case studies that were applied to UML models~\cite{di2017augmenting}, block models~\cite{pham2016model} and grammars~\cite{AFL:industrialcases}.
-
 Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} varies a lot.
 For instance, experimentation on block models has been applied to different types of desktop applications such as VLC, Adobe Reader, Real Player, and Windows Media Player~\cite{pham2016model} which sizes goes from 60 KB to 2.32 MB. 
 
-Experimentation on grammars has been widely studied, but for sake of simplicity we only reported the most important case studies for AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
+Experimentation on grammars has been widely studied, but for sake of simplicity we only report the most important case studies for the AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
 
 Regarding case studies applied to space context software, we highlight SES-DAQ, a DAQ system developed by SES that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting} had a size of 32\,469 bytecode instructions.
+
+Contrarily to code-driven mutation, the application of data-driven approaches to real industrial software it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.
+
+\clearpage
 
 \input{tables/industry_datadriven}
 
