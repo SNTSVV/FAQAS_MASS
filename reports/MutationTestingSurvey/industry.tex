@@ -10,20 +10,21 @@ Hereafter, we'll use the term \INDEX{benchmark} to indicate the set of case stud
 These benchmarks can be used as reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
-In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.
+
+\input{tables/papers}
+
+In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
+
+%\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
+
+%\DONE{I rewrote, I do not expect you to introduce a table. You may have writte someting like "In this section we describe of the most relevant benchmarks targeting C software systems, they are summarized in Table..". I rewrote differently.}
+
+\REVTWO{C40}{In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
 
 %\DONE{check the date}
 
 \section{Code-Driven Mutation Testing Benchmarks}
 \label{section:industry:code}
-
-\input{tables/papers}
-
-In this section we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the code-driven mutation testing empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
-
-%\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
-
-%\DONE{I rewrote, I do not expect you to introduce a table. You may have writte someting like "In this section we describe of the most relevant benchmarks targeting C software systems, they are summarized in Table..". I rewrote differently.}
 
 \input{tables/case_studies}
 
@@ -55,7 +56,10 @@ Despite scalability remains an open problem for mutation testing, the work of Pa
 Concerning the adoption of \INDEX{industrial case studies}, the most recent work is that of \cite{delgado2018evaluation} where mutation testing has been applied to 15 functions of a Commercial Off The Shelf Component used in nuclear systems. 
 Another paper evaluating the applicability of mutation testing to safety critical systems is that of Daran and Thavenod-Fosse~\cite{daran1996software}, who conducted a study to identify if mutations are correlated with real faults; the experimentation was carried out on a critical software from the civil nuclear field. Andrews et al.~\cite{andrews2005mutation}, who explored the relation between hand-seeded and real faults in the Space software. Space is a software developed at the European Space Agency that it has been used as case study in software engineering papers since 1998 \cite{frankl1998further}.
 Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-critical airborne systems, C and Ada, that had satisfied the coverage requirements for certification. In their experiments, they found an effective subset of mutation operators able to detect multiple deficiencies in test suites already assessed by experts. 
-Despite these works, the applicability of mutation testing on large-scale satellite systems has not been empirically evaluated yet.
+
+\REVTWO{C41}{Even though, many efforts has been done to make code-driven mutation testing a scalable solution, we conclude from this benchmark section, that unfortunately no study has yet applied mutation testing to complex and large real industrial software. Furthermore, in the context of space software, the applicability of mutation testing on large-scale satellite systems has not been empirically evaluated yet.}
+
+\REVTWO{C42}{}
 
 
 % carried out an empirical evaluation based on two safety-critical airborne systems that had satisfied the coverage requirements for certification. Those systems were developed using high-integrity subsets for C (MISRA C [33]) and Ada. In their experiments, they found an effective subset of mutation operators that was able to detect different deficiencies in tests suites which had already met statement and MC/DC coverage and had been manually peer-reviewed.
