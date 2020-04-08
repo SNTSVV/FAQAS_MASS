@@ -17,10 +17,16 @@ Java bytecode \cite{ma2006mujava},
 binary code for embedded software \cite{becker2012xemu},
 Common Intermediate Language (.NET) \cite{derezinska2011object} 
 and LLVM IR \cite{hariri2016evaluating}. 
-Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, the mutation testing process mutating compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code. 
-Additionally, the mutations performed on compiled code can be applied directly to multiple source languages (e.g., LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA) \cite{hariri2019comparing}.
-However, there are some drawbacks when mutating compiled code, for example many of the mutations generated cannot be represented at the source code level \cite{jia2010analysis}, creating not relevant mutations. 
-In the case of mutation of binary code, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions \cite{becker2012xemu}.
+% \REVTWO{C8}{Results obtained by Derezinska and Kowalski \cite{derezinska2011object} show that, on average, the mutation testing process mutating compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code. 
+% Additionally, the mutations performed on compiled code can be applied directly to multiple source languages (e.g., LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA) \cite{hariri2019comparing}.
+% However, there are some drawbacks when mutating compiled code, for example many of the mutations generated cannot be represented at the source code level \cite{jia2010analysis}, creating not relevant mutations. 
+% In the case of mutation of binary code, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions \cite{becker2012xemu}.}
 
+\REVTWO{C8}{About the advantages of performing mutation at different levels,
+results obtained by Derezinska and Kowalski~\cite{derezinska2011object} show that, on average, the mutation of compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code. 
+Additionally, the mutations performed on compiled code can be applied directly to multiple source languages, for example, LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA~\cite{hariri2019comparing}.
+However, there are some drawbacks when mutating compiled code, for example many of the mutations generated cannot be represented at the source code level, creating not relevant mutations~\cite{jia2010analysis}. 
+Furthermore, recently Hariri et al.~\cite{hariri2019comparing} demonstrated on an empirical evaluation that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}
+On a different context, such as the mutation of binary code, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions before performing actual mutations~\cite{becker2012xemu}.}
 
 
