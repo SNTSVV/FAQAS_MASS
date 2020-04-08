@@ -29,7 +29,8 @@ Arcaini et al.~\cite{arcaini2017novel,arcaini2015rehabilitating} and then Lopez 
 The authors proposed the following procedure for detecting mutants with improved readability. 
 First, they generate a mutant $M$ for a program $P$. Second, they check the equivalence between the generated mutant $M$ and $P$. 
 Third, they compare the code readability quality $q(M)$ and $q(P)$ between $M$ and $P$. 
-Finally, they identify a subject with better code readability when $M$ and $P$ are equivalent and $q(M) > q(P)$. An example is presented in Listings~\ref{equivalent1} and~\ref{equivalent2}.
+Finally, they identify a subject with better code readability when $M$ and $P$ are equivalent and $q(M) > q(P)$. 
+Authors assume to have a function to estimate automatically a quality attribute. For example, in their work, readability is measured as the length of the def-use path between the first definition of a variable and its use. The approach aims to minimize such distance to improve readability. An example is presented in Listings~\ref{equivalent1} and~\ref{equivalent2}.
 %We introduced an example in the following:
 Listing~\ref{equivalent1} shows three statements that perform assignments on variables \texttt{x}, \texttt{y} and \texttt{z}. By applying the \textit{statement reordering operator} we can generate the mutant shown Listing~\ref{equivalent2}. The mutated version of Listing~\ref{equivalent2} has reordered statements 2 and 3, this version of Listing~\ref{equivalent1} is an equivalent mutant since its changes do not affect the execution of the code (i.e., both statements are independent). 
 Particularly, the code readability quality has been improved in Listing~\ref{equivalent2} because the distance between the definition and use of the variable \texttt{x} is shorter than in the original version. 
