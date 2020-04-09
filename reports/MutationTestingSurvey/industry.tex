@@ -10,6 +10,7 @@ Hereafter, we'll use the term \INDEX{benchmark} to indicate the set of case stud
 These benchmarks can be used as reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
+\TODO{If in teh case of data-driven we have used a different criterion (I think it is the case), you have to move the following paragraph to the section on code driven}
 
 \input{tables/papers}
 
@@ -19,7 +20,9 @@ In this chapter we provide a survey of the benchmarks considered in empirical ev
 
 %\DONE{I rewrote, I do not expect you to introduce a table. You may have writte someting like "In this section we describe of the most relevant benchmarks targeting C software systems, they are summarized in Table..". I rewrote differently.}
 
-\REVTWO{C40}{In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
+\TODO{You cannot say "in the followng we introduce a section." Either you write in the following we explain <something> or Section x presents.}
+%\REVTWO{C40}{In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
+\REVTWO{C40}{Sections~\ref{section:industry:code} and~\ref{section:industry:data} present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
 
 %\DONE{check the date}
 
@@ -35,7 +38,7 @@ Table~\ref{table:case_studies} provides the list of the case study systems consi
 From Table~\ref{table:case_studies} can be seen that the Siemens, Make and Space are the most common case studies with 6, 5 and 4 uses, respectively. 
 The most used case study is the \INDEX{Siemens suite}. The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because they it includes faulty versions affected by faults introduced by engineers during development. The suite is available through the Subject Infrastructure Repository (SIR) from the University of Nebraska-Lincoln\footnote{https://sir.csc.ncsu.edu/portal/index.php}, in particular the suite contains a diverse collection of C programs that include code involving integer and floating-point operations, pointers, memory allocation, loops and complex conditional expressions.The Siemens suite was introduced in 1994 by Hutchins et al.~\cite{hutchins1994experiments}, the programs from the suite come with a large pool of test cases written initially by Hutchins et al. and then augmented by Rothermel et al.~\cite{rothermel1998empirical}.
 
-Table~\ref{table:benchmarks} provides the list of benchmarks identified in the literature. We report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of SUT in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. 
+Table~\ref{table:benchmarks} provides the list of benchmarks identified in the literature. We report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of SUT in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. \REVTWO{C39}{Not all the referred papers explicitly mention the type of test suite considered in the studies (i.e., unit, integration, or system test suite); for this reason, Table~\ref{table:benchmarks} does not specify the type of test suites considered.}
 
 
 
@@ -57,9 +60,11 @@ Concerning the adoption of \INDEX{industrial case studies}, the most recent work
 Another paper evaluating the applicability of mutation testing to safety critical systems is that of Daran and Thavenod-Fosse~\cite{daran1996software}, who conducted a study to identify if mutations are correlated with real faults; the experimentation was carried out on a critical software from the civil nuclear field. Andrews et al.~\cite{andrews2005mutation}, who explored the relation between hand-seeded and real faults in the Space software. Space is a software developed at the European Space Agency that it has been used as case study in software engineering papers since 1998 \cite{frankl1998further}.
 Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-critical airborne systems, C and Ada, that had satisfied the coverage requirements for certification. In their experiments, they found an effective subset of mutation operators able to detect multiple deficiencies in test suites already assessed by experts. 
 
-\REVTWO{C41}{Even though, many efforts has been done to make code-driven mutation testing a scalable solution, we conclude from this benchmark section, that unfortunately no study has yet applied mutation testing to complex and large real industrial software. Furthermore, in the context of space software, the applicability of mutation testing on large-scale satellite systems has not been empirically evaluated yet.}
+\TODO{DOnt use "Even though" at the beginning of sentences}
 
-\REVTWO{C42}{From this section, we conclude that mutation testing as a technique is applied mainly within research environments, and that in particular, mutation testing has not been adopted formally within industrial software development environments.}
+%\REVTWO{C41}{Even though, many efforts has been done 
+\REVTWO{C41}{Despite a large deal of effort has been made to identify solutions that make mutation testing scale, empirical studies on the application of mutation testing to large industrial case studies, including space software, are missing.}
+\REVTWO{C42}{Also, most of the work has been performed in academic environments, literature lacks studies on the integration of mutation testing in an industrial context.}
 
 % carried out an empirical evaluation based on two safety-critical airborne systems that had satisfied the coverage requirements for certification. Those systems were developed using high-integrity subsets for C (MISRA C [33]) and Ada. In their experiments, they found an effective subset of mutation operators that was able to detect different deficiencies in tests suites which had already met statement and MC/DC coverage and had been manually peer-reviewed.
 
@@ -67,25 +72,37 @@ Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-cr
 
 \clearpage
 
-\section{Data-Driven Mutation Testing Benchmarks}
+\REVTWO{C40}{\section{Data-Driven Mutation Testing Benchmarks}}
 \label{section:industry:data}
 
-\REVTWO{C40}{In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.}
+In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.
 
+\TODO{What about "considered in the literature and industry" => reported in the literature}
 Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems considered in the literature and industry. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
 
-Table~\ref{table:benchmarks_datadriven} presents case studies that were applied to UML models~\cite{di2017augmenting}, block models~\cite{pham2016model} and grammars~\cite{AFL:industrialcases}.
-Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} varies a lot.
+Table~\ref{table:benchmarks_datadriven} presents case studies for approaches relying on UML models~\cite{di2017augmenting}, block models~\cite{pham2016model}, grammars, and no models~\cite{AFL:industrialcases}.
+\TODO{FIX the following}
+For our analysis, we considered empirical evaluations presented in recent papers referenced in this book. More precisely, we considered papers published between....
+
+Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} vary a lot.
 For instance, experimentation on block models has been applied to different types of desktop applications such as VLC, Adobe Reader, Real Player, and Windows Media Player~\cite{pham2016model} which sizes goes from 60 KB to 2.32 MB. 
 
+\TODO{Unfortunately, not enough. We need to report at least the recent papers that we cite for grammar. Also, AFL does not work with grammars it's an approach for no models}
 Experimentation on grammars has been widely studied, but for sake of simplicity we only report the most important case studies for the AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
 
+\TODO{please put all the references of Di Nardo's papers}
 Regarding case studies applied to space context software, we highlight SES-DAQ, a DAQ system developed by SES that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting} had a size of 32\,469 bytecode instructions.
 
-Contrarily to code-driven mutation, the application of data-driven approaches to real industrial software it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.
+\TODO{Please check the following}
+Contrarily to code-driven mutation, data-driven approaches have been evaluated against several commercial software systems. This is due to the fact that most data-driven approaches do not require the source code of the software under test and thus can be applied by researchers to commercial software without the need of involving the companies who developed such systems. Unfortunately, the application to space software has been evaluated in a single set of work.
+
+%larg an industrial context (i.e., to test a software  industry case studies is not common. The main difference with code-driven mutation is that data-driven approaches had been tried it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.}
+%Contrarily to code-driven mutation, the application of data-driven approaches to real industrial software it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.
+
+\input{tables/industry_datadriven}
 
 \clearpage
 
-\input{tables/industry_datadriven}
+
 
 

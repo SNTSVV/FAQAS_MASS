@@ -14,7 +14,7 @@ The possible reasons why a mutant may not lead to noticeable differences in the 
 \INDEX{Redundant mutants} cause the same failures in the test suite. Two are the reasons for redundant mutants. First, the mutations alter different instances of a same data structure in the same way (e.g., delete a message in a sequence). Second, the mutations alter data chunks that are ignored by the oracles of the test suite.
 
 \REVTWO{C35}{Concrete examples of equivalent and redundant mutants are provided in Figure~\ref{fig:data:quivalent}. In Figure~\ref{fig:data:quivalent}, \emph{Mutation 2} leads to an equivalent mutant since it 
-generates a timestamp that is just one millisecond in the past, which is legal for the system under test. The value 2 for a timestamp, instead, leads to a failure because is considered too much in the past (see \emph{Mutation 1}). To address this problem, engineers should have configured the timestamp field to be mutated by a boundary condition operator instead of a bit flipping operator. Mutation 3  and Mutation 4, instead, are redundant because they both generate a timestamp in the future.}
+generates a timestamp that is just one millisecond in the past, which is legal for the system under test. The value 2 for a timestamp, instead, leads to a failure because is considered too much in the past (see \emph{Mutation 1}). To address this problem, engineers should have configured the timestamp field to be mutated by a boundary condition operator instead of a bit flipping operator. Mutation 3  and Mutation 4, instead, are redundant because they both generate a timestamp in the future (under the assumption that \emph{1584889773} captures the current time).}
 
 \begin{figure}[h]
   \centering
