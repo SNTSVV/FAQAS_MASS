@@ -10,17 +10,11 @@ Hereafter, we'll use the term \INDEX{benchmark} to indicate the set of case stud
 These benchmarks can be used as reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
-\TODO{If in teh case of data-driven we have used a different criterion (I think it is the case), you have to move the following paragraph to the section on code driven}
-
-\input{tables/papers}
-
-In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
-
 %\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
 
 %\DONE{I rewrote, I do not expect you to introduce a table. You may have writte someting like "In this section we describe of the most relevant benchmarks targeting C software systems, they are summarized in Table..". I rewrote differently.}
 
-\TODO{You cannot say "in the followng we introduce a section." Either you write in the following we explain <something> or Section x presents.}
+%\DONE{You cannot say "in the followng we introduce a section." Either you write in the following we explain <something> or Section x presents.}
 %\REVTWO{C40}{In the following, we introduce Sections~\ref{section:industry:code} and~\ref{section:industry:data}, which present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
 \REVTWO{C40}{Sections~\ref{section:industry:code} and~\ref{section:industry:data} present detailed information about benchmarks on code-driven and data-driven mutation testing, respectively.}
 
@@ -28,6 +22,14 @@ In this chapter we provide a survey of the benchmarks considered in empirical ev
 
 \section{Code-Driven Mutation Testing Benchmarks}
 \label{section:industry:code}
+
+
+%\DONE{If in teh case of data-driven we have used a different criterion (I think it is the case), you have to move the following paragraph to the section on code driven}
+
+\input{tables/papers}
+
+In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
+
 
 \input{tables/case_studies}
 
@@ -60,7 +62,7 @@ Concerning the adoption of \INDEX{industrial case studies}, the most recent work
 Another paper evaluating the applicability of mutation testing to safety critical systems is that of Daran and Thavenod-Fosse~\cite{daran1996software}, who conducted a study to identify if mutations are correlated with real faults; the experimentation was carried out on a critical software from the civil nuclear field. Andrews et al.~\cite{andrews2005mutation}, who explored the relation between hand-seeded and real faults in the Space software. Space is a software developed at the European Space Agency that it has been used as case study in software engineering papers since 1998 \cite{frankl1998further}.
 Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-critical airborne systems, C and Ada, that had satisfied the coverage requirements for certification. In their experiments, they found an effective subset of mutation operators able to detect multiple deficiencies in test suites already assessed by experts. 
 
-\TODO{DOnt use "Even though" at the beginning of sentences}
+%\TODO{DOnt use "Even though" at the beginning of sentences}
 
 %\REVTWO{C41}{Even though, many efforts has been done 
 \REVTWO{C41}{Despite a large deal of effort has been made to identify solutions that make mutation testing scale, empirical studies on the application of mutation testing to large industrial case studies, including space software, are missing.}
@@ -77,27 +79,35 @@ Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-cr
 
 In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.
 
-\TODO{What about "considered in the literature and industry" => reported in the literature}
-Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems considered in the literature and industry. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
+%\TODO{What about "considered in the literature and industry" => reported in the literature}
+
+Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems reported in the literature. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode/machine instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
 
 Table~\ref{table:benchmarks_datadriven} presents case studies for approaches relying on UML models~\cite{di2017augmenting}, block models~\cite{pham2016model}, grammars, and no models~\cite{AFL:industrialcases}.
-\TODO{FIX the following}
-For our analysis, we considered empirical evaluations presented in recent papers referenced in this book. More precisely, we considered papers published between....
+\DONE{FIX the following}
+For our analysis, we considered empirical evaluations presented in recent papers referenced in this book. More precisely, we considered papers published between 1998 and 2017.
 
 Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} vary a lot.
 For instance, experimentation on block models has been applied to different types of desktop applications such as VLC, Adobe Reader, Real Player, and Windows Media Player~\cite{pham2016model} which sizes goes from 60 KB to 2.32 MB. 
 
-\TODO{Unfortunately, not enough. We need to report at least the recent papers that we cite for grammar. Also, AFL does not work with grammars it's an approach for no models}
-Experimentation on grammars has been widely studied, but for sake of simplicity we only report the most important case studies for the AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
+\DONE{Unfortunately, not enough. We need to report at least the recent papers that we cite for grammar. Also, AFL does not work with grammars it's an approach for no models}
 
-\TODO{please put all the references of Di Nardo's papers}
-Regarding case studies applied to space context software, we highlight SES-DAQ, a DAQ system developed by SES that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting} had a size of 32\,469 bytecode instructions.
+Empirical studies on grammars has been performed since long ago, for instance Ghosh et al.~\cite{ghosh1998testing} carried on experimentation on a set of Windows NT utitlies such as \texttt{attrib, chkdsk, comp, expand, fc, find, help, label} and \texttt{replace}.
+Then, Godefroid et al.~\cite{Godefroid:GrammarBasedFuzzying:2008} experimented on grammar-based whitebox fuzzing techniques on the JavaScript Interpreter from Internet Explorer 7, a widely used component of 113\,562 machine instructions.
+More recently, Appelt et al.~\cite{Appelt:SQLI:ISSTA:2014} performed experiments on HotelRS, a software to study service-oriented architectures, and on SugarCRM a customer relationship management system, a large software of about 352 KLOC.
 
-\TODO{Please check the following}
+Experimentation on no models has been widely studied, but for sake of simplicity we only report the most important case studies for the AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
+
+\DONE{please put all the references of Di Nardo's papers}
+Regarding case studies applied to space context software, we highlight SES-DAQ, a DAQ system developed by SES that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting,di2015evolutionary,di2015generating} had a size of 32\,469 bytecode instructions.
+
+\DONE{Please check the following}
 Contrarily to code-driven mutation, data-driven approaches have been evaluated against several commercial software systems. This is due to the fact that most data-driven approaches do not require the source code of the software under test and thus can be applied by researchers to commercial software without the need of involving the companies who developed such systems. Unfortunately, the application to space software has been evaluated in a single set of work.
 
 %larg an industrial context (i.e., to test a software  industry case studies is not common. The main difference with code-driven mutation is that data-driven approaches had been tried it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.}
 %Contrarily to code-driven mutation, the application of data-driven approaches to real industrial software it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.
+
+\clearpage
 
 \input{tables/industry_datadriven}
 

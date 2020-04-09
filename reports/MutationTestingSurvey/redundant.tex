@@ -14,7 +14,7 @@ are killed every time other mutants are also being killed.
 
 In Section~\ref{sec:process} we introduced a mutation testing example for the function \texttt{isPalindrome}. 
 Listing~\ref{redudantexample1} and~\ref{redudantexample2} show excerpts from mutants \textit{M4} and \textit{M5} obtained with the \textit{SSDL} operator. In this case, both mutants are considered not equivalent with respect to the original program, but they are redundant between each other, because they are being killed by the same test cases, that is, the test cases exercising the inputs \texttt{abba} and \texttt{aba}.
-\TODO{Chek if you agree}
+\DONE{Chek if you agree.}
 \REVTWO{C32}{The two mutants keep one of the two indexes (i.e., \emph{h} or \emph{l}) fix and move the other one. The consequence is that they both return \emph{1} only when all the chars of the input are equal, otherwise they return \emph{0}. Thus, it is not possible to identify a test case that distinguishes the two mutants. For this reason, the only way to eliminate the redundancy  consist of excluding one of the two mutants.}
 %\REVTWO{C32}{In this case, the solution to the problem is dual. The first solution accounts for introducing one new test case that should produce different outputs for both mutants, which in this case is infeasible since there is no test case able to produce different output for mutants in Listing~\ref{redudantexample1} and~\ref{redudantexample2}. The second solution consists of excluding randomly one of the two mutants.}
 

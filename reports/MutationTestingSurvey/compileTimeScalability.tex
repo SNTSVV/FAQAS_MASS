@@ -24,22 +24,58 @@ and LLVM Intermediate Representation \cite{hariri2016evaluating}.
 
 
 
-\TODO{I think we need here a paragraph where you say that LLVM IR is a common target of multiple research work. You can reuse the text in A1.3.1 CLANG/LLVM, along with the picture.}
+\DONE{I think we need here a paragraph where you say that LLVM IR is a common target of multiple research work. You can reuse the text in A1.3.1 CLANG/LLVM, along with the picture.}
 
-\TODO{In the paragraph below it is not clear what do you mean for 'compiled code', I expect a follow-up sentence where you specify the type of compiled code they consider in their experiments.} \TODO{In general, If the experiments below target LLVM IR say it explicitly}
+The LLVM project, shown in Figure~\ref{fig:compileTime:llvm}, is a set of compiler and toolchain technologies. LLVM is designed around an intermediate representation (i.e., LLVM IR) that serves as a portable, high-level assembly language useful for code optimizations. LLVM was originally implemented for C and C++, but now currently it also supports Ada, D, Delphi, Fortran, Haskell, Julia, Objective-C, Rust and Swift. It can be used for performing static analysis on code (e.g., uninitialized memory uses), optimization or code parsing.
+LLVM IR is a common target of multiple research work, and many mutation toolsets adopt this technology (e.g., Mull~\cite{denisov2018mull}, SRCIRor~\cite{hariri2018srciror,hariri2019comparing} and Accmut~\cite{wang2017faster}).
+
+	\begin{figure}
+	\centering
+		\includegraphics[width=0.7\textwidth]{images/llvm}
+		\caption{LLVM compiler infrastructure.}
+		\label{fig:compileTime:llvm}
+	\end{figure}
+
+%Clang is a front-end for LLVM that processes C-family languages: C, C++, Objective C, Objective C++. Clang converts C/C++ to LLVM IR, LLVM performs optimizations on the IR, and the LLVM x86 backend writes out x86 machine code for execution.
+
+
+
+\DONE{In the paragraph below it is not clear what do you mean for 'compiled code', I expect a follow-up sentence where you specify the type of compiled code they consider in their experiments.} 
+
+\DONE{In general, If the experiments below target LLVM IR say it explicitly}
+
 \REVTWO{C8}{About the advantages of performing mutation at different levels,
-results obtained by Derezinska and Kowalski~\cite{derezinska2011object} show that, on average, the mutation of compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code.}
-\TODO{The following sentence is unclear. Do you mean that toolsets that work on IR can be easily adopted to work on multiple languages?}
-\REVTWO{C8}{Additionally, the mutations performed on compiled code can be applied directly to multiple source languages, for example, LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA~\cite{hariri2019comparing}.}
-\TODO{Below, an example is needed. Also add a sentence that indicates which type of compiled code was considered Can you present the solutions invented by MULL to overcome this problem? Can you present the features of MULL in a dedicated paragraph?}
-\REVTWO{C8}{However, there are some drawbacks when mutating compiled code, for example many of the mutations generated cannot be represented at the source code level, creating not relevant mutations~\cite{jia2010analysis}.}
+results obtained by Derezinska and Kowalski~\cite{derezinska2011object} show that, on average, the mutation of compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code. The type of compiled code they consider in their experiments was the Common Intermediate Language (.NET).}
 
-\TODO{demonstrated on an empirical evaluation => provided empirical evidence that}
-Furthermore, recently Hariri et al.~\cite{hariri2019comparing} demonstrated on an empirical evaluation that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}
+\DONE{The following sentence is unclear. Do you mean that toolsets that work on IR can be easily adopted to work on multiple languages?}
+\REVTWO{C8}{Additionally, the mutation toolsets that work on IR can be easily adopted to work on multiple source languages,
+%performed on compiled code can be applied directly to multiple source languages, 
+for example, LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA~\cite{hariri2019comparing}.}
+
+\DONE{Can you report some numbers? is it binary code or executable code or executable binary code (i.e., .EXE programs)?}
+Advantages of mutating compiled code has been also acknowledge on the mutation of ARM binaries. On an empirical evaluation performed by Becker et al.~\cite{becker2012xemu}, they observed an improvement up to 100\% on the overall mutation process time with respect to a traditional mutation process applied on source code.
+
+%On a different context, such as the mutation of ARM binaries, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions before performing actual mutations~\cite{becker2012xemu}.
+
+\DONE{Below, an example is needed. Also add a sentence that indicates which type of compiled code was considered Can you present the solutions invented by MULL to overcome this problem? Can you present the features of MULL in a dedicated paragraph?}
+
+\REVTWO{C8}{However, there are some drawbacks when mutating compiled code, for example, on an experimental evaluation performed by Schuler et al.~\cite{schuler2009efficient}, many mutations generated on Java bytecode could not be represented at the source code level, creating not relevant mutations.
+This problem has been observed also in other programming languages such as C++. For instance, applying the Mull mutation testing tool~\cite{denisov2018mull} on the method call \texttt{std::vector::push\_back} produces near 200 LLVM IR instructions, and depending on the mutation operator applied, Mull will find possible mutations in these instructions even though there is no equivalent in the original source code line.}
+
+Mull~\cite{denisov2018mull} is an open source tool for mutation testing of C/C++ software based on the LLVM framework. Mull works at the intermediate representation level. 
+Mull generate mutants on the fly, while the SUT is executed against the test suite. To this end it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows.
+\begin{itemize}
+	\item Dynamic Call Tree: optimization for mutating source code reachable by the test cases.
+	\item LLVM JIT engine: compilation and linking of the new mutants happen in memory, thus there is no disk I/O overhead.
+	\item Sandboxing: run each test in a separate child process, this way, if the child process fails it will not affect the parent process.
+	\item Dry-run: collect information in advance about how many mutations a project has and how much time does it take to run it.
+	\item Caching: save mutants on disk; for future executions Mull tries first loading the object file from the cache first.
+	\item Fail-fast mode: once a mutant is killed by a test case it is no longer executed against other test cases.
+\end{itemize}
+
+%\DONE{demonstrated on an empirical evaluation => provided empirical evidence that}
+On the drawbacks when mutating compiled code, recently Hariri et al.~\cite{hariri2019comparing} provided empirical evidence that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}
 
 
-\TODO{Can you report some numbers? is it binary code or executable code or executable binary code (i.e., .EXE programs)?}
-\TODO{Also, I cannot understand what is the point what does it mean "to translate the code into machine readable instructions"? Do you mean that compiling an .EXE is more expensive than compiling a IR?}
-{On a different context, such as the mutation of binary code, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions before performing actual mutations~\cite{becker2012xemu}.}
 
 
