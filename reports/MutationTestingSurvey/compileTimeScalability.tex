@@ -72,8 +72,10 @@ The mutation of IR code also facilitates the integration of optimizations that r
 
 
 \REVTWO{C8}{Unfortunately, the mutation of compiled code is not exempt from \EMPH{drawbacks}. For example, an empirical evaluation performed by Schuler et al.~\cite{schuler2009efficient} shows that many mutants generated on Java bytecode cannot be represented at the source code level, which indicates that they are not representative of real faults.
-\TODO{I am not sure about the message you want to give here. I added teh last sentnce but I am not sure. In the end, does mull overcome this situation or not??}
-This problem has been observed also in other programming languages such as C++. For instance, the LLVM IR compilation of the C++ standard library method \texttt{std::vector::push\_back} produces near 200 LLVM IR instructions and depending on the mutation operator applied, Mull will find possible mutations in these instructions even though there is no equivalent in the original source code line; for this reason, Mull has implemented further optimizations to overcome this limitation~\cite{denisov2018mull}.}
+\DONE{I am not sure about the message you want to give here. I added teh last sentnce but I am not sure. In the end, does mull overcome this situation or not??}
+This problem has been observed also in other programming languages such as C++. For instance, the LLVM IR compilation of the C++ standard library method \texttt{std::vector::push\_back} produces near 200 LLVM IR instructions and depending on the mutation operator applied, Mull will find possible mutations in these instructions even though there is no equivalent in the original source code line; for this reason, Mull checks for each mutation generated at LLVM IR level its representation on the source code, in the case a mutation cannot be represented then is discarded~\cite{denisov2018mull}.}
+
+%Mull has implemented further optimizations to overcome this limitation~\cite{denisov2018mull}.}
 
 Related to this, recently Hariri et al.~\cite{hariri2019comparing} provided empirical evidence that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}
 
