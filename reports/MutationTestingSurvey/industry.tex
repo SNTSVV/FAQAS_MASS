@@ -26,10 +26,11 @@ Also, a deep understanding of the characteristics of the benchmarks considered i
 
 %\DONE{If in teh case of data-driven we have used a different criterion (I think it is the case), you have to move the following paragraph to the section on code driven}
 
+
+
+In this section we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
+
 \input{tables/papers}
-
-In this chapter we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
-
 
 \input{tables/case_studies}
 
@@ -40,7 +41,7 @@ Table~\ref{table:case_studies} provides the list of the case study systems consi
 From Table~\ref{table:case_studies} can be seen that the Siemens, Make and Space are the most common case studies with 6, 5 and 4 uses, respectively. 
 The most used case study is the \INDEX{Siemens suite}. The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because they it includes faulty versions affected by faults introduced by engineers during development. The suite is available through the Subject Infrastructure Repository (SIR) from the University of Nebraska-Lincoln\footnote{https://sir.csc.ncsu.edu/portal/index.php}, in particular the suite contains a diverse collection of C programs that include code involving integer and floating-point operations, pointers, memory allocation, loops and complex conditional expressions.The Siemens suite was introduced in 1994 by Hutchins et al.~\cite{hutchins1994experiments}, the programs from the suite come with a large pool of test cases written initially by Hutchins et al. and then augmented by Rothermel et al.~\cite{rothermel1998empirical}.
 
-Table~\ref{table:benchmarks} provides the list of benchmarks identified in the literature. We report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of SUT in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. \REVTWO{C39}{Not all the referred papers explicitly mention the type of test suite considered in the studies (i.e., unit, integration, or system test suite); for this reason, Table~\ref{table:benchmarks} does not specify the type of test suites considered.}
+Table~\ref{table:benchmarks} provides the list of benchmarks identified in the literature. We report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of SUT in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. \REVTWO{C39}{Not all the referenced papers explicitly mention the type of test suite considered in the studies (i.e., unit, integration, or system test suite); for this reason, Table~\ref{table:benchmarks} does not specify the type of test suites considered.}
 
 
 
@@ -84,30 +85,28 @@ In this section we provide a survey of the benchmarks considered both in empiric
 Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems reported in the literature. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode/machine instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
 
 Table~\ref{table:benchmarks_datadriven} presents case studies for approaches relying on UML models~\cite{di2017augmenting}, block models~\cite{pham2016model}, grammars, and no models~\cite{AFL:industrialcases}.
-\DONE{FIX the following}
+%\DONE{FIX the following}
 For our analysis, we considered empirical evaluations presented in recent papers referenced in this book. More precisely, we considered papers published between 1998 and 2017.
 
 Concerning the size and typology of SUT, the case studies reported in Table~\ref{table:benchmarks_datadriven} vary a lot.
 For instance, experimentation on block models has been applied to different types of desktop applications such as VLC, Adobe Reader, Real Player, and Windows Media Player~\cite{pham2016model} which sizes goes from 60 KB to 2.32 MB. 
 
-\DONE{Unfortunately, not enough. We need to report at least the recent papers that we cite for grammar. Also, AFL does not work with grammars it's an approach for no models}
+%\DONE{Unfortunately, not enough. We need to report at least the recent papers that we cite for grammar. Also, AFL does not work with grammars it's an approach for no models}
 
-Empirical studies on grammars has been performed since long ago, for instance Ghosh et al.~\cite{ghosh1998testing} carried on experimentation on a set of Windows NT utitlies such as \texttt{attrib, chkdsk, comp, expand, fc, find, help, label} and \texttt{replace}.
+Empirical studies on grammars has been performed since long ago, for instance Ghosh et al.~\cite{ghosh1998testing} carried on experimentation on a set of Windows NT utilities such as \texttt{attrib, chkdsk, comp, expand, fc, find, help, label} and \texttt{replace}.
 Then, Godefroid et al.~\cite{Godefroid:GrammarBasedFuzzying:2008} experimented on grammar-based whitebox fuzzing techniques on the JavaScript Interpreter from Internet Explorer 7, a widely used component of 113\,562 machine instructions.
 More recently, Appelt et al.~\cite{Appelt:SQLI:ISSTA:2014} performed experiments on HotelRS, a software to study service-oriented architectures, and on SugarCRM a customer relationship management system, a large software of about 352 KLOC.
 
-Experimentation on no models has been widely studied, but for sake of simplicity we only report the most important case studies for the AFL tool~\cite{AFL:industrialcases}. Particularly, AFL has been applied to a very wide range of software typology, for example it has been applied on programming languages such as PHP, web browsers such as Firefox, libraries such as OpenSSL, and even application server such as MySQL Server. 
+Concerning approaches that do not require models, we report the most relevant case studies for the AFL tool~\cite{AFL:industrialcases}, the mostly known tool for this category. Particularly, AFL has been applied to a very wide range of software types, for example it has been applied on PHP programs, Web browsers (e.g., Firefox), libraries (e.g., OpenSSL), and application servers (e.g., MySQL Server). 
 
-\DONE{please put all the references of Di Nardo's papers}
-Regarding case studies applied to space context software, we highlight SES-DAQ, a DAQ system developed by SES that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting,di2015evolutionary,di2015generating} had a size of 32\,469 bytecode instructions.
+%\DONE{please put all the references of Di Nardo's papers}
+Regarding case studies applied to space software, the only case is that of SES-DAQ, a data acquisition system that processes bytestreams of transmitted satellite data. The version of SES-DAQ used for the experimentation performed by Di Nardo et al.~\cite{di2017augmenting,di2015evolutionary,di2015generating} had a size of 32\,469 bytecode instructions.
 
-\DONE{Please check the following}
-Contrarily to code-driven mutation, data-driven approaches have been evaluated against several commercial software systems. This is due to the fact that most data-driven approaches do not require the source code of the software under test and thus can be applied by researchers to commercial software without the need of involving the companies who developed such systems. Unfortunately, the application to space software has been evaluated in a single set of work.
+%\DONE{Please check the following}
+Contrarily to code-driven mutation, data-driven approaches have been evaluated against several commercial software systems. This is due to the fact that most data-driven approaches do not require the source code of the software under test and thus can be applied by researchers to commercial software without the need of involving the companies who developed such systems. Unfortunately, the evaluation of  data-driven approaches with space software is limited to a single case study system.
 
 %larg an industrial context (i.e., to test a software  industry case studies is not common. The main difference with code-driven mutation is that data-driven approaches had been tried it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.}
 %Contrarily to code-driven mutation, the application of data-driven approaches to real industrial software it is been much common, mainly due to the cost of data-driven mutation with respect to code-drive mutation testing approaches.
-
-\clearpage
 
 \input{tables/industry_datadriven}
 
