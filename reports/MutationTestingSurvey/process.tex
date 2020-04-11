@@ -24,7 +24,7 @@ These activities are typically automated by toolsets that often include strategi
 
 \subsubsection{Create mutants}
 
-The Test Suite Evaluation process starts with engineers providing the SUT and a set of mutation operators selected to be considered for creating modified versions of the software. 
+The Test Suite Evaluation process starts with engineers providing the SUT and a set of mutation operators selected to create modified versions of the software. 
 A mutation operator is a function that can automatically alter the syntax of the source code of the SUT to simulate one or more programming errors.
 For example, a conceptually simple operator is the \textit{SSDL} operator, which deletes (or comment out) one or more statements in the source code.
 
@@ -34,12 +34,12 @@ For example, a conceptually simple operator is the \textit{SSDL} operator, which
 
 Listings~\ref{isPalindrome_m1} to~\ref{isPalindrome_m7}, provide the results obtained when applying the \textit{SSDL} operator to the source code in Listing~\ref{isPalindrome}.
 Listing~\ref{isPalindrome} shows the implementation of function \texttt{isPalindrome}, which checks if a given word is palindrome or not.
-Listing~\ref{isPalindrome_m1} shows that the statement in line 12 has been deleted, i.e., the statement \texttt{return 0;}.
+Listing~\ref{isPalindrome_m1} shows that the statement in line 12 has been deleted, i.e., the statement \texttt{`return 0;'}.
 Listing~\ref{isPalindrome_m2} shows that the statements from line 11 to line 13 have been deleted, i.e., all the content of the if branch.
 Listing~\ref{isPalindrome_m3} shows that the statements from line 10 to line 13 have been deleted, i.e., the whole if statement.
-Listing~\ref{isPalindrome_m4} shows that the statement in line 14 have been deleted, i.e., the statement \texttt{l++;}.
-Listing~\ref{isPalindrome_m5} shows that the statement in line 15 have been deleted, i.e., the statement \texttt{h-}\texttt{-;}.
-Listing~\ref{isPalindrome_m6} shows that the statements from line 6 to line 16 have been deleted, i.e., all the content of the function \texttt{isPalindrome} except for the statement \texttt{return 1;}.
+Listing~\ref{isPalindrome_m4} shows that the statement in line 14 have been deleted, i.e., the statement \texttt{`l++;'}.
+Listing~\ref{isPalindrome_m5} shows that the statement in line 15 have been deleted, i.e., the statement \texttt{`h-}\texttt{-;'}.
+Listing~\ref{isPalindrome_m6} shows that the statements from line 6 to line 16 have been deleted, i.e., all the content of the function \texttt{isPalindrome} except for the statement \texttt{`return 1;'}.
 Listing~\ref{isPalindrome_m7} shows that the statements in line 8, 9, and 16 have been deleted, i.e., the while loop structure.
 
 \input{listings/isPalindrome}
@@ -63,7 +63,7 @@ Section~\ref{sec:operators} provides an overview of the mutation operators defin
 
 %\DONE{You should write "the function <functionName>" not "the <functionName> function"}
 
-The \emph{execution of mutants} implies the execution of the test suite of the SUT against all the generated mutants. 
+The \INDEX{execution of mutants} implies the execution of the test suite of the SUT against all the generated mutants. 
 %Optimizations for the execution of mutants concern the scalability of the execution process and 
 %the identification at run-time of equivalent and redundant mutants.
 
@@ -73,11 +73,11 @@ The \emph{execution of mutants} implies the execution of the test suite of the S
 
 %\DONE{The example is not good enough. You should show that the test suite fails with most of the mutants except one. Please reorder the examples and the description to fix it.}
 
-In Listing~\ref{isPalindrome_TS} we introduce an example test suite for the function \texttt{isPalindrome}, which has been introduced in Listing~\ref{isPalindrome}. 
+In Listing~\ref{isPalindrome_TS} we introduce an example test suite for the function \texttt{isPalindrome} (Listing~\ref{isPalindrome}). 
 The outcome of the execution of the test suite against the function \texttt{isPalindrome} is that all the five test cases pass.
 
 %FAbrizio: you don't put things like "now" in a book, is not a story
-If we execute the same test suite against all mutants, we observe that for mutants \textit{M1, M2, M3, M4, M5} and \textit{M6}, the test suite fails, but for mutant \textit{M7} the test suite passes. We say that a \INDEX{test suite fails} when the outcome of at least one test case is fail. A \INDEX{test suite passes} when all the test cases pass. If a test suite passes with oe mutant it means that it is not adequate; indeed, a test suite should, in principle, identify all the faults introduced.
+If we execute the same test suite against all mutants, we observe that for mutants \textit{M1, M2, M3, M4, M5} and \textit{M6}, the test suite fails, but for mutant \textit{M7} the test suite passes. We say that a \INDEX{test suite fails} when at least one test case fails. A \INDEX{test suite passes} when all the test cases pass. If a test suite passes when executed against a mutant it means that it is \EMPH{not adequate}; indeed, a test suite should, in principle, identify all the faults introduced.
 
 In a real and complex system, unfortunately, the activity \emph{create mutants} may lead to a high number of mutants to be generated, which, in turn, leads to scalability issues due to the compilation and execution of the different program versions generated. Recent surveys provide an overview of existing optimization techniques~\cite{ferrari2018systematic};
 the most relevant optimization approaches target the reduction of the number of mutants to be compiled and executed, 
@@ -94,27 +94,27 @@ Another optimization that speeds up the compilation of mutants concerns the iden
 
 \input{listings/isPalindrome_equivalent}
 
-Listing~\ref{isPalindrome_equivalent} introduces an equivalent mutant with respect to the original function isPalindrome of Listing~\ref{isPalindrome}. The mutant of Listing~\ref{isPalindrome_equivalent} has been obtained when applying the \textit{OPPO} operator to the source code in Listing~\ref{isPalindrome}. The \textit{OPPO} operator mutates expressions such as \texttt{l++} into \texttt{++l} and \texttt{l-}\texttt{-}.
-Despite both versions of the function are syntactically different, they have the same semantic, i.e., they behave in the same way. More precisely, the mutation does not have any effect on the output of the function.
+Listing~\ref{isPalindrome_equivalent} shows an equivalent mutant for the function isPalindrome (Listing~\ref{isPalindrome}). The mutant in Listing~\ref{isPalindrome_equivalent} has been obtained by applying the \INDEX{OPPO operator} to the source code in Listing~\ref{isPalindrome}. The \textit{OPPO} operator mutates expressions such as \texttt{l++} into \texttt{++l} and \texttt{l-}\texttt{-}.
+Despite both versions of the function are syntactically different, they have the same semantic, i.e., they behave the same way. The mutation does not change the output of the function for any possible input.
 
 To determine if a program and one of its mutants are
 equivalent is undecidable~\cite{Budd:1982}; however, heuristics to partially address this problem have been defined in the literature.
-Trivial compiler optimization might be adopted to detect both equivalent and redundant mutants; it relies on the idea that source code that leads to the same program behaviour often belongs to the same optimized compiled code~\cite{papadakis2015trivial}. Other approaches concern the adoption of \INDEX{symbolic execution}~\cite{papadakis2012mutation,kurtz2015static} and the runtime monitoring of the SUT (e.g., mutants that lead to the same execution paths are likely equivalent~\cite{schuler2013covering}). Finally, Shin et al. proposed the \emph{distinguishing mutation adequacy criterion}, which aims to ensure that the test suite includes enough different test inputs so that every mutant is distinguished by each other, if feasible~\cite{shin2017theoretical}. 
+\INDEX{Trivial compiler optimization} might be adopted to detect both equivalent and redundant mutants; it relies on the idea that source code that leads to the same program behaviour often belongs to the same optimized compiled code~\cite{papadakis2015trivial}. Other approaches concern the adoption of \INDEX{symbolic execution}~\cite{papadakis2012mutation,kurtz2015static} and the \INDEX{runtime monitoring} of the SUT (e.g., mutants that lead to the same execution paths are likely equivalent~\cite{schuler2013covering}). Finally, Shin et al. proposed the \INDEX{distinguishing mutation adequacy criterion}, which aims to ensure that the test suite includes enough different test inputs so that every mutant is distinguished by each other, if feasible~\cite{shin2017theoretical}. 
 Solutions to address the problem of identifying equivalent and redundant mutants are detailed in Sections~\ref{sec:opt:equivalent} and~\ref{sec:opt:redundant}, respectively.
 
 
-A well-known optimization to \emph{reduce execution time} is the \INDEX{split-stream} optimization, which consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached~\cite{tokumoto2016muvm}. With split-stream, the code shared among multiple mutants is executed only once thus saving time and resources. Other execution optimizations consist of minimizing the number of processes being created by sharing one single process among mutants that bring the system into the same state~\cite{wang2017faster}.
-Section~\ref{sec:opt:execution} provides an overview of techniques to reduce execution time and, more generally, address run-time \INDEX{scalability issues}.
+A well-known optimization to \INDEX{reduce execution time} is the \INDEX{split-stream} optimization, which consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached~\cite{tokumoto2016muvm}. With split-stream execution, the code shared by multiple mutants is executed only once thus saving time and resources. Other execution optimizations consist of minimizing the number of processes being created by sharing one single process among mutants that bring the system into the same state~\cite{wang2017faster}.
+Section~\ref{sec:opt:execution} provides an overview of techniques to reduce execution time and, more generally, addresses \INDEX{run-time scalability issues}.
 
 \subsubsection{Analyze results}
 
-The \emph{analysis of test results} concerns the identification of mutants that lead to the failure of at least one test case of the SUT test suite; these mutants are said to be \emph{killed}. Mutants that do not lead to the failure of any test case are said to be \emph{live mutants}. 
+The \emph{analysis of test results} concerns the identification of mutants that lead to the failure of at least one test case of the SUT test suite; these mutants are said to be \INDEX{killed}. Mutants that do not lead to the failure of any test case are said to be \INDEX{live mutants}. 
 %\DONE{COplete}
 
-In the examples concerning the mutation of function \texttt{isPalindrome}, mutants \textit{M1, M2, M3, M4, M5} and \textit{M6} are killed, instead mutant \textit{M7} is alive.
+In the examples concerning the mutation of function \texttt{isPalindrome} (Listings~\ref{isPalindrome_m1} to~\ref{isPalindrome_m7}), mutants \textit{M1, M2, M3, M4, M5} and \textit{M6} are killed, instead mutant \textit{M7} is alive.
 
-The identification of killed and live mutants enable the definition of a \INDEX{mutation adequacy criterion} as follow, \emph{a test suite is mutation-adequate if all mutants are killed by at least one test of the test suite}. 
-Also, the percentage of killed mutants is used to quantitatively measure the quality of a test suite. This measure is referred to as \emph{mutation score}.
+The identification of killed and live mutants enable the definition of a \INDEX{mutation adequacy criterion} as follow, \EMPH{a test suite is mutation-adequate if all mutants are killed by at least one test case of the test suite}. 
+Also, the percentage of killed mutants is used to quantitatively measure the quality of a test suite. This measure is referred to as \INDEX{mutation score}.
 
 %\DONE{Add comment concerning the example.}
 
@@ -129,7 +129,7 @@ To overcome the limitations due to observability, different strategies for disti
 \EMPH{\INDEX{Strong mutation} coverage} indicates that the computation of the mutation score is based on the percentage of mutants identified by test failures, i.e., based on difference between the expected and the observed output of the system.  
 \EMPH{\INDEX{Weak mutation} coverage} consists of verifying if the state of the system has been altered, with respect to the original code, after the execution of the mutated statement. 
 \EMPH{\INDEX{Firm mutation} coverage} consists of verifying if the change in the state of the system propagates after the mutated code, e.g., at function boundaries. 
-\EMPH{\INDEX{Flexible mutation} coverage} consists of checking if the mutated code leads to object corruption~\cite{mateo2012validating}. The main difference between these four coverage strategies is that only strong mutation coverage enables engineers to assess the quality of test cases in their entirety, i.e., by evaluating both the capability of triggering an erroneous behavior and the capability of reporting the erroneous behaviour. 
+\EMPH{\INDEX{Flexible mutation} coverage} consists of checking if the mutated code leads to object corruption~\cite{mateo2012validating}. The main difference between these four coverage strategies is that \EMPH{only strong mutation coverage enables engineers to assess the quality of test cases in their entirety}, i.e., by evaluating both the capability of triggering an erroneous behavior and the capability of reporting the erroneous behaviour. 
 %thanks to complete test oracles. 
 The other strategies only evaluate the capability of the test suites of triggering the erroneous behavior. 
 
@@ -153,26 +153,28 @@ The generation of test oracles should lead to executable code instructions (e.g.
 
 
 %F: already done, deleted statement => statement deleted}
-In the case of the example of function \textit{isPalindrome}, test suite augmentation should lead to introducing a new test case that exercises the statement deleted by the operator. 
+In the case of the example of function \textit{isPalindrome}, test suite augmentation should introduce a new test case that 
+exercises the statement deleted by the operator before returning that the input is not palindrome.
+More precisely, the new test case should exercise an odd non-palindrome word with non-palindrome characters positioned in the internal part of the string (i.e., to execute the while loop, the head and tail characters should be equal). In Listing~\ref{isPalindrome_TS_improved}, we added a test case with the input \textit{abbaa}, this test case will fail against \textit{M7}. This process should be done iteratively for all the live mutants of the mutation process. 
 
 \input{listings/isPalindrome_TS_improved}
 
-More precisely, we should introduce a test case that exercises an odd non-palindrome word. In Listing~\ref{isPalindrome_TS_improved}, we added a test case with the input \textit{abbaa}, this test case will fail against \textit{M7}. This process should be done iteratively for all the live mutants of the mutation process. 
+
  
 %\DONE{If there are multiple live mutant, please add an example for each}
 
 %To this end, mutants could be ranked according to their importance in order to ensure that, for a given test budget, the most relevant mutants are considered first. MuRanker~\cite{namin2015muranker}, for example, ranks mutants according to their predicted difficulty and complexity in being detected. 
-To automate the generation of test cases, existing work investigates the adoption of the KLEE \INDEX{symbolic execution} engine~\cite{holling2016nequivack} and the use of \INDEX{bounded model checking}~\cite{riener2011test}. Other work combines dynamic symbolic execution (DSE) with \INDEX{search-based software testing} (SBST) to generate test inputs that lead to strong mutations~\cite{harman2011strong}. 
+To automate the generation of test cases, existing work investigates the adoption of the KLEE \INDEX{symbolic execution} engine~\cite{holling2016nequivack} and the use of \INDEX{bounded model checking}~\cite{riener2011test}. Other work combines \INDEX{dynamic symbolic execution} (DSE) with \INDEX{search-based software testing} (SBST) to generate test inputs that lead to strong mutations~\cite{harman2011strong}. 
 
 
 Concerning the automated \INDEX{generation of test oracles}, 
 %a state-of-the-art approach consists of the generation of assertions that verify the value of variables that enable the killing of mutants~\cite{fraser2011mutation}. 
 %In the case of test suite generation for mutation testing, 
-the generation of test oracles could be driven by the comparison of the outputs generate by the SUT and by the specific mutants targeted during test generation~\cite{Staats2012}.
+it could be driven by the comparison of the outputs generate by the SUT and by the specific mutants targeted during test generation~\cite{Staats2012}.
 
 
 
-Test failures observed after updating the test suites should be investigated by the engineers who are expected to fix the SUT.
+Test failures observed after updating a test suite should be investigated by the engineers who are expected to fix the SUT.
 If test failures are not observed, engineers evaluate the quality of the newly generated test suite by executing it against the mutants and by observing the mutation score achieved. 
 
 Section~\ref{sec:testGeneration} provides an overview of approaches for the automated generation of test cases.

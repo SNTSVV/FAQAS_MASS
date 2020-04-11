@@ -8,9 +8,9 @@ Another source of \INDEX{scalability issues} is the compilation of mutants;
 indeed, because of the large number of mutation operators available in the literature, the number of mutants to be compiled is not negligible. In this section we report the main research results aiming at reducing the time required to compile mutants.
 %has worked on approaches based on optimising the compilation process.
 
-Untch et al. \cite{untch1993mutation} proposed a technique called \INDEX{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed, results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation.
+Untch et al. \cite{untch1993mutation} proposed a technique called \INDEX{mutant schemata}; the technique introduces the concept of meta-program, which stands for including and compiling all the mutants in a single executable file, instead of compiling one executable per mutation generated. The mutations are then managed at run-time through parameters that enable software engineers to choose the mutation to be executed; results show speed improvements over 300\% \cite{untch1993mutation,papadakis2010automatic}. Modern mutation testing tools such as Accmut \cite{wang2017faster} and Milu \cite{jia2008milu} include this type of optimisation; \CHANGEDTWO{however, they may not be easily adopted when the SUT cannot be forked, which may happens when it needs to be executed in a simulation environment or when it acts as an operating system.}
 
-Another solution consists of mutating directly the compiled code so that mutants can be executed without compiling each of them.
+Another solution consists of \INDEX{mutating the compiled code} so that mutants can be executed without the need for rerunning the compilation process for each of them.
 This optimisation has been applied on 
 Assembly languages \cite{crouzet2006sesame},
 Java bytecode \cite{ma2006mujava}, 
@@ -26,7 +26,7 @@ and LLVM Intermediate Representation \cite{hariri2016evaluating}.
 
 %\DONE{I think we need here a paragraph where you say that LLVM IR is a common target of multiple research work. You can reuse the text in A1.3.1 CLANG/LLVM, along with the picture.}
 
-Among the available solutions for the analysis of compiled code, the LLVM project, whose process is shown in Figure~\ref{fig:compileTime:llvm}, is the mostly adopted by researchers in recent years. It consists of a set of compiler and toolchain technologies. LLVM is designed around an intermediate representation (i.e., LLVM IR) that serves as a portable, high-level assembly language useful for code optimizations. LLVM was originally implemented for the C and C++ programming langauges, but currently it also supports Ada, D, Delphi, Fortran, Haskell, Julia, Objective-C, Rust and Swift. It can be used for performing static analysis on code (e.g., uninitialized memory uses), optimization, or code parsing.
+Among the available solutions for the analysis of compiled code, the \INDEX{LLVM} project, whose process is shown in Figure~\ref{fig:compileTime:llvm}, is the mostly adopted by researchers in recent years. It consists of a set of compiler and toolchain technologies. LLVM is designed around an intermediate representation (i.e., LLVM IR) that serves as a portable, high-level assembly language useful for code optimizations. LLVM was originally implemented for the C and C++ programming langauges, but currently it also supports Ada, D, Delphi, Fortran, Haskell, Julia, Objective-C, Rust and Swift. It can be used for performing static analysis on code (e.g., uninitialized memory uses), optimization, or code parsing.
 LLVM IR is a common target of multiple research work, and many mutation toolsets rely on it (e.g., Mull~\cite{denisov2018mull}, SRCIRor~\cite{hariri2018srciror,hariri2019comparing} and Accmut~\cite{wang2017faster}).
 
 	\begin{figure}
@@ -51,11 +51,9 @@ the results obtained by Derezinska and Kowalski~\cite{derezinska2011object} show
 %performed on compiled code can be applied directly to multiple source languages, 
 for example, LLVM IR supports C, C++, Objective-C, Objective-C++, OpenMP, OpenCL and CUDA~\cite{hariri2019comparing}.}
 
-%\DONE{Can you report some numbers? is it binary code or executable code or executable binary code (i.e., .EXE programs)?}
-Advantages had been also acknowledge on the mutation of binaries. Becker et al.~\cite{becker2012xemu}, empirically observed that the overall time of the mutation process can be 
-substantially reduced (up to 50\%) when mutation operators are applied to ARM binaries instead of source code.
 
-The mutation of IR code also facilitates the integration of optimizations that require dynamic program analysis (i.e., the analysis of data collected at runtime~\cite{Pezze:Book}). An example is given by the optimizations implemented by Mull~\cite{denisov2018mull}, an open source tool for mutation testing of C/C++ software based on the LLVM framework. By leveraging LLVM IR, Mull generates mutants on the fly, while the SUT is executed against the test suite. To this end it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows:
+
+The \INDEX{mutation of LLVM IR code} also facilitates the integration of optimizations that require \INDEX{dynamic program analysis} (i.e., the analysis of data collected at runtime~\cite{Pezze:Book}). An example is given by the optimizations implemented by \INDEX{Mull}~\cite{denisov2018mull}, an open source tool for mutation testing of C/C++ software based on the LLVM framework. By leveraging LLVM IR, Mull generates mutants on the fly, while the SUT is executed against the test suite. To this end, it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows:
 \begin{itemize}
 	\item Dynamic Call Tree: optimization for mutating source code reachable by the test cases.
 	\item LLVM JIT engine: compilation and linking of the new mutants happen in memory, thus there is no disk I/O overhead.
@@ -65,20 +63,24 @@ The mutation of IR code also facilitates the integration of optimizations that r
 	\item Fail-fast mode: once a mutant is killed by a test case it is no longer executed against other test cases.
 \end{itemize}
 
+%\DONE{Can you report some numbers? is it binary code or executable code or executable binary code (i.e., .EXE programs)?}
+Advantages had been also acknowledged on the \INDEX{mutation of binaries}. Becker et al.~\cite{becker2012xemu}, empirically observed that the overall time of the mutation process can be 
+substantially reduced (up to 50\%) when mutation operators are applied to binaries instead of source code. In their experiments, Becker et al. considered ARM binaries.
+
 
 %On a different context, such as the mutation of ARM binaries, the mutation process can become very expensive since it is necessary to translate the code into machine readable instructions before performing actual mutations~\cite{becker2012xemu}.
 
 %\DONE{Below, an example is needed. Also add a sentence that indicates which type of compiled code was considered Can you present the solutions invented by MULL to overcome this problem? Can you present the features of MULL in a dedicated paragraph?}
 
 
-\REVTWO{C8}{Unfortunately, the mutation of compiled code is not exempt from \EMPH{drawbacks}. For example, an empirical evaluation performed by Schuler et al.~\cite{schuler2009efficient} shows that many mutants generated on Java bytecode cannot be represented at the source code level, which indicates that they are not representative of real faults.
-This problem has been observed also in other programming languages such as C++. For instance, the LLVM IR compilation of the C++ standard library method \texttt{std::vector::push\_back} produces near 200 LLVM IR instructions, all of which might be mutated, even if they lead to the generation of compiled code that it is impossible to be generated by modifying the source code (these are called \INDEX{junk mutants} in Mull~\cite{denisov2018mull}). 
+\REVTWO{C8}{Unfortunately, the mutation of compiled code is not exempt from \EMPH{drawbacks}. For example, an empirical evaluation performed by Schuler et al.~\cite{schuler2009efficient} shows that many mutants generated on the Java bytecode cannot be represented at the source code level, which indicates that they are not representative of real faults.
+This problem has been observed also in other programming languages such as C++. For instance, the LLVM IR compilation of the C++ standard library method \texttt{std::vector::push\_back} produces near 200 LLVM IR instructions, all of which might be mutated, even if they lead to the generation of compiled code that it is impossible to generate by modifying the source code (these are called \INDEX{junk mutants} in Mull~\cite{denisov2018mull}). 
 For this reason, Mull checks for each mutation generated at LLVM IR level its representation on the source code, in the case a mutation cannot be represented then is discarded.
-To minimize the consequences of this problem, for every mutant, Mull implements a heuristic filter that retrieves the AST node that has been targeted by the mutation and identifies a junk mutant based on the information associated to the AST node. For example, nodes without associated source code or nodes whose source file is a system library headers should not be mutated\footnote{Implementation details can be found in the Mull component \emph{lib/JunkDetection/CXX/CXXJunkDetector.cpp}}. Mull authors report that, for C and C++ projects, this approach eliminates the vast majority of junk mutations~\cite{denisov2018mull}.
+To minimize the consequences of this problem, for every mutant, Mull implements a heuristic filter that retrieves the AST node that has been targeted by the mutation and identifies a junk mutant based on the information associated to the AST node. For example, nodes without associated source code or nodes whose source file is a system library header should not be mutated\footnote{Implementation details can be found in the Mull component \emph{lib/JunkDetection/CXX/CXXJunkDetector.cpp}}. Mull authors report that, for C and C++ projects, this approach eliminates the vast majority of junk mutations~\cite{denisov2018mull}.
 %
 %Mull has implemented further optimizations to overcome this limitation~\cite{denisov2018mull}.}
 %
-Related to this, recently Hariri et al.~\cite{hariri2019comparing} provided empirical evidence that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}}
+Related to this, recently, Hariri et al.~\cite{hariri2019comparing} provided empirical evidence that \textit{the number of generated mutants is much higher at the intermediate representation level than at source code level, suggesting that mutation testing at source code level is much faster to perform than at intermediate representation level.}}
 
 
 

@@ -3,16 +3,17 @@
 \section{Building Blocks of the Code-driven Automated Test Suites Augmentation Process}
 \label{sec:testGeneration}
 
-This section describe the approaches that can be adopted to automatically generate test cases that kill mutants.
+This section describes the approaches that can be adopted to automatically generate test cases that kill mutants.
 %Fabrizio:
-To kill a mutant we need test cases that reach the mutation point (i.e., execute the mutated code), cause 
+To kill a mutant we need test cases that (1) reach the mutation point (i.e., execute the mutated code), (2) cause 
 corruptions
 %changes, or corruptions, 
-in the program state right after the mutated code in comparison to the non-mutated version of the program, 
-and manifest these corruptions into the program output 
+in the program state right after the mutated code,
+% in comparison to the non-mutated version of the program, 
+and (3) manifest these corruptions into the program output 
 %Fabrizio: an assertion is not an output
 (e.g., by producing an erroneous value in a state variable verified by a test assertion) 
-thus leading to a software failure~\cite{papadakis2019mutation}, these conditions are also known as the \INDEX{killing conditions} of a mutant.
+thus leading to a failure~\cite{papadakis2019mutation}. These conditions are also known as the \INDEX{killing conditions} of a mutant.
 
 In the literature, there exist two groups of approaches for 
 %driving automated test generation processes aimed to kill mutants, based on the above mentioned conditions. 
@@ -25,13 +26,14 @@ approaches based on constraint-programming, and approaches based on evolutionary
 
 %\subsection{Symbolic Test Generation Procedures}
 \subsection{Test Generation based on Constraint Programming}
+\label{sec:testGen:CP}
 
 Techniques based on constraint programming use some form of automated reasoning (e.g., Propositional Satisfiability or Constraint Solving~\cite{SATandCPsurvey:2006}) to derive data that satisfy all the conditions necessary to kill a mutant~\cite{offutt1997automatically}.
 
-One possibility consists of generating constraints that capture the three killing conditions of a mutant: \INDEX{reachability} (i.e, the test case should execute the mutated statement), \INDEX{necessity} (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and \INDEX{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
+One possibility consists of generating constraints that capture the three \INDEX{killing conditions} of a mutant: \INDEX{reachability} (i.e, the test case should execute the mutated statement), \INDEX{necessity} (i.e., the test case should cause an incorrect intermediate state if it reaches the mutated statement), and \INDEX{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}. Existing approaches, differ for the strategy adopted to automatically generate these constraints from the program under test.
 
-Offutt et al.~\cite{offutt1997automatically}, for example automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
-Then, such constraints are encoded to form a constraint system, in their approach, they propose three strategies for identifying infeasible constraint systems, the contradictions to such systems are the new test cases for the program under analysis.
+Offutt et al.~\cite{offutt1997automatically}, for example, automatically derive such constraints from the program by extracting the predicate expressions on the program's control flow graph.
+Then, such constraints are encoded to form a constraint system. In their approach, they propose three strategies for identifying infeasible constraint systems, the contradictions to such systems are the new test cases for the program under analysis.
 
 \input{listings/cbt}
 
@@ -45,18 +47,17 @@ In the following, we introduce an example of the application of Offutt's~\cite{o
 
 $C_R$ defines the condition required to reach the mutated statement, in this case the conjunction between the predicate of the first if condition and the negation of the second if condition. $C_N$ defines the condition required to assure a different program state between the original and mutated version of the program right after the mutation point. Finally, $C_S$ defines the condition necessary to demonstrate that both the original and the mutated program returns different values.
 
-Holling et al.~\cite{holling2016nequivack} proposed to use a \INDEX{symbolic execution} approach to identify new test cases, the idea is to execute symbolically both the original and the mutated function, and then to check if their return values are equivalent or not. 
+Holling et al.~\cite{holling2016nequivack} proposed to use a \INDEX{symbolic execution} approach to identify new test cases. Their idea is to first execute symbolically both the original and the mutated function, then to check if their return values are equivalent or not. 
 
 % Symbolic execution
 
-Symbolic execution determines what inputs cause each part of a function to execute. To symbolically execute a function, it is necessary to replace the original inputs (i.e., concrete values) with symbolic ones. The \INDEX{symbolic values} represent a set of possible concrete values that lead to a certain program path (i.e., path condition). 
+Symbolic execution determines what inputs cause each part of a function to be covered during execution. To symbolically execute a function, it is necessary to replace the original inputs (i.e., concrete values) with symbolic ones. The \INDEX{symbolic values} represent a set of possible concrete values that lead to a certain program path (i.e., path condition). 
 
 In the following, we introduce an example of symbolic execution applied to the function \texttt{f} presented in Listing~\ref{symbolic}, the function \texttt{f} reads in a value and fails if the input is 6.
 
 \input{listings/symbolic}
 
 During a concrete execution, the function \texttt{f} would read a concrete input value (e.g., 5) and assign it to \texttt{y}. The execution would then proceed with the multiplication and the conditional if branch, which would evaluate to false and print \emph{OK}.
-
 Instead, during symbolic execution, the function \texttt{f} reads a symbolic value (e.g., $\omega$) and assigns it to \texttt{y}. The function would then proceed with the multiplication and assign $\omega * 2$ to \texttt{z}. When reaching the if statement, the program would evaluate the expression $(\omega * 2 == 12)$. 
 At this point of the execution, $\omega$ could take any value, and symbolic execution can therefore proceed along both branches, by creating two paths. 
 Each path is associated to a path constraint and a copy of the program state.
@@ -87,8 +88,7 @@ In Listing~\ref{example}, the parameter \texttt{numSymbolic} is made symbolic in
 %Finally, the \texttt{assert} function of line 8 verifies if the integer return values of both functions are equal or not.
 Finally, we need to introduce an assertion that makes the symbolic execution engine \EMPH{look for inputs that make the output of the two functions different}. 
 In Listing~\ref{example}, this is achieved with an assertion that verifies that the return values of the two functions the same (see Line 8). 
-
-Despite being counterintuitive, this approach is effective because symbolic execution engines aim to identify inputs that falsify the assertions in the program. 
+Despite being counter-intuitive, this approach is effective because symbolic execution engines aim to identify inputs that falsify the assertions in the program. 
 When the equality is falsified, then the two functions can produce a different output for a same input\footnote{In the following sections, we will show that this same criterion also indicates that the two functions are non-equivalent}.
 The input that falsifies the equality can thus be used to improve the test suite enabling it to kill the mutant.
 % make the original an mutate function geenrate distinct results
@@ -113,25 +113,26 @@ To reduce the time required by the symbolic execution process, which needs to be
 
 Test generation approaches based on \INDEX{evolutionary computation} typically rely on population-based meta-heuristic optimization algorithms~\cite{harman2011strong}. 
 They search for program inputs that could kill mutants under the guidance of a fitness function~\cite{harman2011strong}. 
-The main research contribution of these methods is the definition of fitness functions that captures the killing conditions of a mutant and identifies test inputs that satisfy those conditions.
+The main research contribution of these methods is the definition of fitness functions that capture the killing conditions of a mutant and identify test inputs that satisfy those conditions.
 
-The \INDEX{fitness function} captures the killing conditions of a mutant. For instance, Ayari et al.~\cite{ayari2007automatic} proposed to use an evolutionary approach based on ant colony optimization (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of real ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al.~\cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
+The \INDEX{fitness function} captures the killing conditions of a mutant. For instance, Ayari et al.~\cite{ayari2007automatic} proposed to use an evolutionary approach based on \INDEX{ant colony optimization} (ACO) for automatic test input data generation on mutation testing. The ACO is an optimization algorithm inspired by the behavior of ants, it is based on the ants ability to find the shortest path between their nest and the food source. In the study by Ayari et al.~\cite{ayari2007automatic}, the approach takes an existing test case and produces a new test case by slightly modifying its inputs. 
 %F: you have to provide more details what does it mean "close"?
 The fitness function measures the distance between the mutated statement, and the statement reached by the new test case (e.g., the reachability condition). More precisely, the distance is defined as the number of basic blocks between the two statements in the program's control flow graph.
 Papadakis et al.~\cite{papadakis2011automatically}, instead, rely on fitness functions that capture the distance between mutated statement and the statement covering the branches of the different mutations (e.g., the necessity condition).
 
 Fraser and Arcuri~\cite{fraser2015achieving} propose to use distinct distance metrics tailored to the specific operator used to generate the mutants.
 %F: we need more examples for multiple operators. Also, you should clarify why distinct metrics are needed
-This tailoring is needed because the necessity killing condition relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed (i.e., values on the stack are different at the mutation point).
+This tailoring is needed because the \EMPH{necessity killing condition} relies on changes in the program state and the execution of a mutated statement does not guarantee that the program state had been changed (i.e., values on the stack are different at the mutation point).
 %Fabrizio: it was not comprehensible
 %mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
 %\DONE{I cannot undertsand the following, we can ignore it.}
-For example, the \textit{deletion operator}, which removes a statement, can or cannot change the program state. In case the mutation effectively changes the program state the distance is set to 0, otherwise the given value is 1.
+\TODO{In the following, I added a sentence in paranth. Is it correct?}
+For example, the \textit{deletion operator}, which removes a statement, may or may not change the program state, depending on the semantic of the removed sentence \CHANGEDTWO{(e.g., a logging instruction does not alter the program state)}. In case the mutation effectively changes the program state the distance is set to 0, otherwise the given value is 1.
 % For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
 In the case of the \textit{insert unary operator}, which adds or subtracts 1 to a numerical value, the operator always change the program state, so the distance is set to 0 when the statement is reached. 
 % For this reason, the mutants produced by this operator always affect the program state, so the distance is always 0 when the statement is reached.
 
-Instead, in the case of the \textit{replace variable operator}, which replaces a specific variable with all other variables of the same type in the program scope, the distance is set to 0 only if the values of the variables being exchanged are different before executing the statement, otherwise it is 1.
+Instead, in the case of the \textit{replace variable operator}, which replaces a specific variable with all other variables of the same type in the program scope, the distance is set to 0 only if the values of the variables being exchanged are different before executing the statement, otherwise it is set to 1.
 
 \subsubsection{\REVTWO{C37}{Generation of test oracles}}
 \label{sec:oraclesGeneration:codeDriven}
@@ -139,7 +140,7 @@ Instead, in the case of the \textit{replace variable operator}, which replaces a
 The automated generation of test oracles is a research topic that goes beyond the specific needs of mutation testing~\cite{Barr:Oracles:15,OLIVEIRA:Oracles:2014}.
 
 Fraser et al. provide an overview of existing approaches for the automated generation of test oracles that have been integrated into existing test case generation tools~\cite{fraser2011mutation}.
-A common solution consists of the automated synthesis of assertions for the test case, i.e., the generation of assertions  that reflect the output generated by the function under test when it is exercised with the input automatically generated by the software testing automation toolset. 
+A common solution consists of the automated synthesis of assertions for the test case. These assertions reflect the output generated by the function under test when it is exercised with the automatically generated input. 
 For example, Line~6 in Listing~\ref{isPositiveOracle} shows the oracle that can be automatically generated for the function analyzed in Listing~\ref{example} (i.e., function \emph{isPositive}). The oracle, in this case, consists of an assertion verifying that the value generated by function \emph{isPositive} matches the value '1', which is the value observed during test generation for the input value '0'. This is the approach implemented by Riener et al.~\cite{riener2011test}, who generate assertions that verify variables that present different values between the original and the mutated executions.
 
 \input{listings/testOracles}
@@ -151,8 +152,10 @@ A well known limitation of automatically generated assertions that reflect the a
 they need to be validated. More precisely, we need to ensure that the values expected by the assertions do not reflect a failure triggered by the test case (e.g, an erroneous value being returned). Such validation activity is typically performed manually by the engineers because it should be based on domain knowledge and system specifications. 
 Specifications are generally written in natural language because, to reduce development costs, only few components of the system are specified using formal languages. For this reasons the automated verification of such assertions is infeasible.
 
-Approaches that support engineers in the analysis of generated oracles exists and might be considered to speed up the process~\cite{Staats2012,PastoreICSE2015}. For example, 
-Staats et al.~\cite{Staats2012} identify the variables to be verified by oracles to maximize the fault finding potential of the testing process is maximized with respect to the cost of manually verifying the correctness of each generated assertions. First, they generate a collection of mutants from the SUT. Second, the test suite (automatically generated) is run against the mutants using the original system as the oracle. Third, they select the variables to verify in test oracles by focussing on those variables that show different values in the original and the mutated version.
+Approaches that support engineers in the analysis of generated oracles exist and might be considered to speed up the process~\cite{Staats2012,PastoreICSE2015}. For example, 
+Staats et al.~\cite{Staats2012} identify the subset of variables to be verified by oracles in order to maximize the fault finding potential of the testing process.
+%with respect to the cost of manually verifying the correctness of each generated assertions. 
+First, they generate a collection of mutants from the SUT. Second, the test suite (automatically generated) is run against the mutants using the original system as the oracle. Third, they select the variables to verify in test oracles by focussing on those variables that show different values in the original and the mutated version.
 
 ZoomIn.~\cite{PastoreICSE2015} automatically identifies suspicious assertions. These are assertions that verify data that is generated by functions showing anomalies during test cases executions. Anomalies are detected by automatically deriving pre- and post-conditions of the functions of the SUT based on the data recorded during the execution of a manually implemented test suite. Anomalies consist of function executions that violate such pre- and post-conditions. 
 To rank unsafe assertions, ZoomIn takes into consideration the number of violations of pre- and post-conditions produced by the related program variables. However, not all the constraint violations are equally important. Since erroneous behaviors are not frequent in adequately tested software, ZoomIn weights each constraint according to the number of times the constraint has been violated. The frequently violated constraints are likely imprecise constraints that erroneously detect legal values as anomalous values, while constraints that are seldom violated are likely to carry useful information. ZoomIn captures this aspect with the uniqueness score. 

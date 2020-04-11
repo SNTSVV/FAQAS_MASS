@@ -5,9 +5,9 @@
 \addcontentsline{toc}{chapter}{Introduction}
 
 From spacecrafts to automobiles, software has a prominent role in modern embedded, safety-critical systems; for this reason, the safety and reliability of these systems 
-depends on the quality of the system hardware as much on the quality of its software.
+depend on the quality of the system hardware as much on the quality of its software.
 
-International standards for the development of safety-critical systems~\cite{ecss40C,ecss80C,ISO26262} emphasize the importance of software quality assurance and regulate the procedures to ensure the quality of the developed software. In general, software testing has a prominent role in software quality assurance activities and standards enforce the adoption of software testing best practices.
+International standards for the development of safety-critical systems~\cite{ecss40C,ecss80C,ISO26262} emphasize the importance of software quality assurance and regulate the procedures to ensure the quality of the developed software. In general, software testing has a primary role in software quality assurance activities and standards enforce the adoption of software testing best practices.
 
 Unfortunately, the software testing procedures enforced by international standards heavily rely on the capability of software engineers to define test suites that extensively exercise the software. \EMPH{Automated and effective methods to evaluate the quality of test suites are thus necessary.} 
 Also, \EMPH{methods to automatically generate test cases} will speed-up the improvement of test suites. 
@@ -19,7 +19,7 @@ In mutation testing, faults are automatically injected in the program thus creat
 Despite its high-potential, mutation testing is not adopted by industry. The main reasons are its limited scalability and the lack of guidelines for the adoption of mutation score as a quality criterion. Another limitation is the absence of automated means to support engineers towards the definition of test suites with high-mutation coverage.
 
 This book provides a detailed \EMPH{overview of  the mutation testing process} and how it can be applied in the context of space and embedded systems. 
-\MREVISION{C10}{Despite the proposed solutions can be applied to different kinds of software for space systems (i.e., ground desktop software, ground embedded software, on-board embedded software), in this book, the term \emph{space software} is used to refer to on-board embedded software.}
+\MREVISION{C10}{Despite the proposed solutions can be applied to different kinds of software for space systems (i.e., ground desktop software, ground embedded software, on-board embedded software), in this book, the term \INDEX{space software} is used to refer to on-board embedded software.}
 This book also describes the \EMPH{common limitations} of mutation testing and \EMPH{countermeasures} to these limitations; finally, it provides a description of the approaches that can be applied to automatically \EMPH{generate test cases} to achieve high mutation coverage.
 
 We focus on two major families of mutation approaches~\cite{natella2016assessing}: (1) \EMPH{code-driven mutation testing approaches} that alter the software code to mimic programming errors, (2) \EMPH{data-driven mutation techniques} that alter runtime data to simulate failures in communicating components. Code-driven techniques have shown to be an effective means to evaluate the effectiveness of test suites~\cite{Andrews06} while data-driven mutation techniques can identify complex boundary cases not handled by the developed software~\cite{di2015evolutionary}.
