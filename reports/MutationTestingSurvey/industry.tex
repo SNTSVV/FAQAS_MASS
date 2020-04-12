@@ -7,7 +7,7 @@ In Section~\ref{sec:limitations} we have provided an overview of state-of the-ar
 Each of these solutions had been evaluated against a set of case study systems deemed representative for the usage context. Such case study systems consist of a software under test (SUT) and a test suite for the software.
 Hereafter, we'll use the term \INDEX{benchmark} to indicate the set of case study systems used in the empirical evaluation presented in a research paper.
 %introduce an empirical evaluation aimed to prove or disprove a specific theory proposed by the authors. 
-These benchmarks can be used as reference for future mutation testing developments. 
+These benchmarks can be used as a reference for future mutation testing developments. 
 Also, a deep understanding of the characteristics of the benchmarks considered in the literature, may provide insights on the generalizability of the results to space software (e.g, results evaluated against a real time application are more likely generalizable to the case of space software).
 
 %\DONE{Add the table of conferences, describe the columns in the text. Columns should be: name, type of venue (conference proceedings,journal),publisher.}
@@ -28,18 +28,18 @@ Also, a deep understanding of the characteristics of the benchmarks considered i
 
 
 
-In this section we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the venue. 
+In this section we provide a survey of the benchmarks considered in empirical evaluations described in research work presented in top software engineering conferences and journals, between 2013 and 2019. Table~\ref{table:papers} provides the list of conferences and journals considered in our survey. For every venue, we have considered all the empirical evaluations considering C and C++ case study systems. Table~\ref{table:papers} provides the acronym and name of the venue, the type of venue, i.e., whether if it is a journal of a conference proceedings, and finally the publisher of the journal article or conference proceedings. 
 
 \input{tables/papers}
 
 \input{tables/case_studies}
 
-Table~\ref{table:case_studies} provides the list of the case study systems considered in the literature. For each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size may vary according to the specific study), (3) the size of the test suite for the SUT\footnote{The size may vary from an empirical evaluation to another; also, in some cases the test suite details were not available (N/A).} (4) the number of papers that report using the case study, and (5) the references to the papers that report the case study.
+Table~\ref{table:case_studies} provides the list of the case study systems considered in the literature. For each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size may vary according to the specific study), (3) the size of the test suite for the SUT\footnote{The size may vary from an empirical evaluation to another; also, in some cases the test suite details were not available (N/A).}, (4) the number of papers that report empirical results with the provided case study, and (5) the references to the papers that rely on the case study.
 
 %\DONE{You have to describe what types of programs it contains, when it was developed.}
 
-From Table~\ref{table:case_studies} can be seen that the Siemens, Make and Space are the most common case studies with 6, 5 and 4 uses, respectively. 
-The most used case study is the \INDEX{Siemens suite}. The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because they it includes faulty versions affected by faults introduced by engineers during development. The suite is available through the Subject Infrastructure Repository (SIR) from the University of Nebraska-Lincoln\footnote{https://sir.csc.ncsu.edu/portal/index.php}, in particular the suite contains a diverse collection of C programs that include code involving integer and floating-point operations, pointers, memory allocation, loops and complex conditional expressions.The Siemens suite was introduced in 1994 by Hutchins et al.~\cite{hutchins1994experiments}, the programs from the suite come with a large pool of test cases written initially by Hutchins et al. and then augmented by Rothermel et al.~\cite{rothermel1998empirical}.
+Table~\ref{table:case_studies} shows that Siemens, Make and Space are the most common case studies with 6, 5 and 4 uses, respectively. 
+The most used case study is the \INDEX{Siemens suite}. The programs belonging to this suite are commonly used to evaluate state-of-the-art solutions because the Siemens suite includes faulty versions affected by faults introduced by engineers during development. The suite is available through the Subject Infrastructure Repository (SIR) from the University of Nebraska-Lincoln\footnote{https://sir.csc.ncsu.edu/portal/index.php}. The Siemens suite contains a diverse collection of C programs that include code involving integer and floating-point operations, pointers, memory allocation, loops and complex conditional expressions. The Siemens suite was introduced in 1994 by Hutchins et al.~\cite{hutchins1994experiments}, the programs from the suite come with a large pool of test cases written initially by Hutchins et al. and then augmented by Rothermel et al.~\cite{rothermel1998empirical}.
 
 Table~\ref{table:benchmarks} provides the list of benchmarks identified in the literature. We report (1) the case studies of the benchmark (i.e., the software under test - SUT), (2) the size of SUT in terms of lines of code (LOC), (3) the size of the SUT test suite in terms of number of test cases, (4) the original goal of the evaluation, and (5) the actual reference to the paper in which the benchmark was originally presented. \REVTWO{C39}{Not all the referenced papers explicitly mention the type of test suite considered in the studies (i.e., unit, integration, or system test suite); for this reason, Table~\ref{table:benchmarks} does not specify the type of test suites considered.}
 
@@ -51,17 +51,21 @@ Table~\ref{table:benchmarks} provides the list of benchmarks identified in the l
 
 The size of the benchmark case studies varies a lot. They include simple algorithms such as \textit{abs} (6 LOC)~\cite{tokumoto2016muvm}, large Unix utilities such as the Coreutils package~\cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}, and programs implementing complex functions such as OpenSSL and LLVM~\cite{denisov2018mull}.
 However, when large and complex software systems are considered in the empirical evaluation, the evaluation concerns only a subset of the components of these large applications.
-For example, in the study performed by Kintis et al.~\cite{kintis2017detecting} they considered the assessment of Vim, a Unix text editor of 362 KLOC, however, because of the size of the program, the authors decided to restrict the analysis only to a couple of components such as \texttt{spell} and \texttt{eval}, 16 and 22 KLOC, respectively. 
+For example, in the study performed by Kintis et al.~\cite{kintis2017detecting} they considered the assessment of Vim, a Unix text editor of 362 KLOC, however, because of the size of the program, the authors decided to restrict the analysis only to a couple of components such as \texttt{spell} and \texttt{eval}, which consist of 16 and 22 KLOC, respectively. 
 
 %\DONE{Provide an example. Describe what they did in a paper where they selected a component, otherwise the sentence above might not be understood}
+
+\TODO{I cannot understand what is the point of the following paragraph. Do you mean that they considered the largest case studies appearing in the table? }
 
 Concerning the size of the selected software under test, the most relevant studies have been presented by Papadakis and Chekam~\cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant}. Specifically, these authors considered the case studies Coreutils, Findutils, Grep, Make and Codeflaws (83 KLOC, 18 KLOC, 9 KLOC, 35 KLOC and 266 KLOC respectively). 
 Concerning the size of the test suite employed to assess their adequacy, again Papadakis and Chekam~\cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} present the most comprehensive studies with test suite sizes ranging from 58\,131, to 122\,261 test cases.
 Despite scalability remains an open problem for mutation testing, the work of Papadakis and Chekam~\cite{papadakis2018mutation,chekam2017empirical,papadakis2018mutant} shows that optimization techniques are scaling up to large software systems.
 
+\TODO{Put th ename of the author after "of"}
 Concerning the adoption of \INDEX{industrial case studies}, the most recent work is that of \cite{delgado2018evaluation} where mutation testing has been applied to 15 functions of a Commercial Off The Shelf Component used in nuclear systems. 
-Another paper evaluating the applicability of mutation testing to safety critical systems is that of Daran and Thavenod-Fosse~\cite{daran1996software}, who conducted a study to identify if mutations are correlated with real faults; the experimentation was carried out on a critical software from the civil nuclear field. Andrews et al.~\cite{andrews2005mutation}, who explored the relation between hand-seeded and real faults in the Space software. Space is a software developed at the European Space Agency that it has been used as case study in software engineering papers since 1998 \cite{frankl1998further}.
-Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-critical airborne systems, C and Ada, that had satisfied the coverage requirements for certification. In their experiments, they found an effective subset of mutation operators able to detect multiple deficiencies in test suites already assessed by experts. 
+Another paper evaluating the applicability of mutation testing to safety critical systems is that of Daran and Thavenod-Fosse~\cite{daran1996software}, who conducted a study to identify if mutations are correlated with real faults; the experimentation was carried out on a critical software from the civil nuclear field. 
+Andrews et al.~\cite{andrews2005mutation}, instead, explored the relation between hand-seeded and real faults in the software \EMPH{Space}. Space is a software developed at the European Space Agency that it has been used as case study in software engineering papers since 1998 \cite{frankl1998further}.
+Finally,  Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-critical airborne systems, C and Ada, that had satisfied the coverage requirements for certification. In their experiments, they found an effective subset of mutation operators able to detect multiple deficiencies in test suites already assessed by experts. 
 
 %\TODO{DOnt use "Even though" at the beginning of sentences}
 
@@ -75,14 +79,14 @@ Baker and Habli~\cite{baker2012empirical} conducted experiments on two safety-cr
 
 \clearpage
 
-\REVTWO{C40}{\section{Data-Driven Mutation Testing Benchmarks}}
+\section{Data-Driven Mutation Testing Benchmarks}
 \label{section:industry:data}
 
-In this section we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.
+\REVTWO{C40}{In this section,} we provide a survey of the benchmarks considered both in empirical evaluations described in research work, and in industrial cases for data-driven mutation testing.
 
 %\TODO{What about "considered in the literature and industry" => reported in the literature}
 
-Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems reported in the literature. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode/machine instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available (N/A)), and (4) the references to the papers that report the case study.
+Table~\ref{table:benchmarks_datadriven} provides the list of the case study systems reported in the literature. Similar to the previous section, for each case study we report (1) the case study (i.e., the software under test - SUT), (2) the size of the SUT (the size can be expressed in terms of bytecode/machine instructions, lines of code (LOC), or executable size (KB or MB)), (3) the size of the test suite for the SUT (unfortunately, in most cases test suite details were not available - N/A), and (4) the references to the papers that report the case study.
 
 Table~\ref{table:benchmarks_datadriven} presents case studies for approaches relying on UML models~\cite{di2017augmenting}, block models~\cite{pham2016model}, grammars, and no models~\cite{AFL:industrialcases}.
 %\DONE{FIX the following}

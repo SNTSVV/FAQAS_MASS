@@ -1,9 +1,9 @@
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Building Blocks of the Data-driven Automated Test Suites Augmentation Process}
+\section{Building Blocks of the Data-driven Automated Test Suite Augmentation Process}
 \label{sec:testGenerationData}
 
-The objectives of test suites augmentation have been introduced in Section~\ref{sec:data:test_suite_augmentation}.
+The objectives of \INDEX{test suite augmentation} have been introduced in Section~\ref{sec:data:test_suite_augmentation}.
 In this section, we present solutions that automate two activities required to augment test suites
 \INDEX{Identify Test Inputs} and \INDEX{Generate Test Oracles}.
 
@@ -32,7 +32,7 @@ Other approaches, instead, work with models specified in formats other than UML 
 These techniques have been proven to be effective for testing software systems that process classical data structures like trees. 
 Alloy is a modelling language for expressing complex structural constraints~\cite{Jackson:Alloy:2002},
 which has been successfully used to generate test inputs for testing object-oriented programs~\cite{Khurshid-SpecificationBasedTesting-ASE-2004}.
-Korat, instead, is a technique that allows to generate data structures to test Java programs~\cite{Boyapati-KORAT-ISSTA-2002}. Given a bound to the input structures (i.e., the maximum number of instances for each class to be used), Korat exhaustively generates all the nonisomorphic structures that are valid. 
+Korat, instead, is a technique that enables the generation of data structures to test Java programs~\cite{Boyapati-KORAT-ISSTA-2002}. Given a bound to the input structures (i.e., the maximum number of instances for each class to be used), Korat exhaustively generates all the nonisomorphic structures that are valid. 
 Some of the limitations of Korat include requiring the definition of an imperative predicate that evaluates the correctness of the generated structure, which could be complex in the case of complex data models, requiring the manual definition of an input bound for each non primitive attribute or association, which might be particularly expensive in case of complex data structure,  not dealing with constraints defined over integers.
 A more efficient, black-box test generation approach is UDITA~\cite{gligoric2010test}.
 What contributes to the efficiency of UDITA is the combination of both generator methods and predicates.
@@ -41,7 +41,7 @@ Generator methods are used to build instances of the data structure, while predi
 A common limitation of solutions based on constraint-solvers is their scalability~\cite{di2017augmenting}. In the context of mutation testing, where existing test inputs are available, a possible solution to address the scalability problem may consist of generating new test inputs by \EMPH{regenerating only portions of existing test inputs}.
 For example, Di Nardo et al.~\cite{di2017augmenting} automatically generate test inputs for new requirements by adapting existing field data.
 This is achieved by combining model transformations with constraint solving as shown in Fig.~\ref{fig:DiNardo}.
-Model transformations enable the partial reuse of existing field data, while constraint solving allows for the generation of missing data. The approach requires a model of the structure of the data provided by using an UML class diagram with OCL expressions capturing the constraints among data fields. In the case of Di Nardo et al., the missing data corresponds to new data types and constraints introduced after updating the requirements of the software under test. In the context of mutation testing, these may correspond to data types not observed during the execution of the test suite.
+Model transformations enable the partial reuse of existing field data, while constraint solving allows for the generation of missing data. The approach requires a model of the structure of the data provided by using an UML class diagram with OCL expressions capturing the constraints among data fields. In the case of Di Nardo et al., the missing data correspond to new data types and constraints introduced after updating the requirements of the software under test. In the context of mutation testing, these may correspond to data types not observed during the execution of the test suite.
 In Step 1, a chunk of data is loaded in memory as an instance of the original data model (Original Model Instance).
 A dedicated parser is used for that purpose.
 In Step 2, a model transformation applied to the Original Model Instance is used to generate an instance of the Updated Data Model. The result is an instance of the Updated Data Model that is incomplete (Incomplete Model Instance).

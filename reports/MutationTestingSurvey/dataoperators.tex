@@ -5,12 +5,12 @@
 
 As mentioned in Section~\ref{sec:dataProcess}, the software engineering literature does not include any study on data-driven mutation testing but only testing approaches based on the injection of data faults.
 For this reason, 
-in this section we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
+in this section, we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
 \CHANGEDTWO{More precisely, we focus on the techniques for the modification of data \CHANGEDTWO{(hereafter, \INDEX{data mutation techniques})} that are presented in software testing research papers.}
 
 
-\CHANGEDTWO{Table~\ref{table:dataOperators} provides an overview of groups of data mutation techniques that can be applied to the case of space software and embedded systems. 
-We selected the set of data-driven mutation techniques in Table~\ref{table:dataOperators} based on the different type of faults commonly affecting space and embedded systems.} 
+\CHANGEDTWO{Table~\ref{table:dataOperators} provides an overview of groups of data mutation techniques that can be applied to space software and embedded systems. 
+We selected the set of data-driven mutation techniques in Table~\ref{table:dataOperators} based on the different types of faults commonly affecting space and embedded systems.} 
 Each technique aims to create data faults that might be observed in real systems either because of hardware errors or software errors.
 The \INDEX{data-driven mutation operators}, i.e., the specific functions implemented by each technique to alter the type of data they target, are described in separate tables, in the following paragraphs. 
 %Since, for each family of technique, multiple implementations of data-driven mutation operators are available
@@ -66,7 +66,7 @@ To summarize the data in Table~\ref{table:dataOperators}, we observe that:
 \end{itemize}
 
 \CHANGEDTWO{In the following, we provide an overview of the mutation operators implemented by the most representative techniques.
-We do not present simple \INDEX{fuzzing} approaches because they simply perform random mutations and they include a subset of the operators implemented in more advanced evolutionary fuzzing approaches.}
+We do not present simple \INDEX{fuzzing} approaches because they simply perform random mutations and they include a subset of the operators implemented in the more advanced \INDEX{evolutionary fuzzing} approaches.}
 
 \subsubsection{Blind memory corruption and blind transmission corruption}
 
@@ -165,7 +165,7 @@ The main benefit of SAGE is that it forces the program to execute corner cases n
 %(e.g., reached one-third of all bugs found by fuzz testing in Microsoft projects \cite{bounimova2013billions}).
 %Oscar: yes, what you wrote is correct 
 one-third of all the bugs found by means of fuzz testing are detected thanks to SAGE \cite{bounimova2013billions}.
-Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers is limited scalability, due to the high execution time required by symbolic execution.
+Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers is its limited scalability, due to the high execution time required by symbolic execution.
 
 %Fabrizio: not sure what the following is about, ignoring
 %\emph{Testing of Fault-Tolerant and Real-Time Distributed Systems via Protocol Fault Injection \cite{dawson1996testing}}: The paper introduces a portable fault injection environment for testing implementations of distributed protocols.
