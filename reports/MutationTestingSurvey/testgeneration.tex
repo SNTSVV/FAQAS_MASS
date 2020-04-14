@@ -126,7 +126,7 @@ This tailoring is needed because the \EMPH{necessity killing condition} relies o
 %Fabrizio: it was not comprehensible
 %mutation operators change the program state, and in other cases the program state remains unchanged. Because of this, distinct metrics for measuring distance for each operators needs to be defined.
 %\DONE{I cannot undertsand the following, we can ignore it.}
-\DONE{In the following, I added a sentence in paranth. Is it correct? YES}
+%\DONE{In the following, I added a sentence in paranth. Is it correct? YES}
 For example, the \textit{deletion operator}, which removes a statement, may or may not change the program state, depending on the semantic of the removed sentence \CHANGEDTWO{(e.g., a logging instruction does not alter the program state)}. In case the mutation effectively changes the program state the distance is set to 0, otherwise the given value is 1.
 % For example if the \textit{deletion operator} changes the program state (i.e., values on the stack are different at the mutation point) the distance is 0, otherwise the given value is 1. 
 In the case of the \textit{insert unary operator}, which adds or subtracts 1 to a numerical value, the operator always change the program state, so the distance is set to 0 when the statement is reached. 
