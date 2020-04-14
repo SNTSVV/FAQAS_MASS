@@ -28,8 +28,14 @@ To highlight that redundant mutants are a recurrent problem, Kintis et al.~\cite
 In the literature, redundant mutants are divided in two categories. The first is the category of \INDEX{duplicate mutants}, i.e., mutants that are equivalent with each other but not equivalent to the original program. The second category concerns \INDEX{subsumed mutants}, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
 \MREVISION{C15}{Only duplicate mutants are a problem for test suite evaluation; indeed, subsumed mutants are mutants that capture different faults. Unfortunately, automatically distinguishing the two cases is not feasible since it reduces to the problem of automatically identifying duplicate mutants, which, in turn, coincides with the problem of identifying equivalent mutants. Often, automated techniques simply identify mutants that lead to the same test failures, i.e., both duplicated and subsumed mutants.}
 
-\TODO{I cannot understand if the followng is redundant with the new section about sufficient set of operators. If not, please clarify that these studies target redundant mutants.}
-Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. For instance, Rothermel et al.~\cite{rothermel1996experimental} and then Andrews et al.~\cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). In the same direction, Namin et al.~\cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
+\DONE{I cannot understand if the followng is redundant with the new section about sufficient set of operators. If not, please clarify that these studies target redundant mutants.}
+\DONE{I've rephrased, it was a duplicate.}
+
+Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. To this end, the \INDEX{sufficient set of operators} has been applied (see Section~\ref{sec:sub:sufficient}). 
+%For instance, Rothermel et al.~\cite{rothermel1996experimental} and then Andrews et al.~\cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). 
+For example, the \INDEX{sufficient set} proposed by Namin et al.~\cite{siami2008sufficient} reduced redundant mutants in a 93\% on C programs. 
+
+%In this direction, Namin et al.~\cite{siami2008sufficient} proposed a statistical analysis procedure for identifying a subset of operators that could predict mutation score, their approach reduced mutants in a 93\% on C programs. 
 
 The deletion operators defined by Delamaro et al.~\cite{delamaro2014designing} produce less redundant mutants.
 % The deletion operator by itself has been proven to be the most effective for fault detection~\cite{delamaro2014designing}.
@@ -41,8 +47,11 @@ In a similar manner, Just et al.~\cite{just2012redundant,just2015higher} proved 
 
 Delgado et al.~\cite{delgado2017assessment} show that some operators naturally produce more redundant mutants than others and
 developed a selective approach for reducing the number of mutants without loss of effectiveness for C++ programs. 
-\TODO{In the following, 'The approach introduces' does not make sense. Do you mean 'The work assigns a degree of redundancy to every..', which indicate sthat is a degree taht can be reused across projects, or do you meam 'The approach analyzes the program to be mutated and computes a degree...'  ?}
-The approach introduces a degree of redundancy for every mutation operator that helps developers to choose the mutation operators with a lower degree of redundancy, based on the test cases defined in the project.
+\DONE{In the following, 'The approach introduces' does not make sense. Do you mean 'The work assigns a degree of redundancy to every..', which indicate sthat is a degree taht can be reused across projects, or do you meam 'The approach analyzes the program to be mutated and computes a degree...'  ?}
+The work assigns a degree of redundancy to every mutation operator, which indicates how prone is an operator to produce redundant mutants. They show that by using the six operators with the lowest degree of redundancy they can decrease the total number of mutants up to a 31\% with a loss of mutation score accuracy of 2.78\%.
+
+%The approach introduces a degree of redundancy for every 
+%mutation operator that helps developers to choose the mutation operators with a lower degree of redundancy, based on the test cases defined in the project.
 
 Another solution to reduce the number of redundant mutants is the application of trivial \INDEX{compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
 It can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al.~\cite{kintis2017detecting} showed that by using compiler optimisations it is possible to reveal 21\% and 5.4\% of C and Java redundant mutants, respectively.
