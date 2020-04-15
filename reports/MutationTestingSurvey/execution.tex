@@ -22,9 +22,9 @@ they show that sampling mutants uniformly across different program elements (i.e
 \INDEX{Selective mutation testing} relies on the idea that certain type of mutants are more important than others and may result in more representative faults. In selective mutation only a subset of operators are applied to the source code application.
 Offutt et al. \cite{offutt1996experimental}, then Andrews et al. \cite{andrews2005mutation}, and more recently Namin et al. \cite{siami2008sufficient} have worked on the \INDEX{sufficient set of operators}. This restricted set of operators produce equivalent mutation score as broader classes of operators. Initially, this set was composed by the \textit{ABS, AOR, LCR, ROR} and \textit{UOI} classes of operators, but in the more recent work from Namin et al. \cite{siami2008sufficient} they redefined this set through a statistical analysis which identified 28 operators as the new sufficient set. According to their results, by using this set, it is possible to reduce the number of mutants up to 93\%. 
 
-\TODO{I cannot understand what is "effectiveness". Do you mean "ensuring a high fault detection rate", "leading to a mutation score that is close to the one obtained with more mutants", or what?}
+\DONE{I cannot understand what is "effectiveness". Do you mean "ensuring a high fault detection rate", "leading to a mutation score that is close to the one obtained with more mutants", or what?}
 %More recently, Gopinath et al. \cite{gopinath2016limits} demonstrated that the improvement of random over selective mutation does not exceed 13\%.
-More recently, Gopinath et al.~\cite{gopinath2016limits} performed an empirical comparison between random and selective mutant selection strategies; based on the observed results they concluded that the maximum possible improvement in the effectiveness of selective over random mutation is 13\%.
+More recently, Gopinath et al.~\cite{gopinath2016limits} performed an empirical comparison between random and selective mutant selection strategies; based on the observed results they concluded that the maximum possible improvement in the effectiveness of selective over random mutation is 13\%, where effectiveness measures the ability of the strategy to lead to a mutation score that is close to the one obtained with more mutants.
 
 Delamaro et al. \cite{delamaro2014designing,delamaro2014experimental} experimented with mutants that involve deletion operations (\INDEX{statements deletion}) and found that they form a cost-effective alternative to other operators and selective mutation strategies. Indeed, deletion operators produce significantly less equivalent mutants (8.5\% in comparison to the average of 11.9\% during experimentation). 
 In \cite{delamaro2014experimental}, Delamaro et al. experimented with mutation operators that delete variables, operators, and constants. They show that a test suite that kills the mix of OODL (deletion of arithmetic and relational operators) and SSDL (deletion of statements) mutants kills a very high percentage of all mutants (97\% of mutation score).
@@ -35,10 +35,12 @@ Similarly, mutants that have been already killed by a test case should not be ex
 Other solutions concern the \INDEX{prioritization of test cases}. Just et al. \cite{just2012using} and Zhang et al. \cite{zhang2013faster} proposed to sort test cases to kill mutants as early as possible, e.g., by executing first the test cases with a shorter runtime~\cite{just2012using}. 
 
 %Papadakis and Malevris \cite{papadakis2011automatically} gave a step further in this research line, and proposed that a way to prioritise the  different mutants is by assessing in advance which of the mutants are actually modifying the variables that check the killing condition of the mutant, i.e., the final assertion of a test case, and prioritise them over mutants that do not modify variables related to the killing condition.
-\TODO{Sorry, but I am not sure to get it. 
+\DONE{Sorry, but I am not sure to get it. 
 Do you mean the following:
-"Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine if the killing conditions for a mutant are satisfied (see Section~\ref{sec:testGen:CP}). Mutants that satisfy the killing conditions are executed before others."}
-Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the \INDEX{killing condition} of the mutant (i.e., the program execution path that lead the mutant to be killed). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
+"Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine if the \INDEX{killing conditions} for a mutant are satisfied (see Section~\ref{sec:testGen:CP}). Mutants that satisfy the killing conditions are executed before others."}
+%Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine which mutants modify variables that reach the \INDEX{killing condition} of the mutant (i.e., the program execution path that lead the mutant to be killed). These mutants are prioritized over mutants that do not modify variables reaching a killing condition.
+
+Papadakis and Malevris \cite{papadakis2011automatically} rely on data-flow analysis to determine if the \INDEX{killing conditions} for a mutant are satisfied (see Section~\ref{sec:testGen:CP}). Mutants that satisfy the killing conditions are executed before others.
 
 
 The use of weak and firm mutation over strong mutation may speed up mutation testing as well.
@@ -65,12 +67,13 @@ On the same line, Zhang et al. \cite{zhang2013faster} suggest to define a subset
 
 Concerning \INDEX{test case prioritization}, the idea is to sort the test cases in order to kill the mutants as early as possible. For instance, Just et al. \cite{just2012using} proposed to execute first those test cases with shorter runtime for time saving.
 
-\TODO{Why do we have both context and nighbourhood? Are the same thing?}
+\DONE{Why do we have both context and nighbourhood? Are the same thing? Yep, the same, left only neighborhood}
 
 Zhang et al. \cite{zhang2013faster} proposed two approaches for sorting the test cases; the first is based on the code coverage, it prioritizes test cases that execute the mutated statement more times because they have a higher probability to kill the mutant, 
-the second approach prioritizes test cases that kill mutants whose mutated statement is close to the mutated statement of the mutant under test. Two mutants are considered close if their mutation point resides within the same context or neighborhood. The neighborhood is defined at multiple levels (i.e., same statement, same method, or same class).
-\TODO{Do you mean the following "In their empirical evaluation, Zhang et al. observed that the integration of both the two approaches (the latter with a class neighborhood) lead to a reduction of the number of test case executions of up to 44\%." ?}
-In their empirical evaluation, Zhang et al. observed an improvement up to 44\% less test case executions when applying together the two prioritization approaches on a class mutant neighborhood. 
+the second approach prioritizes test cases that kill mutants whose mutated statement is close to the mutated statement of the mutant under test. Two mutants are considered close if their mutation point resides within the same or neighborhood. The neighborhood is defined at multiple levels (i.e., same statement, same method, or same class).
+\DONE{Do you mean the following "In their empirical evaluation, Zhang et al. observed that the integration of both the two approaches (the latter with a class neighborhood) lead to a reduction of the number of test case executions of up to 44\%." ?}
+%In their empirical evaluation, Zhang et al. observed an improvement up to 44\% less test case executions when applying together the two prioritization approaches on a class mutant neighborhood. 
+In their empirical evaluation, Zhang et al. observed that the integration of both the two approaches (the latter with a class neighborhood) lead to a reduction of the number of test case executions of up to 44\%.
 
 % (i.e., a test case that killed more mutants that are close to the mutant being tested has a higher likelihood to kill the current mutant).  
 
