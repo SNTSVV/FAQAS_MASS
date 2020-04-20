@@ -1,0 +1,11 @@
+llvm/
+llvm-build/
+zips/
+build/
+
+*.o
+*~
+*.
+*.pyc
+*.out
+*.ll
