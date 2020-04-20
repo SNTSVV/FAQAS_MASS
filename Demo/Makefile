@@ -1,9 +1,9 @@
 all: max
 
-# CC := clang
+CC := clang
 
 max: max.c
-	${CC} -o $@ $(shell pwd)/$<
+	${CC} -O0 -o $@ $(shell pwd)/$<
 
 clean:
 	rm -f max
