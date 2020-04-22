@@ -48,10 +48,6 @@ def getSummaryDir():
 
 
 def main():
-<<<<<<< HEAD
-    print(sys.version)
-=======
->>>>>>> 163d4403672a90d10c26de6fa16f124000a92ddd
     llvm_bin_dir = os.environ["SRCIROR_LLVM_BIN"]
     compiler_include_flags = os.environ["SRCIROR_LLVM_INCLUDES"] # Release+Asserts/lib/clang/3.8.0/include
     clang = os.path.join(llvm_bin_dir, 'clang')
@@ -74,8 +70,8 @@ def main():
         ext = ".c"
         mutate(compiler, ext, mutator, args, compiler_include_flags, c_indices)
 
-    print('Looking to compile the original: ' + str([compiler] + args))
-    out, err, my_time = executeCommand([compiler] + args, True)
+    #print('Looking to compile the original: ' + str([compiler] + args))
+    #out, err, my_time = executeCommand([compiler] + args, True)
     return 1
 
 if __name__ == '__main__':

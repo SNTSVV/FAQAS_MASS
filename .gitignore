@@ -4,8 +4,13 @@
 *.pyc
 *.out
 *.ll
+*.mut.*
 llvm/
 llvm-build/
 zips/
 build/
 
+# eclipse
+.settings/
+.cproject
+.project

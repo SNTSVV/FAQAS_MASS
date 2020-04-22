@@ -47,7 +47,7 @@ public:
 		if (const Stmt* Stmnt = Result.Nodes.getNodeAs<clang::Stmt>(Binder) ) {
 
 			const char * cl = Stmnt->getStmtClassName();
-			printf("%s\n", Stmnt->getStmtClassName());
+			// printf("%s\n", Stmnt->getStmtClassName());
 
 			bool invalid;
 			CharSourceRange statementRange = CharSourceRange::getTokenRange(Stmnt->getLocStart(),Stmnt->getLocEnd());

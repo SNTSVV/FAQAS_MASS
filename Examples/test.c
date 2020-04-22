@@ -1,10 +1,29 @@
-int main(int argc) {
+void print(char string[]){}
 
-  int x = 1;
-  if (argc > 7 )
-    x = x + argc;
-  else
-    x = argc;
-  
-  return x;
+
+int main()
+{
+    double number, sum = 0;
+
+    // the body of the loop is executed at least once
+    do
+    {
+        number = 3;
+
+        if (sum > 15){
+        	print("a");
+        } else if (sum > 20){
+        	print("s");
+        }
+        else {
+        	print("d");
+        }
+
+        sum += number;
+    }
+    while(number != 0.0);
+
+    print("Sum");
+
+    return 0;
 }
