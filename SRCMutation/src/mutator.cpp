@@ -45,6 +45,12 @@ public:
 	virtual void run(const MatchFinder::MatchResult &Result) {
 
 		if (const Stmt* Stmnt = Result.Nodes.getNodeAs<clang::Stmt>(Binder) ) {
+			int lineNumber = Result.SourceManager->getSpellingLineNumber(Stmnt->getLocStart());
+
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
+			// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+				return;
+			}
 
 			const char * cl = Stmnt->getStmtClassName();
 			// printf("%s\n", Stmnt->getStmtClassName());
