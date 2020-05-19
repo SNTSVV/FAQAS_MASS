@@ -36,22 +36,6 @@ static llvm::cl::opt<std::string> CoverageInfo("coverage_info", llvm::cl::desc("
 static std::set<int> CovSet;
 static bool MutateAll = false;
 
-
-bool isFirstChildren(const Stmt *parent, const Stmt *node) {
-	Stmt* parentCasted = const_cast<Stmt*>(parent);
-	Stmt* nodeCasted = const_cast<Stmt*>(node);
-
-	Stmt::child_iterator I = parentCasted->child_begin();
-	Stmt *child = *I;
-
-	if (child == nodeCasted)
-		return true;
-
-	return false;
-
-}
-
-
 class StmntHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -68,29 +52,15 @@ public:
 			// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
 			}
-
-			const char * cl = Stmnt->getStmtClassName();
-			//printf("%s\n", Stmnt->getStmtClassName());
-
 			bool invalid;
 			CharSourceRange statementRange = CharSourceRange::getTokenRange(Stmnt->getLocStart(),Stmnt->getLocEnd());
 			StringRef str = Lexer::getSourceText(statementRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
 
-			//printf("%s\n", str);
+			std::string MutatedString = "";
 
-			const auto & parents = Result.Context->getParents(*Stmnt);
-
-			const Stmt* parentStmt =  parents[0].get<Stmt>();
-
-			if (parentStmt && parentStmt->getStmtClassName() == std::string("CompoundStmt")){
-
-				int lineNumber = Result.SourceManager->getSpellingLineNumber(Stmnt->getLocStart());
-
-				std::string MutatedString = "";
-
-				Replacement Rep(*(Result.SourceManager), Stmnt->getLocStart(), str.str().size(), MutatedString);
-				Replace->insert(Rep);
-			}
+			Replacement Rep(*(Result.SourceManager), Stmnt->getLocStart(),
+					str.str().size(), MutatedString);
+			Replace->insert(Rep);
 		}
 	}
 
@@ -276,13 +246,13 @@ private:
 };
 
 
-class UOIHandler: public MatchFinder::MatchCallback {
+class VarHandler: public MatchFinder::MatchCallback {
 
 public:
-	UOIHandler(Replacements *Replace, std::string Binder,
-			CompilerInstance *TheCompInst) :
+	VarHandler(Replacements *Replace, std::string Binder, CompilerInstance *TheCompInst, std::string Op) :
 			Replace(Replace), CI(TheCompInst) {
 		this->Binder = Binder;
+		this->Op = Op;
 	}
 
 	virtual void run(const MatchFinder::MatchResult &Result) {
@@ -290,61 +260,25 @@ public:
 		if (const DeclRefExpr *declRefExpr = Result.Nodes.getNodeAs<clang::DeclRefExpr>(Binder)) {
 
 			int lineNumber = Result.SourceManager->getSpellingLineNumber(declRefExpr->getLocStart());
-
-			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
-			// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) { // Line is not in the set, and it's not MutateAll
+					// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
 			}
 
-			const auto &parents = Result.Context->getParents(*declRefExpr);
-			const Stmt *parent = parents[0].get<Stmt>();
+			std::string Value = declRefExpr->getFoundDecl()->getNameAsString();
 
-			if (parent) {
-				bool invalidParent;
+			std::vector<std::string> Values;
 
-				CharSourceRange parentStatementRange =
-						CharSourceRange::getTokenRange(parent->getLocStart(), parent->getLocEnd());
-				StringRef parentStr = Lexer::getSourceText(parentStatementRange,
-						*(Result.SourceManager), CI->getLangOpts(),
-						&invalidParent);
+			if (Op == "ABS") {
+				Values.insert(Values.end(),	{ "-abs(" + Value + ")", "abs(" + Value + ")" });
+			} else if (Op == "UOI") {
+				Values.insert(Values.end(), { "(++" + Value + ")", "(" + Value + "++)",	"(--" + Value + ")", "(" + Value + "--)" });
+			}
 
-				if (!((parent->getStmtClassName() == std::string("BinaryOperator")
-						&& parentStr.find('=') != std::string::npos)
-						&& (isFirstChildren(parent, declRefExpr)))) {
-
-					bool invalid;
-					CharSourceRange statementRange =
-							CharSourceRange::getTokenRange(declRefExpr->getLocStart(),
-									declRefExpr->getLocEnd());
-					StringRef str = Lexer::getSourceText(statementRange,
-							*(Result.SourceManager), CI->getLangOpts(),
-							&invalid);
-
-					if (declRefExpr->getStmtClassName()== std::string("DeclRefExpr")) {
-
-						StringRef type = declRefExpr->getDecl()->getType().getAsString();
-
-						if (type.find("int") != std::string::npos
-								|| type.find("short") != std::string::npos
-								|| type.find("long") != std::string::npos
-								|| type.find("longlong") != std::string::npos) {
-
-							std::string Value = declRefExpr->getFoundDecl()->getNameAsString();
-
-							std::vector<std::string> Values;
-
-							Values.insert(Values.end(),	{ "(++" + Value + ")", "(" + Value + "++)", "(--" + Value + ")", "(" + Value + "--)" });
-
-							for (std::string MutationVal : Values) {
-								// printf("subsituting for the value: %s\n", MutationVal.c_str());
-								Replacement Rep(*(Result.SourceManager),
-										declRefExpr->getLocStart(), Value.size(),
-										MutationVal);
-								Replace->insert(Rep);
-							}
-						}
-					}
-				}
+			for (std::string MutationVal : Values) {
+				// printf("subsituting for the value: %s\n", MutationVal.c_str());
+				Replacement Rep(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), MutationVal);
+				Replace->insert(Rep);
 			}
 		}
 	}
@@ -354,6 +288,8 @@ private:
 	Replacements *Replace;
 	CompilerInstance *CI;
 	std::string Binder;
+	std::string Op;
+	std::string varType;
 };
 
 
@@ -437,10 +373,9 @@ int main(int argc, const char **argv) {
 	RefactoringTool ICRTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool LCRTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool OCNGTool(op.getCompilations(), op.getSourcePathList());
-
 	RefactoringTool SSDLTool(op.getCompilations(), op.getSourcePathList());
-
 	RefactoringTool UOITool(op.getCompilations(), op.getSourcePathList());
+	RefactoringTool ABSTool(op.getCompilations(), op.getSourcePathList());
 
 
 	CompilerInstance TheCompInst;
@@ -461,7 +396,6 @@ int main(int argc, const char **argv) {
 	SourceManager &SourceMgr = TheCompInst.getSourceManager();
 	TheCompInst.createPreprocessor(TU_Module);
 	TheCompInst.createASTContext();
-
 
 
 	// Set up AST matcher callbacks.
@@ -502,8 +436,8 @@ int main(int argc, const char **argv) {
 
 	StmntHandler HandlerForStmnt(&SSDLTool.getReplacements(), "stmt", &TheCompInst);
 
-	UOIHandler HandlerForUOI(&UOITool.getReplacements(), "intvar", &TheCompInst);
-
+	VarHandler HandlerForUOI(&UOITool.getReplacements(), "uoi", &TheCompInst, "UOI");
+	VarHandler HandlerForABS(&ABSTool.getReplacements(), "abs", &TheCompInst, "ABS");
 
 	MatchFinder AORFinder;
 	AORFinder.addMatcher(binaryOperator(hasOperatorName("+")).bind("addOp"), &HandlerForAddOp);
@@ -547,11 +481,14 @@ int main(int argc, const char **argv) {
 	OCNGFinder.addMatcher(ifStmt().bind("if"), &HandlerForIf);
 	OCNGFinder.addMatcher(whileStmt().bind("while"), &HandlerForWhile);
 
-	MatchFinder StmntFinder;
-	StmntFinder.addMatcher(stmt().bind("stmt"), &HandlerForStmnt);
+	MatchFinder SSDLFinder;
+	SSDLFinder.addMatcher(stmt(hasParent(compoundStmt())).bind("stmt"), &HandlerForStmnt);
 
 	MatchFinder UOIFinder;
-	UOIFinder.addMatcher(declRefExpr().bind("intvar"), &HandlerForUOI);
+	UOIFinder.addMatcher(declRefExpr(to(varDecl(hasType(isInteger()))), unless(hasParent(binaryOperator(hasOperatorName("="))))).bind("uoi"), &HandlerForUOI);
+
+	MatchFinder ABSFinder;
+	ABSFinder.addMatcher(declRefExpr(to(varDecl(hasType(builtinType()))), unless(hasParent(binaryOperator(hasOperatorName("="))))).bind("abs"), &HandlerForABS);
 
 
 	std::string FileName = argv[1];   // Assumes only one source file on command line to mutate
@@ -599,7 +536,7 @@ int main(int argc, const char **argv) {
 		Mutate(OCNGTool.getReplacements(), "binaryop_for_", "ocng", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	// -----
-	if (int Result = SSDLTool.run(newFrontendActionFactory(&StmntFinder).get())) {
+	if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
 		failed = 1;
 	}
 	else {
@@ -610,6 +547,13 @@ int main(int argc, const char **argv) {
 		failed = 1;
 	} else {
 		Mutate(UOITool.getReplacements(), "intvar_for_", "uoi", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	// -----
+	if (int Result = ABSTool.run(newFrontendActionFactory(&ABSFinder).get())) {
+		failed = 1;
+	} else {
+		Mutate(ABSTool.getReplacements(), "var_for_", "abs", CurrTool, Ext,
 				SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 
