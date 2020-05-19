@@ -1,6 +1,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <iostream>
 #include <stdlib.h>
 #include <string>
 #include <unistd.h>
@@ -35,6 +36,22 @@ static llvm::cl::opt<std::string> CoverageInfo("coverage_info", llvm::cl::desc("
 static std::set<int> CovSet;
 static bool MutateAll = false;
 
+
+bool isFirstChildren(const Stmt *parent, const Stmt *node) {
+	Stmt* parentCasted = const_cast<Stmt*>(parent);
+	Stmt* nodeCasted = const_cast<Stmt*>(node);
+
+	Stmt::child_iterator I = parentCasted->child_begin();
+	Stmt *child = *I;
+
+	if (child == nodeCasted)
+		return true;
+
+	return false;
+
+}
+
+
 class StmntHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -53,11 +70,13 @@ public:
 			}
 
 			const char * cl = Stmnt->getStmtClassName();
-			// printf("%s\n", Stmnt->getStmtClassName());
+			//printf("%s\n", Stmnt->getStmtClassName());
 
 			bool invalid;
 			CharSourceRange statementRange = CharSourceRange::getTokenRange(Stmnt->getLocStart(),Stmnt->getLocEnd());
 			StringRef str = Lexer::getSourceText(statementRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
+
+			//printf("%s\n", str);
 
 			const auto & parents = Result.Context->getParents(*Stmnt);
 
@@ -193,8 +212,6 @@ private:
 };
 
 
-
-
 class BinaryOpHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -257,6 +274,88 @@ private:
 	std::vector<std::string> BitwiseAssignOperators = {"&=", "|=", "^="};
 
 };
+
+
+class UOIHandler: public MatchFinder::MatchCallback {
+
+public:
+	UOIHandler(Replacements *Replace, std::string Binder,
+			CompilerInstance *TheCompInst) :
+			Replace(Replace), CI(TheCompInst) {
+		this->Binder = Binder;
+	}
+
+	virtual void run(const MatchFinder::MatchResult &Result) {
+
+		if (const DeclRefExpr *declRefExpr = Result.Nodes.getNodeAs<clang::DeclRefExpr>(Binder)) {
+
+			int lineNumber = Result.SourceManager->getSpellingLineNumber(declRefExpr->getLocStart());
+
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
+			// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+				return;
+			}
+
+			const auto &parents = Result.Context->getParents(*declRefExpr);
+			const Stmt *parent = parents[0].get<Stmt>();
+
+			if (parent) {
+				bool invalidParent;
+
+				CharSourceRange parentStatementRange =
+						CharSourceRange::getTokenRange(parent->getLocStart(), parent->getLocEnd());
+				StringRef parentStr = Lexer::getSourceText(parentStatementRange,
+						*(Result.SourceManager), CI->getLangOpts(),
+						&invalidParent);
+
+				if (!((parent->getStmtClassName() == std::string("BinaryOperator")
+						&& parentStr.find('=') != std::string::npos)
+						&& (isFirstChildren(parent, declRefExpr)))) {
+
+					bool invalid;
+					CharSourceRange statementRange =
+							CharSourceRange::getTokenRange(declRefExpr->getLocStart(),
+									declRefExpr->getLocEnd());
+					StringRef str = Lexer::getSourceText(statementRange,
+							*(Result.SourceManager), CI->getLangOpts(),
+							&invalid);
+
+					if (declRefExpr->getStmtClassName()== std::string("DeclRefExpr")) {
+
+						StringRef type = declRefExpr->getDecl()->getType().getAsString();
+
+						if (type.find("int") != std::string::npos
+								|| type.find("short") != std::string::npos
+								|| type.find("long") != std::string::npos
+								|| type.find("longlong") != std::string::npos) {
+
+							std::string Value = declRefExpr->getFoundDecl()->getNameAsString();
+
+							std::vector<std::string> Values;
+
+							Values.insert(Values.end(),	{ "(++" + Value + ")", "(" + Value + "++)", "(--" + Value + ")", "(" + Value + "--)" });
+
+							for (std::string MutationVal : Values) {
+								// printf("subsituting for the value: %s\n", MutationVal.c_str());
+								Replacement Rep(*(Result.SourceManager),
+										declRefExpr->getLocStart(), Value.size(),
+										MutationVal);
+								Replace->insert(Rep);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+private:
+	Replacements *Replace;
+	CompilerInstance *CI;
+	std::string Binder;
+};
+
 
 
 bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
@@ -341,6 +440,8 @@ int main(int argc, const char **argv) {
 
 	RefactoringTool SSDLTool(op.getCompilations(), op.getSourcePathList());
 
+	RefactoringTool UOITool(op.getCompilations(), op.getSourcePathList());
+
 
 	CompilerInstance TheCompInst;
 	TheCompInst.createDiagnostics();
@@ -401,6 +502,8 @@ int main(int argc, const char **argv) {
 
 	StmntHandler HandlerForStmnt(&SSDLTool.getReplacements(), "stmt", &TheCompInst);
 
+	UOIHandler HandlerForUOI(&UOITool.getReplacements(), "intvar", &TheCompInst);
+
 
 	MatchFinder AORFinder;
 	AORFinder.addMatcher(binaryOperator(hasOperatorName("+")).bind("addOp"), &HandlerForAddOp);
@@ -447,6 +550,9 @@ int main(int argc, const char **argv) {
 	MatchFinder StmntFinder;
 	StmntFinder.addMatcher(stmt().bind("stmt"), &HandlerForStmnt);
 
+	MatchFinder UOIFinder;
+	UOIFinder.addMatcher(declRefExpr().bind("intvar"), &HandlerForUOI);
+
 
 	std::string FileName = argv[1];   // Assumes only one source file on command line to mutate
 	CovSet = parseCoverageLines(CoverageInfo);
@@ -457,6 +563,7 @@ int main(int argc, const char **argv) {
 	std::string SrcDir = FileName.substr(0, FileName.find_last_of("/\\"));
 
 	int failed = 0;
+
 	if (int Result = AORTool.run(newFrontendActionFactory(&AORFinder).get())) {
 		failed = 1;
 	}
@@ -497,6 +604,13 @@ int main(int argc, const char **argv) {
 	}
 	else {
 		Mutate(SSDLTool.getReplacements(), "stmnt_for_", "delete", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	// -----
+	if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
+		failed = 1;
+	} else {
+		Mutate(UOITool.getReplacements(), "intvar_for_", "uoi", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 
 	return failed;
