@@ -1,0 +1,66 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\subsection{Solutions to Minimize Redundant Mutants}
+\label{sec:opt:redundant}
+
+The term \INDEX{redundant mutant} is used to refer to mutants that show the same behaviour of other mutants, i.e., they
+are killed every time other mutants are also being killed. 
+%Redundant mutants are another particular category of mutants, these mutants do not contribute to the testing process, since they are killed every time other mutants are also being killed. 
+\emph{The main drawback of redundant mutants is that they can artificially inflate the apparent ability of a test technique to detect faults, in other words they tend to skew the mutation score measurement leading to serious threats to the validity of empirical research}~\cite{papadakis2016threats}.
+
+%\DONE{Is it possible to add an example?}
+
+\input{listings/redundants}
+
+In Section~\ref{sec:process} we introduced a mutation testing example for the function \texttt{isPalindrome}. 
+Listing~\ref{redudantexample1} and~\ref{redudantexample2} show excerpts from mutants \textit{M4} and \textit{M5} obtained with the \textit{SSDL} operator (see Section~\ref{sec:process}). Both mutants are not equivalent with respect to the original program but they are redundant with each other. Indeed, they are killed by the same test cases, which are the test cases exercising the inputs \texttt{abba} and \texttt{aba}.
+\REVTWO{C32}{The two mutants keep one of the two indexes (i.e., \emph{h} or \emph{l}) fix and move the other one. The consequence is that they both return \emph{1} only when all the chars of the input are equal, otherwise they return \emph{0}. Thus, it is not possible to identify a test case that distinguishes the two mutants. For this reason, the only way to eliminate the redundancy  consist of excluding one of the two mutants.}
+%\REVTWO{C32}{In this case, the solution to the problem is dual. The first solution accounts for introducing one new test case that should produce different outputs for both mutants, which in this case is infeasible since there is no test case able to produce different output for mutants in Listing~\ref{redudantexample1} and~\ref{redudantexample2}. The second solution consists of excluding randomly one of the two mutants.}
+
+%\DONE{The following sentence is not good. Can we say something more, for example how many SUT they considered, which mutation operators they considered?}
+
+To highlight that redundant mutants are a recurrent problem, Kintis et al.~\cite{kintis2010evaluating} showed in an experiment that 9\% of mutants were redundant. For the empirical evaluation the authors considered 15 case study systems (i.e., software under test), for a total of 372 LOC. and 6\,127 test cases. They applied the sufficient set of operators for generating the mutants. 
+
+\MREVISION{C15}{Identifying all the redundant mutants is equal to finding the minimal set of mutants. \textit{A minimal set of mutants has no redundancy, that is, every test set that kills these mutants will also kill all remaining mutants}~\cite{kurtz2015static}.} 
+%Similar to the case of equivalent mutants, finding the minimal set of mutants is an undecidable problem, and it can be only approximated.}
+
+%\DONE{The definition below is not clear. I cannot understand teh difference between them}
+In the literature, redundant mutants are divided in two categories. The first is the category of \INDEX{duplicate mutants}, i.e., mutants that are equivalent with each other but not equivalent to the original program. The second category concerns \INDEX{subsumed mutants}, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
+\MREVISION{C15}{Only duplicate mutants are a problem for test suite evaluation; indeed, subsumed mutants are mutants that capture different faults. Unfortunately, automatically distinguishing the two cases is not feasible since it reduces to the problem of automatically identifying duplicate mutants, which, in turn, coincides with the problem of identifying equivalent mutants. Often, automated techniques simply identify mutants that lead to the same test failures, i.e., both duplicated and subsumed mutants.}
+
+%\DONE{I cannot understand if the followng is redundant with the new section about sufficient set of operators. If not, please clarify that these studies target redundant mutants.}
+%\DONE{I've rephrased, it was a duplicate.}
+
+Previous studies showed redundancies between mutation operators and proved that a certain subset of operators is sufficient to measure test effectiveness. To this end, researchers have focused on the identification of a \INDEX{sufficient set of operators} (see Section~\ref{sec:sub:sufficient}). 
+%For instance, Rothermel et al.~\cite{rothermel1996experimental} and then Andrews et al.~\cite{andrews2005mutation} proposed a small set of operators that is lead to a sufficiently accurate approximation of the results obtained by using all possible operators (e.g., replace numerical constant, negate jump condition, replace arithmetic operator, omit method calls). 
+%\DONE{Check if this is what you meant for teh \%}
+For example, Namin et al.~\cite{siami2008sufficient} have empirically demonstrated that the proposed \INDEX{sufficient set of operators} reduces the number of redundant mutants in C programs by 93\%. 
+%\DONE{INcomple, less than what?}
+In addition, the deletion operators defined by Delamaro et al.~\cite{delamaro2014designing} produce less redundant mutants than mutants generated by a broader set of mutation operators.
+% The deletion operator by itself has been proven to be the most effective for fault detection~\cite{delamaro2014designing}.
+
+%With a different perspective, 
+Papadakis and Malevris~\cite{papadakis2012mutation} and then Kurtz et al.~\cite{kurtz2015static} proposed a path selection strategy (i.e., they generate new test inputs) for selecting the test cases able to effectively kill mutants using \INDEX{symbolic execution}, and to consequently decrease the number of redundant mutants. 
+The authors suggest constrained versions of the logical, relational and unary operators for generating less redundant mutants. 
+In a similar manner, Just et al.~\cite{just2012redundant,just2015higher} proved that these three operators are better at detecting faults that the rest of mutation operators.
+
+Delgado et al.~\cite{delgado2017assessment} show that some operators naturally produce more redundant mutants than others and
+developed a selective approach for reducing the number of mutants without loss of effectiveness for C++ programs. 
+%\DONE{In the following, 'The approach introduces' does not make sense. Do you mean 'The work assigns a degree of redundancy to every..', which indicate sthat is a degree taht can be reused across projects, or do you meam 'The approach analyzes the program to be mutated and computes a degree...'  ?}
+The work assigns a degree of redundancy to every mutation operator, which indicates how prone is an operator to produce redundant mutants. They show that by using the six operators with the lowest degree of redundancy they can decrease the total number of mutants up to a 31\% with a loss of mutation score accuracy of 2.78\%.
+
+%The approach introduces a degree of redundancy for every 
+%mutation operator that helps developers to choose the mutation operators with a lower degree of redundancy, based on the test cases defined in the project.
+
+Another solution to reduce the number of redundant mutants is the application of trivial \INDEX{compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}. 
+It can identify duplicate mutants by comparing the optimised object code of each mutant. The empirical study guided by Kintis et al.~\cite{kintis2017detecting} showed that by using compiler optimisations it is possible to reveal 21\% and 5.4\% of C and Java redundant mutants, respectively.
+
+
+Finally, Shin et al. suggest to avoid discarding redundant mutants but, instead, augment the test suite with additional test cases so that 
+each mutant can trigger a test failure that cannot be observed with other mutants~\cite{Shin:TSE:DCriterion:2018}. 
+They introduce the \INDEX{distinguishing mutation adequacy criterion} to characterize test suites in which every mutant triggers a test failure that is not observed with other mutants.
+Empirical results show that test suites that satisfy the distinguishing mutation adequacy criterion have a higher
+ fault detection effectiveness than test suites that simply satisfy mutation coverage.
+
+
+

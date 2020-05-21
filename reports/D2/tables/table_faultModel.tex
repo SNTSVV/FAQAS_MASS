@@ -1,0 +1,133 @@
+% !TEX root = ../MAIN.tex
+\begin{table}[h]
+\begin{center}
+\small
+\begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Fault Class}&\textbf{Types}&\textbf{Parameters}&\textbf{Description}\\
+\hline
+Value above threshold (VAT)&
+&
+\begin{minipage}{4cm}
+T: threshold\\
+D: delta with respect to threshold\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+The value is above a threshold T for a delta D. 
+
+The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$.
+\end{minipage}
+\\
+
+\hline
+Value below threshold (VBT)&
+&
+\begin{minipage}{4cm}
+T: threshold\\
+D: delta with respect to threshold\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+The value is below a threshold T for a delta D. 
+
+The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$.
+\end{minipage}
+\\
+
+
+
+\hline
+Value out of range (VOR)&
+&
+\begin{minipage}{4cm}
+MIN: minimum valid value\\
+MAX: maximum valid value\\
+D: delta with respect to minimum/maximum valid value
+\end{minipage}
+&
+\begin{minipage}{4cm}
+The value is out of the valid range MIN-MAX. 
+
+The mutation is performed by replacing the current value (a number) with 
+\begin{itemize}
+\item a value of the same type that is equal to $(MIN-D)$
+\item a value of the same type that is equal to $(MAX+D)$
+\end{itemize}
+\end{minipage}
+\\
+
+\hline
+Bit flip (BF)&
+Any
+&
+\begin{minipage}{4cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+One of the bits in the position between MIN and MAX (included) are flipped.
+
+If STATE is specified, the mutation is applied only if  the bit is in the specified state.
+\end{minipage}
+\\
+
+\hline
+Invalid numeric value (INV)&
+\begin{minipage}{4cm}
+Int
+
+Float
+
+Double
+\end{minipage}
+&
+\begin{minipage}{4cm}
+MIN: lower valid value\\
+MAX: higher valid value\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+The value is legal (i.e., in the specified range) but different than the valid one (i.e., one consistent with the actual status of the system).
+
+Mutation is performed by replacing the current value with a different value randomly sampled in the specified range.
+\end{minipage}
+\\
+
+\hline
+Illegal Value (IV)
+&
+\begin{minipage}{4cm}
+Int
+
+Float
+
+Double
+
+Hex
+\end{minipage}
+&
+\begin{minipage}{4cm}
+VALUE: invalid value that is observed\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+The value is illegal and equal to the provided one (i.e., parameter \emph{VALUE}).
+
+Mutation is performed by replacing the current value with the value \emph{VALUE}.
+\end{minipage}
+\\
+
+
+%Incorrect Identifier& Several transmission data fields have fixed values, for example fields identifying the transmitting satellite. Hardware/software errors may assign incorrect identifiers.\\
+%%Incorrect Checksum& Hardware/software errors may result in an incorrect checksum for a Packet or VCDU.\\
+%Incorrect Counter& Counters are used to track Packet or VCDU ordering. Hardware/software errors may assign incorrect counter values.\\
+%Flipped Data Bits& Physical channel noise may flip one or more bits in the data transmission.\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Data Fault Classes}
+\label{table:faultModel:FAQAS}
+\end{table}%

@@ -1,0 +1,178 @@
+% !TEX root = MutationTestingSurvey.tex
+
+\subsection{Solutions to Minimize Equivalent Mutants}
+\label{sec:opt:equivalent}
+
+\INDEX{Equivalent mutants} are mutants that behave as the original program, they are semantically equivalent to the original program despite being syntactically different. 
+
+%\DONE{Remember that this kind of sentence is not good 'In the following, we introduce an example of an equivalent mutant in Listings~\ref{equivalentexample} and~\ref{equivalentmutantexample}'}
+
+Listings~\ref{equivalentexample} and~\ref{equivalentmutantexample} provide an example of an equivalent mutant. Listing~\ref{equivalentexample} shows two nested if conditions that check first if \texttt{x} is greater than zero, and then if \texttt{y} is greater than \texttt{x}. Instead, Listing~\ref{equivalentmutantexample} shows the mutated version, which
+includes a mutation of the second if condition that has been introduced through the operator \textit{ABS}.
+
+\input{listings/equivalents}
+
+The two excerpts in Listings~\ref{equivalentexample} and~\ref{equivalentmutantexample} are syntactically different because of the mutation applied; however, they are semantically equivalent. Indeed, the \textit{ABS} operator does not have any effect on the execution of the excerpt in Listing~\ref{equivalentmutantexample} because the variable \texttt{x} is granted to be always positive thanks to the condition in Line 1.
+% already been checked if it is greater than zero during the first if condition.
+
+Equivalent mutants may make mutation testing infeasible. \MREVISION{C13.a}{Indeed, a high number of equivalent mutants may lower the mutation score thus showing good quality test suites to be of poor quality. In such a situation, engineers will have to inspect a large number of live (equivalent) mutants with the objective to identify test inputs to kill them. This may increase the costs of testing and make mutation testing not fitting in a given project budget.} 
+
+\MREVISION{C14}{In their experiments, Schuler and Zeller~\cite{schuler2013covering} show that on a manual inspection of a sample of 140 mutants, on average, 45\% of the live mutants are equivalent (i.e., 77 killed mutants and 63 live mutants)}. 
+They considered seven Java programs ranging from 5K to 100K LOC.
+They also state that manually checking if a mutant is equivalent to the original program can take up to \EMPH{15 minutes}.
+
+% \DONE{Please check the following. What follows 'essentially' does not seem to be the right motivation for 'undecidable problem'}
+%\DONE{My problem is that 'Since...' is not helping me to understand why it is infeasible. 
+%Should we write "Indeed, the incorrect state induced by the mutation may not always propagate to a visible output state; however, detecting such a condition reduces to the problem of determining if a path is infeasible, which might be not automatable in practice~\cite{papadakis2012mutation,offutt1997automatically}."}
+
+\MREVISION{C13.b}{To prove that a mutant is equivalent with respect to the original program, it is necessary to prove that both programs produce the same output for the same input,
+which is an undecidable problem.
+Indeed, the incorrect state induced by the mutation may not always propagate to a visible output state; however, detecting such a condition reduces to the problem of determining if a path is infeasible, which might be not automatable in practice~\cite{papadakis2012mutation,offutt1997automatically}.}
+%Since the incorrect state induced by the mutation may not always propagate to a visible output state (e.g., infeasible path problem)~\cite{papadakis2012mutation,offutt1997automatically},
+%it is then impossible to automate a solution that identifies equivalent mutants.
+
+%essentially because the incorrect state induced by the mutation may not always propagate to a visible output state (e.g., infeasible path problem)~\cite{papadakis2012mutation,offutt1997automatically}.} 
+Despite identifying equivalent mutants is an undecidable problem~\cite{madeyski2013overcoming}, the research literature on mutation testing includes several heuristics to partially address the problem. 
+
+According to the literature on the topic~\cite{madeyski2013overcoming}, existing approaches to detect equivalent mutants can be classified in two different groups: (1) techniques to \INDEX{detect equivalent mutants}, and (2) techniques to \INDEX{reduce equivalent mutants} (i.e., to select a subset of the available mutants that are unlikely to be equivalent).
+
+\subsubsection{Detecting Equivalent Mutants}
+
+Approaches to detect equivalent mutants do not require the execution of a mutant and can be applied just after mutants creation, before test cases execution execution. The simplest solution is the \INDEX{compiler optimisation}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation} technique. 
+%Other approaches involve the use of \INDEX{compiler optimisations} \cite{papadakis2015trivial,kintis2017detecting} as a way to identify equivalent and redundant mutants and, consequently, speed up the mutant execution phase. Papadakis et al. \cite{papadakis2015trivial, kintis2017detecting} 
+It consists of relying on compiler optimisations to compile mutants and original programs; if the executable code of the original and mutated programs match, then the mutant is said to be equivalent and discarded. The same solution can be used to determine if one or more mutants are redundant with each other. The number of compiled mutants gets naturally reduced. Recent empirical studies \cite{kintis2017detecting}, shows that these compiler optimisations can reduce the total number of mutants by 11\% and 28\% for Java and C programming language, respectively.
+%If the executable code generated for the original and the mutated program match, the mutant can be defined as equivalent.
+%Recent studies~\cite{papadakis2015trivial} show that the trivial compiler optimisation approach is able to detect approximately up to 30\% of the equivalent mutants.
+
+A different approach for detecting equivalent mutants is to formulate the problem of determining program equivalence as a \INDEX{constraint satisfaction problem}. 
+The two programs are converted into a formula that asserts that the two programs are not equivalent, if there exist one input that satisfies the formula, then the mutant is said to be \textit{non-equivalent}.
+Offutt et al.~\cite{offutt1996detecting,offutt1997automatically} carried out an experimental evaluation on 11 Fortran subject programs and detected 47\% of the existing equivalent mutants by applying this heuristic.
+Similarly, Holling et al.~\cite{holling2016nequivack,papadakis2012mutation} presented an approach for identifying non-equivalent mutants and improving the confidence of the mutation score. By using static analysis and symbolic execution they defined a six-steps procedure to determine which mutants are \textit{non-equivalent}. \textit{Non-equivalent} mutants are identified every time they find a counter-example input for which the outputs of a pair of functions (the original function and the mutant one) is different. In case no counter-example is found, then the mutant is classified as \textit{unknown}. 
+
+Riener et al.~\cite{riener2011test} proposed the \INDEX{Symbolic Bounded Model Checking} (SymBMC) procedure for the automated generation of test cases from a set of mutants. The approach examines the original program and its mutants assuming they are given the same set of symbolic  inputs and seeks for execution paths resulting in different observable output for the original program and its mutant. If the procedure finds such an execution path, the input data is saved as an effective new test case. Every time a new test case is found, the mutant is defined as non-equivalent, in a similar way to Holling's approach~\cite{holling2016nequivack}.
+
+Additional details about the use of constraint solving approaches in the context of code-driven mutation testing are provided in Section~\ref{sec:testGen:CP}
+
+%Fabrizio: info is missing to understand the case below.
+%How do you determine if a mutant is mirrored? How many code fragments should be similar? Which code fragments do you consider?
+%Other approaches consider the use of software clones (i.e., similar code fragments) to detect equivalent mutants~\cite{kintis2013identifying}, in this work Kintis proposed that mirrored mutants (i.e., mutants that belong to the same software clone) present the same behavior with respect to each other. So, for a set of mirrored mutants, is enough to prove equivalence of one mutant, instead of trying to detect equivalence for the whole set.
+Another approach relies on \INDEX{software clones} (i.e., similar code fragments) to reduce the costs of detecting equivalent mutants~\cite{kintis2013identifying}. More precisely, the approach relies on the idea that mirrored mutants (i.e., mutants that belong to the same software clone) present the same behavior with respect to each other. So, for a set of mirrored mutants, it is enough to prove equivalence for one mutant, instead of trying to detect equivalence for the whole set.
+
+With a different approach, Adamopoulos et al.~\cite{adamopoulos2004overcome} introduced a co-evolutionary technique for detecting equivalent mutants. The technique defines a fitness function that sets a poor fitness value to an equivalent mutant (e.g., a mutant that cannot be killed by an existing test case). Through the fitness function equivalent mutants are removed during the co-evolutionary process, and only mutants that are hard to kill and test cases that are good at detecting mutants are kept for future iterations of the algorithm. On the other hand, Maldonado et al.~\cite{maldonado2005bayesian} developed a Bayesian Learning-Based technique for helping software engineers to detect equivalent mutants.
+% using an inference algorithm.
+
+\subsubsection{Reducing Equivalent Mutants}
+%\DONE{Already fixed: amount => number}
+The second group of techniques aims to reduce the number equivalent mutants produced during mutation process.
+
+Gr\"{u}n et al.~\cite{grun2009impact} propose to avoid the execution of mutants presenting the same dynamic control-flow of the original program.
+%Fabrizio: should we say "ignoring the mutated function/code?" What they do exactly?
+To measure the difference in the dynamic control-flow of two program executions, they defined a metric, called \INDEX{control-flow impact}, that measures
+the number of classes with different statement coverage.
+Indeed, for multiple executions of a same program, differences in \INDEX{statement coverage} are the result of changes in the valuations of branch conditions.
+%To measure the dynamic control-flow difference (i.e., the impact), they defined the impact as the number of classes with different statement coverage. 
+
+Two are the main results achieved in an empirical evaluation performed with JAXEN (a Java XPATH query engine consisting of about 12\,449 LOC). 
+%The first result was about the relation between impact on control-flow and likelihood of the mutant of being non-equivalent, the experimental results were obtained by randomly selecting 20 mutants, they discovered 
+First, 60\% of the mutants with control-flow impact above zero are non-equivalent, while 60\% of the mutants without control-flow impact equal to zero are equivalent. 
+Second, 90\% of the 20 mutants with the highest impact are non-equivalent, while 55\% of the 20 mutants with the lowest positive impact are equivalent. 
+Based on the reported results, engineers should focus on mutations with higher impact when manually inspecting the mutants not killed by the mutation testing process looking for inputs that improve the test suite.
+%The conclusion is that testers can effectively focus on mutations with higher impact, at the expense of loosing mutations that could reveal another type of faults.
+
+%In the same research line, 
+Schuler et al.~\cite{schuler2009efficient} demonstrated that mutants that violate \INDEX{dynamic invariants} (i.e., invariants derived from data collected using dynamic analysis) are less likely to be equivalent and should be preferred over those that do not alter invariants with respect to the original program version. In an empirical evaluation performed on JAXEN, they analyzed two subset of mutants, 
+%(e.g., (a) 12 random mutants that do not violate invariants, and (b) 12 mutants with highest score of invariants violated during execution), 
+(a) 12 random mutants that do not violate invariants, and (b) 12 mutants with highest score of invariants violated during execution. 
+Results show that 83\% of the mutants violating program invariants were non-equivalent, while only 33\% of 
+the mutants not violating invariants were non-equivalent.
+Despite interesting, the main limitation of the work of Gr\"{u}n et al.~\cite{grun2009impact} and Schuler et al.~\cite{schuler2009efficient} is that results had been drawn from a limited subset of mutants and thus may not generalize.
+
+
+%A different perspective is to focus in code coverage of mutants, for example, 
+In line with the results of Gr\"{u}n et al.~\cite{grun2009impact}, Schuler et al.~\cite{schuler2010covering,schuler2013covering} discovered that mutants showing 
+differences, with respect to the original program, for both code and data coverage have a likelihood of 68\%-79\% to be non-equivalent.
+This result was based on an empirical evaluation performed on 140 mutations from seven open-source projects.
+
+%\DONE{COMMENT. In our evaluation, should we try to consider a reduced set of mutants that consider only the following? Can you add a RQ?}
+In addition, authors discovered that operators that modify the control-flow (e.g., \textit{negate jump condition} and \textit{omit method call}) produce less equivalent mutants (30\%) 
+than operators (e.g., \textit{replace numerical constant} and \textit{replace arithmetic operator}) that only change data (57\%).
+Finally, 
+ authors show that by measuring the impact on both data and code coverage it is possible to obtain few false negatives (61\%), that is, mutants indicated to be non-equivalent while being equivalent. 
+
+%\DONE{A reference for the following is missing. Still Schuler?}
+Data and \INDEX{code coverage} can be captured by metrics that focus on differences in statement (e.g., number of methods that have at least one statement that is executed at a different frequency between mutated and original program) and data (e.g., number of methods that have at least one different return value between mutated and original program) coverage. 
+ %if a mutant is equivalent or not, in comparison with measuring data and code coverage independently (56\% and 67\% ,respectively).
+%Fabrizio: we have a problem. In the sentence above you say that 61 is lower than 56. I sthis what they say in their papers?
+When differences in data and code coverage are considered separately, false negatives grow to 56\% and 67\% ,respectively~\cite{schuler2013covering}.
+
+%Fabrizio: I think there are some problems with the following. Maybe I have introduced the issue when rewriting. But basically it seems that they ignore mutants that are not killed (i.e., the mutants that are useful for mutation testing).
+\INDEX{Program slicing} has been adopted for reducing equivalent mutants~\cite{voas1997software, hierons1999using, harman2001relationship}. Harman et al.~\cite{harman2001relationship} presented a technique 
+for selecting a subset of the generated equivalent mutants using program dependence analysis. 
+%for reducing the number of equivalent mutants being generated using program dependence analysis. 
+The idea is to 
+ignore
+%avoid 
+mutants that fail to propagate corrupted data (i.e., data generated by the mutated code)
+%Fabrizio: the following is impossible to understand. What is an inspection set? What is a probe point?
+%into the inspection set at the probe point, 
+%if a mutant fails to propagate specific data
+%a mutant that fails to propagate specific data means that no semantic change is being introduced on the software behavior. 
+into the inspection set, i.e., the set of variables inspected to determine if the test case has killed the mutant. With \INDEX{strong mutation}, the \INDEX{inspection set} consists of the variables read by the program assertions.
+%Fabrizio: I cannot understand. What does it mean "relate". 
+%Is it really needed to report the following sentences? What I was expecting instead is a sentence specifying if the approach relies on static or dynamic program slicing.
+%To carry on this analysis, the authors used a method called \textit{JR-dependence}, the method allows to relate variable and node pairs rather than simply considering nodes. With \textit{JR-dependence} is possible to know the set of variables that can and cannot be used to kill a mutant, which is beneficial for mutation testing. 
+Offutt et al.~\cite{offutt2006class} used the guidelines by Harman et al.~\cite{harman2001relationship} to eliminate equivalent mutants by applying the suggested optimizations directly in the implementation of object oriented operators developed on the MuJava mutation testing tool. 
+
+%Kintis et al.~\cite{kintis2014using,kintis2015medic} discovered that 
+%through static data-flow analysis it is possible to 
+Static data-flow analysis enables the identification of def-use anti-patterns for mutation testing~~\cite{kintis2014using,kintis2015medic}.
+Such anti-patterns can be used to spot code locations that are sensitive to produce equivalent mutants 
+%together with the mutation operators being applied. 
+and to determine the subset of mutation operators that may lead to such equivalent mutants.
+The first anti-pattern is called \textit{Use-Def} Problematic Pattern and seeks for uses of variables that reach a definition and can be mutated by a mutation operator that produces in-place changes (e.g., $\{x = (m + x)/2\}$ mutated to $\{x = (m + x++)/2\}$), specifically this pattern can be applied on definitions at the same line, basic block and between different basic blocks. 
+The second pattern is called \textit{Def-Def} Problematic Pattern and seeks for subsequent definitions of a certain variable, in other words, if a definition reaches another definition of the same variable without a prior use of the variable, then any mutation to the first definition cannot be revealed since its being redefined. 
+Experimental evaluation based on six real-world programs show that the anti-patterns enable the automatic detection of 58 out of 84 equivalent mutants, leaving only 30\% of mutants to be analyzed manually.
+
+%Research has proved that 
+\INDEX{Higher order mutation} testing lead to fewer equivalent mutants that mutation based on first order mutants only~\cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}. Indeed, higher-order mutation testing is performed by applying multiple first order mutation operators against the original program, 
+%since two or more mutations are applied simultaneously, 
+which should reduce the chances of producing equivalent mutants. 
+%decreases consistently. 
+For instance, Papadakis and Malevris~\cite{papadakis2010empirical}, worked on a approach for higher order mutants for the C programming language that lead to a reduction of approximately 80-90\% of the generated equivalent mutants, with a fault detection ability loss only of 11-15\%. 
+% For instance, Offutt demonstrated that the set of test data developed for first order mutants (FOMs) actually killed a higher percentage of mutants when applied to second order mutants (SOMs)~\cite{offutt1992investigations}. 
+% Jia and Harman identified six different types of HOMs~\cite{jia2009higher} and presented a categorization of HOMs. They introduced the concept of subsuming and strongly subsuming HOMs.
+% Polo et al.~\cite{polo2009decreasing} studied three strategies to combine FOMs and generate mutants, and found that they can achieve significant cost reductions without losing any effectiveness (they reduced the number of mutants in a approximately 50\%, without much decrease in the quality of the test suite).
+%Instead, Kintis et al.~\cite{kintis2010evaluating} developed a solution for the Java language, they state that SOMs achieve higher collateral coverage for strong mutation as compared with third or higher order mutants. With their approach they obtained a mutant reduction of between 65-87\% and a loss of test effectiveness from 1.75-4.2\%.
+% Mateo et al.~\cite{mateo2012validating,madeyski2013overcoming} found that second order mutants (SOM) are significantly more efficient that first order mutants (FOM).
+
+\endinput
+
+%Fabrizio: it is good to have  a table but you have to comment it
+
+\begin{table*}[ht]
+\centering
+\scriptsize
+\begin{tabular}{lllllllp{4cm}}
+\toprule
+Author(s)          & Year   & Language & \begin{tabular}[c]{@{}l@{}}Largest\\Subject\end{tabular} & \begin{tabular}[c]{@{}l@{}}\#Eq. \\ Mutants\end{tabular} & \begin{tabular}[c]{@{}l@{}}Available \\ Tool\end{tabular} & Category                                                 & Findings                                                                                      \\
+\midrule
+Baldwin \& Sayward~\cite{baldwin1979heuristics} & 1979   &          &                                                           &                                                          &                                                           & Detect                                                   & Compiler optimization can be used to detect equivalent mutants                                \\
+Acree ~\cite{acree1980mutation}       & 1980   & Fortran  &                                                           & 25                                                       &                                                           & Detect                                                   & Human make mistakes when they identify equivalent mutants                                     \\
+Offutt \& Craft~\cite{offutt1994using}   & 1994   & Fortran  & 52                                                        & 255                                                      &                                                           & Detect                                                   & Compiler optimisation can detect on average 45\% of equivalent mutants                        \\
+Offutt \& Pan~\cite{offutt1996detecting,offutt1997automatically}     & 1996-7 & Fortran  & 29                                                        & 695                                                      & Yes                                                       & Detect                                                   & Constraint-based testing can detect on average 47\% of equivalent mutants                     \\
+Voas \& McGraw~\cite{voas1997software}    & 1997   &          &                                                           &                                                          &                                                           & Detect                                                   & Slicing may be helpful in detecting equivalent mutants                                        \\
+Hierons et al.~\cite{hierons1999using}      & 1999   &          &                                                           &                                                          &                                                           & \begin{tabular}[c]{@{}l@{}}Detect/\\ Reduce\end{tabular} & Program slicing can be used to detect and assist the identification of equivalent mutants     \\
+Harman et al. ~\cite{harman2001relationship}    & 2001   &          &                                                           &                                                          &                                                           & \begin{tabular}[c]{@{}l@{}}Detect/\\ Reduce\end{tabular} & Dependence analysis can be used to detect and assist the identification of equivalent mutants \\
+Adamopoulos et al  & 2004~\cite{adamopoulos2004overcome}  &          &                                                           &                                                          &                                                           & Reduce                                                   & Co-evolution can help in reducing the effects of equivalent mutants                           \\
+Grun et al.~\cite{grun2009impact}       & 2009   & Java     & 12,449                                                     & 8                                                        & Yes                                                       & Reduce                                                   & Coverage Impact can be used to classify killable mutants                                      \\
+Schuler et al.~\cite{schuler2009efficient}    & 2009   & Java     & 94,902                                                     & 10                                                       & Yes                                                       & Reduce                                                   & Invariants violations can be used to classify killable mutants                                \\
+Schuler \& Zeller~\cite{schuler2010covering,schuler2013covering} & 2010-2 & Java     & 94,902                                                     & 63                                                       & Yes                                                       & Reduce                                                   & Coverage impact can be used to classify killable mutants                                      \\
+Nica \& Wotawa~\cite{nica2012using}    & 2012   & Java     & 380                                                       & 1,424                                                     &                                                           & Detect                                                   & Constraint-based testing can detect equivalent mutants                                        \\
+Kintis et al.~\cite{kintis2012isolating,kintis2015employing}     & 2012-4 & Java     & 94,902                                                     & 89                                                       &                                                           & Reduce                                                   & Higher order mutants can be used to classify killable mutants                                 \\
+Kintis \& Malevris~\cite{kintis2014using} & 2014   & Java     & 25,909                                                     & 84                                                       &                                                           & Detect                                                   & Data-flow patterns can detect 69\% of the equivalent mutants introduced by the AOIS operator  \\
+Papadakis et al.~\cite{papadakis2014mitigating}    & 2014   & C        & 513                                                       & 5,589                                                     &                                                           & Reduce                                                   & Coverage impact can be used to classify killable mutants                                      \\
+Papadakis et al.~\cite{papadakis2015trivial}    & 2014   & C        & 362,769                                                    & 9,551                                                     & Yes                                                       & Detect                                                   & Compilers can be used to effectively automate the mutant equivalence detection               \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
