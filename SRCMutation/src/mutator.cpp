@@ -270,7 +270,8 @@ public:
 			std::vector<std::string> Values;
 
 			if (Op == "ABS") {
-				Values.insert(Values.end(),	{ "-abs(" + Value + ")", "abs(" + Value + ")" });
+				Values.insert(Values.end(),	{ "(" + Value + " * ((" + Value + " < 0) - (" + Value + " > 0)))", "(" + Value + " * ((" + Value + " > 0) - (" + Value + " < 0)))" });
+
 			} else if (Op == "UOI") {
 				Values.insert(Values.end(), { "(++" + Value + ")", "(" + Value + "++)",	"(--" + Value + ")", "(" + Value + "--)" });
 			}
@@ -500,7 +501,7 @@ int main(int argc, const char **argv) {
 	std::string SrcDir = FileName.substr(0, FileName.find_last_of("/\\"));
 
 	int failed = 0;
-
+/*
 	if (int Result = AORTool.run(newFrontendActionFactory(&AORFinder).get())) {
 		failed = 1;
 	}
@@ -549,6 +550,7 @@ int main(int argc, const char **argv) {
 		Mutate(UOITool.getReplacements(), "intvar_for_", "uoi", CurrTool, Ext,
 				SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	*/
 	// -----
 	if (int Result = ABSTool.run(newFrontendActionFactory(&ABSFinder).get())) {
 		failed = 1;
