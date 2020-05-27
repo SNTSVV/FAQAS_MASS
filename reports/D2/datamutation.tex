@@ -1,11 +1,11 @@
-% !TEX root = MutationTestingSurvey.tex
+% !TEX root = MAIN.tex
 
 \chapter{Data-driven Mutation Testing}
 \label{chapter:datamutation}
 
 % !TEX root = MutationTestingSurvey.tex
 
-\section{Mutation Testing Process}
+\section{Overview of the Data-driven Mutation Testing Process}
 \label{sec:dataProcess}
 
 	\begin{figure}
@@ -17,21 +17,20 @@
 
 
 
-This Chapter defines a test suite assessment process based on the injection of faults in the data processed by software components; we refer to this process as \INDEX{data-driven mutation testing}. The definition of data-driven mutation testing is a unique contribution of this book; it has not been presented in previous literature work.
+This Chapter defines a test suite assessment process based on the injection of faults in the data processed by software components; we refer to this process as \INDEX{data-driven mutation testing}. 
+%The definition of data-driven mutation testing is a unique contribution of this book; it has not been presented in previous literature work.
 
 Data-driven mutation testing aims to assess test suites by simulating faults that affect the data produced, received, or exchanged by the software and its components.
 It is based on a \INDEX{fault model} capturing the type of data faults that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. \MREVISION{C18}{The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel).} The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate the faults in the fault model. For example, the \INDEX{bit flip operator} flips a randomly selected bit of a field of the transmitted data (see Section~\ref{sec:data_operators}). 
 %Mutation operators can be applied multiple times, on different data chunks or over repeated executions of a test case, ti
 
 
-Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in FAQAS that has already presented in deliverable D1. The process is based on two main sub-processes, \EMPH{test suite evaluation} and \EMPH{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. 
-Techniques to inject data faults in the data processed by software systems have been applied mostly to test software systems (e.g., to determine if the software is robust against errors in the data being processed) but not to assess the quality of test suites.
-For systems, or components, exchanging structured data (e.g., message sequences), a data fault may consist of either an invalid data structure (i.e., a structure that does not respect the data model of the system) or an illegal data value.
-%For systems, or components, processing signals, a data fault may result in signals that do not respect the characteristics observed in the original signal. Example of signal features are value, derivative, second derivative~\cite{Matinnejad19}.
+Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in FAQAS. The process is based on two main sub-processes, \EMPH{test suite evaluation} and \EMPH{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. An in depth discussion of related work has been presented in deliverable D1.
 
 Since data-driven mutation testing alters the data produced, received, or exchanged by the software or its components, it should be applied to evaluate test suites that trigger the execution and communication between multiple components (e.g., system or integration test cases). Data-driven mutation testing is not meant to be applied to assess unit test suites.
 
-\subsection{Test Suite Evaluation} % (fold)
+\clearpage
+\section{Test Suite Evaluation} % (fold)
 \label{sec:data:test_suite_evaluation}
 
 The test suite evaluation process consists of three activities \EMPH{Execute the SUT}, \EMPH{Mutate Data},  and \EMPH{Analyze Results}.
@@ -39,15 +38,17 @@ The activity \INDEX{Execute the SUT} indicates that the SUT is executed against 
 The activity \INDEX{Mutate Data} concerns the automated modification of either the data received by the software, the data produced by the software, or the data exchanged by software components.
 In Figure~\ref{fig:data:process}, the activity \EMPH{Mutate Data} is executed in parallel to the activity \EMPH{Execute the SUT} since data modification should occur at runtime during test cases execution, to simulate software faults affecting the data processed by the software.
 
+
+
 %The fault model enables engineers to minimize the presence of equivalent mutants.
 %The data model may capture the relation between inputs and outputs of the system
 
 
 Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. Figure~\ref{fig:data:mutateData} shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime on a certain communication layer. We call such components \INDEX{mutation probes}.
 
-Since in space software most of the communication between software components is performed thanks to a dedicated communication layer that expose an API to handle the communication, in FAQAS mutation probes are integrated in the software API functions that either serialize or deserialize the data being sent on the communication channel.
+Since in space software most of the communication between software components is performed thanks to an API provided by a dedicated communication layer, in FAQAS mutation probes are integrated in the software API functions that either serialize or deserialize the data being sent on the communication channel.
 
-Mutation probes are integrated in the software under test by engineer who manually adding specific function calls in the source code of the software under test. Since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT. 
+Mutation probes are integrated in the software under test by engineers who manually add specific function calls in the source code of the software under test. Since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT.  Instead, we aim to provide a data-driven mutation testing API that enable to mutate common data structures in C/C++ software (e.g., variables or type int, float, double, or C++ std lib vectors).
 
 
 \TODO{ADD concrete example of integration}
@@ -61,17 +62,21 @@ Mutation probes are integrated in the software under test by engineer who manual
 	
 In data-driven mutation testing, the activity \EMPH{Mutate Data} requires a \INDEX{data model} that captures the characteristics and structure of the data to be mutated. 
 The data model is used to load a stream of bytes in structured form (e.g., an instance of a given data structure), which is necessary to drive data mutation. 
-The activity \EMPH{Mutate Data} should be driven by a \INDEX{fault model} that specifies the set of mutation operators to apply~\cite{di2015generating}. 
+The activity \EMPH{Mutate Data} is driven by a \INDEX{fault model} that specifies the set of mutation operators to apply~\cite{di2015generating}. 
 In FAQAS, the data model and the fault model are coupled into a same structured representation, i.e., the \INDEX{FAQAS fault model}, which is presented in Section~\ref{sec:faultModel}.
 
-The activity \INDEX{Analyze Results} processes all the outputs generated during the execution of test cases.
+
+The activities \EMPH{Execute the SUT} and \EMPH{Mutate Data} are repeated till all the faults of the fault model had been applied. The possible stopping criteria are described in Section~\ref{sec:mutantsExecution}. 
+
+The activity \INDEX{Process Outputs} processes all the outputs generated during the execution of test cases.
 The collected outputs include the result of test cases execution (i.e., the list of test cases that either passed or failed) and the logs generated by the SUT during testing.
 In the context of data-driven mutation testing both the \INDEX{test results} and the \INDEX{log files} are necessary to determine if a test suite kills a mutant.
 Indeed, \emph{in the context of data-driven mutation testing a mutant is killed either if a test case fail, or if the software activates robustness features capable of handling the specific data fault.}
 We need log files to determine if robustness features had been triggered.
 For example, a system that implements a \INDEX{robust communication protocol} might simply request again the packets affected by errors thus avoiding failures. In this case, we need to inspect the log files to determine if the robustness feature had been triggered.
+The fault model is expected to include only data fault classes that should either lead to failures or make the system generate an error entry in the log file.
 
-Differently from code-driven mutation testing, data-driven mutation testing does not alter the software implementation but only the data processed by software components, for this reason it may help engineers to \INDEX{identify existing faults}, which cannot be achieved by code-driven mutation testing. 
+Differently from code-driven mutation testing, data-driven mutation testing does not alter the software implementation but only the data processed by software components, for this reason it may help engineers to \INDEX{identify existing faults}, an objective that cannot be achieved by code-driven mutation testing. 
 This is the case when \emph{Missing Error Reports} or \emph{Unexpected Failures }(e.g, crashes) are observed. In both the two cases, engineers should fix the system. In code-driven mutation testing, faults can be detected only after introducing new test cases that kill the generated mutants.
 
 The activity \INDEX{Analyze Results} provides an assessment of the quality of the test suite for the SUT.
@@ -100,12 +105,7 @@ computed as the weighted average of the percentage of mutants being killed and t
 The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
 Details are provided in Section~\ref{sec:data:mutationscore}.
 
-\REVTWO{C34}{Activity \emph{Analyze Results} takes as input the SUT outputs,  the data model, the fault model, and the list of mutation operators applied.
-In the presence of a mutation toolset capable of parsing these files and loading their data as instances of a given data model, this activity can be fully automated.}
-The fault model and the data model are used to distinguish between 
-data faults that affect the SUT output (i.e., lead to test failures) and
-data faults that should be transparently handled by the software (i.e., lead to error messages in the log).
-For example, the data model may indicate in which cases an error message should be reported~\cite{di2015generating}.
+\REVTWO{C34}{Activity \emph{Analyze Results} takes as input the the data model, the fault model, the list of killed mutants, and the list of mutation operators applied.}
 The list of applied mutation operators should enable engineers to determine if all the available mutation operators have been applied.
 
 
@@ -116,12 +116,14 @@ The list of applied mutation operators should enable engineers to determine if a
       \label{fig:DataDrivenSimpleExample}
 \end{figure}
 
+\clearpage
 
-\subsubsection{FAQAS Data Mutation}
+\subsection{FAQAS Data Mutation Probes}
 \label{sec:dataMutation}
 
 
-\subsubsection{FAQAS Fault Model}
+\clearpage
+\subsection{FAQAS Fault Model}
 \label{sec:dataModel}
 \label{sec:faultModel}
 
@@ -132,6 +134,30 @@ A data fault captures an error that might affect the data and, in turn, specifie
 Table~\ref{table:faultModel:FAQAS} provides the list of data fault classes supported by FAQAS along with a description.
 
 \input{tables/table_faultModel.tex}
+
+
+\clearpage
+\subsection{Test suite execution}
+\label{sec:mutantsExecution}
+
+During data mutation the test suite is executed multiple times. The number of times to execute depends on a stopping criterion that depend on the choice made by the engineer to (1) exercise each test case against a data fault class (hereafter, test coverage stopping criterion), or (2) 
+exercise each data fault class (hereafter, fault coverage stopping criterion) or (3) sample the mutations to apply against a certain test case (hereafter, sampling stopping criterion).
+
+
+With the test coverage stopping criterion, each test case is executed multiple times till all the possible data fault classes had been injected.
+A single data fault is injected for each run.
+A data fault class is no longer injected after it has been determined that can it be killed by the test suite (i.e., a previously executed test case failed once the mutation was applied).
+We indicate that a data item is mutable when (1) the fault model includes the definition of a data fault class \emph{c} for the data item and (2) the data fault class \emph{c} has not been already killed by the test suite.
+The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item. The second case enables the mutation of data items exchanged after long components interactions.
+The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
+
+With the fault coverage stopping criterion the full test suite is executed multiple times till all the possible data fault classes had been injected at least once (for the full test suite).
+A data fault class is no longer injected after it has already been injected in a test case of the test suite.
+The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item.
+The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
+
+With the sampling stopping criterion each test case is executed multiple times as for the test coverage stopping criterion with the difference that (1) the injection of data faults follow a given distribution (e.g., only 5\% of the mutable data items are mutated) and (2) the repeated execution of a test case is terminated after no mutation has been performed.
+
 
 \clearpage
 \subsection{Test Suite Augmentation} % (fold)
