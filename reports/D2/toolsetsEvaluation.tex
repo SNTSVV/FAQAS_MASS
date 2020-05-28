@@ -3,4 +3,183 @@
 \section{Evaluation of code-driven mutation testing toolsets}
 
 
+This section describes a preliminary evaluation conducted to identify mutation testing tools that are applicable in space context, based on the case study systems of the project. More precisely, for this preliminary evaluation we considered the case study system provided by LuxSpace.
+
+To carry out this preliminary evaluation of mutation testing tools, we selected from the list of mutation testing tools provided in Table 1.1 of deliverable D1, a subset of tools based on the following criteria:
+
+\begin{itemize}
+	\item Availability of source code. To enable optimizations, the tool under analysis should be provided along with source code.
+	\item Applicability to C/C++ code. The tool under analysis should be able to process C and C++ code.
+	\item Licence compatible with ESA Software Community Licence Permissive (ESA SCLP). The licence of the tool under analysis, should enable redistributing the tool itself within the FAQAS framework, which is released under ESA SCLP.
+	\item Age. To avoid problems due to support for recent libraries, we should prioritize tools that are recent and actively developed.
+\end{itemize}
+
+\input{tables/mutationtools}
+
+
+The first three criteria mentioned above constitute mandatory requirements. 
+Tools not meeting these requirements are not selected for evaluation in our context because they cannot be integrated into the FAQAS framework.
+Table 1 provides the list of tools appearing in Table 1.1 of deliverable D1 along with the evaluation based on the criteria specified above. We do not evaluate all the criteria when one of the mandatory requirements is not met.
+For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible. 
+Indeed, both the two licences allow for redistribution of the software, a condition that is sufficient to release a mutation testing tool as component of the FAQAS framework.
+
+For our preliminary evaluation we selected the four most recent tools that fulfill our mandatory requirements: SRCIRor, Mull, Dextool, and Milu.
+Section A1.2 provides an overview of the experiment design and the case study considered. Section A1.3 describe the results achieved for each of the subjects of the study.
+
+\subsection{Experiment Design and Case Studies}
+
+To evaluate the applicability of existing mutation testing tools in space context we have applied each subjects of the study against the case study system provided by LuxSpace.
+At this stage we foresee XXX case study systems to be considered in the project for the evaluation of the FAQAS framework. Each case study system consists of a test suite, which is the target of the FAQAS framework, and a software component tested by the test suite (i.e., the component to be mutated by the FAQAS framework).
+
+\begin{itemize}
+	\item LuxSpace - Unit Test Suite for ESAIL - CSW
+	\item LuxSpace - System Test Suite for ESAIL
+	\item GomSpace - Unit Test Suite for libutil
+	\item GomSpace - Unit Test Suite for libcsp
+	\item MLSF mathematical library - https://essr.esa.int/project/mlfs-mathematical-library-for-
+		flight-software
+	\item ASN1 Compiler - https://github.com/ttsiodras/asn1scc
+\end{itemize}
+
+
+In the preliminary evaluation reported in this document, we evaluated each subject of the study against one case study system, LuxSpace - System Test Suite for ESAIL. We selected this case study system, because based on inspection of its specification documents appear to be the most complicate to process by means of mutation testing. This is mostly due to three criticalities:
+
+\begin{itemize}
+	\item ESAIL is the largest case study system;
+	\item the ESAIL system test suite requires the full software to be compiled against the libraries to be used in flight;
+	\item the software under test (SUT) is executed within a system emulator (SVF) that requires the SUT to respect its real-time constraints.
+\end{itemize}
+
+In the following, we provide an overview of ESAIL and the ESAIL System Test Suite. ESAIL consists of 924 source files (719 files with extension '.c' and 205 with extension ‘.h’). In total, it consists of 187,116 LOC. ESAIL is compiled with sparc-rtems4.8-gcc, a tailored version of the gcc compiler for sparc systems, the compiler is provided by Cobham Gaisler (https://www.gaisler.com/index.php/products/operating-systems/rtems).
+
+The architecture of the ESAIL System Testing environment is shown in Figure 1. The python testing library is used to execute system test cases that send commands to ESAIL. ESAIL is executed in a simulator based on Rufos. The ESAIL system test suite consists of 120 python programs, it executes in 10 hours.
+
+The objective of this preliminary evaluation is to determine if the subjects of the study can process the case study system and automatically generate mutated versions of the case study system that can be successfully compiled and tested. More precisely, we aim to verify if the subjects of the study can successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
+
+\subsection{Background}
+
+In this section we provide background information on the components that are used by most of the tools considered in our evaluation, i.e., Clang/LLVM.
+
+\subsubsection{Clang/LLVM}
+
+The LLVM project is a set of compiler and toolchain technologies. LLVM is designed around an intermediate representation (i.e., LLVM IR) that serves as a portable, high-level assembly language useful for code optimizations. LLVM was originally implemented for C and C++, but now currently it also supports Ada, D, Delphi, Fortran, Haskell, Julia, Objective-C, Rust and Swift. It can be used for performing static analysis on code (e.g., uninitialized memory uses), optimization or code parsing.
+
+Clang is a front-end for LLVM that processes C-family languages: C, C++, Objective C, Objective C++. Clang converts C/C++ to LLVM IR, LLVM performs optimizations on the IR, and the LLVM x86 backend writes out x86 machine code for execution.
+
+\subsection{Evaluation Results}
+
+\subsubsection{SRCIRor}
+
+Overview of the subject of the study
+
+SRCIRor is LLVM-based mutation testing tool that works at the level of source code (SRC), and the LLVM compiler intermediate representation (IR). 
+At a source code level SRCIRor performs mutations by using the clang compiler to parse the input files and build the abstract syntax trees (AST). 
+At the IR level SRCIRor finds and directly mutates the instructions of interest, which might be all the instructions of the SUT or a subset of them. 
+SRCIRor implements six types of operators, it implements Arithmetic Operators (e.g., $+, -, *, /, \%$),
+% Relational Operators (e.g., ``<'', ``<='', ``>'', ``>='', ``=='', ``!=''), Logical Operators (e.g., ``$\&\&$'', ``||''), Bitwise Operators (e.g., ``$\&$'', ``|'', ``^''), 
+
+%Arithmetic Assignment Operators (e.g., "+=", "-=", "*=", "/=", "\%=") and Bitwise Assignment Operators (e.g., "\&=", "|=", "^=").
+
+Results
+The main scope of this project is being able to apply mutation testing techniques to space software. To assess the compatibility of SRCIRor with FAQAS we applied the tool to one of our case studies, in this case, we selected the ESAIL SVF software.
+The mutation process was done by applying the SRCIRor source code mutator to every .c file in the ESAIL SVF project. We applied the default configuration of SRCIRor, that is, applying the six operators and mutating every line within the source code files.
+From the results, we observe the generation of 105,543 mutants. However, during the pass of SRCIRor we detected 1,060 warnings thrown by the clang input parser.
+
+Most of the warnings are caused by SRCIRor trying to mutate memory addresses declared in C code, e.g., 0x03A6 into (- 1)x03A6, and unsigned integer literals (e.g., 0u, 1u into (-1)u, 1u).
+Figure 3 to Figure 12 list the representative cases for all the warning classes found during the mutation process. Figure 3 shows a warning due to an incompatibility with duplicate keywords declaration. Figure 4 shows a warning related to the magnitude of a floating-point variable. Figure 5 shows a warning due to an implicit conversion from an enumeration type. Figure 6 shows a warning related to an uninitialized variable being used. Figure 7 shows a warning due to a variable not being used in the source code. Figure 8 shows a warning related to an invalid cast. Figure 9 shows a warning related to a clang problem with inline functions. Figure 11 shows a warning due to an inappropriate use of parentheses. Finally, Figure 12 shows a warning related to incompatible declarations of already existing library functions. We expect to assess these warnings in WP2.
+
+traces
+
+To evaluate if the generated mutants can be successfully compiled, we executed the ESAIL compilation process for all the generated 105,543 mutants. From the total, 103,747 mutants (98,3\%) were compiled successfully using the original ESAIL settings.
+
+\subsubsection{Mull}
+
+Mull is an open source tool for mutation testing of C/C++ software based on the LLVM framework. Mull works at the intermediate representation level, i.e., the mutations are applied on the instructions residing in the LLVM bitcode files. It relies on debug information to show results, for this reason it requires that the SUT is compiled with clang and the “-fembed-bitcode” and debug information enabled.
+The mutation process in Mull consists of the following steps: (1) extracting bitcode files from the executable artifact, (2) finding test cases related to the executable by running the test suite, (3) searching/filtering for mutation points, based on the coverage of the test suite execution, (4) compiling the possible mutations, (5) inserting memory trampolines on the original functions, then only compile part of bitcode that is affected by the new mutant, and (6) running the test cases that cover the mutated function.
+Mull generate mutants on the fly, while the SUT is executed against the test suite. To this end it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows.
+
+\begin{itemize}
+	\item Dynamic Call Tree: optimization for mutating source code reachable by the test cases
+	\item LLVM JIT engine: compilation and linking of the new mutants happen in memory, thus there is no disk I/O overhead.
+	\item Sandboxing: run each test in a separate child process, this way, if the child process fails it will not affect the parent process.
+	\item Dry-run: collect information in advance about how many mutations a project has and how much time does it take to run it.
+	\item Caching: save mutants on disk; for future executions Mull tries first loading the object file from the cache first.
+	\item Fail-fast mode: once a mutant is killed by a test case it is no longer executed against other test cases.
+\end{itemize}
+
+Although the optimization features of Mull reduce the overall execution time of the mutation process, the online nature of Mull prevents its application to ESAIL. Indeed, ESAIL runs within an emulated environment that requires an executable compiled for the actual platform of the system. This prevents the execution of the JIT feature of the LLVM infrastructure. In the following paragraphs, we provide an overview of the modifications we implemented on Mull to apply it to our case study.
+
+Extending Mull’s features
+
+To evaluate Mull, we mutated one of the example projects provided by the tool authors, the fmt library. The fmt library is an open-source formatting library for C++ (https://github.com/fmtlib/fmt) that can be used as alternative to (s)printf and iostreams.
+We adapted Mull to statically generate mutants and save them permanently. Specifically, we developed a module that generates an object file each time a new mutant is identified for a specific module. Then, to generate the final executable we apply the following for each mutated object file: (1) replace the original object file with the mutated one, (2) re-launch the original Makefile; this will generate a new version of the program, and (3) save the executable with a specific identifier (i.e., program name followed by the identifier of the mutant created by Mull).
+Results
+Mull requires compilation with clang. For this reason, we had to replace the original rtems-gaisler-gcc compiler with clang. In particular, we compiled ESAIL with four different compilers:
+
+\begin{enumerate}
+	\item RTEMS 4.10 and clang 5 (LLVM version)
+	\item RTEMS 5 and gcc (RTEMS version)
+	\item RTEMS 5 and clang (RTEMS version)
+	\item RTEMS 4.8 and clang 9 (LLVM version)
+\end{enumerate}
+
+(1) Compilation with RTEMS 4.10 and clang 5 (LLVM version)
+
+To successfully compile the project and address “unsupported target” errors we have modified the following in the RTEMS definition files:
+
+\begin{itemize}
+	\item \texttt{/opt/rtems-4.10/sparc-rtems/include/machine/\_types.h}: commented from line 15 to line 29 (error unsupported target)
+\end{itemize}
+
+However, we did not succeed in compiling the project because clang does not handle the architectures supported by RTEMS. This is shown by the error:
+
+(2) Compilation with RTEMS 5 and clang (RTEMS version)
+
+To compile the system, we modified the following in the SVF source code:
+
+\begin{itemize}
+	\item \texttt{./ApplicationLayer/SystemInit/Public/systemInit.h}: as shown in the example \texttt{rtems-soft-float.c} we set to false the if at the line 99. The problem is that several \texttt{drvmgr.h} constant definitions are no longer available in RTEMS 5.
+	\item \texttt{./LowLevelDriverLayer/apbuart/Source/drv\_uart.c}: commented \texttt{\# include \textless rtems/score/types.h\textgreater } because it does not exist anymore on RTEMS 5.
+	\item \texttt{./ProtocolLayer/CANDispatcher/Source/process\_Heartbeat.c}: the constant \texttt{RTEMS\_CLOCK\_GET\_TICKS\_SINCE\_BOOT} is no longer defined in RTEMS 5, so we made the following change:
+	\begin{itemize}
+		\item  This line:   \texttt{rtems\_clock\_get(RTEMS\_CLOCK\_GET\_TICKS\_SINCE\_BOOT, \&current\_time);}
+		\item  By this one: \texttt{current\_time = rtems\_clock\_get\_ticks\_since\_boot();}
+	\end{itemize}
+	\item ./Utilities/Misc/Source/cpuLoad.c: the class rtems\_tcb no longer contains a field called real\_priority, in RTEMS now is Real\_priority.priority, so we applied the change.
+\end{itemize}
+
+In this case, the ESAIL SVF compiles, but with several warnings, an example is shown in Figure 13.
+
+Despite successful compilation, the execution is not successful. When trying to boot up the ESAIL SVF software two errors are thrown that makes impossible the execution of any test case.
+- Sender: OBC/OBC1/FPGA, message: Watchdog reset [0x00000000]
+- Sender: Python, message: message: No OBC powered
+
+(3) Compilation with RTEMS 5 and gcc (RTEMS version)
+We switched to gcc instead of clang, to determine if the problems were due to the clang or RTEMS version. For this case, we applied the same changes done for case 2.
+Despite the changes above lead to successful compilation of the object code, they did not solve all the compilation problems. Indeed, an ESAIL executable cannot be created because of linking error, the linker claims several undefined references such as:
+
+(4) Compilation with RTEMS 4.8 and clang 9 (LLVM version)
+In the fourth attempt of ESAIL compilation, we tried to build the software with the token “release=true” as suggested by LuxSpace. Even though, clang is now able to handle RTEMS libraries, still we get an error that does not allow successful ESAIL compilation:
+
+From Leon documentation, the number after the brackets means a specific Address Space Identifier (ASI), where in this case 1 means forced cache miss. Applied to the specific, clang does not recognize the 1 after the '[\%1]' token.
+
+
+\subsubsection{Milu}
+
+Overview of the subject of the study
+Milu is an efficient and flexible C mutation testing tool designed for both first order and higher order mutation testing.
+
+
+\subsubsection{Dextool}
+
+Overview of the subject of the study
+
+Dextool is a framework for writing plugins using the clang compiler. Mutation testing features are implemented by the Dextool plugin named Mutate, which targets mutation on C/C++ software.
+
+Results
+
+Dextool requires clang to compile the software under test with clang in advance for identifying mutants. Following this, we did not perform further experiments with this tool.
+
+
+
 

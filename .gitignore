@@ -2,6 +2,7 @@
 .DS_Store
 
 reports/MutationTestingSurvey/MutationTestingSurvey.pdf
+reports/D2/MAIN.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
