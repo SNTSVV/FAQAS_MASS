@@ -141,5 +141,15 @@ print(positions)
 print(operators)
 print(operations)
 
+selectItem=""
+
+selectItem+="int selectItem(FaultModel *dm){\n"
+for k in positions:
+    selectItem+="if ( MUTATION == "+str(k)+" )\n"
+    selectItem+="    return "+str(positions[k])+";\n"
+selectItem+="}\n"
+
+print(selectItem)
+
 print(sizeDef)
 print(faultModelsDef)
