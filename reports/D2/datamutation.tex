@@ -116,7 +116,7 @@ For a test suite consisting of two test cases that trigger the exchange of the m
 \REVTWO{C34}{Activity \emph{Analyze Results} concerns the automated computation of the \INDEX{mutation score} from execution data. It is 
 computed as the weighted average of the percentage of mutants being killed and the percentage of mutation operators applied.}
 The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
-Details are provided in Section~\ref{sec:data:mutationscore}.
+%Details are provided in Section~\ref{sec:data:mutationscore}.
 
 \REVTWO{C34}{Activity \emph{Analyze Results} takes as input the the data model, the fault model, the list of killed mutants, and the list of mutation operators applied.}
 The list of applied mutation operators should enable engineers to determine if all the available mutation operators have been applied.
@@ -164,23 +164,69 @@ In FAQAS, data-driven mutation testing is performed by modifying either data tha
 
 \input{tables/table_faultModel.tex}
 
-\subsection{Fault Model Specifications for Data Buffers}
+\subsubsection{Fault Model Specifications for Data Buffers}
 
 When the data to be mutated is stored in an array, we require the definition of a fault model in the form of a block diagram since this format enables to represent the sequence of data items in the array. 
 For each data block the FAQAS fault model captures its type and a list of data fault classes that might affect the block. 
 The type of the data block indicates how the values of bits should be interpreted (e.g., as a floating point number). Since a data type may span over multiple items of the data buffer, for each block, we may indicate whether also the values of the following blocks should be used to load the data.
 
+Table~\ref{table:faultModel:example} provides an example of two fault models described in tabular form. 
+It resembles the CSV format supported by the FAQAS toolset. For each data item we report the span, type, and fault class. For each fault class we indicate the values of the configuration parameters for the corresponding mutation operator.
 
 
+\input{tables/table_faultModelExample.tex}
 
-
-\subsection{Fault Model Specifications for ASN.1 grammar}
+\clearpage
+\subsubsection{Fault Model Specifications for ASN.1 grammar}
 
 When the data to be mutated is stored in a data structure defined through the ASN.1 grammar, the fault model is specified by indicating which operators to apply on the specific fields of the data structure. Mutation operators are automatically configured based on the ASN.1 grammar (e.g., in the case of an attribute of type INTEGER, the min/max values of the VOR operator are derived from the boundaries of the INTEGER type).
 
 \clearpage
 \subsection{FAQAS Data Mutation Probes}
-\label{sec:dataMutation}
+\label{sec:FAQASDataMutationProbes}
+
+Data-driven mutation probes are automatically generated from the fault model provided by engineers.
+Section~\ref{sec:FAQASDataMutationProbesBuffer} describe how data mutation probes are generated for data buffers.
+Section~\ref{sec:FAQASDataMutationProbesASN} covers the case of ASN.1.
+
+
+\subsubsection{Data Mutation Probes for Data Buffers}
+\label{sec:FAQASDataMutationProbesBuffer}
+
+In FAQAS we generate a different executable for each mutation operation to perform. However, the generated source code is the same for all the fault models working on a data buffer of the same type. A configuration option (i.e., a \emph{define directive}) passed to the compiler is what drives the configuration of the specific mutation. Figure~\ref{fig:DataDrivenBufferProcess} provides an overview of the envisioned process. The engineer prepares a single specification file for all the fault models that work with data buffers of a same time (e.g., int). The fault model specification is used by the FAQAS generator to automatically generate the mutation API. The engineer, then, modifies the source code of the SUT to add invocations to the mutation probes provided by the FAQAS API. Finally, the engineer executes the compiler in a for loop such that the compiler is executed with the directive \EMPH{-DMUTATIONOPT=i}, where \emph{i} is a value between 0 and \emph{max}. The value \emph{max} in this case coincides with the
+overall number of instances of a mutation operation. An instance of a mutation operation is a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model. For the fault model in Table in \ref{table:faultModel:example} we have 6 instances, one for each data item except for data item 2, whose VOR fault class includes two mutation operations.
+
+\begin{figure}[tb]
+  \centering
+    \includegraphics{images/DataDrivenBufferProcess}
+      \caption{Data-driven mutation process for buffered data.}
+      \label{fig:DataDrivenBufferProcess}
+\end{figure}
+
+The code that invokes the automatically generated probe is manually inserted by the engineer as shown in Listing~\ref{probesExample}.
+The logic of the mutation probes is predefined and shared by all the mutation probes. What determines the different behaviours is the fault model.
+The definition of the fault model is automatically generated in a \EMPH{C struct} (see Listing~\ref{faultModelExample}). 
+The backbone data structures are predefined an provided in Listing~\ref{faultModelStructure}.
+
+The code of the mutation probe is shown in Listing~\ref{mutationProbe}. It works by identifying the identification of the data item to mutate, the mutation operator to apply, and the mutation operation to execute by invoking methods \EMPH{\_FAQAS\_selectItem},
+\EMPH{\_FAQAS\_selectOperator}, and \EMPH{\_FAQAS\_selectOperation}, respectively. The implementation of these three methods is automatically generated based on the fault model definition file.
+An example is shown in Listing~\ref{selectors}. The runtime behaviour depends on variable \EMPH{MUTATION}, whose value depends on the option passed at compile time. 
+The variable \EMPH{MUTATION} univoquely identifies an instance of a mutation operation (i.e., a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model).
+
+\input{listings/probesExample}
+
+\input{listings/faultModelCode}
+
+\input{listings/faultModelDefs}
+
+\input{listings/mutationSelector}
+
+\input{listings/probeAPI}
+
+
+\subsubsection{Data Mutation Probes for ASN.1}
+\label{sec:FAQASDataMutationProbesASN}
+
 
 \clearpage
 \subsection{Test suite execution}

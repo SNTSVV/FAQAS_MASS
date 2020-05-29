@@ -7,6 +7,11 @@
 \textbf{Fault Class}&\textbf{Types}&\textbf{Parameters}&\textbf{Description}\\
 \hline
 Value above threshold (VAT)&
+\begin{minipage}{4cm}
+INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
 &
 \begin{minipage}{4cm}
 T: threshold\\
@@ -22,6 +27,11 @@ The mutation is performed by replacing the current value (a number) with a value
 
 \hline
 Value below threshold (VBT)&
+\begin{minipage}{4cm}
+INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
 &
 \begin{minipage}{4cm}
 T: threshold\\
@@ -39,6 +49,11 @@ The mutation is performed by replacing the current value (a number) with a value
 
 \hline
 Value out of range (VOR)&
+\begin{minipage}{4cm}
+INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
 &
 \begin{minipage}{4cm}
 MIN: minimum valid value\\
@@ -59,7 +74,7 @@ The mutation is performed by replacing the current value (a number) with
 
 \hline
 Bit flip (BF)&
-Any
+BIN
 &
 \begin{minipage}{4cm}
 MIN: lower bit\\
@@ -77,11 +92,9 @@ If STATE is specified, the mutation is applied only if  the bit is in the specif
 \hline
 Invalid numeric value (INV)&
 \begin{minipage}{4cm}
-Int
-
-Float
-
-Double
+INT\\
+FLOAT\\
+DOUBLE
 \end{minipage}
 &
 \begin{minipage}{4cm}
@@ -100,13 +113,10 @@ Mutation is performed by replacing the current value with a different value rand
 Illegal Value (IV)
 &
 \begin{minipage}{4cm}
-Int
-
-Float
-
-Double
-
-Hex
+INT\\
+FLOAT\\
+DOUBLE\\
+HEX
 \end{minipage}
 &
 \begin{minipage}{4cm}

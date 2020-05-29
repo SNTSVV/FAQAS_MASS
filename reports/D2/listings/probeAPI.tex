@@ -1,0 +1,76 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{minipage}{15cm}
+\begin{lstlisting}[style=CStyle, caption=Mutation probe., label=mutationProbe, mathescape=true]
+int _FAQAS_mutate( int *data, FaultModel *fm ){
+    if ( _FAQAS_mutated == 1 )
+    return 0;
+
+    if ( MUTATION == -1 )
+    return 0;
+
+    int pos = _FAQAS_selectItem(fm);
+    int op = _FAQAS_selectOperator(fm);
+    int opt = _FAQAS_selectOperation(fm);
+
+    int valueInt;
+    int valueBin;
+    double valueDouble;
+
+
+    //Load the data in the appripriate var
+    if ( fm->items[pos].type == BIN ){
+        valueBin = (int) data[pos];
+    }
+    if ( fm->items[pos].type == INT ){
+        valueInt = (int) data[pos];
+    }
+    if ( fm->items[pos].type == DOUBLE ){
+        valueDouble = (double) data[pos];
+    }
+...
+    MutationOperator *OP = &(fm->items[pos].operators[op]);    
+...     
+        if ( OP->type == VOR ){
+        if ( fm->items[pos].type == INT ){
+
+            if ( opt == 0 ){
+                valueInt = OP->min-OP->delta;
+            } else if (opt == 1 ){
+                valueInt = OP->max+OP->delta;
+            } else {
+                //ERROR
+            }
+            _FAQAS_mutated = 1;
+        }
+
+...
+
+    }
+
+...
+
+    if ( _FAQAS_mutated != 1 ){
+        return 0;
+    }
+
+    //
+    //Store the data
+    //
+    //FIXME: handle span
+    if ( fm->items[pos].type == INT ){
+        data[pos] = valueInt;
+    }
+    if ( fm->items[pos].type == DOUBLE ){
+        data[pos] = valueDouble;
+    }
+    if ( fm->items[pos].type == BIN ){
+        data[pos] = valueBin;
+    }
+    
+    ...
+
+    
+\end{lstlisting}
+\end{minipage}
+
