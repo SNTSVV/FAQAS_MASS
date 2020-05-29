@@ -34,7 +34,7 @@ def newVOR(item,_span,_type,_min,_max,_delta):
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VOR;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_min+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
 
     operations[elements] = 0
@@ -55,22 +55,25 @@ def closeFaultModelsDef():
  
     sizeDef += "#define SIZE_"+lastFM+" "+lastItem+"\n"
 
-    faultModelsDef+="return rm;\n"
+    faultModelsDef+="return fm;\n"
     faultModelsDef+="}\n"
 
 
 def closeOperators():
     global lastItem
+    global lastType
     global operatorsCount
     global faultModelsDef
     global lastSpan
     faultModelsDef += "fm->items["+str(lastItem)+"].operatorsN="+str(operatorsCount+1)+";\n"
     faultModelsDef += "fm->items["+str(lastItem)+"].span="+str(lastSpan)+";\n"
+    faultModelsDef += "fm->items["+str(lastItem)+"].type="+str(lastType)+";\n"
 
 def processRow(row):
     print(row)
     global lastFM
     global lastItem
+    global lastType
     global lastSpan
     global positions
     global operators
@@ -127,12 +130,12 @@ def processRow(row):
     if FT == 'BF':
             newBF(item,_span,_type,_min,_max,_state)
     if FT == 'VOR':
-            newVOR(item,_span,_type,_min,_max,_state)
+            newVOR(item,_span,_type,_min,_max,_delta)
     
     lastFM=FM
     lastItem=item 
     lastSpan=_span
-
+    lastType=_type
 
 def generateSelectFunctionContent(array):
     selectItem=""
@@ -166,25 +169,42 @@ with open(fileName) as csv_file:
 closeOperators()
 closeFaultModelsDef()
 
-print(positions)
-print(operators)
-print(operations)
+maxFMO="//max MUTATIONOPT="+elements
 
-
-selectItem="int selectItem(FaultModel *dm){\n"
+selectItem="int _FAQAS_selectItem(FaultModel *dm){\n"
 selectItem+=generateSelectFunctionContent(positions)
 selectItem+="}\n"
 
-print(selectItem)
-
-
-selectOperator="int selectOperator(FaultModel *dm){\n"
+selectOperator="int _FAQAS_selectOperator(FaultModel *dm){\n"
 selectOperator+=generateSelectFunctionContent(operators)
 selectOperator+="}\n"
 
-selectOperations="int selectOperation(FaultModel *dm){\n"
+selectOperations="int _FAQAS_selectOperation(FaultModel *dm){\n"
 selectOperations+=generateSelectFunctionContent(operations)
 selectOperations+="}\n"
 
-print(sizeDef)
-print(faultModelsDef)
+outfile = open("FAQAS_dataDrivenMutator.h", "wt")
+outfile.write(maxFMO)
+
+with open('DDB_TEMPLATE_header.c', 'r') as tfile:
+    data = tfile.read().replace('BUFFER_TYPE', bufferType )
+    outfile.write(data)
+    tfile.close()
+
+sizeDef+="\n\n"
+outfile.write(sizeDef)
+
+faultModelsDef+="\n\n"
+outfile.write(faultModelsDef)
+
+outfile.write(selectItem)
+outfile.write(selectOperator)
+outfile.write(selectOperations)
+
+with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
+    data = tfile.read().replace('BUFFER_TYPE', bufferType )
+    outfile.write(data)
+    tfile.close()
+
+outfile.close()
+
