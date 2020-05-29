@@ -9,7 +9,7 @@ operations={}
 faultModelsDef=""
 operatorsCount=0
 lastFM=""
-lastItem=""
+lastItem=-1
 sizeDef=""
 lastSpan=""
 
@@ -52,8 +52,9 @@ def closeFaultModelsDef():
     global operatorsCount
     global faultModelsDef
     global sizeDef
- 
-    sizeDef += "#define SIZE_"+lastFM+" "+lastItem+"\n"
+   
+    size=int(lastItem)+1 
+    sizeDef += "#define SIZE_"+lastFM+" "+str(size)+"\n"
 
     faultModelsDef+="return fm;\n"
     faultModelsDef+="}\n"
@@ -119,9 +120,10 @@ def processRow(row):
             operatorsCount=0
     else:
         if lastFM != "":
+            closeOperators()
             closeFaultModelsDef()
             
-        lastItem=""
+        lastItem=-1
         faultModelsDef+="struct FaultModel* _FAQAS_"+FM+"_FM(){\n"            
         faultModelsDef+="FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
 
@@ -136,6 +138,7 @@ def processRow(row):
     lastItem=item 
     lastSpan=_span
     lastType=_type
+
 
 def generateSelectFunctionContent(array):
     selectItem=""
@@ -169,7 +172,7 @@ with open(fileName) as csv_file:
 closeOperators()
 closeFaultModelsDef()
 
-maxFMO="//max MUTATIONOPT="+elements
+maxFMO="//max MUTATIONOPT="+str(elements)
 
 selectItem="int _FAQAS_selectItem(FaultModel *dm){\n"
 selectItem+=generateSelectFunctionContent(positions)
