@@ -11,8 +11,9 @@ operatorsCount=0
 lastFM=""
 lastItem=""
 sizeDef=""
+lastSpan=""
 
-def newBF(item,_type,_min,_max,_state):
+def newBF(item,_span,_type,_min,_max,_state):
     global operations
     global faultModelsDef
     faultModelsDef+="\n"
@@ -24,7 +25,7 @@ def newBF(item,_type,_min,_max,_state):
     operations[elements] = 0
     
 
-def newVOR(item,_type,_min,_max,_delta):
+def newVOR(item,_span,_type,_min,_max,_delta):
     global operators
     global operations
     global elements
@@ -62,12 +63,15 @@ def closeOperators():
     global lastItem
     global operatorsCount
     global faultModelsDef
+    global lastSpan
     faultModelsDef += "fm->items["+str(lastItem)+"].operatorsN="+str(operatorsCount+1)+";\n"
+    faultModelsDef += "fm->items["+str(lastItem)+"].span="+str(lastSpan)+";\n"
 
 def processRow(row):
     print(row)
     global lastFM
     global lastItem
+    global lastSpan
     global positions
     global operators
     global operations
@@ -75,16 +79,30 @@ def processRow(row):
     global elements
     global faultModelsDef
 
-    FM = row[0]
+    _p=0;
+    FM = row[_p]
 
-    item = row[1]
-    _type = row[2]
-    FT = row[3]
-    _min=row[4]
-    _max=row[5]
-    _threshold=row[6]
-    _delta=row[7]
-    _state=row[8]
+    _p=_p+1;
+    item = row[_p]
+    
+    _p=_p+1;
+    _span = row[_p]
+    
+    _p=_p+1;
+    _type = row[_p]
+    
+    _p=_p+1;
+    FT = row[_p]
+    _p=_p+1;
+    _min=row[_p]
+    _p=_p+1;
+    _max=row[_p]
+    _p=_p+1;
+    _threshold=row[_p]
+    _p=_p+1;
+    _delta=row[_p]
+    _p=_p+1;
+    _state=row[_p]
     
     elements+=1
 
@@ -107,21 +125,32 @@ def processRow(row):
     operators[elements]=operatorsCount
 
     if FT == 'BF':
-            newBF(item,_type,_min,_max,_state)
+            newBF(item,_span,_type,_min,_max,_state)
     if FT == 'VOR':
-            newVOR(item,_type,_min,_max,_state)
+            newVOR(item,_span,_type,_min,_max,_state)
     
     lastFM=FM
     lastItem=item 
+    lastSpan=_span
 
- 
+
+def generateSelectFunctionContent(array):
+    selectItem=""
+    for k in array:
+        selectItem+="if ( MUTATION == "+str(k)+" )\n"
+        selectItem+="    return "+str(array[k])+";\n"
+    return selectItem
+
+
+
 
 if __name__ == "__main__":
 	argv = len(sys.argv)
-	if ( argv != 2 ):
-		printf("Usage: generateDataMutator.py <FaultModel.csv>")
+	if ( argv != 3 ):
+		printf("Usage: generateDataMutator.py <BufferType> <FaultModel.csv>")
 
-fileName=sys.argv[1]
+bufferType=sys.argv[1]
+fileName=sys.argv[2]
 
 with open(fileName) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -141,15 +170,21 @@ print(positions)
 print(operators)
 print(operations)
 
-selectItem=""
 
-selectItem+="int selectItem(FaultModel *dm){\n"
-for k in positions:
-    selectItem+="if ( MUTATION == "+str(k)+" )\n"
-    selectItem+="    return "+str(positions[k])+";\n"
+selectItem="int selectItem(FaultModel *dm){\n"
+selectItem+=generateSelectFunctionContent(positions)
 selectItem+="}\n"
 
 print(selectItem)
+
+
+selectOperator="int selectOperator(FaultModel *dm){\n"
+selectOperator+=generateSelectFunctionContent(operators)
+selectOperator+="}\n"
+
+selectOperations="int selectOperation(FaultModel *dm){\n"
+selectOperations+=generateSelectFunctionContent(operations)
+selectOperations+="}\n"
 
 print(sizeDef)
 print(faultModelsDef)

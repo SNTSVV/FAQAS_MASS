@@ -121,7 +121,8 @@ int selectOperation(FaultModel *dm){
 	return -1;
 }
 
-int mutate( std::vector<int> *v, FaultModel *fm ){
+
+int _mutate( int *data, FaultModel *fm ){
     if ( _FAQAS_mutated == 1 )
 	return 0;
 
@@ -140,13 +141,13 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
     //std::cout << OP->type << '\n';
 
     if ( OP->type == BF ){
-        int value = v->data()[pos];
+        int value = data[pos];
 	//FIXME: handle min-max
    	int mask = 1;  //00000011
 
    	value = value ^ mask; //00000100 
 	
-	v->data()[pos]=value;
+	data[pos]=value;
 	
 	_FAQAS_mutated == 1;
 
@@ -157,7 +158,7 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
 	//
 
 	if ( fm->items[pos].type == INT ){	
-        	int value = v->data()[pos];
+        	int value = data[pos];
 
 		if ( opt == 0 ){
 			value = OP->min-OP->delta;
@@ -167,13 +168,17 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
 			//ERROR
 		}
 	
-		v->data()[pos]=value;
+		data[pos]=value;
 		
 		_FAQAS_mutated == 1;
 	}
 	return 1;
     }
 
+}
+
+int mutate( std::vector<int> *v, FaultModel *fm ){
+    _mutate(v->data(),fm);
 }
 
  
