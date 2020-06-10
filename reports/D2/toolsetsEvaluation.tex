@@ -23,33 +23,25 @@ Table~\ref{table:mutationtools} provides the list of tools appearing in Table~1.
 For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible. 
 Indeed, both the two licences allow for redistribution of the software, a condition that is sufficient to release a mutation testing tool as component of the FAQAS framework.
 
-For our preliminary evaluation we selected the four most recent tools that fulfill our mandatory requirements: SRCIRor, Mull, Dextool, and Milu.
+For our preliminary evaluation we selected the five most recent tools that fulfil our mandatory requirements: SRCIRor, Mull, Dextool, Accmut, and Milu. Proteum has been discarded because its latest stable version dates back to December 2015; on May 2020 a few changes had been made on Proteum github repository, however, the up to date version is indicated by its developer as not usable.
+
 Section~\ref{subsec:experiment_design} provides an overview of the experiment design and the case study considered. 
-Section~\ref{subsec:background} provides a brief introduction to the main framework used by the tools assessed in our study.
-Section~\ref{subsec:srciror} to Section~\ref{subsec:dextool} describe the results achieved for each of the subjects of the study.
+Section~\ref{subsec:background} provides a brief introduction to the static analysis framework used by all the tools assessed in our study.
+Section~\ref{subsec:srciror} to Section~\ref{subsec:dextool} describe the results achieved for each mutation testing tool considered in our study.
+
+As detailed in the following Sections, the only mutation testing tool that is applicable to space software is SRCIRor.
 
 \subsection{Experiment Design and Case Studies}
 \label{subsec:experiment_design}
 
-To evaluate the applicability of existing mutation testing tools in space context we have applied each subjects of the study against the case study system provided by LuxSpace.
-At this stage we foresee XXX case study systems to be considered in the project for the evaluation of the FAQAS framework. Each case study system consists of a test suite, which is the target of the FAQAS framework, and a software component tested by the test suite (i.e., the component to be mutated by the FAQAS framework).
+
+
+
+To evaluate the applicability of existing mutation testing tools to space software, we evaluated each mutation testing tool considered in our study against the same case study system of the project, i.e., the System Test Suite for ESAIL provided by LXS. We selected this case study system, because, based on inspection of its specification documents and source code, appears to be the most complicate to process by mutation testing tools. This is mostly due to three criticalities:
 
 \begin{itemize}
-	\item LuxSpace - Unit Test Suite for ESAIL - CSW
-	\item LuxSpace - System Test Suite for ESAIL
-	\item GomSpace - Unit Test Suite for libutil
-	\item GomSpace - Unit Test Suite for libcsp
-	\item MLSF mathematical library - https://essr.esa.int/project/mlfs-mathematical-library-for-
-		flight-software
-	\item ASN1 Compiler - https://github.com/ttsiodras/asn1scc
-\end{itemize}
-
-
-In the preliminary evaluation reported in this document, we evaluated each subject of the study against one case study system, LuxSpace - System Test Suite for ESAIL. We selected this case study system, because based on inspection of its specification documents appear to be the most complicate to process by means of mutation testing. This is mostly due to three criticalities:
-
-\begin{itemize}
-	\item ESAIL is the largest case study system;
-	\item the ESAIL system test suite requires the full software to be compiled against the libraries to be used in flight;
+	\item ESAIL is the largest case study system of FAQAS in terms of lines of code;
+	\item the ESAIL system test suite requires that the full software is compiled and all the required libraries linked (this may complicate the use of tools that cannot parse all the source code);
 	\item the software under test (SUT) is executed within a system emulator (SVF) that requires the SUT to respect its real-time constraints.
 \end{itemize}
 
@@ -64,14 +56,13 @@ In the following, we provide an overview of ESAIL and the ESAIL System Test Suit
 
 The architecture of the ESAIL System Testing environment is shown in Figure \ref{fig:esail}. The python testing library is used to execute system test cases that send commands to ESAIL. ESAIL is executed in a simulator based on Rufos. The ESAIL system test suite consists of 120 python programs, it executes in 10 hours.
 
-The objective of this preliminary evaluation is to determine if the subjects of the study can process the case study system and automatically generate mutated versions of the case study system that can be successfully compiled and tested. More precisely, we aim to verify if the subjects of the study can successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
+The objective of this preliminary evaluation is to determine if the mutation testing tools considered in our study can process the case study system and automatically generate mutated versions of the case study system that can be successfully compiled and tested. More precisely, we aim to verify if the mutation testing tools considered in our study can successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
 
-\subsection{Background}
+\subsection{Background on Clang/LLVM}
 \label{subsec:background}
 
 In this section we provide background information on the components that are used by most of the tools considered in our evaluation, i.e., Clang/LLVM.
 
-\subsubsection{Clang/LLVM}
 
 \begin{figure}[h]
 	\centering
@@ -84,10 +75,10 @@ The LLVM project is a set of compiler and toolchain technologies. LLVM is design
 
 Clang is a front-end for LLVM that processes C-family languages: C, C++, Objective C, Objective C++. Clang converts C/C++ to LLVM IR, LLVM performs optimizations on the IR, and the LLVM x86 backend writes out x86 machine code for execution.
 
-\subsection{SRCIRor Evaluation Results}
+\subsection{Evaluation of SRCIRor}
 \label{subsec:srciror}
 
-\subsubsection{Overview of the subject of the study}
+\subsubsection{Overview of the mutation testing tool}
 
 SRCIRor is LLVM-based mutation testing tool that works at the level of source code (SRC), and the LLVM compiler intermediate representation (IR). 
 At a source code level SRCIRor performs mutations by using the clang compiler to parse the input files and build the abstract syntax trees (AST). 
@@ -96,11 +87,11 @@ SRCIRor implements six types of operators, it implements Arithmetic Operators (e
 
 \subsubsection{Results}
 
-The main scope of this project is being able to apply mutation testing techniques to space software. To assess the compatibility of SRCIRor with FAQAS we applied the tool to one of our case studies, in this case, we selected the ESAIL SVF software.
-The mutation process was done by applying the SRCIRor source code mutator to every .c file in the ESAIL SVF project. We applied the default configuration of SRCIRor, that is, applying the six operators and mutating every line within the source code files.
+%The main objective of FAQAS of this project is being able to apply mutation testing techniques to space software. To assess the compatibility of SRCIRor with FAQAS we applied the tool to one of our case studies, in this case, we selected the ESAIL SVF software.
+The mutation process has been executed by applying the SRCIRor source code mutator to every .c file in the ESAIL SVF project. We applied the default configuration of SRCIRor, that is, applying the six operators and mutating every line within the source code files.
 From the results, we observe the generation of 105\,543 mutants. However, during the pass of SRCIRor we detected 1\,060 warnings thrown by the clang input parser.
 
-Most of the warnings are caused by SRCIRor trying to mutate memory addresses declared in C code, e.g., \texttt{0x03A6} into \texttt{(- 1)x03A6}, and unsigned integer literals (e.g., \texttt{0u}, \texttt{1u} into \texttt{(-1)u}, \texttt{1u}).
+Most of the warnings are caused by SRCIRor trying to mutate memory addresses declared in C code, (e.g., mutating \texttt{0x03A6} into \texttt{(- 1)x03A6}), and unsigned integer literals (e.g., \texttt{0u}, \texttt{1u} into \texttt{(-1)u}, \texttt{1u}).
 Listing~\ref{srciror_1} to Listing~\ref{srciror_10} list the representative cases for all the warning classes found during the mutation process. 
 
 Listing~\ref{srciror_1} shows a warning due to an incompatibility with duplicate keywords declaration. 
@@ -126,14 +117,16 @@ Listing~\ref{srciror_9} shows a warning due to an inappropriate use of parenthes
 
 To evaluate if the generated mutants can be successfully compiled, we executed the ESAIL compilation process for all the generated 105\,543 mutants. From the total, 103\,747 mutants (98.3\%) were compiled successfully using the original ESAIL settings.
 
-\subsection{Mull Evaluation Results}
+\subsection{Evaluation of Mull}
 \label{subsec:mull}
 
-\subsubsection{Overview of the subject of the study}
+\subsubsection{Overview of the mutation testing tool}
 
 Mull is an open source tool for mutation testing of C/C++ software based on the LLVM framework. Mull works at the intermediate representation level, i.e., the mutations are applied on the instructions residing in the LLVM bitcode files. It relies on debug information to show results, for this reason it requires that the SUT is compiled with clang and the \texttt{-fembed-bitcode} and debug information enabled.
-The mutation process in Mull consists of the following steps: (1) extracting bitcode files from the executable artifact, (2) finding test cases related to the executable by running the test suite, (3) searching/filtering for mutation points, based on the coverage of the test suite execution, (4) compiling the possible mutations, (5) inserting memory trampolines on the original functions, then only compile part of bitcode that is affected by the new mutant, and (6) running the test cases that cover the mutated function.
-Mull generate mutants on the fly, while the SUT is executed against the test suite. To this end it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows.
+
+The mutation process in Mull consists of the following steps: (1) extracting bitcode files from the executable artifact, (2) finding test cases related to the executable by running the test suite, (3) searching/filtering for mutation points, based on the coverage of the test suite execution, (4) compiling the possible mutations, (5) inserting memory trampolines on the original functions, then compile only the part of bitcode that had been mutated, and (6) running the test cases that cover the mutated function.
+
+Mull generates mutants on the fly, while the SUT is executed against the test suite. To this end it relies on the JIT feature of LLVM. This feature enables the compilation of code on the fly as it is needed, with no necessity of re-compiling the whole program on disk. The online nature of Mull enables it to implement a set of optimizations that speed up the mutation process. A list of optimizations follows.
 
 \begin{itemize}
 	\item Dynamic Call Tree: optimization for mutating source code reachable by the test cases
@@ -148,8 +141,9 @@ Although the optimization features of Mull reduce the overall execution time of 
 
 \subsubsection{Extending Mull's features}
 
-To evaluate Mull, we mutated one of the example projects provided by the tool authors, the fmt library. The fmt library is an open-source formatting library for C++\footnote{https://github.com/fmtlib/fmt} that can be used as alternative to (s)printf and iostreams.
-We adapted Mull to statically generate mutants and save them permanently. Specifically, we developed a module that generates an object file each time a new mutant is identified for a specific module. Then, to generate the final executable we apply the following for each mutated object file: (1) replace the original object file with the mutated one, (2) re-launch the original Makefile; this will generate a new version of the program, and (3) save the executable with a specific identifier (i.e., program name followed by the identifier of the mutant created by Mull).
+%To evaluate Mull, we mutated one of the example projects provided by the tool authors, the fmt library. The fmt library is an open-source formatting library for C++\footnote{https://github.com/fmtlib/fmt} that can be used as alternative to (s)printf and iostreams.
+
+We adapted Mull to statically generate mutants and save them permanently. Specifically, we developed a module that generates an object file each time a new mutant is identified for a specific module. Then, to generate the final executable, we perform the following actions for each mutated object file: (1) replace the original object file with the mutated one, (2) re-launch the original Makefile (this will generate a new version of the program), and (3) save the executable with a specific identifier (i.e., program name followed by the identifier of the mutant created by Mull).
 
 \subsubsection{Results}
 
@@ -225,7 +219,7 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 \subsection{Milu Evaluation Results}
 \label{subsec:milu}
 
-\subsubsection{Overview of the subject of the study}
+\subsubsection{Overview of the mutation testing tool}
 
 Milu is an efficient and flexible C mutation testing tool designed for both first order and higher order mutation testing. Milu is a LLVM-based tool that works at source-code (SRC) level. It performs mutations by using the clang compiler to parse the input files and build the Abstract Syntax Tree (AST) representation of the source code.
 
@@ -275,22 +269,37 @@ $1 = (gchar *) 0xe <Address 0xe out of bounds>
 \end{minipage}
 
 Through a manual inspection of the Milu source code, we found that there are two functions aimed to clean the abstract syntax tree (e.g., fix\_function\_attribute and clean\_ast) that are introducing corrupted data into the AST data structure processed by Milu.
-By commenting out these two functions, is it possible to execute the mutation process of the adcs\_ExecuteReactionwheelDesaturation source file. Milu produces 35 mutants belonging to the adcs\_ExecuteReactionwheelDesaturation function.
-However, is not possible to compile any of the 35 mutants produced by Milu. We observe errors during the ESAIL compilation process, in particular there are errors being thrown from the preprocessed area of the mutant. In Listing~\ref{miluerror}, an example of the error obtained during compilation is shown.
+By commenting out these two functions, it was possible to execute the mutation process of the adcs\_ExecuteReactionwheelDesaturation source file. 
+
+Milu produces 35 mutants belonging to the adcs\_ExecuteReactionwheelDesaturation function.
+\EMPH{However, is not possible to compile any of the 35 mutants produced by Milu.} We observe errors during the ESAIL compilation process, in particular there are errors being thrown from the preprocessed area of the mutant. In Listing~\ref{miluerror}, an example of the error obtained during compilation is shown.
 
 \input{listings/miluerror}
 
 \subsection{Dextool Evaluation Results}
 \label{subsec:dextool}
 
-\subsubsection{Overview of the subject of the study}
+\subsubsection{Overview of the mutation testing tool}
 
 Dextool is a framework for writing plugins using the clang compiler. Mutation testing features are implemented by the Dextool plugin named Mutate, which targets mutation on C/C++ software.
 
 \subsubsection{Results}
 
-Dextool requires clang to compile the software under test with clang in advance for identifying mutants. Following this, we did not perform further experiments with this tool.
+Dextool requires the software under test to be compiled with \emph{clang}.
+Since the evaluation for Mull has shown that it is not feasible to compile ESAIL with \emph{clang}, we did not perform further experiments with dextool.
 
 
+
+\subsection{Accmut Evaluation Results}
+\label{subsec:dextool}
+
+\subsubsection{Overview of the mutation testing tool}
+
+Accmut is a framework of mutation testing for C programs built on the top of LLVM version 3.8. AccMut generates mutants on LLVM IR level and integrates some optimizations, such as mutation schemata, split-stream execution, and dynamic mutation analysis.
+
+\subsubsection{Results}
+
+Accmut requires the software under test to be compiled with \emph{clang}.
+Since the evaluation for Mull has shown that it is not feasible to compile ESAIL with \emph{clang}, we did not perform further experiments with accmut.
 
 
