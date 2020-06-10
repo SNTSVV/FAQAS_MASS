@@ -1,0 +1,200 @@
+% !TEX root =  ../MAIN.tex
+
+\subsection{Applicability of state-of-the-art solutions to space software}
+\label{sec:background}
+
+In this section, we discuss the applicability of state-of-the-art mutation testing optimizations in the context of space software. A detailed overview of mutation testing solutions and optimizations can be found in deliverable D1.
+
+\subsubsection{Mutation adequacy and mutation score computation}
+
+A mutant is said to be killed if at least one test case of the test suite fails when executed against the mutant.
+Mutants that do not lead to the failure of any test case are said to be live.
+Three conditions should hold for a test case to kill a mutant: reachability (i.e, the test case should execute the mutated statement), necessity (i.e., the test case should reach an incorrect intermediate state after executing the mutated statement), and sufficiency (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}.
+
+%The identification of killed and live mutants enables the definition of a mutation adequacy criterion as follow, a test suite is mutation-adequate if all mutants are killed by at least one test case of the test suite. Also, 
+The mutation score, i.e., the percentage of killed mutants, measures the quality of a test suite quantitatively. Recent studies have shown that achieving a high mutation score improves significantly the fault detection capability of a test suite
+~\cite{papadakis2018mutation}. 
+%However, 
+%to ensure better fault detection than a randomly selected subset of test cases, a test suite should achieve a very high mutation score~\cite{Chekam:17}.
+%More precisely, they show that among randomly selected test suites, ranked based on mutation score and structural coverage, 
+%only  the test suites in the top 5\% rank according to mutation score achieve a better fault detection rate than the ones ranked according to other criteria (e.g., branch coverage)~\cite{Chekam:17}. 
+%The literature lacks studies on the identification of a mutation score threshold that guarantees achieving a fault detection rate higher than the one achieved by other adequacy criteria. 
+However, a very high mutation score (i.e., above 0.75) is required to achieve a higher fault detection rate than the one obtained with other coverage criteria~\cite{Chekam:17}.
+
+The capability of a test case to kill a mutant also depends on the observability of the program state. To overcome the limitations due to observability, different strategies to identify killed mutants can be adopted; they are known as strong, weak, firm, and flexible mutation coverage. For space software, we suggest to rely on strong mutation because it's the only criterion that assesses the actual test suite's capability of detecting a fault; indeed, it relies on a mutation score that reflects the percentage of mutants identified by test failures. With the other mutation coverage criteria, a mutant is killed if the state of the mutant after the execution of the mutated statement differs from the one observed with the original code without any guarantee that the difference propagates. 
+
+
+
+
+\subsubsection{Mutation Operators}
+\label{sec:related:operators}
+
+
+
+
+Mutation testing introduces small syntactical changes into the code (source code or machine code) of a program through a set of mutation operators that simulate programming mistakes. 
+
+
+
+The  \emph{sufficient set of operators} is widely used for conducting empirical evaluations ~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting}. 
+%Initially defined by Offutt et al., the set has been extended to include newly defined operators.
+The original sufficient set defined by Offutt et al. is composed of the following operators: absolute value insertion (ABS), arithmetic operator replacement (AOR), logical connector replacement (LCR), relational operator replacement (ROR) the unary operator insertion (UOI)~\cite{offutt1996experimental}.
+% operator and the \INDEX{statement deletion operator} (SDL).
+Andrews et al.~\cite{andrews2005mutation} have included the \emph{statement deletion operator} (SSDL)~\cite{delamaro2014designing}, which ensures that every pointer-manipulation and field-assignment statement is properly tested. 
+%Table~\ref{table:sufficient_operators} provides an overview of the operators belonging to the sufficient set.
+%, thus targeting faults not simulated by the rest of the sufficient operators. In addition, recent research results show that the SDL operator is the most effective for fault detection~\cite{delamaro2014designing}. 
+Deletion operators produce significantly less equivalent mutants~
+\cite{delamaro2014designing,delamaro2014experimental}; also, 
+test suites that kill mutants generated with OODL (deletion of arithmetic and relational operators) and SSDL (deletion of statements), kill a very high percentage of all mutants (e.g., 97\%)~\cite{delamaro2014experimental}. 
+%However, since space software is different than other types of software systems (e.g., it includes functions to process signals, which are absent in Unix utilities), the pertinence of the mutation score generated with the SSDL operator should be evaluated.
+
+
+
+
+%(1) test suites that are mutation adequate (i.e., achieve 100\% mutation score) with respect to the sufficient set of operators also achieve a very high mutation score if we consider a larger set of mutation operators~\cite{offutt1996experimental}, 
+The sufficient set of operators enables an accurate estimation of the mutation score of a test suite~\cite{siami2008sufficient}; furthermore, the mutation score computed with the sufficient set can estimate the fault detection rate (i.e., the portion of real faults discovered) of a test suite~\cite{andrews2005mutation}. 
+
+An alternative to the sufficient set of operators is the generation of higher order mutants, which result from the application of multiple mutation operators for each mutation~\cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}. However, higher order mutants are of \emph{relatively lower strength than the first order ones}~\cite{papadakis2010mutation,papadakis2019mutation}, also there is \emph{lack of clear theory on which mutants are of some value}, and they lead to redundant mutants~\cite{papadakis2019mutation}. For this reason, we focus our study on first order mutations generated with the sufficient set.
+
+%decreases consistently. 
+%For instance, Papadakis and Malevris~\cite{papadakis2010empirical}, worked on a approach for higher order mutants for the C programming language that lead to a reduction of approximately 80-90\% of the generated equivalent mutants, with a fault detection ability loss only of 11-15\%. 
+%
+%
+%that higher order mutants are of relatively lower strength than the first order ones
+%
+%Since modern space software is implemented in C and C++, thus sharing a degree of similarity with the case studies considered in the empirical evaluations for the sufficient set, we believe that the empirical findings concerning the sufficient set also hold for space software.
+
+%rely on the sufficient set of operators.
+%, to determine if results reported in the literature may generalize to the case of space software.
+%For these reasons, we believe the sufficient set of operators to be necessary to be considered also for space software.
+
+%\input{tables/operator_categories}
+%
+%In addition to the sufficient set of operators, we can group the mutation operators targeting space software (i.e., software implemented in C/C++) into XX categories. Table~\ref{} provides an overview of these additional categories of operators along with references and a discussion of the reasons why they should be selected or avoided when applying mutation testing to space software.
+
+%\input{tables/operators.tex}
+
+\subsubsection{Compile-time Scalability}
+\label{sec:compile:time}
+
+%The time spend in compiling mutants depend on the number of mutants to be compiled. 
+%The time spent in compiling mutants depends on the number of invocations of the compiler.
+%For this reason, \emph{mutant schemata} include all the mutations into a single executable~\cite{untch1993mutation} thus needing only a single  compiler pass. 
+
+To reduce the number of invocations of the compiler to one, \emph{mutant schemata} include all the mutations into a single executable~\cite{untch1993mutation}. 
+With mutant schemata, the mutations to be tested are selected at run-time through configuration parameters. They may lead to a compilation speed-up of 300\% \cite{papadakis2010automatic}. 
+
+
+Another solution to address compile-time scalability issues consists of mutating machine code  (e.g., binary code~\cite{becker2012xemu}, assembly language~\cite{crouzet2006sesame},
+Java~\cite{ma2006mujava}, 
+ and
+.NET~\cite{derezinska2011object} bytecode) thus avoiding the execution of the compilation process after creating a mutant. 
+%Empirical results show that the generation of mutants for compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code~\cite{derezinska2011object,becker2012xemu}.
+A common solution consists of mutating the
+ LLVM Intermediate Representation (IR) \cite{hariri2016evaluating}, 
+which enables the development of mutants that work with multiple programming languages~\cite{hariri2019comparing} and facilitates the integration of optimizations based on dynamic program analysis~\cite{denisov2018mull}.
+
+
+Unfortunately, the mutation of machine code 
+may lead to mutants that are not representative of real faults because impossible to generate with the source code~\cite{schuler2009efficient}.
+In the case of IR mutation, a part of these mutants can be automatically identified~\cite{denisov2018mull}; however,
+the number of generated mutants tend to be higher at the IR level than at the source code level, which may reduce scalability~\cite{hariri2019comparing}.
+ Finally, we have encountered three problems that prevented the application of 
+ mutation testing tools based on  LLVM IR to our case study systems.
+First, space software relies on compiler pipelines (e.g., RTEMS~\cite{RTEMS}) that include architecture-specific optimizations not supported by LLVM. 
+Second, there is no guarantee that the executables generated by LLVM are equivalent to those produced by other compilers.
+%, which may 
+%undermine the validity of mutation testing assessment 
+% (e.g., mutants may fail because of errors introduced by the compiler). 
+ Third, efficient toolsets based on LLVM often  perform mutations dynamically~\cite{denisov2018mull}, which is infeasible when the software under test needs to be executed within a dedicated simulator (this is the case of the ESAIL case study system).
+
+
+
+
+\subsubsection{Runtime Scalability}
+\label{sec:scalability}
+
+A straightforward mutation testing process consists of executing the full test suite against every mutant, which may lead to scalability problems in the case of a large SUT.
+Simple optimizations that can be applied to space software consist of (S1) stopping the execution of the test suite when the mutant has been killed, (S2) executing only those test cases that cover the mutated statements~\cite{delamaro1996proteum}, and (S3) rely on time thresholds to automatically detect infinite loops introduced by mutation~\cite{papadakis2019mutation}. 
+
+\emph{Split-stream} execution consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{king1991fortran,tokumoto2016muvm}, thus saving time and resources. Unfortunately, it cannot be applied in the case of space software that needs to be run on simulators because, in general, the hosting simulator cannot be forked by the hosted SUT.
+
+A practical solution consists of  randomly selecting only a portion of the generated mutants~\cite{zhang2010operator,gopinath2015hard,zhang2013operator}. 
+%
+%Zhang et al. \cite{zhang2010operator} demonstrated that a test suite that is capable of killing 50\% of the mutants results in killing more than 99\% of all mutants.
+%
+%Gopinath et al \cite{gopinath2015hard} show that the mutation score obtained for a subset of the mutants is representative of the mutation score obtained by considering all the mutants. Best results were obtained by considering 1 000 mutants. The number of mutants to consider is independent of the total number of available mutants. With 1 000 mutants, the error in the prediction of the mutation score was 7\% with a probability of 95\%.
+% 
+Zhang et al. \cite{zhang2013operator} empirically demonstrated that a random selection of 5\% of the mutants is sufficient for 
+%correctly predicting the mutation score. 
+estimating, with high confidence, the mutation score obtained with the complete mutants set.
+Also,
+they show that sampling mutants uniformly across different program elements (e.g., functions) %i.e., to have a same percentage of mutants selected for every function/methods) 
+leads to a more accurate mutation score prediction than sampling mutants globally in a random fashion. It also fares better than uniformly distributing the sampled mutants across different mutation operators. In the presence of large software systems that lead to hundred thousand mutants, random mutation testing is the only viable solution. However, a percentage of mutants below 5\% might need to be selected.
+
+Other solutions aim to sort test cases to augment the likelihood of executing first the ones that kill the mutants.
+Solutions that prioritize faster test cases~\cite{just2012using}
+ may not be useful when test suites are large, work at the system level, and test cases have homogenous execution time.
+Approaches that rely on data-flow analysis to identify test cases that satisfy the killing conditions~\cite{papadakis2011automatically} may not scale with large space systems.
+Solutions that combine multiple coverage measures need to be adapted in order 
+to be feasible in the space context~\cite{zhang2013faster}.
+Current work combines three criteria: (1) the number of times the mutated statement is exercised by the test case (multiple iterations over a same statement are likely performed with a diverse set of variable values and thus have higher probability to kill the mutant), (2) the proximity of the mutated statement to the end of the test case (closer ones have higher chances of satisfying the sufficiency condition), and (3) the percentage of mutants belonging to the same class file of the mutated statement that were already killed by the test case (test cases that kill multiple mutants likely exercise the SUT with a diverse set of inputs). 
+Criterion (3) is also used to reduce the test suite size (i.e., to select only the test cases above a given threshold). 
+Unfortunately, only criterion (1) might be applicable for space software; indeed, criterion (2) might be ineffective with system cases whose results are checked after long executions, while criterion (3) might be inefficient when only a random selection of mutants is executed. 
+
+
+
+
+
+
+%For \INDEX{test case reduction}, the idea is to remove those test cases that are somehow redundant (e.g., test cases that when removed from the test suites do not change the mutation score).
+%Usaola et al. \cite{usaola2012reduction} proposed a greedy algorithm that iteratively selects  the test cases that kill most of the mutants that were not killed by the previously selected test cases. 
+%%\DONE{No change to do here. However please keep them in mind for the current work.}
+%Shi et al. \cite{shi2014balancing} assessed the effects of reducing the size of test suites with an experiment on 18 projects with a total of 261\,235 test cases. Their results show that \emph{it is possible to maintain constant the mutation score and reduce test suite size without loss in the \emph{fault detection rate}}. 
+%On the same line, Zhang et al. \cite{zhang2013faster} suggest to define a subset of tests of the original test suite and to run the mutants against the subset, their assumption is that if the mutants cannot be killed by the subset also the original test suite will not be able to kill the mutants.
+%
+%
+%
+
+
+
+
+\subsubsection{Detection of Equivalent Mutants}
+
+Despite identifying equivalent mutants is an undecidable problem~\cite{madeyski2013overcoming}, several heuristics to partially address the problem had been developed. 
+
+The simplest solution consists of relying on \emph{trivial compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}, i.e., compile both the mutants and the original program with compiler optimisations enabled and determine that the mutant is equivalent when their executable code match. In the case of programs written in C, compiler optimisations can reduce the total number of mutants by 28\%~\cite{kintis2017detecting}.
+
+
+Solutions that identify equivalent mutants based on symbolic execution~\cite{holling2016nequivack}, bounded model checking~\cite{riener2011test}, and program slicing ~\cite{harman2001relationship} are unlikely to scale with large systems because of the limitations of static analysis. Also, their implementation often relies on LLVM, which may prevent their applicability to space software (see Section~\ref{sec:compile:time}).
+
+Alternative solutions rely on comparing the data collected at runtime when testing the original software and the mutants~\cite{grun2009impact,schuler2010covering,schuler2013covering}.
+%A large number of program classes presenting different statement coverage in test suites executions with the original and the mutated code is an indicator for  mutants to be non-equivalent~\cite{grun2009impact}.
+The most extensive empirical study on the topic shows that non-equivalent mutants can be detected by counting the number of methods, ignoring the mutated method, that, for at least one test case, either (1) have statements that are executed at a different frequency with the mutant, (2) generate at least one different return value, or (3) are invoked at a different frequency~\cite{schuler2013covering}. To determine if a mutant is non-equivalent, it is possible to define a threshold indicating the smallest number of methods with such characteristics. A threshold of one identifies non-equivalent mutants with an average precision above 70\% and an average recall above 60\%. It outperforms more sophisticated methods relying on dynamic invariants~\cite{schuler2009efficient}.
+Values above one slightly improve precision but make recall drop (e.g., recall is below 50\% for a threshold of five); also, the proper threshold value may depend on the size of the test suite. With space software, because of real-time constraint, it might be feasible to collect only coverage frequency data, which, however, lead to results close to the ones achieved by including all the three criteria~\cite{schuler2013covering}.
+Unfortunately, the  results reported in the literature concern a small number of mutants (i.e., 140) for Java software; further empirical evaluations might be needed to determine if these findings hold for C/C++ space software. 
+In particular, the identification of coverage differences across the whole software might be ineffective when the SUT is exercised with system test cases that may lead to non-deterministic internal software behaviours (e.g., the execution of interrupt handlers).
+
+\subsubsection{Detection of Redundant Mutants}
+
+Redundant mutants are either \emph{duplicate}, i.e., mutants that are equivalent with each other but not equivalent to the original program, or \emph{subsumed}, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
+
+We observe that redundant mutants can be detected by relying on the same approaches adopted for equivalent mutants. 
+
+To identify subsumed mutants, Shin et al. suggest augmenting the test suite with additional test cases so that each mutant can trigger a test failure that cannot be observed with other mutants~\cite{Shin:TSE:DCriterion:2018}. 
+The augmented test suites have a higher
+ fault detection rate than test suites that simply satisfy mutation coverage; however, with large software systems the approach might be infeasible because of the lack of scalable test inputs generation approaches.
+
+
+\subsubsection{Summary of findings}
+
+To summarize, we aim to focus on the sufficient set of operators because it has been successfully used to generate a mutation score that accurately estimate the fault detection rate for software written in C and C++, typical languages of space software systems.
+To speed up mutation testing by reducing the number of mutants, the SSDL operator alone might be considered. However, the confidence of the results generated with the SSDL operator should be evaluated.
+Among compile time optimizations, only mutant schemata appear to be feasible.
+
+Simple runtime optimizations (i.e., S1, S2, and S3 in Section~\ref{sec:scalability}) are feasible in the case of space software. Other feasible solutions are the ones relying on mutant sampling and coverage metrics. However, the confidence of the results generated for mutant sampling rates below 5\% should be evaluated. Furthermore, code coverage metrics feasible for space software need to be defined.
+
+Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, coverage metrics that are robust with respect to non-deterministic internal software behaviours should be developed.
+
+
+

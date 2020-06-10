@@ -1,0 +1,38 @@
+% !TEX root =  ../Main.tex
+
+%\newcommand{\INDA}{10}
+%\newcommand{\INDB}{15}
+%\newcommand{\INDC}{5}
+
+%\vspace{-3mm}
+\begin{figure}[tb]
+
+\begin{algorithmic}[1]
+
+%\footnotesize
+\scriptsize
+\Require \emph{EMOS}, set of SUT executables, each one implementing one mutation operation (EMO)
+\Require \emph{TS}, the test suite of the SUT
+% (source inputs, follow-up inputs, output data).
+
+
+\State \hspace{5 mm} \textbf{for each} $t$ in $TS$ \label{alg:prioritize:prel}
+\State \hspace{10 mm} \textbf{execute} $t$ to track the data items exercised by t
+
+\State \textbf{for each} $EMO$ in $EMO$ \label{alg:dataProcess:repeat}
+\State \hspace{5 mm} \textbf{for each} $t$ in $TS$ \label{alg:prioritize:t}
+\State \hspace{10 mm} \textbf{if} $t$ contains a data item that can be mutated with $EMO$ \label{alg:prioritize:cove}
+\State \hspace{15 mm} \textbf{execute} $t$ with $EMO$
+\State \hspace{15 mm} \textbf{if} $t$ fails or invalid data detected
+\State \hspace{\INDB mm} \textbf{break} \label{alg:prioritize:stop}
+
+
+
+\end{algorithmic}
+\vspace{-3mm}
+\caption{Algorithm for executing data-driven mutation testing with test coverage stopping criterion}
+%\vspace{-0.2cm}
+\label{alg:dataProcess}
+\end{figure}
+
+

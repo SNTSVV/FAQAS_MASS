@@ -52,14 +52,17 @@ In Figure~\ref{fig:data:process}, the activity \EMPH{Mutate Data} is executed in
 	
 Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. Figure~\ref{fig:data:mutateData} shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime on a certain communication layer. We call such components \INDEX{mutation probes}.
 
-An ideal target for data-driven mutation testing is the communication between loosely coupled software components; typically the ones that run on separated pieced for hardware (e.g., the on board controller and the ADCS).
-In FAQAS case studies, the communication between such software components is performed by relying on APIs of a dedicated communication layer; this is typical of space systems. The main functionality of such communication layer is to serialize and deserialize data that should be transmitted on the channel. In FAQAS case studies, the communication layer is either implemented in-house or it is built by relying on the ASN.1 compiler architecture. In both the two cases, the communication layer implements distinct functions to serialize and deserialize data.
+An ideal target for data-driven mutation testing is the communication between loosely coupled software components; typically the ones that run on separated pieces of hardware (e.g., the on board controller and the ADCS).
+In FAQAS case studies, the communication between such software components is performed by relying on APIs of a dedicated communication layer; which is typical in well designed software systems. The main functionality of such communication layer is to serialize and deserialize data that should be transmitted on the communication channel. In FAQAS case studies, the communication layer is either implemented in-house by the company that produced the case study or it is built by relying on the ASN.1 compiler architecture. In both the two cases, the communication layer implements distinct functions to serialize and deserialize data.
 For this reason, in FAQAS, we expect mutation probes to be \EMPH{integrated into the software API functions that either serialize or deserialize the data being sent on the communication channel}.
 
-Mutation probes are integrated into the software under test by engineers who \EMPH{manually} add specific function calls in the source code of the software under test. Since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT.  Instead, we provide a \INDEX{data-driven mutation testing API} to mutate the data specified by the engineer.
-Figure~\ref{fig:data:mutationProbes} shows an example of mutation testing APIs integrated into the source code (API method names begin with the prefix \emph{\_FAQAS}).
+In the case of a communication layer implemented in-house, we expect mutation probes to be integrated into the software under test by engineers who \EMPH{manually} add calls to the functions of a \INDEX{data-driven mutation testing API} in the source code of the software. Indeed, since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT.  Instead, we provide a \INDEX{data-driven mutation testing API} that implements the logic for mutating the data specified by the engineer.
+To be applicable to a wide rande of software systems, the API will provide methods that enable mutating data buffers provided as C arrays.
+Figure~\ref{fig:data:mutationProbes} shows an example of a mutation probe manually integrated into the source code (API method names begin with the prefix \emph{\_FAQAS}).
 
-To support generalizability, the FAQAS framework will enable to automatically mutate all the data types supported by the ASN.1 compiler. Also, it will provide methods that enable mutating data buffers provided as C arrays. In both the two cases a faulty model specifying how to alter the data (i.e., the attributes declared in an ASN.1 grammar or the array items).
+In the case of a communication layer implemented by relying on the ASN.1 compiler, the FAQAS framework will automatically introduce mutation probes into the code that deserialize data.
+
+
 
 
 \begin{figure}
@@ -69,10 +72,10 @@ To support generalizability, the FAQAS framework will enable to automatically mu
 		\label{fig:data:mutationProbes}
 	\end{figure}
 
-\TODO{ADD concrete example of integration}
+%\TODO{ADD concrete example of integration}
 
 	
-	
+%Data-driven mutation testing is driven by a faulty model specifying how to alter the data (i.e., the attributes declared in an ASN.1 grammar or the array items).	
 In deliverable D1, we have clarified that, in a generic data-driven mutation testing process, the activity \EMPH{Mutate Data} may require a \INDEX{data model} that captures the characteristics and structure of the data to be mutated. 
 The data model should be used to load a stream of bytes in structured form (e.g., an instance of a given data structure), which is necessary to drive data mutation. 
 Also, the activity \EMPH{Mutate Data} should be driven by a \INDEX{fault model} that specifies the set of mutation operators to apply~\cite{di2015generating}. 
@@ -143,14 +146,16 @@ The list of applied mutation operators should enable engineers to determine if a
 
 
 A building block of the fault model are a set of \EMPH{data fault classes}.
-A  \INDEX{data fault class} captures the type of an error that might affect the data. In turns, it specifies the mutation that should be applied in order to replace valid data with erroneous data. For each fault class we have defined a corresponding \INDEX{data mutation operator} having the same name. Each data mutation operator can be configured with a set of parameters. 
+A  \INDEX{data fault class} captures the type of an error that might affect the data. In turns, it specifies the mutation that should be applied in order to replace valid data with erroneous data. For each fault class we have defined a corresponding \INDEX{data mutation operator} having the same name. 
+Each {data mutation operator} performs data mutation by applying a \INDEX{data mutation operation} (e.g., set a value above the upper range value). Mutation operators might apply one or more data mutation operations.
+Each data mutation operator can be configured with a set of parameters. 
 
 Table~\ref{table:faultModel:FAQAS} provides the list of data fault classes supported by FAQAS along with a description. For each fault class we indicate the data types to which it is expected to be applied, we identify four data types: 
 \begin{itemize}
 \item int, which indicates an integer
 \item float, which indicates a floating point number
 \item double, which indicates a double precision floating point number
-\item bin, which indicate data that should be treated in its raw form
+\item bin, which indicate data that should be treated in its binary form
 \end{itemize}
 
 
@@ -182,19 +187,25 @@ It resembles the CSV format supported by the FAQAS toolset. For each data item w
 When the data to be mutated is stored in a data structure defined through the ASN.1 grammar, the fault model is specified by indicating which operators to apply on the specific fields of the data structure. Mutation operators are automatically configured based on the ASN.1 grammar (e.g., in the case of an attribute of type INTEGER, the min/max values of the VOR operator are derived from the boundaries of the INTEGER type).
 
 \clearpage
-\subsection{FAQAS Data Mutation Probes}
+\subsection{FAQAS Data Mutation API and Probes}
 \label{sec:FAQASDataMutationProbes}
 
-Data-driven mutation probes are automatically generated from the fault model provided by engineers.
-Section~\ref{sec:FAQASDataMutationProbesBuffer} describe how data mutation probes are generated for data buffers.
-Section~\ref{sec:FAQASDataMutationProbesASN} covers the case of ASN.1.
+In FAQAS, the data-driven mutation testing API is automatically generated from the fault model provided by engineers. Data mutation probes are either manually implemented by software engineers (in the case data mutation should target an ad-hoc communication layer that works with data buffers) or automatically generated by the toolset (in the case data mutation should target an ASN.1-based communication layer).
+
+Section~\ref{sec:FAQASDataMutationProbesBuffer} describes the case of data buffers (i.e., C arrays).
+Section~\ref{sec:FAQASDataMutationProbesASN} describes the case of ASN.1.
 
 
-\subsubsection{Data Mutation Probes for Data Buffers}
+\subsubsection{Data Mutation for Data Buffers}
 \label{sec:FAQASDataMutationProbesBuffer}
 
-In FAQAS we generate a different executable for each mutation operation to perform. However, the generated source code is the same for all the fault models working on a data buffer of the same type. A configuration option (i.e., a \emph{define directive}) passed to the compiler is what drives the configuration of the specific mutation. Figure~\ref{fig:DataDrivenBufferProcess} provides an overview of the envisioned process. The engineer prepares a single specification file for all the fault models that work with data buffers of a same time (e.g., int). The fault model specification is used by the FAQAS generator to automatically generate the mutation API. The engineer, then, modifies the source code of the SUT to add invocations to the mutation probes provided by the FAQAS API. Finally, the engineer executes the compiler in a for loop such that the compiler is executed with the directive \EMPH{-DMUTATIONOPT=i}, where \emph{i} is a value between 0 and \emph{max}. The value \emph{max} in this case coincides with the
-overall number of instances of a mutation operation. An instance of a mutation operation is a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model. For the fault model in Table in \ref{table:faultModel:example} we have 6 instances, one for each data item except for data item 2, whose VOR fault class includes two mutation operations.
+Figure~\ref{fig:DataDrivenBufferProcess} provides an overview of the envisioned data mutation process. 
+The engineer prepares a single specification file for all the fault models that work with data buffers of a same time (e.g., int). The fault model specification is used by the FAQAS generator to automatically generate the mutation API. The engineer, then, modifies the source code of the SUT to add invocations to the mutation probes provided by the FAQAS API. 
+
+Finally, the engineer iteratively executes the compiler in a loop to generate a different executable of the SUT for each mutation operation to perform.
+The source code of the SUT is the same for all the fault models working on a data buffer of the same type. A configuration option (i.e., a \emph{define directive}) passed to the compiler is what drives the configuration of the specific mutation operation to be performed. 
+More precisely, the engineer executes the compiled with the directive \EMPH{-DMUTATIONOPT=i}, where \emph{i} is a value between 0 and \emph{max}. The value \emph{max} coincides with the
+overall number of mutation operation instances. An \INDEX{instance of a mutation operation} is a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model. For the fault model in Table in \ref{table:faultModel:example} we have 6 instances, one for each data item except for data item 2, whose VOR fault class includes two mutation operations.
 
 \begin{figure}[tb]
   \centering
@@ -208,10 +219,11 @@ The logic of the mutation probes is predefined and shared by all the mutation pr
 The definition of the fault model is automatically generated in a \EMPH{C struct} (see Listing~\ref{faultModelExample}). 
 The backbone data structures are predefined an provided in Listing~\ref{faultModelStructure}.
 
-The code of the mutation probe is shown in Listing~\ref{mutationProbe}. It works by identifying the identification of the data item to mutate, the mutation operator to apply, and the mutation operation to execute by invoking methods \EMPH{\_FAQAS\_selectItem},
+The code of the mutation probe is shown in Listing~\ref{mutationProbe}. It works by identifying the data item to mutate, the mutation operator to apply, and the mutation operation to execute by invoking methods \EMPH{\_FAQAS\_selectItem},
 \EMPH{\_FAQAS\_selectOperator}, and \EMPH{\_FAQAS\_selectOperation}, respectively. The implementation of these three methods is automatically generated based on the fault model definition file.
-An example is shown in Listing~\ref{selectors}. The runtime behaviour depends on variable \EMPH{MUTATION}, whose value depends on the option passed at compile time. 
-The variable \EMPH{MUTATION} univoquely identifies an instance of a mutation operation (i.e., a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model).
+An example is shown in Listing~\ref{selectors}. The runtime behaviour depends on the variable \EMPH{MUTATION}, whose value depends on the option passed at compile time. 
+The variable \EMPH{MUTATION} uniquely identifies an instance of a mutation operation.
+% (i.e., a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model).
 
 \input{listings/probesExample}
 
@@ -227,28 +239,35 @@ The variable \EMPH{MUTATION} univoquely identifies an instance of a mutation ope
 \subsubsection{Data Mutation Probes for ASN.1}
 \label{sec:FAQASDataMutationProbesASN}
 
+\TODO{This section still needs to be written.}
 
 \clearpage
 \subsection{Test suite execution}
 \label{sec:mutantsExecution}
 
-During data mutation the test suite is executed a number of times that depends on a stopping criterion chosen by the engineer. We foresee three possible stopping criteria (1) exercise each test case against a data fault class (hereafter, test coverage stopping criterion), (2) 
-exercise each data fault class (hereafter, fault coverage stopping criterion), and (3) sample the mutations to apply against a certain test case (hereafter, sampling stopping criterion).
+During data mutation the test suite is executed a number of times that depends on a stopping criterion chosen by the engineer. We foresee two possible stopping criteria (1) every test case is run with every data mutation operation (hereafter, test coverage stopping criterion)
+%, (2) exercise each data fault class (hereafter, fault coverage stopping criterion)
+, and (2) a sample of the available data mutation operations has been executed with every test case (hereafter, sampling stopping criterion).
+
+\input{algos/dataDrivenAlgo}
+
+Figure~\ref{alg:dataProcess} shows how the data mutation process should be iterated with
+ the \EMPH{test coverage stopping criterion}. 
+
+A preliminary execution of the test suite against a mutated executable configured to simply track the data items exchanged during each test case execution (Line~\ref{alg:prioritize:prel}), enable us to determine which test cases exercise the data items targeted by a specific mutation operation instance.
+
+ For each mutation operation instance (Line~\ref{alg:dataProcess:repeat}), we execute every test case of the test suite (Line~\ref{alg:prioritize:t}), if it exercise the data item targeted by the mutation operation (Line~\ref{alg:prioritize:cove}), till one of the test cases kills the mutant, i.e., it fails or detects the presence of invalid data and trigger a fault tolerant mechanism (Line~\ref{alg:prioritize:stop}).
+ We can configure the data mutation API to inject a single data fault or to mutate all the data where the mutation operation instance can be applied (this is useful to simulate a bit that is always flipped because of hardware fault).
+The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item. The second case enables the mutation of data items exchanged after long components interactions. However, it requires the repeated execution of a test case in case the mutation has not been performed but a data item could have been mutated. 
 
 
-With the test coverage stopping criterion, each test case is executed multiple times till all the possible data fault classes had been injected.
-A single data fault is injected for each run.
-A data fault class is no longer injected after it has been determined that can it be killed by the test suite (i.e., a previously executed test case failed once the mutation was applied).
-We indicate that a data item is mutable when (1) the fault model includes the definition of a data fault class \emph{c} for the data item and (2) the data fault class \emph{c} has not been already killed by the test suite.
-The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item. The second case enables the mutation of data items exchanged after long components interactions.
-The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
 
-With the fault coverage stopping criterion the full test suite is executed multiple times till all the possible data fault classes had been injected at least once (for the full test suite).
-A data fault class is no longer injected after it has already been injected in a test case of the test suite.
-The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item.
-The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
+%With the fault coverage stopping criterion the full test suite is executed multiple times till all the possible data fault classes had been injected at least once (for the full test suite).
+%A data fault class is no longer injected after it has already been injected in a test case of the test suite.
+%The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item.
+%The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
 
-With the sampling stopping criterion each test case is executed multiple times as for the test coverage stopping criterion with the difference that (1) the injection of data faults follow a given distribution (e.g., only 5\% of the mutable data items are mutated) and (2) the repeated execution of a test case is terminated after no mutation has been performed.
+With the \EMPH{sampling stopping criterion} we perform the same activities performed for the test coverage criterion except that the set of mutation operation instances to be performed is randomly sampled (e.g., only 5\% of the mutation operations are considered).
 
 
 
@@ -256,29 +275,27 @@ With the sampling stopping criterion each test case is executed multiple times a
 \section{Test Suite Augmentation} % (fold)
 \label{sec:data:test_suite_augmentation}
 
-The test suite augmentation process concerns the definition of additional test cases to increase the mutation score.
-It consists of four activities \emph{Identify Test Inputs}, \emph{Generate Test Oracles}, \emph{Execute the SUT}, \emph{Fix the SUT}. 
-Despite these activities match the ones performed in the case of code-driven mutation testing, they are triggered and implemented in a different manner, as described below.
+\TODO{This section still needs to be written.}
 
-%The first two activities concern the definition of new test cases and the improvement of existing test cases.
-
-
-
-In the presence of mutants not killed by test cases (i.e., when the \emph{\% of Mutants Killed} is not equal to 100\%), engineers are expected to improve the oracles of existing test cases. Indeed, the presence of mutants not killed by test cases indicates that the oracles of the test suite are not capable of detecting that the software is failing. 
-Automated approaches for performing this activity in the presence of system or integration test suites are not available and thus it needs to be performed manually.
-
-In the presence of operators not being applied (i.e., the \emph{\% Operators Applied} is not equal to 100\%), engineers are expected to generate new test inputs for the SUT that enable the application of all the mutation operators. 
-For example, in the case of the example in Figure~\ref{fig:DataDrivenSimpleExample}, engineers would need to implement test cases that trigger the exchange of \emph{DataMessages}.
-%Another example is that of components that exchange message sequences, in the case the test suite trigger only the exchange of message sequences containing only one message. 
-%Indeed, in this situation, the mutation operator concerning the swapping of two packets cannot be applied. In this case, to achieve 100\% of Operators Applied, engineers should generate inputs that enable the application of the mutation operator (e.g., inputs that lead to a sequence of packets containing more than one packet). 
-Fully automated approaches to generate test cases for data-driven mutation testing are unavailable; however, techniques that generate input data from scratch~\cite{gligoric2010test} or augment input data~\cite{DiNardo:TOSEM:2017} can be adopted. 
-Also, when the data used by test cases is generated by simulators, meta-heuristic search can be used to drive the generation of input data~\cite{Abdessalem:ICSE:2018}. 
-
-The execution of the SUT and the repair of the SUT are performed manually as in the case of code-driven data mutation.
-
-
-\TODO{Clarify if we generate test cases or not}
-
-Section~\ref{sec:testGenerationData} provides details about the existing solutions to  \emph{Identify Test Inputs} and \emph{Generate Test Oracles}.
+%The test suite augmentation process concerns the definition of additional test cases to increase the mutation score.
+%It consists of four activities \emph{Identify Test Inputs}, \emph{Generate Test Oracles}, \emph{Execute the SUT}, \emph{Fix the SUT}. 
+%Despite these activities match the ones performed in the case of code-driven mutation testing, they are triggered and implemented in a different manner, as described below.
+%
+%
+%
+%In the presence of mutants not killed by test cases (i.e., when the \emph{\% of Mutants Killed} is not equal to 100\%), engineers are expected to improve the oracles of existing test cases. Indeed, the presence of mutants not killed by test cases indicates that the oracles of the test suite are not capable of detecting that the software is failing. 
+%Automated approaches for performing this activity in the presence of system or integration test suites are not available and thus it needs to be performed manually.
+%
+%In the presence of operators not being applied (i.e., the \emph{\% Operators Applied} is not equal to 100\%), engineers are expected to generate new test inputs for the SUT that enable the application of all the mutation operators. 
+%For example, in the case of the example in Figure~\ref{fig:DataDrivenSimpleExample}, engineers would need to implement test cases that trigger the exchange of \emph{DataMessages}.
+%Fully automated approaches to generate test cases for data-driven mutation testing are unavailable; however, techniques that generate input data from scratch~\cite{gligoric2010test} or augment input data~\cite{DiNardo:TOSEM:2017} can be adopted. 
+%Also, when the data used by test cases is generated by simulators, meta-heuristic search can be used to drive the generation of input data~\cite{Abdessalem:ICSE:2018}. 
+%
+%The execution of the SUT and the repair of the SUT are performed manually as in the case of code-driven data mutation.
+%
+%
+%\TODO{Clarify if we generate test cases or not}
+%
+%Section~\ref{sec:testGenerationData} provides details about the existing solutions to  \emph{Identify Test Inputs} and \emph{Generate Test Oracles}.
 
 

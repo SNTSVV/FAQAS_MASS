@@ -21,7 +21,7 @@ D: delta with respect to threshold\\
 \begin{minipage}{4cm}
 The value is above a threshold T for a delta D. 
 
-The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$.
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$.
 \end{minipage}
 \\
 
@@ -41,7 +41,7 @@ D: delta with respect to threshold\\
 \begin{minipage}{4cm}
 The value is below a threshold T for a delta D. 
 
-The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$.
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$.
 \end{minipage}
 \\
 
@@ -64,7 +64,7 @@ D: delta with respect to minimum/maximum valid value
 \begin{minipage}{4cm}
 The value is out of the valid range MIN-MAX. 
 
-The mutation is performed by replacing the current value (a number) with 
+\EMPH{Data mutation operations (2):}  The mutation is performed by replacing the current value (a number) with 
 \begin{itemize}
 \item a value of the same type that is equal to $(MIN-D)$
 \item a value of the same type that is equal to $(MAX+D)$
@@ -83,8 +83,9 @@ STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
 \begin{minipage}{4cm}
-One of the bits in the position between MIN and MAX (included) are flipped.
+One of the bits in the position between MIN and MAX (included) is flipped.
 
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit.
 If STATE is specified, the mutation is applied only if  the bit is in the specified state.
 \end{minipage}
 \\
@@ -105,7 +106,7 @@ MAX: higher valid value\\
 \begin{minipage}{4cm}
 The value is legal (i.e., in the specified range) but different than the current one, which, in this case, is expected to be consistent with the status of the system.
 
-Mutation is performed by replacing the current value with a different value randomly sampled in the specified range.
+\EMPH{Data mutation operation:} Mutation is performed by replacing the current value with a different value randomly sampled in the specified range.
 \end{minipage}
 \\
 
@@ -126,7 +127,7 @@ VALUE: invalid value that is observed\\
 \begin{minipage}{4cm}
 The value is illegal and equal to the provided one (i.e., parameter \emph{VALUE}).
 
-Mutation is performed by replacing the current value with the value \emph{VALUE}.
+\EMPH{Data mutation operation:} Mutation is performed by replacing the current value with the value \emph{VALUE}, if different than the current one.
 \end{minipage}
 \\
 
