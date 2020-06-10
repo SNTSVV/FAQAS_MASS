@@ -1,0 +1,12 @@
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=Error obtained during mutant compilation process in ESAIL., label=miluerror]
+In file included from ././ApplicationLayer/AdcsController/Public/Adcs_Api.h:47,
+				 from ./ApplicationLayer/AdcsController/Source/adcs_ExecuteReactionwheelDesaturation.c:33:
+././ApplicationLayer/Operational_Sequences/Public/opse_Api.h:445: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘PollDapoValue’
+In file included from ./ApplicationLayer/AdcsController/Source/adcs_ExecuteReactionwheelDesaturation.c:38:
+././ServiceLayer/Data_Health_Management/Public/hema_Api.h:257: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘HealthManager_IsMonitoringEnabled’
+In file included from ./ApplicationLayer/AdcsController/Source/adcs_ExecuteReactionwheelDesaturation.c:41:
+././HighLevelDriverLayer/GPS_Handler/Public/GPS_handler_Api.h:69: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘GPS_is_next_state_forced’
+././HighLevelDriverLayer/GPS_Handler/Public/GPS_handler_Api.h:76: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘GPS_is_state_change_pending
+\end{lstlisting}
+\end{minipage}

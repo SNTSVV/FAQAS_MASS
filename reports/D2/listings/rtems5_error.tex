@@ -1,0 +1,14 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=ESAIL compilation warning with RTEMS 5 and clang., label=rtems5_error]
+In file included from ./ApplicationLayer/Operational_Sequences/Source/SpacecraftConfigurationVector.c:36: ./Utilities/./Tools/Public/tool_DataManipulationApi.h:174:9: warning: 'BIT_SET' macro redefined [-Wmacro-redefined]
+#define BIT_SET(_InputValue,_BitPos) ((_InputValue) |= (1u << (_BitPos)))
+	^
+/opt/rcc-1.3-rc6-llvm/bin/../sparc-gaisler-rtems5/include/sys/bitset.h:55:9: note: previous definition is here
+#define BIT_SET(_s, n, p) \
+	^
+
+1 warning generated.
+\end{lstlisting}
+\end{minipage}
