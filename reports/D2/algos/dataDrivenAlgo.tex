@@ -16,15 +16,15 @@
 % (source inputs, follow-up inputs, output data).
 
 
-\State \hspace{5 mm} \textbf{for each} $t$ in $TS$ \label{alg:prioritize:prel}
-\State \hspace{10 mm} \textbf{execute} $t$ to track the data items exercised by t
+\State \textbf{for each} $t$ in $TS$ \label{alg:prioritize:prel}
+\State \hspace{5 mm} \textbf{execute} $t$ to track the data items exercised by t
 
-\State \textbf{for each} $EMO$ in $EMO$ \label{alg:dataProcess:repeat}
+\State \textbf{for each} $EMO$ in $EMOS$ \label{alg:dataProcess:repeat}
 \State \hspace{5 mm} \textbf{for each} $t$ in $TS$ \label{alg:prioritize:t}
 \State \hspace{10 mm} \textbf{if} $t$ contains a data item that can be mutated with $EMO$ \label{alg:prioritize:cove}
 \State \hspace{15 mm} \textbf{execute} $t$ with $EMO$
 \State \hspace{15 mm} \textbf{if} $t$ fails or invalid data detected
-\State \hspace{\INDB mm} \textbf{break} \label{alg:prioritize:stop}
+\State \hspace{20 mm} \textbf{break} \textcolor{gray}{//the mutant has been killed, skip to next mutant}\label{alg:prioritize:stop}
 
 
 

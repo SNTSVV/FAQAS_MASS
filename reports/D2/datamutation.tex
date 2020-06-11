@@ -21,11 +21,11 @@ This Chapter defines a test suite assessment process based on the injection of f
 %The definition of data-driven mutation testing is a unique contribution of this book; it has not been presented in previous literature work.
 
 Data-driven mutation testing aims to assess test suites by simulating faults that affect the data produced, received, or exchanged by the software and its components.
-It is based on a \INDEX{fault model} capturing the type of data faults that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. \MREVISION{C18}{The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel).} The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate the faults in the fault model. For example, the \INDEX{bit flip operator} flips a randomly selected bit of a field of the transmitted data (see Section~\ref{sec:data_operators}). 
+It is based on a \INDEX{fault model} capturing the type of data faults that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. \MREVISION{C18}{The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel).} The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate the faults in the fault model. For example, the \INDEX{bit flip operator} flips a randomly selected bit of a field of the transmitted data (see Section~\ref{sec:faultModel}). 
 %Mutation operators can be applied multiple times, on different data chunks or over repeated executions of a test case, ti
 
 
-Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in FAQAS. The process is based on two main sub-processes, \EMPH{test suite evaluation} and \EMPH{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. An in depth discussion of related work has been presented in deliverable D1.
+Figure \ref{fig:data:process} shows the reference data-driven mutation testing process that will be considered in FAQAS. The process is based on two main sub-processes, \EMPH{test suite evaluation} and \EMPH{test suite augmentation}, which are described in Sections~\ref{sec:data:test_suite_evaluation}~and~\ref{sec:data:test_suite_augmentation}, respectively. Differently from the code-driven mutation testing process introduced in Section~\ref{sec:process}, the data-driven mutation testing process has not been formalized by existing software testing literature. An extensive discussion of related work has been presented in deliverable D1.
 
 Since data-driven mutation testing alters the data produced, received, or exchanged by the software or its components, it should be applied to evaluate test suites that trigger the execution and communication between multiple components (e.g., system or integration test cases). Data-driven mutation testing is not meant to be applied to assess unit test suites.
 
@@ -50,7 +50,7 @@ In Figure~\ref{fig:data:process}, the activity \EMPH{Mutate Data} is executed in
 		\label{fig:data:mutateData}
 	\end{figure}
 	
-Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. Figure~\ref{fig:data:mutateData} shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT and its components at runtime on a certain communication layer. We call such components \INDEX{mutation probes}.
+Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data activity can be implemented. Figure~\ref{fig:data:mutateData} shows that, to implement data mutation, it is necessary to integrate additional components that alter the data exchanged by the SUT components at runtime on a certain communication layer. We call such components \INDEX{mutation probes}.
 
 An ideal target for data-driven mutation testing is the communication between loosely coupled software components; typically the ones that run on separated pieces of hardware (e.g., the on board controller and the ADCS).
 In FAQAS case studies, the communication between such software components is performed by relying on APIs of a dedicated communication layer; which is typical in well designed software systems. The main functionality of such communication layer is to serialize and deserialize data that should be transmitted on the communication channel. In FAQAS case studies, the communication layer is either implemented in-house by the company that produced the case study or it is built by relying on the ASN.1 compiler architecture. In both the two cases, the communication layer implements distinct functions to serialize and deserialize data.
@@ -184,7 +184,36 @@ It resembles the CSV format supported by the FAQAS toolset. For each data item w
 \clearpage
 \subsubsection{Fault Model Specifications for ASN.1 grammar}
 
-When the data to be mutated is stored in a data structure defined through the ASN.1 grammar, the fault model is specified by indicating which operators to apply on the specific fields of the data structure. Mutation operators are automatically configured based on the ASN.1 grammar (e.g., in the case of an attribute of type INTEGER, the min/max values of the VOR operator are derived from the boundaries of the INTEGER type).
+The ASN.1 grammar enables engineers to specify data structures where the types of the items in the data structure are selected from a predefined set.
+
+%When the data to be mutated is stored in a data structure defined through the ASN.1 grammar, the fault model is specified by indicating which operators to apply on the specific fields of the data structure. 
+
+We have identified a set of feasible fault classes for each type supported by the ASN1CC compiler.
+The corresponding mutation operators are automatically configured based on the ASN.1 grammar (e.g., in the case of an attribute of type INTEGER, the min/max values of the VOR operator are derived from the boundaries of the INTEGER type).
+Table~\ref{table:faultModel:FAQAS:ASN1} provides, for each of such types, the feasible fault classes and the configurations for the mutation operators.
+In the configuration for the mutation operators, we refer to the variables (e.g., MIN and MAX) appearing in the ASN1 xml file.
+
+Figure~\ref{fig:ASN1ProbesGeneration} provides an overview of the process in place to generate probes including the fault model.
+The engineer first export the ASN.1 grammar as XML, then he modifies the generated file by specifying, for each \emph{Asn1Type}, the mutation operator to be used (this is done by adding an xml attribute called \emph{MutationOperator} with a value specifying the name of the operator). The engineer can tune the mutation by changing the value ranges associated to the different types. For example, this could be done to restrict the valid range of an INTEGER from (MIN=-100, MAX=100) to a nominal range of (MIN=0,MAX=50).
+In case a data type is defined through value range constraints, the FAQAS framework will configure one mutation operator for each range.
+
+\input{tables/table_faultModelASN1}
+
+
+
+\begin{figure}[tb]
+  \centering
+    \includegraphics[width=12cm]{images/ASN1mutationProces}
+      \caption{Data-driven probes generation process for ASN1.}
+      \label{fig:ASN1ProbesGeneration}
+\end{figure}
+
+
+
+
+
+
+
 
 \clearpage
 \subsection{FAQAS Data Mutation API and Probes}
@@ -239,7 +268,7 @@ The variable \EMPH{MUTATION} uniquely identifies an instance of a mutation opera
 \subsubsection{Data Mutation Probes for ASN.1}
 \label{sec:FAQASDataMutationProbesASN}
 
-\TODO{This section still needs to be written.}
+\TODO{This section still needs to be written. We may put a sequence diagram that show that at the beginning the probe loads the info about the mutation operation instance to execute and execute it if feasible.}
 
 \clearpage
 \subsection{Test suite execution}

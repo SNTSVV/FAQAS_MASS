@@ -1,0 +1,216 @@
+% !TEX root = ../MAIN.tex
+\begin{table}[h]
+\begin{center}
+\small
+\begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Types}&\textbf{Fault Classes}&\textbf{Parameters}&\textbf{Description}\\
+\hline
+INTEGER&
+VAT&
+\begin{minipage}{4cm}
+T: MAX\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+INTEGER&
+VBT&
+\begin{minipage}{4cm}
+T: MIN\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+INTEGER&
+VOR&
+\begin{minipage}{4cm}
+MIN: MIN\\
+MAX: MAX\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+REAL&
+VAT&
+\begin{minipage}{4cm}
+T: MAX\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+REAL&
+VBT&
+\begin{minipage}{4cm}
+T: MIN\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+REAL&
+VOR&
+\begin{minipage}{4cm}
+MIN: MIN\\
+MAX: MAX\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+ENUMERATED&
+INV&
+\begin{minipage}{4cm}
+MIN: MIN\\
+MAX: MAX\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+BOOLEAN&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+NULL&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+BIT STRING&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+OCTET STRING&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+IA5STRING&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+NUMERIC STRING&
+BF&
+\begin{minipage}{4cm}
+MIN: 0\\
+MAX: 0\\
+\end{minipage}
+&
+\begin{minipage}{4cm}
+\end{minipage}
+\\
+\hline
+SEQUENCE&
+-&
+\begin{minipage}{4cm}
+\end{minipage}
+&
+\begin{minipage}{4cm}
+No mutation environed for this type.
+\end{minipage}
+\\
+\hline
+SET&
+-&
+\begin{minipage}{4cm}
+\end{minipage}
+&
+\begin{minipage}{4cm}
+No mutation environed for this type.
+\end{minipage}
+\\
+\hline
+CHOICE&
+-&
+\begin{minipage}{4cm}
+\end{minipage}
+&
+\begin{minipage}{4cm}
+No mutation environed for this type.
+\end{minipage}
+\\
+\hline
+SEQUENCE OF&
+-&
+\begin{minipage}{4cm}
+\end{minipage}
+&
+\begin{minipage}{4cm}
+No mutation environed for this type.
+\end{minipage}
+\\
+\hline
+SET OF&
+-&
+\begin{minipage}{4cm}
+\end{minipage}
+&
+\begin{minipage}{4cm}
+No mutation environed for this type.
+\end{minipage}
+\\
+
+
+
+%Incorrect Identifier& Several transmission data fields have fixed values, for example fields identifying the transmitting satellite. Hardware/software errors may assign incorrect identifiers.\\
+%%Incorrect Checksum& Hardware/software errors may result in an incorrect checksum for a Packet or VCDU.\\
+%Incorrect Counter& Counters are used to track Packet or VCDU ordering. Hardware/software errors may assign incorrect counter values.\\
+%Flipped Data Bits& Physical channel noise may flip one or more bits in the data transmission.\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Data Fault Classes for ASN.1 data types.}
+\label{table:faultModel:FAQAS:ASN1}
+\end{table}%
