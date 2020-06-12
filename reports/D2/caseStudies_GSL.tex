@@ -1,6 +1,90 @@
 % !TEX root = MAIN.tex
 
 
+\section{GSL - libgcsp}
+\label{sec:caseStudies:GSL:libgcsp}
+
+\subsection{Overview of the case study}
+
+The GomSpace CSP library (libgscsp) is a GomSpace extension to the open source CubeSat Space Protocol library.
+The GomSpace CSP library provides:
+\begin{itemize}
+\item convience wrapping of CSP functionality, primarily initialization.
+\item  definition of standard CSP ports (used by other GomSpace products).
+\item connecting low-level drivers (e.g. CAN, I2C from Embed library) with CSP interfaces 
+\item generic CSP service dispatcher, forwards incoming connections to service handlers.
+\end{itemize}
+
+The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of the open source libcsp (https://github.com/libcsp/libcsp), located in the subfolder lib/libcsp. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp.
+
+Details about libgcsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+\TODO{Add details about size}
+
+\TODO{Can we provide separate information about the code coverage for libgcsp (no libcsp branch) and for libcsp branch?}
+
+\subsection{Code-driven mutation testing}
+
+\TODO{Clarify which components we mutate}
 
 
+
+\subsection{Data-driven mutation testing}
+
+\TODO{We should indicate the functions we mutate.}
+
+
+
+\section{GSL - libparam}
+\label{sec:caseStudies:GSL:libparam}
+
+\subsection{Overview of the case study}
+
+The Parameter System (i.e., libparam) is a light-weight parameter system designed for GomSpace satellite subsystems. It is based around a logical memory architecture, where every parameter is referenced directly by its logical address. A backend system takes care of translating addresses into physical addresses.
+The features of this system include:
+\begin{itemize}
+\item Direct memory access for quick parameter reads.
+\item Simple data types: uint, int, float, double, string.
+\item Arrays of simple data types.
+\item Supports multiple stores per table, e.g. FRAM, MCU flash, file (binary or text).
+\item Remote client with support for most features (rparam).
+\item Packed GET, SET queries, supporting multiple parameter set/get in a single request. ? Data serialization and deserialization.
+\item Supports both little and big-endian systems.
+\item Commands for both local (param) and remote access (rparam).
+\item Parameter server for remote access over CSP.
+\item Compile-time configuration of parameter system
+\end{itemize}
+
+Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+\subsection{Code-driven mutation testing}
+
+\TODO{We do it or not?}
+
+\subsection{Data-driven mutation testing}
+
+\TODO{We should indicate the functions we mutate}
+
+
+
+
+\section{GSL - libutil}
+\label{sec:caseStudies:GSL:libutil}
+
+\subsection{Overview of the case study}
+
+The Utility library provides cross-platform API?s for common functionality, for use in both embedded systems and standard PC?s running Linux. 
+
+Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+
+\subsection{Code-driven mutation testing}
+
+\TODO{Add some details about what we mutated}
+
+\TODO{We can add some preliminary results}
+
+\subsection{Data-driven mutation testing}
+
+\TODO{We should indicate the functions we mutate}
 

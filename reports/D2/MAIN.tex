@@ -8,7 +8,7 @@
 
 \documentclass[11pt,twoside]{book}
 \usepackage{multirow}
-
+\usepackage{pdfpages}
 
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{a4paper}                   % ... or a4paper or a5paper or ... 
@@ -237,7 +237,22 @@
 
 \appendix
 
+
 \include{AppendixDataDrivenRequirements}
+
+
+%\includepdf[pages=-,offset=75 -75]{faultModels/ESAIL_ADCS.pdf}
+\chapter{ESAIL Fault Model}
+\label{appendix:esailFM}
+\includepdf[pages=-,scale=0.9,offset=0mm -75]{faultModels/ESAIL_ADCS.pdf}
+%
+%  \includepdf[pages=-,scale=0.9,offset=0mm -75,pagecommand={
+%  \begin{flushleft}  
+%    \section{Appendix}
+%  \end{flushleft}
+%   \section{AnyPdf}\label{AnyPdf}}linktodoc=false]{faultModels/ESAIL_ADCS.pdf}
+   
+
 %\include{ESA_comments}
 %
 %\newpage
