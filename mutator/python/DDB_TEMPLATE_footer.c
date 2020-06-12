@@ -6,15 +6,22 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
     if ( MUTATION == -1 )
 	return 0;
 
-    int pos = _FAQAS_selectItem(fm);
-    int op = _FAQAS_selectOperator(fm);
-    int opt = _FAQAS_selectOperation(fm);
+    if ( MUTATION == -2 ) {
+        FILE *f = fopen ("/home/csp/logging.txt", "ab+");
+        fprintf(f, "fm.ID: %d\n", fm->ID);
+        fclose(f);
+
+        return 0;
+    }
+    
+    int pos = _FAQAS_selectItem();
+    int op = _FAQAS_selectOperator();
+    int opt = _FAQAS_selectOperation();
 
     //FIXME: handle items spanning over multiple array positions
     int valueInt;
     int valueBin;
     double valueDouble;
-
 
     //
     //Load the data
@@ -29,19 +36,13 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
         valueDouble = (double) data[pos];
     }
 
-    DataItem *item = &(fm->items[pos]);
     MutationOperator *OP = &(fm->items[pos].operators[op]);
-
-    //std::cout << pos << " " << op << " " << opt << '\n'    ;
-
-    //std::cout << OP->type << '\n';
 
     if ( OP->type == BF ){
     	//FIXME: handle min-max
    	    int mask = 1;  //00000011
 
    	    valueBin = valueBin ^ mask; //00000100 
-	
 	
 	    _FAQAS_mutated = 1;
 
@@ -60,7 +61,6 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 		    } else {
 			    //ERROR
 		    }
-	
 		
 		    _FAQAS_mutated = 1;
 	    }
@@ -85,5 +85,6 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
         data[pos] = valueBin;
     }
 
+    return _FAQAS_mutated;
 }
 

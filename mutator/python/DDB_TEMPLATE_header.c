@@ -1,5 +1,6 @@
-#include <iostream>
+
 #include <stdlib.h> 
+#include <stdio.h>
 
 #define MAX_OPS 10
 #define ITEMS 10
@@ -14,6 +15,8 @@ enum DataType {
     BIN
 };
 
+typedef enum DataType DataType;
+
 enum MutationType{
     BF,
     IV,
@@ -22,6 +25,8 @@ enum MutationType{
     VBT,
     INV
 };
+
+typedef enum MutationType MutationType;
 
 int _FAQAS_mutated = 0;
 
@@ -33,6 +38,8 @@ struct MutationOperator {
     int state;
 };
 
+typedef struct MutationOperator MutationOperator;
+
 struct DataItem {
     DataType type;
     int span;
@@ -42,9 +49,11 @@ struct DataItem {
 
 struct FaultModel {
     int itemsN;
+    int ID;
     struct DataItem *items;
 };
 
+typedef struct FaultModel FaultModel;
 
 struct FaultModel* _FAQAS_create_FM(int items){
     struct FaultModel *dm = (struct FaultModel *) malloc ( sizeof( *dm ) );

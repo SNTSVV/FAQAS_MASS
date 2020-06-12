@@ -12,6 +12,7 @@ lastFM=""
 lastItem=-1
 sizeDef=""
 lastSpan=""
+fmID=0
 
 def newBF(item,_span,_type,_min,_max,_state):
     global operations
@@ -82,6 +83,7 @@ def processRow(row):
     global operatorsCount
     global elements
     global faultModelsDef
+    global fmID
 
     _p=0;
     FM = row[_p]
@@ -126,6 +128,8 @@ def processRow(row):
         lastItem=-1
         faultModelsDef+="struct FaultModel* _FAQAS_"+FM+"_FM(){\n"            
         faultModelsDef+="FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+        faultModelsDef += "fm->ID = " + str(fmID) + ";\n" 
+        fmID += 1
 
     operators[elements]=operatorsCount
 
@@ -153,7 +157,7 @@ def generateSelectFunctionContent(array):
 if __name__ == "__main__":
 	argv = len(sys.argv)
 	if ( argv != 3 ):
-		printf("Usage: generateDataMutator.py <BufferType> <FaultModel.csv>")
+		print("Usage: generateDataMutator.py <BufferType> <FaultModel.csv>")
 
 bufferType=sys.argv[1]
 fileName=sys.argv[2]
@@ -163,7 +167,7 @@ with open(fileName) as csv_file:
     line_count = 0
     for row in csv_reader:
         if line_count == 0:
-            print(f'Column names are {", ".join(row)}')
+            print('Column names are {", ".join(row)}')
             line_count += 1
         else:
             processRow(row)
@@ -174,16 +178,19 @@ closeFaultModelsDef()
 
 maxFMO="//max MUTATIONOPT="+str(elements)
 
-selectItem="int _FAQAS_selectItem(FaultModel *dm){\n"
+selectItem="int _FAQAS_selectItem(){\n"
 selectItem+=generateSelectFunctionContent(positions)
+selectItem+="return -999;\n"
 selectItem+="}\n"
 
-selectOperator="int _FAQAS_selectOperator(FaultModel *dm){\n"
+selectOperator="int _FAQAS_selectOperator(){\n"
 selectOperator+=generateSelectFunctionContent(operators)
+selectOperator+="return -999;\n"
 selectOperator+="}\n"
 
-selectOperations="int _FAQAS_selectOperation(FaultModel *dm){\n"
+selectOperations="int _FAQAS_selectOperation(){\n"
 selectOperations+=generateSelectFunctionContent(operations)
+selectOperations+="return -999;\n"
 selectOperations+="}\n"
 
 outfile = open("FAQAS_dataDrivenMutator.h", "wt")
