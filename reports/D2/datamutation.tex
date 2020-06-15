@@ -118,7 +118,7 @@ For a test suite consisting of two test cases that trigger the exchange of the m
 
 \REVTWO{C34}{Activity \emph{Analyze Results} concerns the automated computation of the \INDEX{mutation score} from execution data. It is 
 computed as the weighted average of the percentage of mutants being killed and the percentage of mutation operators applied.}
-The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
+The former enables data-driven mutation to achieve objective O1, the latter objective O2. 
 %Details are provided in Section~\ref{sec:data:mutationscore}.
 
 \REVTWO{C34}{Activity \emph{Analyze Results} takes as input the the data model, the fault model, the list of killed mutants, and the list of mutation operators applied.}
@@ -242,12 +242,23 @@ The source code of the SUT is the same for all the fault models working on a dat
 More precisely, the engineer executes the compiled with the directive \EMPH{-DMUTATIONOPT=i}, where \emph{i} is a value between 0 and \emph{max}. The value \emph{max} coincides with the
 overall number of mutation operation instances. An \INDEX{instance of a mutation operation} is a mutation operation that belongs to a mutation operator defined for a specific data item of the fault model. For the fault model in Table in \ref{table:faultModel:example} we have 6 instances, one for each data item except for data item 2, whose VOR fault class includes two mutation operations.
 
-\begin{figure}[tb]
+Alternatively, the engineer can generate a mutant that follows the mutant schemata structure as shown in Figure~\ref{fig:DataDrivenBufferProcessALT}. This is done by passing the directive \emph{MUTANT\_SCHEMATA} to the compiler. In this case a single mutant is created, the mutant will read at runtime the ID of the mutation operation to perform from a configuration file (default is \emph{FAQAS.DataDrivenMutantConfig.txt}).
+
+
+\begin{figure}[h]
   \centering
-    \includegraphics{images/DataDrivenBufferProcess}
-      \caption{Data-driven mutation process for buffered data.}
+    \includegraphics[width=14cm]{images/dataDrivenBufferProcess}
+      \caption{Data-driven mutation process for buffered data: generation of one mutant for each mutation operation.}
       \label{fig:DataDrivenBufferProcess}
+\end{figure}~\begin{figure}[h]
+  \centering
+    \includegraphics[width=14cm]{images/dataDrivenBufferProcess_ALT}
+      \caption{Data-driven mutation process for buffered data: mutant schemata (i.e., generation of a single mutant). The mutation operation to perform is selected using an ID specified in a configuration file.}
+      \label{fig:DataDrivenBufferProcessALT}
 \end{figure}
+
+\clearpage
+
 
 The code that invokes the automatically generated probe is manually inserted by the engineer as shown in Listing~\ref{probesExample}.
 The logic of the mutation probes is predefined and shared by all the mutation probes. What determines the different behaviours is the fault model.
@@ -289,11 +300,46 @@ During data mutation the test suite is executed a number of times that depends o
 Figure~\ref{alg:dataProcess} shows how the data mutation process should be iterated with
  the \EMPH{test coverage stopping criterion}. 
 
-A preliminary execution of the test suite against a mutated executable configured to simply track the data items exchanged during each test case execution (Line~\ref{alg:prioritize:prel}), enable us to determine which test cases exercise the data items targeted by a specific mutation operation instance.
+A preliminary execution of the test suite against a mutated executable configured to simply track the data items exchanged during each test case execution (Line~\ref{alg:dataProcess:prel}), enables us to determine which test cases exercise the data items targeted by a specific mutation operation instance.
 
- For each mutation operation instance (Line~\ref{alg:dataProcess:repeat}), we execute every test case of the test suite (Line~\ref{alg:prioritize:t}), if it exercise the data item targeted by the mutation operation (Line~\ref{alg:prioritize:cove}), till one of the test cases kills the mutant, i.e., it fails or detects the presence of invalid data and trigger a fault tolerant mechanism (Line~\ref{alg:prioritize:stop}).
- We can configure the data mutation API to inject a single data fault or to mutate all the data where the mutation operation instance can be applied (this is useful to simulate a bit that is always flipped because of hardware fault).
+ For each mutation operation instance (Line~\ref{alg:dataProcess:repeat}), we execute every test case of the test suite (Line~\ref{alg:dataProcess:execute}), if the test case exercises the data item targeted by the mutation operation (Line~\ref{alg:dataProcess:cover}).
+ The iterated execution can be stopped in advance if one of the test cases kills the mutant, i.e., it fails or detects the presence of invalid data and triggers a fault tolerant mechanism (Line~\ref{alg:dataProcess:stop}).
+ 
+We can configure the data mutation API to inject a single data fault per execution or to mutate all the data items that can be targeted by the mutation operation instance (this is useful, for example, to simulate a bit that is always flipped because of a hardware fault).
+ 
 The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item. The second case enables the mutation of data items exchanged after long components interactions. However, it requires the repeated execution of a test case in case the mutation has not been performed but a data item could have been mutated. 
+
+
+\newcommand{\ONMO}{\mathit{overall}\ \# \mathit{of}\ \mathit{mutation} \ \mathit{operation} \ \mathit{instances}}
+\newcommand{\NMOA}{\# \mathit{of}\ \mathit{mutation} \ \mathit{operation}\ \mathit{instances} \ \mathit{applied}}
+
+
+The outcome of the test execution is the $\ONMO$ (ONMO), the $\NMOA$ (NMOA), and the $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ ($c_{\mathit{KILL}}$). They are used to compute the mutation score (see Section~\ref{sec:analyzeResults}).
+
+The $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ corresponds to the number of \emph{mutants} that had been killed by at least one test case (Line~\ref{alg:dataProcess:kill}). A mutant is killed if the test case fails or if a redundancy mechanisms has been activated to handle the mutated data. To discover killed mutants it might be necessary to integrate automated mechanisms that, in addition to determine if a test case fails, determine if a redundancy mechanism has been triggered by the SUT. These mechanisms can be implemented through simple shell scripts that parse the log file of the SUT.
+
+The $\ONMO$ correspond with the $\mathit{overall}\ \# \mathit{of}\ \mathit{mutants}$; indeed, we have one different mutant for each mutation operation instance to be performed. 
+
+The $\NMOA$, (\INDEX{NMOA}) captures the number of distinct mutation operation instances that were performed at least once. The mutation testing API creates a specific log file (i.e., \emph{FAQAS.mutant.applied.txt}) to indicate that a mutation operation instance was applied during a test execution. The file should be deleted after the execution of a test case.
+
+With the \EMPH{sampling stopping criterion} we perform the same activities performed for the test coverage criterion except that the set of mutation operation instances to be performed is randomly sampled (e.g., only 5\% of the mutation operations are considered).
+
+\subsubsection{Analyze Results}
+\label{sec:analyzeResults}
+
+The output  of activity \emph{Analyze Results} (see Figure~\ref{fig:data:process}) is a mutation score that is based on
+the percentage of mutants being killed and the percentage of mutation operators applied. 
+The former enables data-driven mutation to achieve objective O1, the latter objective O2 (see Section~\ref{sec:dataProcess}). 
+The \INDEX{mutation score} can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operations applied, according to the following formula
+
+\begin{equation}
+Score=w_{O1} \frac{\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}}{\mathit{overall} \# \mathit{of}\ \mathit{mutants}} + w_{O2} \frac{\# \mathit{of}\ \mathit{mutation} \ \mathit{operatons} \ \mathit{applied}}{\mathit{overall} \# \mathit{of}\ \mathit{mutation} \ \mathit{operatons}}
+\label{f:mutation:score}
+\end{equation}
+
+Where $w_{O1}$ and $w_{O2}$ capture the importance of the objectives O1 and O2, respectively. We assume $w_{O1}$ + $w_{O2} = 1$. In case objective $w_{O1}$ and $w_{O2}$ have the same importance, they should be set to $0.5$. In the case of safety-critical systems, the mutation score should be equal to 1.
+
+
 
 
 
@@ -302,7 +348,7 @@ The mutation algorithm can either mutate the first mutable data item observed or
 %The mutation algorithm can either mutate the first mutable data item observed or randomly decide whether to mutate the mutable data item.
 %The repeated execution of a test case is terminated after it has been executed once without identifying any mutable data item.
 
-With the \EMPH{sampling stopping criterion} we perform the same activities performed for the test coverage criterion except that the set of mutation operation instances to be performed is randomly sampled (e.g., only 5\% of the mutation operations are considered).
+
 
 
 
