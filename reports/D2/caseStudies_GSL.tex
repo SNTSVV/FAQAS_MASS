@@ -26,6 +26,7 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 
 \subsection{Code Coverage}
+\label{subsec:csp_coverage}
 
 \DONE{Can we provide separate information about the code coverage for libgscsp (no libcsp branch) and for libcsp branch?}
 
@@ -50,7 +51,7 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 	 \end{itemize} 
 
-	\item libcsp (GSL branch)
+	\item \textbf{libcsp (GSL branch)}
 
 	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library.  Given the code coverage, we focus our mutation analysis on the following subset of components:
 
@@ -96,15 +97,25 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 \subsection{Code-driven mutation testing}
 
-\TODO{Clarify which components we mutate}
+\DONE{Clarify which components we mutate}
 
-
+We have seen that a mutant can be killed only if it is covered by at least one test case. For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite. Thus, we include all the components described in the previous Section~\ref{subsec:csp_coverage} for both the libgscsp and the libcsp.
 
 \subsection{Data-driven mutation testing}
 
-\TODO{We should indicate the functions we mutate.}
+\DONE{We should indicate the functions we mutate.}
 
+The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, in general the routing information (see Figure~\ref{fig:csp_packet}), and the payload of the packet.
 
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.9\textwidth]{images/csp_packet}
+      \caption{CSP protocol header.}
+      \label{fig:csp_packet}
+\end{figure}
+
+Both mutations (i.e, header and payload) will be performed before the message is serialized. Particularly, the mutations will affect the csp\_send\_direct function of the csp\_io component.
+ 
 
 \section{GSL - libparam}
 \label{sec:caseStudies:GSL:libparam}
@@ -144,18 +155,86 @@ Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-
 
 \subsection{Overview of the case study}
 
-The Utility library provides cross-platform API?s for common functionality, for use in both embedded systems and standard PC?s running Linux. 
+The Utility library provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
 
 Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
+The size of libutil is 10\,576 LOC.
+
+\subsection{Code Coverage}
+\label{subsec:libutil_coverage}
+
+\input{tables/gslibutil_coverage}
+
+Table~\ref{table:gslibutil_coverage} provides the code coverage information of the unit test suite for the GSL libutil library. Given the code coverage, we focus our analysis to the following subset of components:
+
+\begin{itemize}
+	\item src/base16.c
+	\item src/bytebuffer.c
+	\item src/byteorder.c
+	\item src/clock.c
+	\item src/crc32.c
+	\item src/crc8.c
+	\item src/error.c
+	\item src/fletcher.c
+	\item src/function\_scheduler.c
+	\item src/hexdump.c
+	\item src/lock.c
+	\item src/rtc.c
+	\item src/string.c
+	\item src/strtoint.c
+	\item src/time.c
+	\item src/timestamp.c
+	\item src/cmd/command.c
+	\item src/cmd/log.c
+	\item src/cmd/vmem.c
+	\item src/drivers/sys/memory.c
+	\item src/gosh/command.c
+	\item src/gosh/console.c
+	\item src/gosh/default\_commands.c
+	\item src/linux/clock.c
+	\item src/linux/command\_line.c
+	\item src/linux/cwd.c
+	\item src/linux/delay.c
+	\item src/linux/function.c
+	\item src/linux/mutex.c
+	\item src/linux/queue.c
+	\item src/linux/rtc.c
+	\item src/linux/sem.c
+	\item src/linux/signal.c
+	\item src/linux/stdio.c
+	\item src/linux/thread.c
+	\item src/linux/time.c
+	\item src/linux/drivers/gpio/gpio.c
+	\item src/linux/drivers/gpio/gpio\_sysfs.c
+	\item src/linux/drivers/gpio/gpio\_virtual.c
+	\item src/linux/drivers/i2c/i2c.c
+	\item src/linux/drivers/spi/spi.c
+	\item src/linux/drivers/sys/memory.c
+	\item src/log/commands.c
+	\item src/log/log.c
+	\item src/log/appender/console.c
+	\item src/log/appender/simple\_file.c
+	\item src/test/cmocka.c
+	\item src/test/command.c
+	\item src/test/log.c
+	\item src/vmem/commands.c
+	\item src/vmem/vmem.c
+	\item src/watchdog/monitor\_task.c
+	\item src/watchdog/watchdog.c
+	\item src/zip/zip.c
+	\item src/zip/miniz/miniz.c
+\end{itemize}
 
 \subsection{Code-driven mutation testing}
 
-\TODO{Add some details about what we mutated}
+\DONE{Add some details about what we mutated}
 
-\TODO{We can add some preliminary results}
+The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. Thus, we include all the components described in the previous Section~\ref{subsec:libutil_coverage}.
 
-\subsection{Data-driven mutation testing}
+\DONE{We can add some preliminary results}
 
-\TODO{We should indicate the functions we mutate}
+Using the mutation operators AOR, ROR, ICR, LCR, and SDL, we generated 16\,886 mutants. The preliminary results can be found in Table~\ref{table:libutil_preliminary}
+
+\input{tables/libutil_preliminary}
 
