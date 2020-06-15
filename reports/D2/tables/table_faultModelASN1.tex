@@ -9,34 +9,47 @@
 INTEGER&
 VAT&
 \begin{minipage}{4cm}
-T: MAX\\
+T: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
 \begin{minipage}{4cm}
+The value is above a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$, with T taking its maximum valid value.
 \end{minipage}
 \\
 \hline
 INTEGER&
 VBT&
 \begin{minipage}{4cm}
-T: MIN\\
+T: minimum valid value\\
 D: 1\\
 \end{minipage}
 &
 \begin{minipage}{4cm}
+The value is below a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$, with T taking its minimum valid value.
 \end{minipage}
 \\
 \hline
 INTEGER&
 VOR&
 \begin{minipage}{4cm}
-MIN: MIN\\
-MAX: MAX\\
+MIN: minimum valid value\\
+MAX: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
 \begin{minipage}{4cm}
+The value is out of the valid range MIN-MAX. 
+
+\EMPH{Data mutation operations (2):}  The mutation is performed by replacing the current value (a number) with 
+\begin{itemize}
+\item a value of the same type that is equal to $(MIN-D)$
+\item a value of the same type that is equal to $(MAX+D)$
+\end{itemize}
 \end{minipage}
 \\
 \hline
