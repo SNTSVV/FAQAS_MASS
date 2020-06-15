@@ -1,44 +1,44 @@
 % !TEX root =  ../MAIN.tex
 
 \begin{minipage}{15cm}
-\begin{lstlisting}[style=CStyle, caption=Portion of an XML ASN1 grammar., label=asnXMLUpdated, mathescape=true]
+\begin{lstlisting}[language=XML, caption=Portion of an XML ASN1 grammar., label=asnXMLUpdated, mathescape=true]
 <TypeAssignment Name="TypeNested" CName="TypeNested" AdaName="TypeNested" Line="16" CharPositionInLine="0">
-            <Asn1Type id="MY-MODULE.TypeNested" Line="16" CharPositionInLine="15" ParameterizedTypeInstance="false">
-              <SEQUENCE acnMaxSizeInBits="3087" acnMinSizeInBits="2688" uperMaxSizeInBits="3087" uperMinSizeInBits="528">
-                <SEQUENCE_COMPONENT Name="intVal" Line="17" CharPositionInLine="4" AdaName="intVal" CName="intVal">
-                  <Asn1Type id="MY-MODULE.TypeNested.intVal" Line="17" CharPositionInLine="11" ParameterizedTypeInstance="false">
-                    <INTEGER MutationOperator="VAT" acnMaxSizeInBits="4" acnMinSizeInBits="4" uperMaxSizeInBits="4" uperMinSizeInBits="4">
-                      <Constraints>
-                        <Range>
-                          <Min>
-                            <IntegerValue>0</IntegerValue>
-                          </Min>
-                          <Max>
-                            <IntegerValue>5</IntegerValue>
-                          </Max>
-                        </Range>
-                      </Constraints>
-                      <WithComponentConstraints />
-                    </INTEGER>
-                  </Asn1Type>
-                </SEQUENCE_COMPONENT>
-                <SEQUENCE_COMPONENT Name="int2Val" Line="18" CharPositionInLine="4" AdaName="int2Val" CName="int2Val">
-                  <Asn1Type id="MY-MODULE.TypeNested.int2Val" Line="18" CharPositionInLine="12" ParameterizedTypeInstance="false">
-                    <INTEGER MutationOperator="VOR" acnMaxSizeInBits="5" acnMinSizeInBits="5" uperMaxSizeInBits="5" uperMinSizeInBits="5">
-                      <Constraints>
-                        <Range>
-                          <Min>
-                            <IntegerValue>0</IntegerValue>
-                          </Min>
-                          <Max>
-                            <IntegerValue>50</IntegerValue>
-                          </Max>
-                        </Range>
-                      </Constraints>
-                      <WithComponentConstraints />
-                    </INTEGER>
-                  </Asn1Type>
-                </SEQUENCE_COMPONENT>
+  <Asn1Type id="MY-MODULE.TypeNested" Line="16" CharPositionInLine="15" ParameterizedTypeInstance="false">
+    <SEQUENCE acnMaxSizeInBits="3087" acnMinSizeInBits="2688" uperMaxSizeInBits="3087" uperMinSizeInBits="528">
+      <SEQUENCE_COMPONENT Name="intVal" Line="17" CharPositionInLine="4" AdaName="intVal" CName="intVal">
+        <Asn1Type id="MY-MODULE.TypeNested.intVal" Line="17" CharPositionInLine="11" ParameterizedTypeInstance="false">
+          <INTEGER MutationOperator="VAT" acnMaxSizeInBits="4" acnMinSizeInBits="4" uperMaxSizeInBits="4" uperMinSizeInBits="4">
+            <Constraints>
+              <Range>
+                <Min>
+                  <IntegerValue>0</IntegerValue>
+                </Min>
+                <Max>
+                  <IntegerValue>5</IntegerValue>
+                </Max>
+              </Range>
+            </Constraints>
+            <WithComponentConstraints />
+          </INTEGER>
+        </Asn1Type>
+      </SEQUENCE_COMPONENT>
+      <SEQUENCE_COMPONENT Name="int2Val" Line="18" CharPositionInLine="4" AdaName="int2Val" CName="int2Val">
+        <Asn1Type id="MY-MODULE.TypeNested.int2Val" Line="18" CharPositionInLine="12" ParameterizedTypeInstance="false">
+          <INTEGER MutationOperator="VOR" acnMaxSizeInBits="5" acnMinSizeInBits="5" uperMaxSizeInBits="5" uperMinSizeInBits="5">
+            <Constraints>
+              <Range>
+                <Min>
+                  <IntegerValue>0</IntegerValue>
+                </Min>
+                <Max>
+                  <IntegerValue>50</IntegerValue>
+                </Max>
+              </Range>
+            </Constraints>
+            <WithComponentConstraints />
+          </INTEGER>
+        </Asn1Type>
+      </SEQUENCE_COMPONENT>
 \end{lstlisting}
 \end{minipage}
 

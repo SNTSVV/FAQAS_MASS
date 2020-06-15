@@ -1,6 +1,6 @@
 % !TEX root = MAIN.tex
 \clearpage
-\section{Evaluation of code-driven mutation testing toolsets}
+\section{Evaluation of Code-driven Mutation Testing Toolsets}
 
 
 This section describes a preliminary evaluation conducted to identify mutation testing tools that are applicable in space context, based on the case study systems of the project. More precisely, for this preliminary evaluation we considered the case study system provided by LuxSpace.
@@ -23,7 +23,7 @@ Table~\ref{table:mutationtools} provides the list of tools appearing in Table~1.
 For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible. 
 Indeed, both the two licences allow for redistribution of the software, a condition that is sufficient to release a mutation testing tool as component of the FAQAS framework.
 
-For our preliminary evaluation we selected the five most recent tools that fulfil our mandatory requirements: SRCIRor, Mull, Dextool, Accmut, and Milu. Proteum has been discarded because its latest stable version dates back to December 2015; on May 2020 a few changes had been made on Proteum github repository, however, the up to date version is indicated by its developer as not usable.
+For our preliminary evaluation we selected the five most recent tools that fulfill our mandatory requirements: SRCIRor, Mull, Dextool, Accmut, and Milu. Proteum has been discarded because its latest stable version dates back to December 2015; on May 2020 a few changes had been made on Proteum GitHub repository, however, the up to date version is indicated by its developer as not usable.
 
 Section~\ref{subsec:experiment_design} provides an overview of the experiment design and the case study considered. 
 Section~\ref{subsec:background} provides a brief introduction to the static analysis framework used by all the tools assessed in our study.
@@ -207,7 +207,7 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 
 	\item \textbf{Compilation with RTEMS 4.8 and clang 9 (LLVM version)}
 	
-	In the fourth attempt of ESAIL compilation, we tried to build the software with the token “release=true” as suggested by LuxSpace. Even though, clang is now able to handle RTEMS libraries, still we get an error that does not allow successful ESAIL compilation:
+	In the fourth attempt of ESAIL compilation, we tried to build the software with the token \texttt{release=true} as suggested by LuxSpace. Even though, clang is now able to handle RTEMS libraries, still we get an error that does not allow successful ESAIL compilation:
 
 	\input{listings/rtems48_error}
 
@@ -300,6 +300,6 @@ Accmut is a framework of mutation testing for C programs built on the top of LLV
 \subsubsection{Results}
 
 Accmut requires the software under test to be compiled with \emph{clang}.
-Since the evaluation for Mull has shown that it is not feasible to compile ESAIL with \emph{clang}, we did not perform further experiments with accmut.
+Since the evaluation for Mull has shown that it is not feasible to compile ESAIL with \emph{clang}, we did not perform further experiments with Accmut.
 
 
