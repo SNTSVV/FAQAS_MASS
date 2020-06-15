@@ -57,7 +57,7 @@ In FAQAS case studies, the communication between such software components is per
 For this reason, in FAQAS, we expect mutation probes to be \EMPH{integrated into the software API functions that either serialize or deserialize the data being sent on the communication channel}.
 
 In the case of a communication layer implemented in-house, we expect mutation probes to be integrated into the software under test by engineers who \EMPH{manually} add calls to the functions of a \INDEX{data-driven mutation testing API} in the source code of the software. Indeed, since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT.  Instead, we provide a \INDEX{data-driven mutation testing API} that implements the logic for mutating the data specified by the engineer.
-To be applicable to a wide rande of software systems, the API will provide methods that enable mutating data buffers provided as C arrays.
+To be applicable to a wide range of software systems, the API will provide methods that enable mutating data buffers provided as C arrays.
 Figure~\ref{fig:data:mutationProbes} shows an example of a mutation probe manually integrated into the source code (API method names begin with the prefix \emph{\_FAQAS}).
 
 In the case of a communication layer implemented by relying on the ASN.1 compiler, the FAQAS framework will automatically introduce mutation probes into the code that deserialize data.
@@ -112,7 +112,7 @@ Objective O1 is fulfilled when every mutant leads to the failure of least one te
 Objective O2 is fulfilled when mutation testing generates at least (i) one \emph{TimeMessage} with field \emph{timestamp} being altered,
 (ii) one \emph{DataMessage} with field \emph{size} being altered,
 and (iii) one \emph{DataMessage} with field \emph{payload} being altered.
-For a test suite consisting of two test cases that trigger the exchange of the messages as in the bottom-left part of Figure~\ref{fig:DataDrivenSimpleExample}, the execution of the bit flip mutation operator may lead to messages that lead to test failures. Since all the mutants are killed (i.e., the two test cases fail), objective O1 is achieved. However, the test suite does not lead to the exchange of any message of type \emph{DataMessage}, for this reason objective O2 is not achieved. Objective O2 enables us to determine that the test suite does not excercise the case in which the two components exchange messages of type \emph{DataMessage}. When data-driven mutation testing is performed against components that are expected to guarantee robustness against the exchange of erroneous data, as a by-product, objective O2 also ensures that components' robustness is properly tested.}
+For a test suite consisting of two test cases that trigger the exchange of the messages as in the bottom-left part of Figure~\ref{fig:DataDrivenSimpleExample}, the execution of the bit flip mutation operator may lead to messages that lead to test failures. Since all the mutants are killed (i.e., the two test cases fail), objective O1 is achieved. However, the test suite does not lead to the exchange of any message of type \emph{DataMessage}, for this reason objective O2 is not achieved. Objective O2 enables us to determine that the test suite does not exercise the case in which the two components exchange messages of type \emph{DataMessage}. When data-driven mutation testing is performed against components that are expected to guarantee robustness against the exchange of erroneous data, as a by-product, objective O2 also ensures that components' robustness is properly tested.}
 
 
 
@@ -191,7 +191,7 @@ The ASN.1 grammar enables engineers to specify data structures where the types o
 We have identified a set of feasible fault classes for each type supported by the ASN1CC compiler.
 The corresponding mutation operators are automatically configured based on the ASN.1 grammar (e.g., in the case of an attribute of type INTEGER, the min/max values of the VOR operator are derived from the boundaries of the INTEGER type).
 Table~\ref{table:faultModel:FAQAS:ASN1} provides, for each of such types, the feasible fault classes and the configurations for the mutation operators.
-In the configuration for the mutation operators, we refer to the variables (e.g., MIN and MAX) appearing in the ASN1 xml file.
+In the configuration for the mutation operators, we refer to the variables (e.g., MIN and MAX) appearing in the ASN.1 xml file.
 
 Figure~\ref{fig:ASN1ProbesGeneration} provides an overview of the process in place to generate probes including the fault model.
 The engineer first export the ASN.1 grammar as XML, then he modifies the generated file by specifying, for each \emph{Asn1Type}, the mutation operator to be used (this is done by adding an xml attribute called \emph{MutationOperator} with a value specifying the name of the operator). 
