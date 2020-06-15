@@ -9,19 +9,90 @@
 The GomSpace CSP library (libgscsp) is a GomSpace extension to the open source CubeSat Space Protocol library.
 The GomSpace CSP library provides:
 \begin{itemize}
-\item convience wrapping of CSP functionality, primarily initialization.
-\item  definition of standard CSP ports (used by other GomSpace products).
+\item convenience wrapping of CSP functionality, primarily initialization.
+\item definition of standard CSP ports (used by other GomSpace products).
 \item connecting low-level drivers (e.g. CAN, I2C from Embed library) with CSP interfaces 
 \item generic CSP service dispatcher, forwards incoming connections to service handlers.
 \end{itemize}
 
 The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of the open source libcsp (https://github.com/libcsp/libcsp), located in the subfolder lib/libcsp. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp.
 
-Details about libgcsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
-\TODO{Add details about size}
+\DONE{Add details about size}
 
-\TODO{Can we provide separate information about the code coverage for libgcsp (no libcsp branch) and for libcsp branch?}
+The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
+while libcsp is 8\,339 LOC. % 6789 + 1550
+
+
+\subsection{Code Coverage}
+
+\DONE{Can we provide separate information about the code coverage for libgscsp (no libcsp branch) and for libcsp branch?}
+
+\input{tables/gscsp_coverage}	
+
+\begin{enumerate}
+	\item \textbf{libgscsp}
+
+	Table~\ref{table:libgscsp_coverage} provides the code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Given the code coverage, we focus our analysis to the following subset of components:
+
+	\begin{itemize}
+	 	\item src/clock.c
+	 	\item src/commands.c
+	 	\item src/conn.c
+	 	\item src/csp.c
+	 	\item src/error.c
+	 	\item src/log.c
+	 	\item src/router.c
+	 	\item src/service\_dispatcher.c
+	 	\item src/service\_handler.c
+	 	\item src/linux/command\_line.c
+
+	 \end{itemize} 
+
+	\item libcsp (GSL branch)
+
+	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library.  Given the code coverage, we focus our mutation analysis on the following subset of components:
+
+	\begin{itemize}
+		\item src/arch/csp\_time.c
+		\item src/arch/csp\_system.c
+		\item src/arch/posix/csp\_thread.c
+		\item src/arch/posix/csp\_semaphore.c
+		\item src/arch/posix/csp\_malloc.c
+		\item src/arch/posix/csp\_queue.c
+		\item src/arch/posix/csp\_time.c
+		\item src/arch/posix/pthread\_queue.c
+		\item src/arch/posix/csp\_system.c
+		\item src/crypto/csp\_sha1.c
+		\item src/crypto/csp\_hmac.c
+		\item src/crypto/csp\_xtea.c
+		\item src/interfaces/csp\_if\_lo.c
+		\item src/rtable/csp\_rtable.c
+		\item src/rtable/csp\_rtable\_cidr.c
+		\item src/rtable/csp\_rtable\_static.c
+		\item src/transport/csp\_rdp.c
+		\item src/transport/csp\_udp.c
+		\item src/csp\_sfp.c
+		\item src/csp\_debug.c
+		\item src/csp\_service\_handler.c
+		\item src/csp\_crc32.c
+		\item src/csp\_io.c
+		\item src/csp\_qfifo.c
+		\item src/csp\_iflist.c
+		\item src/csp\_endian.c
+		\item src/csp\_route.c
+		\item src/csp\_buffer.c
+		\item src/csp\_port.c
+		\item src/csp\_conn.c
+		\item src/csp\_init.c
+		\item src/csp\_services.c
+	\end{itemize}
+
+
+\end{enumerate}
+
+
 
 \subsection{Code-driven mutation testing}
 
