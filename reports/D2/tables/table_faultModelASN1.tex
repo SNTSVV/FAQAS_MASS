@@ -1,19 +1,23 @@
 % !TEX root = ../MAIN.tex
-\begin{table}[h]
-\begin{center}
-\small
-\begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{4cm}|}
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\scriptsize
+\begin{longtable}{@{\extracolsep{\fill}}|p{2cm}|p{2cm}|p{3.5cm}|p{4.5cm}|@{}}
+\caption{Data Fault Classes for ASN.1 data types.}
+\label{table:faultModel:FAQAS:ASN1}\\
+
 \hline
 \textbf{Types}&\textbf{Fault Classes}&\textbf{Parameters}&\textbf{Description}\\
 \hline
 INTEGER&
 VAT&
-\begin{minipage}{4cm}
+\begin{minipage}{3.5cm}
 T: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 The value is above a threshold T for a delta D. 
 
 \EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$, with T taking its maximum valid value.
@@ -22,12 +26,12 @@ The value is above a threshold T for a delta D.
 \hline
 INTEGER&
 VBT&
-\begin{minipage}{4cm}
+\begin{minipage}{3.5cm}
 T: minimum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 The value is below a threshold T for a delta D. 
 
 \EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$, with T taking its minimum valid value.
@@ -36,13 +40,13 @@ The value is below a threshold T for a delta D.
 \hline
 INTEGER&
 VOR&
-\begin{minipage}{4cm}
+\begin{minipage}{3.5cm}
 MIN: minimum valid value\\
 MAX: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 The value is out of the valid range MIN-MAX. 
 
 \EMPH{Data mutation operations (2):}  The mutation is performed by replacing the current value (a number) with 
@@ -55,162 +59,227 @@ The value is out of the valid range MIN-MAX.
 \hline
 REAL&
 VAT&
-\begin{minipage}{4cm}
-T: MAX\\
+\begin{minipage}{3.5cm}
+T: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+The value is above a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$, with T taking its maximum valid value.
 \end{minipage}
 \\
 \hline
 REAL&
 VBT&
-\begin{minipage}{4cm}
-T: MIN\\
+\begin{minipage}{3.5cm}
+T: minimum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+The value is below a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$, with T taking its minimum valid value.
 \end{minipage}
 \\
 \hline
 REAL&
 VOR&
-\begin{minipage}{4cm}
-MIN: MIN\\
-MAX: MAX\\
+\begin{minipage}{3.5cm}
+MIN: minimum valid value\\
+MAX: maximum valid value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{3.5cm}
+The value is out of the valid range MIN-MAX. 
+
+\EMPH{Data mutation operations (2):}  The mutation is performed by replacing the current value (a number) with 
+\begin{itemize}
+\item a value of the same type that is equal to $(MIN-D)$
+\item a value of the same type that is equal to $(MAX+D)$
+\end{itemize}
 \end{minipage}
 \\
 \hline
 ENUMERATED&
-INV&
-\begin{minipage}{4cm}
-MIN: MIN\\
-MAX: MAX\\
+VAT&
+\begin{minipage}{3.5cm}
+T: enumerated item value\\
 D: 1\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+The value is above a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$. 
+\end{minipage}
+\\
+\hline
+ENUMERATED&
+VBT&
+\begin{minipage}{3.5cm}
+T: enumerated item value\\
+D: 1\\
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
+The value is below a threshold T for a delta D. 
+
+\EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$. 
 \end{minipage}
 \\
 \hline
 BOOLEAN&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the BOOLEAN variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 NULL&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the NULL variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 BIT STRING&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the BIT STRING variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 OCTET STRING&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the OCTET STRING variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 IA5STRING&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the IA5STRING variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 NUMERIC STRING&
 BF&
-\begin{minipage}{4cm}
-MIN: 0\\
-MAX: 0\\
+\begin{minipage}{3.5cm}
+MIN: lower bit\\
+MAX: higher bit\\
+STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
+One of the bits in the position between MIN and MAX (included) is flipped.
+
+
+\EMPH{Data mutation operation:} the operator flips one randomly selected bit of the NUMERIC STRING variable.
+If STATE is specified, the mutation is applied only if the bit is in the specified state.
 \end{minipage}
 \\
 \hline
 SEQUENCE&
 -&
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 No mutation envisioned for this type.
 \end{minipage}
 \\
 \hline
 SET&
 -&
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 No mutation envisioned for this type.
 \end{minipage}
 \\
 \hline
 CHOICE&
 -&
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 No mutation envisioned for this type.
 \end{minipage}
 \\
 \hline
 SEQUENCE OF&
 -&
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 No mutation envisioned for this type.
 \end{minipage}
 \\
 \hline
 SET OF&
 -&
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{4.5cm}
 No mutation envisioned for this type.
 \end{minipage}
 \\
@@ -222,8 +291,5 @@ No mutation envisioned for this type.
 %Incorrect Counter& Counters are used to track Packet or VCDU ordering. Hardware/software errors may assign incorrect counter values.\\
 %Flipped Data Bits& Physical channel noise may flip one or more bits in the data transmission.\\
 \hline
-\end{tabular}
-\end{center}
-\caption{Data Fault Classes for ASN.1 data types.}
-\label{table:faultModel:FAQAS:ASN1}
-\end{table}%
+\end{longtable}
+\normalsize
