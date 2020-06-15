@@ -1,0 +1,19 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[style=CStyle, caption=Example of manually added ASN.1 data-driven mutation probe., label=ASN_decode]
+flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+{
+    flag ret = TRUE;
+    *pErrCode = 0;
+    (void)pVal;
+    (void)pBitStrm;
+
+
+    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+
+    // Manually added probe 
+    E_mutate(pVal);
+    // Manually added probe END
+    return ret  && E_IsConstraintValid(pVal, pErrCode);
+}
+\end{lstlisting}

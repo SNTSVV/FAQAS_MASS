@@ -1,0 +1,28 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[style=CStyle, caption=Example of automatically generated ASN.1 data-driven mutation operations., label=ASN_mutations]
+// max E OR 1st operand constraint
+if ( strcmp(buf,"E_1") ) {                                                  
+	if ((*pVal) <= 255UL) {                                                                                                               
+	    printf("%lu\n", *pVal);
+
+	    if (*pVal != 255UL) {
+	        *pVal = 255UL;
+	        save_mutation();
+
+	        return;
+	    }           
+	}       
+}
+
+// n+1 E 2nd operand constraint
+if ( strcmp(buf, "E_2") ) {
+    if ((*pVal) == 1299UL) {                                                                                                              
+        printf("%lu\n", *pVal);
+
+        *pVal = 1299UL + 1UL;
+        save_mutation();
+        return;
+    }       
+} 
+\end{lstlisting}

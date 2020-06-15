@@ -183,6 +183,7 @@ It resembles the CSV format supported by the FAQAS toolset. For each data item w
 
 \clearpage
 \subsubsection{Fault Model Specifications for ASN.1 grammar}
+\label{subsub:asn1model}
 
 The ASN.1 grammar enables engineers to specify data structures where the types of the items in the data structure are selected from a predefined set.
 
@@ -285,7 +286,30 @@ The variable \EMPH{MUTATION} uniquely identifies an instance of a mutation opera
 \subsubsection{Data Mutation Probes for ASN.1}
 \label{sec:FAQASDataMutationProbesASN}
 
-\TODO{This section still needs to be written. We may put a sequence diagram that show that at the beginning the probe loads the info about the mutation operation instance to execute and execute it if feasible.}
+\DONE{This section still needs to be written. We may put a sequence diagram that show that at the beginning the probe loads the info about the mutation operation instance to execute and execute it if feasible.}
+
+\begin{figure}[tb]
+  \centering
+    \includegraphics[width=\textwidth]{images/DataDrivenASNProcess}
+      \caption{Data-driven mutation process for ASN.1 grammars.}
+      \label{fig:DataDrivenASNProcess}
+\end{figure}
+
+Figure~\ref{fig:DataDrivenASNProcess} provides an overview of the ASN.1 data mutation process. 
+Consistently with Section~\ref{subsub:asn1model}, after the engineer has defined the mutations to be applied by modifying the xml grammar, the engineer now will modify the ASN.1 deserialize code to insert calls to the mutate function. Particularly, the engineer will insert one mutate function for each data type to be mutated.
+Listing~\ref{ASN_decode} shows a manually added probe to mutate the decoded data that belongs to the E type.
+
+At runtime, for each mutation operator instance (MOI) a single probe will be enabled. A MOI represents the mutation to be applied. More specifically, it contains the data type name to be mutated, and an ID that represents the mutation operator to be applied, and under what conditions applies.
+
+For example Listing~\ref{ASN_mutations} shows two possible MOI probes for the E data type. 
+\texttt{E\_1} exercises a mutation for the E data type when the value of \texttt{pVal} is less than or equal to 255. If the condition is true, then the value is modified by replacing it for the MAX value (e.g., 255).
+Similarly, \texttt{E\_2} exercises the E data type when the value of \texttt{pVal} is equal to 1299. If the condition applies, then the value is replaced by $1299 + 1$ (e.g., VAT mutation operator).
+The mutation is saved after its execution, so it is not performed twice. 
+
+
+\input{listings/ASN_decode}
+\input{listings/ASN_mutations}
+
 
 \clearpage
 \subsection{Test suite execution}
