@@ -5,7 +5,38 @@
 
 \subsection{Overview of the case study}
 
+ESAIL is a microsatellite developed by LXS in a PPP with ESA and ExactEarth. 
+The Payload is an AIS Receiver for ship- and vessel-detection from space, and the satellite weight at launch will be approximately 115kg. The satellite payload also enables advanced raw data handling and RF-Spectrum sampling for Ground processing.
+
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.7\textwidth]{images/esail}
+    \caption{ESAIL system testing environment.}
+    \label{fig:esail_case_study}
+\end{figure}
+ 
+The SVF simulator has been used for functional validation of the ESAIL CSW (see Figure~\ref{fig:esail_case_study}). The SVF is indeed one of the main testing tools used in satellite projects. The SVF simulator can be seen as a testing facility that presents also its own dedicated test suite to ensure the correctness of the SVF models and assembly to avoid later misunderstanding of the expected behaviours of the satellite CSW. 
+In the context of the FAQAS project we consider the system test suite for the validation of the CSW, which are implemented using the SVF as the driving tool.
+%Therefore, the SVF Simulator enables the evaluation of the FAQAS framework against two test suites: (1) the Test Suite of the SVF Simulator that validates the Simulator itself, (2) the system tests for the validation of CSW, which are implemented using the SVF as the driving tool.
+
+Details about ESAIL are provided in the document \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual} uploaded on Alfresco.
+
+ESAIL is the largest case study system in FAQAS, the software consists of 924 source files with a total size of 187\,116 LOC. The system test suite consists of 121 python test scripts with a total of 384 sub-test cases. The system test suite takes up to 10 hours to finish its execution.
+
 \subsection{Code-driven mutation testing}
+
+The code-driven mutation testing process in ESAIL will target all the components of the ESAIL on-board software, these components are:
+
+\begin{itemize}
+	\item ADCS
+	\item CAN
+	\item EPS
+	\item FDIR
+	\item OPSE
+	\item SERVICES
+	\item TCS
+	\item TMTC
+\end{itemize}
 
 \subsection{Data-driven mutation testing}
 
