@@ -5,12 +5,34 @@
 
 \subsection{Overview of the case study}
 
+ASN1SCC is an open source ASN.1 compiler that generates C/C++ and SPARK/Ada code suitable for low resource environments such as space systems. Moreover, the compiler can produce a test harness that provides full statement coverage in the generated code, and therefore significantly improves its quality.
 
+Details about ASN.1 compiler are provided in the document \emph{taste-documentation-current.pdf} uploaded on Alfresco.
+
+In the context of FAQAS, we focus our analysis on the auto-generated source code by the ASN.1 compiler, rather than in ASN1SCC software itself.
+
+For the definition of the ASN.1 compiler case study, we introduce the example of a specific grammar. An excerpt of such grammar is shown in Listing~\ref{asn_excerpt}. The full source code of the grammar can be found in the file \emph{test.asn} uploaded on Alfresco.
+
+For the given grammar, the size of the auto-generated source code is 4\,338 LOC. While the unit test suite consists of 107 auto-generated test cases.
+
+\input{listings/asn}
 
 \subsection{Code-driven mutation testing}
 
+\input{tables/asn1grammar_coverage}
+
+Table~\ref{table:asn1grammar_coverage} provides the code coverage information of the auto-generated source code of the \emph{test.asn} grammar. Given the code coverage, we focus our code-driven mutation testing analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
+
+\begin{itemize}
+	\item asn1crt\_encoding.c: implementation of the ASN.1 constraints encoding/decoding procedures.
+	\item test.c: implementation of the grammar data types encoding/decoding procedures.
+	\item test\_auto\_tcs.c: wrapper of the grammar data types encoding/decoding procedures used in the test cases.
+\end{itemize}
+
 
 \subsection{Data-driven mutation testing}
+
+
 
 
 

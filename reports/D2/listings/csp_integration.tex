@@ -1,0 +1,16 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\begin{lstlisting}[style=CStyle, caption=Data-driven mutation example on libgscsp (csp\_io.c excerpt)., label=csp_integration]
+unsigned int v[6] = {packet->id.flags, packet->id.sport, packet->id.dport, packet->id.dst, packet->id.src, packet->id.pri};
+
+FaultModel *fm = _FAQAS_Identifier_FM();                                                                                          
+mutate(v, fm);
+_FAQAS_delete_FM(fm);
+
+packet->id.flags = v[0];
+packet->id.sport = v[1];
+packet->id.dport = v[2]; 
+packet->id.dst = v[3]; 
+packet->id.src = v[4]; 
+packet->id.pri = v[5]; 
+\end{lstlisting}

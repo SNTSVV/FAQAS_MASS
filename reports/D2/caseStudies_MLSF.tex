@@ -27,6 +27,20 @@ Given the code coverage, we focus our analysis on all components of the MLFS:
 	\item Common: implementation of 20 mathematical functions.
 \end{itemize}
 
+\subsubsection{Mutation Testing Preliminary Results}
+
+\TODO{We can add some preliminary results}
+
+% \input{tables/libgscsp_preliminary}
+
+% In order to analyze the feasibility of the code-driven mutation testing for MLFS, we conducted a preliminary experimentation using the mutation operators 
+% AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 6\,196 mutants. For the experimentation we consider only the libcsp (GSL branch) source code. Preliminary results can be found in Table~\ref{table:libgscsp_preliminary}.
+% Particularly, we observe that from the 6\,196 generated mutants, we had 1\,700 mutants that were not compiled by the compilation toolset of libgscsp, most probably because the mutation introduced a syntactical error that was detected by the toolset.
+% Then, we identified 1\,708 live mutants that were not detected by the test suite. Instead, we had 2\,495 killed mutants detected by the test suite, and 277 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 61.88\%.
+
+The identification of equivalent mutants still needs to be assessed.
+
+
 \subsection{Data-driven mutation testing}
 
 We do not plan to apply data drive mutation testing to this case study because is a standalone library; it does not integrate communicating components.
