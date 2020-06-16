@@ -25,8 +25,7 @@ The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
 while libcsp is 8\,339 LOC. % 6789 + 1550
 
 
-\subsection{Code Coverage}
-\label{subsec:csp_coverage}
+\subsection{Code-driven mutation testing}
 
 \DONE{Can we provide separate information about the code coverage for libgscsp (no libcsp branch) and for libcsp branch?}
 
@@ -93,13 +92,9 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 \end{enumerate}
 
-
-
-\subsection{Code-driven mutation testing}
-
 \DONE{Clarify which components we mutate}
 
-We have seen that a mutant can be killed only if it is covered by at least one test case. For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite. Thus, we include all the components described in the previous Section~\ref{subsec:csp_coverage} for both the libgscsp and the libcsp.
+We have seen that a mutant can be killed only if it is covered by at least one test case. For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite. Thus, we include all the components described above for both the libgscsp and the libcsp.
 
 \subsection{Data-driven mutation testing}
 
@@ -148,8 +143,6 @@ Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-
 \TODO{We should indicate the functions we mutate}
 
 
-
-
 \section{GSL - libutil}
 \label{sec:caseStudies:GSL:libutil}
 
@@ -161,8 +154,7 @@ Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-c
 
 The size of libutil is 10\,576 LOC.
 
-\subsection{Code Coverage}
-\label{subsec:libutil_coverage}
+\subsection{Code-driven mutation testing}
 
 \input{tables/gslibutil_coverage}
 
@@ -226,11 +218,9 @@ Table~\ref{table:gslibutil_coverage} provides the code coverage information of t
 	\item src/zip/miniz/miniz.c
 \end{itemize}
 
-\subsection{Code-driven mutation testing}
-
 \DONE{Add some details about what we mutated}
 
-The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. Thus, we include all the components described in the previous Section~\ref{subsec:libutil_coverage}.
+The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. Thus, we include all the components described above.
 
 \DONE{We can add some preliminary results}
 

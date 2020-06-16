@@ -6,10 +6,26 @@
 
 \subsection{Overview of the case study}
 
+The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. MLFS reuses libm present in newlib and pre-qualifying the library to ECSS criticality category B. The set of functions are limited to the functions typically needed in flight software. 
 
+Details about MLFS are provided in the document \emph{doc} uploaded on Alfresco.
+
+The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
 
 \subsection{Code-driven mutation testing}
 
+\input{tables/mlfs_coverage}
+
+Table~\ref{table:mlfs_coverage} provides the code coverage information of the MLFS unit test suite. The test suite achieves 100\% code coverage (i.e., statement, function and branch coverage).
+
+Given the code coverage, we focus our analysis on all components of the MLFS:
+
+\begin{itemize}
+	\item MLFS: implementation of 4 mathematical functions.
+	\item Machine: dedicated implementation of 2 mathematical functions for the sparc v8 architecture.
+	\item Math: implementation of 66 mathematical functions.
+	\item Common: implementation of 20 mathematical functions.
+\end{itemize}
 
 \subsection{Data-driven mutation testing}
 
