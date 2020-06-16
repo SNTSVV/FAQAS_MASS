@@ -353,10 +353,10 @@ With the \EMPH{sampling stopping criterion} we perform the same activities perfo
 The output  of activity \emph{Analyze Results} (see Figure~\ref{fig:data:process}) is a mutation score that is based on
 the percentage of mutants being killed and the percentage of mutation operators applied. 
 The former enables data-driven mutation to achieve objective O1, the latter objective O2 (see Section~\ref{sec:dataProcess}). 
-The \INDEX{mutation score} can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operations applied, according to the following formula
+The \INDEX{mutation score} can be computed as the weighted average of the percentage of mutants being killed and the percentage of mutation operations applied, according to the following formula
 
 \begin{equation}
-Score=w_{O1} \frac{\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}}{\mathit{overall} \# \mathit{of}\ \mathit{mutants}} + w_{O2} \frac{\# \mathit{of}\ \mathit{mutation} \ \mathit{operatons} \ \mathit{applied}}{\mathit{overall} \# \mathit{of}\ \mathit{mutation} \ \mathit{operatons}}
+Score=w_{O1} \frac{\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}}{\mathit{overall} \# \mathit{of}\ \mathit{mutants}} + w_{O2} \frac{\# \mathit{of}\ \mathit{mutation} \ \mathit{operations} \ \mathit{applied}}{\mathit{overall} \# \mathit{of}\ \mathit{mutation} \ \mathit{operations}}
 \label{f:mutation:score}
 \end{equation}
 
