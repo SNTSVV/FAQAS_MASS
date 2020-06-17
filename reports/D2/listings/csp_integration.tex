@@ -1,5 +1,6 @@
-% !TEX root =  ../MutationTestingSurvey.tex
+% !TEX root =  ../MAIN.tex
 
+\begin{minipage}{16cm}
 \begin{lstlisting}[style=CStyle, caption=Data-driven mutation example on libgscsp (csp\_io.c excerpt)., label=csp_integration]
 unsigned int v[6] = {packet->id.flags, packet->id.sport, packet->id.dport, packet->id.dst, packet->id.src, packet->id.pri};
 
@@ -14,3 +15,4 @@ packet->id.dst = v[3];
 packet->id.src = v[4]; 
 packet->id.pri = v[5]; 
 \end{lstlisting}
+\end{minipage}
