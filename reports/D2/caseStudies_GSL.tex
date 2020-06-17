@@ -20,22 +20,25 @@ The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of 
 
 Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
-\DONE{Add details about size}
 
 The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
-while libcsp is 8\,339 LOC. % 6789 + 1550
-
+while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
+Instead, the libgscsp unit test suite consists of 89 test cases, compiled and executed through the WAF meta-build system.
 
 \subsection{Code-driven mutation testing}
 
 \DONE{Can we provide separate information about the code coverage for libgscsp (no libcsp branch) and for libcsp branch?}
+
+\DONE{Clarify which components we mutate}
+
+We have seen that a mutant can be killed only if it is covered by at least one test case. For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite.
 
 \input{tables/gscsp_coverage}	
 
 \begin{enumerate}
 	\item \textbf{libgscsp}
 
-	Table~\ref{table:libgscsp_coverage} provides the code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Given the code coverage, we focus our analysis to the following subset of components:
+	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Given the code coverage, we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 
 	\begin{itemize}
 	 	\item src/clock.c
@@ -53,7 +56,7 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 	\item \textbf{libcsp (GSL branch)}
 
-	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library.  Given the code coverage, we focus our mutation analysis on the following subset of components:
+	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library.  Given the code coverage, we focus our mutation analysis on the following subset of components (i.e., components with code coverage greater than 0\%):
 
 	\begin{itemize}
 		\item src/arch/csp\_time.c
@@ -92,10 +95,6 @@ while libcsp is 8\,339 LOC. % 6789 + 1550
 
 
 \end{enumerate}
-
-\DONE{Clarify which components we mutate}
-
-We have seen that a mutant can be killed only if it is covered by at least one test case. For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite. Thus, we include all the components described above for both the libgscsp and the libcsp.
 
 \subsubsection{Mutation Testing Preliminary Results}
 
@@ -144,7 +143,7 @@ The features of this system include:
 \item Arrays of simple data types.
 \item Supports multiple stores per table, e.g. FRAM, MCU flash, file (binary or text).
 \item Remote client with support for most features (rparam).
-\item Packed GET, SET queries, supporting multiple parameter set/get in a single request. ? Data serialization and deserialization.
+\item Packed GET, SET queries, supporting multiple parameter set/get in a single request. Data serialization and deserialization.
 \item Supports both little and big-endian systems.
 \item Commands for both local (param) and remote access (rparam).
 \item Parameter server for remote access over CSP.
@@ -174,6 +173,10 @@ Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-c
 The size of libutil is 10\,576 LOC, while the unit test suite consists of 201 test cases written in C.
 
 \subsection{Code-driven mutation testing}
+
+\DONE{Add some details about what we mutated}
+
+The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. 
 
 \input{tables/gslibutil_coverage}
 
@@ -236,10 +239,6 @@ Table~\ref{table:gslibutil_coverage} provides the code coverage information of t
 	\item src/zip/zip.c
 	\item src/zip/miniz/miniz.c
 \end{itemize}
-
-\DONE{Add some details about what we mutated}
-
-The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. Thus, we include all the components described above.
 
 \subsubsection{Mutation Testing Preliminary Results}
 
