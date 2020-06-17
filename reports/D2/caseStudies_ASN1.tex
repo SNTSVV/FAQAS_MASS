@@ -1,5 +1,7 @@
 % !TEX root = MAIN.tex
 
+\clearpage
+
 \section{ASN1CC}
 \label{sec:caseStudies:GSL:ASN1}
 
@@ -11,7 +13,8 @@ Details about ASN.1 compiler are provided in the document \emph{taste-documentat
 
 In the context of FAQAS, we focus our analysis on the auto-generated source code by the ASN.1 compiler, rather than in ASN1SCC software itself.
 
-For the definition of the ASN.1 compiler case study, we introduce the example of a specific grammar. An excerpt of such grammar is shown in Listing~\ref{asn_excerpt}. The full source code of the grammar can be found in the file \emph{test.asn} uploaded on Alfresco.
+For the definition of the ASN.1 compiler case study, we introduce the example of a specific grammar. An excerpt of such grammar is shown in Listing~\ref{asn_excerpt}. 
+The excerpt of the grammar introduces the definition of six data types, each data type also specifies the expected constraint, for example, the data type \texttt{MyInt} is an INTEGER which can have values from 0 to 20. The full source code of the grammar can be found in the file \emph{test.asn} uploaded on Alfresco.
 
 For the given grammar, the size of the auto-generated source code is 4\,338 LOC. While the unit test suite consists of 107 auto-generated test cases.
 
@@ -21,7 +24,9 @@ For the given grammar, the size of the auto-generated source code is 4\,338 LOC.
 
 \input{tables/asn1grammar_coverage}
 
-\TODO{You should provide an objective for mutation testing. What ind of problems do we aim to detect? I'm not sure if the analysis we propose he makes any sense.}
+\DONE{You should provide an objective for mutation testing. What ind of problems do we aim to detect? I'm not sure if the analysis we propose he makes any sense.}
+
+The objective of this case study is to provide ASN1SCC engineers tangible evidence on how to improve the auto-generated test cases, by reporting detailed information of live mutants and possible candidates of new test cases. In this manner, the quality of test suites of real embedded systems, that includes the auto-generated source code from ASN.1, can also be improved.
 
 Table~\ref{table:asn1grammar_coverage} provides the code coverage information of the auto-generated source code of the \emph{test.asn} grammar. Given the code coverage, we focus our code-driven mutation testing analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 

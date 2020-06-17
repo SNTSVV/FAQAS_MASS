@@ -295,7 +295,7 @@ The variable \EMPH{MUTATION} uniquely identifies an instance of a mutation opera
 \end{figure}
 
 Figure~\ref{fig:DataDrivenASNProcess} provides an overview of the ASN.1 data mutation process. 
-Consistently with Section~\ref{subsub:asn1model}, after the engineer has defined the mutations to be applied by modifying the xml grammar, the engineer now will modify the ASN.1 deserialize code to insert calls to the mutate function. Particularly, the engineer will insert one mutate function for each data type to be mutated.
+Consistently with Section~\ref{subsub:asn1model}, after the engineer has defined the mutations to be applied by modifying the xml grammar, the engineer now will modify the ASN.1 deserializer code to insert calls to the mutate function. Particularly, the engineer will insert one mutate function for each data type to be mutated.
 Listing~\ref{ASN_decode} shows a manually added probe to mutate the decoded data that belongs to the E type.
 
 At runtime, for each mutation operator instance (MOI) a single probe will be enabled. A MOI represents the mutation to be applied. More specifically, it contains the data type name to be mutated, and an ID that represents the mutation operator to be applied, and under what conditions applies.
