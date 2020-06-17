@@ -38,11 +38,9 @@ In FAQAS, under the assumption that test suites are of high quality standards, w
 \begin{enumerate}
 	\item \textbf{libgscsp}
 
-	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to XY\% of the source files.
+	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
 	%we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 	
-	\TODO{FIX XY}
-
 	\begin{itemize}
 	 	\item src/clock.c
 	 	\item src/commands.c
@@ -61,9 +59,7 @@ In FAQAS, under the assumption that test suites are of high quality standards, w
 
 	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library. 
 	% Given the code coverage, we focus our mutation analysis on the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to XY\% of the source files.
-
-	\TODO{FIX XY}
+Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 45\% of the source files. %(32/71)
 
 	\begin{itemize}
 		\item src/arch/csp\_time.c
@@ -117,14 +113,6 @@ The identification of equivalent mutants still needs to be assessed.
 
 \subsection{Data-driven mutation testing}
 
-%\DONE{We should indicate the functions we mutate.}
-
-The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}). 
-
-%The payload of the packet is not targeted because in the 
-
-\TODO{Does the header contains any infor about the payload? Because the only mutation we can perform on the payload is to cut it.}
-
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.9\textwidth]{images/csp_packet}
@@ -132,14 +120,39 @@ The data-driven mutation testing process in libgscsp will target the data packet
       \label{fig:csp_packet}
 \end{figure}
 
+The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}). 
+Regarding the payload, the mutations will affect the content itself of the packet (e.g., the data being transferred).
+
+\DONE{Does the header contains any infor about the payload? Because the only mutation we can perform on the payload is to cut it.}
+
+\DONE{No, it seems not. The six fields in the packet header regards: pri (Priority), src (Source address), dst (Destination address)
+dport (Destination port), sport (Source port) and flags (specifies specific byte instructions such as use of fragmentation, HMAC verification, etc)}
+
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.9\textwidth]{images/FaultModelCSP_temp}
+      \caption{CSP fault model.}
+      \label{fig:csp_faultmodel}
+\end{figure}
+
+Figure~\ref{fig:csp_faultmodel} introduces an example of the possible fault models to be applied during the data-driven mutation process.
+Fault models labeled \emph{Identifier} target the header of the packet, and \emph{Payload} targets the data of the packet.
+The \emph{Identifier} fault models include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
+Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet, and check that the test suite has at least one test case that controls the correct encoding of the content of the packet.
 
 \input{listings/csp_integration}
 
-
 Both mutations (i.e, header and payload) will be performed before the message is serialized. 
-For example, the mutations to the header will affect the csp\_send\_direct function of the csp\_io component. Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the csp\_io component. Particularly, the packet header is translated into an unsigned int vector, which is then passed to the FAQAS mutate function, here a fault model could be applied to all six items of the header. After the mutation is applied the vector is translated back again to the original representation.
+For example, the mutations to the header will affect the csp\_send\_direct function of the csp\_io component. 
+Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the csp\_io component. 
+Particularly, in line 1 the packet header is translated into an unsigned int vector. 
+Then, in line 4 an instance of the packet identifier fault model is created, 
+the instance of the fault model and the unsigned int vector is then passed to the FAQAS mutate function in line 5.
+In this case, the fault model can target all six items of the header (i.e., Flags, Source Port, Destination Port, Destination Address, Source Address, and Priority). 
+After the mutation has been applied, from line 8 to line 13, the vector is then translated back again to the original representation.
  
- \TODO{You have to add line numbers in the explanation above}
+ \DONE{You have to add line numbers in the explanation above}
 
 \section{GSL - libparam}
 \label{sec:caseStudies:GSL:libparam}
@@ -169,6 +182,8 @@ Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-
 
 \TODO{Do we have test cases?}
 
+\TODO{Yes, we do have test cases. I think in general we can do code mutation on libparam, but I don't know if we have time to try before the 25th.}
+
 \subsection{Data-driven mutation testing}
 
 \TODO{We should indicate the functions we mutate}
@@ -187,8 +202,6 @@ The size of libutil is 10\,576 LOC, while the unit test suite consists of 201 te
 
 \subsection{Code-driven mutation testing}
 
-\DONE{Add some details about what we mutated}
-
 The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. 
 The libutil unit test suite do not cover hardware-specific functions (e.g., drivers), which are covered at the system level.
 
@@ -196,8 +209,7 @@ The libutil unit test suite do not cover hardware-specific functions (e.g., driv
 
 Table~\ref{table:gslibutil_coverage} provides the code coverage information of the unit test suite for the GSL libutil library. 
 %Given the code coverage, we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to XY\% of the source files.
-\TODO{FIX XY}
+Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 82\% of the source files. %(55/67)
 
 \begin{itemize}
 	\item src/base16.c
@@ -258,8 +270,6 @@ Below, we report the files covered by the test suite and targeted by mutation te
 \end{itemize}
 
 \subsubsection{Mutation Testing Preliminary Results}
-
-\DONE{We can add some preliminary results}
 
 \input{tables/libutil_preliminary}
 
