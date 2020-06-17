@@ -29,13 +29,23 @@ Table~\ref{table:asn1grammar_coverage} provides the code coverage information of
 	\item test\_auto\_tcs.c: wrapper of the grammar data types encoding/decoding procedures used in the test cases.
 \end{itemize}
 
+\subsubsection{Mutation Testing Preliminary Results}
+
+\input{tables/asn1_preliminary}
+
+In order to analyze the feasibility of the code-driven mutation testing for ASN.1, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 9\,174 mutants. Preliminary results can be found in Table~\ref{table:asn1_preliminary}.
+Particularly, we observe that from the 9\,174 generated mutants, we had 1\,215 mutants that were not compiled by the compilation toolset of ASN.1, most probably because the mutation introduced a syntactical error that was detected by the toolset.
+Then, we identified 4\,263 live mutants that were not detected by the test suite. Instead, we had 3\,009 killed mutants detected by the test suite, and 687 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 53.56\%.
+
+The identification of equivalent mutants still needs to be assessed.
+
 
 \subsection{Data-driven mutation testing}
 
 
 
 
-
+\TODO{OSCAR}
 
 
 
