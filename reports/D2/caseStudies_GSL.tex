@@ -120,13 +120,14 @@ The identification of equivalent mutants still needs to be assessed.
       \label{fig:csp_packet}
 \end{figure}
 
-The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}). 
-Regarding the payload, the mutations will affect the content itself of the packet (e.g., the data being transferred).
+The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}) and the payload 
+%the mutations will affect the content itself of the packet 
+(i.e., the data being transferred).
 
-\DONE{Does the header contains any infor about the payload? Because the only mutation we can perform on the payload is to cut it.}
+%\DONE{Does the header contains any infor about the payload? Because the only mutation we can perform on the payload is to cut it.}
 
-\DONE{No, it seems not. The six fields in the packet header regards: pri (Priority), src (Source address), dst (Destination address)
-dport (Destination port), sport (Source port) and flags (specifies specific byte instructions such as use of fragmentation, HMAC verification, etc)}
+%\DONE{No, it seems not. The six fields in the packet header regards: pri (Priority), src (Source address), dst (Destination address)
+%dport (Destination port), sport (Source port) and flags (specifies specific byte instructions such as use of fragmentation, HMAC verification, etc)}
 
 
 \begin{figure}[h]
@@ -138,8 +139,8 @@ dport (Destination port), sport (Source port) and flags (specifies specific byte
 
 Figure~\ref{fig:csp_faultmodel} introduces an example of the possible fault models to be applied during the data-driven mutation process.
 Fault models labeled \emph{Identifier} target the header of the packet, and \emph{Payload} targets the data of the packet.
-The \emph{Identifier} fault models include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
-Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet, and check that the test suite has at least one test case that controls the correct encoding of the content of the packet.
+The \emph{Identifier} fault model include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
+Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet; it is used to verify that the test suite has at least one test case that controls the correct transmission of the content of the packet.
 
 \input{listings/csp_integration}
 
@@ -152,7 +153,7 @@ the instance of the fault model and the unsigned int vector is then passed to th
 In this case, the fault model can target all six items of the header (i.e., Flags, Source Port, Destination Port, Destination Address, Source Address, and Priority). 
 After the mutation has been applied, from line 8 to line 13, the vector is then translated back again to the original representation.
  
- \DONE{You have to add line numbers in the explanation above}
+
 
 \section{GSL - libparam}
 \label{sec:caseStudies:GSL:libparam}
@@ -178,15 +179,11 @@ Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-
 
 \subsection{Code-driven mutation testing}
 
-\TODO{We do it or not?}
-
-\TODO{Do we have test cases?}
-
-\TODO{Yes, we do have test cases. I think in general we can do code mutation on libparam, but I don't know if we have time to try before the 25th.}
+\TODO{Here we will simply add code coverage information for libparam}
 
 \subsection{Data-driven mutation testing}
 
-\TODO{We should indicate the functions we mutate}
+\TODO{To populate this section we need the following from GSL: Action 3. (deadline: end of this week is better) GSL should provide a description of the structure of the data exchanged by libparam along with a name of the function that loads the data received from the libcsp layer. GSL suggested looking for documentation inside the libparam folder, but we did not find such doc folder, actually, there is only one doc folder and it concerns the documentation for libcsp not libparam.}
 
 
 \section{GSL - libutil}
