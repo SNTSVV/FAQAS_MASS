@@ -29,14 +29,18 @@ Instead, the libgscsp unit test suite consists of 89 test cases, compiled and ex
 
 
 
-In FAQAS, under the assumption that test suites are of high quality standards, we mutate only the statements covered by the test suite. This is also due to the fact that a mutant can be killed only if it is covered by at least one test case. In the case of libgscsp, the unit test suite covers basic algorithms such as error handling and routing while hardware specific functions such as the handling of CAN protocol is verified by means of a test suite for hardware in the loop. 
+In FAQAS, under the assumption that test suites are of high quality standards, we mutate only the statements covered by the test suite. This is also due to the fact that a mutant can be killed only if it is covered by at least one test case. 
+
+In the case of libgscsp, the unit test suite covers basic algorithms such as error handling and routing while hardware specific functions such as the handling of CAN protocol is verified by means of a test suite for hardware in the loop. 
+
+GomSpace relies on a risk-driven approach to unit testing; for this reason GSL code does not reach 100\% code coverage in the unit tests. The code that has not been covered is judged to be low risk, but is covered by other techniques like code inspection and manual testing. The unit tests run are covering the normal use cases for our satellites. libCSP is not specific to GomSpace, although GSL uses it heavily, and not all features are used in GomSpace satellites.
 
 %For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite.
 
 \input{tables/gscsp_coverage}	
 
 \begin{enumerate}
-	\item \textbf{libgscsp}
+	\item \textbf{libgscsp extension}
 
 	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
 	%we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
@@ -106,7 +110,7 @@ Below, we report the files covered by the test suite and targeted by mutation te
 
 In order to evaluate the feasibility of code-driven mutation testing for libgscsp, we conducted a preliminary experiment using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 6\,196 mutants. For the experimentation we targeted only the libcsp (GSL branch) source code. Preliminary results can be found in Table~\ref{table:libgscsp_preliminary}.
 Particularly, we observe that from the 6\,196 generated mutants, we had 1\,700 mutants that were not compiled by the compilation toolset of libgscsp, most probably because the mutation introduced a syntactical error that was detected by the toolset.
-Then, we identified 1\,708 live mutants that were not detected by the test suite. Instead, we had 2\,495 killed mutants detected by the test suite, and 277 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 61.88\%.
+Then, we identified 1\,708 live mutants that were not detected by the test suite. Instead, we had 2\,495 mutants detected by the test suite, and 277 mutants killed by timeout (they led to infinite loop). The final mutation score was of 61.88\%.
 
 The identification of equivalent mutants still needs to be assessed.
 
@@ -142,16 +146,24 @@ Fault models labeled \emph{Identifier} target the header of the packet, and \emp
 The \emph{Identifier} fault model include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
 Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet; it is used to verify that the test suite has at least one test case that controls the correct transmission of the content of the packet.
 
+Concerning the flags data item, it has a size of 8 bits, i.e., 8 flags are available. Only 4 flags are currently used:
+\begin{itemize}
+\item 00000001              CRC32
+\item 00000010             RDP
+\item 00000100             XTEA
+\item 00001000             HMAC
+\end{itemize}
+
 \input{listings/csp_integration}
 
 Both mutations (i.e, header and payload) will be performed before the message is serialized. 
-For example, the mutations to the header will affect the csp\_send\_direct function of the csp\_io component. 
-Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the csp\_io component. 
-Particularly, in line 1 the packet header is translated into an unsigned int vector. 
-Then, in line 4 an instance of the packet identifier fault model is created, 
+For example, the mutations to the header will affect the \emph{csp\_send\_direct} function of the \emph{csp\_io component}. 
+Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the \emph{csp\_io component}. 
+Particularly, in Line 1 the packet header is translated into an unsigned int vector. 
+Then, in Line 4 an instance of the packet identifier fault model is created, 
 the instance of the fault model and the unsigned int vector is then passed to the FAQAS mutate function in line 5.
-In this case, the fault model can target all six items of the header (i.e., Flags, Source Port, Destination Port, Destination Address, Source Address, and Priority). 
-After the mutation has been applied, from line 8 to line 13, the vector is then translated back again to the original representation.
+%In this case, the fault model can target all six items of the header (i.e., Flags, Source Port, Destination Port, Destination Address, Source Address, and Priority). 
+After the mutation has been applied, from Line 8 to Line 13, the vector is then translated back to the original representation.
  
 
 
@@ -274,7 +286,7 @@ In order to analyze the feasibility of the code-driven mutation testing, we cond
 Particularly, we observe that from the 16\,886 generated mutants, we had 2\,561 mutants that were not compiled by the compilation toolset of libutil, most probably because the mutation introduced a syntactical error that was detected by the toolset.
 Then, we identified 3\,402 live mutants that were not detected by the test suite. Instead, we had 10\,634 killed mutants detected by the test suite, and 289 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 76.25\%.
 
-The identification of equivalent mutants still needs to be assessed.
+The identification of equivalent mutants still needs to be performed.
 
 
 \subsection{Data-driven mutation testing}

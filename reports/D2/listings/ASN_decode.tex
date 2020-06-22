@@ -1,19 +1,41 @@
 % !TEX root =  ../MAIN.tex
-
-\begin{lstlisting}[style=CStyle, caption=Example of manually added ASN.1 data-driven mutation probe., label=ASN_decode]
-flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CStyle, caption=Example of data-driven mutation probe for ASN.1 that has been added to the encoding function., label=ASN_encode]
+flag TypeNested_Encode(const TypeNested* pVal, BitStream* pBitStrm, int* pErrCode, flag bCheckConstraints)
 {
+    TypeNested_mutate(pVal);
     flag ret = TRUE;
-    *pErrCode = 0;
-    (void)pVal;
-    (void)pBitStrm;
-
-
-    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
-
-    // Manually added probe 
-    E_mutate(pVal);
-    // Manually added probe END
-    return ret  && E_IsConstraintValid(pVal, pErrCode);
+...
 }
 \end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CStyle, caption=Example of data-driven mutation probe for ASN.1 that has been added to the decoding function., label=ASN_decode]
+flag TypeNested_Decode(TypeNested* pVal, BitStream* pBitStrm, int* pErrCode)
+{
+    flag ret = TRUE;
+...
+        // mutation
+        TypeNested_mutate(pVal);
+
+        return ret  && TypeNested_IsConstraintValid(pVal, pErrCode);
+}
+\end{lstlisting}
+\end{minipage}
+
+%flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+%{
+%    flag ret = TRUE;
+%    *pErrCode = 0;
+%    (void)pVal;
+%    (void)pBitStrm;
+%
+%
+%    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+%
+%    // Manually added probe 
+%    E_mutate(pVal);
+%    // Manually added probe END
+%    return ret  && E_IsConstraintValid(pVal, pErrCode);
+%}

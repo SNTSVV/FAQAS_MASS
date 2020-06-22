@@ -1,28 +1,80 @@
 % !TEX root =  ../MAIN.tex
 
 \begin{lstlisting}[style=CStyle, caption=Example of automatically generated ASN.1 data-driven mutation operations., label=ASN_mutations]
-// max E OR 1st operand constraint
-if ( strcmp(buf,"E_1") ) {                                                  
-	if ((*pVal) <= 255UL) {                                                                                                               
-	    printf("%lu\n", *pVal);
 
-	    if (*pVal != 255UL) {
-	        *pVal = 255UL;
-	        save_mutation();
+// TypeNested type
+void _FAQAS_TypeNested_mutate(TypeNested *pVal) {
 
-	        return;
-	    }           
-	}       
-}
+	// ALREADY_MUTATED is a global variable 
+	// that traces if in the current execution we already performed data mutation
+	if ( ALREADY_MUTATED ){
+		return;
+	}
+	
+	// intVal,VAT,1
+	if ( ! has_been_mutated("TypeNested_1") ){
+		// check that the value is not already 
+		// what we want to generate
 
-// n+1 E 2nd operand constraint
-if ( strcmp(buf, "E_2") ) {
-    if ((*pVal) == 1299UL) {                                                                                                              
-        printf("%lu\n", *pVal);
+		if (pVal->intVal != 6 ){
+			pVal->intVal = 6;
+			save_mutation("TypeNested_1");
 
-        *pVal = 1299UL + 1UL;
-        save_mutation();
-        return;
-    }       
-} 
+			return;
+		}
+	}
+	
+	// int2Val,VOR,1
+	if ( ! has_been_mutated("TypeNested_2") ){
+		// check that the value is not already 
+		// what we want to generate
+
+		if (pVal->intVal != 0 ){
+			pVal->intVal = -1;
+			save_mutation("TypeNested_2");
+
+			return;
+		}
+	}
+
+	// int2Val,VOR,2
+	if ( ! has_been_mutated("TypeNested_3") ){
+
+        printf("%lu\n", pVal -> intVal);
+
+        if (pVal->intVal != 10){
+            pVal->intVal = 51;
+            save_mutation("TypeNested_3");
+
+            return;
+        }
+    }
+
+...
+
 \end{lstlisting}
+
+%// max E OR 1st operand constraint
+%if ( strcmp(buf,"E_1") ) {                                                  
+%	if ((*pVal) <= 255UL) {                                                                                                               
+%	    printf("%lu\n", *pVal);
+%
+%	    if (*pVal != 255UL) {
+%	        *pVal = 255UL;
+%	        save_mutation();
+%
+%	        return;
+%	    }           
+%	}       
+%}
+%
+%// n+1 E 2nd operand constraint
+%if ( strcmp(buf, "E_2") ) {
+%    if ((*pVal) == 1299UL) {                                                                                                              
+%        printf("%lu\n", *pVal);
+%
+%        *pVal = 1299UL + 1UL;
+%        save_mutation();
+%        return;
+%    }       
+%} 

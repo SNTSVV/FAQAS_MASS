@@ -6,8 +6,11 @@
 
 \subsection{Overview of the case study}
 
-The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. MLFS reuses libm present in newlib and pre-qualifying the library to ECSS criticality category B. The set of functions are limited to the functions typically needed in flight software. 
+The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. 
+\TODO{Please rewrite the following sentence}
+MLFS reuses libm present in newlib and pre-qualifying the library to ECSS criticality category B. The set of functions are limited to the functions typically needed in flight software. 
 
+\TODO{What is doc?}
 Details about MLFS are provided in the document \emph{doc} uploaded on Alfresco.
 
 The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
@@ -35,7 +38,7 @@ In order to analyze the feasibility of the code-driven mutation testing for MLFS
 Particularly, we observe that from the 17\,696 generated mutants, we had 2\,153 mutants that were not compiled by the compilation toolset of MLFS, most probably because the mutation introduced a syntactical error that was detected by the toolset.
 Then, we only identified 22 live mutants that were not detected by the test suite. Instead, we had 15\,332 killed mutants detected by the test suite, and 189 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 99.86\%.
 
-The identification of equivalent mutants still needs to be assessed.
+The identification of equivalent mutants still needs to be performed.
 
 
 \subsection{Data-driven mutation testing}
