@@ -55,7 +55,7 @@ In some cases, static analysis tools may not be able to provide a result.
 Mutants for which it is not possible to automatically identify a killing input needs to be manually inspected (Step 3).
  %(i.e., the outputs that distinguish the original software from the mutant). 
  
- The generated inputs and the identified outputs are used by the engineers who can manually implement a test case by reusing such inputs and outputs to define the inputs and the assertions for a test case that kills the mutant (Step 2). 
+ The generated inputs and the identified outputs are used by the engineers who can manually implement a test case by reusing such inputs and outputs to define the inputs and the assertions for a test case that kills the mutant (Step 2).  The outputs simply reflect the behaviour of the program implementation, which might be faulty. For this reason, when writing oracles (E.g., assert statements) based on the provided outputs, engineers should very that the provided output is correct, based on the specifications of the software.
  
 
 
