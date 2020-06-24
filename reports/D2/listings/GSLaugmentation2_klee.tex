@@ -1,0 +1,120 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[style=CStyle, caption=Second example of code for the identification of inputs with KLEE., label=GSLaugmentationTwo_klee]
+#include <klee/klee.h>
+
+#include <gs/util/base16.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <ctype.h>
+#include <errno.h>
+#include <assert.h>
+
+
+int base16_decode(const char *encoded, uint8_t *raw)
+{
+    uint8_t *raw_bytes = raw;
+    if (encoded) {
+        const char *encoded_bytes = encoded;
+        char buf[3];
+        char *endp;
+
+    while (encoded_bytes[0]) {
+            if (!encoded_bytes[1]) {
+                return GS_ERROR_ARG;
+            }
+            memcpy(buf, encoded_bytes, 2);
+            buf[2] = '\0';
+            *(raw_bytes++) = (uint8_t) strtoul(buf, &endp, 16);
+            if (*endp != '\0') {
+                return GS_ERROR_ARG;
+            }
+            encoded_bytes += 2;
+    }
+    }
+    return (int)(raw_bytes - raw);
+}
+
+int MUT_base16_decode(const char *encoded, uint8_t *raw)
+{
+    uint8_t *raw_bytes = raw;
+    if (encoded) {
+        const char *encoded_bytes = encoded;
+        char buf[3];
+        char *endp;
+
+    while (encoded_bytes[0]) {
+            if (!encoded_bytes[1]) {
+                //return GS_ERROR_ARG;
+            }
+            memcpy(buf, encoded_bytes, 2);
+            buf[2] = '\0';
+            *(raw_bytes++) = (uint8_t) strtoul(buf, &endp, 16);
+            if (*endp != '\0') {
+                return GS_ERROR_ARG;
+            }
+            encoded_bytes += 2;
+    }
+    }
+    return (int)(raw_bytes - raw);
+}
+
+
+#ifdef KLEE
+int main() 
+{
+    char encoded[4];
+    char a,b,c;
+    klee_make_symbolic(&a, sizeof(a), "a");
+    klee_make_symbolic(&b, sizeof(b), "b");
+    klee_make_symbolic(&c, sizeof(c), "c");
+    uint8_t raw;
+    uint8_t mRaw;
+    int ret;
+    int mret;
+
+    
+    encoded[0]=a;
+    encoded[1]=b;
+    encoded[2]=c;
+    encoded[3]=0;
+
+    raw=0;
+    ret = base16_decode(encoded,&raw);
+
+    encoded[0]=a;
+    encoded[1]=b;
+    encoded[2]=c;
+    encoded[3]=0;
+
+    mRaw=0;
+    mret = MUT_base16_decode(encoded,&mRaw);
+
+    assert( ret != mret );
+} 
+#endif
+
+int main(){
+    char encoded[4];
+
+    uint8_t raw;
+    uint8_t mRaw;
+    int ret;
+    int mret;
+
+    encoded[0]=48;
+    encoded[1]=0;
+    encoded[2]=0;
+    encoded[3]=0;
+
+    raw=0;
+    ret = base16_decode(encoded,&raw);
+    raw=0;
+    mret = MUT_base16_decode(encoded,&raw);
+
+    assert( ret == mret );
+    return 0;
+}
+\end{lstlisting}
+

@@ -62,6 +62,7 @@ Mutants for which it is not possible to automatically identify a killing input n
 Step 1 is the only step that is automated by existing tools; anyway, it requires the manual specification of which are the inputs and the outputs of the function under test. In the project, two tools will be considered: CBMC, a bounded model checker, and KLEE~\cite{cadar2008klee}. The process to be automated in the two cases is defined in the following subsections.
 
 \subsection{CBMC}
+\label{subsec:cbmc}
 
 CBMC is an approach that implements {\em Bounded Model
 Checking}~\cite{BiereCCZ:TACAS99,SeryFS:ATVA12} (BMC), an approach for purely static software verification.
@@ -177,3 +178,6 @@ Listing~\ref{GSLaugmentationTwo} shows another example of a source file to be pa
 Listing~\ref{GSLaugmentationTwo} shows one of the main \INDEX{limitations of CBMC}, i.e., the fact that it requires some standard library functions to be redefined. Indeed, although CBMC includes a few definitions for standard library functions, some of them are generalizations (i.e., CBMC does not aim to replicate the actual behaviour but just to preserve high-level post-conditions) and the original source code of the implementation may need to be provided in order to obtain correct results.
 
 \input{listings/GSLaugmentation2.tex}
+
+\input{klee}
+
