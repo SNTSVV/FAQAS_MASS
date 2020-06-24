@@ -11,8 +11,9 @@
 #include <assert.h>
 
 
-//The following function had been defined because CBMC has a builtin definition of some stdlib function including strtoul, but the definition is too generic
-and leads to non-deterministic behaviours
+//The following function had been defined because CBMC has a builtin definition of 
+// some stdlib function including strtoul, but the definition is too generic
+// and leads to non-deterministic behaviours
 unsigned long
 strtoul(nptr, endptr, base)
 	const char *nptr;
@@ -73,18 +74,6 @@ strtoul(nptr, endptr, base)
 	return (acc);
 }
 
-
-
-void base16_encode(const uint8_t * raw, size_t len, char *encoded)
-{
-        const uint8_t *raw_bytes = raw;
-	char *encoded_bytes = encoded;
-	size_t remaining = len;
-
-	for (; remaining--; encoded_bytes += 2)
-		snprintf(encoded_bytes, 3, "%02X", *(raw_bytes++));
-
-}
 
 int base16_decode(const char *encoded, uint8_t *raw)
 {
