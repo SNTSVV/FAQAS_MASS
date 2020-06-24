@@ -142,8 +142,8 @@ The data-driven mutation testing process in libgscsp will target the data packet
 \end{figure}
 
 Figure~\ref{fig:csp_faultmodel} introduces an example of the possible fault models to be applied during the data-driven mutation process.
-Fault models labeled \emph{Identifier} target the header of the packet, and \emph{Payload} targets the data of the packet.
-The \emph{Identifier} fault model include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
+Fault models labeled \emph{Header} target the header of the packet, and \emph{Payload} targets the data of the packet.
+The \emph{Header} fault model include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
 Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet; it is used to verify that the test suite has at least one test case that controls the correct transmission of the content of the packet.
 
 Concerning the flags data item, it has a size of 8 bits, i.e., 8 flags are available. Only 4 flags are currently used:
@@ -153,6 +153,7 @@ Concerning the flags data item, it has a size of 8 bits, i.e., 8 flags are avail
 \item 00000100             XTEA
 \item 00001000             HMAC
 \end{itemize}
+We force each flag to be set to zero by defining a different BF mutation operator with \emph{State=1} for each of the four bits.
 
 \input{listings/csp_integration}
 
