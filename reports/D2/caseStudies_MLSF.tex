@@ -7,11 +7,17 @@
 \subsection{Overview of the case study}
 
 The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. 
-\TODO{Please rewrite the following sentence}
-MLFS reuses libm present in newlib and pre-qualifying the library to ECSS criticality category B. The set of functions are limited to the functions typically needed in flight software. 
+\DONE{Please rewrite the following sentence}
+MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm} and \texttt{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
+The set of functions provided by MLFS are limited to the functions typically needed in flight software. 
 
-\TODO{What is doc?}
-Details about MLFS are provided in the document \emph{doc} uploaded on Alfresco.
+\DONE{What is doc?}
+Detailed information about the MLFS library and the test suite is provided in the following documents shared on Alfresco.
+
+\begin{itemize}
+	\item \emph{E1356-GTD-SUM-01\_I1\_R2.pdf}, installation and execution instructions of the Mathematical Library for Flight Software. 
+	\item \emph{E1356-CS-SUM-01\_I1\_R5.pdf}, installation and execution instructions of the MLFS test suite.
+\end{itemize}
 
 The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
 
