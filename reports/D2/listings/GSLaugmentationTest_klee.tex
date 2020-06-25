@@ -4,12 +4,10 @@
 int main(){
     uint16_t v = 256;                                                                                                                                  
     uint16_t res;
-    uint16_t resMUT;
 
     res = gs_bswap_16(v);
-    resMUT = MUT_gs_bswap_16(v);
 
-    assert( res == resMUT );
+    assert( res == 1 );
     return 0;
 }
 \end{lstlisting}

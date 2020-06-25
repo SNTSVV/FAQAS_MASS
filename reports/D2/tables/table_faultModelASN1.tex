@@ -235,22 +235,50 @@ If STATE is specified, the mutation is applied only if the bit is in the specifi
 \\
 \hline
 SEQUENCE&
--&
+SWAP&
 \begin{minipage}{4.5cm}
 \end{minipage}
 &
 \begin{minipage}{4.5cm}
-No mutation envisioned for this type.
+This operator aims to swap two items in a sequence of items of different types. It still requires to be defined, based on ASN.1 specifications.
+\end{minipage}
+\\
+\hline
+SEQUENCE&
+DEL&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
+This operator aims to delete one item in a set/sequence of items of the different types. It still requires to be defined, based on ASN.1 specifications.
+\end{minipage}
+\\
+\hline
+SEQUENCE&
+DUP&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
+This operator aims to duplicate one item in a set/sequence of items of the different types. It still requires to be defined, based on ASN.1 specifications.
 \end{minipage}
 \\
 \hline
 SET&
--&
+DEL&
 \begin{minipage}{4.5cm}
 \end{minipage}
 &
 \begin{minipage}{4.5cm}
-No mutation envisioned for this type.
+\end{minipage}
+\\
+\hline
+SET&
+DUP&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
 \end{minipage}
 \\
 \hline
@@ -265,22 +293,50 @@ No mutation envisioned for this type.
 \\
 \hline
 SEQUENCE OF&
--&
+SWAPOF&
 \begin{minipage}{4.5cm}
 \end{minipage}
 &
 \begin{minipage}{4.5cm}
-No mutation envisioned for this type.
+This operator aims to swap two items in a sequence/set of items of the same type. It still requires to be defined, based on ASN.1 specifications.
+\end{minipage}
+\\
+\hline
+SEQUENCE OF&
+DELOF&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
+This operator aims to eliminate one item in a sequence/set of items of the same type. It still requires to be defined, based on ASN.1 specifications.
+\end{minipage}
+\\
+\hline
+SEQUENCE OF&
+DUPOF&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
+This operator aims to duplicate one item in a sequence/set of items of the same type. It still requires to be defined, based on ASN.1 specifications.
 \end{minipage}
 \\
 \hline
 SET OF&
--&
+DELOF&
 \begin{minipage}{4.5cm}
 \end{minipage}
 &
 \begin{minipage}{4.5cm}
-No mutation envisioned for this type.
+\end{minipage}
+\\
+\hline
+SET OF&
+DUPOF&
+\begin{minipage}{4.5cm}
+\end{minipage}
+&
+\begin{minipage}{4.5cm}
 \end{minipage}
 \\
 

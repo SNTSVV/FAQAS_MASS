@@ -90,18 +90,18 @@ int main()
 
     mRaw=0;
     mret = MUT_base16_decode(encoded,&mRaw);
+    printf ("ret %d mret %d\n", ret, mret);
 
     assert( ret != mret );
 } 
 #endif
-
+\end{lstlisting}
+\begin{lstlisting}[style=CStyle, caption=Test case derived for the example in Listing~\ref{GSLaugmentationTwo_klee}., label=GSLaugmentationTwo_kleeTest]
 int main(){
     char encoded[4];
 
     uint8_t raw;
-    uint8_t mRaw;
     int ret;
-    int mret;
 
     encoded[0]=48;
     encoded[1]=0;
@@ -110,10 +110,9 @@ int main(){
 
     raw=0;
     ret = base16_decode(encoded,&raw);
-    raw=0;
-    mret = MUT_base16_decode(encoded,&raw);
 
-    assert( ret == mret );
+
+    assert( ret == GS_ERROR_ARG );
     return 0;
 }
 \end{lstlisting}
