@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) University of Luxembourg 2020.
+ * Created by Darko Marinov et al., University of Illinois at Urbana-Champaign, 2018. See LICENCE.SRCIROR.
+ * Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, University of Luxembourg - SnT, 2020.
+ *
+ */
+ 
 #include <fstream>
 #include <set>
 #include <sstream>
