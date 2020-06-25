@@ -2,9 +2,8 @@
 
 \subsection{KLEE}
 
-KLEE is an approach that implements {\em Concolic Execution}, an approach that mixes concrete and symbolic execution.
-
-...
+KLEE~\cite{cadar2008klee} is an open source tool that implements {\em Concolic Execution}, a technique that performs symbolic execution along a concrete execution path. KLEE was designed to automatically generate test cases that achieve high code coverage. The tool is implemented as a modified LLVM virtual machine that targets LLVM bytecode programs.
+KLEE also provides a symbolic POSIX library that enable analysis of programs that uses the system's environment. For example, KLEE can be executed with the flag \texttt{-sym-stdin N} which will make stdin symbolic with size \texttt{N}.  
 
 In the context of FAQAS, we aim to rely on KLEE to automatically produce the inputs that make the mutated version of the program generate a different output than the original version.
 This is observed in the outcome of the verification \emph{true}, i.e., the assertion indicating that the output of the original and mutated program are different does hold. In this case, KLEE produces the values of the inputs for which both versions of the program have a different result.
@@ -26,7 +25,8 @@ clang -DKLEE -I ~/klee/include -Iinclude -emit-llvm -c -g -O0 -Xclang
 By default, KLEE works on programs that do not use any external code such as C library functions. To enable KLEE to work with external code the KLEE POSIX runtime capability should be enabled. To generate the test inputs for this example, the following command should be used:
 
 \begin{verbatim}
-~/klee/build/bin/klee --libc=uclibc --posix-runtime byteorder.bc
+~/klee/build/bin/klee --libc=uclibc --posix-runtime 
+-silent-klee-assume byteorder.bc
 \end{verbatim}
 
 \begin{figure}[h]
