@@ -1,0 +1,38 @@
+% !TEX root =  ../Main.tex
+\newcommand{\op}{\mathit{op}}
+\begin{table}[h]
+\caption{Implemented set of operators.}
+\label{table:sufficient_operators} 
+\centering
+\scriptsize
+\begin{tabular}{|@{}l@{\hspace{1pt}}|@{}l@{}|}
+\hline
+\textbf{Operator} & \textbf{Description$^{*}$} \\
+\hline
+ABS               & $\{(v, -v)\}$	\\
+\hline
+AOR               & $\{(\op_1, op_2) \,|\, \op_1, \op_2 \in \{\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{\%}\} \land \op_1 \neq \op_2 \} $       \\
+    			  & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{\texttt{+=}, \texttt{-=}, \texttt{*=}, \texttt{/=}, \texttt{\%} \texttt{=}\} \land \op_1 \neq \op_2 \} $       \\
+\hline
+ICR               & $\{c_i, x) \,|\, x \in \{1, -1, 0, c_i + 1, c_i - 1, -c_i\}\}$           \\
+\hline
+LCR               & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{\&\&}, || \} \land \op_1 \neq \op_2 \}$            \\
+				  & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{\&=}, \texttt{|=}, \texttt{\&=}\} \land \op_1 \neq \op_2 \}$            \\
+				  & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{\&}, \texttt{|}, \texttt{\&\&}\} \land \op_1 \neq \op_2 \}$            \\
+\hline
+ROR               & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{>}, \texttt{>=}, \texttt{<}, \texttt{<=}, \texttt{==}, \texttt{=}  \}$            \\
+				  & $\{ (e, !(e)) \,|\, e \in \{\texttt{if(e)}, \texttt{while(e)}\} \}$ \\
+\hline
+SDL               & $\{(s, \texttt{remove}(s))\}$            \\
+\hline
+UOI               & $\{ (v, \texttt{--}v), (v, v\texttt{--}), (v, \texttt{++}v), (v, v\texttt{++}) \}$            \\   
+\hline
+\hline
+AOD               & $\{((a\,op\,b), a), ((a\,op\,b), b) \,|\, op \in \{\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{\%}\} \land \op_1 \neq \op_2 \} $       \\ 
+\hline
+COR               & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{\&\&}, \texttt{||}, \land \} \land \op_1 \neq \op_2 \}$            \\
+\hline
+\end{tabular}
+
+$^{*}$Each pair in parenthesis shows how a program element is modified by the mutation operator on the left; we follow standard syntax~\cite{kintis2018effective}. Program elements are constants ($c$), operators ($\op$), statements ($s$), variables ($v$), or generic operands ( $a$/$b$, which might be either variables or constants).
+\end{table}
