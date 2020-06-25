@@ -1,0 +1,437 @@
+[
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_copysign.o libm/common/s_copysign.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_copysign.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_fmax.o libm/common/s_fmax.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_fmax.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_fmin.o libm/common/s_fmin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_fmin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_fpclassify.o libm/common/s_fpclassify.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_fpclassify.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_modf.o libm/common/s_modf.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_modf.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_nan.o libm/common/s_nan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_nan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_round.o libm/common/s_round.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_round.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_scalbn.o libm/common/s_scalbn.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_scalbn.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_signbit.o libm/common/s_signbit.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_signbit.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/s_trunc.o libm/common/s_trunc.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/s_trunc.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_copysign.o libm/common/sf_copysign.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_copysign.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_fmax.o libm/common/sf_fmax.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_fmax.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_fmin.o libm/common/sf_fmin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_fmin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_fpclassify.o libm/common/sf_fpclassify.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_fpclassify.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_modf.o libm/common/sf_modf.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_modf.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_nan.o libm/common/sf_nan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_nan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_round.o libm/common/sf_round.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_round.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_scalbn.o libm/common/sf_scalbn.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_scalbn.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/common/sf_trunc.o libm/common/sf_trunc.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/common/sf_trunc.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/mlfs/s_rem2pi.o libm/mlfs/s_rem2pi.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/mlfs/s_rem2pi.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/mlfs/sf_rem2pi.o libm/mlfs/sf_rem2pi.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/mlfs/sf_rem2pi.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/mlfs/s_deg2rad.o libm/mlfs/s_deg2rad.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/mlfs/s_deg2rad.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/mlfs/sf_deg2rad.o libm/mlfs/sf_deg2rad.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/mlfs/sf_deg2rad.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_acos.o libm/math/e_acos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_acos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_asin.o libm/math/e_asin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_asin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_atan2.o libm/math/e_atan2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_atan2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_exp.o libm/math/e_exp.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_exp.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_fmod.o libm/math/e_fmod.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_fmod.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_hypot.o libm/math/e_hypot.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_hypot.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_log.o libm/math/e_log.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_log.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_log10.o libm/math/e_log10.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_log10.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_pow.o libm/math/e_pow.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_pow.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_rem_pio2.o libm/math/e_rem_pio2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_rem_pio2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_acos.o libm/math/ef_acos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_acos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_asin.o libm/math/ef_asin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_asin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_atan2.o libm/math/ef_atan2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_atan2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_exp.o libm/math/ef_exp.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_exp.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_fmod.o libm/math/ef_fmod.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_fmod.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_hypot.o libm/math/ef_hypot.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_hypot.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_log.o libm/math/ef_log.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_log.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_log10.o libm/math/ef_log10.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_log10.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_pow.o libm/math/ef_pow.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_pow.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_rem_pio2.o libm/math/ef_rem_pio2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_rem_pio2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/k_cos.o libm/math/k_cos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/k_cos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/k_rem_pio2.o libm/math/k_rem_pio2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/k_rem_pio2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/k_sin.o libm/math/k_sin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/k_sin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/k_tan.o libm/math/k_tan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/k_tan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/kf_cos.o libm/math/kf_cos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/kf_cos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/kf_rem_pio2.o libm/math/kf_rem_pio2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/kf_rem_pio2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/kf_sin.o libm/math/kf_sin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/kf_sin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/kf_tan.o libm/math/kf_tan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/kf_tan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_atan.o libm/math/s_atan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_atan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_ceil.o libm/math/s_ceil.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_ceil.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_cos.o libm/math/s_cos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_cos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_fabs.o libm/math/s_fabs.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_fabs.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_floor.o libm/math/s_floor.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_floor.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_sin.o libm/math/s_sin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_sin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/s_tan.o libm/math/s_tan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/s_tan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_atan.o libm/math/sf_atan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_atan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_ceil.o libm/math/sf_ceil.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_ceil.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_cos.o libm/math/sf_cos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_cos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_fabs.o libm/math/sf_fabs.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_fabs.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_floor.o libm/math/sf_floor.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_floor.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_sin.o libm/math/sf_sin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_sin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/sf_tan.o libm/math/sf_tan.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/sf_tan.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_acos.o libm/math/w_acos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_acos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_asin.o libm/math/w_asin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_asin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_atan2.o libm/math/w_atan2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_atan2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_exp.o libm/math/w_exp.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_exp.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_fmod.o libm/math/w_fmod.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_fmod.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_hypot.o libm/math/w_hypot.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_hypot.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_log.o libm/math/w_log.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_log.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_log10.o libm/math/w_log10.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_log10.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_pow.o libm/math/w_pow.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_pow.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/w_sqrt.o libm/math/w_sqrt.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/w_sqrt.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_acos.o libm/math/wf_acos.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_acos.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_asin.o libm/math/wf_asin.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_asin.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_atan2.o libm/math/wf_atan2.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_atan2.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_exp.o libm/math/wf_exp.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_exp.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_fmod.o libm/math/wf_fmod.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_fmod.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_hypot.o libm/math/wf_hypot.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_hypot.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_log.o libm/math/wf_log.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_log.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_log10.o libm/math/wf_log10.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_log10.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_pow.o libm/math/wf_pow.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_pow.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/wf_sqrt.o libm/math/wf_sqrt.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/wf_sqrt.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/e_sqrt.o libm/math/e_sqrt.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/e_sqrt.c"
+    },
+    {
+        "command": "cc -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -Iinclude -Ilibm/common -Ilibm/math -Ilibm/mlfs -o build-x86_64-linux-gnu/obj/libm/math/ef_sqrt.o libm/math/ef_sqrt.c",
+        "directory": "/home/mlfs/mlfs",
+        "file": "/home/mlfs/mlfs/libm/math/ef_sqrt.c"
+    }
+]
