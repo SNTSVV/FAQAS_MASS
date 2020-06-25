@@ -40,9 +40,12 @@ The input that falsifies the equality can thus be used to improve the test suite
 % make the original an mutate function geenrate distinct results
 % of identifying inputs that lead to different output falsifying the assertion.
 
+
 %In the concrete, if we consider the implementation of \texttt{isPositive} and \texttt{MUT\_isPositive}, 
 In the example of Listing~\ref{example}, the static analysis tool will indicate that the return values of the original and mutated function differ when \texttt{num} is equal to zero.
 A new test case exercising function \texttt{isPositive} with \texttt{num=0} should thus be added to the test suite in order to kill the mutant.
+
+Some static analysis tools (e.g., KLEE) can be configured to generate inputs that satisfy the assertions; in this case the assertion used for input generation can simply reflect the desired behaviour, which is \texttt{assert( original\_ret != transformed\_ret)} in the case of Listing~\ref{example}. An example is provided in Listing~\ref{exampleAssume}.
 
 \input{listings/holling_approach}
 

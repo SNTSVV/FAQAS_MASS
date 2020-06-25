@@ -19,7 +19,7 @@ int MUT_isPositive(int num){
 \end{lstlisting}
 
 \begin{lstlisting}[style=CStyle, caption=Holling's approach for test case generation., label=example]
-void test () { 
+void generate_test_input () { 
 	int numSymbolic; 
 	make_symbolic(&numSymbolic, sizeof(numSymbolic), "numSymbolic"); 
  	
@@ -27,6 +27,18 @@ void test () {
 	int transformed_ret = MUT_isPositive(numSymbolic); 
  
 	assert(original_ret == transformed_ret); 
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=CStyle, caption=Test case generation with assertion that reflects the desired behaviour., label=exampleAssume]
+void generate_test_input () { 
+	int numSymbolic; 
+	make_symbolic(&numSymbolic, sizeof(numSymbolic), "numSymbolic"); 
+ 	
+ 	int original_ret = isPositive(numSymbolic); 
+	int transformed_ret = MUT_isPositive(numSymbolic); 
+ 
+	assert(original_ret != transformed_ret); 
 }
 \end{lstlisting}
 
