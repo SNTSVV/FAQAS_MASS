@@ -1,0 +1,42 @@
+% !TEX root = MAIN.tex
+\clearpage
+\section{Evaluation of Data-driven Mutation Testing Toolsets}
+\label{sec:toolsComparisonDataDriven}
+
+This section describes an evaluation we conducted to identify a data-driven mutation testing tool applicable to space context. In particular, we assessed the Peach Fuzzer toolset.
+
+% description of the toolset
+
+\input{tables/pit_operators}
+
+\input{listings/peach}
+
+Peach~\cite{PeachMozilla,PeachFuzzer} is a fuzzing tool that relies on block models~\cite{pham2016model,spike} to perform data mutations. In other words, Peach perform mutations by altering the data of an input 􏰘according to a large, predefi􏰘ned set of rules. For example, Listing~\ref{peach} introduces a portion of a data model describing the properties of the Zip data format~\cite{zipformat}. 
+
+Even though Peach is currently a proprietary software~\cite{PeachFuzzer}, the Mozilla Foundation maintains a community edition of the toolset~\cite{PeachMozilla}, the community edition implements basic features such as the fuzzing capabilities. The proprietary version of Peach instead provides features for automatic generation of test cases and detailed reports about the potential security threats of a software~\cite{PeachFuzzer}. The version we evaluated in this activity was the community edition provided by the Mozilla Foundation. We provide an overview of the mutation operators implemented by the Peach community edition in Table~\ref{table:PeachOperators}.
+
+% what we did
+
+In the assessment of Peach, we defined three criteria to understand its applicability to the space context software. The first criteria concerns assessing if the community edition of Peach does work and if it can be installed properly. The second criteria concerns its portability. Finally, the third criteria concerns assessing its compatibility with FAQAS case study systems.
+
+Regarding the first criteria, we tested Peach by applying it to the \texttt{unzip} program, and zip file mutants with the fuzzing capabilities of Peach. For this objective we reproduced the steps indicated in~\cite{zipexample}. So, first, we generated a Peach Data Model for Zip data files, and then we specified a launcher that enables the complete mutation process.
+
+Peach provides a monitoring infrastructure that enables the execution of the whole mutation process. The process consists of the following steps:
+\begin{enumerate}
+	\item Specifying the data model for the a data type into an XML file.
+	\item Loading the data model into Peach.
+	\item Generating a new mutant (i.e, a mutated input).
+	\item Running the program taking as an input the generated mutant, and with the monitoring infrastructure enabled.
+	\item If the program crashes the process is stopped.
+	\item If the program does not crashes, the process goes back to step 3, performing a new mutation.
+\end{enumerate}
+
+In particular, we were able to generate mutants for the Zip data format, but we could not run the monitoring infrastructure since it had dependencies with graphical environments that prevent us to execute it properly.
+
+Regarding the second criteria, and specifically its portability. We seek to integrate it into the case studies as a component of their software to mutate data once it is sent, basically the idea would be to intercept the methods that exchange data, and apply Peach directly to the variable containing the data.
+During the evaluation, we discovered that Peach -mainly implemented in Python- can be used as a Python library, and that this library can be invoked to generate multiple mutants in a off-line mode.
+
+% why it was discarded
+
+Regarding the third criteria and its compatibility with our case studies, we conclude that its integration with embedded systems is unlikely to work, mainly because of the characteristics of our case study systems.
+For example, the ESAIL case study system runs within a real-time operative system (i.e., RTEMS by Edisoft) that does not possess a filesystem. Therefore, integrating Peach into ESAIL is not feasible because it might affect the real-time performance of the application, and also because it will be necessary to implement a solution to port the Peach toolset into the ESAIL infrastructure.

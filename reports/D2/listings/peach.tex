@@ -1,0 +1,17 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{minipage}{15cm}
+\begin{lstlisting}[language=XML, caption=Portion of a Peach data model., label=peach, mathescape=true]
+<Number name="lfh_CompSize" size="32" endian="little" signed="false"/>
+<Number name="lfh_DecompSize" size="32" endian="little" signed="false"/>
+<Number name="lfh_FileNameLen" size="16" endian="little" signed="false">
+    <Relation type="size" of="lfh_FileName"/>
+</Number>
+<Number name="lfh_ExtraFldLen" size="16" endian="little" signed="false">
+    <Relation type="size" of="lfh_FldName"/>
+</Number>
+<String name="lfh_FileName"/>
+<String name="lfh_ExtraField"/>
+\end{lstlisting}
+\end{minipage}
+
