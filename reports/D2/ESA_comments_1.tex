@@ -225,9 +225,6 @@ CSR-PABG-46&
 	I think this is not possible, because we would be missing the test oracle.  Also, in that case, we would be assessing through mutation testing the quality of the test augmentation process instead of the quality of the existing test suite.
 
 \end{itemize}
-
-
-
 \end{minipage}\\
 \hline
 CSR-PABG-47&
@@ -237,6 +234,8 @@ We clarified the scope of our analysis for the case study libgscsp in Section~\r
 \hline
 CSR-PABG-48&
 \begin{minipage}{12cm}
+\TODO{How to mutate the payload data? Would those mutations be detectable by the test suite? (typically, the SW does not look into that data, apart perhaps of a checksum for the packet).}
+\TODO{We should ask GSL if libgscsp test suite perform checks on the payload data.}
 \end{minipage}\\
 \hline
 CSR-PABG-49&
