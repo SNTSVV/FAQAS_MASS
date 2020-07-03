@@ -122,6 +122,7 @@ The identification of equivalent mutants still needs to be assessed.
 
 
 \subsection{Data-driven mutation testing}
+\label{subsec:libgscsp_data}
 
 \begin{figure}[h]
   \centering
@@ -162,6 +163,9 @@ Concerning the flags data item, it has a size of 8 bits, i.e., 8 flags are avail
 We force each flag to be set to zero by defining a different BF mutation operator with \emph{State=1} for each of the four bits.
 
 \input{listings/csp_integration}
+
+
+\MREVISION{C-P-48}{On the other hand, the mutations to the payload of the packet will consist of applying the bit-flip (BF) operator to any of the bits of the payload data structure. The mutations to the payload should be detected by the components that uses libcsp (e.g., libparam).}
 
 Both mutations (i.e, header and payload) will be performed before the message is serialized. 
 For example, the mutations to the header will affect the \emph{csp\_send\_direct} function of the \emph{csp\_io component}. 
