@@ -200,30 +200,53 @@ CSR-PABG-43&
 \hline
 CSR-PABG-44&
 \begin{minipage}{12cm}
+We added a brief description in Section~\ref{sec:caseStudies:GSL:libgcsp} about the test framework, test suite and HPC configuration used in the GSL case studies.
 \end{minipage}\\
 \hline
 CSR-PABG-45&
 \begin{minipage}{12cm}
+We clarified in Section~\ref{sec:caseStudies:GSL:libgcsp} that the use case libgscsp is covering integration testing.
 \end{minipage}\\
 \hline
 CSR-PABG-46&
 \begin{minipage}{12cm}
+
+\begin{itemize}
+	\item We should be assessing a test suite as a whole, and if some statements are not covered, this is already a sign that the test suite may not be complete enough. 
+	
+	The point is that if a statement is not covered by the test suite, there is absolutely no chance that a mutant generated in the non-covered statement can be possibly detected by any test case (see \INDEX{killing conditions} of a mutant in D1 Section 1.3.1). For this reason, we make the assumption that test suites are of high quality standards, and therefore, we consider only the covered statements.
+
+	\item When computing the mutation score, is it fare to not count those not-covered lines?
+
+	Yes, is it fare because mutation testing assess the quality of existing test suites, and considering non-covered statements would be out of the scope of the technique. Also, including non-covered statements into the mutation score, would not let us to assess correctly the quality of the existing test suite.
+
+  	\item Maybe the approach would be to run the test augmentation process to provide test cases for the missing statements??
+
+	\TODO{I think the literature does not cover this issue}
+	I think this is not possible, because we would be missing the test oracle.  Also, in that case, we would be assessing through mutation testing the quality of the test augmentation process instead of the quality of the existing test suite.
+
+\end{itemize}
 \end{minipage}\\
 \hline
 CSR-PABG-47&
 \begin{minipage}{12cm}
+We clarified the scope of our analysis for the case study libgscsp in Section~\ref{sec:caseStudies:GSL:libgcsp}. 
 \end{minipage}\\
 \hline
 CSR-PABG-48&
 \begin{minipage}{12cm}
+We clarified in Section~\ref{subsec:libgscsp_data} the mutations to be applied to the payload, and how they would be detected by the existing test suite.
 \end{minipage}\\
 \hline
 CSR-PABG-49&
 \begin{minipage}{12cm}
+We added more details about the provided test suite and the scope of libparam in FAQAS.
 \end{minipage}\\
 \hline
 CSR-PABG-50&
 \begin{minipage}{12cm}
+\TODO{I did not change the text for this comment, below there is my answer.}
+The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all the 201 test cases for all the source code of libutil.
 \end{minipage}\\
 \hline
 CSR-PABG-51&
@@ -248,7 +271,7 @@ CSR-PABG-53&
 %Comment #5:
 %Please, consider to add more examples.
 
-\bottomrule                                                             
+% \bottomrule                                                             
 \end{longtable}
 \normalsize
 

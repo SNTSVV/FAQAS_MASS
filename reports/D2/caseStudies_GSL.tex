@@ -17,13 +17,19 @@ The GomSpace CSP library provides:
 \end{itemize}
 
 The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of the open source libcsp (https://github.com/libcsp/libcsp), located in the subfolder lib/libcsp, and an extension of the CSP library. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp. The extension of the CSP library provides utility functions for GSL-specific products.
+\MREVISION{C-P-47}{In the context of FAQAS, we consider both the libcsp (GSL branch) and the extension of the CSP library.}
 
 Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 
 The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
 while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
-Instead, the libgscsp unit test suite consists of 89 test cases, compiled and executed through the WAF meta-build system.
+
+\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an integration test suite. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
+
+\MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
+
 
 \subsection{Code-driven mutation testing}
 
@@ -31,9 +37,9 @@ Instead, the libgscsp unit test suite consists of 89 test cases, compiled and ex
 
 In FAQAS, under the assumption that test suites are of high quality standards, we mutate only the statements covered by the test suite. This is also due to the fact that a mutant can be killed only if it is covered by at least one test case. 
 
-In the case of libgscsp, the unit test suite covers basic algorithms such as error handling and routing while hardware specific functions such as the handling of CAN protocol is verified by means of a test suite for hardware in the loop. 
+In the case of libgscsp, the integration test suite covers basic algorithms such as error handling and routing while hardware specific functions such as the handling of CAN protocol is verified by means of a test suite for hardware in the loop. 
 
-GomSpace relies on a risk-driven approach to unit testing; for this reason GSL code does not reach 100\% code coverage in the unit tests. The code that has not been covered is judged to be low risk, but is covered by other techniques like code inspection and manual testing. The unit tests run are covering the normal use cases for our satellites. libCSP is not specific to GomSpace, although GSL uses it heavily, and not all features are used in GomSpace satellites.
+GomSpace relies on a risk-driven approach to integration testing; for this reason GSL code does not reach 100\% code coverage in the integration tests. The code that has not been covered is judged to be low risk, but is covered by other techniques like code inspection and manual testing. The integration tests run are covering the normal use cases for our satellites. libCSP is not specific to GomSpace, although GSL uses it heavily, and not all features are used in GomSpace satellites.
 
 %For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite.
 
@@ -42,7 +48,7 @@ GomSpace relies on a risk-driven approach to unit testing; for this reason GSL c
 \begin{enumerate}
 	\item \textbf{libgscsp extension}
 
-	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp unit test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
+	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp integration test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
 	%we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 	
 	\begin{itemize}
@@ -61,7 +67,7 @@ GomSpace relies on a risk-driven approach to unit testing; for this reason GSL c
 
 	\item \textbf{libcsp (GSL branch)}
 
-	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp unit test suite for the GSL branch of the CSP library. 
+	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp integration test suite for the GSL branch of the CSP library. 
 	% Given the code coverage, we focus our mutation analysis on the following subset of components (i.e., components with code coverage greater than 0\%):
 Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 45\% of the source files. %(32/71)
 
@@ -116,6 +122,7 @@ The identification of equivalent mutants still needs to be assessed.
 
 
 \subsection{Data-driven mutation testing}
+\label{subsec:libgscsp_data}
 
 \begin{figure}[h]
   \centering
@@ -157,6 +164,9 @@ We force each flag to be set to zero by defining a different BF mutation operato
 
 \input{listings/csp_integration}
 
+
+\MREVISION{C-P-48}{On the other hand, the mutations to the payload of the packet will consist of applying the bit-flip (BF) operator to any of the bits of the payload data structure. The mutations to the payload should be detected by the components that uses libcsp (e.g., libparam).}
+
 Both mutations (i.e, header and payload) will be performed before the message is serialized. 
 For example, the mutations to the header will affect the \emph{csp\_send\_direct} function of the \emph{csp\_io component}. 
 Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the \emph{csp\_io component}. 
@@ -190,7 +200,11 @@ The features of this system include:
 
 Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
-Details about code coverage, mutation  score, and fault model for data-driven mutation testing will be provided at the end of WP2.
+\MREVISION{C-P-49}{The size of libparam is 3\,179 LOC. libparam includes a system test suite, consisting of 170 test cases, assessing functionalities from the library itself, libgscsp, libembed and libutil. The test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation testing.}
+
+
+Details about code coverage, mutation score, and fault model for data-driven mutation testing will be provided at the end of WP2.
 
 %\subsection{Code-driven mutation testing}
 %
@@ -210,7 +224,8 @@ The Utility library provides cross-platform APIs for common functionality, for u
 
 Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
-The size of libutil is 10\,576 LOC, while the unit test suite consists of 201 test cases written in C.
+The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
 
 \subsection{Code-driven mutation testing}
 
