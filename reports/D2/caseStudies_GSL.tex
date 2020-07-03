@@ -224,7 +224,8 @@ The Utility library provides cross-platform APIs for common functionality, for u
 
 Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
-The size of libutil is 10\,576 LOC, while the unit test suite consists of 201 test cases written in C.
+The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
 
 \subsection{Code-driven mutation testing}
 
