@@ -17,18 +17,19 @@
 \Ensure \emph{PTS}, a list of test cases to be executed, sorted by priority
 % (source inputs, follow-up inputs, output data).
 
-
-\State from \emph{Cov}, identify the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:prioritize:first}
-\State $\mathit{PTS} \gets \mathit{PTS} \cup t$
+\State $\mathit{TS}_m \gets$ subset of $\mathit{TS}$ that cover the mutated statement $\mathit{ms}$, based on \emph{Cov} \label{alg:prioritize:select}
+\State $\mathit{PTS} \gets \mathit{new} \mathit{list}$ \textcolor{darkgray}{//this list is initially empty}
+\State $\mathit{PTS} \gets$ based on \emph{Cov} select from $\mathit{TS_m}$ the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:prioritize:first}
+\State $\mathit{PTS} \gets \mathit{PTS} \cup t$ \textcolor{darkgray}{//include first the test case selected above}  \label{alg:prioritize:add}
 
 \State \textbf{repeat} \label{alg:prioritize:repeat}
-\State \hspace{\INDC mm} \textbf{for each} $n$ in the set ($\mathit{TS}$ - $\mathit{PTS}$) \label{alg:prioritize:notSel}
+\State \hspace{\INDC mm} \textbf{for each} $n$ in the set ($\mathit{TS}_m$ - $\mathit{PTS}$) \textcolor{darkgray}{, which is the set of test cases not already added to $\mathit{PTS}$} \label{alg:prioritize:notSel}
 \State \hspace{\INDA mm} \textbf{for each} $t$ in $\mathit{PTS}$
 \State \hspace{\INDB mm} compute the distance between $t$ and $n$
 \State \hspace{\INDA mm} identify $t_n$ i.e., the test case $t$ with the minimal $d$ \label{alg:prioritize:minD}
 \State \hspace{\INDC mm} among all the $t_n$ identified, select the one with the highest distance $d$ \label{alg:prioritize:selectStart}
 \State \hspace{\INDC mm} \textbf{if} $d > 0$ \textcolor{darkgray}{//there is at least a test case with a different coverage}
-\State \hspace{\INDA mm} \textcolor{darkgray}{//note: $n$ is the test case in the set ($\mathit{TS}$ - $\mathit{PTS}$) closer to $t_n$}
+\State \hspace{\INDA mm} \textcolor{darkgray}{//note: $n$ is the test case in the set ($\mathit{TS}_m$ - $\mathit{PTS}$) closer to $t_n$}
 \State \hspace{\INDA mm} $\mathit{PTS} \gets \mathit{PTS} \cup n$ \label{alg:prioritize:selectEnd}
 \State \textbf{until} $d > 0$ \label{alg:prioritize:until}
 

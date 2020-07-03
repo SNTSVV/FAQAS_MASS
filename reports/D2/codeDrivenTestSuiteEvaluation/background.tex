@@ -34,36 +34,28 @@ The capability of a test case to kill a mutant also depends on the observability
 
 Mutation testing introduces small syntactical changes into the code (source code or machine code) of a program through a set of mutation operators that simulate programming mistakes. 
 
-
-
 The  \emph{sufficient set of operators} is widely used for conducting empirical evaluations ~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting}. 
 %Initially defined by Offutt et al., the set has been extended to include newly defined operators.
-The original sufficient set defined by Offutt et al. is composed of the following operators: absolute value insertion (ABS), arithmetic operator replacement (AOR), integer constraint replacement (ICR), logical connector replacement (LCR), relational operator replacement (ROR), and unary operator insertion (UOI)~\cite{offutt1996experimental}.
+The original sufficient set, defined by Offutt et al., is composed of the following operators: Absolute Value Insertion (ABS), Arithmetic Operator Replacement (AOR), Integer Constraint Replacement (ICR), Logical Connector Replacement (LCR), Relational Operator Replacement (ROR), and Unary Operator Insertion (UOI)~\cite{offutt1996experimental}.
 % operator and the \INDEX{statement deletion operator} (SDL).
 Andrews et al.~\cite{andrews2005mutation} have included the 
-\emph{statement deletion operator} (SSDL)~\cite{delamaro2014designing}, which ensures that every pointer-manipulation and field-assignment statement is properly tested. 
+\emph{statement deletion operator} (SDL)~\cite{delamaro2014designing}, which ensures that every pointer-manipulation and field-assignment statement is tested. 
 %Table~\ref{table:sufficient_operators} provides an overview of the operators belonging to the sufficient set.
 %, thus targeting faults not simulated by the rest of the sufficient operators. In addition, recent research results show that the SDL operator is the most effective for fault detection~\cite{delamaro2014designing}. 
-Deletion operators produce significantly less equivalent mutants~
+\MREVISION{C-P-06}{Deletion operators produce significantly less equivalent mutants~
 \cite{delamaro2014designing,delamaro2014experimental}; also, 
-test suites that kill mutants generated with OODL (deletion of arithmetic and relational operators) and SSDL (deletion of statements), kill a very high percentage of all mutants (e.g., 97\%)~\cite{delamaro2014experimental}. 
-%However, since space software is different than other types of software systems (e.g., it includes functions to process signals, which are absent in Unix utilities), the pertinence of the mutation score generated with the SSDL operator should be evaluated.
+test suites that kill mutants generated with the SDL and the \emph{OODL operators} kill a very high percentage of all mutants (i.e., 97\%)~\cite{delamaro2014experimental}. 
+The OODL mutation operators delete Arithmetic (AOD), Bitwise (BOD), Logical (LOD), Relational (ROD), and Shift (SOD) operators in the program source code.}
 
-%Operators used in other papers:
-%
-%Papadakis, M., Shin, D., Yoo, S., & Bae, D.-H. (2018). Are mutation scores correlated with real fault detection? a large scale empirical study on the relationship between mutants and real faults. 2018 IEEE/ACM 40th International Conference on Software Engineering (ICSE), 537?548.
-%AOR (Arithmetic Operator Replacement), LOR (Logical Operator Replacement), COR (Conditional Operator Replacement), ROR (Relational Operator Replacement), ORU (Operator Replace- ment Unary), STD (STatement Deletion), and . Additional
-%
-%Chekam, T. T., Papadakis, M., Le Traon, Y., & Harman, M. (2017). An empirical study on mutation, statement and branch coverage fault revelation that avoids the unreliable clean program assumption. 2017 IEEE/ACM 39th International Conference on Software Engineering (ICSE), 597?608.
-%The mutation tool includes the (large and varied) set of mutant operators used in previous research [4], [30], [49]. Specifically, we used mutants related to arithmetic, relational, conditional, logical, bitwise, shift, pointers and unary operators. We also used statement deletion, variable and constant replacement.
+The sufficient set of operators enables an accurate estimation of the mutation score of a test suite~\cite{siami2008sufficient}; furthermore, the mutation score computed with the sufficient set is a good estimate the fault detection rate (i.e., the portion of real faults discovered) of a test suite~\cite{andrews2005mutation}. 
+
+\MREVISION{C-P-06}{Recent work has shown that, to maximize the detection of real faults, a set of operators should be used in addition to the sufficient set and includes: Conditional Operator Replacement (COR),
+Literal Value Replacement (LVR), and Arithmetic Operator Deletion (AOD)~\cite{Kintis2018}. }
 
 
 
-%(1) test suites that are mutation adequate (i.e., achieve 100\% mutation score) with respect to the sufficient set of operators also achieve a very high mutation score if we consider a larger set of mutation operators~\cite{offutt1996experimental}, 
-The sufficient set of operators enables an accurate estimation of the mutation score of a test suite~\cite{siami2008sufficient}; furthermore, the mutation score computed with the sufficient set can estimate the fault detection rate (i.e., the portion of real faults discovered) of a test suite~\cite{andrews2005mutation}. 
 
-Recent work has shown that, to maximize the detection of real faults, a set of operators to be used in addition to the sufficient set is the following: Conditional Operator Replacement (COR),
-Literal Value Replacement (LVR), and Arithmetic Operator Deletion (AOD)~\cite{Kintis2018}. However, in C/C++ LVR is subsumed by 
+
 
 An alternative to the sufficient set of operators is the generation of higher order mutants, which result from the application of multiple mutation operators for each mutation~\cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}. However, higher order mutants are of \emph{relatively lower strength than the first order ones}~\cite{papadakis2010mutation,papadakis2019mutation}, also there is \emph{lack of clear theory on which mutants are of some value}, and they may lead to redundant mutants~\cite{papadakis2019mutation}. For this reason, we focus our study on first order mutations.
 % generated with the sufficient set.
@@ -178,7 +170,16 @@ Despite identifying equivalent mutants is an undecidable problem~\cite{madeyski2
 The simplest solution consists of relying on \emph{trivial compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}, i.e., compile both the mutants and the original program with compiler optimisations enabled and determine that the mutant is equivalent when their executable code match. In the case of programs written in C, compiler optimisations can reduce the total number of mutants by 28\%~\cite{kintis2017detecting}.
 
 
-Solutions that identify equivalent mutants based on symbolic execution~\cite{holling2016nequivack}, bounded model checking~\cite{riener2011test}, and program slicing ~\cite{harman2001relationship} are unlikely to scale with large systems because of the limitations of static analysis. Also, their implementation often relies on LLVM, which may prevent their applicability to space software (see Section~\ref{sec:compile:time}).
+%Solutions that identify equivalent mutants based on symbolic execution~\cite{holling2016nequivack}, bounded model checking~\cite{riener2011test}, and program slicing ~\cite{harman2001relationship} are unlikely to scale with large systems because of the limitations of static analysis. Also, their implementation often relies on LLVM, which may prevent their applicability to space software (see Section~\ref{sec:compile:time}).
+
+\CHANGED{Solutions that identify equivalent mutants based on \emph{static program analysis} (e.g., concolic execution~\cite{holling2016nequivack}, and bounded model checking~\cite{riener2011test}) require the manual identification of the state variables and program outputs that contain the results of the computation performed by the mutated function.
+% and thus should differ after the execution of the original and mutated code. 
+Such manual analysis is infeasible in the presence of a large set of mutants, most particularly for large systems. 
+%Despite some form of automation might be envisioned in the presence of unit test cases, such solution is not applicable when test cases target the whole system. 
+Alternatively, reachability analysis might be employed to determine if two mutants are not equivalent according to weak mutation. 
+However, weak mutation does not guarantee that the sufficiency condition holds; consequently, the generated results still need to be manually inspected to determine if a difference in the final state of the system is observable. In addition, existing static analysis solutions cannot work with system-level test cases that require hardware and environment simulators.
+Indeed, (1) simulation results cannot be predicted by pure static analysis, and (2) concolic execution tools, which rely on LLVM, cannot be run if the SUT executable should be generated with a specific compiler (see Section~\ref{sec:compile:time}).}
+
 
 Alternative solutions rely on comparing the data collected at runtime when testing the original software and the mutants~\cite{grun2009impact,schuler2010covering,schuler2013covering}.
 %A large number of program classes presenting different statement coverage in test suites executions with the original and the mutated code is an indicator for  mutants to be non-equivalent~\cite{grun2009impact}.
@@ -210,5 +211,5 @@ To speed up mutation testing by reducing the number of mutants, the SSDL operato
 Among compile time optimizations, only mutant schemata appear to be feasible.
 Simple runtime scalability optimizations (i.e., S1, S2, and S3 in Section~\ref{sec:scalability}) are feasible in the case of space software. Other feasible solutions are the ones relying on mutant sampling and coverage metrics. However, the confidence of the results generated for mutant sampling rates below 5\% should be evaluated. Furthermore, code coverage metrics that are feasible for space software need to be defined.
 
-Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, coverage metrics that are robust with respect to non-deterministic internal software behaviours should be developed. \MREVISION{C-P-08}{The same solution can be adopted to identify duplicate mutants. The identification of scalable solutions for the generation of test cases that distinguish subsumed mutants is out of the scope of this project. However, the percentage of subsumed mutants should be reported by the framework.}
+Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, coverage metrics that are robust with respect to non-deterministic internal software behaviours should be developed. \MREVISION{C-P-08}{The same solution can be adopted to identify duplicate mutants. The identification of scalable solutions for the generation of test cases that distinguish subsumed mutants is out of the scope of this project. However, the percentage of subsumed mutants should be reported by the FAQAS framework.}
 

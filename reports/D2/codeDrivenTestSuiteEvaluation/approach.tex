@@ -1,5 +1,5 @@
 % !TEX root =  ../Main.tex
-\subsection{Space Software Mutation Testing Pipeline}
+\subsection{Space Software Mutation Testing Process}
 \label{sec:approach}
 
 \begin{figure}[tb]
@@ -32,11 +32,13 @@ To automatically generate mutants, we have extended SRCIRor~\cite{hariri2018srci
 
 In Step 3, we compile mutants by relying on the build system of the SUT. To this end, we have developed a toolset that, for each mutated source file: (1) backs-up the original source file, (2) renames the mutated source file as the original source file, (3) runs the build system (e.g., executes the command \texttt{make}), (4) copies the generated executable mutant in a dedicated folder, (5) restores the original source file. 
 
-Build systems create one object file for each source file to be compiled and then link these object files together into the final executable. For this reason, since we modify at most two source files for each mutant (i.e., the mutated file and the file restored from previous mutation), we can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our case study systems (Section~\ref{sec:evaluation}) have shown that additional compile-time optimizations (e.g., mutant schemata) are not necessary to make the compilation of mutants feasible.
+Build systems create one object file for each source file to be compiled and then link these object files together into the final executable. For this reason, since we modify at most two source files for each mutant (i.e., the mutated file and the file restored from previous mutation), we can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. Some preliminary experiments conducted with our case study systems have shown that additional compile-time optimizations (e.g., mutant schemata) are not necessary to make the compilation of mutants feasible.
 
 \subsubsection{Step 4}
 
-In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. If the SUT is compiled with compiler optimizations enabled, Step 4 consists of first computing the SHA-512 hash summary of all the mutant and original executables and then compare all the generated hash summaries. Hash comparison enables us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash of the original executable), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and redundant mutants are ignored in the following steps of \APPR. 
+In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. 
+\MREVISION{C-P-15}{We aim to enable all the available optimizations (e.g., \texttt{-O3} or \texttt{-Ofast} in GCC).}
+If the SUT is already configured to be compiled with optimizations enabled, Step 4 consists of first computing the SHA-512 hash summary of all the mutant and original executables and then compare all the generated hash summaries. Hash comparison enables us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash of the original executable), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and redundant mutants are ignored in the following steps of \APPR. 
 Equivalent and redundant mutants are discarded.
 The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
 
@@ -97,8 +99,8 @@ $D_C= \frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=1}
 $A_i$ and $B_i$ refer to the number of times the i-th statement had been covered by test cases $T_A$ and $T_B$, respectively.
 
 Figure~\ref{alg:prioritize} shows the pseudocode of our algorithm for selecting and prioritizing test cases. It generates as output
-a prioritized test suite (i.e., \emph{PTS}).
-Based on the findings of Zhang et al. \cite{zhang2013faster}, we first select the test case that exercises the mutated statement more times (Line~\ref{alg:prioritize:first}).
+a prioritized test suite (i.e., \emph{PTS}) that consists of a subset of the test cases that exercise the mutated statement (Line~\ref{alg:prioritize:select}).
+Based on the findings of Zhang et al. \cite{zhang2013faster}, we first select the test case that exercises the mutated statement more times (Line~\ref{alg:prioritize:first}) \MREVISION{C-P-17}{ and add it to the prioritized test suite (Line~\ref{alg:prioritize:add}).}
 Then, the next selected test case is the one with the largest distance from the closest test case belonging to the set of test cases already selected (Lines~\ref{alg:prioritize:selectStart} to~\ref{alg:prioritize:selectEnd}). 
 %is most different than any other test case already included in the prioritized test suite.
 
@@ -120,6 +122,7 @@ In Step 7, we identify likely equivalent and likely redundant mutants by relying
 Differently from related work~\cite{schuler2013covering}, since the size of a program may impact on the number of statement that present coverage differences because of non-determinism, 
 to identify equivalent and redundant mutants through a threshold, instead of relying on the absolute number of methods/statements presenting differences in code coverage, we compute normalized distances based on the distance metrics $D_J$, $D_O$, $D_E$, and $D_C$. 
 
+%To identify equivalent mutants, we select the
 A mutant is considered non-equivalent when the distance from the original program is above the threshold $T_E$, for at least one test case.
 Similarly, a mutant is considered non-redundant when the distance from every other mutants is above the threshold $T_R$, for at least one test case.
 

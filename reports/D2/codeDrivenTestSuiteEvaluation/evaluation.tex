@@ -1,0 +1,41 @@
+% !TEX root =   ../Main.tex
+
+
+\subsection{Empirical Evaluation Planning}
+\label{sec:codemutation:evaluation}
+
+\MREVISION{CSR-PABG-11}{The project will include continuous empirical evaluation sessions with the case study systems that aim to address the following research questions:}
+
+\begin{itemize}
+
+    \item[RQ1] What is the portion of equivalent mutants that are detected by trivial compiler optimization? This research question aims to determine the effectiveness and cost savings introduced by trivial compiler optimization techniques. \MREVISION{C-P-15}{In addition it aims to discuss to what extent the set of equivalent mutants detected differ when different optimization sets are used. In the case of GCC we will consider \texttt{-O1}, \texttt{-O2}, \texttt{-O3}, and \texttt{-Ofast}.}
+
+    \item[RQ2] \MREVISION{C-P-16}{Can a randomly selected subset of mutants be used to compute a mutation score that estimates with high confidence the mutation score of the whole test suite? This research question aims to partially replicate the findings reported in~\cite{zhang2013operator} and determine which mutant selection strategy considered in Step 5 of \APPR works better.}
+
+    \item[RQ3] Can we identify a lower bound in the number of randomly selected mutants that enable us to estimate with high confidence the mutation score of the whole test suite? This research question aims to replicate the findings reported in~\cite{gopinath2015hard}.
+
+    \item[RQ4] Do mutants generated with the statement deletion operator lead to a mutation score that estimates with high confidence the mutation score of the whole test suite?  This research question aims to replicate the findings reported in ~\cite{delamaro2014experimental}.
+    
+     \item[RQ5] Which coverage metric enable us to drive test suite selection to estimate with high confidence the mutation score of the whole test suite? This research question aims to investigate if the test suite selection procedures driven by the different coverage metrics (i.e., $D_J$, $D_O$, $D_E$, $D_C$) may negatively affect the estimation of the mutation score. Also, it aims to identify the coverage metric that leads to best results.
+    
+    \item[RQ6] Which coverage metric enable us to obtain the best test suite prioritization results? This research question aims to investigate the differences in terms of mutation process execution time obtained when different coverage metrics (i.e., $D_J$, $D_O$, $D_E$, $D_C$) are used.
+    
+%    \item[RQ6] Can a subset of the test suite that maximizes test suite diversity be used to estimate with high confidence the mutation score of the whole test suite?
+
+    \item[RQ7] \MREVISION{C-P-13}{To what extent test suite selection and prioritization based on code coverage information can speed up mutation testing? 
+    This research question aims to evaluate how much the proposed test suite selection and prioritization approach can speed up mutation testing; also it aims to evaluate the feasibility of the mutation testing process when  test suite selection and prioritization based on code coverage is not feasible (e.g., because code coverage information cannot be collected).}
+
+    \item[RQ8.a] Can code coverage information be used to correctly identify non-equivalent and non-redundant mutants? [RQ8.b] Is it possible to identify an optimal threshold for their identification? [RQ8.c] Which coverage metric perform better in this context? This research question builds on the findings reported in~\cite{schuler2013covering} and aims to evaluate the solution adopted in Step 7 or \APPR. Also, it aims to identify a threshold that enables us to correctly identify non-equivalent and non-redundant mutants.
+    
+    \item[RQ9] \MREVISION{C-P-13}{How badly the accuracy of the mutation score is affected, if equivalent and redundant mutants are not filtered because code coverage information is not available?
+    This research question aims to determine how accurate is the mutation score computed without filtering equivalent and redundant mutants.}
+    % \item[RQ9] Do mutants generated with operators that modify the control-flow produce less equivalent mutants? This research questions aims to replicate the findings reported in~\cite{schuler2013covering}.
+
+    \item[RQ10] Does the mutation score obtained with \APPR enable us to estimate with high confidence the mutation score of the whole test suite? This research question aims to evaluate the accuracy of the mutation score computed with the whole \APPR process.
+
+    
+    
+    
+\end{itemize}
+
+A detailed description of the experiment design and measurements to address each of the research questions will be provided by the end of WP2.
