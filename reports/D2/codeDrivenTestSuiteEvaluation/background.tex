@@ -210,7 +210,5 @@ To speed up mutation testing by reducing the number of mutants, the SSDL operato
 Among compile time optimizations, only mutant schemata appear to be feasible.
 Simple runtime scalability optimizations (i.e., S1, S2, and S3 in Section~\ref{sec:scalability}) are feasible in the case of space software. Other feasible solutions are the ones relying on mutant sampling and coverage metrics. However, the confidence of the results generated for mutant sampling rates below 5\% should be evaluated. Furthermore, code coverage metrics that are feasible for space software need to be defined.
 
-Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, coverage metrics that are robust with respect to non-deterministic internal software behaviours should be developed.
-
-
+Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, coverage metrics that are robust with respect to non-deterministic internal software behaviours should be developed. \MREVISION{C-P-08}{The same solution can be adopted to identify duplicate mutants. The identification of scalable solutions for the generation of test cases that distinguish subsumed mutants is out of the scope of this project. However, the percentage of subsumed mutants should be reported by the framework.}
 
