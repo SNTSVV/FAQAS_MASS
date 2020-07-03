@@ -17,6 +17,7 @@ The GomSpace CSP library provides:
 \end{itemize}
 
 The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of the open source libcsp (https://github.com/libcsp/libcsp), located in the subfolder lib/libcsp, and an extension of the CSP library. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp. The extension of the CSP library provides utility functions for GSL-specific products.
+\MREVISION{C-P-47}{In the context of FAQAS, we consider both the libcsp (GSL branch) and the extension of the CSP library.}
 
 Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
@@ -24,7 +25,7 @@ Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-
 The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
 while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
 
-\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an integration test suite. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition. For example, the test case \texttt{TEST\_csp\_port\_bind} test capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket)} 
+\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an integration test suite. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
 
 \MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
 To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
