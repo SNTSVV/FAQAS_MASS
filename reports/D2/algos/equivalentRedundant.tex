@@ -1,0 +1,115 @@
+% !TEX root =  ../Main.tex
+
+\renewcommand{\INDA}{5}
+\renewcommand{\INDB}{10}
+\renewcommand{\INDC}{15}
+\newcommand{\INDD}{20}
+\newcommand{\INDE}{25}
+
+\renewcommand{\Comment}[1]{\textcolor{darkgray}{\textit{//#1}}}
+
+%\vspace{-3mm}
+\begin{figure}[tb]
+
+\begin{algorithmic}[1]
+
+%\footnotesize
+\scriptsize
+\Require \emph{D}, the distance function to use to identify equivalent/redundant mutants
+\Require \emph{KM}, list of killed mutants
+\Require \emph{LM}, list of live mutants
+\Require $\mathit{Cov}_O$, coverage information for all the test cases, for the original program
+\Require $\mathit{Cov}_M$, coverage information for all the executed test cases, for every mutant
+\Require \emph{TS}, list of test cases
+\Require \emph{TR}, test results, for all the executions
+\Ensure \emph{KNR}, a list of killed, non-redundant  mutants
+\Ensure \emph{LNENR}, a list of live, non-equivalent, non-redundant mutants
+% (source inputs, follow-up inputs, output data).
+
+\State $\mathit{TS}_m \gets$ subset of $\mathit{TS}$ that cover the mutated statement $\mathit{ms}$, based on \emph{Cov} \label{alg:equivalent:select}
+\State $\mathit{PTS} \gets \mathit{new} \mathit{list}$ \textcolor{darkgray}{//this list is initially empty}
+\State $\mathit{PTS} \gets$ based on \emph{Cov} select from $\mathit{TS_m}$ the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:equivalent:first}
+\State $\mathit{KNR} \gets \mathit{identifyNonRedundantMutants(} \mathit{KM}, \mathit{TS}, \mathit{TR}, \mathit{Cov}_M)$ \label{alg:equivalent:KNR}
+\State $\mathit{LNE} \gets \mathit{identifyNonEquivalentMutants(} \mathit{LNR}, \mathit{TS}, \mathit{Cov}_M, \mathit{Cov}_O)$ \label{alg:equivalent:LNE}
+\State $\mathit{LNENR} \gets \mathit{identifyRedundantMutants(} \mathit{LNE}, \mathit{TS}, \mathit{Cov}_M)$ \label{alg:equivalent:LNENR}
+
+
+\Procedure{identifyNonRedundantMutants}{$\mathit{M},\mathit{TS},\mathit{TR},\mathit{Cov}_M$}\Comment{$M$ is a  list of mutants, $\mathit{TS}$, $\mathit{TR}$, and $\mathit{Cov}_M$ are defined above}
+\State $\mathit{NR} \gets \mathit{empty} \mathit{set}$
+\State $\mathit{k1} \gets $ extract and remove first element of M
+\State $\mathit{NR} \gets \mathit{NR} \cup \mathit{k1}$
+\While {$\mathit{M}$ not empty}
+\State $\mathit{k2} \gets $ extract and remove first element of M
+\For {mutant $k1$ in $\mathit{NR}$}
+\State $\mathit{redundant}=\mathit{TRUE}$
+\For {test case $t$ in $\mathit{TS}$}
+\If {$t$ has different result in $k1$ and $k2$ }
+\State $\mathit{redundant}=\mathit{FALSE}$
+\State \textbf{break}
+\Else
+\State $\mathit{cov}_{k1t} \gets $ extract coverage information for test case $t$ executed with mutant $k1$
+\State $\mathit{cov}_{\mathit{k2}t} \gets $ extract coverage information for test case $t$ executed with mutant $k2$
+\If {$D(\mathit{cov}_{k1t},\mathit{cov}_{\mathit{k2}t}) > T_R$ }
+\State $\mathit{redundant}=\mathit{FALSE}$
+\State \textbf{break}
+\EndIf
+\EndIf
+\EndFor
+\If {$\mathit{equivalent}==\mathit{FALSE}$}
+\State \textbf{break} \Comment{No need to compare with all the mutants if we know that it is not redundant}
+\EndIf
+\EndFor
+\If {$\mathit{redundant}==\mathit{FALSE}$}
+\State $\mathit{NR} \gets \mathit{NR} \cup \mathit{k2}$
+\EndIf
+\EndWhile
+\State \textbf{return} $\mathit{NR}$
+\EndProcedure
+
+
+\Procedure{identifyNonEquivalentMutants}{$\mathit{M},\mathit{TS},\mathit{Cov}_M,\mathit{Cov}_O$}\Comment{$M$ is a  list of mutants, $\mathit{TS}$, and $\mathit{Cov}_M$, and $\mathit{Cov}_O$ are defined above}
+\State $\mathit{NE} \gets \mathit{empty} \mathit{set}$
+\While {$\mathit{M}$ not empty}
+\State $\mathit{m} \gets $ extract and remove first element of M
+
+\For {test case $t$ in $\mathit{TS}$}
+\State $\mathit{cov}_{m} \gets $ extract coverage information for test case $t$ executed with mutant $m$
+\State $\mathit{cov}_{o} \gets $ extract coverage information for test case $t$ executed with original program
+
+\If {$D(\mathit{cov}_{m},\mathit{cov}_{o}) > T_E$ }
+\State $\mathit{equivalent}=\mathit{FALSE}$
+\State \textbf{break}
+\EndIf
+
+\EndFor
+
+\If {$\mathit{equivalent}==\mathit{FALSE}$}
+\State $\mathit{NE} \gets \mathit{NE} \cup \mathit{m}$
+\EndIf
+
+\EndWhile
+
+\State \textbf{return} $\mathit{NE}$
+\EndProcedure
+
+
+
+%
+%
+%\State \hspace{\INDA mm} \textbf{if} $\mathit{KM}$ not empty
+%\State \hspace{\INDB mm} compute the distance between $t$ and $n$
+%\State \hspace{\INDA mm} identify $t_n$ i.e., the test case $t$ with the minimal $d$ \label{alg:equivalent:minD}
+%\State \hspace{\INDC mm} among all the $t_n$ identified, select the one with the highest distance $d$ \label{alg:equivalent:selectStart}
+%\State \hspace{\INDC mm} \textbf{if} $d > 0$ \textcolor{darkgray}{//there is at least a test case with a different coverage}
+%\State \hspace{\INDA mm} \textcolor{darkgray}{//note: $n$ is the test case in the set ($\mathit{TS}_m$ - $\mathit{PTS}$) closer to $t_n$}
+%\State \hspace{\INDA mm} $\mathit{PTS} \gets \mathit{PTS} \cup n$ \label{alg:equivalent:selectEnd}
+%\State \textbf{until} $d > 0$ \label{alg:equivalent:until}
+
+
+\end{algorithmic}
+\vspace{-3mm}
+\caption{Algorithm for identifying non-equivalent and non-redundant mutants}
+%\vspace{-0.2cm}
+\label{alg:nonEquivalent:nonRedeundat}
+\end{figure}
+

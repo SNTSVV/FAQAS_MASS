@@ -126,11 +126,19 @@ to identify equivalent and redundant mutants through a threshold, instead of rel
 A mutant is considered non-equivalent when the distance from the original program is above the threshold $T_E$, for at least one test case.
 Similarly, a mutant is considered non-redundant when the distance from every other mutants is above the threshold $T_R$, for at least one test case.
 
+\MREVISION{C-P-19}{Figure~\ref{alg:nonEquivalent:nonRedeundat} shows the algorithm for detecting non-equivalent and non-redundant mutants.
+It first identify among the list of killed mutants all the non-redundant ones (Line~\ref{alg:equivalent:KNR}).
+Then it identifies the non-equivalent mutants among the list of live mutants (Line~\ref{alg:equivalent:LNE}).
+Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be non-redundant (Line~\ref{alg:equivalent:LNENR}).}
+
+\input{algos/equivalentRedundant.tex}
+
 \subsubsection{Step 8}
 
-The mutation score is computed as the ratio between the number of live, non-equivalent and non-redundant mutants (hereafter, \emph{LNENR}) and the overall number of non-equivalent, non-redundant mutants identified in Step 7:
+The mutation score is computed as the ratio between the number of live, non-equivalent and non-redundant mutants  and the overall number of non-equivalent, non-redundant mutants identified in Step 7:
 
-$\mathit{mutation}\ \mathit{score} = \frac{\mathit{LNENR}}{\mathit{LNENR}+\mathit{KNR}}$,
+$\mathit{mutation}\ \mathit{score} = \frac{|\mathit{LNENR}|}{|\mathit{LNENR}|+|\mathit{KNR}|}$,
+$\mathit{LNE}$ is the number of live, non-equivalent, non-redundant mutants,
 $\mathit{KNR}$ is the number of killed non-redundant mutants.
 
 %Similarly,
