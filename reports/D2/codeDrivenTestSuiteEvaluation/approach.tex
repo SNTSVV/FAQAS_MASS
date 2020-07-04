@@ -29,10 +29,13 @@ In addition, in our experiments, we evaluate the feasibility of relying only on 
 To automatically generate mutants, we have extended SRCIRor~\cite{hariri2018srciror} to include all the mutation operators of the sufficient set. After mutating the original source file, our extension saves the mutated source file and keeps track of the mutation applied. 
 
 \subsubsection{Step 3}
+\label{codeDriven:stepThree}
 
 In Step 3, we compile mutants by relying on the build system of the SUT. To this end, we have developed a toolset that, for each mutated source file: (1) backs-up the original source file, (2) renames the mutated source file as the original source file, (3) runs the build system (e.g., executes the command \texttt{make}), (4) copies the generated executable mutant in a dedicated folder, (5) restores the original source file. 
 
 Build systems create one object file for each source file to be compiled and then link these object files together into the final executable. For this reason, since we modify at most two source files for each mutant (i.e., the mutated file and the file restored from previous mutation), we can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. Some preliminary experiments conducted with our case study systems have shown that additional compile-time optimizations (e.g., mutant schemata) are not necessary to make the compilation of mutants feasible.
+
+\MREVISION{C-P-24}{Mutants that lead to compilation errors are discarded. Concerning compilation warnings, we assume the build system of the SUT has been properly configured; more precisely, if the system should compile without warnings, the compiler is expected to be configured to treat warnings as errors otherwise mutants that lead to warning are retained.}
 
 \subsubsection{Step 4}
 
