@@ -29,7 +29,7 @@
 \State \hspace{10 mm} \textbf{if} $t$ contains a data item that can be mutated with $EMO$ \label{alg:dataProcess:cover}
 \State \hspace{15 mm} \textbf{execute} $t$ with $EMO$ \label{alg:dataProcess:execute}
 \State \hspace{15 mm} \textbf{if} the operator was applied
-\State \hspace{20 mm} $c_o \gets c_{\mathit{NMOA}}+1$
+\State \hspace{20 mm} $c_{\mathit{NMOA}} \gets c_{\mathit{NMOA}}+1$
 \State \hspace{15 mm} \textbf{if} $t$ fails or invalid data detected  \label{alg:dataProcess:kill}
 \State \hspace{20 mm} $c_{\mathit{KILL}} \gets c_{\mathit{KILL}} +1$
 \State \hspace{20 mm} \textbf{break} \textcolor{gray}{//the mutant has been killed, skip to next mutant} \label{alg:dataProcess:stop}

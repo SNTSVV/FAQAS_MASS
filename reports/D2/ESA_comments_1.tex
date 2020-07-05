@@ -334,59 +334,78 @@ In Section~\ref{sec:dataProcess} we tried to better justify why we do not target
 \hline
 CSR-PABG-30&
 \begin{minipage}{12cm}
-See above.
+See comment above. Also, a solution targeting such fault would be completely different than a solution targeting different components (i.e., what we are proposing now).
 \end{minipage}\\
 \hline
 CSR-PABG-31&
 \begin{minipage}{12cm}
+We tried to clarify the reasons for implementing two distinct solutions in Section~\ref{sec:data:test_suite_evaluation}.
 \end{minipage}\\
 \hline
 CSR-PABG-32&
 \begin{minipage}{12cm}
+The example is correct, but the keyword we used might be misleading (i.e.,  \EMPH{mutation operation instances} and \EMPH{mutation operators}).
+There are five \EMPH{mutation operation instances}, while we have four \EMPH{mutation operators}. A same mutation operator may lead to more than one mutation operation instances. The text describes such situation (i.e., \emph{The fault model IfHK leads to  ve mutation operation instances: one for each of the two BF mutation operators, one for the VAR operator, and two for the VOR mutation operator}).
+
+The fault model joins modelling of data and faults. An example follows in Figure~\ref{fig:dataMutationFMExamples}.
 \end{minipage}\\
 \hline
 CSR-PABG-33&
 \begin{minipage}{12cm}
+Yes, the operators will be implemented for both ASN.1 and data buffers.
 \end{minipage}\\
 \hline
 CSR-PABG-34&
 \begin{minipage}{12cm}
+They will be both implemented, their implementation is similar.
 \end{minipage}\\
 \hline
 CSR-PABG-35&
 \begin{minipage}{12cm}
+Yes.
 \end{minipage}\\
 \hline
 CSR-PABG-36&
 \begin{minipage}{12cm}
+\EMPH{operatorsN} is the total number of mutation operators configured for a data item.
+\EMPH{threshold} is defined inside the mutation operator (i.e., \EMPH{MutationOperator}).
 \end{minipage}\\
 \hline
 CSR-PABG-37&
 \begin{minipage}{12cm}
+\TODO{Oscar: it is not clear to me if we can automate inserting the call in the serializer/deserializer).}
 \end{minipage}\\
 \hline
 CSR-PABG-38&
 \begin{minipage}{12cm}
+Fixed.
 \end{minipage}\\
 \hline
 CSR-PABG-39&
 \begin{minipage}{12cm}
+Clarified in Section~\ref{sec:mutantsExecution}.
 \end{minipage}\\
 \hline
 CSR-PABG-40&
 \begin{minipage}{12cm}
+Fixed.
 \end{minipage}\\
 \hline
 CSR-PABG-41&
 \begin{minipage}{12cm}
+The unit testing of LXS is not planned at this stage. We may discuss during the review the necessity for it.
 \end{minipage}\\
 \hline
 CSR-PABG-42&
 \begin{minipage}{12cm}
+We agree, we can provide the overall number of hours. However, mutation testing might be provided as a service (E.g., ISVV). 
 \end{minipage}\\
 \hline
 CSR-PABG-43&
 \begin{minipage}{12cm}
+The counting in D2 was done by SnT through a simple grep which included also code of libraries, comments and other components. The reference numbers should be the ones provided by LXS.
+
+\TODO{Oscar: please check}.
 \end{minipage}\\
 \hline
 CSR-PABG-44&
@@ -403,18 +422,17 @@ CSR-PABG-46&
 \begin{minipage}{12cm}
 
 \begin{itemize}
-	\item We should be assessing a test suite as a whole, and if some statements are not covered, this is already a sign that the test suite may not be complete enough. 
+	\item We should be assessing a test suite as a whole, and if some statements are not covered, this is already a sign that the test suite may not be complete enough.
 	
-	The point is that if a statement is not covered by the test suite, there is absolutely no chance that a mutant generated in the non-covered statement can be possibly detected by any test case (see \INDEX{killing conditions} of a mutant in D1 Section 1.3.1). For this reason, we make the assumption that test suites are of high quality standards, and therefore, we consider only the covered statements.
+	The point is that if a statement is not covered by the test suite, there is absolutely no chance that a mutant generated in the non-covered statement can be possibly detected by any test case (see \INDEX{killing conditions} of a mutant in D1 Section 1.3.1). For this reason, we make the assumption that test suites are of high quality standards, and therefore, we consider only the covered statements. If the test suite does not reach the required coverage there is no reason to perform mutation testing, it is already known that the test suite is not good.
 
 	\item When computing the mutation score, is it fare to not count those not-covered lines?
 
 	Yes, is it fare because mutation testing assess the quality of existing test suites, and considering non-covered statements would be out of the scope of the technique. Also, including non-covered statements into the mutation score, would not let us to assess correctly the quality of the existing test suite.
 
   	\item Maybe the approach would be to run the test augmentation process to provide test cases for the missing statements??
-
-	\TODO{I think the literature does not cover this issue}
-	I think this is not possible, because we would be missing the test oracle.  Also, in that case, we would be assessing through mutation testing the quality of the test augmentation process instead of the quality of the existing test suite.
+	
+	Yes, the same tools used for test augmentation can be used. We can run them. The main difference is that oracles  for the generated test cases should be manually specified (in the case of test augmentation we may try to guess what should be the oracle based on the values generated by KLEE/CBMC). However, this automatically generated test suite may not be good for the evaluation with mutation testing, �we would be assessing through mutation testing the quality of the test augmentation process instead of the quality of the existing test suite.
 
 \end{itemize}
 \end{minipage}\\
@@ -436,23 +454,35 @@ We added more details about the provided test suite and the scope of libparam in
 \hline
 CSR-PABG-50&
 \begin{minipage}{12cm}
-\TODO{I did not change the text for this comment, below there is my answer.}
 The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all the 201 test cases for all the source code of libutil.
 \end{minipage}\\
 \hline
 CSR-PABG-51&
 \begin{minipage}{12cm}
+\TODO{Oscar}
 \end{minipage}\\
 \hline
 CSR-PABG-52&
 \begin{minipage}{12cm}
+\TODO{Oscar}
 \end{minipage}\\
 \hline
 CSR-PABG-53&
 \begin{minipage}{12cm}
+\TODO{Oscar}
 \end{minipage}\\
 \hline
-
+CSR-PABG-54&
+\begin{minipage}{12cm}
+We can always install on the hardware a modified software that performes the mutation. The problem here is predicting potential damages on the HW.
+\end{minipage}\\
+\hline
+CSR-PABG-55&
+\begin{minipage}{12cm}
+a. We uploaded another package.
+b. GSL is not willing to deliver any package because the case study are all closed source. This might be further discussed during the review meeting.
+\end{minipage}\\
+\hline
 
 %Author: Pedro Barrios Subject: Sticky Note Date: 28/02/2020, 09:18:11
 %Comment #4:

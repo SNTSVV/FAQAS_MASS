@@ -37,10 +37,10 @@ Space systems are expected to be robust with respect to CPU faults and memory fa
 
 \CHANGED{With data-driven mutation testing we aim to simulate higher-level problems that typically affect complex data structures. The main reason is that other types of problems (e.g., computation of erronous results) are already targeted by code-driven mutation. For this reason, we aim to perform data-driven mutation testing at the boundary of software components.
 An ideal target for data-driven mutation testing are loosely coupled software components; typically the ones that run on separated pieces of hardware (e.g., the on board controller and the ADCS).
-Despite other cases can be envisaged (e.g., pure software components that run on the same hardware), we target components running on separated hardware since they are more likely affected by problems due to an incorrect understanding of requirements specifications or error-handling.}
+Despite other cases can be envisaged (e.g., pure software components that run on the same hardware), we target components running on separated hardware since we believe they are more likely affected by problems due to an incorrect understanding of requirements specifications or error-handling (e.g., because developed by separate teams).}
 %Since data-driven mutation testing alters the data produced, received, or exchanged by the software or its components, 
 
-\CHANGED{For this reason, in FAQAS, we apply data-driven mutation testing to evaluate test suites that trigger the execution and communication between multiple components (e.g., system or integration test cases). Data-driven mutation testing is not meant to be applied to assess unit test suites.}
+\CHANGED{For this reason, in FAQAS, we apply data-driven mutation testing to evaluate test suites that trigger the execution and communication between multiple components (e.g., system or integration test cases). In FAQAS, data-driven mutation testing is not meant to be applied to assess unit test suites.}
 
 \clearpage
 \section{Test Suite Evaluation} % (fold)
@@ -67,14 +67,37 @@ Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data acti
 
 %Since an ideal target for data-driven mutation testing is the communication between loosely coupled software components; typically the ones that run on separated pieces of hardware (e.g., the on board controller and the ADCS).
 
-In FAQAS case studies, the communication between loosely coupled software components is performed by relying on APIs of a dedicated communication layer; which is typical in well designed software systems. The main functionality of such communication layer is to serialize and deserialize data that should be transmitted on the communication channel. In FAQAS case studies, the communication layer is either implemented in-house by the company that produced the case study or it is built by relying on the ASN.1 compiler architecture. In both the two cases, the communication layer implements distinct functions to serialize and deserialize data.
-For this reason, in FAQAS, we expect mutation probes to be \EMPH{integrated into the software API functions that either serialize or deserialize the data being sent on the communication channel}.
+\MREVISION{C-P-31}{The communication between loosely coupled software components is performed by relying on APIs of a dedicated communication layer; which is typical in well designed software systems.
+The functioning of such communication layer may vary from system to system. The communication layer works by serializing and deserializing the data that should be transmitted on the communication channel. The goal of serialization/deserialization is to perform a data transformation, i.e, translate the representation of data from the format used inside the program (e.g., a data structure) into a low level format that can be transmitted on the channel (e.g., a stream of bytes or a memory buffer).}
+
+\CHANGED{The differences that we may observe from system to system are related to the input interface of the communication layer. We may observe three cases:}
+
+\CHANGED{\begin{itemize}
+\item The communication layer provides serialization (deserialization) primitives that receive (produce) unstructured data (e.g, a memory buffer).
+\item The communication layer provides serialization (deserialization) primitives that receive (produce) data structured according to a specific format. 
+\end{itemize}}
+
+\CHANGED{In both the two cases, the communication layer performs a data transformation, i.e, translates the data from the format used inside the program (e.g., a data structure) into a low level format that can be transmitted on the channel (e.g., a memory buffer). However, this commonality does not enable the definition of a single solution to perform data mutation. More precisely, \EMPH{a solution that performs mutation on memory buffers may not be practical in both the two cases}. Indeed, to alter data that is already flattened on a low level representation it is necessary a (potentially complex) data model that describes how to load such data into a more structured representation that should drive the mutation. 
+The data modelling effort would thus be redundant in case the data is structured according to a specific format.} 
+
+\CHANGED{To minimize modelling costs, in the presence of a complex data structure, the data model should coincide with the data structure defined in the programming language used to implement the system (or the modelling language from which the program has been derived), while the fault model should be defined as an extension of such data structure (e.g., through annotations).
+Modelling of data flattened into a low level representation is feasible only when this is already the input format of the communication layer (in such cases the transmitted data is not expected to follow a complex structure).
+Finally, the definition of a generic data loading solution 
+that loads data from a memory buffer into a more structured representation and works with any data structure, might be infeasible. 
+%structures (e.g, fields of variable size and multiple dependencies among fields), 
+%might be particularly expensive.
+}
+
+\CHANGED{In FAQAS case studies, the communication layer is either implemented in-house by the company that produced the case study or it is built by relying on the ASN.1 compiler architecture. In both the two cases, the communication layer implements distinct functions to serialize and deserialize data.
+However, in the case of in-house communication layer, the system work by processing a flat structure, while in the case of the ASN.1 compiler architecture the data processed by the compiler is highly structured. The definition of the data structure is provided as an ASN.1 grammar that is then translated by the ASN.1 compiler into a C structure. For this reason, \EMPH{in FAQAS, we propose a solution for flat data stored in memory buffers and a solution for highly structured data defined with ASN.1}. Even if the ASN.1 data is translated into a C structure, we believe that a generic solution that rely on data models defined according to C structures might not be feasible. Indeed, data structures may contain elements with complex dependencies. For example, a tree data structure may define the tree depth  in a specific data field and programmers may assume that pointer to child nodes are not read when the max depth is not reached (i.e., pointer child pointers in leaf nodes are not NULL). Specifying such logic into a generic framework is particularly hard if not infeasible.}
+
+Concerning mutation probes, we expect them to be \EMPH{integrated into the software API functions that either serialize or deserialize the data being sent on the communication channel}.
 
 In the case of a communication layer implemented in-house, we expect mutation probes to be integrated into the software under test by engineers who \EMPH{manually} add calls to the functions of a \INDEX{data-driven mutation testing API} in the source code of the software. Indeed, since communication APIs vary from system to system, it is not possible to define a tool that automatically modifies the source code or the executable code of the SUT.  Instead, we provide a \INDEX{data-driven mutation testing API} that implements the logic for mutating the data specified by the engineer.
 To be applicable to a wide range of software systems, the API will provide methods that enable mutating data buffers provided as C arrays.
 Figure~\ref{fig:data:mutationProbes} shows an example of a mutation probe manually integrated into the source code (API method names begin with the prefix \emph{\_FAQAS}).
 
-In the case of a communication layer implemented by relying on the ASN.1 compiler, the FAQAS framework will automatically introduce mutation probes into the code that deserialize data.
+In the case of a communication layer implemented by relying on the ASN.1 compiler, the FAQAS framework will automatically introduce mutation probes into the code that \CHANGED{serializes/deserializes data.}
 
 
 
@@ -118,7 +141,7 @@ It is driven by two objectives:
 (i.e., it should be possible to alter the processed data to generate faulty data according to the fault model). 
 \end{itemize}
 
-\MREVISION{C19}{Objectives O1 and O2 are complementary, \REVTWO{C33}{they both should be addressed by data mutation.}
+Objectives O1 and O2 are complementary, they both should be addressed by data mutation.
 For example, a use case scenario for data-driven mutation testing could be the following: (i) data-driven mutation testing is applied to the data exchanged by \emph{component 1} and \emph{component 2} in Figure~\ref{fig:data:mutateData}, (ii) the data exchanged by the two components follow the data model in Figure~\ref{fig:DataDrivenSimpleExample}, and (iii) mutation testing is performed by applying the bit-flip mutation operator to every field of the messages being exchanged.
 The data model in Figure~\ref{fig:DataDrivenSimpleExample} consists of a UML class diagram that indicates that the two components can send messages whose type can be either \emph{TimeMessage} or \emph{DataMessage}. A \emph{TimeMessage} contains only one field of type Long, which is the timestamp. 
 A \emph{DataMessage} contains two fields, one field of type \emph{Integer} capturing the size of the payload, and one array of bytes containing the payload. 
@@ -126,7 +149,7 @@ Objective O1 is fulfilled when every mutant leads to the failure of least one te
 Objective O2 is fulfilled when mutation testing generates at least (i) one \emph{TimeMessage} with field \emph{timestamp} being altered,
 (ii) one \emph{DataMessage} with field \emph{size} being altered,
 and (iii) one \emph{DataMessage} with field \emph{payload} being altered.
-For a test suite consisting of two test cases that trigger the exchange of the messages as in the bottom-left part of Figure~\ref{fig:DataDrivenSimpleExample}, the execution of the bit flip mutation operator may lead to messages that lead to test failures. Since all the mutants are killed (i.e., the two test cases fail), objective O1 is achieved. However, the test suite does not lead to the exchange of any message of type \emph{DataMessage}, for this reason objective O2 is not achieved. Objective O2 enables us to determine that the test suite does not exercise the case in which the two components exchange messages of type \emph{DataMessage}. When data-driven mutation testing is performed against components that are expected to guarantee robustness against the exchange of erroneous data, as a by-product, objective O2 also ensures that components' robustness is properly tested.}
+For a test suite consisting of two test cases that trigger the exchange of the messages as in the bottom-left part of Figure~\ref{fig:DataDrivenSimpleExample}, the execution of the bit flip mutation operator may lead to messages that lead to test failures. Since all the mutants are killed (i.e., the two test cases fail), objective O1 is achieved. However, the test suite does not lead to the exchange of any message of type \emph{DataMessage}, for this reason objective O2 is not achieved. Objective O2 enables us to determine that the test suite does not exercise the case in which the two components exchange messages of type \emph{DataMessage}. When data-driven mutation testing is performed against components that are expected to guarantee robustness against the exchange of erroneous data, as a by-product, objective O2 also ensures that components' robustness is properly tested.
 
 
 
@@ -392,7 +415,7 @@ The mutation algorithm can either mutate the first mutable data item observed or
 
 The outcome of the test execution is the $\ONMO$ (ONMO), the $\NMOA$ (NMOA), and the $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ ($c_{\mathit{KILL}}$). They are used to compute the mutation score (see Section~\ref{sec:analyzeResults}).
 
-The $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ corresponds to the number of \emph{mutants} that had been killed by at least one test case (Line~\ref{alg:dataProcess:kill}). A mutant is killed if the test case fails or if a redundancy mechanisms has been activated to handle the mutated data. To discover killed mutants it might be necessary to integrate automated mechanisms that, in addition to determine if a test case fails, determine if a redundancy mechanism has been triggered by the SUT. These mechanisms can be implemented through simple shell scripts that parse the log file of the SUT.
+The $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ corresponds to the number of \emph{mutants} that had been killed by at least one test case (Line~\ref{alg:dataProcess:kill}). A mutant is killed if the test case fails or if a redundancy mechanisms has been activated to handle the mutated data. To discover killed mutants it might be necessary to integrate automated solutions that, in addition to determine if a test case fails, determine if a redundancy mechanism has been triggered by the SUT. \MREVISION{C-P-39}{Assuming that the triggering of a redundancy mechanisms logs information in a log file, these solutions can be implemented through simple shell scripts that parse the log file of the SUT. Otherwise, debuggers scripts may be used to log the triggering of such mechanisms.}
 
 The $\ONMO$ correspond with the $\mathit{overall}\ \# \mathit{of}\ \mathit{mutants}$; indeed, we have one different mutant for each mutation operation instance to be performed. 
 
