@@ -403,8 +403,7 @@ We agree, we can provide the overall number of hours. However, mutation testing 
 \hline
 CSR-PABG-43&
 \begin{minipage}{12cm}
-The counting in D2 was done by SnT through a simple grep which included also code of libraries, comments and other components. The reference numbers should be the ones provided by LXS.
-
+We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project SnT did not have full understanding of the system. SnT relied on a simple batch script based on the "wc" lines count tool which, unfortunately, included in the counting also code comments and, moreover, the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. The reference numbers should be the ones provided by LXS.
 \TODO{Oscar: please check}.
 \end{minipage}\\
 \hline
@@ -450,7 +449,7 @@ We added more details about the provided test suite and the scope of libparam in
 \hline
 CSR-PABG-50&
 \begin{minipage}{12cm}
-The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all the 201 test cases for all the source code of libutil.
+The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all the 201 test cases for all the source code of libutil that were delivered to SnT. Test cases non provided to SnT are not considered.
 \end{minipage}\\
 \hline
 CSR-PABG-51&
