@@ -85,6 +85,15 @@ At a source code level SRCIRor performs mutations by using the clang compiler to
 At the IR level SRCIRor finds and directly mutates the instructions of interest, which might be all the instructions of the SUT or a subset of them. 
 SRCIRor implements six types of operators, it implements Arithmetic Operators (e.g., $+, -, *, /, \%$), Relational Operators (e.g., $<, <=, >, >=, ==, !=$), Logical Operators (e.g., $\&\&, ||$), Bitwise Operators (e.g., $\&, |, \wedge$), Arithmetic Assignment Operators (e.g., $+=, -=, *=, /=, \%=$) and Bitwise Assignment Operators (e.g., $\&=, |=, \wedge=$).
 
+\begin{figure}[h]
+	\centering
+    \includegraphics[width=0.75\textwidth]{images/srciror_arch}
+    \caption{SRCIRor architecture. Source Hariri et al.~\cite{hariri2018srciror}.}
+    \label{fig:srciror_arch}
+\end{figure}
+
+\MREVISION{C-P-23}{Figure~\ref{fig:srciror_arch} shows the architecture of SRCIRor. The mutation is done in three steps: in step (1) the clang parser process the input files and builds an abstract syntax tree (AST). Then, in (2) SRCIRor implements ASTMatchers to identify the mutation points along the AST, ASTMatchers are a domain specific language for querying the AST in a simple manner, for example, to implement the ICR mutation operator is enough to make a call to the ASTMatcher \texttt{integerLiteral()} to obtain all the integer literals present in the AST. Finally, in (3) SRCIRor uses clang to perform the source to source transformation by directly modifying the source code, the transformation is then applied iteratively for all the mutation point identified in (2).}
+
 \subsubsection{Results}
 
 %The main objective of FAQAS of this project is being able to apply mutation testing techniques to space software. To assess the compatibility of SRCIRor with FAQAS we applied the tool to one of our case studies, in this case, we selected the ESAIL SVF software.
