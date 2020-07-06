@@ -42,8 +42,25 @@ We have updated the flowcharts of figures related to the code-driven pipeline. F
 \hline
 CSR-PABG-5&
 \begin{minipage}{12cm}
-\TODO{Fabrizio}
-%We may perform an experiment in line with the one performed in 
+\TODO{Oscar: please read}
+We may perform an experiment in line with the one performed in reference~\cite{CChekam:17}.
+The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). More precisely, we may aim to identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy.
+
+The experiment will be performed by considering all the case study systems for FAQAS.
+For every case study system, we consider the original test suite, $\mathit{TS}_o$, which achieves 100\% coverage of non dead code, and an extended test suite, $\mathit{TS}_e$, that consists of the same test cases of $\mathit{TS}_o$ plus a set of test cases automatically generated to kill the mutants. The extended test suite achieves a mutation score $ms_e$ that is greater than the mutation score $\mathit{ms}_o$ of the original test suite. For example, we may have $\mathit{ms}_o=0.7$ and $\mathit{ms}_e=0.9$.
+
+The experiment can be conducted by dividing the interval between $m_o$ and $m_i$ into $n$ ranges (e.g., 4 ranges), such that we can define $\delta = (\mathit{ms}_e - \mathit{ms}_o)/n$ and have each of the $n$ ranges defined as the interval between $\mathit{ms}_o+(n-1)*\delta$ and $\mathit{ms}_o+n*\delta$.
+For every case study, for each of the $n$ ranges, we can generate $M$ test suites  (e.g., 10) by randomly selecting test cases belonging to $\mathit{TS}_i$ till we achieve a mutation score in the given range.
+For each i-th test suite belonging to the range $n$ (i.e., $\mathit{TS}_{n,i}$), we compute the mutation score (i.e., $ms_{n,i}$).
+Also, we compute the \emph{mutation score delta} as $msd_{n,i}=ms_{n,i}-ms_o$. Each test suite in the range $n$ enable us to study the fault revealing power of a test suite with a mutation score above the threshold $T=(n-1)*\delta$.
+
+For each range $n$ we can perform a one sample t-test to reject the null hypothesis $msd_{n} = 0$ in favor of the alternate hypothesis $msd_{n} > 0$, at a 5\% alpha level.
+If the null hypothesis is rejected in favor of the alternate hypothesis then the threshold $T=(n-1)*\delta$ ensures to achieve better fault detection than statement coverage adequacy.
+Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.
+
+%alternatively we may perform a one sample wilcoxon-signed-rank
+%http://www.sthda.com/english/wiki/one-sample-wilcoxon-signed-rank-test-in-r
+
 \end{minipage}\\
 \hline
 CSR-PABG-6&
