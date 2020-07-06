@@ -460,12 +460,16 @@ The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all
 \hline
 CSR-PABG-51&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+\EMPH{Is there any strategy for these mutants? Are they discarded from the beginning?} As described in the Step 3 of the Space Software Mutation Testing Process (see Section~\ref{codeDriven:stepThree}), the mutants leading to compilation errors will be discarded from the beginning and they will not be considered.
+\EMPH{Is there any way to prevent their generation?}
+Yes, the mutation testing tool could be improved by providing more contextual information about the operands being mutated. For example, by applying the mutation $+ \rightarrow \%$ in the expression \texttt{a + b}, where \texttt{a} is an int and \texttt{b} is a float, would lead to a compilation error since the $\%$ operator should take only integers. In an improved version of the toolset, this mutation could be avoided with the use of contextual information.
 \end{minipage}\\
 \hline
 CSR-PABG-52&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+\EMPH{Is this part of the SVF? Does the SVF contain OBC and ADCS\_IF\_SW?} Yes, the SVF does contain the OBC and the ADCS\_IF\_SW components.
+\EMPH{What is the test suite to be used in this case?} The ESAIL system test suite contains test cases that test the communication between OBC and ADCS-IF.
+\EMPH{Messages OBC->ADCS\_IF\_SW should also be possible to test, right?} Yes, there are least four test cases (i.e., the 2985, 6583, 2411, and the 2604) that exercise the sending of messages of OBC->ADCS\_IF\_SW.
 \end{minipage}\\
 \hline
 CSR-PABG-53&
@@ -475,7 +479,7 @@ CSR-PABG-53&
 \hline
 CSR-PABG-54&
 \begin{minipage}{12cm}
-We can always install on the hardware a modified software that performes the mutation. The problem here is predicting potential damages on the HW.
+We can always install on the hardware a modified software that performs the mutation. The problem here is predicting potential damages on the HW.
 \end{minipage}\\
 \hline
 CSR-PABG-55&
