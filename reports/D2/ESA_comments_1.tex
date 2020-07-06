@@ -425,8 +425,7 @@ We agree, we can provide the overall number of hours. However, mutation testing 
 \hline
 CSR-PABG-43&
 \begin{minipage}{12cm}
-We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project SnT did not have full understanding of the system. SnT relied on a simple batch script based on the "cloc" lines count tool applied to the project root which, unfortunately, included in the counting also code comments and, moreover, the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. An investigation of the large discrepancy, however, is undergoing.
-\TODO{Oscar: please check}.
+We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project, SnT did not have full understanding of the system. SnT relied on  the "cloc" lines count tool, which was applied to the project root. With that set-up, unfortunately,  "cloc" included in the counting also the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. LXS, instead, relies on VectorCast to measure code coverage. In addition to the difference in the selection of the components to measure, a major difference between "cloc" and VectorCast is that VectorCast do not count the lines of code that consist of preprocessor directives (e.g. '\#define'). VectorCast counts only executable statements. Further investigations are undergoing.
 \end{minipage}\\
 \hline
 CSR-PABG-44&
