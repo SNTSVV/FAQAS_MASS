@@ -310,12 +310,16 @@ We addressed the comment in Section~\ref{codeDriven:stepThree}.
 \hline
 CSR-PABG-25&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+\EMPH{Does Mull work at source code level, or only on IR level?.} 
+Mull work only on IR level.
+\EMPH{Does Mull force you to use the clang compiler? If so, that could be an argument to de-scope the tool, since we would like tools able to work on source code, independently of the compiler being used.}
+Yes it does. Mull's approach relies completely on the use of the clang compiler. Clang is used along all the steps of the mutation testing process (e.g., from compilation to runtime optimizations).
+We made this aspect clearer in Section~\ref{subsec:mull}.
 \end{minipage}\\
 \hline
 CSR-PABG-26&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+Both Dextool and Accmut mutation toolsets require as an input an intermediate representation version of the software (i.e., bitcode files) to perform the mutation testing process. Unfortunately, this is only possible by forcing the compilation with Clang, and thus, the clang parser is not enough to generate mutants.
 \end{minipage}\\
 \hline
 CSR-PABG-27&
@@ -374,7 +378,8 @@ CSR-PABG-36&
 \hline
 CSR-PABG-37&
 \begin{minipage}{12cm}
-\TODO{Oscar: it is not clear to me if we can automate inserting the call in the serializer/deserializer).}
+\DONE{Oscar: it is not clear to me if we can automate inserting the call in the serializer/deserializer).}
+Fixed.
 \end{minipage}\\
 \hline
 CSR-PABG-38&

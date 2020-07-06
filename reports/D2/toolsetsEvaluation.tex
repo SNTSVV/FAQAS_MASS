@@ -92,7 +92,7 @@ SRCIRor implements six types of operators, it implements Arithmetic Operators (e
     \label{fig:srciror_arch}
 \end{figure}
 
-\MREVISION{C-P-23}{Figure~\ref{fig:srciror_arch} shows the architecture of SRCIRor. The mutation is done in three steps: in step (1) the clang parser process the input files and builds an abstract syntax tree (AST). Then, in (2) SRCIRor implements ASTMatchers to identify the mutation points along the AST, ASTMatchers are a domain specific language for querying the AST in a simple manner, for example, to implement the ICR mutation operator is enough to make a call to the ASTMatcher \texttt{integerLiteral()} to obtain all the integer literals present in the AST. Finally, in (3) SRCIRor uses clang to perform the source to source transformation by directly modifying the source code, the transformation is then applied iteratively for all the mutation point identified in (2).}
+\MREVISION{C-P-23}{Figure~\ref{fig:srciror_arch} shows the architecture of SRCIRor. The mutations are done in three steps: in (1) the clang parser, with the help of a Python wrapper, processes the input files and builds the abstract syntax tree (AST). Then, in (2), SRCIRor implements ASTMatchers to identify the mutation points along the AST. ASTMatchers are a domain specific language for querying the AST in a simple manner, for example, to implement the ICR mutation operator is enough to make a call to the ASTMatcher \texttt{integerLiteral()} to obtain all the integer literals present in the AST. Finally, in (3), SRCIRor uses again clang to perform the source to source transformation by directly modifying the source code, the transformation is then applied iteratively for all the mutation points identified in (2).}
 
 \subsubsection{Results}
 
@@ -131,7 +131,7 @@ To evaluate if the generated mutants can be successfully compiled, we executed t
 
 \subsubsection{Overview of the mutation testing tool}
 
-Mull is an open source tool for mutation testing of C/C++ software based on the LLVM framework. Mull works at the intermediate representation level, i.e., the mutations are applied on the instructions residing in the LLVM bitcode files. It relies on debug information to show results, for this reason it requires that the SUT is compiled with clang and the \texttt{-fembed-bitcode} and debug information enabled.
+Mull is an open source tool for mutation testing of C/C++ software based on the LLVM framework. Mull works at the intermediate representation level, i.e., the mutations are applied on the instructions residing in the LLVM bitcode files. It relies on debug information to show results, for this reason it requires that the SUT is compiled with clang and the \texttt{-fembed-bitcode} and debug information enabled. \MREVISION{C-P-25}{Mull does not work at source code level.}
 
 The mutation process in Mull consists of the following steps: (1) extracting bitcode files from the executable artifact, (2) finding test cases related to the executable by running the test suite, (3) searching/filtering for mutation points, based on the coverage of the test suite execution, (4) compiling the possible mutations, (5) inserting memory trampolines on the original functions, then compile only the part of bitcode that had been mutated, and (6) running the test cases that cover the mutated function.
 
@@ -224,6 +224,7 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 
 \end{enumerate}
 
+\MREVISION{C-P-25}{Even though, Mull implement several runtime optimizations, unfortunately for the scope of this project is not possible to consider it, since it forces the use of a specific compiler (i.e., the clang compiler). Therefore, a mutation testing tool that relies on a specific compiler reduces the chances of applying the technique on the context of space software. For example, ESAIL relies on the Sparc RTEMS compiler, so it would out of the scope if we rely on the Mull toolset.}
 
 \subsection{Milu Evaluation Results}
 \label{subsec:milu}
