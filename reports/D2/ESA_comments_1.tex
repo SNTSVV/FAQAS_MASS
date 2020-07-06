@@ -477,7 +477,7 @@ CSR-PABG-51&
 \begin{minipage}{12cm}
 \EMPH{Is there any strategy for these mutants? Are they discarded from the beginning?} As described in the Step 3 of the Space Software Mutation Testing Process (see Section~\ref{codeDriven:stepThree}), the mutants leading to compilation errors will be discarded from the beginning and they will not be considered.
 \EMPH{Is there any way to prevent their generation?}
-Yes, the mutation testing tool could be improved by providing more contextual information about the operands being mutated. For example, by applying the mutation $+ \rightarrow \%$ in the expression \texttt{a + b}, where \texttt{a} is an int and \texttt{b} is a float, would lead to a compilation error since the $\%$ operator should take only integers. In an improved version of the toolset, this mutation could be avoided with the use of contextual information.
+Yes, the mutation testing tool could be improved by providing more contextual information about the operands being mutated. For example, by applying the mutation $+ \rightarrow \%$ in the expression \texttt{a + b}, where \texttt{a} is an int and \texttt{b} is a float, would lead to a compilation error since the $\%$ operator should take only integers. In an improved version of the toolset, this mutation could be avoided (i.e, since \texttt{b} is a float) with the use of contextual information.
 \end{minipage}\\
 \hline
 CSR-PABG-52&
