@@ -5,9 +5,9 @@
 
 
 
-\begin{figure}[tb]
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width=8cm]{images/codeDrivenTestSuiteAugmentationProcess}
+\includegraphics[width=0.8\textwidth]{images/MT2}
 \caption{Overview of the proposed Test Suite Augmentation Process}
 \label{fig:codeDrivenTestSuiteAugmentationProcess}
 \end{center}
@@ -154,8 +154,7 @@ is not killed by GSL test suite. Function \emph{cbmc\_main} is used to declare a
 The command used to execute CBMC for this example is
 \begin{verbatim}
 cbmc -I include/ --property cbmc_main.assertion.1 --trace --function cbmc_main 
-   --no-unwinding-assertions --unwind 5 src/byteorder.c
-\end{verbatim}
+--no-unwinding-assertions --unwind 5 src/byteorder.c\end{verbatim}
 
 Although CBMC can be integrated into build systems to process large code bases; to minimize the risk of encountering difficulties in parsing large projects, we believe the simplest solution consists of executing CBMC against the source file containing the mutated function. With such configuration, CBMC will ignore dependencies (i.e., functions invoked by the function under test) and threat them as generating random values. This will speed-up execution but may lead to wrong results due to randomness. One solution to minimize such wrong results is to first execute CBMC to prove that the function can deterministically return the same value, if it is the case, dependencies can be ignored. Otherwise these dependencies need to be included or assumptions about their output values (e.g., always positive) need to be specified using the functions provided by CBMC. Evaluation of the best configuration for CBMC should be an outcome of the project.
 
