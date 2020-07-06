@@ -45,7 +45,7 @@ To evaluate the applicability of existing mutation testing tools to space softwa
 	\item the software under test (SUT) is executed within a system emulator (SVF) that requires the SUT to respect its real-time constraints.
 \end{itemize}
 
-In the following, we provide an overview of ESAIL and the ESAIL System Test Suite. ESAIL consists of 924 source files (719 files with extension ``.c'' and 205 with extension ``.h''). In total, it consists of 187,116 LOC. ESAIL is compiled with sparc-rtems4.8-gcc, a tailored version of the gcc compiler for sparc systems, the compiler is provided by Cobham Gaisler (https://www.gaisler.com/index.php/products/operating-systems/rtems).
+In the following, we provide an overview of ESAIL and the ESAIL System Test Suite. ESAIL consists of 924 source files (719 files with extension ``.c'' and 205 with extension ``.h''). In total, it consists of 74,161 LOC. ESAIL is compiled with sparc-rtems4.8-gcc, a tailored version of the gcc compiler for sparc systems, the compiler is provided by Cobham Gaisler\footnote{https://www.gaisler.com/index.php/products/operating-systems/rtems}.
 
 \begin{figure}[h]
 	\centering
@@ -54,7 +54,7 @@ In the following, we provide an overview of ESAIL and the ESAIL System Test Suit
     \label{fig:esail}
 \end{figure}
 
-The architecture of the ESAIL System Testing environment is shown in Figure \ref{fig:esail}. The python testing library is used to execute system test cases that send commands to ESAIL. ESAIL is executed in a simulator based on Rufos. The ESAIL system test suite consists of 120 python programs, it executes in 10 hours.
+The architecture of the ESAIL System Testing environment is shown in Figure \ref{fig:esail}. The python testing library is used to execute system test cases that send commands to ESAIL. ESAIL is executed in a simulator based on Rufos. The ESAIL system test suite consists of 121 python programs and it executes in 10 hours, depending on the running environment.
 
 The objective of this preliminary evaluation is to determine if the mutation testing tools considered in our study can process the case study system and automatically generate mutated versions of the case study system that can be successfully compiled and tested. More precisely, we aim to verify if the mutation testing tools considered in our study can successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
 
@@ -92,7 +92,7 @@ SRCIRor implements six types of operators, it implements Arithmetic Operators (e
     \label{fig:srciror_arch}
 \end{figure}
 
-\MREVISION{C-P-23}{Figure~\ref{fig:srciror_arch} shows the architecture of SRCIRor. The mutations are done in three steps: in (1) the clang parser, with the help of a Python wrapper, processes the input files and builds the abstract syntax tree (AST). Then, in (2), SRCIRor implements ASTMatchers to identify the mutation points along the AST. ASTMatchers are a domain specific language for querying the AST in a simple manner, for example, to implement the ICR mutation operator is enough to make a call to the ASTMatcher \texttt{integerLiteral()} to obtain all the integer literals present in the AST. Finally, in (3), SRCIRor uses again clang to perform the source to source transformation by directly modifying the source code, the transformation is then applied iteratively for all the mutation points identified in (2).}
+\MREVISION{C-P-23}{Figure~\ref{fig:srciror_arch} shows the architecture of SRCIRor. The mutations are done in three steps: in (1) the clang parser with the help of a Python wrapper, processes the input files and builds the abstract syntax tree (AST). Then, in (2), SRCIRor implements ASTMatchers to identify the mutation points along the AST. ASTMatchers are a domain specific language for querying the AST in a simple manner, for example, to implement the ICR mutation operator is enough to make a call to the ASTMatcher \texttt{integerLiteral()} to obtain all the integer literals present in the AST. Finally, in (3), SRCIRor uses again clang to perform the source to source transformation by directly modifying the source code, the transformation is then applied iteratively for all the mutation points identified in (2).}
 
 \subsubsection{Results}
 
