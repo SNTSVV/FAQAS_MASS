@@ -309,7 +309,11 @@ We addressed the comment in Section~\ref{codeDriven:stepThree}.
 \hline
 CSR-PABG-25&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+\EMPH{Does Mull work at source code level, or only on IR level?.} 
+Mull work only on IR level.
+\EMPH{Does Mull force you to use the clang compiler? If so, that could be an argument to de-scope the tool, since we would like tools able to work on source code, independently of the compiler being used.}
+Yes it does. Mull's approach relies completely on the use of the clang compiler. Clang is used along all the steps of the mutation testing process (e.g., from compilation to runtime optimizations).
+We made this aspect clearer in Section~\ref{subsec:mull}.
 \end{minipage}\\
 \hline
 CSR-PABG-26&
