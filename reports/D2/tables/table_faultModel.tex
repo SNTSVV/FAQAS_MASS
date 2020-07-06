@@ -2,23 +2,23 @@
 \begin{table}[h]
 \begin{center}
 \scriptsize
-\begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{4cm}|}
+\begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{6cm}|}
 \hline
 \textbf{Fault Class}&\textbf{Types}&\textbf{Parameters}&\textbf{Description}\\
 \hline
 Value above threshold (VAT)&
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 T: threshold\\
 D: delta with respect to threshold\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 The value is above a threshold T for a delta D. 
 
 \EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T+D)$.
@@ -27,18 +27,18 @@ The value is above a threshold T for a delta D.
 
 \hline
 Value below threshold (VBT)&
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 T: threshold\\
 D: delta with respect to threshold\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 The value is below a threshold T for a delta D. 
 
 \EMPH{Data mutation operation:} The mutation is performed by replacing the current value (a number) with a value of the same type that is equal to $(T-D)$.
@@ -49,19 +49,19 @@ The value is below a threshold T for a delta D.
 
 \hline
 Value out of range (VOR)&
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 MIN: minimum valid value\\
 MAX: maximum valid value\\
 D: delta with respect to minimum/maximum valid value
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 The value is out of the valid range MIN-MAX. 
 
 \EMPH{Data mutation operations (2):}  The mutation is performed by replacing the current value (a number) with 
@@ -76,13 +76,13 @@ The value is out of the valid range MIN-MAX.
 Bit flip (BF)&
 BIN
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 MIN: lower bit\\
 MAX: higher bit\\
 STATE: mutate only if the bit is in the given state\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 One of the bits in the position between MIN and MAX (included) is flipped.
 
 \EMPH{Data mutation operation:} the operator flips one randomly selected bit.
@@ -92,18 +92,18 @@ If STATE is specified, the mutation is applied only if  the bit is in the specif
 
 \hline
 Invalid numeric value (INV)&
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 MIN: lower valid value\\
 MAX: higher valid value\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 The value is legal (i.e., in the specified range) but different than the current one, which, in this case, is expected to be consistent with the status of the system.
 
 \EMPH{Data mutation operation:} Mutation is performed by replacing the current value with a different value randomly sampled in the specified range.
@@ -113,18 +113,18 @@ The value is legal (i.e., in the specified range) but different than the current
 \hline
 Illegal Value (IV)
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 INT\\
 FLOAT\\
 DOUBLE\\
 HEX
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 VALUE: invalid value that is observed\\
 \end{minipage}
 &
-\begin{minipage}{4cm}
+\begin{minipage}{6cm}
 The value is illegal and equal to the provided one (i.e., parameter \emph{VALUE}).
 
 \EMPH{Data mutation operation:} Mutation is performed by replacing the current value with the value \emph{VALUE}, if different than the current one.
