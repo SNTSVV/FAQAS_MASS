@@ -3,6 +3,7 @@
 \section{Responses to ESA comments provided on 03.03.2020}
 \label{sec:ESA:comments:1}
 
+Comments IDs appear also in the main document next to the text modified to address the comment. To save space in the main text, the prefix \emph{CSR-PABG-} has been abbreviated as \emph{C-P-}.
 
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
@@ -42,7 +43,6 @@ We have updated the flowcharts of figures related to the code-driven pipeline. F
 \hline
 CSR-PABG-5&
 \begin{minipage}{12cm}
-\TODO{Oscar: please read}
 We may perform an experiment in line with the one performed in reference~\cite{CChekam:17}.
 The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). More precisely, we may aim to identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy.
 
@@ -395,8 +395,7 @@ CSR-PABG-36&
 \hline
 CSR-PABG-37&
 \begin{minipage}{12cm}
-\DONE{Oscar: it is not clear to me if we can automate inserting the call in the serializer/deserializer).}
-Fixed.
+We forgot to update an earlier sentence, we plan to automatically modify the source code. The sentence has been updated.
 \end{minipage}\\
 \hline
 CSR-PABG-38&
@@ -426,7 +425,7 @@ We agree, we can provide the overall number of hours. However, mutation testing 
 \hline
 CSR-PABG-43&
 \begin{minipage}{12cm}
-We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project SnT did not have full understanding of the system. SnT relied on a simple batch script based on the "wc" lines count tool which, unfortunately, included in the counting also code comments and, moreover, the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. The reference numbers should be the ones provided by LXS.
+We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project SnT did not have full understanding of the system. SnT relied on a simple batch script based on the "cloc" lines count tool applied to the project root which, unfortunately, included in the counting also code comments and, moreover, the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. An investigation of the large discrepancy, however, is undergoing.
 \TODO{Oscar: please check}.
 \end{minipage}\\
 \hline
@@ -484,19 +483,20 @@ Yes, the mutation testing tool could be improved by providing more contextual in
 \hline
 CSR-PABG-52&
 \begin{minipage}{12cm}
-\EMPH{Is this part of the SVF? Does the SVF contain OBC and ADCS\_IF\_SW?} Yes, the SVF does contain the OBC and the ADCS\_IF\_SW components.
-\EMPH{What is the test suite to be used in this case?} The ESAIL system test suite contains test cases that test the communication between OBC and ADCS-IF.
-\EMPH{Messages OBC->ADCS\_IF\_SW should also be possible to test, right?} Yes, there are least four test cases (i.e., the 2985, 6583, 2411, and the 2604) that exercise the sending of messages of OBC->ADCS\_IF\_SW.
+\EMPH{Is this part of the SVF? Does the SVF contain OBC and ADCS\_IF\_SW?} Yes, the SVF simulator runs the OBC software but it simulates the behaviour of the ADCS\_IF\_SW. The ADCS\_IF\_SW is not run inside the OBC but only simulated.
+\EMPH{What is the test suite to be used in this case?} The ESAIL system test suite contains test cases that exercise the integration between OBC and the ADCS\_IF\_SW but the ADCS\_IF\_SW is not actually run. The test suite that exercises the ADCS\_IF\_SW is the one the should execute with hardware in the loop.
+\EMPH{Messages OBC->ADCS\_IF\_SW should also be possible to test, right?} Yes but not with the current test suite. Indeed the simulator used in the current test suite makes assumptions about the messages received thus it would be very easy to break it by altering its input messages. To alter the messages sent from OBC to ADCS\_IF\_SW it would be necessary to (1) use a simulator that actually runs the ADCS\_IF\_SW or (2) target the test cases that include hardware in the loop.
+%there are least four test cases (i.e., the 2985, 6583, 2411, and the 2604) that exercise the sending of messages of OBC->ADCS\_IF\_SW.
 \end{minipage}\\
 \hline
 CSR-PABG-53&
 \begin{minipage}{12cm}
-\TODO{Oscar}
+The data-driven method can be applied also to PUS TM/TC packets. Because of the costs of data-modelling, we may investigate its feasibility once a working solution had been implemented. Also, since in ESAIL test suite the ground role is played by the test scripts, the benefits of such
 \end{minipage}\\
 \hline
 CSR-PABG-54&
 \begin{minipage}{12cm}
-We can always install on the hardware a modified software that performs the mutation. The problem here is predicting potential damages on the HW.
+Testing with hardware in the loop is technically feasible because it is just a matter of deploying on the hardware a modified software that performs the mutation. However mutated packets may break some of the assumptions made when developing the software and thus break the hardware (e.g., altering the voltage of the board). For every mutation to be performed it might be necessary to ensure that the hardware is not going to be damaged. Such type of testing might thus be out of the budget for the current project and may require a dedicated project by itself.
 \end{minipage}\\
 \hline
 CSR-PABG-55&
