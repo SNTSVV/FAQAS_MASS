@@ -92,7 +92,7 @@ int main()
     mret = MUT_base16_decode(encoded,&mRaw);
     printf ("ret %d mret %d\n", ret, mret);
 
-    assert( ret != mret );
+    klee_assume( ret == mret );
 } 
 #endif
 \end{lstlisting}

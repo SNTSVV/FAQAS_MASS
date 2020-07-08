@@ -70,7 +70,7 @@ Figure~\ref{fig:data:mutateData} provides an example of how the Mutate Data acti
 \MREVISION{C-P-31}{The communication between loosely coupled software components is performed by relying on APIs of a dedicated communication layer; which is typical in well designed software systems.
 The functioning of such communication layer may vary from system to system. The communication layer works by serializing and deserializing the data that should be transmitted on the communication channel. The goal of serialization/deserialization is to perform a data transformation, i.e, translate the representation of data from the format used inside the program (e.g., a data structure) into a low level format that can be transmitted on the channel (e.g., a stream of bytes or a memory buffer).}
 
-\CHANGED{The differences that we may observe from system to system are related to the input interface of the communication layer. We may observe three cases:}
+\CHANGED{The differences that we may observe from system to system are related to the input interface of the communication layer. We may observe two cases:}
 
 \CHANGED{\begin{itemize}
 \item The communication layer provides serialization (deserialization) primitives that receive (produce) unstructured data (e.g, a memory buffer).

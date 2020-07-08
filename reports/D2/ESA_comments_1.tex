@@ -425,7 +425,7 @@ We agree, we can provide the overall number of hours. However, mutation testing 
 \hline
 CSR-PABG-43&
 \begin{minipage}{12cm}
-We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project, SnT did not have full understanding of the system. SnT relied on  the "cloc" lines count tool, which was applied to the project root. With that set-up, unfortunately,  "cloc" included in the counting also the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. LXS, instead, relies on VectorCast to measure code coverage. In addition to the difference in the selection of the components to measure, a major difference between "cloc" and VectorCast is that VectorCast does not count the lines of code that belong to preprocessor directives (e.g. '\#define'). VectorCast counts only executable statements. Further investigations are on-going.
+We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project, SnT did not have full understanding of the system. SnT relied on  the "cloc" lines count tool, which was applied to the project root. With that set-up, unfortunately,  "cloc" included in the counting also the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. LXS, instead, relies on VectorCast to measure code coverage. In addition to the difference in the selection of the components to measure, a major difference between "cloc" and VectorCast is that VectorCast does not count the lines of code that belong to preprocessor directives (e.g. '\#define'). VectorCast counts only executable statements. Proportions are in line with the ones observed for GSL, i.e., for LXS we observe 1 executable statement for every 5 lines of code, for GSL we observe 1 executable statement for every 3 lines of code. The difference in proportions is due to the fact that LXS code includes a large number of preprocessor directives.
 \end{minipage}\\
 \hline
 CSR-PABG-44&
@@ -490,7 +490,7 @@ CSR-PABG-52&
 \hline
 CSR-PABG-53&
 \begin{minipage}{12cm}
-The data-driven method can be applied also to PUS TM/TC packets. Because of the costs of data-modelling, we may investigate its feasibility once a working solution had been implemented. Also, since in ESAIL test suite the ground role is played by the test scripts, the benefits of such
+The data-driven method can be applied also to PUS TM/TC packets. Because of the costs of data-modelling, we may investigate its feasibility once a working solution had been implemented. Also, since in ESAIL test suite the ground role is played by the test scripts, the benefits of such approach might be limited.
 \end{minipage}\\
 \hline
 CSR-PABG-54&
