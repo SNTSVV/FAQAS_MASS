@@ -277,7 +277,7 @@ public:
 			std::vector<std::string> Values;
 
 			if (Op == "ABS") {
-				Values.insert(Values.end(),	{ "(" + Value + " * ((" + Value + " < 0) - (" + Value + " > 0)))", "(" + Value + " * ((" + Value + " > 0) - (" + Value + " < 0)))" });
+				Values.insert(Values.end(),	{ "(" + Value + " * ((" + Value + " < 0) - (" + Value + " > 0)))" });
 
 			} else if (Op == "UOI") {
 				Values.insert(Values.end(), { "(++" + Value + ")", "(" + Value + "++)",	"(--" + Value + ")", "(" + Value + "--)" });
