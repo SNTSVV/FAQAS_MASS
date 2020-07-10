@@ -101,12 +101,20 @@ Following related work, we have identified two possible criteria to characterize
 \item[C2] Derive a vector whose values capture the number of times each monitored statement had been covered.
 \end{itemize}
 
-We have identified distance metrics that determine how dissimilar two test cases are, and, consequently how likely they exercise the mutated statement with different values. In the case of C1 we rely on the Jaccard and Ochiai index, which are two similarity indexes for binary data successfully used to compare program executions based on code coverage~\cite{Zou:Ochiai:2019,Keller:Jaccard:2017,Briand:2019}. Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and the Ochiai ($D_O$) distance are computed as follows:
+We have identified distance metrics that determine how dissimilar two test cases are, and, consequently how likely they exercise the mutated statement with different values. In the case of C1 we rely on the Jaccard and Ochiai index, which are two similarity indexes for binary data successfully used to compare program executions based on code coverage~\cite{Zou:Ochiai:2019,Keller:Jaccard:2017,Briand:2019}. 
+\MREVISION{C-P-18}{The Jaccard index is also known as \emph{intersection over union} 
+it measures similarity between sets, and is defined as the size of the intersection divided by the size of the union.
+The Jaccard distance measures dissimilarity between sample sets and results from subtracting the Jaccard coefficient from 1.
+The Ochiai index calculates cosine similarity with binary data, it is used in molecular biology and software engineering.}
+Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and the Ochiai ($D_O$) distance are computed as follows:
 
-$D_J(T_a,T_b)=\frac{|C_a \cap C_b|}{|C_a \cup C_b|}$ \hspace{5mm} $D_O(T_a,T_b)=1-\frac{|C_a \cap C_b|}{\sqrt{|C_a| * |C_b|}}$, 
+$D_J(T_a,T_b)=1-\frac{|C_a \cap C_b|}{|C_a \cup C_b|}=\frac{|C_a \cup C_b|-|C_a \cap C_b|}{|C_a \cup C_b|}$ \hspace{5mm} $D_O(T_a,T_b)=1-\frac{|C_a \cap C_b|}{\sqrt{|C_a| * |C_b|}}$, 
 $C_a$ and $C_b$ are the set of coverage items exercised by the test cases $T_a$ and $T_b$, respectively.
 
-In the case of C2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning. Given two vectors $V_A$ and $V_B$ that capture the number of times each statement has been covered by test cases $T_A$ and $T_B$, the distances $D_E$ and $D_C$ can be computed as follows:
+In the case of C2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning. 
+\MREVISION{C-P-18}{Euclidean distance is the straight-line distance between two points in Euclidean space; precisely, the Euclidean distance between two points is the length of the line segment connecting them. In our context, the two vectors consist of the number of times teh program statements had been exercised by a test. Cosine similarity measures similarity between two vectors of an inner product space. It results from the inner product of the same vectors normalized to both have length 1, which matches the the cosine of the angle between them. It is widely adopted to measure cohesion within clusters in data mining.}
+
+Given two vectors $V_A$ and $V_B$ that capture the number of times each statement has been covered by test cases $T_A$ and $T_B$, the distances $D_E$ and $D_C$ can be computed as follows:
 
 $D_E=\sqrt{\sum_{i=1}^{n}(A_i-B_i)^2}$ 
 $D_C= \frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=1}^{n}{B_i}^2}}$,

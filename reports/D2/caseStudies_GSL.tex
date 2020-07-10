@@ -28,7 +28,7 @@ while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
 \MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an integration test suite. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition because every test case exercises multiple files. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
 
 \MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
+To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libgscsp code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 
 \subsection{Code-driven mutation testing}
@@ -203,7 +203,8 @@ The features of this system include:
 Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 \MREVISION{C-P-49}{The size of libparam is 3\,179 LOC. libparam includes a system test suite, consisting of 170 test cases, assessing functionalities from the library itself, libgscsp, libembed and libutil. The test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation testing.}
+In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation testing. 
+The libparam code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 
 Details about code coverage, mutation score, and fault model for data-driven mutation testing will be provided at the end of WP2.
@@ -227,7 +228,7 @@ The Utility library provides cross-platform APIs for common functionality, for u
 Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory.}
+To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libutil code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 \subsection{Code-driven mutation testing}
 
