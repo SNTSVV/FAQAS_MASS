@@ -4,6 +4,8 @@ LIBUTIL=/home/gsl/libutil
 
 SRC_MUTANTS=/opt/mutations/src-mutants
 
+FLAG=$1
+
 EXEC_NAME=test_run_$(date +"%Y%m%d%H%M")
 EXEC_DIR=/home/gsl/test_runs/$EXEC_NAME
 
@@ -15,8 +17,13 @@ shopt -s extglob
 trap "exit" INT
 
 if [ ! -f "$LIBUTIL/original_build/libgsutil_cmocka.a" ]; then
+
+	sed "s/TCE/$FLAG/g" $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json.template > $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
+	cat $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
+	
     cd $LIBUTIL
-    ./waf clean
+    ./waf configure
+	./waf clean
     ./waf build
 	mkdir -p original_build
 	cp build/libgsutil_cmocka.a original_build/
@@ -32,7 +39,10 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     file_wo_mut_end=.${file_wo_opt%%.*}.c
 
     filename="$(basename -- ${file_wo_mut_end%.*})"
-    filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
+
+	function=$(echo $mutant_name | sed 's/.*\.//g')
+    
+	filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
     mutant_path=$EXEC_DIR/$mutant_name
     mkdir -p $mutant_path
@@ -75,11 +85,12 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 			echo "$mutant_name not equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE  
 		
 			redundant=0
-            for m in $(find $SRC_MUTANTS -name "*$filename*.libgsutil_cmocka.a");do
-                if [[ "$m" == "${i}.libgsutil_cmocka.a" ]];then
+            for m in $(find $SRC_MUTANTS -name "*$filename*$function*.libgsutil_cmocka.a");do
+                #echo comparing $m with $filename
+				if [[ "$m" == "${i}.libgsutil_cmocka.a" ]];then
                     continue
                 fi
-				echo comparison here	
+
 				redundancy=`diff --binary $i.libgsutil_cmocka.a $m | wc -l`
 				
 				if [ $redundancy -eq 0 ];then
@@ -109,7 +120,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
     echo "elapsed time $elapsed [ms]"
 
-   if [ $count -eq 50 ];then
+   if [ $count -eq 100000000 ];then
        break
    else
        count=$((count+1))
