@@ -43,6 +43,9 @@ static llvm::cl::opt<std::string> CoverageInfo("coverage_info", llvm::cl::desc("
 static std::set<int> CovSet;
 static bool MutateAll = false;
 
+std::map<int, std::string> mapFunctions;
+
+
 class StmntHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -301,6 +304,32 @@ private:
 };
 
 
+class DeclFunctionHandler : public MatchFinder::MatchCallback {
+
+public:
+	DeclFunctionHandler( std::string Binder) {
+		this->Binder = Binder;
+	}
+
+	virtual void run(const MatchFinder::MatchResult &Result) {
+
+		if (const FunctionDecl* decl = Result.Nodes.getNodeAs<clang::FunctionDecl>(Binder) ) {
+
+			int lineNumberStart = Result.SourceManager->getSpellingLineNumber(decl->getLocStart());
+			int lineNumberEnd = Result.SourceManager->getSpellingLineNumber(decl->getLocEnd());
+
+			int i;
+			for (i = lineNumberStart; i <= lineNumberEnd; i++){
+				mapFunctions[i] = decl->getNameInfo().getName().getAsString();
+			}
+		}
+	}
+
+private:
+	std::string Binder;
+};
+
+
 
 bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
 	bool Result = true;
@@ -335,16 +364,22 @@ void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, 
 
 				applyReplacement(r, TheRewriter);
 				const RewriteBuffer *RewriteBuf = TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
+
+				SourceLocation startLoc = SourceMgr.getLocForStartOfFile(SourceMgr.getMainFileID());
+				SourceLocation mutloc = startLoc.getLocWithOffset(r.getOffset());
+				int lineNumber = SourceMgr.getSpellingLineNumber(mutloc);
+
+				std::string function = mapFunctions[lineNumber];
+
 				std::ofstream out_file;
-				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + ext;
+				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + "." + function + ext;
+
 				if (access(outFileName.c_str(), F_OK) == -1) {
 					out_file.open(outFileName);
 					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
 					out_file.close();
-					SourceLocation startLoc = SourceMgr.getLocForStartOfFile(SourceMgr.getMainFileID());
-					SourceLocation mutloc = startLoc.getLocWithOffset(r.getOffset());
-					int lineNumber = SourceMgr.getSpellingLineNumber(mutloc);
-					printf("line: %i %s\n", lineNumber, (tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + ext).c_str());    // Outputting where mutants are
+
+					printf("line: %i %s\n", lineNumber, (tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
 				}
 				else {
 					printf("ERROR IN GENERATING MUTANTS: we have a name overlap for %s\n", outFileName.c_str());
@@ -384,6 +419,8 @@ int main(int argc, const char **argv) {
 	RefactoringTool SSDLTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool UOITool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool ABSTool(op.getCompilations(), op.getSourcePathList());
+
+	RefactoringTool DeclTool(op.getCompilations(), op.getSourcePathList());
 
 
 	CompilerInstance TheCompInst;
@@ -443,6 +480,8 @@ int main(int argc, const char **argv) {
 	WhileCondHandler HandlerForWhile(&OCNGTool.getReplacements(), "while", &TheCompInst);
 
 	StmntHandler HandlerForStmnt(&SSDLTool.getReplacements(), "stmt", &TheCompInst);
+
+	DeclFunctionHandler HandlerForDeclFunction("functionNames");
 
 	VarHandler HandlerForUOI(&UOITool.getReplacements(), "uoi", &TheCompInst, "UOI");
 	VarHandler HandlerForABS(&ABSTool.getReplacements(), "abs", &TheCompInst, "ABS");
@@ -506,6 +545,12 @@ int main(int argc, const char **argv) {
 	std::string CurrTool = ToolDotExt.substr(0, p);
 	std::string Ext = ToolDotExt.substr(p, ToolDotExt.length());
 	std::string SrcDir = FileName.substr(0, FileName.find_last_of("/\\"));
+
+	// populate the function names
+	MatchFinder DeclFunctionFinder;
+	DeclFunctionFinder.addMatcher(functionDecl().bind("functionNames"), &HandlerForDeclFunction);
+
+	DeclTool.run(newFrontendActionFactory(&DeclFunctionFinder).get());
 
 	int failed = 0;
 
