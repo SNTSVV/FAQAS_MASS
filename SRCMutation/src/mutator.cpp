@@ -372,14 +372,14 @@ void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, 
 				std::string function = mapFunctions[lineNumber];
 
 				std::ofstream out_file;
-				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + "." + function + ext;
+				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(lineNumber) + "." + NameSuffix + "." + function + ext;
 
 				if (access(outFileName.c_str(), F_OK) == -1) {
 					out_file.open(outFileName);
 					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
 					out_file.close();
 
-					printf("line: %i %s\n", lineNumber, (tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(r.getOffset()) + "." + NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
+					printf("line: %i %s\n", lineNumber, (tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(lineNumber) + "." + NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
 				}
 				else {
 					printf("ERROR IN GENERATING MUTANTS: we have a name overlap for %s\n", outFileName.c_str());
