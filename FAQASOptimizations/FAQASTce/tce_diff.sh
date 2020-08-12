@@ -120,7 +120,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
     echo "elapsed time $elapsed [ms]"
 
-   if [ $count -eq 100000000 ];then
+   if [ $count -eq 60 ];then
        break
    else
        count=$((count+1))
