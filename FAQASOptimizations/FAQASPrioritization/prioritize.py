@@ -29,21 +29,6 @@ strategy = args.strat
 result_file_path = args.result
 
 distances = {}
-distancesFile = open('distances_' + casestudy + '_' + method, 'a+')
-
-def createDict():
-    global distancesFile
-    lines = distancesFile.readlines()
-    
-    for line in lines:
-        testABdistance = line.strip().split(':')
-        testA = int(re.findall('\d+', testABdistance[0])[0])
-        testB = int(re.findall('\d+', testABdistance[1])[0])
-
-        if testA < testB:
-            distances[testA,testB] = testABdistance[2]
-        else:
-            distances[testB,testA] = testABdistance[2]
             
 def getDistanceFromDict(testA, testB):
     if t_number < n_number:
@@ -160,14 +145,11 @@ def get_distance_s2(testA, testB):
 
     return distance
 
-def save_distance(testA, testANumber, testB, testBNumber, distance):
+def save_distance(testANumber, testBNumber, distance):
     if testANumber < testBNumber:
             distances[testANumber,testBNumber] = distance
     else:
         distances[testBNumber,testANumber] = distance
-
-    global distancesFile    
-    distancesFile.write(testA + ':' + testB + ':' + str(distance) + '\n')
 
 def determine_most_executed(testList):
     global lineNumber
@@ -195,11 +177,9 @@ def print_new_test(test, dist_value):
     result_file.write(test + ':' + str(dist_value) + '\n')
     result_file.close()
 
-createDict()
-
 print_most_executed()
 
-#print(len(coverage_array))
+print("complete set is: " +  str(len(coverage_array)))
 # remove most executed from prioritize
 coverage_array.remove(prioritized[0])
 
@@ -220,7 +200,7 @@ while len(coverage_array) > 0:
             distance = getDistanceFromDict(t_number, n_number)
             if distance is None:
                 distance = calculateDistance(t, n)
-                save_distance(t, t_number, n, n_number, distance)
+                save_distance(t_number, n_number, distance)
                 
             if distance < minimal:
                 minimal = distance
@@ -242,11 +222,10 @@ while len(coverage_array) > 0:
     if dist_value == 0:
         break
     else:
- #       print(test + ' ' + str(dist_value))
-
+#        print(test + ' ' + str(dist_value))
         print_new_test(test, dist_value)
         prioritized.append(test)
         coverage_array.remove(test)
 
-print(coverage_array)
+print("reduced set is: " + str(len(prioritized)))
 
