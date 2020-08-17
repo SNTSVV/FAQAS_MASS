@@ -192,6 +192,55 @@ private:
 };
 
 
+class BinaryOpDelHandler : public MatchFinder::MatchCallback {
+
+public:
+	BinaryOpDelHandler(Replacements* Replace, std::string OpName, CompilerInstance* TheCompInst) : Replace(Replace), CI(TheCompInst) {
+		this->OpName = OpName;
+	}
+
+	virtual void run(const MatchFinder::MatchResult &Result) {
+
+		if (const BinaryOperator *BinOp = Result.Nodes.getNodeAs<clang::BinaryOperator>(OpName)) {
+			int lineNumber = Result.SourceManager->getSpellingLineNumber(BinOp->getOperatorLoc());
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
+				// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+				return;
+			}
+			// printf("Found the line %i and it is covered\n", lineNumber);
+
+			Expr * rhs = BinOp->getRHS();
+			Expr * lhs = BinOp->getLHS();
+
+			bool invalid;
+
+			CharSourceRange sourceLeftRange = CharSourceRange::getTokenRange(lhs->getLocStart(), BinOp->getOperatorLoc());
+			StringRef leftString = Lexer::getSourceText(sourceLeftRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
+
+			CharSourceRange sourceRightRange = CharSourceRange::getTokenRange(BinOp->getOperatorLoc(), rhs->getLocEnd());
+			StringRef rightString = Lexer::getSourceText(sourceRightRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
+
+			std::string MutatedString = "";
+
+			// left hand side
+			int totalLeftSize = leftString.str().size();
+			Replacement RepL(*(Result.SourceManager), lhs->getLocStart(), totalLeftSize, MutatedString);
+			Replace->insert(RepL);
+
+			// right hand side
+			int totalRightSize = rightString.str().size();
+			Replacement RepR(*(Result.SourceManager), BinOp->getOperatorLoc(), totalRightSize, MutatedString);
+			Replace->insert(RepR);
+		}
+	}
+
+private:
+	Replacements *Replace;
+	CompilerInstance *CI;
+	std::string OpName;
+};
+
+
 class BinaryOpHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -411,6 +460,13 @@ std::set<int> parseCoverageLines(std::string ListOfLines) {
 
 int main(int argc, const char **argv) {
 	CommonOptionsParser op(argc, argv, OptimuteMutatorCategory);
+
+	RefactoringTool AODTool(op.getCompilations(), op.getSourcePathList());
+	RefactoringTool LODTool(op.getCompilations(), op.getSourcePathList());
+	RefactoringTool RODTool(op.getCompilations(), op.getSourcePathList());
+	RefactoringTool BODTool(op.getCompilations(), op.getSourcePathList());
+	RefactoringTool SODTool(op.getCompilations(), op.getSourcePathList());
+
 	RefactoringTool AORTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool RORTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool ICRTool(op.getCompilations(), op.getSourcePathList());
@@ -444,6 +500,30 @@ int main(int argc, const char **argv) {
 
 
 	// Set up AST matcher callbacks.
+
+	BinaryOpDelHandler HandlerForDelAddOp(&AODTool.getReplacements(), "addDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelSubOp(&AODTool.getReplacements(), "subDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelMulOp(&AODTool.getReplacements(), "mulDelOp",  &TheCompInst);
+	BinaryOpDelHandler HandlerForDelDivOp(&AODTool.getReplacements(), "divDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelModuloOp(&AODTool.getReplacements(), "moduloDelOp", &TheCompInst);
+
+	BinaryOpDelHandler HandlerForDelAndOp(&LODTool.getReplacements(), "logicAndDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelOrOp(&LODTool.getReplacements(), "logicOrDelOp", &TheCompInst);
+
+	BinaryOpDelHandler HandlerForDelLtOp(&RODTool.getReplacements(), "ltDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelLeOp(&RODTool.getReplacements(), "leDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelGtOp(&RODTool.getReplacements(), "gtDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelGeOp(&RODTool.getReplacements(), "geDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelEqOp(&RODTool.getReplacements(), "eqDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelNeqOp(&RODTool.getReplacements(), "neqDelOp", &TheCompInst);
+
+	BinaryOpDelHandler HandlerForDelBitAndOp(&BODTool.getReplacements(), "bitwiseAndDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelBitOrOp(&BODTool.getReplacements(), "bitwiseOrDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelBitXorOp(&BODTool.getReplacements(), "bitwiseXorDelOp", &TheCompInst);
+
+	BinaryOpDelHandler HandlerForDelLShiftOp(&SODTool.getReplacements(), "leftShiftDelOp", &TheCompInst);
+	BinaryOpDelHandler HandlerForDelRShiftOp(&SODTool.getReplacements(), "rightShiftDelOp", &TheCompInst);
+
 	BinaryOpHandler HandlerForAddOp(&AORTool.getReplacements(), "addOp", "+", "arith");
 	BinaryOpHandler HandlerForSubOp(&AORTool.getReplacements(), "subOp", "-", "arith");
 	BinaryOpHandler HandlerForMulOp(&AORTool.getReplacements(), "mulOp", "*", "arith");
@@ -486,6 +566,34 @@ int main(int argc, const char **argv) {
 	VarHandler HandlerForUOI(&UOITool.getReplacements(), "uoi", &TheCompInst, "UOI");
 	VarHandler HandlerForABS(&ABSTool.getReplacements(), "abs", &TheCompInst, "ABS");
 
+	MatchFinder AODFinder;
+	AODFinder.addMatcher(binaryOperator(hasOperatorName("+")).bind("addDelOp"), &HandlerForDelAddOp);
+	AODFinder.addMatcher(binaryOperator(hasOperatorName("-")).bind("subDelOp"), &HandlerForDelSubOp);
+	AODFinder.addMatcher(binaryOperator(hasOperatorName("*")).bind("mulDelOp"), &HandlerForDelMulOp);
+	AODFinder.addMatcher(binaryOperator(hasOperatorName("/")).bind("divDelOp"), &HandlerForDelDivOp);
+	AODFinder.addMatcher(binaryOperator(hasOperatorName("%")).bind("moduloDelOp"), &HandlerForDelModuloOp);
+
+	MatchFinder LODFinder;
+	LODFinder.addMatcher(binaryOperator(hasOperatorName("&&")).bind("logicAndDelOp"), &HandlerForDelAndOp);
+	LODFinder.addMatcher(binaryOperator(hasOperatorName("||")).bind("logicOrDelOp"), &HandlerForDelOrOp);
+
+	MatchFinder RODFinder;
+	RODFinder.addMatcher(binaryOperator(hasOperatorName("<")).bind("ltDelOp"), &HandlerForDelLtOp);
+	RODFinder.addMatcher(binaryOperator(hasOperatorName("<=")).bind("leDelOp"), &HandlerForDelLeOp);
+	RODFinder.addMatcher(binaryOperator(hasOperatorName(">")).bind("gtDelOp"), &HandlerForDelGtOp);
+	RODFinder.addMatcher(binaryOperator(hasOperatorName(">=")).bind("geDelOp"), &HandlerForDelGeOp);
+	RODFinder.addMatcher(binaryOperator(hasOperatorName("==")).bind("eqDelOp"), &HandlerForDelEqOp);
+	RODFinder.addMatcher(binaryOperator(hasOperatorName("!=")).bind("neqDelOp"), &HandlerForDelNeqOp);
+
+	MatchFinder BODFinder;
+	BODFinder.addMatcher(binaryOperator(hasOperatorName("&")).bind("bitwiseAndDelOp"), &HandlerForDelBitAndOp);
+	BODFinder.addMatcher(binaryOperator(hasOperatorName("|")).bind("bitwiseOrDelOp"), &HandlerForDelBitOrOp);
+	BODFinder.addMatcher(binaryOperator(hasOperatorName("^")).bind("bitwiseXorDelOp"), &HandlerForDelBitXorOp);
+
+	MatchFinder SODFinder;
+	SODFinder.addMatcher(binaryOperator(hasOperatorName(">>")).bind("leftShiftDelOp"), &HandlerForDelLShiftOp);
+	SODFinder.addMatcher(binaryOperator(hasOperatorName("<<")).bind("rightShiftDelOp"), &HandlerForDelRShiftOp);
+
 	MatchFinder AORFinder;
 	AORFinder.addMatcher(binaryOperator(hasOperatorName("+")).bind("addOp"), &HandlerForAddOp);
 	AORFinder.addMatcher(binaryOperator(hasOperatorName("-")).bind("subOp"), &HandlerForSubOp);
@@ -515,7 +623,6 @@ int main(int argc, const char **argv) {
 	LCRFinder.addMatcher(binaryOperator(hasOperatorName("&")).bind("bitwiseAndOp"), &HandlerForBitAndOp);
 	LCRFinder.addMatcher(binaryOperator(hasOperatorName("|")).bind("bitwiseOrOp"), &HandlerForBitOrOp);
 	LCRFinder.addMatcher(binaryOperator(hasOperatorName("^")).bind("bitwiseXorOp"), &HandlerForBitXorOp);
-
 
 	LCRFinder.addMatcher(binaryOperator(hasOperatorName("&=")).bind("andAssignOp"), &HandlerForAndAssignOp);
 	LCRFinder.addMatcher(binaryOperator(hasOperatorName("|=")).bind("orAssignOp"), &HandlerForOrAssignOp);
@@ -607,6 +714,36 @@ int main(int argc, const char **argv) {
 		failed = 1;
 	} else {
 		Mutate(ABSTool.getReplacements(), "var_for_", "abs", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = AODTool.run(newFrontendActionFactory(&AODFinder).get())) {
+		failed = 1;
+	} else {
+		Mutate(AODTool.getReplacements(), "binaryop_del_", "aod", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = LODTool.run(newFrontendActionFactory(&LODFinder).get())) {
+		failed = 1;
+	} else {
+		Mutate(LODTool.getReplacements(), "binaryop_del_", "lod", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = RODTool.run(newFrontendActionFactory(&RODFinder).get())) {
+			failed = 1;
+	} else {
+		Mutate(RODTool.getReplacements(), "binaryop_del_", "rod", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = BODTool.run(newFrontendActionFactory(&BODFinder).get())) {
+			failed = 1;
+	} else {
+		Mutate(BODTool.getReplacements(), "binaryop_del_", "bod", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = SODTool.run(newFrontendActionFactory(&SODFinder).get())) {
+		failed = 1;
+	} else {
+		Mutate(SODTool.getReplacements(), "binaryop_del_", "sod", CurrTool, Ext,
 				SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 
