@@ -144,6 +144,94 @@ private:
 	std::string Binder;
 };
 
+
+class LitConstHandler: public MatchFinder::MatchCallback {
+
+public:
+	LitConstHandler(Replacements *Replace, std::string Binder,
+			CompilerInstance *TheCompInst) :
+			Replace(Replace), CI(TheCompInst) {
+		this->Binder = Binder;
+	}
+
+	virtual void run(const MatchFinder::MatchResult &Result) {
+
+		if (const IntegerLiteral *IntLiteral = Result.Nodes.getNodeAs<
+				clang::IntegerLiteral>(Binder)) {
+			SourceLocation loc = IntLiteral->getLocation();
+			SourceLocation spellingLoc = Result.SourceManager->getSpellingLoc(
+					loc);
+			std::string fileNameResult = Result.SourceManager->getFilename(
+					spellingLoc);
+
+			if (fileNameResult.find("bool") == std::string::npos) {
+				return;
+			}
+
+			int lineNumber = Result.SourceManager->getExpansionLineNumber(loc);
+
+			SourceLocation expansionLoc = Result.SourceManager->getExpansionLoc(
+					loc);
+
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) { // Line is not in the set, and it's not MutateAll
+					// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+				return;
+			}
+//			printf("Found the line %i and it is covered\n", lineNumber);
+
+			std::string ValueStr = IntLiteral->getValue().toString(10, true);
+			char *endptr;
+			long long Value = std::strtoll(ValueStr.c_str(), &endptr, 10);
+
+			if (Value == 1) {
+				Replacement Rep(*(Result.SourceManager), expansionLoc, 4,
+						"false");
+				Replace->insert(Rep);
+			} else if (Value == 0) {
+				Replacement Rep(*(Result.SourceManager), expansionLoc, 5,
+						"true");
+				Replace->insert(Rep);
+			}
+		} else if (const FloatingLiteral *FloatLiteral = Result.Nodes.getNodeAs<
+				clang::FloatingLiteral>(Binder)) {
+
+			int lineNumber = Result.SourceManager->getSpellingLineNumber(
+					FloatLiteral->getLocation());
+			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) { // Line is not in the set, and it's not MutateAll
+					// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+				return;
+			}
+			//	printf("Found the line %i and it is covered\n", lineNumber);
+			double Value = FloatLiteral->getValueAsApproximateDouble();
+
+			bool invalid;
+
+			CharSourceRange range = CharSourceRange::getTokenRange(FloatLiteral->getLocStart(), FloatLiteral->getLocEnd());
+			StringRef str = Lexer::getSourceText(range, *(Result.SourceManager), CI->getLangOpts(), &invalid);
+
+			int Size = str.size();
+			std::vector<std::string> Values;
+
+			if (Value == 0) {
+				Values.insert(Values.end(), {"(-1.0)" });
+			} else {
+				Values.insert(Values.end(),	{ "0.0", "-(" + str.str() + ")"});
+			}
+			for (std::string MutationVal : Values) {
+				// printf("subsituting for the value: %s\n", MutationVal.c_str());
+				Replacement Rep(*(Result.SourceManager),
+						FloatLiteral->getLocStart(), Size, MutationVal);
+				Replace->insert(Rep);
+			}
+		}
+	}
+
+private:
+	Replacements *Replace;
+	CompilerInstance *CI;
+	std::string Binder;
+};
+
 class ConstHandler : public MatchFinder::MatchCallback {
 
 public:
@@ -395,9 +483,11 @@ bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
 
 void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr){
 	int x = 0;
+
 	for (auto &r : repl) {
 		x++;
 		std::string pName = r.getFilePath().str();
+
 		std::string fName = tool + ext;
 		if (pName.length() >= fName.length()) {
 			if (pName.compare(pName.length() - fName.length(), fName.length(), fName) == 0) {
@@ -422,7 +512,6 @@ void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, 
 
 				std::ofstream out_file;
 				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(lineNumber) + "." + NameSuffix + "." + function + ext;
-
 				if (access(outFileName.c_str(), F_OK) == -1) {
 					out_file.open(outFileName);
 					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
@@ -475,6 +564,8 @@ int main(int argc, const char **argv) {
 	RefactoringTool SSDLTool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool UOITool(op.getCompilations(), op.getSourcePathList());
 	RefactoringTool ABSTool(op.getCompilations(), op.getSourcePathList());
+
+	RefactoringTool LVRTool(op.getCompilations(), op.getSourcePathList());
 
 	RefactoringTool DeclTool(op.getCompilations(), op.getSourcePathList());
 
@@ -556,6 +647,10 @@ int main(int argc, const char **argv) {
 	BinaryOpHandler HandlerForXorAssignOp(&LCRTool.getReplacements(), "xorAssignOp", "^=", "bitwiseAssign");
 
 	ConstHandler HandlerForConst(&ICRTool.getReplacements(), "intConst");
+
+	LitConstHandler HandlerForFloatLitConst(&LVRTool.getReplacements(), "floatLitConst", &TheCompInst);
+	LitConstHandler HandlerForBoolLitConst(&LVRTool.getReplacements(), "boolLitConst", &TheCompInst);
+
 	IfCondHandler HandlerForIf(&OCNGTool.getReplacements(), "if", &TheCompInst);
 	WhileCondHandler HandlerForWhile(&OCNGTool.getReplacements(), "while", &TheCompInst);
 
@@ -630,6 +725,10 @@ int main(int argc, const char **argv) {
 
 	MatchFinder ICRFinder;
 	ICRFinder.addMatcher(integerLiteral().bind("intConst"), &HandlerForConst);
+
+	MatchFinder LVRFinder;
+	LVRFinder.addMatcher(floatLiteral().bind("floatLitConst"), &HandlerForFloatLitConst);
+	LVRFinder.addMatcher(integerLiteral(anyOf(equals(1),equals(0))).bind("boolLitConst"), &HandlerForBoolLitConst);
 
 	MatchFinder OCNGFinder;
 	OCNGFinder.addMatcher(ifStmt().bind("if"), &HandlerForIf);
@@ -744,6 +843,12 @@ int main(int argc, const char **argv) {
 		failed = 1;
 	} else {
 		Mutate(SODTool.getReplacements(), "binaryop_del_", "sod", CurrTool, Ext,
+				SrcDir, SourceMgr, TheCompInst, FileMgr);
+	}
+	if (int Result = LVRTool.run(newFrontendActionFactory(&LVRFinder).get())) {
+			failed = 1;
+	} else {
+		Mutate(LVRTool.getReplacements(), "litConst_for_", "lvr", CurrTool, Ext,
 				SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 
