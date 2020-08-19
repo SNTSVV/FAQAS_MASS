@@ -44,6 +44,7 @@ static std::set<int> CovSet;
 static bool MutateAll = false;
 
 std::map<int, std::string> mapFunctions;
+std::map<Replacement, int> mapReplacements;
 
 
 class StmntHandler : public MatchFinder::MatchCallback {
@@ -56,21 +57,37 @@ public:
 	virtual void run(const MatchFinder::MatchResult &Result) {
 
 		if (const Stmt* Stmnt = Result.Nodes.getNodeAs<clang::Stmt>(Binder) ) {
-			int lineNumber = Result.SourceManager->getSpellingLineNumber(Stmnt->getLocStart());
+
+			SourceLocation stmtLoc = Stmnt->getLocStart();
+			int lineNumber;
+			SourceLocation stmtLocStart, stmtLocEnd;
+
+			if (Result.SourceManager->isMacroBodyExpansion(stmtLoc)){
+				lineNumber = Result.SourceManager->getExpansionLineNumber(stmtLoc);
+				stmtLocStart = Result.SourceManager->getExpansionLoc(Stmnt->getLocStart());
+				stmtLocEnd = Result.SourceManager->getExpansionLoc(Stmnt->getLocEnd());
+
+			} else{
+				lineNumber = Result.SourceManager->getSpellingLineNumber(stmtLoc);
+				stmtLocStart = Stmnt->getLocStart();
+				stmtLocEnd = Stmnt->getLocEnd();
+			}
+
+			//printf("Found the line %i and it is covered\n", lineNumber);
 
 			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
 			// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
 			}
 			bool invalid;
-			CharSourceRange statementRange = CharSourceRange::getTokenRange(Stmnt->getLocStart(),Stmnt->getLocEnd());
+			CharSourceRange statementRange = CharSourceRange::getTokenRange(stmtLocStart, stmtLocEnd);
 			StringRef str = Lexer::getSourceText(statementRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
 
 			std::string MutatedString = "";
 
-			Replacement Rep(*(Result.SourceManager), Stmnt->getLocStart(),
-					str.str().size(), MutatedString);
+			Replacement Rep(*(Result.SourceManager), stmtLocStart, str.str().size(), MutatedString);
 			Replace->insert(Rep);
+			mapReplacements[Rep] = 1;
 		}
 	}
 
@@ -103,6 +120,7 @@ public:
 			std::string MutatedString = "!(" + str.str() + ")";
 			Replacement Rep(*(Result.SourceManager), Condition->getLocStart(), str.str().size(), MutatedString);
 			Replace->insert(Rep);
+			mapReplacements[Rep] = 7;
 		}
 	}
 
@@ -121,20 +139,37 @@ public:
 
 	virtual void run(const MatchFinder::MatchResult &Result) {
 		if (const WhileStmt *CondStmt = Result.Nodes.getNodeAs<clang::WhileStmt>(Binder)) {
-			int lineNumber = Result.SourceManager->getSpellingLineNumber(CondStmt->getWhileLoc());
+
+			SourceLocation whileLoc = CondStmt->getCond()->getLocStart();
+
+			int lineNumber;
+			SourceLocation whileLocStart, whileLocEnd;
+
+			if (Result.SourceManager->isMacroBodyExpansion(whileLoc)){
+				lineNumber = Result.SourceManager->getExpansionLineNumber(whileLoc);
+				whileLocStart = Result.SourceManager->getExpansionLoc(CondStmt->getCond()->getLocStart());
+				whileLocEnd = Result.SourceManager->getExpansionLoc(CondStmt->getCond()->getLocEnd());
+			} else {
+				lineNumber = Result.SourceManager->getSpellingLineNumber(whileLoc);
+
+				whileLocStart = CondStmt->getCond()->getLocStart();
+				whileLocEnd = CondStmt->getCond()->getLocEnd();
+			}
+
 			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) {  // Line is not in the set, and it's not MutateAll
 				// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
 			}
-			// printf("Found the line %i and it is covered\n", lineNumber);
+			//printf("Found the line %i and it is covered\n", lineNumber);
 			const Expr *Condition = CondStmt->getCond();
 			bool invalid;
 
-			CharSourceRange conditionRange = CharSourceRange::getTokenRange(Condition->getLocStart(), Condition->getLocEnd());  // Getting char size of condition
+			CharSourceRange conditionRange = CharSourceRange::getTokenRange(whileLocStart, whileLocEnd);  // Getting char size of condition
 			StringRef str = Lexer::getSourceText(conditionRange, *(Result.SourceManager), CI->getLangOpts(), &invalid);
 			std::string MutatedString = "!(" + str.str() + ")";
-			Replacement Rep(*(Result.SourceManager), Condition->getLocStart(), str.str().size(), MutatedString);
+			Replacement Rep(*(Result.SourceManager), whileLocStart, str.str().size(), MutatedString);
 			Replace->insert(Rep);
+			mapReplacements[Rep] = 8;
 		}
 	}
 
@@ -156,13 +191,10 @@ public:
 
 	virtual void run(const MatchFinder::MatchResult &Result) {
 
-		if (const IntegerLiteral *IntLiteral = Result.Nodes.getNodeAs<
-				clang::IntegerLiteral>(Binder)) {
+		if (const IntegerLiteral *IntLiteral = Result.Nodes.getNodeAs<clang::IntegerLiteral>(Binder)) {
 			SourceLocation loc = IntLiteral->getLocation();
-			SourceLocation spellingLoc = Result.SourceManager->getSpellingLoc(
-					loc);
-			std::string fileNameResult = Result.SourceManager->getFilename(
-					spellingLoc);
+			SourceLocation spellingLoc = Result.SourceManager->getSpellingLoc(loc);
+			std::string fileNameResult = Result.SourceManager->getFilename(spellingLoc);
 
 			if (fileNameResult.find("bool") == std::string::npos) {
 				return;
@@ -170,11 +202,10 @@ public:
 
 			int lineNumber = Result.SourceManager->getExpansionLineNumber(loc);
 
-			SourceLocation expansionLoc = Result.SourceManager->getExpansionLoc(
-					loc);
+			SourceLocation expansionLoc = Result.SourceManager->getExpansionLoc(loc);
 
 			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) { // Line is not in the set, and it's not MutateAll
-					// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
+//				printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
 			}
 //			printf("Found the line %i and it is covered\n", lineNumber);
@@ -184,19 +215,17 @@ public:
 			long long Value = std::strtoll(ValueStr.c_str(), &endptr, 10);
 
 			if (Value == 1) {
-				Replacement Rep(*(Result.SourceManager), expansionLoc, 4,
-						"false");
+				Replacement Rep(*(Result.SourceManager), expansionLoc, 4, "false");
 				Replace->insert(Rep);
+				mapReplacements[Rep] = 4;
 			} else if (Value == 0) {
-				Replacement Rep(*(Result.SourceManager), expansionLoc, 5,
-						"true");
+				Replacement Rep(*(Result.SourceManager), expansionLoc, 5, "true");
 				Replace->insert(Rep);
+				mapReplacements[Rep] = 5;
 			}
-		} else if (const FloatingLiteral *FloatLiteral = Result.Nodes.getNodeAs<
-				clang::FloatingLiteral>(Binder)) {
+		} else if (const FloatingLiteral *FloatLiteral = Result.Nodes.getNodeAs<clang::FloatingLiteral>(Binder)) {
 
-			int lineNumber = Result.SourceManager->getSpellingLineNumber(
-					FloatLiteral->getLocation());
+			int lineNumber = Result.SourceManager->getSpellingLineNumber(FloatLiteral->getLocation());
 			if (!MutateAll && CovSet.find(lineNumber) == CovSet.end()) { // Line is not in the set, and it's not MutateAll
 					// printf("The match we found: %i is not in the set of covered lines\n", lineNumber);
 				return;
@@ -205,23 +234,22 @@ public:
 			double Value = FloatLiteral->getValueAsApproximateDouble();
 
 			bool invalid;
-
 			CharSourceRange range = CharSourceRange::getTokenRange(FloatLiteral->getLocStart(), FloatLiteral->getLocEnd());
 			StringRef str = Lexer::getSourceText(range, *(Result.SourceManager), CI->getLangOpts(), &invalid);
 
 			int Size = str.size();
-			std::vector<std::string> Values;
 
 			if (Value == 0) {
-				Values.insert(Values.end(), {"(-1.0)" });
-			} else {
-				Values.insert(Values.end(),	{ "0.0", "-(" + str.str() + ")"});
-			}
-			for (std::string MutationVal : Values) {
-				// printf("subsituting for the value: %s\n", MutationVal.c_str());
-				Replacement Rep(*(Result.SourceManager),
-						FloatLiteral->getLocStart(), Size, MutationVal);
+				Replacement Rep(*(Result.SourceManager), FloatLiteral->getLocStart(), Size, "(-1.0)");
 				Replace->insert(Rep);
+				mapReplacements[Rep] = 1;
+			} else {
+				Replacement Rep2(*(Result.SourceManager), FloatLiteral->getLocStart(), Size, "-(" + str.str() + ")");
+				Replacement Rep3(*(Result.SourceManager), FloatLiteral->getLocStart(), Size, "0.0");
+				Replace->insert(Rep2);
+				Replace->insert(Rep3);
+				mapReplacements[Rep2] = 2;
+				mapReplacements[Rep3] = 3;
 			}
 		}
 	}
@@ -253,24 +281,59 @@ public:
 			char* endptr;
 			long long Value = std::strtoll(ValueStr.c_str(), &endptr, 10);
 			int Size = ValueStr.size();
-			std::vector<std::string> Values;
+
 			if (Value == 1) {
-				Values.insert(Values.end(), {"(-1)", "0", "2"});
+				Replacement Rep1(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "(-1)");
+				Replacement Rep2(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "0");
+				Replacement Rep3(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "2");
+				Replace->insert(Rep1);
+				Replace->insert(Rep2);
+				Replace->insert(Rep3);
+				mapReplacements[Rep1] = 2;
+				mapReplacements[Rep2] = 3;
+				mapReplacements[Rep3] = 4;
+
 			}
 			else if (Value == -1) {
-				Values.insert(Values.end(), {"1", "0", "(-2)"});
+				Replacement Rep1(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "1");
+				Replacement Rep2(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "0");
+				Replacement Rep3(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "(-2)");
+				Replace->insert(Rep1);
+				Replace->insert(Rep2);
+				Replace->insert(Rep3);
+				mapReplacements[Rep1] = 1;
+				mapReplacements[Rep2] = 3;
+				mapReplacements[Rep3] = 5;
 			}
 			else if (Value == 0) {
-				Values.insert(Values.end(), {"1", "(-1)"});
+				Replacement Rep1(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "1");
+				Replacement Rep2(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "(-1)");
+				Replace->insert(Rep1);
+				Replace->insert(Rep2);
+				mapReplacements[Rep1] = 1;
+				mapReplacements[Rep2] = 2;
 			}
 			else {
-				Values.insert(Values.end(), {"0", "1", "(-1)", "-(" + std::to_string(Value) + ")", std::to_string(Value + 1), std::to_string(Value - 1)});
+				Replacement Rep1(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "1");
+				Replacement Rep2(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "(-1)");
+				Replacement Rep3(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "0");
+				Replacement Rep4(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "("  + ValueStr + " + 1)");
+				Replacement Rep5(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "("  + ValueStr + " - 1)");
+				Replacement Rep6(*(Result.SourceManager), IntLiteral->getLocStart(), Size, "-("  + ValueStr + ")");
+				Replace->insert(Rep1);
+				Replace->insert(Rep2);
+				Replace->insert(Rep3);
+				Replace->insert(Rep4);
+				Replace->insert(Rep5);
+				Replace->insert(Rep6);
+				mapReplacements[Rep1] = 1;
+				mapReplacements[Rep2] = 2;
+				mapReplacements[Rep3] = 3;
+				mapReplacements[Rep4] = 4;
+				mapReplacements[Rep5] = 5;
+				mapReplacements[Rep6] = 6;
 			}
-			for (std::string MutationVal : Values) {
-				// printf("subsituting for the value: %s\n", MutationVal.c_str());
-				Replacement Rep(*(Result.SourceManager), IntLiteral->getLocStart(), Size, MutationVal);
-				Replace->insert(Rep);
-			}
+
 		}
 	}
 
@@ -314,11 +377,13 @@ public:
 			int totalLeftSize = leftString.str().size();
 			Replacement RepL(*(Result.SourceManager), lhs->getLocStart(), totalLeftSize, MutatedString);
 			Replace->insert(RepL);
+			mapReplacements[RepL] = 1;
 
 			// right hand side
 			int totalRightSize = rightString.str().size();
 			Replacement RepR(*(Result.SourceManager), BinOp->getOperatorLoc(), totalRightSize, MutatedString);
 			Replace->insert(RepR);
+			mapReplacements[RepR] = 2;
 		}
 	}
 
@@ -337,6 +402,7 @@ public:
 		this->Op = Op;
 		this->OpType = OpType;
 		if (OpType == "arith") {
+
 			CurrOps = &ArithmeticOperators;
 		}
 		else if (OpType == "rel") {
@@ -354,6 +420,7 @@ public:
 		else if (OpType == "bitwiseAssign") {
 			CurrOps = &BitwiseAssignOperators;
 		}
+
 	}
 
 	virtual void run(const MatchFinder::MatchResult &Result) {
@@ -373,15 +440,18 @@ public:
 				}
 				Replacement Rep(*(Result.SourceManager), BinOp->getOperatorLoc(), Size, MutationOp);
 				Replace->insert(Rep);
+				mapReplacements[Rep] = localMap[MutationOp];
 			}
 		}
 	}
+
 
 private:
 	Replacements *Replace;
 	std::string OpName;
 	std::string Op;
 	std::string OpType;
+
 	std::vector<std::string>* CurrOps;
 	std::vector<std::string> ArithmeticOperators = {"+", "-", "*", "/", "%"};
 	std::vector<std::string> RelationalOperators = {"<", "<=", ">", ">=", "==", "!="};
@@ -389,6 +459,15 @@ private:
 	std::vector<std::string> BitwiseOperators = {"&", "|", "^"};
 	std::vector<std::string> ArithAssignOperators = {"+=", "-=", "*=", "/=", "%="};
 	std::vector<std::string> BitwiseAssignOperators = {"&=", "|=", "^="};
+
+	std::map<std::string, int> localMap = {
+										{"+", 1}, {"-", 2}, {"*", 3}, {"/", 4}, {"%", 5},
+										{"+=", 6}, {"-=", 7}, {"*=", 8}, {"/=", 9}, {"%=", 10},
+										{"&&", 1}, {"||", 2},
+										{"&=", 3}, {"|=", 4}, {"^=", 5},
+										{"&", 6}, {"|", 7}, {"^", 8},
+										{">", 1}, {">=", 2}, {"<", 3}, {"<=", 4}, {"==", 5}, {"!=", 6}
+										};
 
 };
 
@@ -414,23 +493,27 @@ public:
 
 			std::string Value = declRefExpr->getFoundDecl()->getNameAsString();
 
-			std::vector<std::string> Values;
-
 			if (Op == "ABS") {
-				Values.insert(Values.end(),	{ "(" + Value + " * ((" + Value + " < 0) - (" + Value + " > 0)))" });
-
-			} else if (Op == "UOI") {
-				Values.insert(Values.end(), { "(++" + Value + ")", "(" + Value + "++)",	"(--" + Value + ")", "(" + Value + "--)" });
-			}
-
-			for (std::string MutationVal : Values) {
-				// printf("subsituting for the value: %s\n", MutationVal.c_str());
-				Replacement Rep(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), MutationVal);
+				Replacement Rep(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "-(" + Value + ")");
 				Replace->insert(Rep);
+				mapReplacements[Rep] = 1;
+			} else if (Op == "UOI") {
+				Replacement Rep1(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(--" + Value + ")");
+				Replacement Rep2(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(" + Value + "--)");
+				Replacement Rep3(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(++" + Value + ")");
+				Replacement Rep4(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(" + Value + "++)");
+				Replace->insert(Rep1);
+				Replace->insert(Rep2);
+				Replace->insert(Rep3);
+				Replace->insert(Rep4);
+
+				mapReplacements[Rep1] = 1;
+				mapReplacements[Rep2] = 2;
+				mapReplacements[Rep3] = 3;
+				mapReplacements[Rep4] = 4;
 			}
 		}
 	}
-
 
 private:
 	Replacements *Replace;
@@ -481,8 +564,11 @@ bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
 }
 
 
-void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr){
+void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr){
 	int x = 0;
+
+	int previousLineNumber = 0;
+	int idCount= 1;
 
 	for (auto &r : repl) {
 		x++;
@@ -508,16 +594,25 @@ void Mutate(Replacements& repl, std::string NamePrefix, std::string NameSuffix, 
 				SourceLocation mutloc = startLoc.getLocWithOffset(r.getOffset());
 				int lineNumber = SourceMgr.getSpellingLineNumber(mutloc);
 
+				std::string id;
+				if (lineNumber == previousLineNumber){
+					id = std::to_string(mapReplacements[r]) + "_" + std::to_string(++idCount);
+				} else {
+					id = std::to_string(mapReplacements[r]) + "_1";
+					idCount = 1;
+				}
+				previousLineNumber = lineNumber;
+
 				std::string function = mapFunctions[lineNumber];
 
 				std::ofstream out_file;
-				std::string outFileName = srcDir + "/" + tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(lineNumber) + "." + NameSuffix + "." + function + ext;
+				std::string outFileName = srcDir + "/" + tool + ".mut." + std::to_string(lineNumber) + "." +  id + "." + NameSuffix + "." + function + ext;
 				if (access(outFileName.c_str(), F_OK) == -1) {
 					out_file.open(outFileName);
 					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
 					out_file.close();
 
-					printf("line: %i %s\n", lineNumber, (tool + ".mut." + NamePrefix + std::to_string(x) + "." + std::to_string(lineNumber) + "." + NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
+					printf("line: %i %s\n", lineNumber, (tool + ".mut." + std::to_string(lineNumber) + "." + id + "." +  NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
 				}
 				else {
 					printf("ERROR IN GENERATING MUTANTS: we have a name overlap for %s\n", outFileName.c_str());
@@ -764,92 +859,90 @@ int main(int argc, const char **argv) {
 		failed = 1;
 	}
 	else {
-		Mutate(AORTool.getReplacements(), "binaryop_for_", "60", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(AORTool.getReplacements(), "AOR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	//-----
 	if (int Result = RORTool.run(newFrontendActionFactory(&RORFinder).get())) {
 		failed = 1;
 	}
 	else {
-		Mutate(RORTool.getReplacements(), "binaryop_for_", "61", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(RORTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	//-----
 	if (int Result = ICRTool.run(newFrontendActionFactory(&ICRFinder).get())) {
 		failed = 1;
 	}
 	else {
-		Mutate(ICRTool.getReplacements(), "const_for_", "const", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(ICRTool.getReplacements(), "ICR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	//-----
 	if (int Result = LCRTool.run(newFrontendActionFactory(&LCRFinder).get())) {
 		failed = 1;
 	}
 	else {
-		Mutate(LCRTool.getReplacements(), "binaryop_for_", "62", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(LCRTool.getReplacements(), "LCR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	//-----
 	if (int Result = OCNGTool.run(newFrontendActionFactory(&OCNGFinder).get())) {
 		failed = 1;
 	}
 	else {
-		Mutate(OCNGTool.getReplacements(), "binaryop_for_", "ocng", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(OCNGTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	// -----
 	if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
 		failed = 1;
 	}
 	else {
-		Mutate(SSDLTool.getReplacements(), "stmnt_for_", "delete", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	// -----
 	if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
 		failed = 1;
 	} else {
-		Mutate(UOITool.getReplacements(), "intvar_for_", "uoi", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(UOITool.getReplacements(), "UOI", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 	// -----
 	if (int Result = ABSTool.run(newFrontendActionFactory(&ABSFinder).get())) {
 		failed = 1;
 	} else {
-		Mutate(ABSTool.getReplacements(), "var_for_", "abs", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(ABSTool.getReplacements(), "ABS", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = AODTool.run(newFrontendActionFactory(&AODFinder).get())) {
 		failed = 1;
 	} else {
-		Mutate(AODTool.getReplacements(), "binaryop_del_", "aod", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(AODTool.getReplacements(), "AOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = LODTool.run(newFrontendActionFactory(&LODFinder).get())) {
 		failed = 1;
 	} else {
-		Mutate(LODTool.getReplacements(), "binaryop_del_", "lod", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(LODTool.getReplacements(), "LOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = RODTool.run(newFrontendActionFactory(&RODFinder).get())) {
 			failed = 1;
 	} else {
-		Mutate(RODTool.getReplacements(), "binaryop_del_", "rod", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(RODTool.getReplacements(), "ROD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = BODTool.run(newFrontendActionFactory(&BODFinder).get())) {
 			failed = 1;
 	} else {
-		Mutate(BODTool.getReplacements(), "binaryop_del_", "bod", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(BODTool.getReplacements(), "BOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = SODTool.run(newFrontendActionFactory(&SODFinder).get())) {
 		failed = 1;
 	} else {
-		Mutate(SODTool.getReplacements(), "binaryop_del_", "sod", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(SODTool.getReplacements(), "SOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
+	// -----
 	if (int Result = LVRTool.run(newFrontendActionFactory(&LVRFinder).get())) {
 			failed = 1;
 	} else {
-		Mutate(LVRTool.getReplacements(), "litConst_for_", "lvr", CurrTool, Ext,
-				SrcDir, SourceMgr, TheCompInst, FileMgr);
+		Mutate(LVRTool.getReplacements(), "LVR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
 
 	return failed;
