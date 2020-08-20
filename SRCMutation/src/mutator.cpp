@@ -39,9 +39,13 @@ using namespace clang::driver;
 using namespace clang::tooling;
 
 static llvm::cl::OptionCategory OptimuteMutatorCategory("Optimute Mutator");
+static llvm::cl::opt<std::string> Operators("operators", llvm::cl::desc("Specify the operators to be applied"), llvm::cl::value_desc("string"));
 static llvm::cl::opt<std::string> CoverageInfo("coverage_info", llvm::cl::desc("Specify the lines covered by the test suite and should mutate"), llvm::cl::value_desc("string"));
 static std::set<int> CovSet;
 static bool MutateAll = false;
+
+static std::set<std::string> OpSet;
+static bool AllOps = false;
 
 std::map<int, std::string> mapFunctions;
 std::map<Replacement, int> mapReplacements;
@@ -643,6 +647,24 @@ std::set<int> parseCoverageLines(std::string ListOfLines) {
 	return result;
 }
 
+std::set<std::string> parseOperators(std::string ListOfOperators) {
+	std::stringstream ss(ListOfOperators);
+	std::set<std::string> result;
+
+	while (ss.good()) {
+		std::string substr;
+		getline(ss, substr, ',');
+		// If the value is "all", then means want to use all operators, so AllOps=true
+		if (!substr.compare("all")) {
+			AllOps = true;
+			return result;
+		}
+		result.insert(substr);
+	}
+
+	return result;
+}
+
 
 int main(int argc, const char **argv) {
 	CommonOptionsParser op(argc, argv, OptimuteMutatorCategory);
@@ -842,7 +864,10 @@ int main(int argc, const char **argv) {
 
 
 	std::string FileName = argv[1];   // Assumes only one source file on command line to mutate
+
 	CovSet = parseCoverageLines(CoverageInfo);
+	OpSet = parseOperators(Operators);
+
 	std::string ToolDotExt = FileName.substr(FileName.find_last_of("/\\") + 1);
 	std::string::size_type const p(ToolDotExt.find_last_of('.'));
 	std::string CurrTool = ToolDotExt.substr(0, p);
@@ -857,95 +882,91 @@ int main(int argc, const char **argv) {
 
 	int failed = 0;
 
-	if (int Result = AORTool.run(newFrontendActionFactory(&AORFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(AORTool.getReplacements(), "AOR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	//-----
-	if (int Result = RORTool.run(newFrontendActionFactory(&RORFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(RORTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	//-----
-	if (int Result = ICRTool.run(newFrontendActionFactory(&ICRFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(ICRTool.getReplacements(), "ICR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	//-----
-	if (int Result = LCRTool.run(newFrontendActionFactory(&LCRFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(LCRTool.getReplacements(), "LCR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	//-----
-	if (int Result = OCNGTool.run(newFrontendActionFactory(&OCNGFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(OCNGTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
-		failed = 1;
-	}
-	else {
-		Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
-		failed = 1;
-	} else {
-		Mutate(UOITool.getReplacements(), "UOI", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = ABSTool.run(newFrontendActionFactory(&ABSFinder).get())) {
-		failed = 1;
-	} else {
-		Mutate(ABSTool.getReplacements(), "ABS", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = AODTool.run(newFrontendActionFactory(&AODFinder).get())) {
-		failed = 1;
-	} else {
+	if (AllOps || OpSet.find("AOR") != OpSet.end())
+		if (int Result = AORTool.run(newFrontendActionFactory(&AORFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(AORTool.getReplacements(), "AOR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+
+	if (AllOps || OpSet.find("ROR") != OpSet.end())
+		if (int Result = RORTool.run(newFrontendActionFactory(&RORFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(RORTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("ICR") != OpSet.end())
+		if (int Result = ICRTool.run(newFrontendActionFactory(&ICRFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(ICRTool.getReplacements(), "ICR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("LCR") != OpSet.end())
+		if (int Result = LCRTool.run(newFrontendActionFactory(&LCRFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(LCRTool.getReplacements(), "LCR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("ROR") != OpSet.end())
+		if (int Result = OCNGTool.run(newFrontendActionFactory(&OCNGFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(OCNGTool.getReplacements(), "ROR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("SDL") != OpSet.end())
+		if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("UOI") != OpSet.end())
+		if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(UOITool.getReplacements(), "UOI", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("ABS") != OpSet.end())
+		if (int Result = ABSTool.run(newFrontendActionFactory(&ABSFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(ABSTool.getReplacements(), "ABS", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("AOD") != OpSet.end())
+		if (int Result = AODTool.run(newFrontendActionFactory(&AODFinder).get())) {
+			failed = 1;
+		} else {
 		Mutate(AODTool.getReplacements(), "AOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 	}
-	// -----
-	if (int Result = LODTool.run(newFrontendActionFactory(&LODFinder).get())) {
-		failed = 1;
-	} else {
-		Mutate(LODTool.getReplacements(), "LOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = RODTool.run(newFrontendActionFactory(&RODFinder).get())) {
+	if (AllOps || OpSet.find("LOD") != OpSet.end())
+		if (int Result = LODTool.run(newFrontendActionFactory(&LODFinder).get())) {
 			failed = 1;
-	} else {
-		Mutate(RODTool.getReplacements(), "ROD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = BODTool.run(newFrontendActionFactory(&BODFinder).get())) {
+		} else {
+			Mutate(LODTool.getReplacements(), "LOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("ROD") != OpSet.end())
+		if (int Result = RODTool.run(newFrontendActionFactory(&RODFinder).get())) {
+				failed = 1;
+		} else {
+			Mutate(RODTool.getReplacements(), "ROD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("BOD") != OpSet.end())
+		if (int Result = BODTool.run(newFrontendActionFactory(&BODFinder).get())) {
+				failed = 1;
+		} else {
+			Mutate(BODTool.getReplacements(), "BOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("SOD") != OpSet.end())
+		if (int Result = SODTool.run(newFrontendActionFactory(&SODFinder).get())) {
 			failed = 1;
-	} else {
-		Mutate(BODTool.getReplacements(), "BOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = SODTool.run(newFrontendActionFactory(&SODFinder).get())) {
-		failed = 1;
-	} else {
-		Mutate(SODTool.getReplacements(), "SOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
-	// -----
-	if (int Result = LVRTool.run(newFrontendActionFactory(&LVRFinder).get())) {
-			failed = 1;
-	} else {
-		Mutate(LVRTool.getReplacements(), "LVR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
-	}
+		} else {
+			Mutate(SODTool.getReplacements(), "SOD", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
+	if (AllOps || OpSet.find("LVR") != OpSet.end())
+		if (int Result = LVRTool.run(newFrontendActionFactory(&LVRFinder).get())) {
+				failed = 1;
+		} else {
+			Mutate(LVRTool.getReplacements(), "LVR", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
+		}
 
 	return failed;
 }
