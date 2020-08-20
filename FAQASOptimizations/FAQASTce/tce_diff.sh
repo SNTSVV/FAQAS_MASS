@@ -2,14 +2,13 @@
 
 LIBUTIL=/home/gsl/libutil
 
-SRC_MUTANTS=/opt/mutations/src-mutants
+SRC_MUTANTS=/home/gsl/mutants
 
 FLAG=$1
 
-EXEC_NAME=test_run_$(date +"%Y%m%d%H%M")
-EXEC_DIR=/home/gsl/test_runs/$EXEC_NAME
+EXEC_DIR=/home/gsl/test_runs
 
-LOGFILE=$EXEC_DIR/$EXEC_NAME.log
+LOGFILE=$EXEC_DIR/main.log
 mkdir -p $EXEC_DIR
 touch $LOGFILE
 
@@ -18,15 +17,15 @@ trap "exit" INT
 
 if [ ! -f "$LIBUTIL/original_build/libgsutil_cmocka.a" ]; then
 
-	sed "s/TCE/$FLAG/g" $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json.template > $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
-	cat $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
-	
+    sed "s/TCE/$FLAG/g" $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json.template > $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
+    cat $LIBUTIL/tools/buildtools/gs/buildtools/compiler_settings.json
+    
     cd $LIBUTIL
     ./waf configure
-	./waf clean
+    ./waf clean
     ./waf build
-	mkdir -p original_build
-	cp build/libgsutil_cmocka.a original_build/
+    mkdir -p original_build
+    cp build/libgsutil_cmocka.a original_build/
 fi
 
 count=0
@@ -40,9 +39,9 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     filename="$(basename -- ${file_wo_mut_end%.*})"
 
-	function=$(echo $mutant_name | sed 's/.*\.//g')
+    function=$(echo $mutant_name | sed 's/.*\.//g')
     
-	filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
+    filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
     mutant_path=$EXEC_DIR/$mutant_name
     mkdir -p $mutant_path
@@ -74,44 +73,44 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         
         touch $i.notcompiled
     else
-		echo "Success: mutant compiled" 2>&1 | tee -a $MUTANT_LOGFILE
+        echo "Success: mutant compiled" 2>&1 | tee -a $MUTANT_LOGFILE
         echo $mutant_name"      compiled" 2>&1 | tee -a $LOGFILE
-	
-		cp $LIBUTIL/build/libgsutil_cmocka.a $i.libgsutil_cmocka.a
+    
+        cp $LIBUTIL/build/libgsutil_cmocka.a $i.libgsutil_cmocka.a
 
-		equivalence=`diff --binary $LIBUTIL/original_build/libgsutil_cmocka.a $i.libgsutil_cmocka.a | wc -l`
+        equivalence=`diff --binary $LIBUTIL/original_build/libgsutil_cmocka.a $i.libgsutil_cmocka.a | wc -l`
 
-		if [ $equivalence -eq 1 ];then
-			echo "$mutant_name not equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE  
-		
-			redundant=0
+        if [ $equivalence -eq 1 ];then
+            echo "$mutant_name not equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE  
+        
+            redundant=0
             for m in $(find $SRC_MUTANTS -name "*$filename*$function*.libgsutil_cmocka.a");do
                 #echo comparing $m with $filename
-				if [[ "$m" == "${i}.libgsutil_cmocka.a" ]];then
+                if [[ "$m" == "${i}.libgsutil_cmocka.a" ]];then
                     continue
                 fi
 
-				redundancy=`diff --binary $i.libgsutil_cmocka.a $m | wc -l`
-				
-				if [ $redundancy -eq 0 ];then
-					echo "$mutant_name redundant with $m" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE
+                redundancy=`diff --binary $i.libgsutil_cmocka.a $m | wc -l`
+                
+                if [ $redundancy -eq 0 ];then
+                    echo "$mutant_name redundant with $m" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE
                     mv $i.libgsutil_cmocka.a $i.redundant
                     redundant=1
                                                                                                                                        
                     break
-				fi
-			done
-			 if [ $redundant -eq 0 ];then
+                fi
+            done
+             if [ $redundant -eq 0 ];then
                 echo "$mutant_name not redundant" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE
-            fi		
-		else
-			echo "$mutant_name equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE
-			mv $i.libgsutil_cmocka.a $i.equivalent
-		fi
+            fi          
+        else
+            echo "$mutant_name equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE
+            mv $i.libgsutil_cmocka.a $i.equivalent
+        fi
 
-	fi
+    fi
 
-	echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
+    echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
     cd $LIBUTIL/src
     mv $filename_orig.orig $filename_orig
 
@@ -120,9 +119,36 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
     echo "elapsed time $elapsed [ms]"
 
-   if [ $count -eq 60 ];then
+   if [ $count -eq 10000000 ];then
        break
    else
        count=$((count+1))
    fi
 done
+
+# reporting
+compiled=`find $SRC_MUTANTS -name '*.libgsutil_cmocka.a' | wc -l`
+equivalent=`find $SRC_MUTANTS -name '*.equivalent' | wc -l`
+redundant=`find $SRC_MUTANTS -name '*.redundant' | wc -l`
+notcompiled=`find $SRC_MUTANTS -name '*.notcompiled' | wc -l`
+
+echo compiled $compiled
+echo equivalent $equivalent 
+echo redundant $redundant  
+echo notcompiled $notcompiled 
+echo total $((compiled+equivalent+redundant+notcompiled)) 
+
+final_list=$EXEC_DIR/list$FLAG
+touch $final_list
+
+find $SRC_MUTANTS -name '*.libgsutil_cmocka.a' >> $final_list                                                       
+find $SRC_MUTANTS -name '*.equivalent' >> $final_list                                                       
+find $SRC_MUTANTS -name '*.redundant' >> $final_list                                                       
+find $SRC_MUTANTS -name '*.notcompiled' >> $final_list                                                       
+
+echo "backing up compiled mutants" 2>&1 | tee -a $MUTANT_LOGFILE
+cd /home/gsl
+GZIP=-9 tar czf compiled.tar.gz mutants/
+mv compiled.tar.gz $EXEC_DIR
+
+
