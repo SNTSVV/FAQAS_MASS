@@ -571,6 +571,7 @@ void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::s
 	int idCount= 1;
 
 	for (auto &r : repl) {
+
 		x++;
 		std::string pName = r.getFilePath().str();
 
@@ -593,12 +594,13 @@ void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::s
 				SourceLocation startLoc = SourceMgr.getLocForStartOfFile(SourceMgr.getMainFileID());
 				SourceLocation mutloc = startLoc.getLocWithOffset(r.getOffset());
 				int lineNumber = SourceMgr.getSpellingLineNumber(mutloc);
+				int colNumber = SourceMgr.getSpellingColumnNumber(mutloc);
 
 				std::string id;
 				if (lineNumber == previousLineNumber){
-					id = std::to_string(mapReplacements[r]) + "_" + std::to_string(++idCount);
+					id = std::to_string(mapReplacements[r]) + "_" + std::to_string(++idCount) + "_" + std::to_string(colNumber);
 				} else {
-					id = std::to_string(mapReplacements[r]) + "_1";
+					id = std::to_string(mapReplacements[r]) + "_1" + "_" + std::to_string(colNumber);
 					idCount = 1;
 				}
 				previousLineNumber = lineNumber;
