@@ -4,9 +4,10 @@ PYTHON=$1
 TST=$2
 STRATEGY=$3
 METHOD=$4
-mutant=$5
-lineNumber=$6
-casestudy=$7
+MUTANTS_FOLDER=$5
+mutant=$6
+lineNumber=$7
+casestudy=$8
 
 start_time="$(date -u +%s)"
 
@@ -15,7 +16,8 @@ coverage_array=()
 mostExecutedTest=''
 count=0
 
-mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::"`                                    
+mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::" | xargs dirname | sed 's:$:\.c:'`
+#mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::"`                                    
 mutantName=`echo $SRC_PREFIX$mutantNameTemp`
 
 for coverage in `grep -ri --include coverage.txt "$mutantName" $TST`;do
