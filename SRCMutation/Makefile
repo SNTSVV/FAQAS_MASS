@@ -69,6 +69,10 @@ $(BUILDDIR)/mutator: $(SRC_CLANG_DIR)/mutator.cpp
 	$(CXX) $(CXXFLAGS) $(LLVM_CXXFLAGS) $(CLANG_INCLUDES) $^ \
 		$(CLANG_LIBS) $(LLVM_LDFLAGS) -o $@
 
+.PHONY: tests
+tests: 
+	./run_unit_tests.sh
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR)/* *.dot test/*.pyc test/__pycache__
