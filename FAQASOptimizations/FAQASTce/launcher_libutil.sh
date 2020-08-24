@@ -9,6 +9,7 @@ LIBUTIL_ORIGINAL_BUILD=$LIBUTIL/original_build/$COMPILED
 SRC_MUTANTS=/opt/mutations/src-mutants
 EXEC_DIR=$HOME/test_runs
 FLAG="-O0"
+COMMAND="./waf build"
 
 TCE=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/tce_diff.sh
 
@@ -25,5 +26,5 @@ if [ ! -f "$LIBUTIL_ORIGINAL_BUILD" ]; then
     cp build/$COMPILED original_build/
 fi
 
-source $TCE $LIBUTIL $LIBUTIL_SRC $LIBUTIL_BUILD $LIBUTIL_ORIGINAL_BUILD $FLAG $SRC_MUTANTS $COMPILED $EXEC_DIR
+source $TCE $LIBUTIL $LIBUTIL_SRC $LIBUTIL_BUILD $LIBUTIL_ORIGINAL_BUILD $FLAG $SRC_MUTANTS $COMPILED $EXEC_DIR $COMMAND
 

@@ -8,6 +8,7 @@ FLAG=$5
 SRC_MUTANTS=$6
 COMPILED=$7
 EXEC_DIR=$8
+COMMAND=$9
 
 LOGFILE=$EXEC_DIR/main.log
 mkdir -p $EXEC_DIR
@@ -52,7 +53,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     cd $PROJ
 
-    ./waf build  2>&1 | tee -a $MUTANT_LOGFILE
+    $COMMAND  2>&1 | tee -a $MUTANT_LOGFILE
     RET_CODE=${PIPESTATUS[0]}                                                                                                          
     
     if [ $RET_CODE -eq 1 ]; then
