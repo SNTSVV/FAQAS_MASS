@@ -9,7 +9,7 @@ LIBUTIL_ORIGINAL_BUILD=$LIBUTIL/original_build/$COMPILED
 SRC_MUTANTS=/opt/mutations/src-mutants
 EXEC_DIR=$HOME/test_runs
 FLAG="-O0"
-COMMAND="./waf build"
+COMMAND=(./waf build)
 
 TCE=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/tce_diff.sh
 

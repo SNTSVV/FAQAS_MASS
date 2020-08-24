@@ -29,7 +29,9 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     filename="$(basename -- ${file_wo_mut_end%.*})"
 
     function=$(echo $mutant_name | sed 's/.*\.//g')
-    
+   
+    echo $function
+ 
     filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
     mutant_path=$EXEC_DIR/$mutant_name
@@ -52,8 +54,9 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     cp $i $filename_orig
 
     cd $PROJ
+    echo ASDASDASDASSADDSA $COMMAND[@]
+    "${COMMAND[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
 
-    $COMMAND  2>&1 | tee -a $MUTANT_LOGFILE
     RET_CODE=${PIPESTATUS[0]}                                                                                                          
     
     if [ $RET_CODE -eq 1 ]; then
@@ -67,14 +70,14 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
         cp $PROJ_BUILD/$COMPILED $i.$COMPILED
         
-		equivalence=`diff --binary $PROJ_ORIGINAL_BUILD $i.$COMPILED | wc -l`
+        equivalence=`diff --binary $PROJ_ORIGINAL_BUILD $i.$COMPILED | wc -l`
 
         if [ $equivalence -eq 1 ];then
             echo "$mutant_name not equivalent with original" 2>&1 | tee -a $MUTANT_LOGFILE $LOGFILE  
         
             redundant=0
             for m in $(find $SRC_MUTANTS -name "*$filename*$function*.$COMPILED");do
-                #echo comparing $m with $filename
+#                echo comparing $m with $filename
                 if [[ "$m" == "${i}.${COMPILED}" ]];then
                     continue
                 fi
