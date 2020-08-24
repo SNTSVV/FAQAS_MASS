@@ -30,8 +30,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     function=$(echo $mutant_name | sed 's/.*\.//g')
    
-    echo $function
- 
     filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
     mutant_path=$EXEC_DIR/$mutant_name
@@ -54,12 +52,10 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     cp $i $filename_orig
 
     cd $PROJ
-    echo ASDASDASDASSADDSA $COMMAND[@]
     "${COMMAND[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
 
     RET_CODE=${PIPESTATUS[0]}                                                                                                          
-    
-    if [ $RET_CODE -eq 1 ]; then
+    if [ $RET_CODE -gt 0 ]; then
         echo "Error: mutant could not be compiled" 2>&1 | tee -a $MUTANT_LOGFILE
         echo $mutant_name"      not compiled" 2>&1 | tee -a $LOGFILE
         
@@ -77,7 +73,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         
             redundant=0
             for m in $(find $SRC_MUTANTS -name "*$filename*$function*.$COMPILED");do
-#                echo comparing $m with $filename
+                #echo comparing $m with $filename
                 if [[ "$m" == "${i}.${COMPILED}" ]];then
                     continue
                 fi
@@ -111,7 +107,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
     echo "elapsed time $elapsed [ms]"
 
-   if [ $count -eq 10 ];then
+   if [ $count -eq 1000000 ];then
        break
    else
        count=$((count+1))
@@ -139,7 +135,6 @@ find $SRC_MUTANTS -name '*.redundant' >> $final_list
 find $SRC_MUTANTS -name '*.notcompiled' >> $final_list                                                       
 
 echo "backing up compiled mutants" 2>&1 | tee -a $MUTANT_LOGFILE
-cd /opt/mutations
-GZIP=-9 tar czf compiled.tar.gz src-mutants/
-mv compiled.tar.gz $EXEC_DIR
+cd $EXEC_DIR
+GZIP=-9 tar czf $EXEC_DIR/compiled.tar.gz -C $SRC_MUTANTS .
 

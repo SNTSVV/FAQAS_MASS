@@ -8,7 +8,7 @@ COMPILED=OBSW.exe
 ESAIL_ORIGINAL_BUILD=$ESAIL/original_build/$COMPILED
 SRC_MUTANTS=/opt/mutations/src-mutants
 EXEC_DIR=$HOME/test_runs
-FLAG="-O0"
+FLAG=$1
 COMMAND=(make target release=true)
 
 TCE=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/tce_diff.sh
