@@ -38,47 +38,40 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
-    mutant_path=$EXEC_DIR/$mutant_name
-    mkdir -p $mutant_path
-
-    MUTANT_LOGFILE=$mutant_path/logfile
-
-    touch $MUTANT_LOGFILE
-
-    echo "------------------------------------" 2>&1 | tee -a $MUTANT_LOGFILE
-    echo "Mutant: "$i 2>&1 | tee -a $MUTANT_LOGFILE
+    echo "------------------------------------" 2>&1 | tee -a $LOGFILE
+    echo "Mutant: "$i 2>&1 | tee -a $LOGFILE
 
     cd $PROJ_SRC
 
     # replacing mutant by original source
-    echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
+    echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $LOGFILE
     cp $filename_orig $filename_orig.orig
 
-    echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
+    echo cp $i $filename_orig 2>&1 | tee -a $LOGFILE
     cp $i $filename_orig
 
     cd $PROJ
-    "${COMMAND[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
+    "${COMMAND[@]}" 2>&1 | tee -a $LOGFILE
     
     RET_CODE=${PIPESTATUS[0]}
     if [ $RET_CODE -gt 0 ]; then
-        echo "Error: mutant could not be compiled" 2>&1 | tee -a $MUTANT_LOGFILE
+        echo "Error: mutant could not be compiled" 
         echo $mutant_name"      not compiled" 2>&1 | tee -a $LOGFILE
         
         echo $mutant_name >> $NOT_COMPILED
     else
-        echo "Success: mutant compiled" 2>&1 | tee -a $MUTANT_LOGFILE
+        echo "Success: mutant compiled"
         echo $mutant_name"      compiled" 2>&1 | tee -a $LOGFILE
             
         hash=$(sha512sum -b $PROJ_BUILD/$COMPILED | awk -F' ' '{print $1}')
         echo "${mutant_name};${hash}" >> $HASHES
     fi
 
-    echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
+    echo "Replacing original source "$i 2>&1 | tee -a $LOGFILE
     cd $PROJ_SRC
     mv $filename_orig.orig $filename_orig
     
-    if [ $count -eq 10000000 ];then
+    if [ $count -eq 10 ];then
         break
     else
         count=$((count+1))
