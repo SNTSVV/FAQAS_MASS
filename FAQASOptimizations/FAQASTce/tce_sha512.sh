@@ -71,7 +71,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     cd $PROJ_SRC
     mv $filename_orig.orig $filename_orig
     
-    if [ $count -eq 10 ];then
+    if [ $count -eq 1000000 ];then
         break
     else
         count=$((count+1))
