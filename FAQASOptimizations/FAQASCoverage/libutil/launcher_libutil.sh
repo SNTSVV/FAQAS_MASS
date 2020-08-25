@@ -5,7 +5,7 @@ TST=$PROJ/tst
 TYPE=1 # 1 global
 DIRS_OUT="can_sniffer|util_app|out"
 
-PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/update_coverage.sh
+PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/libutil/update_coverage.sh
 shopt -s extglob
 
 for d in $TST/!($DIRS_OUT)/ ; do
