@@ -11,7 +11,7 @@ EXEC_DIR=$HOME/test_runs
 FLAG=$1
 COMMAND=(make target release=true)
 
-TCE=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/tce_diff.sh
+TCE=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/new_tce_sha512.sh
 
 if [ ! -f "$ESAIL_ORIGINAL_BUILD" ]; then
 
