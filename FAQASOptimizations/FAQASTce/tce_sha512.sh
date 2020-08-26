@@ -14,6 +14,14 @@ LOGFILE=$EXEC_DIR/main.log
 mkdir -p $EXEC_DIR
 touch $LOGFILE
 
+ORIGINAL_HASH=$EXEC_DIR/original_hash
+touch $ORIGINAL_HASH
+
+original_hash=$(sha512sum -b $PROJ_ORIGINAL_BUILD | awk -F' ' '{print $1}')
+echo original hash is $original_hash
+
+echo "${original_hash}" > $ORIGINAL_HASH
+
 HASHES=$EXEC_DIR/hashes.csv
 NOT_COMPILED=$EXEC_DIR/notcompiled.csv
 
