@@ -78,8 +78,10 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     echo "Replacing original source "$i 2>&1 | tee -a $LOGFILE
     cd $PROJ_SRC
     mv $filename_orig.orig $filename_orig
-    
-    if [ $count -eq 10000000 ];then
+   
+	touch $filename_orig
+ 
+    if [ $count -eq 1000000000 ];then
         break
     else
         count=$((count+1))
