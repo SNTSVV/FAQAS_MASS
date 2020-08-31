@@ -88,6 +88,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     end_time=$(($(date +%s%N)/1000000))
     elapsed="$(($end_time-$start_time))"
 
-    echo "elapsed time $elapsed [ms]"
+    echo "elapsed time $elapsed [ms]" | tee -a $LOGFILE
 
 done
