@@ -3,7 +3,7 @@
 PROJ=/home/gsl/libutil
 TST=$PROJ/tst
 TYPE=1 # 1 global
-DIRS_OUT="can_sniffer|util_app|out"
+DIRS_OUT="can_sniffer|util_app|out|rtc|stdio"
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/libutil/update_coverage.sh
 shopt -s extglob
