@@ -60,20 +60,41 @@ def filterRedundants():
             count += 1
     return
 
+def printAllMutants():
+	fileAllMutants = open('all', 'w')
+	for key, value in hashesDict.items():
+		fileAllMutants.write(key + '\n')
+
+def printEquivalents():
+	fileEquivalents = open('equivalents', 'w')
+	
+	for key, value in equivalents.items():	
+		fileEquivalents.write(key + '\n')
+
+def printRedundants():
+	fileRedundants = open('redundants', 'w')
+	
+	for key, value in redundants.items():	
+		fileRedundants.write(key + '\n')
+
 hashesFile = str(sys.argv[1])
 hashesFileDir = os.path.dirname(hashesFile)
 originalHashFile = str(sys.argv[2])
 readHashes(hashesFile, originalHashFile)
 
-print("Original size: " + str(len(hashesDict)))
+printAllMutants()
+
+print("T: " + str(len(hashesDict)))
 
 filterEquivalents()
 
-print("Equivalents: " + str(len(equivalents)))
+print("E: " + str(len(equivalents)))
 
 filterRedundants()
 
-print("Redundants: " + str(len(redundants)))
-print("Uniques: " + str(len(unique_mutants)))
+print("R: " + str(len(redundants)))
+#print("Uniques: " + str(len(unique_mutants)))
 
+printEquivalents()
+printRedundants()
 

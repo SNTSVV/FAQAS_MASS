@@ -11,6 +11,8 @@ FILTER_TST=$8
 EXEC_DIR=$9
 TIMEOUT=${10}
 
+MUTANT=${11}
+
 LOGFILE=$EXEC_DIR/main.csv
 mkdir -p $EXEC_DIR
 touch $LOGFILE
@@ -18,7 +20,7 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-for i in $(find $SRC_MUTANTS -name '*.c');do
+for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 	start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}
@@ -90,12 +92,13 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	
 		mutant_end_time=$(($(date +%s%N)/1000000))
         mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
-
+		
+		echo "Test return code: [$EXEC_RET_CODE]" 2>&1 | tee -a $MUTANT_LOGFILE
 		if [ $EXEC_RET_CODE -ge 124 ];then
 			echo "Mutant timeout by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
 			mutant_live=0
-			echo -ne "TIMEOUT;KILLED__$EXEC_RET_CODE__;${mutant_elapsed}\n" >> $LOGFILE
+			echo -ne "TIMEOUT;KILLED__${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
 			break
 
 		elif [ $EXEC_RET_CODE -gt 0 ];then
@@ -121,6 +124,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 		mkdir -p $mutant_path/coverage
 		
 		find . -name "*${filename}.*gcda" -exec cp --parents '{}' $mutant_path/coverage \;
+		find . -name "*${filename}.*gcno" -exec cp --parents '{}' $mutant_path/coverage \;
 		
 		cd $mutant_path
 		GZIP=-9 tar czf coverage.gz coverage/
@@ -133,6 +137,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	end_time=$(($(date +%s%N)/1000000))
     elapsed="$(($end_time-$start_time))"
 
-    echo "elapsed time $elapsed [ms]"  
+    echo "elapsed time $elapsed [ms]"
 done
 
