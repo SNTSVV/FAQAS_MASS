@@ -20,8 +20,6 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-source /home/gsl/.bashrc
-
 for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 	start_time=$(($(date +%s%N)/1000000))
 
@@ -95,12 +93,12 @@ for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 		mutant_end_time=$(($(date +%s%N)/1000000))
         mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
 		
-		echo THIS IS THE CODE $EXEC_RET_CODE
+		echo "Test return code: [$EXEC_RET_CODE]" 2>&1 | tee -a $MUTANT_LOGFILE
 		if [ $EXEC_RET_CODE -ge 124 ];then
 			echo "Mutant timeout by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
 			mutant_live=0
-			echo -ne "TIMEOUT;KILLED__$EXEC_RET_CODE__;${mutant_elapsed}\n" >> $LOGFILE
+			echo -ne "TIMEOUT;KILLED__${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
 			break
 
 		elif [ $EXEC_RET_CODE -gt 0 ];then
@@ -139,6 +137,6 @@ for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 	end_time=$(($(date +%s%N)/1000000))
     elapsed="$(($end_time-$start_time))"
 
-    echo "elapsed time $elapsed [ms]"  
+    echo "elapsed time $elapsed [ms]"
 done
 
