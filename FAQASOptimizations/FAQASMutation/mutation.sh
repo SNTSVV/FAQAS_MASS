@@ -11,8 +11,6 @@ FILTER_TST=$8
 EXEC_DIR=$9
 TIMEOUT=${10}
 
-MUTANT=${11}
-
 LOGFILE=$EXEC_DIR/main.csv
 mkdir -p $EXEC_DIR
 touch $LOGFILE
@@ -20,7 +18,7 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
+for i in $(find $SRC_MUTANTS -name '*.c');do
 	start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}
@@ -98,15 +96,13 @@ for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 			echo "Mutant timeout by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
 			mutant_live=0
-			echo -ne "TIMEOUT;KILLED__${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
-			break
+			echo -ne "TIMEOUT;KILLED_${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
 
 		elif [ $EXEC_RET_CODE -gt 0 ];then
 			echo "Mutant killed by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
 			mutant_live=0
 			echo -ne "FAILED;KILLED;${mutant_elapsed}\n" >> $LOGFILE
-			break
 		else
 			echo -ne "PASSED;-;${mutant_elapsed}\n" >> $LOGFILE
 		fi
@@ -139,4 +135,3 @@ for i in $(find $SRC_MUTANTS -name "${MUTANT}.c");do
 
     echo "elapsed time $elapsed [ms]"
 done
-
