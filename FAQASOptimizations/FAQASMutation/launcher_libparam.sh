@@ -5,13 +5,12 @@ LIBPARAM=$HOME/libparam
 LIBPARAM_SRC=$LIBPARAM/src
 LIBPARAM_TST=$LIBPARAM/tst
 LIBPARAM_COV=$LIBPARAM_TST
-SRC_MUTANTS=/opt/mutations/src-mutants
+SRC_MUTANTS=/opt/mutations/src-mutants/$1
 BUILD_COMMAND=(./waf build --notests)
 EXECUTION_COMMAND=(./waf --alltests -v)
-FILTER_TST="include|example"
+FILTER_TST="include|example|bindings"
 EXEC_DIR=$HOME/test_runs
 TIMEOUT=250
-
 
 MUTATION=/opt/srcirorfaqas/FAQASOptimizations/FAQASMutation/mutation.sh
 

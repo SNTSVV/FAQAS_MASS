@@ -56,7 +56,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	# set a maximum of usable memory
 	ulimit -v 4000000
 
-	mutant_live=1
 	for tst in $PROJ_TST/!($FILTER_TST)/;do
 		echo "##############################" 2>&1 | tee -a $MUTANT_LOGFILE
 		echo "Building mutant for test case "$tst 2>&1 | tee -a $MUTANT_LOGFILE
@@ -74,8 +73,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 			echo "Error: mutant could not be compiled" 2>&1 | tee -a $MUTANT_LOGFILE
 			mutant_end_time=$(($(date +%s%N)/1000000))
 		    mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
-
-			mutant_live=0
 
 			echo -ne "STUBBORN;-;-;-;${mutant_elapsed}\n" >> $LOGFILE
 			break
@@ -95,13 +92,11 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 		if [ $EXEC_RET_CODE -ge 124 ];then
 			echo "Mutant timeout by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
-			mutant_live=0
 			echo -ne "TIMEOUT;KILLED_${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
 
 		elif [ $EXEC_RET_CODE -gt 0 ];then
 			echo "Mutant killed by $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 			
-			mutant_live=0
 			echo -ne "FAILED;KILLED;${mutant_elapsed}\n" >> $LOGFILE
 		else
 			echo -ne "PASSED;-;${mutant_elapsed}\n" >> $LOGFILE
@@ -114,20 +109,18 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	touch $filename_orig
 
 	# backing up coverage
-	if [ $mutant_live -eq 1 ];then
-		cd $PROJ_COV
-		echo backing up $filename.gcda | tee -a $MUTANT_LOGFILE
-		mkdir -p $mutant_path/coverage
-		
-		find . -name "*${filename}.*gcda" -exec cp --parents '{}' $mutant_path/coverage \;
-		find . -name "*${filename}.*gcno" -exec cp --parents '{}' $mutant_path/coverage \;
-		
-		cd $mutant_path
-		GZIP=-9 tar czf coverage.gz coverage/
-		rm -rf $mutant_path/coverage
-	fi
+    cd $PROJ_COV
+    echo backing up $filename.gcda | tee -a $MUTANT_LOGFILE
+    mkdir -p $mutant_path/coverage
 
-	# reset coverage information
+    find . -name "*${filename}.*gcda" -exec cp --parents '{}' $mutant_path/coverage \;
+    find . -name "*${filename}.*gcno" -exec cp --parents '{}' $mutant_path/coverage \;
+
+    cd $mutant_path
+    GZIP=-9 tar czf coverage.gz coverage/
+    rm -rf $mutant_path/coverage
+	
+    # reset coverage information
 	find . -name '*.gcda' -delete
 	
 	end_time=$(($(date +%s%N)/1000000))
