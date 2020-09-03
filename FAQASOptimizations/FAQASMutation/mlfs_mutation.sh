@@ -4,12 +4,11 @@ HOME=/home/mlfs
 PROJ=$HOME/mlfs
 PROJ_SRC=$PROJ/libm
 PROJ_TST=$HOME/unit-test-suite
-
 BLTS=$HOME/blts
 BLTS_APP=$HOME/blts_install/bin/blts_app
 ORIGINAL_REPORTS=$HOME/unit-reports
 WORKSPACE=$HOME/blts_workspace
-SRC_MUTANTS=/opt/mutations/src-mutants
+SRC_MUTANTS=/opt/mutations/src-mutants/$1
 EXEC_DIR=$HOME/test_runs
 
 ################################################################################
@@ -36,8 +35,6 @@ ctimeout() {
 	fi
 }
 
-
-
 LOGFILE=$EXEC_DIR/main.csv
 mkdir -p $EXEC_DIR
 touch $LOGFILE
@@ -45,7 +42,7 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-for i in $(find $SRC_MUTANTS -name '*.c' | shuf -n 2);do
+for i in $(find $SRC_MUTANTS -name '*.c');do
 	start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}
@@ -104,6 +101,9 @@ for i in $(find $SRC_MUTANTS -name '*.c' | shuf -n 2);do
 
 	cd $WORKSPACE
 	$BLTS_APP --init 2>&1 | tee -a $MUTANT_LOGFILE
+
+    # set a maximum of usable memory                                                                                                               
+    ulimit -v 4000000
 
 	for tst in $(find $PROJ_TST -name '*.xml');do
 		mutant_start_time=$(($(date +%s%N)/1000000))
