@@ -26,10 +26,10 @@ ctimeout() {
     command="/bin/sh -c \"$2\""
 
     expect -c "set echo \"-noecho\"; set timeout $time; spawn -noecho $command; expect timeout { exit 1 } eof { exit 0 }"    
-
-    if [ $? = 1 ] ; then
+    RET_CODE=$?
+    if [ $RET_CODE > 0 ] ; then
 #        echo "Timeout after ${time} seconds"
-		return 124
+		return $RET_CODE
     else
 		return 0
 	fi
@@ -97,12 +97,12 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	echo "Preparing workspace" 2>&1 | tee -a $MUTANT_LOGFILE
 	
 	cd $BLTS/BLTSConfig
-	make install INSTALL_PATH="/home/mlfs/blts_install" 2>&1 | tee -a $MUTANT_LOGFILE
+	make clean install INSTALL_PATH="/home/mlfs/blts_install" 2>&1 | tee -a $MUTANT_LOGFILE
 
 	cd $WORKSPACE
 	$BLTS_APP --init 2>&1 | tee -a $MUTANT_LOGFILE
 
-    # set a maximum of usable memory                                                                                                               
+    # set a maximum of usable memory                                                                                             
     ulimit -v 4000000
 
 	for tst in $(find $PROJ_TST -name '*.xml');do
@@ -130,8 +130,9 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
             echo -ne "TIMEOUT;KILLED_${EXEC_RET_CODE};${mutant_elapsed}\n" >> $LOGFILE
 		else
-			echo "backing up test case coverage" 2>&1 | tee -a $MUTANT_LOGFILE
-			GZIP=-9 tar czf ${tst_filename_wo_xml}.tar.gz $tst_filename_wo_xml/Reports
+			echo "backing up test case coverage $filename" 2>&1 | tee -a $MUTANT_LOGFILE
+			rm -rf $tst_filename_wo_xml/Reports/Data/libm
+            GZIP=-9 tar czf ${tst_filename_wo_xml}.tar.gz $tst_filename_wo_xml/Reports/Coverage/Data/${filename}.gc*
 			mv ${tst_filename_wo_xml}.tar.gz $mutant_path/coverage
 	
 			summaryreport=$tst_filename_wo_xml/Reports/SessionSummaryReport.xml
@@ -156,6 +157,12 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 		rm -rf $tst_filename_wo_xml
 		
 	done
+
+    echo "Backing up mutant coverage" 2>&1 | tee -a $MUTANT_LOGFILE
+    pushd $mutant_path 
+    GZIP=-9 tar czf coverage.gz coverage/
+    rm -rf coverage/
+    popd   
 
 	echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
 	cd $PROJ_SRC
