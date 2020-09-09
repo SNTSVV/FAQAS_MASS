@@ -19,11 +19,11 @@ for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
 
     echo $mutant
 
-    #lineNumber=`echo $mutant | awk -F[.] '{print $4}'`
-
-    for lineIt in `seq $count $lines`;do
+#    for lineIt in `seq $count $lines`;do
+	lineIt=21
+        echo source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
         source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
-    done
+#    done
 done  
 
 

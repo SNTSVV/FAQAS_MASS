@@ -31,10 +31,10 @@ result_file_path = args.result
 distances = {}
             
 def getDistanceFromDict(testA, testB):
-    if t_number < n_number:
-        distance = distances.get((t_number, n_number), None)
+    if testA < testB:
+        distance = distances.get((testA, testB), None)
     else:
-        distance = distances.get((n_number, t_number), None)
+        distance = distances.get((testB, testA), None)
 
     return distance
 
@@ -145,11 +145,11 @@ def get_distance_s2(testA, testB):
 
     return distance
 
-def save_distance(testANumber, testBNumber, distance):
-    if testANumber < testBNumber:
-            distances[testANumber,testBNumber] = distance
+def save_distance(testA, testB, distance):
+    if testA < testB:
+            distances[testA,testB] = distance
     else:
-        distances[testBNumber,testANumber] = distance
+        distances[testB,testA] = distance
 
 def determine_most_executed(testList):
     global lineNumber
@@ -158,6 +158,7 @@ def determine_most_executed(testList):
     count=0
     for test in testList:
         freq = getCoverageAsList(test)
+        print(freq)
         if int(freq[lineNumber - 1]) > count:
             mostExecuted = test
     return mostExecuted
@@ -184,29 +185,30 @@ print("complete set is: " +  str(len(coverage_array)))
 coverage_array.remove(prioritized[0])
 
 while len(coverage_array) > 0:
-    print("------ new iteration")
-    print("coverage_array: " + str(coverage_array))
+#    print("------ new iteration")
     highest_distances = {}
 
     for n in coverage_array:
-        n_number = int(re.findall('\d+', n)[0])
+        #n_test = int(re.findall('\d+', n)[0])
+        n_test = n.split('/')[4]
 
         tn=None
         minimal=10000000000
         for t in prioritized:
-            t_number = int(re.findall('\d+', t)[0])
-            print('t is ' + str(t_number) + ' n is ' + str(n_number))
+            #t_test = int(re.findall('\d+', t)[0])
+            t_test = t.split('/')[4]
+#            print('t is ' + str(t_test) + ' n is ' + str(n_test))
 
-            distance = getDistanceFromDict(t_number, n_number)
+            distance = getDistanceFromDict(t_test, n_test)
             if distance is None:
                 distance = calculateDistance(t, n)
-                save_distance(t_number, n_number, distance)
+                save_distance(t_test, n_test, distance)
                 
             if distance < minimal:
                 minimal = distance
                 tn = n
         
-        print('min is ' + tn + ' ' + str(minimal))
+ #       print('min is ' + tn + ' ' + str(minimal))
         highest_distances[tn] = minimal
 
     max_highest_distance = max(highest_distances.items(), key = operator.itemgetter(1))

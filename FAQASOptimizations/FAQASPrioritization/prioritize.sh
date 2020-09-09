@@ -16,9 +16,13 @@ coverage_array=()
 mostExecutedTest=''
 count=0
 
-mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::" | xargs dirname | sed 's:$:\.c:'`
-#mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::"`                                    
-mutantName=`echo $SRC_PREFIX$mutantNameTemp`
+if [[ $casestudy == *"esail"* ]]; then
+    mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::" | xargs dirname | sed 's:$:\.c:'`
+else
+    mutantNameTemp=`echo $mutant | sed "s:$MUTANTS_FOLDER/::"`                                    
+fi
+
+mutantName=`echo $mutantNameTemp`
 
 for coverage in `grep -ri --include coverage.txt "$mutantName" $TST`;do
     test_name=`echo $coverage | cut -d: -f1`
@@ -41,8 +45,8 @@ coverage_array=("${coverage_array[@]}")
 
 pts_file=$mutant.$lineNumber.prioritized.txt
 
-echo $PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
-$PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize_gsl.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
+echo $PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize_gsl.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
+$PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
 
 end_time="$(date -u +%s)"
 elapsed="$(($end_time-$start_time))"
