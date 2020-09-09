@@ -184,8 +184,8 @@ print("complete set is: " +  str(len(coverage_array)))
 coverage_array.remove(prioritized[0])
 
 while len(coverage_array) > 0:
-#    print("------ new iteration")
-
+    print("------ new iteration")
+    print("coverage_array: " + str(coverage_array))
     highest_distances = {}
 
     for n in coverage_array:
@@ -195,7 +195,7 @@ while len(coverage_array) > 0:
         minimal=10000000000
         for t in prioritized:
             t_number = int(re.findall('\d+', t)[0])
-#            print('t is ' + str(t_number) + ' n is ' + str(n_number))
+            print('t is ' + str(t_number) + ' n is ' + str(n_number))
 
             distance = getDistanceFromDict(t_number, n_number)
             if distance is None:
@@ -206,7 +206,7 @@ while len(coverage_array) > 0:
                 minimal = distance
                 tn = n
         
-#        print('min is ' + tn + ' ' + str(minimal))
+        print('min is ' + tn + ' ' + str(minimal))
         highest_distances[tn] = minimal
 
     max_highest_distance = max(highest_distances.items(), key = operator.itemgetter(1))

@@ -1,19 +1,29 @@
 #!/bin/bash
 
 HOME=/home/gsl
-TST_FOLDER=$HOME/libutil/tst
+TST_FOLDER=$HOME/results
 
-MUTANTS_FOLDER=/opt/mutations/src-mutants
+MUTANTS_FOLDER=/opt/mutations/src-mutants/$1
 
-prioritize=./prioritize.sh
-#prioritize=./asd.sh
+PYTHON=/usr/bin/python3.7
 
-strategy="s1"
-method="ochiai"
+prioritize=/opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.sh
 
-#for mutant in `find $MUTANTS_FOLDER -name '*.c' | shuf -n 50`;do
-for mutant in `find $MUTANTS_FOLDER -name 'string.mut.stmnt_for_320.734.delete.gs_string_get_suboption_bool.c'`;do
-	echo $mutant
-	source $prioritize $TST_FOLDER $MUTANTS_FOLDER $strategy $method $mutant
-done
+strategy=$2
+method=$3
+casestudy="gsl"
+
+for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
+    lines=`cat $mutant | wc -l`
+    count=1
+
+    echo $mutant
+
+    #lineNumber=`echo $mutant | awk -F[.] '{print $4}'`
+
+    for lineIt in `seq $count $lines`;do
+        source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
+    done
+done  
+
 

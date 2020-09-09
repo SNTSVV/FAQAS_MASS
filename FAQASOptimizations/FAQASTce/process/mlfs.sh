@@ -14,6 +14,6 @@ done
 
 python3.6 $EQ_UNIVOCAL 5
 
-rm all
-rm equivalents_*
-rm redundants_*
+#rm all
+#rm equivalents_*
+#rm redundants_*
