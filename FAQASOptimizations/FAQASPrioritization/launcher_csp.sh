@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME=/home/gsl
+HOME=/home/csp
 TST_FOLDER=$HOME/results
 
 MUTANTS_FOLDER=/opt/mutations/src-mutants/$1
@@ -11,7 +11,7 @@ prioritize=/opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.s
 
 strategy=$2
 method=$3
-casestudy="gsl"
+casestudy="csp"
 
 for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
     lines=`cat $mutant | wc -l`

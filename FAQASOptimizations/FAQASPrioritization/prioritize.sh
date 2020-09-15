@@ -45,7 +45,7 @@ coverage_array=("${coverage_array[@]}")
 
 pts_file=$mutant.$lineNumber.prioritized.txt
 
-echo $PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize_gsl.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
+#echo $PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize_gsl.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
 $PYTHON /opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "$STRATEGY" --method "$METHOD" --casestudy "$casestudy" --result "$pts_file" 
 
 end_time="$(date -u +%s)"

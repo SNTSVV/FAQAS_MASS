@@ -158,7 +158,6 @@ def determine_most_executed(testList):
     count=0
     for test in testList:
         freq = getCoverageAsList(test)
-        print(freq)
         if int(freq[lineNumber - 1]) > count:
             mostExecuted = test
     return mostExecuted

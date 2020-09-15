@@ -1,17 +1,17 @@
 #!/bin/bash
 
-HOME=/home/gsl
+HOME=/home/mlfs
 TST_FOLDER=$HOME/results
 
 MUTANTS_FOLDER=/opt/mutations/src-mutants/$1
 
-PYTHON=/usr/bin/python3.7
+PYTHON=/usr/local/bin/python3.7
 
 prioritize=/opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.sh
 
 strategy=$2
 method=$3
-casestudy="gsl"
+casestudy="mlfs"
 
 for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
     lines=`cat $mutant | wc -l`
