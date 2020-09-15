@@ -14,7 +14,7 @@ def readHashes(filePath, originalFilePath):
     
     for line in hashesFile:
         full_line = line.strip().split(';')
-        hashesDict[full_line[0]] = full_line[1]
+        hashesDict[full_line[0]+ '|' + full_line[1]] = full_line[2]
 
     global originalHash
 
@@ -35,11 +35,13 @@ def filterRedundants():
     for key, value in hashesDict.items():
 #        print('-------------------------')
 #        print('mutant ' + key + ' ' + value)
-        key_splitted = key.split('.')
+        key_splitted_w_location = key.split('|')
+        location = key_splitted_w_location[1]
+        key_splitted = key_splitted_w_location[0].split('.')
         filename = key_splitted[0]
         function = key_splitted[5]
     
-        matchingFileAndFunction = [uniqueKey for uniqueKey, uniqueValue in unique_mutants.items() if filename in uniqueKey and function in uniqueKey]
+        matchingFileAndFunction = [uniqueKey for uniqueKey, uniqueValue in unique_mutants.items() if filename in uniqueKey and function in uniqueKey and location in uniqueKey]
         redundant = 0
         for mutant in matchingFileAndFunction:
 #            print("     comparing with " + mutant + ' '+ unique_mutants[mutant]) 

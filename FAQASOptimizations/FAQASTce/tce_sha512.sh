@@ -46,6 +46,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
+    location_orig=$(dirname $filename_orig)
+
     echo "------------------------------------" 2>&1 | tee -a $LOGFILE
     echo "Mutant: "$i 2>&1 | tee -a $LOGFILE
 
@@ -66,13 +68,13 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         echo "Error: mutant could not be compiled" 
         echo $mutant_name"      not compiled" 2>&1 | tee -a $LOGFILE
         
-        echo $mutant_name >> $NOT_COMPILED
+        echo "${mutant_name};${location_orig}" >> $NOT_COMPILED
     else
         echo "Success: mutant compiled"
         echo $mutant_name"      compiled" 2>&1 | tee -a $LOGFILE
             
         hash=$(sha512sum -b $PROJ_BUILD/$COMPILED | awk -F' ' '{print $1}')
-        echo "${mutant_name};${hash}" >> $HASHES
+        echo "${mutant_name};${location_orig};${hash}" >> $HASHES
     fi
 
     echo "Replacing original source "$i 2>&1 | tee -a $LOGFILE
