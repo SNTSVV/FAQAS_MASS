@@ -27,4 +27,7 @@ done
 
 mkdir filtered/
 find . -maxdepth 1 -type d -name 'm*' -exec mv '{}' filtered/ \; 
+rm -rf src-mutants
+mv filtered src-mutants
 
+tar czf mutants.tar.gz src-mutants/

@@ -32,6 +32,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
     filename_orig=$(echo $file_wo_mut_end | sed -e "s/\(.*\)$filename\//\1/g")
 
+    location_orig=$(dirname $filename_orig)
+
     mutant_path=$EXEC_DIR/$mutant_name
 	mkdir -p $mutant_path
 	
@@ -64,7 +66,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
 		cd $tst
 		
-		echo -n "${mutant_name};" >> $LOGFILE
+		echo -n "${mutant_name};${location_orig};" >> $LOGFILE
 
 		"${BUILD_COMMAND[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
 		COMP_RET_CODE=${PIPESTATUS[0]}
