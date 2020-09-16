@@ -1,7 +1,7 @@
-RESULTS=$HOME/PARAM_GSL/TCE/runs
+RESULTS=$FAQAS/PARAM_GSL/TCE/runs
 
-CALC=$HOME/srcirorfaqas/FAQASOptimizations/FAQASTce/process/tce_calculator.py
-EQ_UNIVOCAL=$HOME/srcirorfaqas/FAQASOptimizations/FAQASTce/process/equivalent_univocal.py
+CALC=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASTce/process/tce_calculator.py
+EQ_UNIVOCAL=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASTce/process/equivalent_univocal.py
 
 for it in {0..5};do
 	echo configuration $it
@@ -13,7 +13,4 @@ for it in {0..5};do
 done
 
 python3.6 $EQ_UNIVOCAL 5
-
-#rm all
-#rm equivalents_*
-#rm redundants_*
+mv all equivalents_* redundants_* univocal_*

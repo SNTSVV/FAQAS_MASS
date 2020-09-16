@@ -1,7 +1,7 @@
-RESULTS=$HOME/GSL/TCE/runs
+RESULTS=$FAQAS/GSL/TCE/runs
 
-CALC=$HOME/srcirorfaqas/FAQASOptimizations/FAQASTce/process/tce_calculator.py
-EQ_UNIVOCAL=$HOME/srcirorfaqas/FAQASOptimizations/FAQASTce/process/equivalent_univocal.py
+CALC=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASTce/process/tce_calculator.py
+EQ_UNIVOCAL=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASTce/process/equivalent_univocal.py
 
 for it in {0..5};do
 	echo configuration $it
