@@ -5,14 +5,14 @@ PROJ=$HOME/Obsw/Source
 PROJ_SRC=$PROJ
 BINARIES=$PROJ/_binaries
 OBJECTS=$PROJ/_objects
-SRC_MUTANTS=/opt/mutations/src-mutants/$1
-#SRC_MUTANTS=/opt/mutations/src-mutants
+SRC_MUTANTS=/opt/mutations/src-mutants/m$1
 EXEC_DIR=$HOME/test_runs
+ESAIL=/home/svf/Obsw/Test/lib/esail.sh
 
-COVERAGE=/opt/srcirorfaqas/FAQASOptimizations/FAQASMutation/ESAIL/coverage
+COVERAGE=$PROJ_SRC/coverage
 TIMES=/opt/srcirorfaqas/FAQASOptimizations/FAQASMutation/ESAIL/times
 
-TESTCASES=$2
+LIST_TESTS=/opt/list_tests
 
 TMUX=/home/svf/local2/bin/tmux
 
@@ -35,7 +35,7 @@ source .bash_profile
 start_time=$(($(date +%s%N)/1000000))
 
 # i is the mutant
-i=$(find $SRC_MUTANTS -name 'crypto_aes.mut.719.3_1_40.LCR.mbedtls_internal_aes_encrypt.c')
+i=$(find $SRC_MUTANTS -name '*.c')
 
 file_wo_opt=${i//$SRC_MUTANTS/}
 mutant_name="$(basename -- ${file_wo_opt%.*})"                                                                   
@@ -56,6 +56,12 @@ MUTANT_LOGFILE=$mutant_path/mutant.log
 
 touch $MUTANT_LOGFILE
 
+mutant_line=$(echo $mutant_name | awk -F'.' '{print $3}')
+
+echo $filename $mutant_line
+
+TESTCASES=$(find $LIST_TESTS -name "${filename}.c.${mutant_line}.coverage.txt")
+
 echo "------------------------------------" 2>&1 | tee -a $MUTANT_LOGFILE
 echo "Mutant: "$i 2>&1 | tee -a $MUTANT_LOGFILE
 
@@ -73,7 +79,7 @@ cd $PROJ
 echo "Building mutant" 2>&1 | tee -a $MUTANT_LOGFILE
 
 make clean	
-make target release=true 2>&1 | tee -a $MUTANT_LOGFILE
+make target release=true snt_opt=true 2>&1 | tee -a $MUTANT_LOGFILE
 
 COMP_RET_CODE=${PIPESTATUS[0]}
 
@@ -96,32 +102,37 @@ done
 
 # collect coverage only for the source under mutation
 cp temp/* $OBJECTS/
-make target release=true snt_cov=true
+make target release=true snt_opt=true snt_cov=true 
 rm -rf temp
+
+# do not optimize gcov functionalities
+touch $PROJ_SRC/Utilities/Gcov/Source/gcc.c
+make target release=true 
 
 # setting debugger
 port=$((2300+$1))
 sed "s/PORT/$port/g" $COVERAGE/coverage.gdb.template > $COVERAGE/coverage.gdb
-cat $COVERAGE/coverage.gdb
-
 
 while IFS="" read -r p || [ -n "$p" ];do
     mutant_start_time=$(($(date +%s%N)/1000000))
     
-    read tst <<< $(awk -F: '{print $1}' <<< "$p")
+    # obtaining test number to be executed
+    read tst <<< $(awk -F'/' '{print $5}' <<< "$p")
 
-    TIMEOUT=$(grep "^${tst};" $TIMES | awk -F';' '{$2=($2*5)/1000; printf("%.0f\n", $2);}')
+    # obtaining corresponding timeout for the test case
+    TIMEOUT=$(grep "^${tst};" $TIMES | awk -F';' '{$2=($2*4)/1000; printf("%.0f\n", $2);}')
 
     echo "Running test case "$tst 2>&1 | tee -a $MUTANT_LOGFILE
     echo -n "${mutant_name};${location_orig};COMPILED;${tst};" >> $LOGFILE
 
-    esail --obsw $PROJ_SRC/_binaries/OBSW.exe -n -c --fast --source $PROJ_SRC --version 04010000 -t $tst --gdb --coverage --port $port &
+    timeout $TIMEOUT $ESAIL --obsw $PROJ_SRC/_binaries/OBSW.exe -n -c --fast --source $PROJ_SRC --version 04010000 -t $tst --gdb --coverage --port $port &
     ESAIL_PID=$!
 
-    sleep 5
+    sleep 8
     echo "starting debugger" | tee -a $MUTANT_LOGFILE
     sleep 2
-    $TMUX new-session -d -s "esail-debugger-$1" 'source ${COVERAGE}/debugger.sh'
+
+    $TMUX new-session -d -s "esail-debugger-$1" "source $COVERAGE/debugger.sh"
 
     wait $ESAIL_PID
     EXEC_RET_CODE=$?
