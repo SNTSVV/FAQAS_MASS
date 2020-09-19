@@ -92,18 +92,23 @@ if [ $COMP_RET_CODE -eq 1 ]; then
     exit 1
 fi
 
-mkdir temp
-for src_in_folder in $(find $location_orig -type f -name '*.c' -and -not -name "$filename.c");do
-    touch $src_in_folder
+number_sources_in_folder=$(find $location_orig -type f -name '*.c' | wc -l)
 
-    object=$(basename -- $src_in_folder | sed 's:\.c::')
-    cp $OBJECTS/$object.* temp
-done
+if [ $number_sources_in_folder -gt 1 ];then
+    mkdir temp
+    for src_in_folder in $(find $location_orig -type f -name '*.c' -and -not -name "$filename.c");do
+        touch $src_in_folder
+        object=$(basename -- $src_in_folder | sed 's:\.c::')
+        cp $OBJECTS/$object.* temp
+    done
+    # collect coverage only for the source under mutation
+    mv temp/* $OBJECTS/
+    rm -rf temp
+else
+    touch $filename_orig
+fi
 
-# collect coverage only for the source under mutation
-cp temp/* $OBJECTS/
 make target release=true snt_opt=true snt_cov=true 
-rm -rf temp
 
 # do not optimize gcov functionalities
 touch $PROJ_SRC/Utilities/Gcov/Source/gcc.c
