@@ -1,0 +1,7 @@
+ef_hypot.mut.59.1_2_26.SDL.__ieee754_hypotf
+ef_fmod.mut.117.1_1_2.SDL.__ieee754_fmodf
+e_hypot.mut.67.1_2_25.SDL.__ieee754_hypot
+ef_log.mut.68.1_2_26.SDL.__ieee754_logf
+e_log.mut.120.1_1_11.SDL.__ieee754_log
+s_modf.mut.144.1_1_6.SDL.modf
+sf_modf.mut.88.1_2_46.SDL.modff

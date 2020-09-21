@@ -1,0 +1,12 @@
+router.mut.35.1_1_9.SDL.gs_csp_router_task_stop_with_timeout|.
+conn.mut.11.1_1_5.SDL.gs_csp_conn_get_open|.
+conn.mut.14.1_1_17.SDL.gs_csp_conn_get_open|.
+commands.mut.73.1_1_9.SDL.cmd_ping|.
+commands.mut.70.1_1_9.SDL.cmd_ping|.
+commands.mut.143.1_1_5.SDL.cmd_memfree|.
+commands.mut.313.1_1_9.SDL.cmd_cmp_ident|.
+commands.mut.29.1_1_9.SDL.parse_node_timeout|.
+commands.mut.94.1_1_13.SDL.cmd_ping|.
+commands.mut.184.1_1_9.SDL.cmd_buf_free|.
+commands.mut.451.1_1_5.SDL.cmd_cmp_poke|.
+commands.mut.38.1_1_13.SDL.parse_node_timeout|.
