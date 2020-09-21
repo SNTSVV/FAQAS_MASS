@@ -95,20 +95,20 @@ fi
 number_sources_in_folder=$(find $location_orig -type f -name '*.c' | wc -l)
 
 if [ $number_sources_in_folder -gt 1 ];then
-    mkdir temp
+    
+    touch $filename_orig
+    make target release=true snt_opt=true snt_cov=true 
+
     for src_in_folder in $(find $location_orig -type f -name '*.c' -and -not -name "$filename.c");do
-        touch $src_in_folder
         object=$(basename -- $src_in_folder | sed 's:\.c::')
-        cp $OBJECTS/$object.* temp
+        rm $OBJECTS/$object.*   
     done
-    # collect coverage only for the source under mutation
-    mv temp/* $OBJECTS/
-    rm -rf temp
+
+    make target release=true snt_opt=true
 else
     touch $filename_orig
+    make target release=true snt_opt=true snt_cov=true 
 fi
-
-make target release=true snt_opt=true snt_cov=true 
 
 # do not optimize gcov functionalities
 touch $PROJ_SRC/Utilities/Gcov/Source/gcc.c
