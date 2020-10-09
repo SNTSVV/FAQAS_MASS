@@ -2,7 +2,7 @@
 
 PROJ=/home/csp/libparam
 TST=$PROJ/tst
-TYPE=1 # 1 global
+TYPE=0 # 1 global
 DIRS_OUT="include"
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/libparam/update_coverage.sh
