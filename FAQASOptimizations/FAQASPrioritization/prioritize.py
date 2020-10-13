@@ -5,6 +5,7 @@ import argparse
 import math
 import numpy
 import operator
+import random
 from scipy import spatial
 
 parser = argparse.ArgumentParser()
@@ -154,13 +155,22 @@ def save_distance(testA, testB, distance):
 def determine_most_executed(testList):
     global lineNumber
     
-    mostExecuted=''
+    print("start", len(testList))
     count=0
     for test in testList:
         freq = getCoverageAsList(test)
         if int(freq[lineNumber - 1]) > count:
-            mostExecuted = test
-    return mostExecuted
+            mostExecuted = []
+            mostExecuted.append(test)
+            count = int(freq[lineNumber - 1])
+            print("most executed ", count)
+        elif int(freq[lineNumber - 1]) == count:
+            mostExecuted.append(test)
+            print("most executed ", count)
+
+    print("finish", len(mostExecuted))
+
+    return random.choice(mostExecuted)
 
 def print_most_executed(): 
     directory = os.path.dirname(result_file_path)

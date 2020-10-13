@@ -3,14 +3,14 @@
 HOME=/home/csp
 TST_FOLDER=$HOME/results
 
-MUTANTS_FOLDER=/opt/mutations/src-mutants/$1
+MUTANTS_FOLDER=/opt/mutations/src-mutants
 
 PYTHON=/usr/bin/python3.7
 
 prioritize=/opt/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/prioritize.sh
 
-strategy=$2
-method=$3
+strategy=$1
+method=$2
 casestudy="param"
 
 for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
@@ -20,7 +20,7 @@ for mutant in `find $MUTANTS_FOLDER -name '*.c'`;do
     echo $mutant
 
     for lineIt in `seq $count $lines`;do
-#        echo source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
+        echo source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
         source $prioritize $PYTHON $TST_FOLDER $strategy $method $MUTANTS_FOLDER $mutant $lineIt $casestudy
     done
 done  

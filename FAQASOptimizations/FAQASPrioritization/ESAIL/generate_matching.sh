@@ -1,8 +1,8 @@
 #!/bin/bash
 
-TST=/opt/results
+TST=/home/svf/results
 
-SRC_FOLDER=/opt/sources
+SRC_FOLDER=/opt/mutations/src-mutants/$1
 
 start_time="$(date -u +%s)"
 
@@ -30,7 +30,6 @@ for src in $(find $SRC_FOLDER -name '*.c');do
             fi
         done
     done
-    break
 done
 
 end_time="$(date -u +%s)"
