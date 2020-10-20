@@ -14,7 +14,19 @@ for d in $TST/!($DIRS_OUT)/ ; do
 
     for da in `find . -name '*.gcda'`; do
         output=`gcov $da`
+         # do not consider gcov files with 0.00% coverage
+        covered=0
+        for p in $(echo $output | grep -o '[0-9.]*%');do
+            percent=$(echo $p | sed 's:\%::')
+            if (( $(echo "$percent > 0" | bc -l) ));then
+                covered=1
+            fi
+        done
         
+        if [ $covered -eq 0 ]; then
+            gcov_filename=`echo $output |  awk -F"'" '{print $4}'`
+            rm $gcov_filename
+        else        
             test_name=${d//$TST/}
             
             for g in `find . -name '*.gcov'`; do
@@ -37,6 +49,7 @@ for d in $TST/!($DIRS_OUT)/ ; do
             
                 rm $g
             done
+        fi
     done
     cd ../../
 done         

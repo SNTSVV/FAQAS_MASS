@@ -1,0 +1,8 @@
+
+PROJ=$1
+
+CALCULATOR=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/PROCESS_ONLY_COVERED/test_calculator.py
+
+WORKING=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASPrioritization/PROCESS_ONLY_COVERED/TESTS_SAVINGS/SAMPLING/ALL/$PROJ
+python3.6 $CALCULATOR $WORKING
+

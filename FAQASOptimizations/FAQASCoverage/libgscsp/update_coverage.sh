@@ -42,7 +42,6 @@ if [ $exist_coverage -eq 0 ]; then
 	echo `join_by , ${coverage_lines[@]}` >> $matrix_file
 
 else
-	echo este es $source_file $exist_coverage
 	existing_coverage=$(cat ${matrix_file} | grep -F $source_file)
 		
 	# removing existing coverage line

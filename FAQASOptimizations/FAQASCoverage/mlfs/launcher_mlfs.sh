@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PROJ=/home/mlfs/mlfs/
-TST=/home/mlfs/blts_workspace
+PROJ=/home/mlfs/mlfs
+TST=/home/mlfs/unit-reports
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/mlfs/update_coverage.sh
-TYPE=1 # means global
+TYPE=0 # 1 means global
 
 shopt -s extglob
 
@@ -15,9 +15,15 @@ for tst in $TST/*/; do
 	for da in `find . -name '*.gcda'`; do
 		output=`gcov $da`
 		# do not consider gcov files with 0.00% coverage
-        not_executed=`echo $output | grep 'Lines executed:0.00%' | wc -l`
-
-		if [ $not_executed -eq 1 ]; then
+        covered=0
+        for p in $(echo $output | grep -o '[0-9.]*%');do
+            percent=$(echo $p | sed 's:\%::')
+            if (( $(echo "$percent > 0" | bc -l) ));then
+                covered=1
+            fi
+        done
+        
+        if [ $covered -eq 0 ]; then
 	    	gcov_filename=`echo $output |  awk -F"'" '{print $4}'`
 			rm $gcov_filename
 	   	else

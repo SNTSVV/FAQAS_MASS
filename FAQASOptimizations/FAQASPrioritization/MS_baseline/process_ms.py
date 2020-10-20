@@ -22,7 +22,6 @@ def process_original_ms(traces, original_order):
     for key, value in traces.items():
         for test in original_order:
             matching = [s for s in value if test in s][0]
-            matching_fields = matching.split(';')                                                                                            
             if 'KILLED' in matching:
                 killed += 1
                 if 'TIMEOUT' in matching:
@@ -83,7 +82,6 @@ def process_prioritized_ms(traces, prioritization_path, test_path, original_orde
             test = random.sample(original_order, 1)[0]
             
             matching = [s for s in value if test in s][0]
-            matching_fields = matching.split(';')
             if 'KILLED' in matching:
                 set_mutant_status(mutant_dict_kl, key, 1)
                 killed += 1
@@ -96,7 +94,6 @@ def process_prioritized_ms(traces, prioritization_path, test_path, original_orde
             matching_string = test_path + test
             matching = [s for s in value if matching_string in s][0]
             
-            matching_fields = matching.split(';')
             if 'KILLED' in matching:
                 set_mutant_status(mutant_dict_kl, key, 1)
                 killed += 1
