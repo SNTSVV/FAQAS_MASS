@@ -1,13 +1,14 @@
 import argparse
 import numpy
-from utilities import print_new_test, is_int, cosine, euclidean, searchStringInFile 
+from utilities import print_new_test, is_int, cosine, euclidean, searchStringInFile
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', type=str)
 parser.add_argument('--cov_a', type=str)
 parser.add_argument('--cov_b', type=str)
 parser.add_argument('--result', type=str)
-parser.add_argument('--line', type=int) 
+parser.add_argument('--line_a', type=int) 
+parser.add_argument('--line_b', type=int) 
 
 args = parser.parse_args()
 
@@ -15,7 +16,8 @@ cov_a = args.cov_a
 cov_b = args.cov_b
 name = args.name
 result = args.result
-lineNumber = int(args.line)
+lineNumber_a = int(args.line_a)
+lineNumber_b = int(args.line_b)
 
 def getCoverageAsList(test):                                                                                                         
     global name
@@ -52,12 +54,12 @@ def get_distance(testA, testB):
             covBList.append(int(0))
 
     if len(covAList) != len(covBList):
-        global lineNumber
+        global lineNumber_a, lineNumber_b
         while len(covAList) != len(covBList):
             if len(covAList) > len(covBList):
-                covBList.insert(lineNumber, int(0))
+                covBList.insert(lineNumber_b, int(0))
             else:
-                covAList.insert(lineNumber, int(0))
+                covAList.insert(lineNumber_a, int(0))
     print(covAList) 
     print(covBList) 
 

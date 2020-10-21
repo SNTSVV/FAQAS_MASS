@@ -13,8 +13,13 @@ for d in $TST/!($DIRS_OUT)/ ; do
     cd $d/build
 
     for da in $(find . -name '*.gcda'); do
-        output=$(gcov $da)
-         # do not consider gcov files with 0.00% coverage
+        output=$(gcov $da 2>&1)
+
+        mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
+        if [ $mismatch -eq 1 ];then                                                                                                                                                                 
+            continue
+        fi 
+        # do not consider gcov files with 0.00% coverage
         covered=0
         for p in $(echo $output | grep -o '[0-9.]*%');do
             percent=$(echo $p | sed 's:\%::')

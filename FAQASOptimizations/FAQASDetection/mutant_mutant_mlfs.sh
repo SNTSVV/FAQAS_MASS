@@ -39,16 +39,9 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
     filename_orig_1=$(echo $file_wo_mut_end_1 | sed -e "s/\(.*\)$filename_1\//\1/g")
     location_orig_1=$(dirname $filename_orig_1)
 
-    if [ -n "$PREFIX" ];then
-        location_prefix_1=$(echo $location_orig_1 | sed -e "s:\.:\.\/$PREFIX:g")
-    else
-        location_prefix_1=$location_orig_1
-    fi
-    
     line_number_1=$(echo $mutant_name_1 | awk -F'.' '{print $3}')
-    mutant_key_1="${mutant_name_1}|${location_prefix_1}"
 
-    if grep -Fxq $mutant_key_1 $MUTANT_LIST;then
+    if grep -Fxq $mutant_name_1 $MUTANT_LIST;then
     
         start_time=$(($(date +%s%N)/1000000))  
         
@@ -61,20 +54,6 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
         echo "------------------------------------" 2>&1 | tee -a $MUTANT_LOGFILE
         echo "Mutant A: "$m_1 2>&1 | tee -a $MUTANT_LOGFILE
         
-        cd $PROJ
-
-        find . -name '*.gc*' -delete
-
-        exec_loc_1=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name_1};${location_orig_1}" | awk -F':' '{print $1}' | xargs dirname)                                                                                                                           
-        exec_loc_cov_1=${MUTANTS_RUN}/${exec_loc_1//$MUTANTS_TRACES/}
-        
-        echo $exec_loc_cov_1 2>&1 | tee -a $MUTANT_LOGFILE
-        tar xzf $exec_loc_cov_1/$mutant_name_1/coverage.gz        
-
-        cd coverage
-        
-        find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
-
         # replacing mutant by original source
         cd $PROJ_SRC
     
@@ -84,8 +63,21 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
         echo cp $m_1 $filename_orig_1 2>&1 | tee -a $MUTANT_LOGFILE
         cp $m_1 $filename_orig_1
 
+        exec_loc_1=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name_1}" | awk -F':' '{print $1}' | xargs dirname)                                                                                                                           
+        exec_loc_cov_1=${MUTANTS_RUN}/${exec_loc_1//$MUTANTS_TRACES/}
+        
+        echo $exec_loc_cov_1 2>&1 | tee -a $MUTANT_LOGFILE
+        tar xzf $exec_loc_cov_1/$mutant_name_1/coverage.gz
+ 
+        cd coverage
+        for f in *.tar.gz;do tar -xzf "$f";done
+
+        find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
+
         source $COV_SCRIPT
-    
+   
+        cd $PROJ_TST
+ 
         find . -name 'coverage.txt' -exec cp --parents {} ${MUTANT_COVERAGE_FOLDER}_1 \;
 
         echo "Replacing original source " 2>&1 | tee -a $MUTANT_LOGFILE
@@ -114,32 +106,13 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
 #                continue
 #            fi
 
-            if [ -n "$PREFIX" ];then
-                location_prefix_2=$(echo $location_orig_2 | sed -e "s:\.:\.\/$PREFIX:g")
-            else
-                location_prefix_2=$location_orig_2
-            fi
-            
             line_number_2=$(echo $mutant_name_2 | awk -F'.' '{print $3}')
-            mutant_key_2="${mutant_name_2}|${location_prefix_2}"
 
-            if grep -Fxq $mutant_key_2 $MUTANT_LIST;then
+            if grep -Fxq $mutant_name_2 $MUTANT_LIST;then
 
                 echo "------------------------------------" 2>&1 | tee -a $MUTANT_LOGFILE
                 echo "Mutant B: "$m_2 2>&1 | tee -a $MUTANT_LOGFILE
                 
-                cd $PROJ
-
-                exec_loc_2=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name_2};${location_orig_2}" | awk -F':' '{print $1}' | xargs dirname)   
-                exec_loc_cov_2=${MUTANTS_RUN}/${exec_loc_2//$MUTANTS_TRACES/}
-        
-                echo $exec_loc_cov_2 2>&1 | tee -a $MUTANT_LOGFILE
-                tar xzf $exec_loc_cov_2/$mutant_name_2/coverage.gz
-
-                cd coverage
-                
-                find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
-
                 # replacing mutant by original source
                 cd $PROJ_SRC
             
@@ -148,8 +121,21 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
 
                 echo cp $m_2 $filename_orig_2 2>&1 | tee -a $MUTANT_LOGFILE
                 cp $m_2 $filename_orig_2
+            
+                exec_loc_2=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name_2}" | awk -F':' '{print $1}' | xargs dirname)   
+                exec_loc_cov_2=${MUTANTS_RUN}/${exec_loc_2//$MUTANTS_TRACES/}
+        
+                echo $exec_loc_cov_2 2>&1 | tee -a $MUTANT_LOGFILE
+                tar xzf $exec_loc_cov_2/$mutant_name_2/coverage.gz
+                
+                cd coverage
+                for f in *.tar.gz;do tar -xzf "$f";done           
+     
+                find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
 
                 source $COV_SCRIPT
+
+                cd $PROJ_TST
             
                 find . -name 'coverage.txt' -exec cp --parents {} ${MUTANT_COVERAGE_FOLDER}_2 \;
 
@@ -178,8 +164,8 @@ for (( it = 0; it < "${#mutants_array[@]}"; it++ ));do
 
                     echo $mutant_cov_name  
 
-                    RESULTS_COV_1=${MUTANT_COVERAGE_FOLDER}_1/${tst}coverage.txt
-                    RESULTS_COV_2=${MUTANT_COVERAGE_FOLDER}_2/${tst}coverage.txt
+                    RESULTS_COV_1=${MUTANT_COVERAGE_FOLDER}_1/${tst}Reports/Coverage/Data/coverage.txt
+                    RESULTS_COV_2=${MUTANT_COVERAGE_FOLDER}_2/${tst}Reports/Coverage/Data/coverage.txt
                     
                     if [ ! -e $RESULTS_COV_1 ] || ! grep -Fq $mutant_cov_name $RESULTS_COV_1 ;then
                         continue

@@ -46,8 +46,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         echo "------------------------------------" 2>&1 | tee -a $MUTANT_LOGFILE
         echo "Mutant: "$i 2>&1 | tee -a $MUTANT_LOGFILE
         
-        cd $PROJ
-
         # replacing mutant by original source
         cd $PROJ_SRC
     
@@ -57,10 +55,11 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
         cp $i $filename_orig
 
-        exec_loc=$(find $MUTANTS_RUN -name 'main.csv' | xargs grep -m 1 "${mutant_name}" | awk -F':' '{print $1}' | xargs dirname)
+        exec_loc=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name}" | awk -F':' '{print $1}' | xargs dirname)                                                                                                                           
+        exec_loc_cov=${MUTANTS_RUN}/${exec_loc//$MUTANTS_TRACES/}
         
-        echo $exec_loc  2>&1 | tee -a $MUTANT_LOGFILE
-        tar xzf $exec_loc/$mutant_name/coverage.gz
+        echo $exec_loc_cov 2>&1 | tee -a $MUTANT_LOGFILE
+        tar xzf $exec_loc_cov/$mutant_name/coverage.gz
 
         cd coverage
         for f in *.tar.gz;do tar -xzf "$f";done
@@ -91,6 +90,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     
             RESULTS_COV=$RESULTS/${tst}Reports/Coverage/Data/coverage.txt
             RESULTS_NEW_COV=$MUTANT_COVERAGE_FOLDER/${tst}Reports/Coverage/Data/coverage.txt 
+
             if ! grep -Fq $mutant_cov_name $RESULTS_COV;then
                 continue
             fi
@@ -98,7 +98,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             grep $mutant_cov_name $RESULTS_COV  2>&1 | tee -a $MUTANT_LOGFILE
             grep $mutant_cov_name $RESULTS_NEW_COV  2>&1 | tee -a $MUTANT_LOGFILE
             
-            echo -n "${mutant_cov_name};${mutant_name};${location_orig};" >> $LOGFILE
+            echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 
             $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS_COV" --cov_b "$RESULTS_NEW_COV" --result "$LOGFILE" --line "$line_number" | tee -a $MUTANT_LOGFILE
 

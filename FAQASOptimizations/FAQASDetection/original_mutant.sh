@@ -13,7 +13,8 @@ MUTANT_LIST=${10}
 RESULTS=${11}
 PYTHON=${12}
 MUTANT_COVERAGE_FOLDER=${13}
-PREFIX=${14}
+MUTANTS_TRACES=${14}
+PREFIX=${15}
 
 LOGFILE=$EXEC_DIR/main.csv
 mkdir -p $EXEC_DIR
@@ -57,10 +58,12 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
         find . -name '*.gc*' -delete
 
-        exec_loc=$(find $MUTANTS_RUN -name 'main.csv' | xargs grep -m 1 "${mutant_name};${location_orig}" | awk -F':' '{print $1}' | xargs dirname)
+        exec_loc=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name};${location_orig}" | awk -F':' '{print $1}' | xargs dirname)                     
+        exec_loc_cov=${MUTANTS_RUN}/${exec_loc//$MUTANTS_TRACES/}
         
-        echo $exec_loc  2>&1 | tee -a $MUTANT_LOGFILE
-        tar xzf $exec_loc/$mutant_name/coverage.gz
+        echo $exec_loc_cov 2>&1 | tee -a $MUTANT_LOGFILE
+        tar xzf $exec_loc_cov/$mutant_name/coverage.gz
+        
         cd coverage
         
         find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
@@ -101,7 +104,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             grep $mutant_cov_name $RESULTS/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
             grep $mutant_cov_name $MUTANT_COVERAGE_FOLDER/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
             
-            echo -n "${mutant_cov_name};${mutant_name};${location_orig};" >> $LOGFILE
+            echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 
             $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS/${tst}coverage.txt" --cov_b "$MUTANT_COVERAGE_FOLDER/${tst}coverage.txt" --result "$LOGFILE" --line "$line_number" | tee -a $MUTANT_LOGFILE
 

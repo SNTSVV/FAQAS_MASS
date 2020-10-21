@@ -9,9 +9,9 @@ MLFS_COV=$MLFS_TST
 
 SRC_MUTANTS=/opt/mutations/src-mutants/$1
 MUTANTS_RUN=/opt/mutations/runs
+MUTANTS_TRACES=/opt/mutations/runs_main
 
 COV_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/mlfs/launcher_mlfs.sh
-DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance.py
 
 EXEC_DIR=$HOME/test_runs
 
@@ -26,9 +26,11 @@ MUTANT_COVERAGE_FOLDER=$HOME/mutant_coverage
 if [[ $2 == *"equivalents"* ]]; then
     DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/original_mutant_mlfs.sh
     MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/MLFS/all_live
+    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance.py
 else
     MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/MLFS/all_filtered
-    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/mutant_mutant.sh
+    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/mutant_mutant_mlfs.sh
+    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance_red.py
 fi
 
-source $DETECTION $MLFS $MLFS_SRC $MLFS_TST $MLFS_COV $SRC_MUTANTS $MUTANTS_RUN $COV_SCRIPT $DIST_SCRIPT $EXEC_DIR $MUTANT_LIST $RESULTS $PYTHON $MUTANT_COVERAGE_FOLDER $PREFIX
+source $DETECTION $MLFS $MLFS_SRC $MLFS_TST $MLFS_COV $SRC_MUTANTS $MUTANTS_RUN $COV_SCRIPT $DIST_SCRIPT $EXEC_DIR $MUTANT_LIST $RESULTS $PYTHON $MUTANT_COVERAGE_FOLDER $MUTANTS_TRACES $PREFIX
