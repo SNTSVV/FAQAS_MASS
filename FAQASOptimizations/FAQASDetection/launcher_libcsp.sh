@@ -32,8 +32,8 @@ if [[ $2 == *"equivalents"* ]]; then
     DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance.py
     MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/CSP_GSL/all_live
 else
-    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/mutant_mutant.sh
-    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance_red.py
+    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/get_coverage.sh
+    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/get_coverage.py
     MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/CSP_GSL/all_filtered
 fi
 

@@ -6,17 +6,19 @@ TYPE=0 # 1 global
 DIRS_OUT="can_sniffer|util_app|out|rtc|stdio"
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/libutil/update_coverage.sh
-shopt -s extglob
 
+SOURCE=$1
+MUTANT=$2
+shopt -s extglob
 for d in $TST/!($DIRS_OUT)/ ; do
 
     cd $d/build
 
     for da in `find . -name '*.gcda'`; do
         output=$(gcov $da 2>&1)
-       
         mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
         if [ $mismatch -eq 1 ];then
+            echo -ne "${SOURCE};${MUTANT};NO_COVERAGE_PRODUCED;0\n"
             continue
         fi
          

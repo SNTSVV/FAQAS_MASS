@@ -16,6 +16,6 @@ TIMEOUT=250
 MUTATION=/opt/srcirorfaqas/FAQASOptimizations/FAQASMutation/mutation.sh
 
 cd $LIBUTIL
-find . -name '*.gcda' -delete
+find . -name '*.gc*' -delete
 
 source $MUTATION $LIBUTIL $LIBUTIL_SRC $LIBUTIL_TST $LIBUTIL_COV $SRC_MUTANTS $BUILD_COMMAND $EXECUTION_COMMAND $FILTER_TST $EXEC_DIR $TIMEOUT

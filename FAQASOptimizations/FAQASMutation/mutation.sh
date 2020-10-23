@@ -105,25 +105,24 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 		fi
 	done
 
-	echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
-	cd $PROJ_SRC
-	mv $filename_orig.orig $filename_orig
-	touch $filename_orig
-
 	# backing up coverage
     cd $PROJ_COV
     echo backing up $filename.gcda | tee -a $MUTANT_LOGFILE
     mkdir -p $mutant_path/coverage
 
-    find . -name "*${filename}.*gcda" -exec cp --parents '{}' $mutant_path/coverage \;
-    find . -name "*${filename}.*gcno" -exec cp --parents '{}' $mutant_path/coverage \;
+    find . -name "*${filename}.*gc*" -exec cp --parents '{}' $mutant_path/coverage \;
 
     cd $mutant_path
     GZIP=-9 tar czf coverage.gz coverage/
     rm -rf $mutant_path/coverage
 	
     # reset coverage information
-	find . -name '*.gcda' -delete
+	find . -name '*.gc*' -delete
+	
+    echo "Replacing original source "$i 2>&1 | tee -a $MUTANT_LOGFILE
+	cd $PROJ_SRC
+	mv $filename_orig.orig $filename_orig
+	touch $filename_orig
 	
 	end_time=$(($(date +%s%N)/1000000))
     elapsed="$(($end_time-$start_time))"
