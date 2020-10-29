@@ -64,7 +64,7 @@ def get_distance(testA, testB):
     A = numpy.array(covAList)
     B = numpy.array(covBList)
 
-    distance = euclidean(A, B)
+    distance = cosine(A, B)
     print(distance)
 
     return distance

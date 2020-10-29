@@ -16,9 +16,10 @@ for d in $TST/!($DIRS_OUT)/ ; do
 
     for da in `find . -name '*.gcda'`; do
         output=$(gcov $da 2>&1)
+
         mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
         if [ $mismatch -eq 1 ];then
-            echo -ne "${SOURCE};${MUTANT};NO_COVERAGE_PRODUCED;0\n"
+            echo -ne "${SOURCE};${MUTANT};${d};NO_COVERAGE_PRODUCED;0\n"
             continue
         fi
          
@@ -37,7 +38,7 @@ for d in $TST/!($DIRS_OUT)/ ; do
         else
             test_name=${d//$TST/}
             
-            for g in `find . -name '*.gcov'`; do
+            for g in $(find . -name '*.gcov'); do
                 
                 first_line=`head -n 1 $g`
                 path=`echo $first_line | sed -n -e 's/^.*Source://p' | xargs -i realpath {}`

@@ -58,6 +58,15 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 
         find . -name '*.gc*' -delete
 
+        # replacing mutant by original source
+        cd $PROJ_SRC
+    
+        echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
+        cp $filename_orig $filename_orig.orig
+
+        echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
+        cp $i $filename_orig
+
         exec_loc=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name};${location_orig}" | awk -F':' '{print $1}' | xargs dirname)                     
         exec_loc_cov=${MUTANTS_RUN}/${exec_loc//$MUTANTS_TRACES/}
         
@@ -67,15 +76,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         cd coverage
         
         find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
-
-        # replacing mutant by original source
-        cd $PROJ_SRC
-    
-        echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
-        cp $filename_orig $filename_orig.orig
-
-        echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
-        cp $i $filename_orig
 
         source $COV_SCRIPT
     
@@ -121,6 +121,10 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         touch $filename_orig
 
         rm -rf $MUTANT_COVERAGE_FOLDER/*
+
+#        pushd $PROJ_TST
+#        find . -name '*.gcov' -exec cp --parents {} $mutant_path \;
+#        popd
 
         # reset coverage information
         find $PROJ_TST -name '*.gc*' -delete  

@@ -6,6 +6,9 @@ TST=/home/mlfs/unit-reports
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/mlfs/update_coverage.sh
 TYPE=0 # 1 means global
 
+SOURCE=$1
+MUTANT=$2
+
 shopt -s extglob
 
 for tst in $TST/*/; do
@@ -17,6 +20,7 @@ for tst in $TST/*/; do
 
         mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
         if [ $mismatch -eq 1 ];then                                                                                   
+            echo -ne "${SOURCE};${MUTANT};${tst};NO_COVERAGE_PRODUCED;0\n" 
             continue
         fi
         # do not consider gcov files with 0.00% coverage
@@ -45,7 +49,8 @@ for tst in $TST/*/; do
 			else
 				source $PARSER $g $path $coverage_data
 			fi
-				rm $g
+    
+       		rm $g
 			done
 		fi
 	done

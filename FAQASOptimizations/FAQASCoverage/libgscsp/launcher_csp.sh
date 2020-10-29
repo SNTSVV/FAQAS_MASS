@@ -6,8 +6,11 @@ TYPE=0 # 1 global
 DIRS_OUT="bindings|common"
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/libgscsp/update_coverage.sh
-shopt -s extglob
 
+SOURCE=$1
+MUTANT=$2
+
+shopt -s extglob
 for d in $TST/!($DIRS_OUT)/ ; do
 
     cd $d/build
@@ -16,7 +19,8 @@ for d in $TST/!($DIRS_OUT)/ ; do
         output=$(gcov $da 2>&1)
 
         mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
-        if [ $mismatch -eq 1 ];then                                                                                                                                                                 
+        if [ $mismatch -eq 1 ];then                                                                                              
+            echo -ne "${SOURCE};${MUTANT};${d};NO_COVERAGE_PRODUCED;0\n"
             continue
         fi 
         # do not consider gcov files with 0.00% coverage

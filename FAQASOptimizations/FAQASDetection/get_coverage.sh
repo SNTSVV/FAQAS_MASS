@@ -1,4 +1,4 @@
-#!/bin/bash                                                                                                                             
+#!/bin/bash                                                                                                                   
 
 PROJ=$1
 PROJ_SRC=$2
@@ -65,6 +65,15 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         
         find . -name '*.gc*' -delete
 
+        # replacing mutant by original source
+        cd $PROJ_SRC
+    
+        echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
+        cp $filename_orig $filename_orig.orig
+
+        echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
+        cp $i $filename_orig
+
         exec_loc=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep --with-filename -m 1 "${mutant_name};${location_orig}" | awk -F':' '{print $1}' | xargs dirname)          
         
         exec_loc_cov=${MUTANTS_RUN}/${exec_loc//$MUTANTS_TRACES/}
@@ -75,15 +84,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         cd coverage
         
         find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
-
-        # replacing mutant by original source
-        cd $PROJ_SRC
-    
-        echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
-        cp $filename_orig $filename_orig.orig
-
-        echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
-        cp $i $filename_orig
 
         source $COV_SCRIPT $mutant_cov_name $mutant_name >> $LOGFILE
     
@@ -99,7 +99,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             echo $tst  2>&1 | tee -a $MUTANT_LOGFILE
            
             mutant_start_time=$(($(date +%s%N)/1000000))
-            
  
             RESULTS_COV=${MUTANT_COVERAGE_FOLDER}/${tst}coverage.txt
             

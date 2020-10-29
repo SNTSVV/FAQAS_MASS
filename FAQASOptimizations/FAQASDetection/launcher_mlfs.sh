@@ -29,8 +29,8 @@ if [[ $2 == *"equivalents"* ]]; then
     DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance.py
 else
     MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/MLFS/all_filtered
-    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/mutant_mutant_mlfs.sh
-    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/distance_red.py
+    DETECTION=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/get_coverage_mlfs.sh
+    DIST_SCRIPT=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/get_coverage.py
 fi
 
 source $DETECTION $MLFS $MLFS_SRC $MLFS_TST $MLFS_COV $SRC_MUTANTS $MUTANTS_RUN $COV_SCRIPT $DIST_SCRIPT $EXEC_DIR $MUTANT_LIST $RESULTS $PYTHON $MUTANT_COVERAGE_FOLDER $MUTANTS_TRACES $PREFIX
