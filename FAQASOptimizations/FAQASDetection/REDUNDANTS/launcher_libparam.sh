@@ -1,8 +1,8 @@
 #!/bin/bash                                                                                                                        
  
-HOME=/home/gsl
+HOME=/home/csp
 
-LIBUTIL=$HOME/libutil
+LIBUTIL=$HOME/libparam
 LIBUTIL_SRC=$LIBUTIL/src
 LIBUTIL_TST=$LIBUTIL/tst
 LIBUTIL_COV=$LIBUTIL_TST
@@ -16,9 +16,9 @@ PYTHON=/usr/bin/python3.7
 
 PROCESSING=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/REDUNDANTS/processing.py
 
-MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/LIBUTIL/all_filtered
+MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/PARAM_GSL/all_filtered
 
-TEST_PATH="/home/gsl/libutil/tst/"
+TEST_PATH="/home/csp/libparam/tst/"
 
 $PYTHON -u $PROCESSING --coverages "$COVERAGE_TRACES" --mutants "$MUTANT_LIST" --exec_dir "$EXEC_DIR" --mut_traces "$MUTATION_TRACES" --test_path "$TEST_PATH"
 

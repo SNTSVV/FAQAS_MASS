@@ -23,7 +23,7 @@ touch $LOGFILE
 mkdir -p $MUTANT_COVERAGE_FOLDER
 
 shopt -s nullglob;       
-for i in $(find $SRC_MUTANTS -name '*.c');do
+for i in $(find $SRC_MUTANTS -name 'csp.mut.47.1_1_5.SDL.gs_csp_is_address_valid.c');do
 
     file_wo_opt=${i//$SRC_MUTANTS/}
     mutant_name="$(basename -- ${file_wo_opt%.*})"                                                                   
@@ -95,14 +95,14 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             else
                 mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/::g")
             fi
-            echo $mutant_cov_name 
+            echo $mutant_cov_name | tee -a $MUTANT_LOGFILE 
  
             if ! grep -Fq $mutant_cov_name $RESULTS/${tst}coverage.txt;then
                 continue
             fi
             
-            grep $mutant_cov_name $RESULTS/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
-            grep $mutant_cov_name $MUTANT_COVERAGE_FOLDER/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
+            grep -F $mutant_cov_name $RESULTS/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
+            grep -F $mutant_cov_name $MUTANT_COVERAGE_FOLDER/${tst}coverage.txt  2>&1 | tee -a $MUTANT_LOGFILE
             
             echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 

@@ -94,8 +94,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
                 continue
             fi
             
-            grep $mutant_cov_name $RESULTS_COV  2>&1 | tee -a $MUTANT_LOGFILE
-            grep $mutant_cov_name $RESULTS_NEW_COV  2>&1 | tee -a $MUTANT_LOGFILE
+            grep -F $mutant_cov_name $RESULTS_COV  2>&1 | tee -a $MUTANT_LOGFILE
+            grep -F $mutant_cov_name $RESULTS_NEW_COV  2>&1 | tee -a $MUTANT_LOGFILE
             
             echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 

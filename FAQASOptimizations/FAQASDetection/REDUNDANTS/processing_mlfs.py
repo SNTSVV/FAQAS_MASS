@@ -41,14 +41,10 @@ def read_mutants(mutants, mutant_key):
     mutant_list = []
     with open(mutants, 'r') as f:
         for line in f:
-            mutant_data = line.strip().split('|')
-            mutant_name = mutant_data[0]
-            location = mutant_data[1].replace('./', '')
 
-            mutant_source_name = mutant_name.split('.')[0] + '.'
-            mutant_source = location + '/' + mutant_source_name + 'c'
-
-            if mutant_source_name in mutant_key and location in mutant_key:            
+            mutant_source_name = line.strip().split('.')[0] + '.'
+    
+            if mutant_source_name in mutant_key:            
                 mutant_list.append(line.strip())
     return mutant_list
 
@@ -59,10 +55,11 @@ def read_coverages(coverages_path):
         for line in f:
             mutant_coverage = line.strip().split(';')
         
-            if mutant_coverage[0] + '|' + mutant_coverage[1] in coverages:
-                coverages[mutant_coverage[0] + '|' + mutant_coverage[1]].append(line.strip())
+            if mutant_coverage[1] in coverages:
+                coverages[mutant_coverage[1]].append(line.strip())
             else:
-                coverages[mutant_coverage[0] + '|' + mutant_coverage[1]] = [line.strip()]
+                coverages[mutant_coverage[1]] = [line.strip()]
+
     return coverages
 
 def read_mutant_traces(traces_path, mutants_list):
@@ -70,8 +67,8 @@ def read_mutant_traces(traces_path, mutants_list):
     with open(traces_path, 'r') as f:
         for line in f:
             mutant_fields = line.strip().split(';')  
-            mutant_key = mutant_fields[0] + '|' + mutant_fields[1]
-
+            mutant_key = mutant_fields[0]
+        
             if mutant_key not in mutants_list:
                 continue
 
@@ -82,25 +79,20 @@ def read_mutant_traces(traces_path, mutants_list):
     return traces 
 
 def generate_key(mutant, character):
-    mutant_data = mutant.split(character)
-    mutant_name = mutant_data[0]
-    location = mutant_data[1].replace('./', '')
+    mutant_name = mutant
 
-    mutant_source = mutant_name.split('.')[0]
-
-    return location + '/' + mutant_source + '.c' + '|' + mutant_name
+    return mutant_name
 
 def retrieve_coverages_mutant(mutant_key, coverages):
-    coverage_key = generate_key(mutant_key, '|')
-    if coverage_key in coverages:
-        return coverages[coverage_key]
+    if mutant_key in coverages:
+        return coverages[mutant_key]
     else:
         return []
    
 def retrieve_traces_mutant(mutant_key, traces, common_tests, test_path):
     traces_mutant_test = []
     for trace in traces[mutant_key]:
-        executed_test = trace.split(';')[3].replace(test_path, "")
+        executed_test = trace.split(';')[2].replace(test_path, "").replace(".xml", "/")
 
         if executed_test in common_tests:
             traces_mutant_test.append(trace)
@@ -111,12 +103,13 @@ def common_killed_tests(traces_a, traces_b):
 
     tests_a = []
     tests_b = []
+
     for trace in traces_a:
         if "KILLED" in trace:
-            tests_a.append(trace.split(';')[3])
+            tests_a.append(trace.split(';')[2])
     for trace in traces_b:
         if "KILLED" in trace:
-            tests_b.append(trace.split(';')[3])
+            tests_b.append(trace.split(';')[2])
 
     print("killed tests:", tests_a, tests_b)
     
@@ -202,11 +195,11 @@ def process(mutants, coverages, test_path, exec_dir):
 
         for trace in cov_traces_a:
             if "NO_COVERAGE_PRODUCED" not in trace:
-                tests_a.append(trace.split(';')[2])
+                tests_a.append(trace.split(';')[3])
 
         for trace in cov_traces_b:
             if "NO_COVERAGE_PRODUCED" not in trace:
-                tests_b.append(trace.split(';')[2])
+                tests_b.append(trace.split(';')[3])
 
         if len(tests_a) == 0 and len(tests_b) == 0 and line_a == line_b:
             msg = "REDUNDANTS_NO_COV_A_NOR_B"
@@ -228,7 +221,6 @@ def process(mutants, coverages, test_path, exec_dir):
             log(exec_dir, combination[0], combination[1], msg, "NA", "NA")
             continue
 
-    
         mut_traces_a = retrieve_traces_mutant(combination[0], mutants_traces_dict, common_tests, test_path)
         mut_traces_b = retrieve_traces_mutant(combination[1], mutants_traces_dict, common_tests, test_path)
         
@@ -243,8 +235,8 @@ def process(mutants, coverages, test_path, exec_dir):
         highest_distance = 0
         selected_tst = ''
         for tst in common_tests:
-            cov_a = [s for s in cov_traces_a if tst in s][0].split(';')[3].split(',') 
-            cov_b = [s for s in cov_traces_b if tst in s][0].split(';')[3].split(',')   
+            cov_a = [s for s in cov_traces_a if tst in s][0].split(';')[4].split(',') 
+            cov_b = [s for s in cov_traces_b if tst in s][0].split(';')[4].split(',')   
 
 #            print("compare", cov_a, cov_b)
 

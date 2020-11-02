@@ -1,4 +1,3 @@
-import re
 import math
 from scipy import spatial
 
@@ -26,6 +25,6 @@ def cosine(v1, v2):
 def searchStringInFile(filename, string):                                                                                            
     fileToSearch = open(filename, 'r')
     for line in fileToSearch:
-        if re.search(string, line):
+        if string in line.strip():
             return line.strip()
     return ""   
