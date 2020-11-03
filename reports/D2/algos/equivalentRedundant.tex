@@ -26,9 +26,9 @@
 \Ensure \emph{LNENR}, a list of live, non-equivalent, non-redundant mutants
 % (source inputs, follow-up inputs, output data).
 
-\State $\mathit{TS}_m \gets$ subset of $\mathit{TS}$ that cover the mutated statement $\mathit{ms}$, based on \emph{Cov} \label{alg:equivalent:select}
-\State $\mathit{PTS} \gets \mathit{new} \mathit{list}$ \textcolor{darkgray}{//this list is initially empty}
-\State $\mathit{PTS} \gets$ based on \emph{Cov} select from $\mathit{TS_m}$ the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:equivalent:first}
+%\State $\mathit{TS}_m \gets$ subset of $\mathit{TS}$ that cover the mutated statement $\mathit{ms}$, based on \emph{Cov} \label{alg:equivalent:select}
+%\State $\mathit{PTS} \gets \mathit{new} \mathit{list}$ \textcolor{darkgray}{//this list is initially empty}
+%\State $\mathit{PTS} \gets$ based on \emph{Cov} select from $\mathit{TS_m}$ the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:equivalent:first}
 \State $\mathit{KNR} \gets \mathit{identifyNonRedundantMutants(} \mathit{KM}, \mathit{TS}, \mathit{TR}, \mathit{Cov}_M)$ \label{alg:equivalent:KNR}
 \State $\mathit{LNE} \gets \mathit{identifyNonEquivalentMutants(} \mathit{LNR}, \mathit{TS}, \mathit{Cov}_M, \mathit{Cov}_O)$ \label{alg:equivalent:LNE}
 \State $\mathit{LNENR} \gets \mathit{identifyRedundantMutants(} \mathit{LNE}, \mathit{TS}, \mathit{Cov}_M)$ \label{alg:equivalent:LNENR}
@@ -55,7 +55,7 @@
 \EndIf
 \EndIf
 \EndFor
-\If {$\mathit{equivalent}==\mathit{FALSE}$}
+\If {$\mathit{redundant}==\mathit{FALSE}$}
 \State \textbf{break} \Comment{No need to compare with all the mutants if we know that it is not redundant}
 \EndIf
 \EndFor
