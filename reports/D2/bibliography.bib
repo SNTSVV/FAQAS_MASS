@@ -2804,3 +2804,530 @@ title={{newlib}},
 howpublished={http://www.sourceware.org/newlib/},
 year="2020"
 }
+
+@article{Tchebichef1867,
+author={P. Tchebichef},
+title={Des valeurs moyennes},
+journal={Journal de Mathématiques Pures et Appliquées},
+volume={2},
+number={12},
+pages={177–184},
+year={1867}
+}
+
+
+@misc{ESA,
+    title={{European Space Agency}},
+    author={{ESA}},
+    year={2020},
+    url={https://www.esa.int},
+}
+
+@misc{LXS,
+    title={{The first provider of space systems, applications and services in Luxembourg.}},
+    author={{OHB LuxSpace}},
+    year={2020},
+    url={https://luxspace.lu/},
+}
+
+@misc{GSL,
+    title={{Systems for cubesats and nanosatellites.}},
+    author={{Gomspace}},
+    year={2020},
+    url={https://gomspace.com/},
+}
+
+@misc{GDB,
+    title={{GDB: The GNU Project Debugger.}},
+    author={{Free Software Foundation}},
+    year={2020},
+    url={https://www.gnu.org/software/gdb/},
+}
+
+@misc{THANASSIS,
+    title={{Cover me!}},
+    author={Thanassis Tsiodras},
+    year={2020},
+    url={https://www.thanassis.space/coverage.html},
+}
+
+@article{Ramler2017,
+abstract = {Background: Testing is an essential activity in safety-critical software development, following high standards in terms of code coverage. Mutation testing allows assessing the effectiveness of testing and helps to further improve test cases. However, mutation testing is not widely practiced due to scalability problems when applied to real-world systems. Objective: The objective of the study is to investigate the applicability and usefulness of mutation testing for improving the quality of unit testing in context of safety-critical software systems. Method: A case study has been conducted together with an engineering company developing safety-critical systems. Mutation analysis has been applied to the studied system under test (60, 000 LOC of C code) producing 75, 043 mutants of which 27, 158 survived test execution. A sam-ple of 200 live mutants has been reviewed by the engineers, who also improved the existing unit test suite based on their findings. Findings: The reviewed sample contained 24{\%} equivalent mu-tants and 12{\%} duplicated mutants. It revealed a weak spot in the testing approach and provided valuable guidance to improve the existing unit test suite. Two new faults were found in the code when improving the tests. Test execution against the mutants required over 4, 000 hours computing time. The overall effort was about half a person year.},
+author = {Ramler, Rudolf and Wetzlmaier, Thomas and Klammer, Claus},
+doi = {10.1145/3019612.3019830},
+file = {:Users/fabrizio.pastore/Desktop/Ramler-MutationTestingToSafetyCritical-SAC-2017.pdf:pdf},
+isbn = {9781450344869},
+journal = {Proceedings of the ACM Symposium on Applied Computing},
+keywords = {Coverage,IEC 61508,Mutation analysis,Mutation testing,Safety-critical system,Unit testing,Verification},
+mendeley-groups = {benchmark},
+number = {Section 4},
+pages = {1401--1408},
+title = {{An empirical study on the application of mutation testing for a safety-critical industrial software system}},
+volume = {Part F128005},
+year = {2017}
+}
+
+@article{Baker2013,
+abstract = {Testing provides a primary means for assuring software in safety-critical systems. To demonstrate, particularly to a certification authority, that sufficient testing has been performed, it is necessary to achieve the test coverage levels recommended or mandated by safety standards and industry guidelines. Mutation testing provides an alternative or complementary method of measuring test sufficiency, but has not been widely adopted in the safety-critical industry. In this study, we provide an empirical evaluation of the application of mutation testing to airborne software systems which have already satisfied the coverage requirements for certification. Specifically, we apply mutation testing to safety-critical software developed using high-integrity subsets of C and Ada, identify the most effective mutant types, and analyze the root causes of failures in test cases. Our findings show how mutation testing could be effective where traditional structural coverage analysis and manual peer review have failed. They also show that several testing issues have origins beyond the test activity, and this suggests improvements to the requirements definition and coding process. Our study also examines the relationship between program characteristics and mutation survival and considers how program size can provide a means for targeting test areas most likely to have dormant faults. Industry feedback is also provided, particularly on how mutation testing can be integrated into a typical verification life cycle of airborne software. {\textcopyright} 1976-2012 IEEE.},
+author = {Baker, Richard and Habli, Ibrahim},
+doi = {10.1109/TSE.2012.56},
+file = {:Users/fabrizio.pastore/Desktop/06298894.pdf:pdf},
+issn = {00985589},
+journal = {IEEE Transactions on Software Engineering},
+keywords = {Mutation,certification,safety-critical software,testing,verification},
+mendeley-groups = {benchmark},
+number = {6},
+pages = {787--805},
+publisher = {IEEE},
+title = {{An empirical evaluation of mutation testing for improving the test quality of safety-critical software}},
+volume = {39},
+year = {2013}
+}
+
+
+
+
+
+@inproceedings{Isasi2019,
+title={The ESAIL Multipurpose Simulator},
+author={Isasi, Y. and Pinardell, A and Marquez , A. and Molon-Noblot, C. and Wagner, A. and Gales, M. and Brada, M.},
+note={\url{https://atpi.eventsair.com/QuickEventWebsitePortal/sesp-2019/website/Agenda}},
+booktitle={Onlin Proceedings of Simulation and EGSE for Space Programmes (SESP2019)},
+year = {2019}
+}
+
+@article{Hyndman1996,
+ ISSN = {00031305},
+ URL = {http://www.jstor.org/stable/2684934},
+ abstract = {There are a large number of different definitions used for sample quantiles in statistical computer packages. Often within the same package one definition will be used to compute a quantile explicitly, while other definitions may be used when producing a boxplot, a probability plot, or a QQ plot. We compare the most commonly implemented sample quantile definitions by writing them in a common notation and investigating their motivation and some of their properties. We argue that there is a need to adopt a standard definition for sample quantiles so that the same answers are produced by different packages and within each package. We conclude by recommending that the median-unbiased estimator be used because it has most of the desirable properties of a quantile estimator and can be defined independently of the underlying distribution.},
+ author = {Rob J. Hyndman and Yanan Fan},
+ journal = {The American Statistician},
+ number = {4},
+ pages = {361--365},
+ publisher = {[American Statistical Association, Taylor & Francis, Ltd.]},
+ title = {Sample Quantiles in Statistical Packages},
+ volume = {50},
+ year = {1996}
+}
+
+@article{Kurtz2016,
+abstract = {Mutation score has long been used in research as a metric to measure the effectiveness of testing strategies. This paper presents evidence that mutation score lacks the desired accuracy to determine the completeness of a test suite due to noise introduced by the redundancy inherent in traditional mutation, and that dominator mutation score is a superior metric for this purpose. We evaluate the impact of different levels of redundant and equivalent mutants on mutation score and the ability to determine completeness in developing a mutation-adequate test suite. We conclude that, in the context of our model, redundant mutants make it very difficult to accurately assess test completeness. Equivalent mutants, on the other hand, have little effect on determining completeness. Based on this information, we suggest limits to redundancy and equivalency that mutation tools must achieve to be practical for general use in software testing.},
+author = {Kurtz, Bob and Ammann, Paul and Offutt, Jeff and Kurtz, Mariet},
+doi = {10.1109/ICSTW.2016.41},
+file = {:Users/fabrizio.pastore/Desktop/07528956.pdf:pdf},
+isbn = {9781509018260},
+journal = {Proceedings - 2016 IEEE International Conference on Software Testing, Verification and Validation Workshops, ICSTW 2016},
+keywords = {dominator mutants,mutation testing,software testing,subsumption},
+mendeley-groups = {EquivalentMutants},
+pages = {142--151},
+publisher = {IEEE},
+title = {{Are We There Yet? How Redundant and Equivalent Mutants Affect Determination of Test Completeness}},
+year = {2016}
+}
+
+
+@misc{ESAILESA,
+    title={{ESAIL} microsatellite},
+    author={{European Space Agency}},
+    year={2020},
+    url={https://www.esa.int/Applications/Telecommunications_Integrated_Applications/ESAIL_maritime_satellite_ready_for_launch},
+}
+
+
+@misc{ESAILlaunch,
+    title={{ESA} {Vega} launch},
+    author={{European Space Agency}},
+    year={2020},
+    url={\url{https://www.esa.int/Enabling\_Support/Space\_Transportation/Vega/}},
+}
+
+@misc{ESAlicence,
+    title={{ESA} {Community} {Licence} {Permissive} v2.4},
+    author={{European Space Agency}},
+    year={2020},
+    url={\url{https://essr.esa.int/license/european-space-agency-community-license-v2-4-permissive}},
+}
+
+@inproceedings{frankl1998further,
+  title={Further empirical studies of test effectiveness},
+  author={Frankl, Phyllis G and Iakounenko, Oleg},
+  booktitle={Proceedings of the 6th ACM SIGSOFT international symposium on Foundations of software engineering},
+  pages={153--162},
+  year={1998}
+}
+
+@article{ZhouCPS2018,
+doi = {10.1109/ACCESS.2018.2869834},
+file = {:Users/fabrizio.pastore/Desktop/08464069.pdf:pdf},
+issn = {21693536},
+journal = {IEEE Access},
+keywords = {Cyber-physical system,non-functional testing,robust testing,security testing,testbed,testing method},
+mendeley-groups = {cyberPhysicalSystems},
+pages = {52179--52194},
+title = {{Review on Testing of Cyber Physical Systems: Methods and Testbeds}},
+volume = {6},
+year = {2018}
+}
+
+@article{KapinskiCPS2016,
+author = {Kapinski, James and Deshmukh, Jyotirmoy V and Jin, Xiaoqing and Ito, Hisahiro and Butts, Ken},
+journal = {IEEE Control Systems Magazine},
+mendeley-groups = {cyberPhysicalSystems},
+number = {November},
+publisher = {IEEE},
+title = {{Simulation-Based Approaches for Verification of Embedded Systems}},
+year = {2016}
+}
+
+@article{Rohling2019SPACE,
+author = {Rohling, Adair Jos{\'{e}} and Neto, Valdemar Vicente Graciano and Ferreira, Mauricio Gon{\c{c}}alves Vieira and {Dos Santos}, Walter Abrah{\~{a}}o and Nakagawa, Elisa Yumi},
+doi = {10.1007/s11334-019-00322-w},
+issn = {1614-5054},
+journal = {Innovations in Systems and Software Engineering},
+number = {2},
+pages = {139--153},
+title = {{A reference architecture for satellite control systems}},
+url = {https://doi.org/10.1007/s11334-019-00322-w},
+volume = {15},
+year = {2019}
+}
+
+@inproceedings{HPC,
+   author =       {S. Varrette and P. Bouvry and H. Cartiaux and F. Georgatos},
+   title =        {Management of an Academic HPC Cluster: The UL Experience},
+   booktitle =    {Proc. of the 2014 Intl. Conf. on High Performance Computing \& Simulation (HPCS 2014)},
+   year =         {2014},
+   pages =        {959--967},
+   month =        {July},
+   address =      {Bologna, Italy},
+   publisher =    {IEEE},
+}
+
+@Article{Bartlett,
+author ={James E Bartlett and Joe W Kotrlik and Chadwick C Higgins},
+year = {2001},
+title = {Organizational Research: Determining Appropriate Sample Size in Survey Research},
+journal={Information Technology, Learning, and Performance Journal},
+volume={19},
+number={1},
+pages={43--50},
+}
+
+@Book{Cochran,
+author={W G Cochran},
+year={1977},
+title={Sampling Techniques},
+publisher={John Wiley \& Sons},
+address={ New York, USA}
+}
+
+@article{Krejcie,
+author = {Robert V. Krejcie and Daryle W. Morgan},
+title ={Determining Sample Size for Research Activities},
+journal = {Educational and Psychological Measurement},
+volume = {30},
+number = {3},
+pages = {607-610},
+year = {1970},
+doi = {10.1177/001316447003000308},
+URL = {https://doi.org/10.1177/001316447003000308},
+eprint = {https://doi.org/10.1177/001316447003000308}
+}
+
+@article{Krishnamoorthy07,
+author = { K.   Krishnamoorthy  and  Jie   Peng },
+title = {Some Properties of the Exact and Score Methods for Binomial Proportion and Sample Size Calculation},
+journal = {Communications in Statistics - Simulation and Computation},
+volume = {36},
+number = {6},
+pages = {1171-1186},
+year  = {2007},
+publisher = {Taylor & Francis},
+doi = {10.1080/03610910701569218},
+URL = { https://doi.org/10.1080/03610910701569218},
+eprint = {https://doi.org/10.1080/03610910701569218}
+}
+
+@article{Goncalves2012,
+doi = {10.1080/02664763.2012.713919},
+file = {:Users/fabrizio.pastore/Desktop/2012{\_}Samplesizeforestimatingabinomialproportions.pdf:pdf},
+issn = {0266-4763},
+journal = {Journal of Applied Statistics},
+keywords = {Binomial proportion,Confidence intervals,Coverage probability,Expected length,Sample size},
+mendeley-groups = {sampleSizeDetermination},
+month = {nov},
+number = {11},
+pages = {2453--2473},
+title = {{Sample size for estimating a binomial proportion: comparison of different methods}},
+url = {http://www.tandfonline.com/doi/abs/10.1080/02664763.2012.713919},
+volume = {39},
+year = {2012}
+}
+
+@article{waldSequential,
+author = "Wald, A.",
+doi = "10.1214/aoms/1177731118",
+fjournal = "Annals of Mathematical Statistics",
+journal = "Ann. Math. Statist.",
+month = "06",
+number = "2",
+pages = "117--186",
+publisher = "The Institute of Mathematical Statistics",
+title = "Sequential Tests of Statistical Hypotheses",
+url = "https://doi.org/10.1214/aoms/1177731118",
+volume = "16",
+year = "1945"
+}
+
+@article{Chen2013,
+author = {Chen, Zhengjia and Chen, Xinjia},
+doi = {10.1155/2013/603297},
+editor = {Huang, Xuelin},
+issn = {1687-952X},
+journal = {Journal of Probability and Statistics},
+pages = {603297},
+publisher = {Hindawi Publishing Corporation},
+title = {{Exact Group Sequential Methods for Estimating a Binomial Proportion}},
+url = {https://doi.org/10.1155/2013/603297},
+volume = {2013},
+year = {2013}
+}
+
+@article{Wang:Uncertainty:TOSEM,
+author = {Wang, Chunhui and Pastore, Fabrizio and Briand, Lionel},
+title = {Oracles for Testing Software Timeliness with Uncertainty},
+year = {2018},
+issue_date = {February 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {28},
+number = {1},
+issn = {1049-331X},
+url = {https://doi.org/10.1145/3280987},
+doi = {10.1145/3280987},
+journal = {ACM Trans. Softw. Eng. Methodol.},
+month = nov,
+articleno = {1},
+numpages = {30},
+keywords = {timing specifications, test oracles generation, probabilistic unique input output sequences, Time uncertainty}
+}
+
+@Techreport{Hsu:90,
+	title = "An Experimental Approach to Statistical Mutation-Based Testing",
+	author = "William Hsu,Mehmet Sahinoglu,Eugene Spafford",
+	year = "1990",
+	month = "April",
+	address = "West Lafayette, IN 47907",
+	institution = "Software Engineering Research Center",
+	number = "SERC-TR-63-P",
+}
+
+@article{Frey:FixedWidthSequentialConfidenceIntervals:AmericanStatistician:2010,
+author = {Jesse Frey},
+title = {Fixed-Width Sequential Confidence Intervals for a Proportion},
+journal = {The American Statistician},
+volume = {64},
+number = {3},
+pages = {242-249},
+year  = {2010},
+publisher = {Taylor & Francis},
+doi = {10.1198/tast.2010.09140},
+
+URL = { 
+        https://doi.org/10.1198/tast.2010.09140
+    
+},
+eprint = { 
+        https://doi.org/10.1198/tast.2010.09140
+    
+}
+}
+
+@article{ClopperPearson,
+ ISSN = {00063444},
+ URL = {http://www.jstor.org/stable/2331986},
+ author = {C. J. Clopper and E. S. Pearson},
+ journal = {Biometrika},
+ number = {4},
+ pages = {404--413},
+ publisher = {[Oxford University Press, Biometrika Trust]},
+ title = {The Use of Confidence or Fiducial Limits Illustrated in the Case of the Binomial},
+ volume = {26},
+ year = {1934}
+}
+
+@article{WaldMethodVollset,
+author = {Vollset, Stein Emil},
+title = {Confidence intervals for a binomial proportion},
+journal = {Statistics in Medicine},
+volume = {12},
+number = {9},
+pages = {809-824},
+doi = {10.1002/sim.4780120902},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4780120902},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.4780120902},
+year = {1993}
+}
+
+@ARTICLE{Yaacoub:OptimalStopping,
+
+  author={T. {Yaacoub} and G. V. {Moustakides} and Y. {Mei}},
+
+  journal={IEEE Transactions on Information Theory}, 
+
+  title={Optimal Stopping for Interval Estimation in Bernoulli Trials}, 
+
+  year={2019},
+
+  volume={65},
+
+  number={5},
+
+  pages={3022-3033},}
+
+
+@article{diniz2010,
+author = "Diniz, Carlos A. R. and Tutia, Marcelo H. and Leite, Jose G.",
+doi = "10.1214/08-BJPS014",
+fjournal = "Brazilian Journal of Probability and Statistics",
+journal = "Braz. J. Probab. Stat.",
+month = "03",
+number = "1",
+pages = "68--77",
+publisher = "Brazilian Statistical Association",
+title = "Bayesian analysis of a correlated binomial model",
+url = "https://doi.org/10.1214/08-BJPS014",
+volume = "24",
+year = "2010"
+}
+
+@article{DerGeest:BnomialWithDependentBernoulli-JSCS:2005,
+author = { P. A. G.   Van Der Geest   Now retired },
+title = {The binomial distribution with dependent Bernoulli trials},
+journal = {Journal of Statistical Computation and Simulation},
+volume = {75},
+number = {2},
+pages = {141-154},
+year  = {2005},
+publisher = {Taylor & Francis},
+doi = {10.1080/0094965042000193224},
+URL = { 
+        https://doi.org/10.1080/0094965042000193224  
+},
+}
+
+@article{NG:ModifiedBinomialDistributions:1989,
+author = { Tie-Hua   Ng },
+title = {A new class of modified binomial distributions with applications to certain toxicological experiments},
+journal = {Communications in Statistics - Theory and Methods},
+volume = {18},
+number = {9},
+pages = {3477-3492},
+year  = {1989},
+publisher = {Taylor & Francis},
+doi = {10.1080/03610928908830104},
+URL = { 
+        https://doi.org/10.1080/03610928908830104
+},
+eprint = { 
+        https://doi.org/10.1080/03610928908830104
+}
+}
+
+@article{Mingoti:2003,
+author = { Sueli   Mingoti },
+title = {A note on the sample size required in sequential tests for the generalized binomial distribution},
+journal = {Journal of Applied Statistics},
+volume = {30},
+number = {8},
+pages = {873-879},
+year  = {2003},
+publisher = {Taylor & Francis},
+doi = {10.1080/0266476032000075967},
+
+URL = { 
+        https://doi.org/10.1080/0266476032000075967
+    
+},
+eprint = { 
+        https://doi.org/10.1080/0266476032000075967
+    
+}
+
+}
+
+
+@article{Zhang:CrrelatedFirearm:NIST:2019,
+author = {Zhang, Nien Fan},
+file = {:Users/fabrizio.pastore/Desktop/Zhang-CorrelatedBinomialDistributionInEstmatngErrorRates-NIST-2019.pdf:pdf},
+keywords = {2019,Bernoulli trials,accepted,ballistic signatures,bernoulli trials,beta-binomial distribution,forensic science,maximum likelihood estimation,nonlinear regression,nonlinear regression.,october 2,published,september 9},
+mendeley-groups = {distrbtions},
+number = {124026},
+pages = {1--16},
+title = {{The Use of Correlated Binomial Distribution in Estimating Error Rates for Firearm Evidence Identification}},
+volume = {124},
+year = {2019}
+}
+
+@article{Kupper1978,
+author = {Kupper, L. L. and Haseman, J. K.},
+doi = {10.2307/2529589},
+file = {:Users/fabrizio.pastore/Desktop/Kupper-CorrelatedBinomialModel-Biometrics-1978.pdf:pdf},
+issn = {0006341X},
+journal = {Biometrics},
+mendeley-groups = {distrbtions},
+number = {1},
+pages = {69},
+pmid = {564719},
+title = {{The Use of a Correlated Binomial Model for the Analysis of Certain Toxicological Experiments}},
+volume = {34},
+year = {1978}
+}
+
+@inbook{Bahadur,
+author = {Bahadur, R. R.},
+journal = {Studies in item analysis and prediction},
+publisher    = {Stanford University Press},
+pages = {158-168},
+title = {{A Representation of the Joint Distribution of Responses to N Dichotomous Items}},
+year = {1961}
+}
+
+@article{Kadane2016,
+archivePrefix = {arXiv},
+arxivId = {1404.1856},
+author = {Kadane, Joseph B.},
+doi = {10.1214/15-BA955},
+eprint = {1404.1856},
+file = {:Users/fabrizio.pastore/Desktop/Kadane-ConwayMaxellBinomial-BA-2016.pdf:pdf},
+issn = {19316690},
+journal = {Bayesian Analysis},
+keywords = {Arithmetic binomial,Beta-binomial,Correlated bernoulli random variables,Correlated binomial,Multiplicative binomial},
+mendeley-groups = {distrbtions},
+number = {2},
+pages = {403--420},
+title = {{Sums of possibly associated Bernoulli variables: The conway-maxwell-binomial distribution}},
+volume = {11},
+year = {2016}
+}
+
+@MISC{GCCopt,
+author={{FSF} - {F}ree {S}oftware {F}oundation},
+title={{GCC Optimizations}},
+howpublished={https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html},
+year="2020"
+}
+
+@MISC{GCC,
+author={{FSF} - {F}ree {S}oftware {F}oundation},
+title={{GCC, the GNU Compiler Collection}},
+howpublished={https://gcc.gnu.org/},
+year="2020"
+}
+
+@misc{CSP,
+    title={{The Cubesat Protocol Library}},
+    author={{Gomspace}},
+    year={2020},
+    url={https://github.com/libcsp/libcsp},
+}

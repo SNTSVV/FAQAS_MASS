@@ -8,12 +8,12 @@
 \newcommand{\ShiftSet}{ \texttt{>>}, \texttt{<<} }
 
 
-\begin{table}[h]
+\begin{table}[tb]
 \caption{Implemented set of mutation operators.}
 \label{table:operators} 
 \centering
 \scriptsize
-\begin{tabular}{|@{}p{4mm}@{}|@{}p{2cm}@{\hspace{1pt}}|@{}p{12cm}@{}|}
+\begin{tabular}{|@{}p{4mm}@{}|@{}p{1cm}@{\hspace{1pt}}|@{}p{7.1cm}@{}|}
 \hline
 &\textbf{Operator} & \textbf{Description$^{*}$} \\
 \hline
@@ -49,9 +49,8 @@
 %COR               & $\{(\op_1, \op_2) \,|\, \op_1, \op_2 \in \{ \texttt{\&\&}, \texttt{||}, \land \} \land \op_1 \neq \op_2 \}$            \\
 \hline
 \hline
-\multirow{2}{*}{\rotatebox{90}{\emph{Other}}}&LVR			& $\{(l_1, l_2) \,|\, (l_1, l_2) \in \{(0,-1), (l_1,-l_1), (l_1, 0), (\mathit{true}, \mathit{false}), (\mathit{false}, \mathit{true})\}\}$           \\
-&&\\
-&&\\
+\multirow{2}{*}{\rotatebox{90}{\emph{Other}}}&LVR			& $\{(l_1, l_2) \,|\, (l_1, l_2) \in \{(0,-1), (l_1,-l_1), (l_1, 0), $\\
+&&\hspace{5mm}$(\mathit{true}, \mathit{false}), (\mathit{false}, \mathit{true})\}\}$           \\
 \hline
 \end{tabular}
 

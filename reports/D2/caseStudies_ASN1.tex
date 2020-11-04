@@ -48,12 +48,14 @@ The identification of equivalent mutants still needs to be performed.
 
 
 \subsection{Data-driven mutation testing}
+\label{sec:caseStudies:ASN:data}
 
-In the context of this project, we foresee two scenarios on how to apply the data-driven mutation testing approach to the ASN.1 case study system. 
+\CHANGEDNOV{We foresee two scenarios on how to apply the data-driven mutation testing approach to the ASN.1 case study system. However, both do not concern the evaluation of the data-driven mutation testing methodology, as explained n the following, and will not be considered in the project.}
 
 \subsubsection{Scenario 1: Testing the ASN.1 Compiler}
 
-The first scenario simply automates robustness testing for ASN.1; we aim to rely on the automatically generated configuration parameters for mutation operators to generate data values that do not respect such constraints. This enables to verify the capability of the ASN.1 code to verifies the constraints of the data types defined in ASN.1 grammars.
+\CHANGEDNOV{The first scenario concern automating the robustness testing for ASN.1; indeed, it is possible to rely on the automatically generated configuration parameters for mutation operators to generate data values that do not respect such constraints. This enables to verify the capability of the ASN.1 code to verify the constraints of the data types defined in ASN.1 grammars. 
+However, identifying new testing methods goes beyond the objectives of the project, which concerns assessing test suites quality. For this reason this scenario will not be considered in the empirical evaluation of FAQAS.}
 
 
 
@@ -70,11 +72,12 @@ The first scenario simply automates robustness testing for ASN.1; we aim to rely
 %
 %More details about each scenario is provided in the following.
 
-In this second scenario, we aim to assess the adequacy of test suites from software systems that embed the decoding and decoding auto-generated source code from ASN.1 grammar through the ASN.1 compiler.
+\CHANGEDNOV{This second scenario assesses the adequacy of test suites from software systems that embed the decoding and decoding auto-generated source code from ASN.1 grammar through the ASN.1 compiler.}
 
-For this task, we will ask engineers to specify fault models to decide what mutation operator to apply for each data type defined in the ASN.1 grammar.
-Additionally, the engineer will be asked to specify in the fault model the nominal ranges for each data type; after applying a specific mutation operator, we will assess if the existing test suite is able to detect the corresponding mutated value by killing the introduced mutant.
+\CHANGEDNOV{For this task, it is necessary to have access to ASN.1 models of real project and contact engineers to specify fault models.
+% to decide what mutation operator to apply for each data type defined in the ASN.1 grammar.
+More precisely, the engineers will be asked to specify in the fault model the nominal ranges for each data type; after applying a specific mutation operator, we will assess if the existing test suite is able to detect the corresponding mutated value by killing the introduced mutant.}
 
-For this scenario, further discussions with ESA are required in order to identify case study systems using the ASN.1 compiler. 
+\CHANGEDNOV{Unfortunately, since collaboration with projects making use of ASN.1 is not feasible at the current stage, this scenario will not be considered in the context of the project.} 
 
 

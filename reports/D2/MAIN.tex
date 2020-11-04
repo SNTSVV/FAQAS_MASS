@@ -145,9 +145,11 @@
 % To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
 % and change "Hoefler Text" to any of these choices.
 
+\renewcommand{\scriptsize}{\tiny}
+
 \usepackage{fontspec,xltxtra,xunicode}
 \defaultfontfeatures{Mapping=tex-text}
-\setromanfont[Mapping=tex-text]{Optima}
+\setromanfont[Scale=MatchLowercase,Mapping=tex-text]{Optima}
 \setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Optima}
 \setmonofont[Scale=MatchLowercase]{Andale Mono}
 
@@ -187,7 +189,32 @@
 \newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 \newcommand{\DONE}[1]{\todo[color=green,inline]{ \textbf{DONE}: #1 }}
 
+\usepackage{array}
+\usepackage{lipsum}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand{\LXS}{LXS}
+\newcommand{\GSL}{GSL}
+\newcommand{\ESA}{ESA}
+\newcommand{\FIXME}[1]{\textcolor{red}{#1}}
+
+\newcommand{\CHANGED}[1]{\textcolor{black}{#1}}
 \newcommand{\CHANGEDTWO}[1]{\textcolor{black}{#1}}
+\newcommand{\CHANGEDOCT}[1]{\textcolor{blue}{#1}}
+\newcommand{\CHANGEDNOV}[1]{\textcolor{blue}{#1}}
+
+\newcommand{\STARTCHANGEDNOV}{\color{blue}}
+\newcommand{\ENDCHANGEDNOV}{\color{black}}
+
+
+%\newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+\newcommand{\MREVISION}[2]{#2}
+
+%\newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
+\newcommand{\REVTWO}[2]{#2}
+
 
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
@@ -236,16 +263,12 @@
 \end{tikzpicture}}
 
 
-\newcommand{\CHANGED}[1]{\textcolor{blue}{#1}}
+
 \newcommand{\prog}{P}
 \newcommand{\prop}{}
 
 
-\newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
-%\newcommand{\MREVISION}[2]{#2}
 
-%\newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
-\newcommand{\REVTWO}[2]{#2}
 
 \thispagestyle{empty}
 

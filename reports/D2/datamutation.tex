@@ -196,8 +196,7 @@ Table~\ref{table:faultModel:FAQAS} provides a preliminary list of data fault cla
 \item hex, which stands for an hexadecimal value
 \end{itemize}
 
-
-In FAQAS, data-driven mutation testing is performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. The following subsections describe the two distinct cases.
+\CHANGEDNOV{We believe that the technology implementing data mutation should depend on the type of system under test. This is mostly due to the need for (1) implementing mutation operations that are fast and (2) reducing the amount of data-modelling to be manually performed (ideally engineers would like to reuse existing models and artefacts). Based on the case studies shared for WP2, we observe that data-driven mutation testing might be performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. In our vision, these two solutions differ for the strategy used to model the data and for the algorithms implemented to execute mutation. Despite a more general solution (e.g., based on UML models) that glue together these two strategies might be feasible its implementation might be the target of an ESA activity. Indeed, when data modelling is based on generic high-level models it is necessary to implement a layer that translate high-level representation into low-level data that can be efficiently processed at runtime. The following subsections describe the two distinct cases; however, in FAQAS, we will focus on the implementation of a solution for buffer arrays. The main reasons are two (1) buffer arrays appear to be a common strategy for implementing data communication (2) in FAQAS we lack case studies based on the ASN.1 grammar (see Section~\ref{sec:caseStudies:ASN:data}).}
 
 
 
@@ -421,7 +420,11 @@ The $\ONMO$ correspond with the $\mathit{overall}\ \# \mathit{of}\ \mathit{mutan
 
 The $\NMOA$, (\INDEX{NMOA}) captures the number of distinct mutation operation instances that were performed at least once. The mutation testing API creates a specific log file (i.e., \emph{FAQAS.mutant.applied.txt}) to indicate that a mutation operation instance was applied during a test execution. The file should be deleted after the execution of a test case.
 
-With the \EMPH{sampling stopping criterion} we perform the same activities performed for the test coverage criterion except that the set of mutation operation instances to be performed is randomly sampled (e.g., only 5\% of the mutation operations are considered).
+\CHANGEDNOV{With the \EMPH{sampling stopping criterion} we perform the same activities performed for the test coverage criterion except that the set of mutation operation instances to be performed is randomly sampled. 
+We aim to support the same sampling strategies considered for code-driven mutation testing: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}.
+To avoid influencing sampling results based on available data (e.g., to avoid ignoring mutants for which data is not available), the approach should first determine the subset of mutation operation instances to apply and then perform data-driven mutation. This way we will ensure achieving objective O2. In the case of FSCI, since the number of mutants is decided at runtime, we should sort mutation operation instances in a random order, and then apply data-driven mutation till the FSCI stopping criterion is reached.}
+
+%We aim to support 
 
 \subsubsection{Analyze Results}
 \label{sec:analyzeResults}
@@ -496,4 +499,29 @@ A \emph{\% of Operators Applied} not equal to 100\% indicates that the producer 
 
 \input{toolsetsEvaluationDataDriven}
 
+\subsection{Empirical Evaluation Planning}
+\label{sec:codemutation:evaluation}
 
+\STARTCHANGEDNOV
+
+The project will include empirical evaluation sessions with the case study systems that aim to address the following research questions:
+
+\begin{itemize}
+
+    \item[RQ1] \emph{Are data-driven mutation cost affordable in space context?} This research question aims to determine if data-driven mutation testing is feasible in terms of costs related to the set-up of the system.
+    
+        \item[RQ2] \emph{Does data-driven mutation scale in space context?} Given the large quantity of data exchanged by space software components, there is a risk that data-driven mutation require the execution of a large number of test cases. This research question aims to determine if data-driven mutation testing can scale up.
+        
+                \item[RQ3] \emph{How does data-driven mutation compare to code-driven mutation?} This research question aims to compare the results obtained with code-driven and data-driven test suite assessment. We are interested in answering the following subquestions: (RQ3.a) Do test cases that kill code-driven mutants tend kill also data-driven mutants? (RQ3.b) What type of mutants generated by data-driven mutation are not detected by means of code-driven mutants? (RQ3.b) Is it possible to find a relation between the mutation scored computed with data-driven  and code-driven mutation?
+                
+                \item[RQ4] \emph{To what extent equivalent and redundant mutants affect data-driven mutation?} We aim to investigate how likely data-driven mutants are affected by the presence of equivalent and redundant mutants.
+                
+                                \item[RQ5] \emph{Does mutants sampling lead to accurate results in the case of code-driven mutation testing?} This research question investigates if mutants sampling is accurate also in the case of data-driven mutation testing. 
+                                
+                                                 \item[RQ6] \emph{How do mutants sampling approaches compare in terms of performance?} We aim to determine which mutants sampling strategy reduces most the data-driven mutation testing execution time.                
+                
+                 \item[RQ7] \emph{Is it feasible to apply reachability analysis to automatically generate inputs that kill data-driven mutants?} This research question aims to evaluate, on a subset of the case study systems, if static analysis is a viable solution to generating test cases that kill data-driven mutants. We aim to address the following subquestions: (RQ7.a) Can static analysis generate inputs that trigger the mutants? (RQ7.b) Are the generated inputs valid (i.e., do they lead to valid executions or are discarded by the software)? 
+    
+    \end{itemize}
+    
+\ENDCHANGEDNOV    
