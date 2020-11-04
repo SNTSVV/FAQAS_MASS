@@ -1,0 +1,28 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[htb]
+\caption{Comparison of mutation scores obtained with mutants generated using all operators, the SDL operator only, and the SDL + OODL operators.}
+\label{table:results:score:sdl:oodl} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{15mm}|
+ >{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{13mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+   >{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Case Study}&\multicolumn{2}{c|}{\textbf{\# Mutants}}&\multicolumn{3}{c|}{\textbf{Mutation score}}\\ 
+&SDL&SDL+OODL&ALL&SDL&SDL+OODL\\
+\hline
+$\mathit{ESAIL}_{S}$ &	&	&  &  &  \\
+$\mathit{LIBGSCSP}$ & 912	&1546	&65.64 &70.72 (+5.08) &71.35 (+5.71)\\
+$\mathit{LIBPARAM}$ & 731&1324	&69.12 &64.84 (-4.28) &66.39 (+2.73)\\
+$\mathit{LIBUTIL}$ 	 &2341	&3811	&71.20 & 73.26 (+2.06) &72.63 (+1.43)\\
+$\mathit{MLFS}$ &1729	&	5971	&81.80 &85.71 (3.91)& 88.03 (+6.23)\\
+\hline
+\end{tabular}
+
+\end{table}

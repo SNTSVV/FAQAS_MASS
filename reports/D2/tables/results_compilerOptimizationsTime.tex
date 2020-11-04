@@ -1,0 +1,35 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[h]
+\caption{RQ1. Compilation Time Required by Compiler Optimization Techniques.}
+\label{table:results:compilerOptimizationsTime} 
+\tiny
+\begin{tabular}{|
+@{\hspace{1pt}}p{11mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{16mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Case} & 
+\multicolumn{7}{c|}{\textbf{Time required to compile all the mutants(sec)}}\\
+\textbf{Study}&
+\textbf{O0}&\textbf{O1} & \textbf{O2} & \textbf{O3} & \textbf{Os} & \textbf{Of}
+&\textbf{All O* (hours)} 
+\\
+\hline
+ESAIL & 135455 & 132528 & 149088 & 145620 & 151234 & N/A&198\\
+LIBUTIL & 25228 & 26914 & 28564 & 30624 & 26845 & 29583 &47\\
+LIBPARAM & 9036 & 9246 & 9352 & 9392 & 8794 & 9442 &16\\
+LIBGSCSP & 11053 & 11256 & 11079 & 11425 & 10299 & 11424 &18\\
+MLFS & 2176 & 2509 & 3157 & 3167 & 3052 & 3164 &5\\
+\hline
+\textbf{Total}&182948	&182453	&201240	&200228	&200224	&53613 & 284\\
+\hline
+\end{tabular}
+
+\end{table}

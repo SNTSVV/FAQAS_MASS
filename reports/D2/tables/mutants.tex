@@ -1,0 +1,33 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[tb]
+\caption{Generated and compiled mutants per component.}
+\label{table:mutants} 
+\scriptsize
+\begin{tabular}{|
+@{\hspace{1pt}}p{12mm}
+@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}|}
+\hline
+\textbf{Component}&\multicolumn{1}{c|}{\textbf{Mutants}}&\multicolumn{1}{c|}{\textbf{Mutants}}&\multicolumn{1}{c|}{\textbf{Mutants}}&\multicolumn{1}{c|}{\textbf{\% of}}&\multicolumn{1}{c|}{\textbf{Mutants}}\\
+\textbf{}&\multicolumn{1}{c|}{\textbf{generated}}&\multicolumn{1}{c|}{\textbf{generation}}&\multicolumn{1}{c|}{\textbf{compiled}}&\multicolumn{1}{c|}{\textbf{compiled}}&\multicolumn{1}{c|}{\textbf{compilation}}\\ 
+&&\textbf{time} \textbf{(sec)}&&\multicolumn{1}{c|}{\textbf{mutants}}&\multicolumn{1}{c|}{\textbf{time} \textbf{(sec)}}\\ 
+\hline
+ESAIL& 142763 & 182 &121848& 85.35\% & 151234\\
+ESAIL$_S$& & & & &\\
+LIBGSCSP& 8666 & 12 &7878&90.91\% & 11425\\
+LIBPARAM& 7252 & 7 &6440&88.80\% & 9392\\
+LIBUTIL& 22295 & 28 &20268&90.91\% & 30624\\
+MLFS& 31526 & 20 &28069&89.03\% &3157\\
+%MLFS$_V$& 31526 &T &28069&89.03\% &X\\
+\hline
+\textbf{Total*}& 212502 & 249 & 184503 &86.82\% &205832\\ 
+\hline
+\end{tabular}
+
+* We ignore ESAIL$_S$ from the total counting because it is a subset of ESAIL.
+\end{table}

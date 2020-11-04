@@ -1,0 +1,36 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}
+\scriptsize
+\centering
+\label{table:codeoperatorssummary}
+\caption{Categories of mutation operators applicable to space software.}
+\begin{tabular}{p{1.8cm}|p{5.4cm}}
+\toprule
+Operator Category & Description\\
+\midrule
+arithmetic & Includes operators that performs mutations on arithmetic expressions and assignments, usually these mutations replaces an element by an operator $op \in \{+, -, *, /, \%\}$. \\
+bitwise & Includes operators that performs bitwise mutations on expressions and assignments, these mutations aims for replacing an element of an expression by an operator $op \in \{|, \&, \wedge, \sim\}$. \\
+casts & Includes operators that work by mutating casting expressions.\\
+constants & Includes operators that mutate constants in the code. \\
+control-flow & Includes operators that modify and alter the execution flow of the running application.\\
+coverage & Includes operators that mutate the code in such a way that the static structure of the code (e.g., branches) is likely covered during execution.\\
+deletion & Includes operators that mutate the code by deleting statements, operators, constants and variables.  \\
+floating points & Includes operators working on floating point comparison (FPC).\\
+function calls & Includes operators that mutate function calls and their components (e.g., signature and parameters).\\
+logical & Includes operators that performs logical mutations on expressions and assignments; these mutations replace an element of an expression by an operator $op \in \{\&\&, \|, !\}$.\\
+variable references & Includes operators mutating different types of variable references in the code (e.g., scalars, arrays and pointers).\\
+shift & Includes operators that performs shift mutations on expressions and assignments; usually, these mutations replace an element by an operator $op \in \{<<, <<<, >>, >>>\}$.\\
+SQL & Includes operators that modify SQL clauses, SQL \texttt{NULL} operators, and SQL \texttt{WHERE} operators.\\
+statements & Includes operators performing syntactical changes at a statement-level granularity.\\
+strings & Includes operators that performs mutations on variables of string type.\\
+structures & Includes operators that mutate C/C++ structures.\\
+higher-order & Includes operators for generating second- and higher-order mutants. These strategies combine first order mutants to simulate more complex faults, motivated by a desire to capture subtle faults~\cite{jia2009higher}. Usually, each operator of this category introduce a strategy on how to combine first order operators to form a higher-order one. For example, the \emph{RMix} operator combines any two randomly selected first order operator to generate a higher-order mutant. \\
+system-configuration & Includes operators that perform mutations at a system-configuration level; usually, these mutation operators aim to cause faults concerning the configuration of the system itself.\\
+system-level & Includes operators that performs mutations at a system-level; usually, these mutation operators aim to cause faults concerning the integration of system components. \\
+ADA expressions & Includes operators that work by modifying expressions in the ADA programming language. \\
+ADA operands & Includes operators that perform mutations by replacing operands in ADA expressions (e.g., variables, constants, records, arrays, pointers).\\
+ADA tasks & Includes operators that mutate ADA code at the granularity of tasks and aim to trigger problems related to concurrency in the program.\\
+\bottomrule
+\end{tabular}
+\end{table}
