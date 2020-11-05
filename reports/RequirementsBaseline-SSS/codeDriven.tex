@@ -27,9 +27,9 @@
 \clearpage
 \subsection{General capabilities}
 
-\RQ{} The code-driven mutation testing component shall implement the process for the evaluation of test suite effectiveness that is drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation where the execution of specific software artefacts from the end user is made explicit. Each activity is described in Section~\ref{sec:rquirements:capabilities}.
+\RQ{} The code-driven mutation testing component shall implement the process for the evaluation of test suite effectiveness that is drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. Each activity is described in Section~\ref{sec:rquirements:capabilities}.
 
-\begin{figure}[t]
+\begin{figure}[h]
   \centering
 	\includegraphics[width=15cm]{images/png/Activity1!CodeDrivenTestSuiteEvaluation_1.png}
       \caption{Overview of the code-driven mutation testing process to evaluate test suite effectiveness.}
@@ -193,11 +193,11 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 \For {TestCase in TestCases}
 \State execute the \emph{TestCase} by running \emph{TestCommand} inside \emph{SUTsources}
 % succede qualcosa strano quando scrivi "the"
-\If the \emph{TestCase} fails (i.e., \emph{TestCommand} terminates with an error code)
+\If {the \emph{TestCase} fails (i.e., \emph{TestCommand} terminates with an error code)}
 \State set \emph{Result} as KILLED
 \State break the for loop
 \EndIf
-\If a the \emph{TestTimeout} expires
+\If {a the \emph{TestTimeout} expires}
 \State set \emph{Result} as KILLED
 \State break the for loop
 \EndIf
