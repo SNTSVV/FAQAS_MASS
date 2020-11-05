@@ -46,6 +46,7 @@
 
 \subsection{Operational environment}
 
+% cosi generale?
 \RQ{} The system works with a Linux operating system and Bash shell.
 
 
@@ -65,8 +66,7 @@
 
 \RQ{} The activity \emph{Compile SUT} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the compilation of  the SUT with coverage options enabled.
 
-\RQ{} The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the test scripts to store the code coverage of each single test case separately. This is achieved by add
-add a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}).
+\RQ{} The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the test scripts to store the code coverage of each single test case separately. This is achieved by adding a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}).
 
 \RQ{} The activity \emph{Execute test cases} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the test cases following the practice for the SUT.
 
@@ -74,7 +74,7 @@ add a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCode
 
 \RQ{} The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files: 
 \begin{itemize}
-\item one csv file referred to as \emph{global coverage marix}, which indicates, for every lines of code of the SUT, the ID of the test cases that cover the line of code;
+\item one csv file referred to as \emph{global coverage matrix}, which indicates, for every line of code of the SUT, the ID of the test cases that cover the line of code;
 \item a number of files  referred to as \emph{test coverage matrix}, one for each test case of the SUT. Each file indicates, for every line of code of the SUT, the number of times it has been covered during a single execution of the test case;
 \item one file with the timeout after which we can consider a test case as non terminated (used in later stages). It is obtained by multiplying the test execution time times three.
 \end{itemize}
@@ -85,6 +85,7 @@ add a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCode
 
 \RQ{} \emph{FAQAS-GenerateMutants} automatically generates a number of copies of each source file. Each copy contains one mutant.
 
+% per ora abbiamo solo testato SRCIRor con files .c, dobbiamo valutare se funziona correttamente anche per .cpp
 \RQ{} \emph{FAQAS-GenerateMutants} mutates source files with extension .c and .cpp.
 
 \RQ{} \emph{FAQAS-GenerateMutants} generates mutants by applying a set of mutation operators that can be selected by the end-users.
@@ -94,7 +95,7 @@ add a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCode
 \input{tables/operators.tex}
 
 
-
+% quindi, non produrremo anche una lista coi nomi dei mutanti + la sua location?
 \RQ{} \emph{FAQAS-GenerateMutants} generates as output a directory tree (\emph{mutants directory} in Figure~\ref{fig:process:codeDriven:evaluation}) that follows the structure of the source directory tree of the SUT. However, every source file is replaced by a folder having the same name. The folder contains all the mutants generated for that file. Every mutant has a name that univocally identify it. The mutant name results from the conjunction of the following information:
 source file name, mutated function name, mutated line, mutation operator name, mutation operation, mutated “column” (i.e., char position from the beginning of the line).
 
@@ -133,7 +134,7 @@ source file name, mutated function name, mutated line, mutation operator name, m
 
 \Ensure \emph{hashcodes csv}, a csv file containing for every mutant, for every option, the SHA512 hashcode of the generated executable
 
-\Ensure \emph{unique mutants}, a csv file the list of unique mutants. Unique mutants are mutants that are not equivalent and not redundant. See D2 for details.
+\Ensure \emph{unique mutants}, a csv file containing the list of unique mutants. Unique mutants are mutants that are not equivalent nor redundant. See D2 for details.
 % (source inputs, follow-up inputs, output data).
 
 \For {OPT in OPTS}
@@ -167,7 +168,7 @@ source file name, mutated function name, mutated line, mutation operator name, m
 
 \RQ{} The \emph{mutants selection configuration} indicates the mutants selection strategy and a configuration value to specify the number of mutants to consider, which depends on the strategy; the value may indicate the percentage of mutants to sample (for \emph{proportional uniform sampling}, \emph{proportional method-based sampling}), the number of mutants to sample (for \emph{uniform fixed-size sampling}), the size of the confidence interval (for \emph{uniform FSCI sampling}).
 
-\RQ{} The program\emph{FAQAS-GeneratePrioritizedTestSuite} takes as input the test coverage matrixes and generate a file that specifies, for every line of the SUT, the prioritized list of test cases to execute (\emph{prioritized test suite csv}). This file indicates the sequence of test cases to execute for every mutants concerning a specific line.
+\RQ{} The program\emph{FAQAS-GeneratePrioritizedTestSuite} takes as input the test coverage matrices and generate a file that specifies, for every line of the SUT, the prioritized list of test cases to execute (\emph{prioritized test suite csv}). This file indicates the sequence of test cases to execute for every mutants concerning a specific line.
 
 \RQ{} The activity \emph{Randomly sort mutants} indicates that  \emph{FAQAS-CompileAndExecuteMutants} generate a randomly prioritized list of mutants to compile and execute from the \emph{unique mutants csv}.
 In the case of \emph{proportional method-based sampling}, the list contains a set of mutants selected by following the stratified sampling strategy.
@@ -186,11 +187,12 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 \Require \emph{TestCommand}, the command to execute to execute a single test case
 \Require \emph{TestCases}, the prioritized list of test cases for the line of the mutant
 \Require \emph{TestTimeout}, the max execution time that can be taken by the test case
-\Ensure \emph{Result} KILLED or LIVE, based on test execution result (i.e., all test cases pass or one tst case fails)
+\Ensure \emph{Result} KILLED or LIVE, based on test execution result (i.e., all test cases pass or one test case fails)
 \State put \emph{Mutant} in place of the file it has been derived (\emph{original file}), keep the original file in a safe place
 \State execute  \emph{CompilatonCommand} inside \emph{SUTsources}
 \For {TestCase in TestCases}
 \State execute the \emph{TestCase} by running \emph{TestCommand} inside \emph{SUTsources}
+% succede qualcosa strano quando scrivi "the"
 \If the \emph{TestCase} fails (i.e., \emph{TestCommand} terminates with an error code)
 \State set \emph{Result} as KILLED
 \State break the for loop
