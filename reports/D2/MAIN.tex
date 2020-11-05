@@ -172,6 +172,7 @@
 \addtolength{\textheight}{1in}
 
 %%%% Sections
+\usepackage{xspace}
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
@@ -219,7 +220,7 @@
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
 
-\newcommand{\APPR}{$SMTS$}
+\newcommand{\APPR}{\emph{SMTS}\xspace}
 
 \begin{document}
 
@@ -310,8 +311,8 @@
 
    
 \clearpage
-\include{ESA_comments}
-\clearpage
+%\include{ESA_comments}
+%\clearpage
 
 \printindex
 

@@ -536,10 +536,33 @@ the ratio between the number of test case not executed with the \APPR test suite
 
 % To compare our approach, we computed the Area Under Curve (AUC) for the cumulative percentage of killed mutants
 
+
+
 \subsubsection*{Results}
 
+Table~\ref{table:time:original} reports, for every case study, the time required to test all the mutants with the whole test suite, in seconds. It also reports  the total number of test cases executed. 
+Table~\ref{table:results:reduction:prioritize} reports the saving achieved when the \APPR test suite is executed with all the mutants, with the FSCI selected mutants, with the SDL mutants. For both time savings and test savings, we report the min, max, median, and mean values. Values are reported for all the case studies, for all the distance metrics, and for the three strategies considered to select mutants (i.e., selecting all the available mutants, selecting all the mutants generated with the SDL operator, and selecting mutants with the FSCI strategy).
 
-This part of the evaluation remains to be completed in WP3.
+Results show that, unsurprisingly the lowest reduction of execution time and number of test cases executed is achieved when executing the \APPR test suite with all the mutants. 
+Measuring the time reduction achieved when executing the \APPR test suite with all the mutants enable us to evaluate the benefits of test suite prioritization and selection when it is not combined with mutants selection.
+Average execution time reduction goes from  -0.39\% 
+to 16.81\%. A negative reduction indicates that the reduced and prioritized test suite increases the execution time of the mutation testing process. This happens when (1) test cases are sorted in such a way that test cases that kill the mutants are executed later with respect to the original test suite, (2) test cases that kill the mutant but having a long execution time (e.g., because they trigger a timeout) are executed before short test cases that kill the mutant. In our case studies, in terms of execution time, test suite prioritization is thus not always beneficial; however, it always lead to a reduction the number of test cases between 4.82 and 33.15. The distance metrics leading to the highest reduction in the number of test cases are $D_J$ and $D_O$, i.e., the ones with the lowest accuracy computed for RQ 4.
+
+When combined with FSCI sampling, the \APPR test suite leads to higher reduction in execution time. It goes from 85.66\% to 94.27\%. On average, $D_J$ and $D_O$ lead to a reduction of 89.20\%, while $D_E$ and $D_C$ lead to a reduction of 88.96\%. The number of test cases being executed is reduced by 84.50\% for $D_J$ and $D_O$ and by 84.08\% for $D_E$ and $D_C$. When combined with FSCI sampling the differences between the different distance metrics are thus not practically significant (27 minutes, in total, across all the case studies), the selection of the coverage distance metric $D_*$ can thus rely on RQ4 results.
+
+When combined with the execution of SDL operators only, the \APPR test suite leads to reduction in execution time that are slightly lower than the ones obtained with FSCI: 86,41\% ($D_J$), 86,45\% ($D_O$), 85,37\%($D_C$), 85,44\% ($D_E$). The average reduction in number of test cases is slightly higher than with FSCI sampling, on average, $D_J$ and $D_O$ lead to a reduction of 86.85\%, while $D_E$ and $D_C$ lead to a reduction of 85.06\% and 85.12\%\footnote{Please note that these are averages, for every case study, a higher reduction in the number of test cases correspond to a higher reduction in the execution time}. However, in the case of SDL the number of mutants being tested is larger than for FSCI sampling; precisely, with SDL we test \FIXME{5713} mutants in total for all the case studies (see Table~\ref{table:results:score:sdl:oodl}) while in the case of FSCI we test at most 1414 mutants. Considering that a larger number of mutants may additionally increase the execution time (e.g., because it is necessary additional time to startup every mutant under test, which we do not measure here), the execution of the \APPR test suite with FSCI sampling appear to be the best choice in this case.
+%Fabrizio: we have to double check the numbers above, something is not clear. Since we are simulating the time, it is very strange that a lower number of test cases lead to a higher execution time.
+
+%To summarize, the largest reduction in execution time is obtained when combining FSCI sampling with the \APPR test suite.
+
+%the \APPR test suite leads to a large reduction of test suite execution time (i.e., mean time savings are always above 60\%) and large reduction in the number of test cases being executed (i.e., mean test savings are always above 70\%). This is particularly relevant in our context where test suites may take hours to complete.
+%Among the proposed strategies, unsurprisingly \textbf{FSCI is the one that provides the largest savings for all the configurations considered.} Among the distance metrics considered, we do not observe any practical difference among them in terms of performance; indeed, they differ at most by one percentage point.
+
+%\FIXME{In general, time savings results for the three set of mutants (i.e., the complete, the random CI 0.1, and the SDL set of mutants) are similar, e.g., no set of mutants offered a better time saving than another one. Concerning the performance of each distance metric, in the case study systems LIBGSCSP and MLFS, $D_J$ and $D_O$ offer better time savings than $D_C$ and $D_E$ with a statistical significant difference but with a negligible effect-size. Instead, for LIBUTIL and LIBPARAM, the four distance metric did not offer a statistical significant difference between them, and therefore we consider them equivalent.}
+
+\input{tables/mutantsExecutionTimeOrginal}
+
+\input{tables/timeSavings}
 
 
 
