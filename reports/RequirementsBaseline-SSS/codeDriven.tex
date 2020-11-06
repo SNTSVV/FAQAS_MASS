@@ -11,7 +11,12 @@
 \section{Terms, definitions and abbreviated terms}
 
 \begin{itemize}
-\item{SUT}: Software under test
+\item{FAQAS}: activity ITT-1-9873-ESA
+\item{FAQAS-framework}: software system to be released at the end of WP4 of FAQAS
+\item{D2}: Deliverable D2 of FAQAS, \emph{Study of mutation testing applicability to space software}
+\item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+\item{The system}: software component implementing a specific feature of the FAQAS framework. In Chapter~\ref{chapter:codeDriven} indicates the software component implementing code-driven mutation testing. In Chapter~\ref{chapter:dataDriven} indicates the software component implementing  data-driven mutation testing.
+\item{WP}: Work package
 \end{itemize}
 
 \clearpage
@@ -27,7 +32,9 @@
 
 \subsection{Product perspective}
 
-\RQ{} The code-driven mutation testing component (in Section~\ref{codeDriven} referred to as \emph{the system}) implements the Mutation Testing Process for code-driven mutation testing described in D2.
+\RQ{} The code-driven mutation testing component (in Chapter~\ref{chapter:codeDriven}, referred to as \emph{the system}) implements the Mutation Testing Process for code-driven mutation testing described in D2.
+
+\RQ{} The code-driven mutation testing component is not released as a single executable file but consists of a set of executable programs.
 
 \clearpage
 \subsection{General capabilities}
@@ -42,7 +49,7 @@
 \end{figure}
 
 
-\RQ{} The code-driven mutation testing component shall implement the process for the augmentation of test suites effectiveness that is drafted in Figure~\ref{fig:process:codeDriven:augmentation}. Figure~\ref{fig:process:codeDriven:augmentation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:augmentation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. Each activity is described in Section~\ref{sec:rquirements:capabilities}.
+\RQ{} The code-driven mutation testing component shall implement the process for the improvement of the effectiveness of test suites that is drafted in Figure~\ref{fig:process:codeDriven:augmentation}. Figure~\ref{fig:process:codeDriven:augmentation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:augmentation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. Each activity is described in Section~\ref{sec:rquirements:capabilities}.
 
 \begin{figure}[h]
   \centering
@@ -56,7 +63,7 @@
 
 \subsection{General constraints}
 
-\RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) is an open, complex, research problem. For this reason, it is necessary to rely on existing tools.
+\RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) is an open, complex, research problem. For this reason, it is necessary to rely on existing tools (see D2 for detailed discussion).
 
 \RQ{} The automated generation of test cases shall rely on KLEE, which is the most stable test case generation tool, based on WP2 evaluation.
 
@@ -65,7 +72,7 @@
 \subsection{Operational environment}
 
 % cosi generale?
-\RQ{} The system works with a Linux operating system and Bash shell.
+\RQ{} The system shall be executed on a Linux operating system with a Bash shell.
 
 
 
@@ -73,7 +80,9 @@
 
 \RQ{} The system targets SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
 
-\RQ{} The system targets SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
+\RQ{} The system mutates and generate test cases for SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
+
+\RQ{} The test suite of the SUT is implemented as a script (hereafter, \emph{test suite script}) either a Makefile or a Bash script. Each test case is executed through the invocation of a command in the script.
 
 \section{Specific requirements}
 %\section{General}
@@ -82,29 +91,29 @@
 
 %\RQ{} The gcov coverage information associated to each test case shall be stored in a separate directory.
 
-\RQ{} The activity \emph{Compile SUT} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the compilation of  the SUT with coverage options enabled.
+\RQ{} The activity \emph{Compile SUT} in Figure~\ref{fig:process:codeDriven:evaluation} indicates that the engineers shall compile  the SUT with coverage options enabled.
 
-\RQ{} The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the test scripts to store the code coverage of each single test case separately. This is achieved by adding a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}).
+\RQ{} The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the \emph{test suite script} for the SUT to store the code coverage of each single test case separately. This is achieved by adding a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}) after the execution of every test case.
 
-\RQ{} The activity \emph{Execute test cases} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the test cases following the practice for the SUT.
+\RQ{} The activity \emph{Execute test cases} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the test cases following the practice for the SUT (e.g., running the command \texttt{make test}).
 
-\RQ{} The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of a provided python program delivered with the FAQAS framework.
+\RQ{} The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of a provided program delivered with the FAQAS framework.
 
 \RQ{} The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files: 
 \begin{itemize}
 \item one csv file referred to as \emph{global coverage matrix}, which indicates, for every line of code of the SUT, the ID of the test cases that cover the line of code;
 \item a number of files  referred to as \emph{test coverage matrix}, one for each test case of the SUT. Each file indicates, for every line of code of the SUT, the number of times it has been covered during a single execution of the test case;
-\item one file with the timeout after which we can consider a test case as non terminated (used in later stages). It is obtained by multiplying the test execution time times three.
+\item one file specifying, for each test case, a timeout value after which we shall consider a test case as hanging. The timeout value is generated by the system by triplicating the time taken by a test case launched in activity \emph{Execute test cases}.
 \end{itemize}
 
 
 
 \RQ{} Activity \emph{Execute FAQAS-GenerateMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-GenerateMutants}. 
 
-\RQ{} \emph{FAQAS-GenerateMutants} automatically generates a number of copies of each source file. Each copy contains one mutant.
+\RQ{} The program \emph{FAQAS-GenerateMutants} automatically generates a number of copies of each source file. Each copy contains one mutant.
 
 % per ora abbiamo solo testato SRCIRor con files .c, dobbiamo valutare se funziona correttamente anche per .cpp
-\RQ{} \emph{FAQAS-GenerateMutants} mutates source files with extension .c and .cpp.
+\RQ{} \emph{FAQAS-GenerateMutants} mutates source files implemented with C and C++ programming languages.
 
 \RQ{} \emph{FAQAS-GenerateMutants} generates mutants by applying a set of mutation operators that can be selected by the end-users.
 
@@ -114,21 +123,29 @@
 
 
 % quindi, non produrremo anche una lista coi nomi dei mutanti + la sua location?
-\RQ{} \emph{FAQAS-GenerateMutants} generates as output a directory tree (\emph{mutants directory} in Figure~\ref{fig:process:codeDriven:evaluation}) that follows the structure of the source directory tree of the SUT. However, every source file is replaced by a folder having the same name. The folder contains all the mutants generated for that file. Every mutant has a name that univocally identify it. The mutant name results from the conjunction of the following information:
+\RQ{} \emph{FAQAS-GenerateMutants} generates as output a directory tree (\emph{mutants directory} in Figure~\ref{fig:process:codeDriven:evaluation}) that follows the structure of the source directory tree of the SUT. However, every source file is replaced by a folder; the folder has the same name of the file. The folder contains all the mutants generated for that file. Every mutant has a name that univocally identifies it. The mutant name results from the conjunction of the following information:
 source file name, mutated function name, mutated line, mutation operator name, mutation operation, mutated “column” (i.e., char position from the beginning of the line).
+In the following, we report the structure of the output directory generated for a program
+
+\begin{verbatim}
+./src/store/vmem/vmem_checksum_first.c
+./src/log/telemetry_appender.c
+
+./src-mutants/store/vmem/vmem_checksum_first.c/
+vmem_checksum_first.mut.145.7_1_13.ROR.vmem_param_load.c
+./src-mutants/log/telemetry_appender.c/
+telemetry_appender.mut.116.3_1_18.ROR.gs_log_appender_telem_append_isr.c
+\end{verbatim}
 
 
 
 
 
-
-
-
-\RQ{} Activity \emph{Prepare compilation scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concern the modification of the main compilation script for the SUT. The engineer is expected to perform the following manual activities:
+\RQ{} Activity \emph{Prepare compilation scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the modification of the main compilation script for the SUT (e.g., the \emph{Makefile}). The engineer is expected to perform the following manual activities:
 \begin{itemize}
 \item Remove debugging flags
 \item Remove coverage flags
-\item Add placeholder for compiler optimization option
+\item Add a placeholder for the compiler optimization option
 \item Add a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order
 \end{itemize}
 
@@ -136,7 +153,7 @@ source file name, mutated function name, mutated line, mutation operator name, m
 
 \RQ{} Activity \emph{Execute FAQAS-CompileOptimizedMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-CompileOptimizedMutants}.
 
-\RQ{} The program \emph{FAQAS-CompileOptimizedMutants} compiles every mutant multiple times; once for every compiler optimization option selected by the end-user. It implements pseudocode in Figure~\ref{alg:CompileOptimizedMutants}.
+\RQ{} The program \emph{FAQAS-CompileOptimizedMutants} compiles every mutant multiple times, once for every compiler optimization option selected by the end-user. It implements the pseudocode in Figure~\ref{alg:CompileOptimizedMutants}.
 
 \begin{figure}[h]
 \begin{algorithmic}[1]
@@ -146,13 +163,13 @@ source file name, mutated function name, mutated line, mutation operator name, m
 
 
 \Require \emph{OPT}, the set of compiler optimization options specified by the end-user
-\Require \emph{MutantsDir}, path to the directory tree containing the mutants
+\Require \emph{MutantsDir}, path of the directory tree containing the mutants
 \Require \emph{SUTsources}, path of the folder containing the sources of the SUT
 \Require \emph{CompilatonCommand}, the command to execute to compile the original software
 
 \Ensure \emph{hashcodes csv}, a csv file containing for every mutant, for every option, the SHA512 hashcode of the generated executable
 
-\Ensure \emph{unique mutants}, a csv file containing the list of unique mutants. Unique mutants are mutants that are not equivalent nor redundant. See D2 for details.
+\Ensure \emph{unique mutants}, a csv file containing the list of unique mutants. Unique mutants are mutants that are not equivalent and not redundant. See D2 for details.
 % (source inputs, follow-up inputs, output data).
 
 \For {OPT in OPTS}
@@ -163,11 +180,10 @@ source file name, mutated function name, mutated line, mutation operator name, m
 \EndFor
 \EndFor
 
-\State Process \emph{hashcodes csv} and identify \emph{unique mutants}
-\State Save the list of \emph{unique mutants} in the output \emph{unique mutants csv} file
+\State Process \emph{hashcodes csv} and identify the \emph{unique mutants}
+\State Save the list of \emph{unique mutants} in the output file \emph{unique mutants csv} 
 
 \end{algorithmic}
-\vspace{-3mm}
 \caption{FAQAS-CompileOptimizedMutants: Algorithm for compiling mutants with multiple optimization options}
 %\vspace{-0.2cm}
 \label{alg:CompileOptimizedMutants}
@@ -178,20 +194,20 @@ source file name, mutated function name, mutated line, mutation operator name, m
 
 \RQ{} Activity \emph{Execute FAQAS-CompileAndExecuteMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-CompileAndExecuteMutants}.
 
-\RQ{} The program \emph{FAQAS-CompileAndExecuteMutants} iterates over three activities (implemented by separate executable program that are inkoved automatically without user intervention): \emph{FAQAS-GeneratePrioritizedTestSuite}, \emph{FAQAS-CompileAndExecute}, \emph{FAQAS-IdentifyEquivalentAndRedundantMutants}.
+\RQ{} The program \emph{FAQAS-CompileAndExecuteMutants} iterates over three activities: \emph{FAQAS-GeneratePrioritizedTestSuite}, \emph{FAQAS-CompileAndExecute}, \emph{FAQAS-IdentifyEquivalentAndRedundantMutants}. Each activity is implemented by a dedicated executable program that is invoked automatically by \emph{FAQAS-CompileAndExecuteMutants} without user intervention.
 
-\RQ{} The program \emph{FAQAS-CompileAndExecuteMutants} takes as inputs the mutants selection configuration, the unique mutants csv, the path of the SUT source folder, the command to execute test cases, and the path to the folder containing the test coverage matrixes.
+\RQ{} The program \emph{FAQAS-CompileAndExecuteMutants} takes as inputs the \emph{mutants selection configuration}, the \emph{unique mutants csv}, the path of the \emph{SUT source folder}, the \emph{command to execute test cases}, and the \emph{path to the folder containing the test coverage matrixes}.
 
 \RQ{} The program \emph{FAQAS-CompileAndExecuteMutants} implements the four mutants selection strategies described in D2: \emph{all mutants}, \emph{proportional uniform sampling}, \emph{proportional method-based sampling}, \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}.
 
-\RQ{} The \emph{mutants selection configuration} indicates the mutants selection strategy and a configuration value to specify the number of mutants to consider, which depends on the strategy; the value may indicate the percentage of mutants to sample (for \emph{proportional uniform sampling}, \emph{proportional method-based sampling}), the number of mutants to sample (for \emph{uniform fixed-size sampling}), the size of the confidence interval (for \emph{uniform FSCI sampling}).
+\RQ{} The \emph{mutants selection configuration} consists of the mutants selection strategy and a configuration value that specifies the number of mutants to consider. The format of the value that specifies the number of mutants to consider depends on the strategy; the value may indicate the percentage of mutants to sample (for \emph{proportional uniform sampling}, \emph{proportional method-based sampling}), the number of mutants to sample (for \emph{uniform fixed-size sampling}), the size of the confidence interval (for \emph{uniform FSCI sampling}).
 
-\RQ{} The program\emph{FAQAS-GeneratePrioritizedTestSuite} takes as input the test coverage matrices and generate a file that specifies, for every line of the SUT, the prioritized list of test cases to execute (\emph{prioritized test suite csv}). This file indicates the sequence of test cases to execute for every mutants concerning a specific line.
+\RQ{} The program\emph{FAQAS-GeneratePrioritizedTestSuite} takes as input the test coverage matrices and generates a file that specifies, for every line of the SUT, the prioritized list of test cases to execute (\emph{prioritized test suite csv}). This file indicates the sequence of test cases that shall be executed when testing a mutant affecting a certain line.
 
-\RQ{} The activity \emph{Randomly sort mutants} indicates that  \emph{FAQAS-CompileAndExecuteMutants} generates a randomly prioritized list of mutants to compile and execute from the \emph{unique mutants csv}.
+\RQ{} The activity \emph{Randomly sort mutants} indicates that  \emph{FAQAS-CompileAndExecuteMutants} generates a randomly sorted list of mutants. The list contains the mutants in \emph{unique mutants csv}.
 In the case of \emph{proportional method-based sampling}, the list contains a set of mutants selected by following the stratified sampling strategy.
 
-\RQ{} The activity \emph{Select and remove first mutant} indicates that  \emph{FAQAS-CompileAndExecuteMutants} selects the first mutant in \emph{sorted list of mutants} and remove it from the list.
+\RQ{} The activity \emph{Select and remove first mutant} indicates that  \emph{FAQAS-CompileAndExecuteMutants} selects the first mutant in \emph{sorted list of mutants} and removes it from the list.
 
 \RQ{} The program \emph{FAQAS-CompileAndExecute} compiles a mutant by running the makefile of the original program; then it executes the SUT test suite. It follows the algorithm in Figure~\ref{alg:compileAndExecute}.
 
@@ -215,21 +231,21 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 \State set \emph{Result} as KILLED
 \State break the for loop
 \EndIf
-\If {a the \emph{TestTimeout} expires}
+\If {the \emph{TestTimeout} expires}
 \State set \emph{Result} as KILLED
 \State break the for loop
 \EndIf
 \EndFor
 \State move code coverage information in a subfolder of \emph{mutants coverage dir}
-\State restore \emph{original file}
+\State restore the \emph{original file}
 \end{algorithmic}
 \caption{FAQAS-CompileAndExecute: Algorithm to compile and test mutants}
 \label{alg:compileAndExecute}
 \end{figure}
 
-\RQ{} The program \emph{FAQAS-CompileAndExecute} collects the mutation results of every mutant in a file, \emph{mutation results csv}. It contains for every mutant the indication of the mutation result (KILLED/LIVE).
+\RQ{} The program \emph{FAQAS-CompileAndExecute} collects the mutation results of every mutant in a file, i.e., \emph{mutation results csv}. It contains, for every mutant, the indication of the mutation result (KILLED/LIVE).
 
-\RQ{} The program \emph{FAQAS-CompileAndExecute} compiles and execute mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
+\RQ{} The program \emph{FAQAS-CompileAndExecute} compiles and executes mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
 \begin{itemize}
 \item \emph{all mutants}: the list \emph{sorted list of mutants} is empty
 \item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
@@ -248,21 +264,21 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 
 \RQ{} The program \emph{FAQAS-GenerateTestGenerationScaffolding} takes as input the path of the \emph{SUT source code} and the file \emph{mutation results csv}. It generates a number of files named \emph{MutatantId\_AnalysisMain.c}, one for each live mutant, where MutantId is the ID of a mutant. The file \emph{MutatantId\_AnalysisMain.c} contains a main function that should be used for the analysis with KLEE. 
 
-\RQ{} The content of file \emph{MutatantId\_AnalysisMain.c} should resemble Listing 1.7 and Listing 1.9 of D2 to enable the analysis with KLEE. For example, it should import the source file with the original function targeted by the mutation and the source code of the mutated function. Also, it should contain the definition of all the variables used for the execution of KLEE and a tentative set of required assertions.
+\RQ{} The content of file \emph{MutatantId\_AnalysisMain.c} should resemble \emph{Listing 1.7} and \emph{Listing 1.9} of D2, it should enable the analysis with KLEE. For example, it should import the source file with the original function targeted by the mutation and the source code of the mutated function. Also, it should contain the definition of all the variables used for the execution of KLEE and a tentative set of required assertions.
 
-\RQ{} The activity \emph{Update scaffolding for mutant} in Figure~\ref{fig:process:codeDriven:augmentation} indicates that the engineer should modify the file  \emph{MutatantId\_AnalysisMain.c} if necessary. In partcular, it might be necessary to refine the assertions produced by \emph{FAQAS-GenerateTestGenerationScaffolding}. More precisely, since assertions should concern output variables, it is necessary to verify that all the necessary output variables had been reported. Indeed, with pointers and pointers to pointers, it is not possible to have a precise identification of output variables.
+\RQ{} The activity \emph{Update scaffolding for mutant} in Figure~\ref{fig:process:codeDriven:augmentation} indicates that the engineer should modify the file  \emph{MutatantId\_AnalysisMain.c} if necessary. In particular, it might be necessary to refine the assertions produced by \emph{FAQAS-GenerateTestGenerationScaffolding}. More precisely, since assertions should concern output variables, it is necessary to verify that all the necessary output variables had been referred in assertion. Indeed, in C, with pointers and pointers to pointers, it is not possible to have a precise automated identification of output variables.
 
 \RQ{} The activities in the expansion region \emph{generateTestCase} are repeated for every live mutant.
 
 \RQ{} The activity \emph{Execute FAQAS-GenerateTestCase} in Figure~\ref{fig:process:codeDriven:augmentation} concerns the execution of the program \emph{FAQAS-GenerateTestCase}.
 
-\RQ{} The program \emph{FAQAS-GenerateTestCase} generates a tentative unit test case (i.e., a source file in C) that kills the mutant. It executes the KLEE program and the produce a test case file after processing the KLEE output.
+\RQ{} The program \emph{FAQAS-GenerateTestCase} generates a tentative unit test case (i.e., a source file in C) that kills the mutant. It executes the KLEE program and then produces a unit test case (i.e., a file with a main in C) after processing the KLEE output.
 
-\RQ{} The test case generated by \emph{FAQAS-GenerateTestCase} contains an invocation of the function under test (i.e., the function targeted  by the mutation) along with assigned arguments and an assertion that verifies results. The values for the assigned arguments and the verification of results are derived from KLEE output.
+\RQ{} The test case generated by \emph{FAQAS-GenerateTestCase} contains an invocation of the function under test (i.e., the function targeted  by the mutation) along with assigned arguments and an assertion that verifies results. The values for the assigned arguments and the verification of results are derived from the output of KLEE.
 
-\RQ{} If the program \emph{FAQAS-GenerateTestCase} successfully generate a test case the engineer proceeds with inspecting it (activity \emph{Update Test  Case}), otherwise he can consider the mutant as equivalent (activity \emph{Update mutation results}).
+\RQ{} If the program \emph{FAQAS-GenerateTestCase} successfully generates a test case, the engineer proceeds with inspecting it (activity \emph{Update Test  Case}), otherwise he can consider the mutant as equivalent (activity \emph{Update mutation results}).
 
-\RQ{} The activity \emph{Update Test  Case} in Figure~\ref{fig:process:codeDriven:augmentation} is performed by the engineer. He may need to execute the generated test case to verify that to correctly execute (in case KLEE has generated invalid inputs). The engineer also verify that the assertion with the expected value is correct (i.e., if it matches the specifications). If the expected value is not correct, the SUT might be faulty and should be fixed.
+\RQ{} The activity \emph{Update Test  Case} in Figure~\ref{fig:process:codeDriven:augmentation} is performed by the engineer. He may need to execute the generated test case to verify that KLEE has generated valid inputs (e.g., inputs that meet the program preconditions). Based on KLEE results, \emph{FAQAS-GenerateTestCase} also generates assertions that reflect the output observed by KLEE (e.g., \texttt{assert( output == value\_observed\_by\_KLEE)} ). The engineer should thus also verify that the assertion with the expected value is correct (i.e., it reflects what indicated in the SUT specifications). If the value appearing in the assertion is not correct, it means that KLEE during its execution has observed an incorrect value being generated by the SUT; for this reason, the SUT might be faulty and should be fixed.
 
 \RQ{} The activity \emph{Add Test Case to SUT Test Suite} in Figure~\ref{fig:process:codeDriven:augmentation} is performed by the engineer, who may add the new test case to the test suite.
 
@@ -276,7 +292,7 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 
 \subsection{Adaptation and missionization requirements }
 
-\RQ{} The system shall not be used in mission. The system is tool aimed at supporting the development of flight software. The system shall be used only to support development, validation, and verification activities. 
+\RQ{} The system shall not be used in mission. The system is tool aimed at supporting the development of flight software. The system shall be used only to support development, validation, and verification activities in the development environment. 
 
 \subsection{Computer resource requirements}
 
@@ -284,13 +300,13 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 
 \subsection{Security requirements }
 
-\RQ{} The system should not use ports or use network connections.
+\RQ{} The system should not use network connections.
 
 \subsection{Safety requirements}
 
 \RQ{} To avoid safety hazards, the system shall not be used to assess test cases that are executed with target hardware in the loop.
 
-\RQ{} The system cannot foresee the effect of mutation. If executed on the final hardware, the generated mutants might damage the hardware or cause injuries to surrounding people.
+\RQ{} The system cannot foresee the effect of mutation. If executed on the target hardware, the generated mutants might damage the target hardware or cause injuries to surrounding people.
 
 \subsection{Reliability and availability requirements}
 
@@ -310,13 +326,13 @@ In the case of \emph{proportional method-based sampling}, the list contains a se
 
 \RQ{} The system should be released with ESA Software Community Licence Permissive – v2.3”, as defined at https://essr.esa.int/. Any reused component should be compatible with the abovementioned licence.
 
-\RQ{} The system shall be implemented using bash shell script language, Python, and C.
+\RQ{} The system shall be implemented using the bash shell script language, the Python programming language, and the C programming language.
 
 \RQ{} The system shall mutate the source code of the SUT not the intermediate representation.
 
 \subsection{Software operations requirements}
 
-None foreseen.
+\RQ{} It should be possible to execute the system anytime, in an environment matching the characteristics indicated in this document.
 
 \subsection{Software maintenance requirements}
 
@@ -324,14 +340,14 @@ None foreseen.
 
 \subsection{System and software observability requirements}
 
-\RQ{} To enable post-mortem debugging, all the temporary files generated by the FAQAS executables should be kept.
+\RQ{} To enable post-mortem debugging, all the temporary files generated by the system should be kept.
 
 \section{Verification, validation and system integration}
  \subsection{Verification and validation process requirements}
  
  \RQ{} Every mutation operator should be tested by a dedicated unit test.
  
- \RQ{} A system test suite for the whole software should be provided. It should be based on MLFS case study.
+ \RQ{} A system test suite for the whole software should be provided. It should be based on the MLFS case study (see D2).
  
    \RQ{} The system should enable the correct  computation of the mutation score for the FAQAS case study systems indicated in deliverable D2.
  
@@ -351,7 +367,7 @@ None foreseen.
 % 
 % \RQ{}
 
- \section{System models}
- 
- None reported.
+% \section{System models}
+% 
+% None reported.
 
