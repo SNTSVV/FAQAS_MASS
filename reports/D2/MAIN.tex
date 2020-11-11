@@ -22,6 +22,9 @@
 \geometry{a4paper,left=20mm,top=20mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\setcounter{secnumdepth}{5}
+
 \usepackage{amssymb}
 %\usepackage{todonotes}
 \setlength{\marginparwidth}{2cm}
@@ -216,6 +219,7 @@
 %\newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
 \newcommand{\REVTWO}[2]{#2}
 
+\newcommand{\REVNOV}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
 
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
@@ -245,11 +249,11 @@
 \fancyfoot[C]{%
 \begin{tikzpicture}[remember picture,overlay]
 \path [fill=sntred]    ([xshift=88pt,yshift=20pt]current page.south west) rectangle
-                       ([xshift=229pt,yshift=50pt] current page.south west);
+                       ([xshift=229pt,yshift=30pt] current page.south west);
 \path [fill=sntpurple] ([xshift=229pt,yshift=20pt] current page.south west) rectangle
-                       ([xshift=370pt,yshift=50pt] current page.south west);
+                       ([xshift=370pt,yshift=30pt] current page.south west);
 \path [fill=sntblue]   ([xshift=370pt,yshift=20pt] current page.south west) rectangle
-                       ([xshift=510pt,yshift=50pt] current page.south west);
+                       ([xshift=510pt,yshift=30pt] current page.south west);
 \end{tikzpicture}
 }
 
@@ -311,8 +315,8 @@
 
    
 \clearpage
-%\include{ESA_comments}
-%\clearpage
+\include{ESA_comments}
+\clearpage
 
 \printindex
 

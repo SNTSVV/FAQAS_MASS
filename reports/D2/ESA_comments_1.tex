@@ -3,7 +3,7 @@
 \section{Responses to ESA comments provided on 03.03.2020}
 \label{sec:ESA:comments:1}
 
-Comments IDs appear also in the main document next to the text modified to address the comment. To save space in the main text, the prefix \emph{CSR-PABG-} has been abbreviated as \emph{C-P-}.
+Comments IDs appear also in the main document next to the text modified to address the comment. To save space in the main text, the prefix \emph{PTCR-PABG-} has been abbreviated as \emph{C-P-}.
 
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
@@ -15,496 +15,215 @@ Comments IDs appear also in the main document next to the text modified to addre
 \textbf{Comment ID}&\textbf{Response}\\
 \\
 \hline
-CSR-PABG-1&
+PTCR-PABG-1&
 \begin{minipage}{12cm}
-We have adjusted page margins as suggested.
+\TODO{Oscar: any idea?}
 \end{minipage}\\
 \\
 \hline
 
-%To generate the table:
-%x=2;while [ $x -lt 54 ];do echo "CSR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\\"; echo "\hline"; x=$(($x+1)); done
-%echo "CSR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\hline"
 
-CSR-PABG-2&
+%To generate the table:
+%x=2;while [ $x -lt 54 ];do echo "PTCR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\\"; echo "\hline"; x=$(($x+1)); done
+%echo "PTCR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\hline"
+
+PTCR-PABG-2&
 \begin{minipage}{12cm}
-We have uploaded the zipped deliverable to alfresco as ITT-1-9873-ESA-FAQAS-D2-Rev-2.zip.
+\TODO{Finalize table font size before final delivery}
 \end{minipage}\\
 \hline
-CSR-PABG-3&
+PTCR-PABG-3&
+\begin{minipage}{12cm}
+\TODO{To discuss during review meeting.}
+\end{minipage}\\
+\hline
+PTCR-PABG-4&
 \begin{minipage}{12cm}
 Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-4&
+PTCR-PABG-5&
 \begin{minipage}{12cm}
-We have updated the flowcharts of figures related to the code-driven pipeline. For the ones already used in D1, we did not change the diagram for consistency.
+(a) Threshold reached is a procedural block; we do not aim to automate it but it should be the engineer who decides if he is satisfied with the coverage result.
+(b) Yes it applied when the Test Suite Augmentation process is executed.
 \end{minipage}\\
 \hline
-CSR-PABG-5&
+PTCR-PABG-6&
 \begin{minipage}{12cm}
-We may perform an experiment in line with the one performed in reference~\cite{CChekam:17}.
-The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). More precisely, we may aim to identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy.
-
-The experiment will be performed by considering all the case study systems for FAQAS.
-For every case study system, we consider the original test suite, $\mathit{TS}_o$, which achieves 100\% coverage of non dead code, and an extended test suite, $\mathit{TS}_e$, that consists of the same test cases of $\mathit{TS}_o$ plus a set of test cases automatically generated to kill the mutants. The extended test suite achieves a mutation score $ms_e$ that is greater than the mutation score $\mathit{ms}_o$ of the original test suite. For example, we may have $\mathit{ms}_o=0.7$ and $\mathit{ms}_e=0.9$.
-
-The experiment can be conducted by dividing the interval between $m_o$ and $m_i$ into $n$ ranges (e.g., 4 ranges), such that we can define $\delta = (\mathit{ms}_e - \mathit{ms}_o)/n$ and have each of the $n$ ranges defined as the interval between $\mathit{ms}_o+(n-1)*\delta$ and $\mathit{ms}_o+n*\delta$.
-For every case study, for each of the $n$ ranges, we can generate $M$ test suites  (e.g., 10) by randomly selecting test cases belonging to $\mathit{TS}_i$ till we achieve a mutation score in the given range.
-For each i-th test suite belonging to the range $n$ (i.e., $\mathit{TS}_{n,i}$), we compute the mutation score (i.e., $ms_{n,i}$).
-Also, we compute the \emph{mutation score delta} as $msd_{n,i}=ms_{n,i}-ms_o$. Each test suite in the range $n$ enable us to study the fault revealing power of a test suite with a mutation score above the threshold $T=(n-1)*\delta$.
-
-For each range $n$ we can perform a one sample t-test to reject the null hypothesis $msd_{n} = 0$ in favor of the alternate hypothesis $msd_{n} > 0$, at a 5\% alpha level.
-If the null hypothesis is rejected in favor of the alternate hypothesis then the threshold $T=(n-1)*\delta$ ensures to achieve better fault detection than statement coverage adequacy.
-Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.
-
-%alternatively we may perform a one sample wilcoxon-signed-rank
-%http://www.sthda.com/english/wiki/one-sample-wilcoxon-signed-rank-test-in-r
-
+Fixed
 \end{minipage}\\
 \hline
-CSR-PABG-6&
+PTCR-PABG-7&
 \begin{minipage}{12cm}
-Sorry for that. We rephrased a couple of sentences in that section.
+Yes, it might be wort performing research addressing it; however the amount of work to be performed might require an extension of the current project. There are two main difficulties in performing such a study:
+\begin{enumerate}
+\item Such a study should evaluate the fault detection effectiveness of a test suite with a certain mutation score when it is applied to detect real fault. For this reason it should be performed with a set of real faults affecting the case study system; we do not have such a set for now.
+\item Ideally, we should evaluate multiple test suites for a same case study; each test suite having a different mutation score. This can be easily achieved when it is possible to automatically generate test cases. However, for some of our case study systems (e.g., ESAIL) the automated generation of test cases might not be easily achieved since we mainly test the whole system not single units.
+\end{enumerate}
 \end{minipage}\\
 \hline
-CSR-PABG-7&
+PTCR-PABG-8&
 \begin{minipage}{12cm}
-The definition appears in D1 Section 1.2.5.
+Fixed
 \end{minipage}\\
 \hline
-CSR-PABG-8&
+PTCR-PABG-9&
 \begin{minipage}{12cm}
+\TODO{Fabrizio: to fix}
 \end{minipage}\\
 \hline
-CSR-PABG-9&
+PTCR-PABG-10&
 \begin{minipage}{12cm}
-Yes, we have defined a RQ to evaluate SDL alone.
+We will provide the sources of the latex document which include all the source files for the images.
 \end{minipage}\\
 \hline
-CSR-PABG-10&
+PTCR-PABG-11&
 \begin{minipage}{12cm}
-Compile time optimizations appear not to be necessary if a smart compilation process is in place. Basically, the compilation routine that we propose (i.e., copy the mutated file inside a compiled source tree) is somehow an optimization.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-11&
+PTCR-PABG-12&
 \begin{minipage}{12cm}
-We addressed in the text. Section~\ref{sec:codemutation:evaluation}.
-\end{minipage}\\
-\hline
-CSR-PABG-12&
-\begin{minipage}{12cm}
-We improved the diagram of Figure~\ref{fig:approach} in Section~\ref{sec:approach}.
-\end{minipage}\\
-\hline
-CSR-PABG-13&
-\begin{minipage}{12cm}
-We agree. For FAQAS, we are already addressing the problem of collecting fine-grained code coverage for ESAL (there is no filesystem thus gcov needs to be combined with gdb, according to guidelines from Thanassis Tsiodras at https://www.thanassis.space/coverage.html). To address the comment, we included the research questions RQ7 and RQ9.
-\end{minipage}\\
-\hline
-CSR-PABG-14&
-\begin{minipage}{12cm}
-We did a mistake when copying files from an ongoing paper. Now Table~\ref{table:operators} is in line with the rest.
-\end{minipage}\\
-\hline
-CSR-PABG-15&
-\begin{minipage}{12cm}
-We addressed the comment in Step 4 and in RQ1.
-\end{minipage}\\
-\hline
-CSR-PABG-16&
-\begin{minipage}{12cm}
-RQ2 address this question.
-\end{minipage}\\
-\hline
-CSR-PABG-17&
-\begin{minipage}{12cm}
-We rewrote line 1 to clarify where t comes from.
-We clarified the rest in the text.
-\end{minipage}\\
-\hline
-CSR-PABG-18&
-\begin{minipage}{12cm}
-Since these distances have nothing to do with mutation testing but it is part of our contribution, we prefer to not add to D1 (we would not have an appropriate section for them). If necessary we can provide additional description in D2.
-\end{minipage}\\
-\hline
-CSR-PABG-19&
-\begin{minipage}{12cm}
-To clarify, we added the complete algorithm in Figure~\ref{alg:nonEquivalent:nonRedeundat}.
-\end{minipage}\\
-\hline
-CSR-PABG-20&
-\begin{minipage}{12cm}
-KLEE appear more mature than CBMC, it is our primary choice at this stage.
 
-The licence of both CBMC and KLEE appear to be compatible. The simplest solution is to not release CBMC/KLEE with the FAQAS framework but require their installation in a specific folder as a dependency. 
+Thank you for the interesting comment.
 
-\textbf{CBMC LICENCE:}
+In case someone is interested in evaluating all the mutants it is sufficient to apply the strategy to select all the mutants (or 100\% of the mutants).
 
-\begin{verbatim}
-(C) 2001-2017, Daniel Kroening, Edmund Clarke,
-Computer Science Department, University of Oxford
-Computer Science Department, Carnegie Mellon University
-
-All rights reserved. Redistribution and use in source and binary forms, with
-or without modification, are permitted provided that the following
-conditions are met:
-
-  1. Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
-
-  2. Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
-
-  3. All advertising materials mentioning features or use of this software
-     must display the following acknowledgement:
-
-     This product includes software developed by Daniel Kroening,
-     Edmund Clarke,
-     Computer Science Department, University of Oxford
-     Computer Science Department, Carnegie Mellon University
-
-  4. Neither the name of the University nor the names of its contributors
-     may be used to endorse or promote products derived from this software
-     without specific prior written permission.
-
-   
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-\end{verbatim}
-\end{minipage}\\
-
-
-&
-\begin{minipage}{12cm}
-\textbf{KLEE LICENCE:}
-\begin{verbatim}
-==============================================================================
-KLEE Release License
-==============================================================================
-University of Illinois/NCSA
-Open Source License
-
-http://klee.github.io/
-
-Developed by:
-    KLEE Team
-    Stanford Checking Group
-
-Copyright (c) 2007-2009 Stanford University.
-All rights reserved.
-
-
-Maintained since 2009 by:
-    Software Reliability Group
-    http://srg.doc.ic.ac.uk/
-    Imperial College London
-
-
-Improved and extended since 2009 by many developers.  For a full list
-of contributors, refer to
-         https://github.com/klee/klee/graphs/contributors
-and the Git commit history.
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal with
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-    * Redistributions of source code must retain the above copyright notice,
-      this list of conditions and the following disclaimers.
-
-    * Redistributions in binary form must reproduce the above copyright notice,
-      this list of conditions and the following disclaimers in the
-      documentation and/or other materials provided with the distribution.
-
-    * Neither the names of the KLEE Team, Stanford University,
-      Imperial College London, nor the names of its contributors may
-      be used to endorse or promote products derived from this
-      Software without specific prior written permission.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE
-SOFTWARE.
-
-==============================================================================
-The KLEE software contains code written by third parties.  Such software will
-have its own individual LICENSE.TXT file in the directory in which it appears.
-This file will describe the copyrights, license, and restrictions which apply
-to that code.
-
-The disclaimer of warranty in the University of Illinois Open Source
-License applies to all code in the KLEE distribution, and nothing in
-any of the other licenses gives permission to use the names of the
-KLEE team, Stanford University, or the names of its contributors to
-endorse or promote products derived from this Software.
-
-The following pieces of software have additional or alternate copyrights,
-licenses, and/or restrictions:
-
-Program             Directory
--------             ---------
-klee-libc           runtime/klee-libc
-\end{verbatim}
+If the objective is not to reach 100\% mutation score but 75\%, if the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated, thus in the next mutants evaluation round we may observe an estimated mutation score of 70\%. It might be interesting to evaluate if it is more cost effective to repeatedly sample mutants and generate test cases that kill them or to execute all the mutants and then generate test cases that kill enough mutants to reach 75\% mutation score.
 
 \end{minipage}\\
 \hline
-CSR-PABG-21&
+PTCR-PABG-13&
 \begin{minipage}{12cm}
-SRCIror licence appear to be compatible. We provide it below.
-
-\begin{verbatim}
-University of Illinois/NCSA
-Open Source License
-
-Copyright (c) 2018 University of Illinois at Urbana-Champaign.
-All rights reserved.
-
-Developed by:       Darko Marinov Group
-                    University of Illinois at Urbana-Champaign
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to
-deal with the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
- 1. Redistributions of source code must retain the above copyright notice,
-     this list of conditions and the following disclaimers.
- 2. Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimers in the
-    documentation and/or other materials provided with the distribution.
- 3. Neither the names of NCSA, University of Illinois, nor the names of its
-    contributors may be used to endorse or promote products derived from this
-    Software without specific prior written permission.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-WITH THE SOFTWARE.
-
-Parts of this code has been adapted from the following two repositories:
-https://github.com/eliben
-https://github.com/eschulte/clang-mutate
-\end{verbatim}
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-22&
+PTCR-PABG-14&
 \begin{minipage}{12cm}
-We specified in Section~\ref{chapter:caseStudies:LXS}.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-23&
+PTCR-PABG-15&
 \begin{minipage}{12cm}
-The selected tool is largely extended and integrated into our framework. The input interface will be however, different than the original one.
-We extended the description of the SRCIRor in Section~\ref{subsec:srciror}.
+We believe it is safer to exclude hardware in the loop as indicate in the SSS document. There might be many unexpected drawbacks in applying mutation testing to the real hardware. For example, we cannot predict the consequences of mutation testing altering the value used by an assembly instruction.
 \end{minipage}\\
 \hline
-CSR-PABG-24&
+PTCR-PABG-16&
 \begin{minipage}{12cm}
-We addressed the comment in Section~\ref{codeDriven:stepThree}.
+Yes it relates to comment PTCR-PABG-12. It should be worth investigating the proportion of real faults detected by test suites with different mutation scores. For that, case studies should come with real faults tracked by developers. It might be interesting to have faults tracked in different moments of the development process (i.e., from the initial development phases to validation and production). I'm not sure if all the companies keep track of every fault.
 \end{minipage}\\
 \hline
-CSR-PABG-25&
+PTCR-PABG-17&
 \begin{minipage}{12cm}
-\EMPH{Does Mull work at source code level, or only on IR level?.} 
-Mull work only on IR level.
-\EMPH{Does Mull force you to use the clang compiler? If so, that could be an argument to de-scope the tool, since we would like tools able to work on source code, independently of the compiler being used.}
-Yes it does. Mull's approach relies completely on the use of the clang compiler. Clang is used along all the steps of the mutation testing process (e.g., from compilation to runtime optimizations).
-We made this aspect clearer in Section~\ref{subsec:mull}.
+(a) Yes, we can provide statement coverage. We compute it anyway.
+(b) By default KLEE aims to maximize statement coverage. However, we may not be able to commit for the use of KLEE as a test suite augmentation tool besides mutants coverage.
 \end{minipage}\\
 \hline
-CSR-PABG-26&
+PTCR-PABG-18&
 \begin{minipage}{12cm}
-Both Dextool and Accmut mutation toolsets require as an input an intermediate representation version of the software (i.e., bitcode files) to perform the mutation testing process. Unfortunately, this is only possible by forcing the compilation with Clang, and thus, the clang parser is not enough to generate mutants.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-27&
+PTCR-PABG-19&
 \begin{minipage}{12cm}
-We suggest to provide such research question for the end of WP2.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-28&
+PTCR-PABG-20&
 \begin{minipage}{12cm}
-We added a new section in Chapter~\ref{chapter:datamutation} regarding the evaluation of the Peach data-driven mutation toolset.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-29&
+PTCR-PABG-21&
 \begin{minipage}{12cm}
-In Section~\ref{sec:dataProcess} we tried to better justify why we do not target faults in the computing hardware. 
+The comment should be addressed by RQ5.
 \end{minipage}\\
 \hline
-CSR-PABG-30&
+PTCR-PABG-22&
 \begin{minipage}{12cm}
-See comment above. Also, a solution targeting such fault would be completely different than a solution targeting different components (i.e., what we are proposing now).
+We did not have results for $ESAIL_S$ yet. Concerning ESAIL, which leads to 121848 mutants, it is not feasible to compute the mutation score considering all the mutants.
 \end{minipage}\\
 \hline
-CSR-PABG-31&
+PTCR-PABG-23&
 \begin{minipage}{12cm}
-We tried to clarify the reasons for implementing two distinct solutions in Section~\ref{sec:data:test_suite_evaluation}.
+Fixed. Thank you.
 \end{minipage}\\
 \hline
-CSR-PABG-32&
+PTCR-PABG-24&
 \begin{minipage}{12cm}
-The example is correct, but the keyword we used might be misleading (i.e.,  \EMPH{mutation operation instances} and \EMPH{mutation operators}).
-There are five \EMPH{mutation operation instances}, while we have four \EMPH{mutation operators}. A same mutation operator may lead to more than one mutation operation instances. The text describes such situation (i.e., \emph{The fault model IfHK leads to  ve mutation operation instances: one for each of the two BF mutation operators, one for the VAR operator, and two for the VOR mutation operator}).
-
-The fault model joins modelling of data and faults. An example follows in Figure~\ref{fig:dataMutationFMExamples}.
+No, the reduce part refers to reducing the size of the test suite, which means that we select a subset of the test cases that cover the mutant.
 \end{minipage}\\
 \hline
-CSR-PABG-33&
+PTCR-PABG-25&
 \begin{minipage}{12cm}
-Yes, the operators will be implemented for both ASN.1 and data buffers.
+Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-34&
+PTCR-PABG-26&
 \begin{minipage}{12cm}
-They will be both implemented, their implementation is similar.
+\TODO{Discuss live}
 \end{minipage}\\
 \hline
-CSR-PABG-35&
+PTCR-PABG-27&
+\begin{minipage}{12cm}
+A discussion section has been added (Section~\ref{sec:emp:discussion}) 
+\end{minipage}\\
+\hline
+PTCR-PABG-28&
+\begin{minipage}{12cm}
+We will be able to provide more details about test suite generation only after developing the approach. This will require few months of work.
+\end{minipage}\\
+\hline
+PTCR-PABG-29&
+\begin{minipage}{12cm}
+There is a recent project that generates mutants and generate test cases to kill them~\footnote{https://github.com/thierry-tct/muteria}. The main problem of that work is that mutants are injected at the intermediate representation level. The author is an SnT alumni and we are in contact with him to involve him for the test suite augmentation part.
+\end{minipage}\\
+\hline
+PTCR-PABG-30&
+\begin{minipage}{12cm}
+We can update D2 after defining the data-driven mutation testing process more in detail. As we did for code-driven, what we can do is to integrate the research paper we will write on the topic.
+\end{minipage}\\
+\hline
+PTCR-PABG-31&
+\begin{minipage}{12cm}
+Thank you. 
+\end{minipage}\\
+\hline
+PTCR-PABG-32&
+\begin{minipage}{12cm}
+Our problem is that, without a system using the DataTypesSimulink.asn grammar, we cannot evaluate the usefulness of data-driven mutation testing as a test suites evaluation approach.
+\end{minipage}\\
+\hline
+PTCR-PABG-33&
+\begin{minipage}{12cm}
+Fixed.
+\end{minipage}\\
+\hline
+PTCR-PABG-34&
+\begin{minipage}{12cm}
+\TODO{Cannot understand the comment}
+\end{minipage}\\
+\hline
+PTCR-PABG-35&
 \begin{minipage}{12cm}
 Yes.
 \end{minipage}\\
 \hline
-CSR-PABG-36&
-\begin{minipage}{12cm}
-\EMPH{operatorsN} is the total number of mutation operators configured for a data item.
-\EMPH{threshold} is defined inside the mutation operator (i.e., \EMPH{MutationOperator}).
-\end{minipage}\\
-\hline
-CSR-PABG-37&
-\begin{minipage}{12cm}
-We forgot to update an earlier sentence, we plan to automatically modify the source code. The sentence has been updated.
-\end{minipage}\\
-\hline
-CSR-PABG-38&
+PTCR-PABG-36&
 \begin{minipage}{12cm}
 Fixed.
 \end{minipage}\\
 \hline
-CSR-PABG-39&
+PTCR-PABG-37&
 \begin{minipage}{12cm}
-Clarified in Section~\ref{sec:mutantsExecution}.
+Ok, we agree to discuss later.
 \end{minipage}\\
 \hline
-CSR-PABG-40&
+PTCR-PABG-38&
 \begin{minipage}{12cm}
-Fixed.
+We do not have any conclusion that deviates from our initial suggestions.
 \end{minipage}\\
 \hline
-CSR-PABG-41&
-\begin{minipage}{12cm}
-The unit testing of LXS is not planned at this stage. We may discuss during the review the necessity for it.
-\end{minipage}\\
-\hline
-CSR-PABG-42&
-\begin{minipage}{12cm}
-We agree, we can provide the overall number of hours. However, mutation testing might be provided as a service (E.g., ISVV). 
-\end{minipage}\\
-\hline
-CSR-PABG-43&
-\begin{minipage}{12cm}
-We apologize for the mismatch. The number of lines of code appearing in Section~\ref{chapter:caseStudies:LXS} of D2  was computed by SnT in January 2020 and initially reported in ITT-1-9873-ESA-FAQAS-004-ProgressReport.pdf. At that stage of the project, SnT did not have full understanding of the system. SnT relied on  the "cloc" lines count tool, which was applied to the project root. With that set-up, unfortunately,  "cloc" included in the counting also the source code of the simulator (i.e., SVF) itself, which is not supposed to be tested. LXS, instead, relies on VectorCast to measure code coverage. In addition to the difference in the selection of the components to measure, a major difference between "cloc" and VectorCast is that VectorCast does not count the lines of code that belong to preprocessor directives (e.g. '\#define'). VectorCast counts only executable statements. Proportions are in line with the ones observed for GSL, i.e., for LXS we observe 1 executable statement for every 5 lines of code, for GSL we observe 1 executable statement for every 3 lines of code. The difference in proportions is due to the fact that LXS code includes a large number of preprocessor directives.
-\end{minipage}\\
-\hline
-CSR-PABG-44&
-\begin{minipage}{12cm}
-We added a brief description in Section~\ref{sec:caseStudies:GSL:libgcsp} about the test framework, test suite and HPC configuration used in the GSL case studies.
-\end{minipage}\\
-\hline
-CSR-PABG-45&
-\begin{minipage}{12cm}
-We clarified in Section~\ref{sec:caseStudies:GSL:libgcsp} that the use case libgscsp is covering integration testing.
-\end{minipage}\\
-\hline
-CSR-PABG-46&
-\begin{minipage}{12cm}
-\EMPH{We should be assessing a test suite as a whole, and if some statements are not covered, this is already a sign that the test suite may not be complete enough.} 
-If a statement is not covered by the test suite, there is absolutely no chance that a mutant generated in the non-covered statement can be possibly detected by any test case (see killing conditions of a mutant in D1 Section 1.3.1). For this reason, we make the assumption that test suites are of high quality standards, and therefore, we consider only the covered statements. If the test suite does not reach the required coverage there is no reason to perform mutation testing, it is already known that the test suite is not good.
-\EMPH{When computing the mutation score, is it fare to not count those not-covered lines?}
-Yes, is it fare because mutation testing assess the quality of existing test suites, and considering non-covered statements would be out of the scope of the technique. Also, including non-covered statements into the mutation score, would not let us to assess correctly the quality of the existing test suite.
-\EMPH{Maybe the approach would be to run the test augmentation process to provide test cases for the missing statements?}
-Yes, the same tools used for test augmentation can be used. We can run them. The main difference is that oracles  for the generated test cases should be manually specified (in the case of test augmentation we may derive the oracle based on the values generated by KLEE/CBMC). However, the evaluation of these generated test suites through mutation testing address a different research question than the one of the project; i.e., we would evaluate test automation tools instead of manual test suites.
-\end{minipage}\\
-%\hline
-%&
-%\begin{minipage}{12cm}
-%However, these automatically generated test suites may not be good for the evaluation with mutation testing, €indeed they would lead to assess through mutation testing the quality of the test augmentation process instead of the quality of the existing test suite.
-%\end{minipage}\\
-\hline
-CSR-PABG-47&
-\begin{minipage}{12cm}
-We clarified the scope of our analysis for the case study libgscsp in Section~\ref{sec:caseStudies:GSL:libgcsp}. 
-\end{minipage}\\
-\hline
-CSR-PABG-48&
-\begin{minipage}{12cm}
-We clarified in Section~\ref{subsec:libgscsp_data} the mutations to be applied to the payload, and how they would be detected by the existing test suite.
-\end{minipage}\\
-\hline
-CSR-PABG-49&
-\begin{minipage}{12cm}
-We added more details about the provided test suite and the scope of libparam in FAQAS.
-\end{minipage}\\
-\hline
-CSR-PABG-50&
-\begin{minipage}{12cm}
-The code coverage reported in Table~\ref{table:gslibutil_coverage} considers all the 201 test cases for all the source code of libutil that were delivered to SnT. Test cases non provided to SnT are not considered.
-\end{minipage}\\
-\hline
-CSR-PABG-51&
-\begin{minipage}{12cm}
-\EMPH{Is there any strategy for these mutants? Are they discarded from the beginning?} As described in the Step 3 of the Space Software Mutation Testing Process (see Section~\ref{codeDriven:stepThree}), the mutants leading to compilation errors will be discarded from the beginning and they will not be considered.
-\EMPH{Is there any way to prevent their generation?}
-Yes, the mutation testing tool could be improved by providing more contextual information about the operands being mutated. For example, by applying the mutation $+ \rightarrow \%$ in the expression \texttt{a + b}, where \texttt{a} is an int and \texttt{b} is a float, would lead to a compilation error since the $\%$ operator should take only integers. In an improved version of the toolset, this mutation could be avoided (i.e, since \texttt{b} is a float) with the use of contextual information.
-\end{minipage}\\
-\hline
-CSR-PABG-52&
-\begin{minipage}{12cm}
-\EMPH{Is this part of the SVF? Does the SVF contain OBC and ADCS\_IF\_SW?} Yes, the SVF simulator runs the OBC software but it simulates the behaviour of the ADCS\_IF\_SW. The ADCS\_IF\_SW is not run inside the OBC but only simulated.
-\EMPH{What is the test suite to be used in this case?} The ESAIL system test suite contains test cases that exercise the integration between OBC and the ADCS\_IF\_SW but the ADCS\_IF\_SW is not actually run. The test suite that exercises the ADCS\_IF\_SW is the one the should execute with hardware in the loop.
-\EMPH{Messages OBC->ADCS\_IF\_SW should also be possible to test, right?} Yes but not with the current test suite. Indeed the simulator used in the current test suite makes assumptions about the messages received thus it would be very easy to break it by altering its input messages. To alter the messages sent from OBC to ADCS\_IF\_SW it would be necessary to (1) use a simulator that actually runs the ADCS\_IF\_SW or (2) target the test cases that include hardware in the loop.
-%there are least four test cases (i.e., the 2985, 6583, 2411, and the 2604) that exercise the sending of messages of OBC->ADCS\_IF\_SW.
-\end{minipage}\\
-\hline
-CSR-PABG-53&
-\begin{minipage}{12cm}
-The data-driven method can be applied also to PUS TM/TC packets. Because of the costs of data-modelling, we may investigate its feasibility once a working solution had been implemented. Also, since in ESAIL test suite the ground role is played by the test scripts, the benefits of such approach might be limited.
-\end{minipage}\\
-\hline
-CSR-PABG-54&
-\begin{minipage}{12cm}
-Testing with hardware in the loop is technically feasible because it is just a matter of deploying on the hardware a modified software that performs the mutation. However mutated packets may break some of the assumptions made when developing the software and thus break the hardware (e.g., altering the voltage of the board). For every mutation to be performed it might be necessary to ensure that the hardware is not going to be damaged. Such type of testing might thus be out of the budget for the current project and may require a dedicated project by itself.
-\end{minipage}\\
-\hline
-CSR-PABG-55&
-\begin{minipage}{12cm}
-a. We uploaded another package.
-b. GSL is not willing to deliver any package because the case study are all closed source. This might be further discussed during the review meeting.
-\end{minipage}\\
-\hline
-
                                                 
 \end{longtable}
 \normalsize
