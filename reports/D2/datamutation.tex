@@ -412,7 +412,8 @@ The mutation algorithm can either mutate the first mutable data item observed or
 \newcommand{\NMOA}{\# \mathit{of}\ \mathit{mutation} \ \mathit{operation}\ \mathit{instances} \ \mathit{applied}}
 
 
-The outcome of the test execution is the $\ONMO$ (ONMO), the $\NMOA$ (NMOA), and the $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ ($c_{\mathit{KILL}}$). They are used to compute the mutation score (see Section~\ref{sec:analyzeResults}).
+The outcome of the test execution is the $\ONMO$ (ONMO), the \\
+$\NMOA$ (NMOA), and the $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ ($c_{\mathit{KILL}}$). They are used to compute the mutation score (see Section~\ref{sec:analyzeResults}).
 
 The $\# \ \mathit{of}\ \mathit{killed} \ \mathit{mutants}$ corresponds to the number of \emph{mutants} that had been killed by at least one test case (Line~\ref{alg:dataProcess:kill}). A mutant is killed if the test case fails or if a redundancy mechanisms has been activated to handle the mutated data. To discover killed mutants it might be necessary to integrate automated solutions that, in addition to determine if a test case fails, determine if a redundancy mechanism has been triggered by the SUT. \MREVISION{C-P-39}{Assuming that the triggering of a redundancy mechanisms logs information in a log file, these solutions can be implemented through simple shell scripts that parse the log file of the SUT. Otherwise, debuggers scripts may be used to log the triggering of such mechanisms.}
 

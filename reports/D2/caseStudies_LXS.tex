@@ -50,10 +50,31 @@ Detailed information about the ESAIL system is provided in the following documen
 
 
 \subsection{Code-driven mutation testing}
+\label{lxs:esail:system:codeDriven}
 
 %\TODO{Code coverage information: we need Yago to produce a new code coverage report with VCAST.}
 
-The code-driven mutation testing process in ESAIL will target all the components of the ESAIL on-board software, these components are:
+\REVNOV{PTCR-34}{The code-driven mutation testing process in ESAIL will be performed in two stages. First we will use a subset of ESAIL ($\mathit{ESAIL}_S$) to evaluate the accuracy of the estimated mutation score (see Section~\ref{sec:evaluation}). Then, in later stages, we will apply the approach (including mutants sampling, which is necessary for scalability purposes) to the whole ESAIL in order to (1) compare the mutation score obtained with the whole system with the mutation score obtained with $\mathit{ESAIL}_S$, (2) evaluate the accuracy of our strategy for removing equivalent/redundant mutants when applied to the whole ESAIL, (3) compare the mutation score obtained for the whole $ESAIL$ and for $\mathit{ESAIL}_S$ after removing likely equivalent and likely redundant mutants.}
+
+\REVNOV{PTCR-34}{$\mathit{ESAIL}_S$ had been selected by LXS engineers by identifying representative source files that belong to the following categories: (1) source files that are used almost all the time by the test cases (i.e., files implementing service/protocol layer functions), (2) critical functions of the satellite implemented in high-level drivers, (3)  higher level application level functions.}
+
+\STARTCHANGEDNOV
+The files included in $\mathit{ESAIL}_S$ are:
+\begin{itemize}
+\item \emph{HighLevelDriverLayer/TMTC\_SYS\_Handler/Source/tmtchdl\_TmTcSysHandlerTask.c}
+\item \emph{ProtocolLayer/TCFrameReader/Source/TCFrameReader.c}
+\item \emph{ProtocolLayer/TMFrameBuilder/Source/TMFrameBuilder.c}
+\item \emph{ServiceLayer/PUS\_1/Source/pus1\_GenerateReport.c}
+\item \emph{ServiceLayer/PUS\_3/Source/pus3\_GenerateHkGroupReport.c}
+\item \emph{ServiceLayer/PUS\_3/Source/pus3\_ExecuteTc\_3\_129.c}
+\item \emph{ServiceLayer/PUS\_128/Source/pus128\_ExecuteTc\_128\_1.c}
+\item \emph{ServiceLayer/PUS\_130/Source/pus130\_ExecuteTc\_130\_1.c}
+\item \emph{ApplicationLayer/Operational\_Sequences/Source/SpacecraftConfigurationVector.c}
+\item \emph{ApplicationLayer/Operational\_Sequences/Source/Transition\_To\_OPM.c}
+\end{itemize}
+\ENDCHANGEDNOV
+
+Concerning the experiments conducted on the whole ESAIL, they will target all the components of the ESAIL on-board software, these components are:
 
 \begin{itemize}
 	\item ADCS
@@ -68,6 +89,7 @@ The code-driven mutation testing process in ESAIL will target all the components
 
 Code coverage information concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}.
 
+
 \subsection{Data-driven mutation testing}
 
 A detailed description of the application of data-driven mutation testing to ESAIL is provided in APPENDIX~\ref{appendix:esailFM}.
@@ -76,5 +98,5 @@ A detailed description of the application of data-driven mutation testing to ESA
 \label{chapter:caseStudies:LXS:Unit}
 
 \CHANGEDNOV{The unit test suite of ESAIL will be considered for the evaluation of the final FAQAS toolset. 
-For example, it is a possible case to be used for an independent use of the FAQAS framework by LXS engineers. The ESAIL unit test suite is used mainly to test critical functionalities of ESAIL components. The set of test cases and functions to be tested will be provided along with the description of the achieved results at the end of WP3.}
+For example, it is a possible case to be used for an independent use of the FAQAS framework by LXS engineers. The ESAIL unit test suite is used mainly to test critical functionalities of ESAIL components. The ESAIL unit test suite has been provided to ESA; however, the mutation testing activity might concern a subset of them. Indeed, evaluating with mutation testing a set of test cases that are known for covering only a subset of the features of the system might be of little usefulness. The set of test cases and functions to be tested will be provided along with the description of the achieved results at the end of WP3.}
 

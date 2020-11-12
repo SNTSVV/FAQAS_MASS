@@ -7,7 +7,9 @@
 
 \STARTCHANGEDNOV
 
-Our empirical evaluation aims to address the following research questions, in the context of embedded space software:
+\REVNOV{C-P-11}{The project will include continuous empirical evaluation sessions with the case study systems that aim to address the following research questions:}
+
+%Our empirical evaluation aims to address the following research questions, in the context of embedded space software:
 
 \begin{itemize}
 
@@ -43,8 +45,8 @@ Our empirical evaluation aims to address the following research questions, in th
     % \item[RQ9] Do mutants generated with operators that modify the control-flow produce less equivalent mutants? This research questions aims to replicate the findings reported in~\cite{schuler2013covering}.
 
     \item[RQ7] How does the mutation score computed by \APPR relate to the mutation score of the original test suite? We aim to assess if the \APPR mutation score, which excludes likely equivalent and redundant mutants, is an over- or under-approximation of the mutation score obtained with the entire set of mutants. Also, we compare our findings with the existing literature on the topic~\cite{grun2009impact,Kurtz2016}.
-
     
+    \item[RQ8] \REVNOV{C-P-5}{Is it possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered)?}
     
     
 \end{itemize}
@@ -330,7 +332,8 @@ Below, we report the trend of $\delta_{acc}$ for varying sampling rates. To impr
 \input{tables/rq2}
 
 Table~\ref{table:results:accuracy:full} reports on the mutation scores obtained with the whole test suite for the different software artifacts. 
-As expected, the largest mutation score is achieved for MLFS, whose test suite achieves MC/DC coverage. \REVNOV{PTCR-20}{In this project, based on related work, we assume a good quality test suite to have a mutation score above 75\%. However, the objective of this report is not to evaluate the quality of the provided test suites but to evaluate the approach for estimating the mutation score. In general there are a number of factors that affect the observed mutation score; for example, the presence of equivalent mutants (which makes the mutation lower than what should be). The inspection of equivalent mutants for the case studies is till ongoing, at this stage. Also, the reasons for not achieving a high mutation score need an in depth discussion. For GSL case studies, this seems to be related to a number of off-the-shelf components integrated in the source of the system that are not expected to be tested by the test suite. The mutation score for non off-the-shelf-componets will be computed in later stages of the project.}
+As expected, the largest mutation score is achieved for MLFS, whose test suite achieves MC/DC coverage. \REVNOV{PTCR-20}{In this project, based on related work, we assume a good quality test suite to have a mutation score above 75\%. However, the objective of this report is not to evaluate the quality of the provided test suites based on the observed mutation score but to evaluate the approach for estimating the mutation score. A discussion of of the quality of the provided test suites based on the mutation score is an activity that might be left for later stages when the mutation testing approach is completed and partners had time to inspect live mutants. Indeed,
+ there are a number of factors that affect the computed mutation score; for example, the presence of equivalent mutants lead to live mutants and, consequently, make the mutation score (erroneously) low. The inspection of equivalent mutants for the case studies is till ongoing, at this stage. Also, the reasons for not achieving a high mutation score may vary from case study to case study and needs an in depth investigation. For example, for GSL case studies, this seems to be related to a number of off-the-shelf components integrated in the source of the system. Such off-the-shelf-components are not expected to be tested by the test suite. A mutation score based on only non off-the-shelf-components will be computed in later stages of the project.}
 
 %Figure~\ref{fig:results:accuracy:sampling}  reports a plot with the maximum absolute value of the difference...
 Table~\ref{table:results:accuracy:full} provides accuracy results (i.e., column $\delta_{acc}$) for proportional uniform sampling for a range of sampling rates($r$). 
@@ -618,19 +621,49 @@ To this end, we apply \APPR to the five case study systems described in Section~
  We compare the resulting mutation score with the mutation score obtained with a non-optimized mutation testing process.
 Finally, we discuss our findings in light of the literature on the topic.
 
+\subsubsection{RQ9 - Threshold for the mutation score}
 
-% Describe what we measure (ideally the same measurement of the referred papers)
+\paragraph{Design and measurements}
+\label{sec:exp:thr}
 
-\paragraph{Results}
+RQ9 aims to determine if it is possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered).
 
-This part of the evaluation remains to be completed in WP3.
+
+We may perform an experiment in line with the one performed in reference [78]. The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). 
+
+Related work~\cite{CChekam:17} identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy. 
+We may perform an experiment in line with the one performed in reference~\cite{CChekam:17}.
+To replicate such study, for every case study system, we may consider the original test suite, $\mathit{TS}_o$, which achieves 100\% coverage of non dead code, and an extended test suite, $\mathit{TS}_e$, that consists of the same test cases of $\mathit{TS}_o$ plus a set of test cases automatically generated to kill the mutants. The extended test suite achieves a mutation score $ms_e$ that is greater than the mutation score $\mathit{ms}_o$ of the original test suite. For example, we may have $\mathit{ms}_o=0.7$ and $\mathit{ms}_e=0.9$.
+
+The experiment can be conducted by dividing the interval between $m_o$ and $m_i$ into $n$ ranges (e.g., 4 ranges), such that we can define $\delta = (\mathit{ms}_e - \mathit{ms}_o)/n$ and have each of the $n$ ranges defined as the interval between $\mathit{ms}_o+(n-1)*\delta$ and $\mathit{ms}_o+n*\delta$.
+For every case study, for each of the $n$ ranges, we can generate $M$ test suites  (e.g., 10) by randomly selecting test cases belonging to $\mathit{TS}_i$ till we achieve a mutation score in the given range.
+For each i-th test suite belonging to the range $n$ (i.e., $\mathit{TS}_{n,i}$), we compute the mutation score (i.e., $ms_{n,i}$).
+Also, we compute the \emph{mutation score delta} as $msd_{n,i}=ms_{n,i}-ms_o$. Each test suite in the range $n$ enable us to study the fault revealing power of a test suite with a mutation score above the threshold $T=(n-1)*\delta$.
+
+For each range $n$ we can perform a one sample t-test to reject the null hypothesis $msd_{n} = 0$ in favor of the alternate hypothesis $msd_{n} > 0$, at a 5\% alpha level.
+If the null hypothesis is rejected in favor of the alternate hypothesis then the threshold $T=(n-1)*\delta$ ensures to achieve better fault detection than statement coverage adequacy.
+Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.
+
+\REVNOV{PTCR-7}{Unfortunately, contrary to what we wrote in the previous version of this report, such experiment would be of little value in our context because \APPR require the test suite to achieve a maximal statements coverage. Consequently, any test suite $\mathit{TS}_e$ would have a better mutation score than $\mathit{TS}_o$. Also, based on our assumption, it makes no sense to select a test suite $\mathit{TS}_e$ that does not achieve the same statement coverage of $\mathit{TS}_o$.}
+
+\REVNOV{PTCR-7}{For this reason, the experiment should be performed with a set of real faults affecting the case study system not mutants. 
+More precisely, for each i-th test suite belonging to the range $n$ (i.e., $\mathit{TS}_{n,i}$), we should compute the fault detection rate (i.e., $fdr_{n,i}$) as the proportion of real faults detected by the test suite. Similarly to what indicated above, we may compute the \emph{fault detection rate delta} as $fdrd_{n,i}=fdr_{n,i}-fdr_o$. Each test suite in the range $n$ enable us to study the fault revealing power of a test suite with a mutation score above the threshold $T=(n-1)*\delta$.}
+
+\REVNOV{PTCR-7}{For each range $n$ we can perform a one sample t-test to reject the null hypothesis $fdr_{n} = 0$ in favor of the alternate hypothesis $fdr_{n} > 0$, at a 5\% alpha level.
+If the null hypothesis is rejected in favor of the alternate hypothesis then the threshold $T=(n-1)*\delta$ ensures to achieve better fault detection than statement coverage adequacy.
+Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.}
+
+\REVNOV{PTCR-7}{Despite such experiment would be of great value, the required information is not currently available and thus it is not possible at this stag of the project to commit for addressing this research question.}
+
 
 \subsubsection{Discussion}
 \label{sec:emp:discussion}
 
 \REVNOV{PTCR-PABG-27}{The empirical results collected so far show that the proposed pipeline can be used to efficiently and accurately estimate the mutation score. In line with related work, trivial compiler optimization techniques enable to determine that 30\% of the generated mutants are either equivalent or redundant.}
 
-\REVNOV{PTCR-PABG-27}{The FSCI sampling approach with a confidence interval of 10\% is the most accurate approach for the estimation of the mutation score. Also, combined with test suite reduction and prioritization it saves, on average more than 80\% of the execution time; in other words, the mutation testing process takes only 20\% of the time required if all the mutants are executed with all the test cases that cover them. Similarly, the number of test cases being executed is reduced by more than 80\%.}
+\REVNOV{PTCR-PABG-27}{The FSCI sampling approach with a confidence interval of 10\% is the most accurate approach for the estimation of the mutation score.} 
+\REVNOV{PTCR-PABG-26}{We rely on a confidence interval of 10\% because it ensures that the deviation between the estimated and the actual mutation score is within +/- 5\%, in line with the choice made in related work (i.e., +/- 7\%~\cite{gopinath2015hard}). Comparison with other work is complicated by the use of a different evaluation strategy and statistics (for each case study, they consider subset of mutation adequate test suites, which is not feasible in our context)~\cite{zhang2013operator}.}
+\REVNOV{PTCR-PABG-27}{Also, combined with test suite reduction and prioritization it saves, on average more than 80\% of the execution time; in other words, the mutation testing process takes only 20\% of the time required if all the mutants are executed with all the test cases that cover them. Similarly, the number of test cases being executed is reduced by more than 80\%.}
 
 \REVNOV{PTCR-PABG-27}{The proposed approach for test suite reduction and prioritization reduces the time required for executing a test suite (e.g., when all the mutants are tested, in our case studies it reduce execution time up to 16.81\%). However, it contributes to a minimal reduction of execution time of compared with mutant sampling. Since test suite reduction and prioritization requires the monitoring of code coverage dring mutation testing, which might be complicate for some systems, it might be avoided it practice without much loss in terms of performance.}
 

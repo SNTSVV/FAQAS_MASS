@@ -288,10 +288,12 @@ We aim to rely on the sufficient set of operators since it has been successfully
 To speed up mutation testing by reducing the number of mutants, we should consider the SDL operator alone \CHANGED{or in combinaton with the OODL operators}. However, such heuristic should be carefully evaluated to determine the level of confidence we can expect.
 
 Among compile time optimizations, only mutant schemata appear to be feasible with space software.
+\REVNOV{C-P-10}{However, based on preliminary evaluation with the case studies for FAQAS, compile time optimizations appear not to be necessary if a smart compilation process is in place. Basically, the compilation routine that we propose (i.e., copy the mutated file inside a compiled source tree) enables fast compilation of mutants.}
 Concerning scalability, simple optimizations (i.e., S1, S2, and S3 in Section~\ref{sec:scalability}) are feasible. Other feasible solutions are the ones relying on mutant sampling and coverage metrics. However, the level of confidence one may expect when mutant sampling rates are below 5\% should be evaluated. 
 %Furthermore, code coverage metrics that are feasible for space software need to be defined.
 
 Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, it is necessary to define appropriate coverage metrics and thresholds that maximize both precision and recall. The same approach can be adopted to identify duplicate mutants. The generation of test cases that distinguish subsumed mutants is out of the scope of this work.
+\REVNOV{C-P-08}{However, the percentage of subsumed mutants should be reported by the FAQAS framework.}
 
 
 

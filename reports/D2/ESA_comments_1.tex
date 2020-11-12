@@ -17,7 +17,7 @@ Comments IDs appear also in the main document next to the text modified to addre
 \hline
 PTCR-PABG-1&
 \begin{minipage}{12cm}
-\TODO{Oscar: any idea?}
+\TODO{We will try to fix it once releasing the next version of D2 after the review.}
 \end{minipage}\\
 \\
 \hline
@@ -29,12 +29,14 @@ PTCR-PABG-1&
 
 PTCR-PABG-2&
 \begin{minipage}{12cm}
-\TODO{Finalize table font size before final delivery}
+\TODO{We will fix it once releasing the next version of D2 after the review. With a larger font we may need to split a few tables; since it is a painful process we'll do it once we have the final data.}
 \end{minipage}\\
 \hline
 PTCR-PABG-3&
 \begin{minipage}{12cm}
-\TODO{To discuss during review meeting.}
+After the review meeting, SnT can release the set of programs developed to perform the experiments along with instructions about how to use these programs. The software was not released before because we had to wait for preliminary  results with ESAIL.
+Concerning LXS unit and system test suites, both of them had been released in July (they are part of the provided VM). We added information about their location.
+Concerning GSL case studies, their availability will be discussed during the review meeting.
 \end{minipage}\\
 \hline
 PTCR-PABG-4&
@@ -60,6 +62,8 @@ Yes, it might be wort performing research addressing it; however the amount of w
 \item Such a study should evaluate the fault detection effectiveness of a test suite with a certain mutation score when it is applied to detect real fault. For this reason it should be performed with a set of real faults affecting the case study system; we do not have such a set for now.
 \item Ideally, we should evaluate multiple test suites for a same case study; each test suite having a different mutation score. This can be easily achieved when it is possible to automatically generate test cases. However, for some of our case study systems (e.g., ESAIL) the automated generation of test cases might not be easily achieved since we mainly test the whole system not single units.
 \end{enumerate}
+
+A detailed comment has been added also in Section~\ref{sec:exp:thr}.
 \end{minipage}\\
 \hline
 PTCR-PABG-8&
@@ -69,12 +73,13 @@ Fixed
 \hline
 PTCR-PABG-9&
 \begin{minipage}{12cm}
-\TODO{Fabrizio: to fix}
+Sorry for that. The reason is that the source of this chapter is shared with an ongoing paper and we overwrote the comments after updating. We have now fixed the document by adding the information that was lost.
 \end{minipage}\\
 \hline
 PTCR-PABG-10&
 \begin{minipage}{12cm}
-We will provide the sources of the latex document which include all the source files for the images.
+We provide the sources of the latex document which include all the source files for the images.
+However, the pictures of the mutation testing process are special, indeed, to be pretty-looking, they had been produced with www.lucidchart.com. We have exported them in Visio format (MT.vdx and MT2.vdx).
 \end{minipage}\\
 \hline
 PTCR-PABG-11&
@@ -87,9 +92,13 @@ PTCR-PABG-12&
 
 Thank you for the interesting comment.
 
-In case someone is interested in evaluating all the mutants it is sufficient to apply the strategy to select all the mutants (or 100\% of the mutants).
+In case someone is interested in evaluating all the mutants it is sufficient to apply the strategy to select all the mutants (it's an option of the toolset, basically it coincides with selecting 100\% of the mutants).
 
-If the objective is not to reach 100\% mutation score but 75\%, if the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated, thus in the next mutants evaluation round we may observe an estimated mutation score of 70\%. It might be interesting to evaluate if it is more cost effective to repeatedly sample mutants and generate test cases that kill them or to execute all the mutants and then generate test cases that kill enough mutants to reach 75\% mutation score.
+More in general, the combination of mutants sampling with test suite augmentation might deserve some additional evaluation. What we might foresee is that, if the objective is not to reach 100\% mutation score, generating test cases that kill the subset of selected mutants might be sufficient.
+
+For example, if the objective is to reach 75\% mutation score and the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated. In the following mutants evaluation round we may observe an estimated mutation score of 70\% (which is 75\% +/ 5\%) and thus stop the process. 
+
+It might be interesting to evaluate if it is more cost effective to repeatedly sample mutants and generate test cases that kill them or to execute all the mutants and then generate test cases that kill enough mutants to reach 75\% mutation score.
 
 \end{minipage}\\
 \hline
@@ -110,7 +119,7 @@ We believe it is safer to exclude hardware in the loop as indicate in the SSS do
 \hline
 PTCR-PABG-16&
 \begin{minipage}{12cm}
-Yes it relates to comment PTCR-PABG-12. It should be worth investigating the proportion of real faults detected by test suites with different mutation scores. For that, case studies should come with real faults tracked by developers. It might be interesting to have faults tracked in different moments of the development process (i.e., from the initial development phases to validation and production). I'm not sure if all the companies keep track of every fault.
+Yes it relates to comment PTCR-PABG-7. It should be worth investigating the proportion of real faults detected by test suites with different mutation scores. Unfortunately, to perform such evaluation, we should have a set of real faults that, in the past, affected the case study systems. It might be interesting to have faults tracked in different moments of the development process (i.e., from the initial development phases to validation and production). I'm not sure if all the companies keep track of every fault.
 \end{minipage}\\
 \hline
 PTCR-PABG-17&
@@ -161,7 +170,7 @@ Fixed.
 \hline
 PTCR-PABG-26&
 \begin{minipage}{12cm}
-\TODO{Discuss live}
+We have added a comment.
 \end{minipage}\\
 \hline
 PTCR-PABG-27&
@@ -186,7 +195,7 @@ We can update D2 after defining the data-driven mutation testing process more in
 \hline
 PTCR-PABG-31&
 \begin{minipage}{12cm}
-Thank you. 
+In WP2, we have analyzed the specifications of the ADCS interfaces and provided a data-model for them, since they were the target mentioned in the proposal. As suggested, the set of targets for data-driven mutation testing can be broader than the ADCS interface alone. More precisely we can target all the components with which the OBC interact, which are GPS, the payload PDD and PDHU components, the EPS component. The interface for PUS commands might be targeted as well; however, the modification of PUS commands characterize a different scenario (basically,  instead of modiying the working conditions under which a command is executed, we change the command sent to the system - which somehow similar to executing a different test). For this reason, changes to PUS commands will be targeted will lower priority. 
 \end{minipage}\\
 \hline
 PTCR-PABG-32&
@@ -201,7 +210,7 @@ Fixed.
 \hline
 PTCR-PABG-34&
 \begin{minipage}{12cm}
-\TODO{Cannot understand the comment}
+We have addressed the comment in Section~\ref{lxs:esail:system:codeDriven}.
 \end{minipage}\\
 \hline
 PTCR-PABG-35&

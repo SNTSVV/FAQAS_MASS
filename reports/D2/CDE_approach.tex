@@ -4,7 +4,7 @@
 
 \begin{figure}[tb]
 \begin{center}
-\includegraphics[width=8cm]{images/Approach}
+\includegraphics[width=13cm]{images/MT2}
 \caption{Overview of the proposed Mutation Testing Pipeline}
 \label{fig:approach}
 \end{center}
@@ -43,10 +43,15 @@ Build systems create one object file for each source file to be compiled and the
 For this reason, since we modify at most two source files for each mutant (i.e., the mutated file and the file restored to eliminate the previous mutation), we can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our case study systems (Section~\ref{sec:evaluation}) have shown that 
 %additional optimizations are not necessary to make the compilation of mutants feasible.
  {our optimization is sufficient to make the compilation of mutants feasible for large projects. Other state-of-the-art solutions introduce additional complexity (e.g., change the structure of the software under test~\cite{untch1993mutation}) that does not appear to be justified by scalability needs.}
+ 
+ 
+ \REVNOV{C-P-24}{Mutants that lead to compilation errors are discarded. Concerning compilation warnings, we assume the build system of the SUT has been properly configured; more precisely, if the system should compile without warnings, the compiler is expected to be configured to treat warnings as errors otherwise mutants that lead to warning are retained.}
 
 \subsubsection{Step 4: Remove equivalent and redundant mutants based on compiled code}
 
-In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. If the SUT is compiled with compiler optimizations enabled, Step 4 consists of first computing the SHA-512 hash summary of all the mutant and original executables and then compare all the generated hash summaries. Hash comparison enables us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash as the original executable), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and redundant mutants are ignored in the following steps of \APPR. 
+In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. 
+\REVNOV{C-P-15}{We compile the original software and every mutant multiple times once for each every available optimization option (i.e., \texttt{-O0}, \texttt{-O1}, \texttt{-O2}, \texttt{-O3}, \texttt{-Os}, \texttt{-Ofast} in GCC) or a subset of them.
+After each execution of the compiler, we compute the SHA-512 hash summary of the generated executable.} Finally, we compare all the generated hash summaries. Hash comparison enables us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash as any of the executables generated for the original program), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and redundant mutants are ignored in the following steps of \APPR. 
 Equivalent and redundant mutants are discarded.
 The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
 
@@ -154,7 +159,9 @@ Similarly to the approach of Zhang et al. \cite{zhang2013faster}, we define the 
 %However, we redefined the criteria for the prioritization and selection of test cases because of the inapplicability of the ones proposed by Zhang et al. (see Section~\ref{sec:scalability}).
 
 %However, we notice that such optimization may not be sufficient when test suites are particularly large; indeed, prioritizing test cases may not be sufficient to reduce execution time. For example, live mutants may lead to the execution of a large number of test cases when almost all the test cases of the test suite exercise the mutated statement. 
-
+\REVNOV{C-P-46}{We execute only covered statements assuming that the test suite is optimal with respect to code coverage. More precisely, we addume that if a statement is not covered there is a good reason for it (e.g., it depends on hardware). 
+If a statement is not covered by the test suite, there is no chance that a mutant generated in the non-covered statement can be possibly detected by any test case. 
+If the test suite does not reach the required coverage there is no reason to perform mutation testing, because is already known that the test suite is not good.}
 
 To reduce the number of test cases to be executed with a mutant, 
 we should first execute the ones that more likely satisfy the necessity condition. 
@@ -187,12 +194,19 @@ Based on related work, we have identified two possible strategies to characteriz
 
 
 To determine how dissimilar two test cases are and, consequently, how likely they exercise the mutated statement with different values, we rely on widely adopted distance metrics. 
-In the case of S1, we rely on the Jaccard and Ochiai index, which are two similarity indices for binary data and have successfully been used to compare program executions based on code coverage~\cite{Zou:Ochiai:2019,Keller:Jaccard:2017,Briand:2019}. Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and the Ochiai ($D_O$) distances are computed as follows:
+In the case of S1, we rely on the Jaccard and Ochiai index, which are two similarity indices for binary data and have successfully been used to compare program executions based on code coverage~\cite{Zou:Ochiai:2019,Keller:Jaccard:2017,Briand:2019}. 
+\REVNOV{C-P-18}{The Jaccard index is also known as \emph{intersection over union} 
+it measures similarity between sets, and is defined as the size of the intersection divided by the size of the union.
+The Jaccard distance measures dissimilarity between sample sets and results from subtracting the Jaccard coefficient from 1.
+The Ochiai index calculates cosine similarity with binary data, it is used in molecular biology and software engineering.}
+Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and the Ochiai ($D_O$) distances are computed as follows:
 
 $D_J(T_a,T_b)=1-\frac{|C_a \cap C_b|}{|C_a \cup C_b|}$ \hspace{2mm} $D_O(T_a,T_b)=1-\frac{|C_a \cap C_b|}{\sqrt{|C_a| * |C_b|}}$, 
 where $C_a$ and $C_b$ are the set of coverage items exercised by the test cases $T_a$ and $T_b$, respectively.
 
-In the case of S2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning. Given two vectors $V_A$ and $V_B$, whose elements capture the number of times a statement has been covered by test cases $T_A$ and $T_B$, the distances $D_E$ and $D_C$ can be computed as follows:
+In the case of S2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning. 
+\REVNOV{C-P-18}{Euclidean distance is the straight-line distance between two points in Euclidean space; precisely, the Euclidean distance between two points is the length of the line segment connecting them. In our context, the two vectors consist of the number of times teh program statements had been exercised by a test. Cosine similarity measures similarity between two vectors of an inner product space. It results from the inner product of the same vectors normalized to both have length 1, which matches the the cosine of the angle between them. It is widely adopted to measure cohesion within clusters in data mining.}
+Given two vectors $V_A$ and $V_B$, whose elements capture the number of times a statement has been covered by test cases $T_A$ and $T_B$, the distances $D_E$ and $D_C$ can be computed as follows:
 
 $D_E=\sqrt{\sum_{i=1}^{n}(A_i-B_i)^2}$ 
 $D_C= \frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=1}^{n}{B_i}^2}}$,
@@ -226,6 +240,13 @@ we identify equivalent and redundant mutants based on a threshold, instead of re
 
 We compute normalized distances based on the distance metrics $D_J$, $D_O$, $D_E$, and $D_C$. A mutant is considered non-equivalent when the distance from the original program is above the threshold $T_E$, for at least one test case.
 Similarly, a mutant is considered non-redundant when the distance from every other mutant is above the threshold $T_R$, for at least one test case. For the identification of equivalent mutants, we consider live mutants only. To identify redundant mutants, we consider both live and killed mutants; however, killed mutants that lead to the failure of different test cases are not redundant, regardless of their distance.
+
+\REVNOV{C-P-19}{Figure~\ref{alg:nonEquivalent:nonRedeundat} shows the algorithm for detecting non-equivalent and non-redundant mutants.
+It first identify among the list of killed mutants all the non-redundant ones (Line~\ref{alg:equivalent:KNR}).
+Then it identifies the non-equivalent mutants among the list of live mutants (Line~\ref{alg:equivalent:LNE}).
+Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be non-redundant (Line~\ref{alg:equivalent:LNENR}).}
+
+\input{algos/equivalentRedundant.tex}
 
 \subsubsection{Step 8: Compute mutation score}
 \label{sec:appr:score}
