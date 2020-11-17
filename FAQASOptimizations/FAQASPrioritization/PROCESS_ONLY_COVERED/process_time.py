@@ -51,7 +51,7 @@ def process_original_times(traces, original_cov_path, original_test_cases):
             if 'KILLED' in matching:
                 break
         
-        times_dict[1] = tot_time 
+    times_dict[1] = tot_time 
     return times_dict
 
 
@@ -83,9 +83,9 @@ def get_prioritized_tests(prioritization_path, strategy, location, mutant_name, 
 
 def process_prioritized_times(traces, prioritization_path, test_path, original_order, strategy, mutant_dict_kl, iteration):
     
+    tot_time = 0
     for key, value in traces.items():
-        tot_time = 0
-
+        
         key_fields = key.split('|')
         location = key_fields[1]
 
@@ -109,6 +109,7 @@ def process_prioritized_times(traces, prioritization_path, test_path, original_o
 
         if len(p_tests) == 0:
             for test in original_order:
+                count += 1
                 matching = [s for s in value if test in s][0]
                 matching_fields = matching.split(';')
                 curr_time = int(matching_fields[-1])
@@ -116,8 +117,8 @@ def process_prioritized_times(traces, prioritization_path, test_path, original_o
                 if 'KILLED' in matching:
                     break
 
-        mutant_dict_kl[key] = str(tot_time) + ";" + str(count) 
-#    mutant_dict_kl[iteration] = tot_time 
+#        mutant_dict_kl[key] = str(tot_time) + ";" + str(count) 
+    mutant_dict_kl[iteration] = tot_time 
 
 def get_original_order(test_cases_path):
     original_order = []
@@ -141,9 +142,6 @@ original_order = get_original_order(original_test_cases)
 times_dict = process_original_times(mutant_traces, original_cov_path, original_test_cases)
 print_times(times_dict, 'times.csv')
 
-
-sys.exit()
-
 s1jaccard = {}
 s1ochiai = {}
 s2cosine = {}
@@ -153,6 +151,8 @@ for iteration in range(1, 2):
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's1jaccard', s1jaccard, iteration)
 
 print_times(s1jaccard, "dict_s1jaccard.csv")
+
+sys.exit(1)
 
 for iteration in range(1, 2):
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's1ochiai', s1ochiai, iteration)

@@ -18,15 +18,18 @@ def process_original_ms(traces, original_order):
     timeout = 0
 
     total = len(traces)
-
     for key, value in traces.items():
         for test in original_order:
-            matching = [s for s in value if test in s][0]
-            if 'KILLED' in matching:
-                killed += 1
-                if 'TIMEOUT' in matching:
-                    timeout += 1
-                break
+            matching = [s for s in value if ';' + test + ';' in s]
+            if len(matching) == 0:
+                continue
+            else:
+                matching_tst = matching[0]
+                if 'KILLED' in matching_tst:
+                    killed += 1
+                    if 'TIMEOUT' in matching_tst:
+                        timeout += 1
+                    break
     return str(total) + ";" + str(killed) + ";" + str(timeout) + ";" + str(total-killed) + ";" + "{:.2f}".format(100*(killed/total))
     
         
@@ -91,9 +94,8 @@ def process_prioritized_ms(traces, prioritization_path, test_path, original_orde
                 continue 
         else:
             test = random.sample(p_tests, 1)[0]
-            matching_string = test_path + test
+            matching_string =  ';' + test_path + test + ';'
             matching = [s for s in value if matching_string in s][0]
-            
             if 'KILLED' in matching:
                 set_mutant_status(mutant_dict_kl, key, 1)
                 killed += 1

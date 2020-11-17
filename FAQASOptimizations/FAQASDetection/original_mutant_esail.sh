@@ -45,6 +45,12 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     if grep -Fxq $mutant_key $MUTANT_LIST;then
         start_time=$(($(date +%s%N)/1000000))  
         
+        if [ -n "$PREFIX" ];then
+            mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/:$PREFIX\/:g")
+        else
+            mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/::g")
+        fi
+        
         mutant_path=$EXEC_DIR/$mutant_name
         mkdir -p $mutant_path
 
@@ -74,13 +80,19 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         tar xzf $exec_loc_cov/$mutant_name/coverage.gz
         
         cd coverage
-        
+        for f in *.tar.gz;do 
+            tst="${f%.*.*}"
+            mkdir $tst
+            tar -xzf "$f"
+            mv *.gc* $tst
+        done       
+ 
         find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
+        cd ../ && rm -rf coverage/
 
-        source $COV_SCRIPT
-    
-        find . -name 'coverage.txt' -exec cp --parents {} $MUTANT_COVERAGE_FOLDER \;
-
+        echo "calculating coverage..."  2>&1 | tee -a $MUTANT_LOGFILE
+        source $COV_SCRIPT $mutant_cov_name $mutant_name
+        
         pushd $MUTANT_COVERAGE_FOLDER
 
         for tst in */;do
@@ -88,13 +100,6 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
            
             mutant_start_time=$(($(date +%s%N)/1000000))
             
-            mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/:$PREFIX\/:g")
-            
-            if [ -n "$PREFIX" ];then
-                mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/:$PREFIX\/:g")
-            else
-                mutant_cov_name=$(echo $filename_orig | sed -e "s:\.\/::g")
-            fi
             echo $mutant_cov_name | tee -a $MUTANT_LOGFILE 
  
             if ! grep -Fq $mutant_cov_name $RESULTS/${tst}coverage.txt;then

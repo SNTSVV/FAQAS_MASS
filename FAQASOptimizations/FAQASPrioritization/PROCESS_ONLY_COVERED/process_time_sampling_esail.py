@@ -1,40 +1,22 @@
 import sys, os
 from pathlib import Path
 
-traces_read = 0
 
-def parse_mutant_traces(traces_path, TOT):
+def parse_mutant_traces(traces_path):
     traces = {}
+    
     with open(traces_path, 'r') as f:
-        count = 0                                                                                                               
-        global traces_read
+        current_mutant = ''                                                                                                      
         for line in f:
             mutant_trace = line.strip().split(';')
-            if mutant_trace[0] + '|' + mutant_trace[1]  + '|' + str(traces_read) in traces:
-                traces[mutant_trace[0] + '|' + mutant_trace[1]  + '|' + str(traces_read)].append(line.strip())
+
+            key = mutant_trace[0] + '|' + mutant_trace[1]  
+            
+            if key in traces:
+                traces[key].append(line.strip())
             else:
-                traces[mutant_trace[0] + '|' + mutant_trace[1]  + '|' + str(traces_read)] = [line.strip()]
-            count +=1
-            if count%TOT == 0:
-                traces_read += 1
+                traces[key] = [line.strip()]
     return traces
-
-def process_original_times(traces, original_order):
-    times_dict = {}
-
-    tot_time = 0
-    for key, value in traces.items():
-        for test in original_order:
-            matching = [s for s in value if test in s][0]
-            matching_fields = matching.split(';')                                                                                            
-            curr_time = int(matching_fields[-1])
-            tot_time += curr_time
-            if 'KILLED' in matching:
-                break
-        
-        times_dict[1] = tot_time
-    return times_dict
-
 
 def print_times(set_to_print, path):
     file_path = open(path, 'w')
@@ -78,22 +60,27 @@ def process_prioritized_times(traces, prioritization_path, test_path, original_o
         mutant_line = mutant_fields[2]
 
         p_tests = get_prioritized_tests(prioritization_path, strategy, location, mutant_name, mutant_line, iteration)
-       
+      
         count = 0
         if len(p_tests) == 0 or simulation_counter < 100:
             for test in original_order:
                 count += 1
-                matching = [s for s in value if test in s][0]
-                matching_fields = matching.split(';')
-                curr_time = int(matching_fields[-1])
-                tot_time += curr_time
-                if 'KILLED' in matching:
-                    break
+                matching_string = ';' + test_path + test + ';'
+                matching = [s for s in value if matching_string in s]
+
+                if len(matching) == 0:
+                    continue
+                else:
+                    matching_fields = matching[0].split(';')
+                    curr_time = int(matching_fields[-1])
+                    tot_time += curr_time
+                    if 'KILLED' in matching[0]:
+                        break
         else:
             for test in p_tests:
                 count += 1
                 
-                matching_string = test_path + test
+                matching_string = ';' + test_path + test + ';'
                 matching = [s for s in value if matching_string in s][0]
             
                 matching_fields = matching.split(';')
@@ -116,7 +103,6 @@ traces_path = str(sys.argv[1])
 prioritization_path = str(sys.argv[2])
 original_test_cases = str(sys.argv[3])
 test_path = str(sys.argv[4])
-TOT = int(sys.argv[5])
 
 original_order = get_order_tests(original_test_cases)
 
@@ -125,28 +111,26 @@ s1ochiai = {}
 s2cosine = {}
 s2euclidean = {}
 
-for iteration in range(1, 2):
-    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv', TOT)
+for iteration in range(1, 11):
+    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv')
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's1jaccard', s1jaccard, iteration)
 
 print_times(s1jaccard, "dict_s1jaccard.csv")
 
-sys.exit(1)
-
 for iteration in range(1, 11):
-    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv', TOT)
+    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv')
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's1ochiai', s1ochiai, iteration)
 
 print_times(s1ochiai, "dict_s1ochiai.csv")
 
 for iteration in range(1, 11):
-    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv', TOT)
+    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv')
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's2cosine', s2cosine, iteration)
 
 print_times(s2cosine, "dict_s2cosine.csv")
 
 for iteration in range(1, 11):
-    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv', TOT)
+    mutant_traces = parse_mutant_traces(traces_path + '/' + str(iteration) + '.csv')
     process_prioritized_times(mutant_traces, prioritization_path, test_path, original_order, 's2euclidean', s2euclidean, iteration)
 
 print_times(s2euclidean, "dict_s2euclidean.csv")
