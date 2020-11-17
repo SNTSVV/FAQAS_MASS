@@ -18,18 +18,20 @@ def process_original_ms(traces, original_order):
     timeout = 0
 
     total = len(traces)
-
     for key, value in traces.items():
         for test in original_order:
-            matching = [s for s in value if test in s][0]
-            matching_fields = matching.split(';')                                                                                            
-            if 'KILLED' in matching:
-                killed += 1
-                if 'TIMEOUT' in matching:
-                    timeout += 1
-                break
+           matching = [s for s in value if ';' + test + ';' in s]
+           if len(matching) == 0:
+               continue
+           else:
+               matching_tst = matching[0]
+               if 'KILLED' in matching_tst:
+                   killed += 1
+                   if 'TIMEOUT' in matching_tst:                                                          
+                       timeout += 1 
+                   break
     return str(total) + ";" + str(killed) + ";" + str(timeout) + ";" + str(total-killed) + ";" + "{:.2f}".format(100*(killed/total))
-    
+
         
 def print_times(set_to_print, path):
     file_path = open(path, 'w')
@@ -79,13 +81,11 @@ def process_prioritized_ms(traces, prioritization_path, test_path, original_orde
         mutant_line = mutant_fields[2]
 
         p_tests = get_prioritized_tests(prioritization_path, strategy, location, mutant_name, mutant_line, iteration)
-        
         if len(p_tests) == 0:
             
             for test in original_order:
             
                 matching = [s for s in value if test in s][0]
-                matching_fields = matching.split(';')
                 if 'KILLED' in matching:
                     set_mutant_status(mutant_dict_kl, key, 1)
                     killed += 1
@@ -95,15 +95,14 @@ def process_prioritized_ms(traces, prioritization_path, test_path, original_orde
                     break 
         else:
             for test in p_tests:
-                matching_string = test_path + test
-                matching = [s for s in value if matching_string in s][0]
-            
-                matching_fields = matching.split(';')
-                if 'KILLED' in matching:
+                matching_string = ';' + test_path + test + ';'
+                matching = [s for s in value if matching_string in s]
+                matching_tst = matching[0]
+                if 'KILLED' in matching_tst:
                     set_mutant_status(mutant_dict_kl, key, 1)
                     killed += 1
                     current_killed = 1
-                    if 'TIMEOUT' in matching:
+                    if 'TIMEOUT' in matching_tst:
                         timeout += 1
                     break
 
@@ -151,8 +150,8 @@ for iteration in range(1, 11):
     prioritized_ms = process_prioritized_ms(mutant_traces, prioritization_path, test_path, original_order, 's1jaccard', s1jaccard, iteration)
     print(prioritized_ms)
     print_ms(prioritized_ms, "ms_s1jaccard.csv")
-
 print_dict(s1jaccard, "dict_s1jaccard.csv")
+
 
 for iteration in range(1, 11):
     prioritized_ms = process_prioritized_ms(mutant_traces, prioritization_path, test_path, original_order, 's1ochiai', s1ochiai, iteration)

@@ -8,10 +8,10 @@ def load_traces(file_path):
     with open(file_path) as f:
         for line in f:
             mutant_trace = line.strip().split(';')
-            if mutant_trace[0] in traces:
-                traces[mutant_trace[0]].append(line.strip())
+            if mutant_trace[0] + '|' + mutant_trace[1] in traces:
+                traces[mutant_trace[0] + '|' + mutant_trace[1]].append(line.strip())
             else:
-                traces[mutant_trace[0]] = [line.strip()]
+                traces[mutant_trace[0] + '|' + mutant_trace[1]] = [line.strip()]
     return traces
 
 def calculate_mutation_score(file_path):

@@ -8,16 +8,20 @@ def load_traces(file_path):
     with open(file_path) as f:
         for line in f:
             mutant_trace = line.strip().split(';')
-            if mutant_trace[0] in traces:
-                traces[mutant_trace[0]].append(line.strip())
+            if mutant_trace[0] + '|' + mutant_trace[1] in traces:
+                traces[mutant_trace[0] + '|' + mutant_trace[1]].append(line.strip())
             else:
-                traces[mutant_trace[0]] = [line.strip()]
+                traces[mutant_trace[0] + '|' + mutant_trace[1]] = [line.strip()]
     return traces
 
 def calculate_mutation_score(file_path):
     traces = load_traces(file_path) 
     
     total = len(traces)
+    print(total)
+
+    if total ==0:
+        return ""
     
     killed = 0
     timeout = 0
@@ -40,7 +44,11 @@ if __name__ == '__main__':
         for i in range(1, 100 +1):
             sim_file = mutation_result_path + "/sim-" + str(sampling_rate) + "/" + str(i) + ".txt"
             print(sim_file)
-            result = str(sampling_rate) + ";" + str(i) + ";" + calculate_mutation_score(sim_file)
-            print(result)
+            ms =calculate_mutation_score(sim_file)
+            if ms == "":
+                continue
+            else:
+                result = str(sampling_rate) + ";" + str(i) + ";" + ms
+                print(result)
         
-            result_file.write(result + "\n")
+                result_file.write(result + "\n")

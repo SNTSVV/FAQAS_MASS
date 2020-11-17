@@ -1,7 +1,11 @@
 #!/bin/bash
+PROJ=CSP
 
-TO_PROCESS=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASSampling/MLFS_FIXED
-CALCULATOR=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASMutationScore/calculator_fixed.py
+#########
+TO_PROCESS=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASSampling/$PROJ/REG
+CALCULATOR=$FAQAS/srcirorfaqas/FAQASOptimizations/FAQASMutationScore/calculator.py
 
 python3.6 $CALCULATOR $TO_PROCESS
+#mv simulations.csv all_sdl_reg.csv
+
 
