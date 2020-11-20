@@ -127,11 +127,11 @@ We thus rely on the original test suites provided with the software components. 
 
 {For every case study, we generated mutants by executing the \APPR toolset on Linux OS running on a MacBook Pro with 2,3 GHz 8-Core Intel Core i9. 
 Table~\ref{table:mutants} reports, for every software component, the total number of mutants that were generated, their generation time, the number of mutants successfully compiled, the proportion of compiled mutants with respect to the overall number of mutants generated, and the time required to compile mutants using the default compiler optimization options of the case study.
-The generation of mutants is fast, it takes at most \FIXME{182} seconds on the largest component (ESAIL). On average, across case studies, it takes \FIXME{11} milliseconds to generate one mutant. 
+The generation of mutants is fast, it takes at most 182 seconds on the largest component (ESAIL). On average, across case studies, it takes 11 milliseconds to generate one mutant. 
 The proportion of successfully compiled mutants is large (i.e., 86.82\% overall), though it varies from 85.35\% for ESAIL to 90.91\% for LIBGCSP and LIBUTIL.
 This proportion is in line with the ones reported in related work, though there is variation. For example, industrial case study systems that likely contain complex instructions, have shown lower success rates (e.g., 81.13\% for safety-critical software components~\cite{Baker2013}) than open source, batch utilities (e.g., 96.30\% for Coreutils~\cite{hariri2016evaluating}).} \REVNOV{PTCR-17}{In the case of compiler warnings, we simply follow the policy configured for the case study. More precisely., in the case of ESAIl and MLFS all the warnings from the compiler lead to a compilation failure. In the case of GSL the compilation process proceeds.}
  
-{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3157 to 151234 sec, for an average of 0.96 seconds required to compile a single mutant, across components. The time required by our pipeline to compile a single mutant is lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC (i.e., 22,827 LOC)  than our software components~\cite{kintis2017detecting}.
+{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3\,157 to 151\,234 sec, for an average of 0.96 seconds required to compile a single mutant, across components. The time required by our pipeline to compile a single mutant is lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC (i.e., 22\,827 LOC)  than our software components~\cite{kintis2017detecting}.
 }
 
 % {The last three columns of Table~\ref{table:mutants} present the number and percentage of mutants successfully compiled, along with the time required to compile all the mutants using the proposed incremental compilation process (Step 3 of \APPR). 
@@ -156,7 +156,8 @@ This proportion is in line with the ones reported in related work, though there 
 To make the execution of test cases for all the mutants feasible, we performed our experiments using the HPC cluster of the University of Luxembourg~\cite{HPC}.
 The HPC cluster consists of Intel Xeon E5-2680 v4 (2.4 GHz) nodes. To perform our experiments, we tested 100 mutants in parallel, each one in a dedicated node.
 
-The following sections provide experiment design and preliminary results. Results for ESAIL are not available yet - corresponding places are thus left blank.
+The following sections provide experiment design and preliminary results. 
+%Results for ESAIL are not available yet - corresponding places are thus left blank.
 
 \input{tables/experimentsMagnitude.tex}
 

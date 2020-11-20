@@ -277,3 +277,4 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+reports/RequirementsBaseline-SSS/MAIN.pdf
