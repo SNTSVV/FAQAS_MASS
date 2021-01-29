@@ -14,4 +14,4 @@ done
 
 python3.6 $EQ_UNIVOCAL 5
 
-mv all equivalents_* redundants_* univocal_* GSCSP
+# mv all equivalents_* redundants_* univocal_* GSCSP

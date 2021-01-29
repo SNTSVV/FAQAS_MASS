@@ -15,7 +15,7 @@ EXEC_DIR=$HOME/test_runs
 
 PYTHON=/usr/bin/python3.6
 
-PROCESSING=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/REDUNDANTS/processing.py
+PROCESSING=/opt/srcirorfaqas/FAQASOptimizations/FAQASDetection/REDUNDANTS/processing_esail.py
 
 MUTANT_LIST=/opt/srcirorfaqas/FAQASOptimizations/FAQASTce/process/ESAIL/all_filtered
 

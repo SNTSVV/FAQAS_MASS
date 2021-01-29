@@ -17,6 +17,10 @@ LIST_TESTS=/opt/list_tests
 TMUX=/home/svf/local2/bin/tmux
 
 LOGFILE=$EXEC_DIR/main.csv
+
+# in case the mutant was unfinished
+rm -rf $EXEC_DIR/*
+
 mkdir -p $EXEC_DIR
 touch $LOGFILE
 
@@ -31,6 +35,9 @@ source .bashrc
 source .bash_profile
 
 #########
+
+echo "JOBID:$2"
+echo "TASKID:$1"
 
 start_time=$(($(date +%s%N)/1000000))
 
@@ -118,6 +125,9 @@ make target release=true
 port=$((2300+$1))
 sed "s/PORT/$port/g" $COVERAGE/coverage.gdb.template > $COVERAGE/coverage.gdb
 
+export TMUX_TMPDIR=/tmp/$1
+mkdir -p $TMUX_TMPDIR
+
 # running only failed test cases
 for tst in $(grep "\;FAILED\;" $PREV_TESTCASES_RESULT  | awk -F ';' '{print $4}');do
 
@@ -129,29 +139,40 @@ for tst in $(grep "\;FAILED\;" $PREV_TESTCASES_RESULT  | awk -F ';' '{print $4}'
     echo "Running test case "$tst 2>&1 | tee -a $MUTANT_LOGFILE
     echo -n "${mutant_name};${location_orig};COMPILED;${tst};" >> $LOGFILE
 
-    timeout $TIMEOUT $ESAIL --obsw $PROJ_SRC/_binaries/OBSW.exe -n -c --fast --source $PROJ_SRC --version 04010000 -t $tst --gdb --coverage --port $port &
-    ESAIL_PID=$!
+    if [ "$tst" -ne "5645" ]; then
+        timeout $TIMEOUT $ESAIL --obsw $PROJ_SRC/_binaries/OBSW.exe -n -c --fast --source $PROJ_SRC --version 04010000 -t $tst --gdb --coverage --port $port &
+        ESAIL_PID=$!
 
-    sleep 8
-    echo "starting debugger" | tee -a $MUTANT_LOGFILE
-    sleep 2
+        sleep 8
+        echo "starting debugger" | tee -a $MUTANT_LOGFILE
+        sleep 2
 
-    $TMUX new-session -d -s "esail-debugger-$1" "source $COVERAGE/debugger.sh"
+        $TMUX new-session -d -s "esail-debugger-$1" "source $COVERAGE/debugger.sh"
 
-    wait $ESAIL_PID
-    EXEC_RET_CODE=$?
- 
-    mutant_end_time=$(($(date +%s%N)/1000000))
-    mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
-    
-    $TMUX kill-session -t "esail-debugger-$1"
-    sleep 2
+        wait $ESAIL_PID
+        EXEC_RET_CODE=$?
 
-    # backing up 
-    pushd $OBJECTS
-    GZIP=-9 tar czf ${tst}.tar.gz *.gc*
-    mv ${tst}.tar.gz $mutant_path/coverage
-    popd
+        mutant_end_time=$(($(date +%s%N)/1000000))
+        mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+
+        $TMUX kill-session -t "esail-debugger-$1"
+        sleep 2
+
+        # backing up
+        pushd $OBJECTS
+        GZIP=-9 tar czf ${tst}.tar.gz *.gc*
+        mv ${tst}.tar.gz $mutant_path/coverage
+        popd
+    else
+        timeout $TIMEOUT $ESAIL --obsw $PROJ_SRC/_binaries/OBSW.exe -n -c --fast --source $PROJ_SRC --version 04010000 -t $tst &
+        ESAIL_PID=$!
+
+        wait $ESAIL_PID
+        EXEC_RET_CODE=$?
+
+        mutant_end_time=$(($(date +%s%N)/1000000))
+        mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+    fi
 
     echo "Test return code: [$EXEC_RET_CODE]" 2>&1 | tee -a $MUTANT_LOGFILE
     if [ $EXEC_RET_CODE -ge 124 ];then                                                                               
@@ -168,6 +189,8 @@ for tst in $(grep "\;FAILED\;" $PREV_TESTCASES_RESULT  | awk -F ';' '{print $4}'
     echo "removing test data" 2>&1 | tee -a $MUTANT_LOGFILE
     find $OBJECTS -name '*.gcda' -delete
  
+    # need to free some space
+    rm -rf $HOME/Obsw/Test/System/testresults/*
 done
 
 # backing up coverage

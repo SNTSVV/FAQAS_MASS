@@ -18,7 +18,7 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-for i in $(find $SRC_MUTANTS -name '*.c');do
+for i in $(find $SRC_MUTANTS -name '*.c' | shuf -n 1);do
 	start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}

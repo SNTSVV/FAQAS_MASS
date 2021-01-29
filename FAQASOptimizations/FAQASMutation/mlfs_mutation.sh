@@ -117,7 +117,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 		echo "Running test case "$tst 2>&1 | tee -a $MUTANT_LOGFILE
 		echo -n "${mutant_name};COMPILED;${tst};" >> $LOGFILE
 		
-		ctimeout 60 "$BLTS_APP -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst" 2>&1 | tee -a $MUTANT_LOGFILE 
+		#ctimeout 60 "$BLTS_APP -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst" 2>&1 | tee -a $MUTANT_LOGFILE 
+		ctimeout 3000 "$BLTS_APP -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst" 2>&1 | tee -a $MUTANT_LOGFILE 
 
 		EXEC_RET_CODE=${PIPESTATUS[0]}
 		
@@ -133,7 +134,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 			echo "backing up test case coverage $filename" 2>&1 | tee -a $MUTANT_LOGFILE
 			rm -rf $tst_filename_wo_xml/Reports/Data/libm
             GZIP=-9 tar czf ${tst_filename_wo_xml}.tar.gz $tst_filename_wo_xml/Reports/Coverage/Data/${filename}.gc*
-			mv ${tst_filename_wo_xml}.tar.gz $mutant_path/coverage
+			rsync -avP --no-p --no-g --remove-source-files ${tst_filename_wo_xml}.tar.gz $mutant_path/coverage
 	
 			summaryreport=$tst_filename_wo_xml/Reports/SessionSummaryReport.xml
 			originalreport=$ORIGINAL_REPORTS/$summaryreport

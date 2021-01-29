@@ -1,12 +1,2 @@
-commands.mut.29.2_4_25.UOI.parse_node_timeout|.;1
-commands.mut.199.1_1_5.SDL.cmd_uptime|.;1
-commands.mut.104.1_1_5.SDL.cmd_ping|.;1
-commands.mut.204.4_3_12.UOI.cmd_uptime|.;4
-commands.mut.37.4_3_25.UOI.parse_node_timeout|.;1
 commands.mut.38.1_2_51.UOI.parse_node_timeout|.;1
-commands.mut.493.6_10_81.ICR.cmd_cmp_clock|.;1
-commands.mut.30.3_1_50.UOI.parse_node_timeout|.;1
-commands.mut.89.2_1_22.ICR.cmd_ping|.;1
-commands.mut.146.2_4_12.UOI.cmd_memfree|.;4
-router.mut.33.1_1_5.SDL.gs_csp_router_task_stop_with_timeout|.;1
-router.mut.71.4_3_12.UOI.gs_csp_router_task_start|.;4
+commands.mut.38.3_1_51.UOI.parse_node_timeout|.;1

@@ -33,8 +33,8 @@ def filterEquivalents():
 def filterRedundants():
     count = 0
     for key, value in hashesDict.items():
-#        print('-------------------------')
-#        print('mutant ' + key + ' ' + value)
+        print('-------------------------')
+        print('mutant ' + key + ' ' + value)
         key_splitted_w_location = key.split('|')
         location = key_splitted_w_location[1]
         key_splitted = key_splitted_w_location[0].split('.')
@@ -44,10 +44,10 @@ def filterRedundants():
         matchingFileAndFunction = [uniqueKey for uniqueKey, uniqueValue in unique_mutants.items() if filename in uniqueKey and function in uniqueKey and location in uniqueKey]
         redundant = 0
         for mutant in matchingFileAndFunction:
-#            print("     comparing with " + mutant + ' '+ unique_mutants[mutant]) 
+            print("     comparing with " + mutant + ' '+ unique_mutants[mutant]) 
             if value == unique_mutants[mutant]:
                 redundant = 1
- #               print("         REDUNDANT with " + mutant + ' ' + unique_mutants[mutant]) 
+                print("         REDUNDANT with " + mutant + ' ' + unique_mutants[mutant]) 
                 break
  
         if redundant == 0:

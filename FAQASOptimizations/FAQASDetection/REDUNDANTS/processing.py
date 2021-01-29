@@ -101,7 +101,6 @@ def retrieve_traces_mutant(mutant_key, traces, common_tests, test_path):
     traces_mutant_test = []
     for trace in traces[mutant_key]:
         executed_test = trace.split(';')[3].replace(test_path, "")
-
         if executed_test in common_tests:
             traces_mutant_test.append(trace)
 
@@ -111,6 +110,7 @@ def common_killed_tests(traces_a, traces_b):
 
     tests_a = []
     tests_b = []
+    
     for trace in traces_a:
         if "KILLED" in trace:
             tests_a.append(trace.split(';')[3])
@@ -237,8 +237,8 @@ def process(mutants, coverages, test_path, exec_dir):
             log(exec_dir, combination[0], combination[1], msg, "NA", "NA")
             continue
 
-        print(cov_traces_a)
-        print(cov_traces_b)
+#        print(cov_traces_a)
+#        print(cov_traces_b)
 
         highest_distance = 0
         selected_tst = ''
@@ -259,7 +259,7 @@ def process(mutants, coverages, test_path, exec_dir):
 
         print(combination[0], combination[1], selected_tst, distance)
 
-#        if count == 1000:
+#        if count == 2:
 #            break
 #        else:
 #            count += 1
