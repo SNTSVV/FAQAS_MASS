@@ -109,7 +109,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
           if ( fm->items[pos].type == INT ){
 
         //using threshold as "VALUE"
-            valueInt = OP->threshold-OP;
+            valueInt = OP->value;
 
           }
 
