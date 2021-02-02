@@ -4,7 +4,7 @@
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
 //
 
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <stdio.h>
 
 #define MAX_OPS 10
@@ -39,6 +39,7 @@ struct MutationOperator {
     MutationType type;
     int min;
     int max;
+    int threshold;
     int delta;
     int state;
 };
@@ -73,4 +74,3 @@ void _FAQAS_delete_FM(FaultModel *dm) {
     free( dm->items );
     free( dm );
 }
-
