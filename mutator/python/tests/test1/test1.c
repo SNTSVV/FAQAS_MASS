@@ -5,7 +5,7 @@
 
 
 int mutate( std::vector<int> *v, FaultModel *fm ){
-    _FAQAS_mutate(v->data(),fm);
+    return _FAQAS_mutate(v->data(),fm);
 }
 
  
@@ -28,4 +28,6 @@ int main()
     for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
     	std::cout << *it << '\n';
     }
+
+    return 0;
 }
