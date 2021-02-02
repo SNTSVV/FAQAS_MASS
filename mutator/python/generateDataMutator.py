@@ -66,8 +66,64 @@ def newVAT(item,_span,_type,_threshold,_delta):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
 
     operations[elements] = 0
-    currentOperator = operators[elements]
-    currentItem = positions[elements]
+
+
+def newVBT(item,_span,_type,_threshold,_delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VBT;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+
+
+def newIV(item,_span,_type,_value):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=IV;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
+
+    operations[elements] = 0
+
+
+def newINV(item,_span,_type,_min,_max,_delta,_value):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=INV;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
+
+    operations[elements] = 0
+
+
+def newSS(item,_span,_type,_threshold,_delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=SS;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+
 
 
 def closeFaultModelsDef():
@@ -131,6 +187,8 @@ def processRow(row):
     _delta=row[_p]
     _p=_p+1;
     _state=row[_p]
+    _p=_p+1;
+    _value=row[_p]
     
     elements+=1
 
@@ -161,6 +219,12 @@ def processRow(row):
             newVOR(item,_span,_type,_min,_max,_delta)
     if FT == 'VAT':
             newVAT(item,_span,_type,_threshold,_delta)
+    if FT == 'VBT':
+            newVBT(item,_span,_type,_threshold,_delta)
+    if FT == 'IV':
+            newIV(item,_span,_type,_value)
+    if FT == 'INV':
+            newINV(item,_span,_type,_min,_max,_delta,_value)
     
     lastFM=FM
     lastItem=item 

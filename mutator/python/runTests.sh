@@ -16,8 +16,8 @@ compilerOutFile=${curTest}.compile.out
 rm $outFile
 
 
-operations=`grep 'define SIZE_IfHK' FAQAS_dataDrivenMutator.h | awk '{print $3}'`
-
+operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
+echo $operations
 x=-1
 while [ $x -lt $operations ]; do
     g++ -DMUTATIONOPT=$x test1.c -o main_$x >> $compilerOutFile 2>&1
