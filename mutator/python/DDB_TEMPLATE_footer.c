@@ -18,7 +18,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 
         return 0;
     }
-    
+
     int pos = _FAQAS_selectItem();
     int op = _FAQAS_selectOperator();
     int opt = _FAQAS_selectOperation();
@@ -47,8 +47,8 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
     	//FIXME: handle min-max
    	    int mask = 1;  //00000011
 
-   	    valueBin = valueBin ^ mask; //00000100 
-	
+   	    valueBin = valueBin ^ mask; //00000100
+
 	    _FAQAS_mutated = 1;
 
     }
@@ -57,7 +57,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 	//FIXME: handle different types
 	//
 
-    	if ( fm->items[pos].type == INT ){	
+    	if ( fm->items[pos].type == INT ){
 
 	    	if ( opt == 0 ){
 		    	valueInt = OP->min-OP->delta;
@@ -66,16 +66,65 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 		    } else {
 			    //ERROR
 		    }
-		
+
 		    _FAQAS_mutated = 1;
 	    }
-	    
+
     }
+
+
+    if ( OP->type == VAT ){
+    	//FIXME: handle different types
+    	//
+
+        	if ( fm->items[pos].type == INT ){
+
+    		    	valueInt = OP->threshold+OP->delta;
+    		    }
+
+    		    _FAQAS_mutated = 1;
+    	    }
+
+        }
+
+
+    if ( OP->type == VBT ){
+        	//FIXME: handle different types
+        	//
+
+          if ( fm->items[pos].type == INT ){
+
+      	    	valueInt = OP->threshold-OP->delta;
+        		    }
+
+        		    _FAQAS_mutated = 1;
+        	    }
+
+            }
+
+
+    if ( OP->type == IV ){
+          //FIXME: handle different types
+          //
+          if ( fm->items[pos].type == INT ){
+
+        //using threshold as "VALUE"
+            valueInt = OP->threshold-OP;
+
+          }
+
+          _FAQAS_mutated = 1;
+
+        }
+
+      }
+
+
 
     if ( _FAQAS_mutated != 1 ){
         return 0;
     }
-    
+
     //
     //Store the data
     //
@@ -92,4 +141,3 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 
     return _FAQAS_mutated;
 }
-
