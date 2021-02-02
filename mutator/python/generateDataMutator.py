@@ -54,6 +54,22 @@ def newVOR(item,_span,_type,_min,_max,_delta):
     operators[elements] = currentOperator
 
 
+def newVAT(item,_span,_type,_threshold,_delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VAT;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+    currentOperator = operators[elements]
+    currentItem = positions[elements]
+
+
 def closeFaultModelsDef():
     global lastItem
     global operatorsCount
@@ -143,6 +159,8 @@ def processRow(row):
             newBF(item,_span,_type,_min,_max,_state)
     if FT == 'VOR':
             newVOR(item,_span,_type,_min,_max,_delta)
+    if FT == 'VAT':
+            newVAT(item,_span,_type,_threshold,_delta)
     
     lastFM=FM
     lastItem=item 
