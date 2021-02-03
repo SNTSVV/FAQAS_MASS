@@ -43,6 +43,7 @@ struct MutationOperator {
     int threshold;
     int delta;
     int state;
+    int value;
 };
 
 typedef struct MutationOperator MutationOperator;

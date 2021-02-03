@@ -85,7 +85,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
     		    _FAQAS_mutated = 1;
     	    }
 
-        }
+
 
 
     if ( OP->type == VBT ){
@@ -100,7 +100,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
         		    _FAQAS_mutated = 1;
         	    }
 
-            }
+
 
 
     if ( OP->type == IV ){
@@ -108,7 +108,6 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
           //
           if ( fm->items[pos].type == INT ){
 
-        //using threshold as "VALUE"
             valueInt = OP->value;
 
           }
@@ -117,7 +116,7 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
 
         }
 
-      }
+
 
 
 
