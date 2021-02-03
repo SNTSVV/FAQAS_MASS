@@ -60,10 +60,15 @@ int _FAQAS_mutate( BUFFER_TYPE *data, FaultModel *fm ){
     	if ( fm->items[pos].type == INT ){
 
 	    	if ( opt == 0 ){
+
 		    	valueInt = OP->min-OP->delta;
-		    } else if (opt == 1 ){
+		    }
+
+        else if (opt == 1 ){
 			    valueInt = OP->max+OP->delta;
-		    } else {
+		    }
+
+        else {
 			    //ERROR
 		    }
 
