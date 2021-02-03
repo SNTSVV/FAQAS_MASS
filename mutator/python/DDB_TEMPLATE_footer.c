@@ -87,6 +87,25 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
+  if (OP->type == SS) {
+    // FIXME: handle different types
+    //
+
+    if (fm->items[pos].type == INT) {
+
+      int limit = OP->threshold;
+      int shift = OP->delta;
+
+      if (valueInt >= limit) {
+        valueInt = valueInt - shift;
+      } else {
+        valueInt = valueInt + shift;
+      }
+    }
+
+    _FAQAS_mutated = 1;
+  }
+
   if (OP->type == VBT) {
     // FIXME: handle different types
     //
