@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//time.h is  included for seeding the INV random number generator in the footer
+#include <time.h>
+
 #define MAX_OPS 10
 #define ITEMS 10
 //#define MUTATIONOPT 2
