@@ -2,4 +2,4 @@ FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
 IfHK,1,1,INT,VAT,0,0,10,15,0,0
 IfHK,1,1,INT,VBT,0,0,0,15,0,0
 IfHK,1,1,INT,IV,0,0,0,0,0,69
-IfHK,1,1,INT,IV,0,0,0,0,0,70
+IfHK,1,1,INT,VOR,-5,5,0,2,0,0
