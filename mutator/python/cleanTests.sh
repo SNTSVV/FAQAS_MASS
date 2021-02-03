@@ -1,8 +1,14 @@
 #!/bin/bash
 
-pushd tests/test1/
+tests=`ls tests`
+for x in $tests
+do
+echo "Cleaning $x"
+pushd tests/${x}/
 
 rm FAQAS*
 rm main*
 
 popd
+x=$((x+1))
+done
