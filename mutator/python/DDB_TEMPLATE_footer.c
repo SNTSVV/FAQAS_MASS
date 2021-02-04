@@ -132,15 +132,31 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (OP->type == INV) {
     // FIXME: handle different types
     //
-    srand(time(0));
-
     if (fm->items[pos].type == INT) {
 
       int upper = OP->max;
       int lower = OP->min;
 
-      int num = (rand() % (upper - lower + 1)) + lower;
-      valueInt = num;
+      if (upper == lower) {
+        valueInt = upper;
+        // FIXME: throw a warning
+      } else {
+        srand(time(0));
+        int randomNum = valueInt;
+        int avoidInfinite = 0;
+
+        while (valueInt == randomNum) {
+
+          randomNum = (rand() % (upper - lower + 1)) + lower;
+          avoidInfinite++;
+
+          if (avoidInfinite == 1000) {
+            randomNum = upper;
+            break;
+          }
+        }
+        valueInt = randomNum;
+      }
     }
 
     _FAQAS_mutated = 1;
