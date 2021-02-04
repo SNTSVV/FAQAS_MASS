@@ -28,7 +28,7 @@ int main()
     n=v;
 
     int position = _FAQAS_selectItem();
-    
+
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
@@ -44,10 +44,11 @@ int main()
     // printf("********************************************\n");
 
 
-    assert( v.at(position) != n.at(position));
-    assert( v.at(position) <= 5 );
-    assert( v.at(position) >= -5 );
-
+    if (position!= -999){
+      assert( v.at(position) != n.at(position));
+      assert( v.at(position) <= 5 );
+      assert( v.at(position) >= -5 );
+  }
 
 
     return 0;
