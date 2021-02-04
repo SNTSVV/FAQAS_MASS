@@ -16,11 +16,14 @@
 
 int MUTATION=MUTATIONOPT;
 
+#typedef T_LONG long long
+
 enum DataType {
     INT,
     FLOAT,
     DOUBLE,
-    BIN
+    BIN,
+    LONG
 };
 
 typedef enum DataType DataType;

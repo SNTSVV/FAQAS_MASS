@@ -4,8 +4,9 @@
 TESTFOLDER=$1
 curTest=$2
 FAULTMODEL=$3
+TYPE=$4
 
-python generateDataMutator.py int $FAULTMODEL
+python generateDataMutator.py $TYPE $FAULTMODEL
 mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 
 

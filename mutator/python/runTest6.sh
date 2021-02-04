@@ -1,7 +1,7 @@
 #/bin/bash
 
-TESTFOLDER=tests/test4/
-curTest="test4"
+TESTFOLDER=tests/test6/
+curTest="test6"
 FAULTMODEL=faultModel4.csv
 TYPE=double
 

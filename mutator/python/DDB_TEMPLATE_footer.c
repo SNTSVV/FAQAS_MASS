@@ -4,8 +4,7 @@
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
 //
 
-// int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
-int _FAQAS_mutate(double *data, FaultModel *fm)
+int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
 {
   if (_FAQAS_mutated == 1)
     return 0;
