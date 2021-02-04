@@ -4,14 +4,16 @@
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
 //
 
-int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
+int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
+{
   if (_FAQAS_mutated == 1)
     return 0;
 
   if (MUTATION == -1)
     return 0;
 
-  if (MUTATION == -2) {
+  if (MUTATION == -2)
+  {
     FILE *f = fopen("/home/csp/logging.txt", "ab+");
     fprintf(f, "fm.ID: %d\n", fm->ID);
     fclose(f);
@@ -31,19 +33,23 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   //
   // Load the data
   //
-  if (fm->items[pos].type == BIN) {
+  if (fm->items[pos].type == BIN)
+  {
     valueBin = (int)data[pos];
   }
-  if (fm->items[pos].type == INT) {
+  if (fm->items[pos].type == INT)
+  {
     valueInt = (int)data[pos];
   }
-  if (fm->items[pos].type == DOUBLE) {
+  if (fm->items[pos].type == DOUBLE)
+  {
     valueDouble = (double)data[pos];
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
-  if (OP->type == BF) {
+  if (OP->type == BF)
+  {
     // FIXME: handle min-max
     int mask = 1; // 00000011
 
@@ -52,22 +58,27 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
-  if (OP->type == VOR) {
+  if (OP->type == VOR)
+  {
     // FIXME: handle different types
     //
 
-    if (fm->items[pos].type == INT) {
+    if (fm->items[pos].type == INT)
+    {
 
-      if (opt == 0) {
+      if (opt == 0)
+      {
 
         valueInt = OP->min - OP->delta;
       }
 
-      else if (opt == 1) {
+      else if (opt == 1)
+      {
         valueInt = OP->max + OP->delta;
       }
 
-      else {
+      else
+      {
         // ERROR
       }
 
@@ -75,110 +86,169 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     }
   }
 
-  if (OP->type == VAT) {
+  if (OP->type == VAT)
+  {
     // FIXME: handle different types
     //
 
-    if (fm->items[pos].type == INT) {
+    if (fm->items[pos].type == INT)
+    {
 
       valueInt = OP->threshold + OP->delta;
     }
 
     _FAQAS_mutated = 1;
+
+
+  if (fm->items[pos].type == DOUBLE)
+  {
+
+    valueDouble = (double) OP->threshold + OP->delta;
   }
 
-  if (OP->type == SS) {
-    // FIXME: handle different types
-    //
+  _FAQAS_mutated = 1;
+}
 
-    if (fm->items[pos].type == INT) {
+if (OP->type == VBT)
+{
+  // FIXME: handle different types
+  //
 
-      int limit = OP->threshold;
-      int shift = OP->delta;
+  if (fm->items[pos].type == INT)
+  {
 
-      if (valueInt >= limit) {
-        valueInt = valueInt - shift;
-      } else {
-        valueInt = valueInt + shift;
-      }
+    valueInt = OP->threshold - OP->delta;
+  }
+
+  if (fm->items[pos].type == DOUBLE)
+  {
+
+    valueDouble =  (double) OP->threshold - OP->delta;
+  }
+
+  _FAQAS_mutated = 1;
+}
+
+if (OP->type == IV)
+{
+  // FIXME: handle different types
+  //
+  if (fm->items[pos].type == INT)
+  {
+
+    valueInt = OP->value;
+  }
+
+  if (fm->items[pos].type == DOUBLE)
+  {
+
+    valueDouble = (double) OP->value;
+  }
+
+  _FAQAS_mutated = 1;
+}
+
+if (OP->type == SS)
+{
+  // FIXME: handle different types
+  //
+
+  if (fm->items[pos].type == INT)
+  {
+
+    int limit = OP->threshold;
+    int shift = OP->delta;
+
+    if (valueInt >= limit)
+    {
+      valueInt = valueInt - shift;
     }
-
-    _FAQAS_mutated = 1;
-  }
-
-  if (OP->type == VBT) {
-    // FIXME: handle different types
-    //
-
-    if (fm->items[pos].type == INT) {
-
-      valueInt = OP->threshold - OP->delta;
+    else
+    {
+      valueInt = valueInt + shift;
     }
-
-    _FAQAS_mutated = 1;
   }
 
-  if (OP->type == IV) {
-    // FIXME: handle different types
-    //
-    if (fm->items[pos].type == INT) {
+  if (fm->items[pos].type == DOUBLE)
+  {
 
-      valueInt = OP->value;
+    double limit = OP->threshold;
+    double shift = OP->delta;
+
+    if (valueInt >= limit)
+    {
+      valueDouble =  (double) valueDouble - shift;
     }
-
-    _FAQAS_mutated = 1;
+    else
+    {
+      valueDouble =  (double) valueDouble + shift;
+    }
   }
 
-  if (OP->type == INV) {
-    // FIXME: handle different types
-    //
-    if (fm->items[pos].type == INT) {
+  _FAQAS_mutated = 1;
+}
 
-      int upper = OP->max;
-      int lower = OP->min;
+if (OP->type == INV)
+{
+  // FIXME: handle different types
+  //
+  if (fm->items[pos].type == INT)
+  {
 
-      if (upper == lower) {
-        valueInt = upper;
-        // FIXME: throw a warning
-      } else {
-        srand(time(0));
-        int randomNum = valueInt;
-        int avoidInfinite = 0;
+    int upper = OP->max;
+    int lower = OP->min;
 
-        while (valueInt == randomNum) {
+    if (upper == lower)
+    {
+      valueInt = upper;
+      // FIXME: throw a warning
+    }
+    else
+    {
+      srand(time(0));
+      int randomNum = valueInt;
+      int avoidInfinite = 0;
 
-          randomNum = (rand() % (upper - lower + 1)) + lower;
-          avoidInfinite++;
+      while (valueInt == randomNum)
+      {
 
-          if (avoidInfinite == 1000) {
-            randomNum = upper;
-            break;
-          }
+        randomNum = (rand() % (upper - lower + 1)) + lower;
+        avoidInfinite = avoidInfinite + 1;
+
+        if (avoidInfinite == 1000)
+        {
+          randomNum = upper;
+          break;
         }
-        valueInt = randomNum;
       }
+      valueInt = randomNum;
     }
-
-    _FAQAS_mutated = 1;
   }
 
-  if (_FAQAS_mutated != 1) {
-    return 0;
-  }
+  _FAQAS_mutated = 1;
+}
 
-  //
-  // Store the data
-  //
-  // FIXME: handle span
-  if (fm->items[pos].type == INT) {
-    data[pos] = valueInt;
-  }
-  if (fm->items[pos].type == DOUBLE) {
-    data[pos] = valueDouble;
-  }
-  if (fm->items[pos].type == BIN) {
-    data[pos] = valueBin;
-  }
+if (_FAQAS_mutated != 1)
+{
+  return 0;
+}
 
-  return _FAQAS_mutated;
+//
+// Store the data
+//
+// FIXME: handle span
+if (fm->items[pos].type == INT)
+{
+  data[pos] = valueInt;
+}
+if (fm->items[pos].type == DOUBLE)
+{
+  data[pos] = valueDouble;
+}
+if (fm->items[pos].type == BIN)
+{
+  data[pos] = valueBin;
+}
+
+return _FAQAS_mutated;
 }
