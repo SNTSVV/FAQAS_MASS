@@ -18,7 +18,7 @@ int main()
     v.push_back(2.2);
     v.push_back(3.3);
     v.push_back(4.4);
-    v.push_back(5.4);
+    v.push_back(5.5);
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();

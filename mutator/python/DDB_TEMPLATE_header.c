@@ -41,12 +41,21 @@ int _FAQAS_mutated = 0;
 
 struct MutationOperator {
     MutationType type;
-    int min;
-    int max;
-    int threshold;
-    int delta;
+
+    // int min;
+    // int max;
+    // int threshold;
+    // int delta;
+    // int state;
+    // int value;
+
+    double min;
+    double max;
+    double threshold;
+    double delta;
     int state;
-    int value;
+    double value;
+
 };
 
 typedef struct MutationOperator MutationOperator;

@@ -4,7 +4,8 @@
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
 //
 
-int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
+// int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
+int _FAQAS_mutate(double *data, FaultModel *fm)
 {
   if (_FAQAS_mutated == 1)
     return 0;
@@ -84,6 +85,30 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
 
       _FAQAS_mutated = 1;
     }
+
+    if (fm->items[pos].type == DOUBLE)
+    {
+
+      if (opt == 0)
+      {
+
+        valueDouble = (double) OP->min - OP->delta;
+      }
+
+      else if (opt == 1)
+      {
+        valueDouble = (double) OP->max + OP->delta;
+      }
+
+      else
+      {
+        // ERROR
+      }
+
+      _FAQAS_mutated = 1;
+    }
+
+
   }
 
   if (OP->type == VAT)
