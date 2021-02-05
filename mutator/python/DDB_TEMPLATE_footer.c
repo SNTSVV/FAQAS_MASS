@@ -31,6 +31,22 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
   double valueDouble;
   float valueFloat;
 
+
+  float frand ( float lower, float upper )
+  {
+      return ( (float)rand() * ( upper - lower ) ) / (float)RAND_MAX + lower;
+  }
+
+  double drand ( double lower, double upper )
+  {
+      return ( (double)rand() * ( upper - lower ) ) / (double)RAND_MAX + lower;
+  }
+
+  int irand ( int lower, int upper )
+  {
+      return (rand() % (upper - lower + 1)) + lower;
+  }
+
   //
   // Load the data
   //
@@ -314,7 +330,7 @@ if (OP->type == INV)
       while (valueInt == randomNum)
       {
 
-        randomNum = (rand() % (upper - lower + 1)) + lower;
+        randomNum = irand(lower, upper)
         avoidInfinite = avoidInfinite + 1;
 
         if (avoidInfinite == 1000)
@@ -350,12 +366,52 @@ if (OP->type == INV)
       double randomNum = valueDouble;
       int avoidInfinite = 0;
 
-      while (valueInt == randomNum)
+      while (valueDouble == randomNum)
       {
 
-        double range = (upper - lower);
-        double div = RAND_MAX / range;
-        randomNum = lower + (rand() / div);
+
+        randomNum = drand(lower, upper);
+
+        avoidInfinite = avoidInfinite + 1;
+
+        if (avoidInfinite == 1000)
+        {
+          randomNum = upper;
+          break;
+        }
+      }
+      valueDouble = randomNum;
+    }
+  }
+
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    float upper = OP->max;
+    float lower = OP->min;
+
+    if (upper == lower)
+    {
+      valueFloat = upper;
+      // FIXME: throw a warning
+    }
+
+    else if (upper<lower)
+    {
+      //FIXME: throw an error
+    }
+
+    else
+    {
+      srand(time(0));
+      float randomNum = valueFloat;
+      int avoidInfinite = 0;
+
+      while (valueFloat == randomNum)
+      {
+
+
+        randomNum = frand(lower, upper);
 
         avoidInfinite = avoidInfinite + 1;
 
