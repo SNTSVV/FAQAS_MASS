@@ -241,11 +241,11 @@ if (OP->type == SS)
 
     if (valueInt >= limit)
     {
-      valueInt = valueInt - shift;
+      valueInt = valueInt + shift;
     }
     else
     {
-      valueInt = valueInt + shift;
+      valueInt = valueInt - shift;
     }
   }
 
@@ -257,11 +257,11 @@ if (OP->type == SS)
 
     if (valueInt >= limit)
     {
-      valueDouble =  (double) valueDouble - shift;
+      valueDouble =  (double) valueDouble + shift;
     }
     else
     {
-      valueDouble =  (double) valueDouble + shift;
+      valueDouble =  (double) valueDouble - shift;
     }
   }
 
@@ -273,11 +273,11 @@ if (OP->type == SS)
 
     if (valueInt >= limit)
     {
-      valueDouble =  (float) valueDouble - shift;
+      valueDouble =  (float) valueDouble + shift;
     }
     else
     {
-      valueFloat =  (float) valueDouble + shift;
+      valueFloat =  (float) valueDouble - shift;
     }
   }
 
