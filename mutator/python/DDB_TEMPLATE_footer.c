@@ -29,6 +29,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
   int valueInt;
   int valueBin;
   double valueDouble;
+  float valueFloat;
 
   //
   // Load the data
@@ -44,6 +45,10 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
   if (fm->items[pos].type == DOUBLE)
   {
     valueDouble = (double)data[pos];
+  }
+  if (fm->items[pos].type == FLOAT)
+  {
+    valueFloat = (float)data[pos];
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
@@ -108,6 +113,28 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
     }
 
 
+    if (fm->items[pos].type == FLOAT)
+    {
+
+      if (opt == 0)
+      {
+
+        valueFloat = (float) OP->min - OP->delta;
+      }
+
+      else if (opt == 1)
+      {
+        valueFloat = (float) OP->max + OP->delta;
+      }
+
+      else
+      {
+        // ERROR
+      }
+
+      _FAQAS_mutated = 1;
+    }
+
   }
 
   if (OP->type == VAT)
@@ -119,18 +146,29 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
     {
 
       valueInt = OP->threshold + OP->delta;
+
+      _FAQAS_mutated = 1;
+
     }
-
-    _FAQAS_mutated = 1;
-
 
   if (fm->items[pos].type == DOUBLE)
   {
 
     valueDouble = (double) OP->threshold + OP->delta;
+
+    _FAQAS_mutated = 1;
+
   }
 
-  _FAQAS_mutated = 1;
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    valueDouble = (float) OP->threshold + OP->delta;
+
+    _FAQAS_mutated = 1;
+  }
+
+
 }
 
 if (OP->type == VBT)
@@ -142,15 +180,27 @@ if (OP->type == VBT)
   {
 
     valueInt = OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
   }
 
   if (fm->items[pos].type == DOUBLE)
   {
 
     valueDouble =  (double) OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
   }
 
-  _FAQAS_mutated = 1;
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    valueFloat =  (float) OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
+  }
+
+
 }
 
 if (OP->type == IV)
@@ -167,6 +217,12 @@ if (OP->type == IV)
   {
 
     valueDouble = (double) OP->value;
+  }
+
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    valueFloat = (float) OP->value;
   }
 
   _FAQAS_mutated = 1;
@@ -206,6 +262,22 @@ if (OP->type == SS)
     else
     {
       valueDouble =  (double) valueDouble + shift;
+    }
+  }
+
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    float limit = OP->threshold;
+    float shift = OP->delta;
+
+    if (valueInt >= limit)
+    {
+      valueDouble =  (float) valueDouble - shift;
+    }
+    else
+    {
+      valueFloat =  (float) valueDouble + shift;
     }
   }
 
