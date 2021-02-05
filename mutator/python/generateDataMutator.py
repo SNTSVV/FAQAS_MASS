@@ -30,14 +30,14 @@ def newBF(item,_span,_type,_min,_max,_state):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].state="+_state+";\n"
 
     operations[elements] = 0
-    
+
 
 def newVOR(item,_span,_type,_min,_max,_delta):
     global operators
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VOR;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
@@ -59,7 +59,7 @@ def newVAT(item,_span,_type,_threshold,_delta):
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VAT;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
@@ -73,7 +73,7 @@ def newVBT(item,_span,_type,_threshold,_delta):
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VBT;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
@@ -87,7 +87,7 @@ def newIV(item,_span,_type,_value):
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=IV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
@@ -100,7 +100,7 @@ def newINV(item,_span,_type,_min,_max,_delta,_value):
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=INV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
@@ -116,7 +116,7 @@ def newSS(item,_span,_type,_threshold,_delta):
     global operations
     global elements
     global faultModelsDef
-    
+
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=SS;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
@@ -131,8 +131,8 @@ def closeFaultModelsDef():
     global operatorsCount
     global faultModelsDef
     global sizeDef
-   
-    size=int(lastItem)+1 
+
+    size=int(lastItem)+1
     sizeDef += "#define SIZE_"+lastFM+" "+str(size)+"\n"
 
     faultModelsDef+="return fm;\n"
@@ -168,13 +168,13 @@ def processRow(row):
 
     _p=_p+1;
     item = row[_p]
-    
+
     _p=_p+1;
     _span = row[_p]
-    
+
     _p=_p+1;
     _type = row[_p]
-    
+
     _p=_p+1;
     FT = row[_p]
     _p=_p+1;
@@ -189,11 +189,11 @@ def processRow(row):
     _state=row[_p]
     _p=_p+1;
     _value=row[_p]
-    
+
     elements+=1
 
     positions[elements]=item
-    
+
     if FM == lastFM:
         if lastItem == item:
             operatorsCount+=1
@@ -204,11 +204,11 @@ def processRow(row):
         if lastFM != "":
             closeOperators()
             closeFaultModelsDef()
-            
+
         lastItem=-1
-        faultModelsDef+="struct FaultModel* _FAQAS_"+FM+"_FM(){\n"            
+        faultModelsDef+="struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
         faultModelsDef+="FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
-        faultModelsDef += "fm->ID = " + str(fmID) + ";\n" 
+        faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         fmID += 1
 
     operators[elements]=operatorsCount
@@ -226,10 +226,10 @@ def processRow(row):
     if FT == 'INV':
             newINV(item,_span,_type,_min,_max,_delta,_value)
     if FT == 'SS':
-            newSS(item,_span,_type,_threshod,_delta)
-    
+            newSS(item,_span,_type,_threshold,_delta)
+
     lastFM=FM
-    lastItem=item 
+    lastItem=item
     lastSpan=_span
     lastType=_type
 
@@ -307,4 +307,3 @@ with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
     tfile.close()
 
 outfile.close()
-
