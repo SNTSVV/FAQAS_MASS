@@ -229,11 +229,11 @@ if (OP->type == IV)
   _FAQAS_mutated = 1;
 }
 
-if (OP->type == VBT)
+if (OP->type == SS)
 {
   // FIXME: handle different types
   //
-
+  printf("AAAA\n");
   if (fm->items[pos].type == INT)
   {
 

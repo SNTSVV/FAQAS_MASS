@@ -225,6 +225,8 @@ def processRow(row):
             newIV(item,_span,_type,_value)
     if FT == 'INV':
             newINV(item,_span,_type,_min,_max,_delta,_value)
+    if FT == 'SS':
+            newSS(item,_span,_type,_threshod,_delta)
     
     lastFM=FM
     lastItem=item 
