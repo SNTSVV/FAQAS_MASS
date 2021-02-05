@@ -172,37 +172,37 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
 
 }
 
-// if (OP->type == VBT)
-// {
-//   // FIXME: handle different types
-//   //
-//
-//   if (fm->items[pos].type == INT)
-//   {
-//
-//     valueInt = OP->threshold - OP->delta;
-//
-//     _FAQAS_mutated = 1;
-//   }
-//
-//   if (fm->items[pos].type == DOUBLE)
-//   {
-//
-//     valueDouble =  (double) OP->threshold - OP->delta;
-//
-//     _FAQAS_mutated = 1;
-//   }
-//
-//   if (fm->items[pos].type == FLOAT)
-//   {
-//
-//     valueFloat =  (float) OP->threshold - OP->delta;
-//
-//     _FAQAS_mutated = 1;
-//   }
-//
-//
-// }
+if (OP->type == VBT)
+{
+  // FIXME: handle different types
+  //
+
+  if (fm->items[pos].type == INT)
+  {
+
+    valueInt = OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
+  }
+
+  if (fm->items[pos].type == DOUBLE)
+  {
+
+    valueDouble =  (double) OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
+  }
+
+  if (fm->items[pos].type == FLOAT)
+  {
+
+    valueFloat =  (float) OP->threshold - OP->delta;
+
+    _FAQAS_mutated = 1;
+  }
+
+
+}
 
 if (OP->type == IV)
 {
@@ -233,7 +233,6 @@ if (OP->type == SS)
 {
   // FIXME: handle different types
   //
-  printf("AAAA\n");
   if (fm->items[pos].type == INT)
   {
 
@@ -394,6 +393,8 @@ if (OP->type == INV)
 
       while (valueFloat == randomNum)
       {
+
+
         randomNum = ( (float)rand() * ( upper - lower ) ) / (float)RAND_MAX + lower;
 
         avoidInfinite = avoidInfinite + 1;
@@ -404,7 +405,7 @@ if (OP->type == INV)
           break;
         }
       }
-      valueDouble = randomNum;
+      valueFloat = randomNum;
     }
   }
 

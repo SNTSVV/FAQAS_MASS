@@ -1,9 +1,9 @@
 #/bin/bash
 
-TESTFOLDER=tests/test5/
-curTest="test5"
-FAULTMODEL=faultModel5.csv
-TYPE=double
+TESTFOLDER=tests/test9/
+curTest="test9"
+FAULTMODEL=faultModel9.csv
+TYPE=float
 
 
 bash executeTest.sh "$TESTFOLDER" "$curTest" "$FAULTMODEL" $TYPE

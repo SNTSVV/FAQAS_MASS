@@ -6,15 +6,15 @@
 
 //this test will be used for INV operators
 
-int mutate( std::vector<int> *v, FaultModel *fm ){
+int mutate( std::vector<double> *v, FaultModel *fm ){
     return _FAQAS_mutate(v->data(),fm);
 }
 
-//nuovo test 5
+
 int main()
 {
     // Create a vector containing integers
-    std::vector<int> v;
+    std::vector<double> v;
 
     v.push_back(1.1);
     v.push_back(2.2);
@@ -23,7 +23,7 @@ int main()
     v.push_back(5.5);
 
 
-    std::vector<int> n;
+    std::vector<double> n;
 
     n=v;
 
