@@ -16,7 +16,7 @@
 
 int MUTATION=MUTATIONOPT;
 
-#typedef T_LONG long long
+// #typedef T_LONG long long
 
 enum DataType {
     INT,

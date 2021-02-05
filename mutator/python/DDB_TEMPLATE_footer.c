@@ -227,6 +227,12 @@ if (OP->type == INV)
       valueInt = upper;
       // FIXME: throw a warning
     }
+
+    else if (upper<lower)
+    {
+      //FIXME: throw an error
+    }
+
     else
     {
       srand(time(0));
@@ -249,8 +255,54 @@ if (OP->type == INV)
     }
   }
 
+  if (fm->items[pos].type == DOUBLE)
+  {
+
+    double upper = OP->max;
+    double lower = OP->min;
+
+    if (upper == lower)
+    {
+      valueDouble = upper;
+      // FIXME: throw a warning
+    }
+
+    else if (upper<lower)
+    {
+      //FIXME: throw an error
+    }
+
+    else
+    {
+      srand(time(0));
+      double randomNum = valueDouble;
+      int avoidInfinite = 0;
+
+      while (valueInt == randomNum)
+      {
+
+        double range = (upper - lower);
+        double div = RAND_MAX / range;
+        randomNum = lower + (rand() / div);
+
+        avoidInfinite = avoidInfinite + 1;
+
+        if (avoidInfinite == 1000)
+        {
+          randomNum = upper;
+          break;
+        }
+      }
+      valueDouble = randomNum;
+    }
+  }
+
+
   _FAQAS_mutated = 1;
 }
+
+
+
 
 if (_FAQAS_mutated != 1)
 {
