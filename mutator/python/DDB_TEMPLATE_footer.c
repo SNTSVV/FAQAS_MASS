@@ -32,21 +32,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
   float valueFloat;
 
 
-  float frand ( float lower, float upper )
-  {
-      return ( (float)rand() * ( upper - lower ) ) / (float)RAND_MAX + lower;
-  }
-
-  double drand ( double lower, double upper )
-  {
-      return ( (double)rand() * ( upper - lower ) ) / (double)RAND_MAX + lower;
-  }
-
-  int irand ( int lower, int upper )
-  {
-      return (rand() % (upper - lower + 1)) + lower;
-  }
-
   //
   // Load the data
   //
@@ -330,7 +315,7 @@ if (OP->type == INV)
       while (valueInt == randomNum)
       {
 
-        randomNum = irand(lower, upper)
+        randomNum = (rand() % (upper - lower + 1)) + lower;
         avoidInfinite = avoidInfinite + 1;
 
         if (avoidInfinite == 1000)
@@ -370,7 +355,7 @@ if (OP->type == INV)
       {
 
 
-        randomNum = drand(lower, upper);
+        randomNum = ( (double)rand() * ( upper - lower ) ) / (double)RAND_MAX + lower;
 
         avoidInfinite = avoidInfinite + 1;
 
@@ -409,9 +394,7 @@ if (OP->type == INV)
 
       while (valueFloat == randomNum)
       {
-
-
-        randomNum = frand(lower, upper);
+        randomNum = ( (float)rand() * ( upper - lower ) ) / (float)RAND_MAX + lower;
 
         avoidInfinite = avoidInfinite + 1;
 
