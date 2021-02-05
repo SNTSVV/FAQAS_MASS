@@ -172,37 +172,37 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
 
 }
 
-if (OP->type == VBT)
-{
-  // FIXME: handle different types
-  //
-
-  if (fm->items[pos].type == INT)
-  {
-
-    valueInt = OP->threshold - OP->delta;
-
-    _FAQAS_mutated = 1;
-  }
-
-  if (fm->items[pos].type == DOUBLE)
-  {
-
-    valueDouble =  (double) OP->threshold - OP->delta;
-
-    _FAQAS_mutated = 1;
-  }
-
-  if (fm->items[pos].type == FLOAT)
-  {
-
-    valueFloat =  (float) OP->threshold - OP->delta;
-
-    _FAQAS_mutated = 1;
-  }
-
-
-}
+// if (OP->type == VBT)
+// {
+//   // FIXME: handle different types
+//   //
+//
+//   if (fm->items[pos].type == INT)
+//   {
+//
+//     valueInt = OP->threshold - OP->delta;
+//
+//     _FAQAS_mutated = 1;
+//   }
+//
+//   if (fm->items[pos].type == DOUBLE)
+//   {
+//
+//     valueDouble =  (double) OP->threshold - OP->delta;
+//
+//     _FAQAS_mutated = 1;
+//   }
+//
+//   if (fm->items[pos].type == FLOAT)
+//   {
+//
+//     valueFloat =  (float) OP->threshold - OP->delta;
+//
+//     _FAQAS_mutated = 1;
+//   }
+//
+//
+// }
 
 if (OP->type == IV)
 {
@@ -229,7 +229,7 @@ if (OP->type == IV)
   _FAQAS_mutated = 1;
 }
 
-if (OP->type == SS)
+if (OP->type == VBT)
 {
   // FIXME: handle different types
   //

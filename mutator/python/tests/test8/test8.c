@@ -11,6 +11,12 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
 
 int main()
 {
+
+
+  int counter;
+
+  for (counter=0; counter <= 10; counter=counter+1){
+
     // Create a vector containing integers
     std::vector<int> v;
 
@@ -22,10 +28,11 @@ int main()
 
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_IfHK_FM();
 
-    for (counter=0; counter <= 10; increment=1){
 
+
+
+      FaultModel *fm = _FAQAS_IfHK_FM();
       mutate( &v, fm );
 
       for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it){
@@ -33,7 +40,7 @@ int main()
         std::cout << *it << '\n';
 
       }
-    
+
     }
 
 
