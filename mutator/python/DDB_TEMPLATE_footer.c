@@ -164,7 +164,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
   if (fm->items[pos].type == FLOAT)
   {
 
-    valueDouble = (float) OP->threshold + OP->delta;
+    valueFloat = (float) OP->threshold + OP->delta;
 
     _FAQAS_mutated = 1;
   }
@@ -307,7 +307,7 @@ if (OP->type == INV)
 
     else
     {
-      srand(time(0));
+      srand(time(NULL));
       int randomNum = valueInt;
       int avoidInfinite = 0;
 
@@ -346,7 +346,7 @@ if (OP->type == INV)
 
     else
     {
-      srand(time(0));
+      srand(time(NULL));
       double randomNum = valueDouble;
       int avoidInfinite = 0;
 
@@ -354,7 +354,7 @@ if (OP->type == INV)
       {
 
 
-        randomNum = ( (double)rand() * ( upper - lower ) ) / (double)RAND_MAX + lower;
+        randomNum = ( (double)rand() * ( upper - lower ) ) / RAND_MAX + lower;
 
         avoidInfinite = avoidInfinite + 1;
 
@@ -387,7 +387,8 @@ if (OP->type == INV)
 
     else
     {
-      srand(time(0));
+
+      srand(time(NULL));
       float randomNum = valueFloat;
       int avoidInfinite = 0;
 
@@ -395,7 +396,7 @@ if (OP->type == INV)
       {
 
 
-        randomNum = ( (float)rand() * ( upper - lower ) ) / (float)RAND_MAX + lower;
+        randomNum = ( (float)rand() * ( upper - lower ) ) / RAND_MAX + lower;
 
         avoidInfinite = avoidInfinite + 1;
 
@@ -406,6 +407,7 @@ if (OP->type == INV)
         }
       }
       valueFloat = randomNum;
+
     }
   }
 
@@ -436,6 +438,10 @@ if (fm->items[pos].type == DOUBLE)
 if (fm->items[pos].type == BIN)
 {
   data[pos] = valueBin;
+}
+if (fm->items[pos].type == FLOAT)
+{
+  data[pos] = valueFloat;
 }
 
 return _FAQAS_mutated;
