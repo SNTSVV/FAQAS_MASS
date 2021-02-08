@@ -286,6 +286,7 @@ selectOperations+="}\n"
 outfile = open("FAQAS_dataDrivenMutator.h", "wt")
 outfile.write(maxFMO)
 
+
 with open('DDB_TEMPLATE_header.c', 'r') as tfile:
     data = tfile.read().replace('BUFFER_TYPE', bufferType )
     outfile.write(data)
@@ -300,6 +301,9 @@ outfile.write(faultModelsDef)
 outfile.write(selectItem)
 outfile.write(selectOperator)
 outfile.write(selectOperations)
+
+#TODO: we need to add an option to specify the number of mutations to apply
+outfile.write("\n\n#define APPLY_ONE_MUTATION 0\n\n")
 
 with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
     data = tfile.read().replace('BUFFER_TYPE', bufferType )
