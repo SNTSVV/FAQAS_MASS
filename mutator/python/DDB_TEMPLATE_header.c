@@ -10,6 +10,9 @@
 //time.h is  included for seeding the INV random number generator in the footer
 #include <time.h>
 
+//math.h is included for the INV (normal distribution) and for the BF operator 
+#include <math.h>
+
 #define MAX_OPS 10
 #define ITEMS 10
 //#define MUTATIONOPT 2
