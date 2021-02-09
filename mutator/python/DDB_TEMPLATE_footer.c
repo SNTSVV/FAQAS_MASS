@@ -6,7 +6,8 @@
 
 int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
 {
-  if (_FAQAS_mutated == 1)
+if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
+  // if (_FAQAS_mutated == 1)
     return 0;
 
   if (MUTATION == -1)
