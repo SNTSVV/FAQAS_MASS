@@ -327,7 +327,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
       double limit = OP->threshold;
       double shift = OP->delta;
 
-      if (valueInt >= limit)
+      if (valueDouble >= limit)
       {
         valueDouble = (double)valueDouble + shift;
       }
@@ -343,13 +343,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
       float limit = OP->threshold;
       float shift = OP->delta;
 
-      if (valueInt >= limit)
+      if (valueFloat >= limit)
       {
-        valueDouble = (float)valueDouble + shift;
+        valueFloat = (float)valueFloat + shift;
       }
       else
       {
-        valueFloat = (float)valueDouble - shift;
+        valueFloat = (float)valueFloat - shift;
       }
     }
 

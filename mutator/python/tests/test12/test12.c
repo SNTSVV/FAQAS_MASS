@@ -33,7 +33,6 @@ int main()
     //MANUALLY ADDED PROBE END
     printf("*********%d**********\n",v.at(1));
 
-    v.clear();
 
     for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
     	std::cout << *it << '\n';

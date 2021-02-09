@@ -9,3 +9,5 @@ bash runTest6.sh
 bash runTest7.sh
 bash runTest8.sh
 bash runTest9.sh
+bash runTest10.sh
+bash runTest11.sh
