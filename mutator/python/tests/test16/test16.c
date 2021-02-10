@@ -37,25 +37,18 @@ int main()
 
     int position = _FAQAS_selectItem();
 
-    
-    for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
-    	std::cout << *it << '\n';
-    }
 
-    std::cout << "Mutation \n";
+    // for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
+    // 	std::cout << *it << '\n';
+    // }
+
+    // std::cout << "Mutation \n";
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
     mutate( &v, fm );
     //MANUALLY ADDED PROBE END
 
-
-
-     // printf("********************************************\n");
-     // printf("this is the position:%i\n", position);
-     // printf("********************************************\n");
-    // printf("this is v(1):%i\n", v.at(1));
-    // printf("********************************************\n");
 
 
     for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {

@@ -45,19 +45,18 @@ int main()
 
 
 
-     printf("********************************************\n");
-     printf("this is the position:%d\n", position);
-     printf("********************************************\n");
-     printf("this is v(1):%f\n", (double) v.at(1));
-    printf("********************************************\n");
-    printf("this is n(1):%f\n", (double) The n.at(1));
-   printf("********************************************\n");
-
+   //   printf("********************************************\n");
+   //   printf("this is the position:%d\n", position);
+   //   printf("********************************************\n");
+   //   printf("this is v(1):%f\n", (double) v.at(1));
+   //  printf("********************************************\n");
+   //  printf("this is n(1):%f\n", (double) n.at(1));
+   // printf("********************************************\n");
+   //
 
     if (position!= -999){
       assert( v.at(position) != n.at(position));
-      assert( v.at(position) <= 5.5 );
-      // assert( v.at(position) >= -5.5 );
+      
   }
 
 

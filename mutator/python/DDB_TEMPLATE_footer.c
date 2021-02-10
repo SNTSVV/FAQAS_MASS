@@ -65,7 +65,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     int flipped;
     int avoidInfinite;
 
-
     if (State == 0) {
 
       int ii = 0;
@@ -120,25 +119,20 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
     }
 
-
-    //else if (State==-1)
-    else
-    {
+    // else if (State==-1)
+    else {
 
       // mask = 1;                   // 00000011
       // valueBin = valueBin ^ mask; // 00000100
 
       int ii = 0;
 
-      for (ii = 0; ii < numberOfBits; ii = ii + 1)
-      {
+      for (ii = 0; ii < numberOfBits; ii = ii + 1) {
 
         flipped = valueBin;
         avoidInfinite = 0;
 
-
-        while (flipped == valueBin)
-        {
+        while (flipped == valueBin) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
@@ -146,22 +140,19 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
           flipped = valueBin & ~mask;
 
-          if (flipped==valueBin){
+          if (flipped == valueBin) {
 
-              flipped = valueBin | mask;
-
+            flipped = valueBin | mask;
           }
 
           avoidInfinite = avoidInfinite + 1;
 
           if (avoidInfinite == numberOfBits * 10)
             break;
-
         }
 
         valueBin = flipped;
       }
-
     }
 
     _FAQAS_mutated = 1;
