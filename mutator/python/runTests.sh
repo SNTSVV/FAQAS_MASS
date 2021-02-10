@@ -14,3 +14,6 @@ bash runTest11.sh
 bash runTest12.sh
 bash runTest13.sh
 bash runTest14.sh
+bash runTest17.sh
+bash runTest18.sh
+bash runTest19.sh
