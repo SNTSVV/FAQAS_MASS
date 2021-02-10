@@ -56,6 +56,8 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
 
   if (OP->type == BF)
   {
+
+    printf("entra nell'operatore\n");
     int mask;
     // min = position of the first flippable bit from right to left
     int Min = OP->min;
@@ -68,22 +70,25 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     // random position of the bit to be changed
     int randomPosition;
     int flipped;
-    int avoidInfinite = 0;
+    int avoidInfinite;
 
     if (State == 0){
 
+        printf("state = 0\n");
         int ii = 0;
 
         srand(time(NULL));
 
+        printf("cambiamo %d bits\n", numberOfBits);
         for (ii = 0; ii < numberOfBits; ii = ii + 1)
         {
-
+          printf("cambiamo bit n %d\n", ii);
+          avoidInfinite = 0;
           flipped = valueBin;
 
           while (flipped == valueBin)
           {
-
+            printf("entra nel while\n");
             randomPosition = (rand() % (Max - Min + 1)) + Min;
 
             mask = (int)pow(2, randomPosition);
@@ -94,11 +99,13 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
 
             if (avoidInfinite == numberOfBits * 10)
             {
+              printf("è arrivato al limite\n");
               break;
             }
           }
 
           valueBin = flipped;
+          printf("il nuovo valore è %d\n", flipped);
         }
       }
 
@@ -111,7 +118,7 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
 
         for (ii = 0; ii < numberOfBits; ii = ii + 1)
         {
-
+          avoidInfinite = 0;
           flipped = valueBin;
 
           while (flipped == valueBin)
