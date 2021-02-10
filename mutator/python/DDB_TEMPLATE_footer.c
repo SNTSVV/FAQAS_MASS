@@ -65,18 +65,18 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     int flipped;
     int avoidInfinite;
 
+  
     if (State == 0) {
 
       int ii = 0;
 
       for (ii = 0; ii < numberOfBits; ii = ii + 1) {
-
         avoidInfinite = 0;
         flipped = valueBin;
 
         while (flipped == valueBin) {
 
-          randomPosition = ((int)rand() % (Max - Min)) + Min;
+          randomPosition = (rand() % (Max - Min + 1)) + Min;
 
           mask = (int)pow(2, randomPosition);
 
@@ -85,14 +85,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
           avoidInfinite = avoidInfinite + 1;
 
           if (avoidInfinite == numberOfBits * 10) {
-
             break;
           }
         }
 
         valueBin = flipped;
       }
-
     }
 
     else if (State == 1) {
