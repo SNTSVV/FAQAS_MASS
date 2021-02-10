@@ -20,7 +20,7 @@ sizeDef=""
 lastSpan=""
 fmID=0
 
-def newBF(item,_span,_type,_min,_max,_state):
+def newBF(item,_span,_type,_min,_max,_state,_value):
     global operations
     global faultModelsDef
     faultModelsDef+="\n"
@@ -28,6 +28,7 @@ def newBF(item,_span,_type,_min,_max,_state):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_min+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].state="+_state+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
 
     operations[elements] = 0
 
@@ -214,7 +215,7 @@ def processRow(row):
     operators[elements]=operatorsCount
 
     if FT == 'BF':
-            newBF(item,_span,_type,_min,_max,_state)
+            newBF(item,_span,_type,_min,_max,_state,_value)
     if FT == 'VOR':
             newVOR(item,_span,_type,_min,_max,_delta)
     if FT == 'VAT':
