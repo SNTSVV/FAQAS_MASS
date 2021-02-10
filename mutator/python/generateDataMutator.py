@@ -26,7 +26,7 @@ def newBF(item,_span,_type,_min,_max,_state,_value):
     faultModelsDef+="\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=BF;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_min+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].state="+_state+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
 
