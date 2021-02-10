@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJ=/home/asn/grammar_test
+PROJ=/home/asn/mutation_test
 TST=$PROJ
 TYPE=1 # 1 global
 DIRS_OUT=""
@@ -27,7 +27,7 @@ for da in `find $PROJ -name '*.gcda'`;do
             
 			first_line=`head -n 1 $g`
             path=`echo $first_line | sed -n -e 's/^.*Source://p'`
-			echo asdsa d$path
+			
 			if [[ $path != *"test.c"* ]]; then
             	rm $g
                 continue

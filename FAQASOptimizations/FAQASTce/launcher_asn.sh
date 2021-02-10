@@ -1,13 +1,13 @@
 #!/bin/bash
 
 HOME=/home/asn
-GRAMMAR=$HOME/grammar_test
+GRAMMAR=$HOME/mutation_test
 GRAMMAR_SRC=$GRAMMAR
 GRAMMAR_BUILD=$GRAMMAR
 COMPILED=test.o
 GRAMMAR_ORIGINAL_BUILD=$GRAMMAR/original_build/$COMPILED
 SRC_MUTANTS=/opt/mutations/src-mutants
-EXEC_DIR=$HOME/test_runs
+EXEC_DIR=$HOME/tce_test_runs
 FLAG=$1
 COMMAND=(make)
 

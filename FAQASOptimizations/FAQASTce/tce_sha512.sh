@@ -83,7 +83,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
    
 	touch $filename_orig
  
-    if [ $count -eq 1000000000 ];then
+    if [ $count -eq 100000000 ];then
         break
     else
         count=$((count+1))

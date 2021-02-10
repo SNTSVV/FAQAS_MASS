@@ -64,8 +64,8 @@ def printSet(set_to_print, path):
 
 if __name__ == '__main__':
     traces_path = str(sys.argv[1])  
-    TOT = int(sys.argv[2])
-    mutant_traces = parse_mutant_traces(traces_path, TOT)
+    #TOT = int(sys.argv[2])
+    mutant_traces = parse_mutant_traces(traces_path)
 
     print(len(mutant_traces))
 

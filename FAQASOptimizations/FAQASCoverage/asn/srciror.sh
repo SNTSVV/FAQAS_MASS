@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRC_DIR=/home/asn/grammar_test
+SRC_DIR=/home/asn/mutation_test
 
 coverage_file=$SRC_DIR/coverage.txt
 srciror_coverage=/home/asn/.srciror/coverage
