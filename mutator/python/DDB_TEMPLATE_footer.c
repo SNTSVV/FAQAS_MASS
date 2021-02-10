@@ -4,17 +4,15 @@
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
 //
 
-int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm)
-{
-if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
-  // if (_FAQAS_mutated == 1)
+int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
+  if (APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
+    // if (_FAQAS_mutated == 1)
     return 0;
 
   if (MUTATION == -1)
     return 0;
 
-  if (MUTATION == -2)
-  {
+  if (MUTATION == -2) {
     FILE *f = fopen("/home/csp/logging.txt", "ab+");
     fprintf(f, "fm.ID: %d\n", fm->ID);
     fclose(f);
@@ -31,39 +29,34 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
   int valueBin;
   double valueDouble;
   float valueFloat;
-
+  srand(time(NULL));
   //
   // Load the data
   //
-  if (fm->items[pos].type == BIN)
-  {
+  if (fm->items[pos].type == BIN) {
     valueBin = (int)data[pos];
   }
-  if (fm->items[pos].type == INT)
-  {
+  if (fm->items[pos].type == INT) {
     valueInt = (int)data[pos];
   }
-  if (fm->items[pos].type == DOUBLE)
-  {
+  if (fm->items[pos].type == DOUBLE) {
     valueDouble = (double)data[pos];
   }
-  if (fm->items[pos].type == FLOAT)
-  {
+  if (fm->items[pos].type == FLOAT) {
     valueFloat = (float)data[pos];
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
-  if (OP->type == BF)
-  {
+  if (OP->type == BF) {
 
-    printf("entra nell'operatore\n");
     int mask;
     // min = position of the first flippable bit from right to left
     int Min = OP->min;
     // max = position of the last flippable bit from right to left
     int Max = OP->max;
     // numberOfBits: (maximum) number of bits to change
+
     int numberOfBits = OP->value;
     // state: 1 mutate only bits ==1 and viceversa
     int State = OP->state;
@@ -72,78 +65,64 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     int flipped;
     int avoidInfinite;
 
-    if (State == 0){
+    if (State == 0) {
 
-        printf("state = 0\n");
-        int ii = 0;
+      int ii = 0;
 
-        srand(time(NULL));
+      for (ii = 0; ii < numberOfBits; ii = ii + 1) {
 
-        printf("cambiamo %d bits\n", numberOfBits);
-        for (ii = 0; ii < numberOfBits; ii = ii + 1)
-        {
-          printf("cambiamo bit n %d\n", ii);
-          avoidInfinite = 0;
-          flipped = valueBin;
+        avoidInfinite = 0;
+        flipped = valueBin;
 
-          while (flipped == valueBin)
-          {
-            printf("entra nel while\n");
-            randomPosition = (rand() % (Max - Min + 1)) + Min;
+        while (flipped == valueBin) {
 
-            mask = (int)pow(2, randomPosition);
+          randomPosition = ((int)rand() % (Max - Min)) + Min;
 
-            flipped = valueBin | mask;
+          mask = (int)pow(2, randomPosition);
 
-            avoidInfinite = avoidInfinite + 1;
+          flipped = valueBin | mask;
 
-            if (avoidInfinite == numberOfBits * 10)
-            {
-              printf("è arrivato al limite\n");
-              break;
-            }
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == numberOfBits * 10) {
+
+            break;
           }
-
-          valueBin = flipped;
-          printf("il nuovo valore è %d\n", flipped);
         }
+
+        valueBin = flipped;
       }
 
-    else if (State == 1)
-      {
+    }
 
-        int ii = 0;
+    else if (State == 1) {
 
-        srand(time(NULL));
+      int ii = 0;
 
-        for (ii = 0; ii < numberOfBits; ii = ii + 1)
-        {
-          avoidInfinite = 0;
-          flipped = valueBin;
+      for (ii = 0; ii < numberOfBits; ii = ii + 1) {
+        avoidInfinite = 0;
+        flipped = valueBin;
 
-          while (flipped == valueBin)
-          {
+        while (flipped == valueBin) {
 
-            randomPosition = (rand() % (Max - Min + 1)) + Min;
+          randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-            mask = (int)pow(2, randomPosition);
+          mask = (int)pow(2, randomPosition);
 
-            flipped = valueBin & ~mask;
+          flipped = valueBin & ~mask;
 
-            avoidInfinite = avoidInfinite + 1;
+          avoidInfinite = avoidInfinite + 1;
 
-            if (avoidInfinite == numberOfBits * 10)
-            {
-              break;
-            }
+          if (avoidInfinite == numberOfBits * 10) {
+            break;
           }
-
-          valueBin = flipped;
         }
-      }
 
-    else if (State==-1)
-    {
+        valueBin = flipped;
+      }
+    }
+
+    else if (State == -1) {
 
       mask = 1;                   // 00000011
       valueBin = valueBin ^ mask; // 00000100
@@ -152,71 +131,56 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     _FAQAS_mutated = 1;
   }
 
-  if (OP->type == VOR)
-  {
-    // FIXME: handle different types
-    //
+  if (OP->type == VOR) {
 
-    if (fm->items[pos].type == INT)
-    {
+    if (fm->items[pos].type == INT) {
 
-      if (opt == 0)
-      {
+      if (opt == 0) {
 
         valueInt = OP->min - OP->delta;
       }
 
-      else if (opt == 1)
-      {
+      else if (opt == 1) {
         valueInt = OP->max + OP->delta;
       }
 
-      else
-      {
+      else {
         // ERROR
       }
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
-      if (opt == 0)
-      {
+      if (opt == 0) {
 
         valueDouble = (double)OP->min - OP->delta;
       }
 
-      else if (opt == 1)
-      {
+      else if (opt == 1) {
         valueDouble = (double)OP->max + OP->delta;
       }
 
-      else
-      {
+      else {
         // ERROR
       }
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
-      if (opt == 0)
-      {
+      if (opt == 0) {
 
         valueFloat = (float)OP->min - OP->delta;
       }
 
-      else if (opt == 1)
-      {
+      else if (opt == 1) {
         valueFloat = (float)OP->max + OP->delta;
       }
 
-      else
-      {
+      else {
         // ERROR
       }
 
@@ -224,29 +188,23 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     }
   }
 
-  if (OP->type == VAT)
-  {
-    // FIXME: handle different types
-    //
+  if (OP->type == VAT) {
 
-    if (fm->items[pos].type == INT)
-    {
+    if (fm->items[pos].type == INT) {
 
       valueInt = OP->threshold + OP->delta;
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
       valueDouble = (double)OP->threshold + OP->delta;
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
       valueFloat = (float)OP->threshold + OP->delta;
 
@@ -254,29 +212,23 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     }
   }
 
-  if (OP->type == VBT)
-  {
-    // FIXME: handle different types
-    //
+  if (OP->type == VBT) {
 
-    if (fm->items[pos].type == INT)
-    {
+    if (fm->items[pos].type == INT) {
 
       valueInt = OP->threshold - OP->delta;
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
       valueDouble = (double)OP->threshold - OP->delta;
 
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
       valueFloat = (float)OP->threshold - OP->delta;
 
@@ -284,24 +236,19 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     }
   }
 
-  if (OP->type == IV)
-  {
-    // FIXME: handle different types
-    //
-    if (fm->items[pos].type == INT)
-    {
+  if (OP->type == IV) {
+
+    if (fm->items[pos].type == INT) {
 
       valueInt = OP->value;
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
       valueDouble = (double)OP->value;
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
       valueFloat = (float)OP->value;
     }
@@ -309,54 +256,40 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     _FAQAS_mutated = 1;
   }
 
-  if (OP->type == SS)
-  {
-    // FIXME: handle different types
-    //
-    if (fm->items[pos].type == INT)
-    {
+  if (OP->type == SS) {
+
+    if (fm->items[pos].type == INT) {
 
       int limit = OP->threshold;
       int shift = OP->delta;
 
-      if (valueInt >= limit)
-      {
+      if (valueInt >= limit) {
         valueInt = valueInt + shift;
-      }
-      else
-      {
+      } else {
         valueInt = valueInt - shift;
       }
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
       double limit = OP->threshold;
       double shift = OP->delta;
 
-      if (valueDouble >= limit)
-      {
+      if (valueDouble >= limit) {
         valueDouble = (double)valueDouble + shift;
-      }
-      else
-      {
+      } else {
         valueDouble = (double)valueDouble - shift;
       }
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
       float limit = OP->threshold;
       float shift = OP->delta;
 
-      if (valueFloat >= limit)
-      {
+      if (valueFloat >= limit) {
         valueFloat = (float)valueFloat + shift;
-      }
-      else
-      {
+      } else {
         valueFloat = (float)valueFloat - shift;
       }
     }
@@ -364,41 +297,33 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     _FAQAS_mutated = 1;
   }
 
-  if (OP->type == INV)
-  {
-    // FIXME: handle different types
-    //
-    if (fm->items[pos].type == INT)
-    {
+  if (OP->type == INV) {
+
+    if (fm->items[pos].type == INT) {
 
       int upper = OP->max;
       int lower = OP->min;
 
-      if (upper == lower)
-      {
+      if (upper == lower) {
         valueInt = upper;
         // FIXME: throw a warning
       }
 
-      else if (upper < lower)
-      {
+      else if (upper < lower) {
         // FIXME: throw an error
       }
 
-      else
-      {
-        srand(time(NULL));
+      else {
+
         int randomNum = valueInt;
         int avoidInfinite = 0;
 
-        while (valueInt == randomNum)
-        {
+        while (valueInt == randomNum) {
 
           randomNum = (rand() % (upper - lower + 1)) + lower;
           avoidInfinite = avoidInfinite + 1;
 
-          if (avoidInfinite == 1000)
-          {
+          if (avoidInfinite == 1000) {
             randomNum = upper;
             break;
           }
@@ -407,38 +332,32 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
       }
     }
 
-    if (fm->items[pos].type == DOUBLE)
-    {
+    if (fm->items[pos].type == DOUBLE) {
 
       double upper = OP->max;
       double lower = OP->min;
 
-      if (upper == lower)
-      {
+      if (upper == lower) {
         valueDouble = upper;
         // FIXME: throw a warning
       }
 
-      else if (upper < lower)
-      {
+      else if (upper < lower) {
         // FIXME: throw an error
       }
 
-      else
-      {
-        srand(time(NULL));
+      else {
+
         double randomNum = valueDouble;
         int avoidInfinite = 0;
 
-        while (valueDouble == randomNum)
-        {
+        while (valueDouble == randomNum) {
 
           randomNum = ((double)rand() * (upper - lower)) / RAND_MAX + lower;
 
           avoidInfinite = avoidInfinite + 1;
 
-          if (avoidInfinite == 1000)
-          {
+          if (avoidInfinite == 1000) {
             randomNum = upper;
             break;
           }
@@ -447,39 +366,32 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
       }
     }
 
-    if (fm->items[pos].type == FLOAT)
-    {
+    if (fm->items[pos].type == FLOAT) {
 
       float upper = OP->max;
       float lower = OP->min;
 
-      if (upper == lower)
-      {
+      if (upper == lower) {
         valueFloat = upper;
         // FIXME: throw a warning
       }
 
-      else if (upper < lower)
-      {
+      else if (upper < lower) {
         // FIXME: throw an error
       }
 
-      else
-      {
+      else {
 
-        srand(time(NULL));
         float randomNum = valueFloat;
         int avoidInfinite = 0;
 
-        while (valueFloat == randomNum)
-        {
+        while (valueFloat == randomNum) {
 
           randomNum = ((float)rand() * (upper - lower)) / RAND_MAX + lower;
 
           avoidInfinite = avoidInfinite + 1;
 
-          if (avoidInfinite == 1000)
-          {
+          if (avoidInfinite == 1000) {
             randomNum = upper;
             break;
           }
@@ -491,29 +403,24 @@ if ( APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     _FAQAS_mutated = 1;
   }
 
-  if (_FAQAS_mutated != 1)
-  {
+  if (_FAQAS_mutated != 1) {
+
     return 0;
   }
 
-  //
   // Store the data
   //
   // FIXME: handle span
-  if (fm->items[pos].type == INT)
-  {
+  if (fm->items[pos].type == INT) {
     data[pos] = valueInt;
   }
-  if (fm->items[pos].type == DOUBLE)
-  {
+  if (fm->items[pos].type == DOUBLE) {
     data[pos] = valueDouble;
   }
-  if (fm->items[pos].type == BIN)
-  {
+  if (fm->items[pos].type == BIN) {
     data[pos] = valueBin;
   }
-  if (fm->items[pos].type == FLOAT)
-  {
+  if (fm->items[pos].type == FLOAT) {
     data[pos] = valueFloat;
   }
 
