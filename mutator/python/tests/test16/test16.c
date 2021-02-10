@@ -37,6 +37,12 @@ int main()
 
     int position = _FAQAS_selectItem();
 
+    
+    for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
+    	std::cout << *it << '\n';
+    }
+
+    std::cout << "Mutation \n";
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
