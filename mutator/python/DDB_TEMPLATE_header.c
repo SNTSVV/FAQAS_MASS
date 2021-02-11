@@ -21,6 +21,16 @@ int MUTATION=MUTATIONOPT;
 
 // #typedef T_LONG long long
 
+double faqas_abs(double a){
+	if ( a < 0 )
+		return - a;
+	return a;
+}
+
+int faqas_double_equal(double a, double b){
+	return faqas_abs(a-b) < 1E-3;
+}
+
 enum DataType {
     INT,
     FLOAT,
