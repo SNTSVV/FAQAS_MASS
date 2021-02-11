@@ -50,9 +50,17 @@ int main()
     //MANUALLY ADDED PROBE END
 
 
-
     for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
     	std::cout << *it << '\n';
+    }
+
+    if (position!= -999){
+
+    assert( v.at(0) == n.at(0));
+    assert( v.at(1) == n.at(1));
+    assert( v.at(2) == n.at(2));
+    assert( v.at(3) == n.at(3));
+    assert( v.at(4) == n.at(4));
     }
 
 
