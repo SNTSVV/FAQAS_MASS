@@ -25,25 +25,75 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   int opt = _FAQAS_selectOperation();
 
   // FIXME: handle items spanning over multiple array positions
-  int valueInt;
-  int valueBin;
-  double valueDouble;
-  float valueFloat;
+
+  int valueInt = 0;
+  int valueBin = 0;
+  double valueDouble = 0;
+  float valueFloat = 0;
+
   srand(time(NULL));
   //
   // Load the data
   //
-  if (fm->items[pos].type == BIN) {
-    valueBin = (int)data[pos];
+
+  int span = fm->items[pos].span;
+
+  if (span == 1) {
+
+    if (fm->items[pos].type == BIN) {
+      valueBin = (int)data[pos];
+    }
+    if (fm->items[pos].type == INT) {
+      valueInt = (int)data[pos];
+    }
+    if (fm->items[pos].type == DOUBLE) {
+      valueDouble = (double)data[pos];
+    }
+    if (fm->items[pos].type == FLOAT) {
+      valueFloat = (float)data[pos];
+    }
   }
-  if (fm->items[pos].type == INT) {
-    valueInt = (int)data[pos];
-  }
-  if (fm->items[pos].type == DOUBLE) {
-    valueDouble = (double)data[pos];
-  }
-  if (fm->items[pos].type == FLOAT) {
-    valueFloat = (float)data[pos];
+
+  else if (span != 1) {
+
+    unsigned long long kk;
+    unsigned long long step;
+    //unsigned long long bits;
+    unsigned long long row;
+    unsigned long long intermediate = 0;
+
+    for (kk = 0; kk < (span); kk = kk + 1) {
+
+      step = 8 * sizeof(data[pos + kk]);
+
+      //step = bits / span;
+
+      row = ((unsigned long long)data[pos + kk] << (step * (span - 1 - kk)));
+
+      intermediate = (intermediate | row);
+    }
+
+    switch (fm->items[pos].type) {
+
+    case BIN:
+      valueBin = (int)intermediate;
+      break;
+
+    case INT:
+      valueInt = (int)intermediate;
+      break;
+
+    case DOUBLE:
+      valueDouble = (double)intermediate;
+      break;
+
+    case FLOAT:
+      valueFloat = (float)intermediate;
+      break;
+
+    case LONG:
+      break;
+    }
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
@@ -291,8 +341,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       int shift = OP->delta;
 
       if (valueInt >= limit) {
+
         valueInt = valueInt + shift;
+
       } else {
+
         valueInt = valueInt - shift;
       }
     }
@@ -438,18 +491,64 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   // Store the data
   //
   // FIXME: handle span
-  if (fm->items[pos].type == INT) {
-    data[pos] = valueInt;
+
+  if (span == 1) {
+
+    if (fm->items[pos].type == INT) {
+      data[pos] = valueInt;
+    }
+    if (fm->items[pos].type == DOUBLE) {
+      data[pos] = valueDouble;
+    }
+    if (fm->items[pos].type == BIN) {
+      data[pos] = valueBin;
+    }
+    if (fm->items[pos].type == FLOAT) {
+      data[pos] = valueFloat;
+    }
+
   }
-  if (fm->items[pos].type == DOUBLE) {
-    data[pos] = valueDouble;
-  }
-  if (fm->items[pos].type == BIN) {
-    data[pos] = valueBin;
-  }
-  if (fm->items[pos].type == FLOAT) {
-    data[pos] = valueFloat;
-  }
+
+  else if (span != 1) {
+
+      unsigned long long fullNumber;
+
+      switch (fm->items[pos].type) {
+
+      case BIN:
+        memcpy(&fullNumber, &valueBin, sizeof(valueBin));
+        break;
+
+      case INT:
+        memcpy(&fullNumber, &valueInt, sizeof(valueInt));
+        break;
+
+      case DOUBLE:
+        memcpy(&fullNumber, &valueDouble, sizeof(valueDouble));
+        break;
+
+      case FLOAT:
+        memcpy(&fullNumber, &valueFloat, sizeof(valueFloat));
+        break;
+
+      case LONG:
+        break;
+      }
+
+      int step = sizeof(data[pos])*8;
+      int perry = 0;
+      
+      while(perry<span){
+        data[pos+perry]=sliceItUp(fullNumber,(span-1-perry)*step, (span-perry)*step);
+        perry=perry+1;
+      }
+
+
+    }
+
+
+
+
 
   return _FAQAS_mutated;
 }

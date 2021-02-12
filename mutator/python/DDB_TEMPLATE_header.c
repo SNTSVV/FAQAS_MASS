@@ -10,7 +10,7 @@
 //time.h is  included for seeding the INV random number generator in the footer
 #include <time.h>
 
-//math.h is included for the INV (normal distribution) and for the BF operator 
+//math.h is included for the INV (normal distribution) and for the BF operator
 #include <math.h>
 
 #define MAX_OPS 10
@@ -103,4 +103,23 @@ void _FAQAS_delete_FM(FaultModel *dm) {
         return;
     free( dm->items );
     free( dm );
+}
+
+//SliceItUp divides long integers in "slices" of binary to be stored in the elements of the buffer when span!=1
+unsigned long long sliceItUp(unsigned long long numberToSlice, int sliceStart,
+                             int sliceEnd) {
+
+  int i = sliceStart;
+  unsigned long long slice = 0;
+  while(i<sliceEnd) {
+    unsigned long long mask = pow(2, i);
+    unsigned long long relevant = numberToSlice & mask;
+
+    if (relevant == mask) {
+      unsigned long long knife = pow(2, i - sliceStart);
+      slice = slice | knife;
+    }
+    i=i+1;
+  }
+  return (slice);
 }
