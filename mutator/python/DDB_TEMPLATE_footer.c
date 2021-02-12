@@ -58,7 +58,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     unsigned long long kk;
     unsigned long long step;
-    //unsigned long long bits;
+    // unsigned long long bits;
     unsigned long long row;
     unsigned long long intermediate = 0;
 
@@ -66,7 +66,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       step = 8 * sizeof(data[pos + kk]);
 
-      //step = bits / span;
+      // step = bits / span;
 
       row = ((unsigned long long)data[pos + kk] << (step * (span - 1 - kk)));
 
@@ -511,44 +511,39 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   else if (span != 1) {
 
-      unsigned long long fullNumber;
+    unsigned long long fullNumber;
 
-      switch (fm->items[pos].type) {
+    switch (fm->items[pos].type) {
 
-      case BIN:
-        memcpy(&fullNumber, &valueBin, sizeof(valueBin));
-        break;
+    case BIN:
+      memcpy(&fullNumber, &valueBin, sizeof(valueBin));
+      break;
 
-      case INT:
-        memcpy(&fullNumber, &valueInt, sizeof(valueInt));
-        break;
+    case INT:
+      memcpy(&fullNumber, &valueInt, sizeof(valueInt));
+      break;
 
-      case DOUBLE:
-        memcpy(&fullNumber, &valueDouble, sizeof(valueDouble));
-        break;
+    case DOUBLE:
+      memcpy(&fullNumber, &valueDouble, sizeof(valueDouble));
+      break;
 
-      case FLOAT:
-        memcpy(&fullNumber, &valueFloat, sizeof(valueFloat));
-        break;
+    case FLOAT:
+      memcpy(&fullNumber, &valueFloat, sizeof(valueFloat));
+      break;
 
-      case LONG:
-        break;
-      }
-
-      int step = sizeof(data[pos])*8;
-      int perry = 0;
-      
-      while(perry<span){
-        data[pos+perry]=sliceItUp(fullNumber,(span-1-perry)*step, (span-perry)*step);
-        perry=perry+1;
-      }
-
-
+    case LONG:
+      break;
     }
 
+    int step = sizeof(data[pos]) * 8;
+    int perry = 0;
 
-
-
+    while (perry < span) {
+      data[pos + perry] = sliceItUp(fullNumber, (span - 1 - perry) * step,
+                                    (span - perry) * step);
+      perry = perry + 1;
+    }
+  }
 
   return _FAQAS_mutated;
 }
