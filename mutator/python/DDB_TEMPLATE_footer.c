@@ -337,41 +337,21 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT) {
 
-      int limit = OP->threshold;
       int shift = OP->delta;
-
-      if (valueInt >= limit) {
-
-        valueInt = valueInt + shift;
-
-      } else {
-
-        valueInt = valueInt - shift;
-      }
+      valueInt = (int) valueInt + shift;
     }
 
     if (fm->items[pos].type == DOUBLE) {
 
-      double limit = OP->threshold;
       double shift = OP->delta;
+      valueDouble = (double) valueDouble + shift;
 
-      if (valueDouble >= limit) {
-        valueDouble = (double)valueDouble + shift;
-      } else {
-        valueDouble = (double)valueDouble - shift;
-      }
     }
 
     if (fm->items[pos].type == FLOAT) {
 
-      float limit = OP->threshold;
       float shift = OP->delta;
-
-      if (valueFloat >= limit) {
-        valueFloat = (float)valueFloat + shift;
-      } else {
-        valueFloat = (float)valueFloat - shift;
-      }
+      valueFloat = (float) valueFloat + shift;
     }
 
     _FAQAS_mutated = 1;
@@ -488,6 +468,60 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
   }
 
+
+  if (OP->type == ASA) {
+
+    if (fm->items[pos].type == INT) {
+
+      int Tr = OP-> threshold;
+      int De = OP-> delta;
+      int Va = OP-> value;
+
+      if(valueInt>=Tr){
+        valueInt= Tr + ((valueInt-Tr)*Va)+De;
+      }
+
+      if(valueInt<Tr){
+        valueInt= Tr - ((valueInt-Tr)*Va)+De;
+      }
+
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == DOUBLE) {
+
+      double Tr = OP-> threshold;
+      double De = OP-> delta;
+      double Va = OP-> value;
+
+      if(valueDouble>=Tr){
+        valueDouble= Tr + ((valueDouble-Tr)*Va)+De;
+      }
+
+      if(valueDouble<Tr){
+        valueDouble= Tr - ((valueDouble-Tr)*Va)+De;
+      }
+
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == FLOAT) {
+
+      float Tr = OP-> threshold;
+      float De = OP-> delta;
+      float Va = OP-> value;
+
+      if(valueFloat>=Tr){
+        valueFloat= Tr + ((valueFloat-Tr)*Va)+De;
+      }
+
+      if(valueFloat<Tr){
+        valueFloat= Tr - ((valueFloat-Tr)*Va)+De;
+      }
+
+      _FAQAS_mutated = 1;
+    }
+  }
   // Store the data
   //
   // FIXME: handle span

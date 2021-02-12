@@ -48,7 +48,8 @@ enum MutationType{
     VAT,
     VBT,
     INV,
-    SS
+    SS,
+		ASA
 };
 
 typedef enum MutationType MutationType;

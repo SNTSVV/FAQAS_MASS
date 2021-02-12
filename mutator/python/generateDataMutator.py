@@ -126,6 +126,20 @@ def newSS(item,_span,_type,_threshold,_delta):
     operations[elements] = 0
 
 
+def newASA(item,_span,_type,_threshold,_delta,_value):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+
+    faultModelsDef+="\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=ASA;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].delta="+_delta+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
+
+    operations[elements] = 0
+
 
 def closeFaultModelsDef():
     global lastItem
@@ -228,6 +242,8 @@ def processRow(row):
             newINV(item,_span,_type,_min,_max,_delta,_value)
     if FT == 'SS':
             newSS(item,_span,_type,_threshold,_delta)
+    if FT == 'ASA':
+            newASA(item,_span,_type,_threshold,_delta,_value)
 
     lastFM=FM
     lastItem=item
