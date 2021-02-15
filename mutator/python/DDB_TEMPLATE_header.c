@@ -112,7 +112,7 @@ unsigned long long sliceItUp(unsigned long long numberToSlice, int sliceStart,
 
   int i = sliceStart;
   unsigned long long slice = 0;
-  while(i<sliceEnd) {
+  while(i<=sliceEnd) {
     unsigned long long mask = pow(2, i);
     unsigned long long relevant = numberToSlice & mask;
 

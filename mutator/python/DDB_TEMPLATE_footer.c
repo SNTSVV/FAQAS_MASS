@@ -44,7 +44,10 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       valueBin = (int)data[pos];
     }
     if (fm->items[pos].type == INT) {
+
       valueInt = (int)data[pos];
+
+      // printf("eccolo che entra e si prende il valore che é: %d\n", valueInt);
     }
     if (fm->items[pos].type == DOUBLE) {
       valueDouble = (double)data[pos];
@@ -97,6 +100,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
+
 
   if (OP->type == BF) {
 
@@ -471,18 +475,23 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   if (OP->type == ASA) {
 
+// printf("entra\n" );
     if (fm->items[pos].type == INT) {
-
+// printf("intero\n" );
       int Tr = OP-> threshold;
       int De = OP-> delta;
       int Va = OP-> value;
 
       if(valueInt>=Tr){
+        // printf("sopra t\n" );
         valueInt= Tr + ((valueInt-Tr)*Va)+De;
+        // printf("nuovo value %d\n", valueInt);
       }
 
       if(valueInt<Tr){
+        // printf("sotto t\n" );
         valueInt= Tr - ((valueInt-Tr)*Va)+De;
+        // printf("nuovo value %d\n", valueInt);
       }
 
       _FAQAS_mutated = 1;
