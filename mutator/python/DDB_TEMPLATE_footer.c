@@ -520,7 +520,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
-  
+
   if (_FAQAS_mutated != 1) {
 
     return 0;
@@ -528,7 +528,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   // Store the data
   //
-  // FIXME: handle span
 
   if (span == 1) {
 
