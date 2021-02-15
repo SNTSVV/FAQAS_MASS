@@ -461,10 +461,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
-  if (_FAQAS_mutated != 1) {
-
-    return 0;
-  }
 
   if (OP->type == ASA) {
 
@@ -524,6 +520,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
+  
+  if (_FAQAS_mutated != 1) {
+
+    return 0;
+  }
+
   // Store the data
   //
   // FIXME: handle span
