@@ -4,7 +4,7 @@
 #include "FAQAS_dataDrivenMutator.h"
 
 
-int mutate( std::vector<int> *v, FaultModel *fm ){
+int mutate( std::vector<short int> *v, FaultModel *fm ){
     return _FAQAS_mutate(v->data(),fm);
 }
 
@@ -12,7 +12,7 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
 int main()
 {
     // Create a vector containing integers
-    std::vector<int> v;
+    std::vector<short int> v;
 
     v.push_back(1);
     v.push_back(2);
@@ -25,7 +25,7 @@ int main()
     mutate( &v, fm );
     //MANUALLY ADDED PROBE END
 
-    for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
+    for(std::vector<short int>::iterator it = v.begin(); it != v.end(); ++it) {
     	std::cout << *it << '\n';
     }
 

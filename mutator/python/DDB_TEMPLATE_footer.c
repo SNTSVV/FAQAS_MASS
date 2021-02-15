@@ -61,7 +61,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     unsigned long long kk;
     unsigned long long step;
-    // unsigned long long bits;
     unsigned long long row;
     unsigned long long intermediate = 0;
 
@@ -69,38 +68,61 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       step = 8 * sizeof(data[pos + kk]);
 
-      // step = bits / span;
-
       row = ((unsigned long long)data[pos + kk] << (step * (span - 1 - kk)));
 
       intermediate = (intermediate | row);
     }
 
-    switch (fm->items[pos].type) {
 
-    case BIN:
-      valueBin = (int)intermediate;
-      break;
+    if (fm->items[pos].type == BIN) {
+      unsigned int fitToSize1 = (unsigned int)intermediate;
 
-    case INT:
-      valueInt = (int)intermediate;
-      break;
+      memcpy(&valueBin, &fitToSize1, sizeof(valueBin));
 
-    case DOUBLE:
-      valueDouble = (double)intermediate;
-      break;
-
-    case FLOAT:
-      valueFloat = (float)intermediate;
-      break;
-
-    case LONG:
-      break;
     }
+
+    if (fm->items[pos].type == INT) {
+      unsigned int fitToSize2 = (unsigned int)intermediate;
+      memcpy(&valueInt, &fitToSize2, sizeof(valueInt));
+    }
+
+    if (fm->items[pos].type == DOUBLE) {
+      memcpy(&valueDouble, &intermediate, sizeof(valueDouble));
+    }
+
+    if (fm->items[pos].type == FLOAT) {
+      unsigned long int fitToSize4 = (unsigned long int)intermediate;
+      memcpy(&valueFloat, &fitToSize4, sizeof(valueFloat));
+    }
+
+    // switch (fm->items[pos].type) {
+    //
+    // case BIN:
+    //   unsigned int fitToSize1 = (unsigned int)intermediate;
+    //   memcpy(&valueBin, &fitToSize1, sizeof(valueBin));
+    //   break;
+    //
+    // case INT:
+    //   unsigned int fitToSize2 = (unsigned int)intermediate;
+    //   memcpy(&valueInt, &fitToSize2, sizeof(valueInt));
+    //   break;
+    //
+    // case DOUBLE:
+    //   // valueDouble = (double)intermediate;
+    //   memcpy(&valueDouble, &intermediate, sizeof(valueDouble));
+    //   break;
+    //
+    // case FLOAT:
+    //   unsigned long int fitToSize4 = (unsigned long int)intermediate;
+    //   memcpy(&valueFloat, &fitToSize4, sizeof(valueFloat));
+    //   break;
+    //
+    // case LONG:
+    //   break;
+    // }
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
-
 
   if (OP->type == BF) {
 
@@ -342,20 +364,19 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT) {
 
       int shift = OP->delta;
-      valueInt = (int) valueInt + shift;
+      valueInt = (int)valueInt + shift;
     }
 
     if (fm->items[pos].type == DOUBLE) {
 
       double shift = OP->delta;
-      valueDouble = (double) valueDouble + shift;
-
+      valueDouble = (double)valueDouble + shift;
     }
 
     if (fm->items[pos].type == FLOAT) {
 
       float shift = OP->delta;
-      valueFloat = (float) valueFloat + shift;
+      valueFloat = (float)valueFloat + shift;
     }
 
     _FAQAS_mutated = 1;
@@ -472,25 +493,24 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
   }
 
-
   if (OP->type == ASA) {
 
-// printf("entra\n" );
+    // printf("entra\n" );
     if (fm->items[pos].type == INT) {
-// printf("intero\n" );
-      int Tr = OP-> threshold;
-      int De = OP-> delta;
-      int Va = OP-> value;
+      // printf("intero\n" );
+      int Tr = OP->threshold;
+      int De = OP->delta;
+      int Va = OP->value;
 
-      if(valueInt>=Tr){
+      if (valueInt >= Tr) {
         // printf("sopra t\n" );
-        valueInt= Tr + ((valueInt-Tr)*Va)+De;
+        valueInt = Tr + ((valueInt - Tr) * Va) + De;
         // printf("nuovo value %d\n", valueInt);
       }
 
-      if(valueInt<Tr){
+      if (valueInt < Tr) {
         // printf("sotto t\n" );
-        valueInt= Tr - ((valueInt-Tr)*Va)+De;
+        valueInt = Tr - ((valueInt - Tr) * Va) + De;
         // printf("nuovo value %d\n", valueInt);
       }
 
@@ -499,16 +519,16 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE) {
 
-      double Tr = OP-> threshold;
-      double De = OP-> delta;
-      double Va = OP-> value;
+      double Tr = OP->threshold;
+      double De = OP->delta;
+      double Va = OP->value;
 
-      if(valueDouble>=Tr){
-        valueDouble= Tr + ((valueDouble-Tr)*Va)+De;
+      if (valueDouble >= Tr) {
+        valueDouble = Tr + ((valueDouble - Tr) * Va) + De;
       }
 
-      if(valueDouble<Tr){
-        valueDouble= Tr - ((valueDouble-Tr)*Va)+De;
+      if (valueDouble < Tr) {
+        valueDouble = Tr - ((valueDouble - Tr) * Va) + De;
       }
 
       _FAQAS_mutated = 1;
@@ -516,16 +536,16 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT) {
 
-      float Tr = OP-> threshold;
-      float De = OP-> delta;
-      float Va = OP-> value;
+      float Tr = OP->threshold;
+      float De = OP->delta;
+      float Va = OP->value;
 
-      if(valueFloat>=Tr){
-        valueFloat= Tr + ((valueFloat-Tr)*Va)+De;
+      if (valueFloat >= Tr) {
+        valueFloat = Tr + ((valueFloat - Tr) * Va) + De;
       }
 
-      if(valueFloat<Tr){
-        valueFloat= Tr - ((valueFloat-Tr)*Va)+De;
+      if (valueFloat < Tr) {
+        valueFloat = Tr - ((valueFloat - Tr) * Va) + De;
       }
 
       _FAQAS_mutated = 1;
