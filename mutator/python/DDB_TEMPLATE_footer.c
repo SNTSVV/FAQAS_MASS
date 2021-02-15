@@ -75,15 +75,15 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
 
     if (fm->items[pos].type == BIN) {
-      unsigned int fitToSize1 = (unsigned int)intermediate;
+      unsigned int fitToSize = (unsigned int)intermediate;
 
-      memcpy(&valueBin, &fitToSize1, sizeof(valueBin));
+      memcpy(&valueBin, &fitToSize, sizeof(valueBin));
 
     }
 
     if (fm->items[pos].type == INT) {
-      unsigned int fitToSize2 = (unsigned int)intermediate;
-      memcpy(&valueInt, &fitToSize2, sizeof(valueInt));
+      unsigned int fitToSize = (unsigned int)intermediate;
+      memcpy(&valueInt, &fitToSize, sizeof(valueInt));
     }
 
     if (fm->items[pos].type == DOUBLE) {
@@ -91,35 +91,10 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     }
 
     if (fm->items[pos].type == FLOAT) {
-      unsigned long int fitToSize4 = (unsigned long int)intermediate;
-      memcpy(&valueFloat, &fitToSize4, sizeof(valueFloat));
+      unsigned long int fitToSize = (unsigned long int)intermediate;
+      memcpy(&valueFloat, &fitToSize, sizeof(valueFloat));
     }
 
-    // switch (fm->items[pos].type) {
-    //
-    // case BIN:
-    //   unsigned int fitToSize1 = (unsigned int)intermediate;
-    //   memcpy(&valueBin, &fitToSize1, sizeof(valueBin));
-    //   break;
-    //
-    // case INT:
-    //   unsigned int fitToSize2 = (unsigned int)intermediate;
-    //   memcpy(&valueInt, &fitToSize2, sizeof(valueInt));
-    //   break;
-    //
-    // case DOUBLE:
-    //   // valueDouble = (double)intermediate;
-    //   memcpy(&valueDouble, &intermediate, sizeof(valueDouble));
-    //   break;
-    //
-    // case FLOAT:
-    //   unsigned long int fitToSize4 = (unsigned long int)intermediate;
-    //   memcpy(&valueFloat, &fitToSize4, sizeof(valueFloat));
-    //   break;
-    //
-    // case LONG:
-    //   break;
-    // }
   }
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
