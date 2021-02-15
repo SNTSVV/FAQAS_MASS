@@ -46,8 +46,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT) {
 
       valueInt = (int)data[pos];
-
-      // printf("eccolo che entra e si prende il valore che é: %d\n", valueInt);
     }
     if (fm->items[pos].type == DOUBLE) {
       valueDouble = (double)data[pos];
@@ -76,7 +74,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == BIN) {
       unsigned int fitToSize = (unsigned int)intermediate;
-
       memcpy(&valueBin, &fitToSize, sizeof(valueBin));
 
     }
@@ -87,7 +84,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     }
 
     if (fm->items[pos].type == DOUBLE) {
-      memcpy(&valueDouble, &intermediate, sizeof(valueDouble));
+      unsigned long long int fitToSize = (unsigned long long int)intermediate;
+      memcpy(&valueDouble, &fitToSize, sizeof(valueDouble));
     }
 
     if (fm->items[pos].type == FLOAT) {
