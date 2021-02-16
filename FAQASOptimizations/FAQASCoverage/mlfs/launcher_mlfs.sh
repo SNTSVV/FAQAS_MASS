@@ -1,7 +1,8 @@
 #!/bin/bash
 
 PROJ=/home/mlfs/mlfs
-TST=/home/mlfs/unit-reports
+TST=/home/mlfs/validation/validation-reports
+#TST=/home/mlfs/unit-reports
 
 PARSER=/opt/srcirorfaqas/FAQASOptimizations/FAQASCoverage/mlfs/update_coverage.sh
 TYPE=0 # 1 means global

@@ -3,12 +3,15 @@
 HOME=/home/mlfs
 PROJ=$HOME/mlfs
 PROJ_SRC=$PROJ/libm
-PROJ_TST=$HOME/unit-test-suite
+PROJ_TST=$HOME/validation/validation-test-fmax
+#PROJ_TST=$HOME/unit-test-suite
 BLTS=$HOME/blts
 BLTS_APP=$HOME/blts_install/bin/blts_app
-ORIGINAL_REPORTS=$HOME/unit-reports
+ORIGINAL_REPORTS=$HOME/validation/validation-reports
+#ORIGINAL_REPORTS=$HOME/unit-reports
 WORKSPACE=$HOME/blts_workspace
-SRC_MUTANTS=/opt/mutations/src-mutants/$1
+SRC_MUTANTS=/opt/mutations/src-mutants
+#SRC_MUTANTS=/opt/mutations/src-mutants/$1
 EXEC_DIR=$HOME/test_runs
 
 ################################################################################
@@ -28,7 +31,6 @@ ctimeout() {
     expect -c "set echo \"-noecho\"; set timeout $time; spawn -noecho $command; expect timeout { exit 1 } eof { exit 0 }"    
     RET_CODE=$?
     if [ $RET_CODE > 0 ] ; then
-#        echo "Timeout after ${time} seconds"
 		return $RET_CODE
     else
 		return 0
@@ -42,7 +44,7 @@ touch $LOGFILE
 shopt -s extglob
 trap "exit" INT
 
-for i in $(find $SRC_MUTANTS -name '*.c');do
+for i in $(find $SRC_MUTANTS -name 's_fmax.mut.72.1_1_3.SDL.fmax.c');do
 	start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}
@@ -154,8 +156,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         	fi
 		fi
 
-		echo "removing test data" 2>&1 | tee -a $MUTANT_LOGFILE
-		rm -rf $tst_filename_wo_xml
+		#echo "removing test data" 2>&1 | tee -a $MUTANT_LOGFILE
+		#rm -rf $tst_filename_wo_xml
 		
 	done
 
@@ -170,8 +172,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
 	mv $filename_orig.orig $filename_orig
 	touch $filename_orig
 
-	echo "Deleting test data" 2>&1 | tee -a $MUTANT_LOGFILE 
-	rm -rf $WORKSPACE/*
+	#echo "Deleting test data" 2>&1 | tee -a $MUTANT_LOGFILE 
+	#rm -rf $WORKSPACE/*
 
 	end_time=$(($(date +%s%N)/1000000))
     elapsed="$(($end_time-$start_time))"

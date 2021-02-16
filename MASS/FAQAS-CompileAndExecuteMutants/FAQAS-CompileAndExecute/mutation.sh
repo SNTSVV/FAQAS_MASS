@@ -6,7 +6,7 @@ backup_tst_coverage() {
     mutant_src_name=$2
     mutant_exec_path=$3
    
-    cd /home/mlfs/blts_workspace 
+    cd $HOME/blts_workspace 
     rm -rf $tst/Reports/Data/libm
     GZIP=-9 tar czf ${tst}.tar.gz $tst/Reports/Coverage/Data/${mutant_src_name}.gc*
     mv ${tst}.tar.gz $mutant_exec_path/coverage
@@ -60,7 +60,7 @@ MUTANT_ID=$2
 COMPILATION_CMD=$3
 ADDITIONAL_CMD=$4
 ADDITIONAL_CMD_AFTER=$5
-MUTANT_TEST_LIST=$6
+TEST_LIST=$6
 
 LOGFILE=$MUT_EXEC_DIR/main.csv
 mkdir -p $MUT_EXEC_DIR
@@ -114,7 +114,7 @@ fi
 echo "Additional commands before execution of tests" 2>&1 | tee -a $MUTANT_LOGFILE
 eval "${ADDITIONAL_CMD[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
 
-for tst in $(echo $MUTANT_TEST_LIST | sed "s/;/ /g");do
+for tst in $(echo $TEST_LIST | sed "s/;/ /g");do
     mutant_start_time=$(($(date +%s%N)/1000000))
     
     echo "Running test case "$tst 2>&1 | tee -a $MUTANT_LOGFILE
@@ -178,4 +178,10 @@ end_time=$(($(date +%s%N)/1000000))
 elapsed="$(($end_time-$start_time))"
 
 echo "elapsed time $elapsed [ms]"
+
+if [ $killed -eq 1 ];then
+    exit 1
+else
+    exit 0
+fi
 

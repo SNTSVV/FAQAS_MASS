@@ -2,7 +2,8 @@
 
 import os, sys
 import argparse
-from subprocess import call
+import subprocess
+import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--sampling', type=str)
@@ -11,6 +12,7 @@ parser.add_argument('--compilation_cmd', type=str)
 parser.add_argument('--additional_cmd', type=str)
 parser.add_argument('--additional_cmd_after', type=str)
 parser.add_argument('--prioritized', type=str)
+parser.add_argument('--full_tst_order', type=str)
 
 args = parser.parse_args()
 
@@ -20,11 +22,20 @@ compilation_cmd = args.compilation_cmd
 additional_cmd = args.additional_cmd
 additional_cmd_after = args.additional_cmd_after
 prioritized = args.prioritized
+full_tst_order_file = args.full_tst_order
 
 sampled_mutants_file = os.path.join(mut_exec_dir, "sampled_mutants")
+traces_mutants_file = os.path.join(mut_exec_dir, "main.csv") 
+results_mutants_file = os.path.join(mut_exec_dir, "results.csv")
+error_mutants_file = os.path.join(mut_exec_dir, "results_100.csv")
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 mutation_script = os.path.join(cwd, "mutation.sh")
+fsci_stopping_script = os.path.join(cwd, "fsci_stopping_criterion.R")
+fsci_prt_stopping_script = os.path.join(cwd, "fsci_prt_stopping_criterion.R")
+fsci_error_script = os.path.join(cwd, "fsci_compute_error.R")
+
+error_prt = 0.0
 
 def file_len(fname):
     with open(fname) as f:
@@ -32,9 +43,25 @@ def file_len(fname):
             pass
     return i + 1
 
+def fsci_stopping_criterion():
+    result = subprocess.run([fsci_stopping_script, results_mutants_file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return int(result)
+
+def fsci_prt_stopping_criterion():
+    result = subprocess.run([fsci_prt_stopping_script, results_mutants_file, str(error_prt)], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return int(result)
+
+
 def stopping_criterion(sampling, count):
     if sampling == "fsci":
-        None
+        if prioritized:
+            if count < 100:
+                return 0
+            else:
+                return fsci_prt_stopping_criterion()
+        else:
+            return fsci_stopping_criterion()
+        
     else:
         # we covered all sampled mutants
         total_mutants = file_len(sampled_mutants_file)
@@ -57,24 +84,105 @@ def load_prioritized():
             prt_dict[key] = tst_list
     return prt_dict
 
-prt_dict = load_prioritized()
+def load_full_ts_list():
+    ts_list = []
+    with open(full_tst_order_file) as f:
+        for line in f:
+            ts_list.append(line.strip())
+    return ts_list
 
-count = 0        
-with open(sampled_mutants_file) as f:
-    for line in f:
-        mutant = line.strip()
+def log_mutation_result(mutant_file, output):
+    result_file_ = open(mutant_file, 'a+')
+    result_file_.write(str(output) + '\n')
 
-        mutant_fields = mutant.split('|')
-        mutant_id_fields = mutant_fields[0].split('.')
+def get_prioritized_tests_for_mutant(prt_dict, mutant):
+    mutant_fields = mutant.split('|')
+    mutant_id_fields = mutant_fields[0].split('.')
 
-        mutant_line_number = mutant_fields[1] + "|" + mutant_id_fields[2]        
+    mutant_line_number = mutant_fields[1] + "|" + mutant_id_fields[2]        
 
-        match = [value for key, value in prt_dict.items() if mutant_line_number in key.lower()][0]
-        
-        mutant_test_list = ";".join(match)
-        
-        call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, mutant_test_list])
-        count += 1    
-        if stopping_criterion(sampling, count) == 1:
-            break
+    match = [value for key, value in prt_dict.items() if mutant_line_number in key.lower()][0]
     
+    return match
+
+def simulate_prioritized(mutant, prt_test_list):
+
+    mutant_fields = mutant.split('|')
+    mutant_id = mutant_fields[0] + ';' + mutant_fields[1]
+
+    killed = 0
+    with open(traces_mutants_file) as f:
+        traces = [line for line in f if mutant_id in line]
+      
+        for test_case in prt_test_list:
+            test_case_key = ";" + test_case + ';'
+    
+            matches = len([s for s in traces if test_case_key in s and ";KILLED;" in s])
+
+            if matches > 0:
+                killed = 1
+
+    return killed
+
+def estimate_error():
+    result = subprocess.run([fsci_error_script, error_mutants_file, results_mutants_file], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return float(result)
+
+def execute_mutants_prioritized_ts():
+    prt_dict = load_prioritized()
+    
+    count = 0
+    with open(sampled_mutants_file) as f:
+        for line in f:
+            mutant = line.strip()
+
+            print(mutant, count)
+
+            match = get_prioritized_tests_for_mutant(prt_dict, mutant)
+            mutant_test_list = ";".join(match)
+            
+            if count < 100:
+                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, full_ts_list])
+                # ret = random.randint(0, 1)
+                log_mutation_result(error_mutants_file, ret)  # complete for simulation
+                
+                prt_ret = simulate_prioritized(mutant, match) # reduced
+                log_mutation_result(results_mutants_file, prt_ret)
+            
+            else:
+                if (count == 100):
+                    global error_prt
+                    error_prt = estimate_error()
+                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, mutant_test_list])
+                log_mutation_result(results_mutants_file, ret) # reduced
+            
+            count += 1    
+                
+            if stopping_criterion(sampling, count) == 1:
+                break
+        
+def execute_mutants_full_ts():
+    count = 0
+
+    with open(sampled_mutants_file) as f:
+        for line in f:
+            mutant = line.strip()
+
+            print(mutant, count)
+
+            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, "full", full_ts_list])
+    #        ret = random.randint(0, 1)
+            log_mutation_result(results_mutants_file, ret)
+
+            count += 1
+            if stopping_criterion(sampling, count) == 1:
+                break    
+
+full_ts = load_full_ts_list()
+full_ts_list = ";".join(full_ts)
+
+if prioritized:
+    execute_mutants_prioritized_ts()
+else:
+    execute_mutants_full_ts()
+

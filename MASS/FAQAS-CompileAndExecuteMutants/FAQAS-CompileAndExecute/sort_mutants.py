@@ -43,6 +43,11 @@ def uniform_sampling():
     sampled_mutants_list = random.sample(all_mutants, sample_size)
     print_sampled_mutants(sampled_mutants_list)
 
+def fsci_sampling():
+    sample_size = total_mutants
+    sampled_mutants_list = random.sample(all_mutants, sample_size)
+    print_sampled_mutants(sampled_mutants_list)
+
 def organise_mutants_per_function(mutants_list):
     mutants_per_function = {}
 
@@ -84,5 +89,7 @@ if sampling == 'uniform':
     uniform_sampling()
 elif sampling == 'stratified':
     stratified_sampling()
+else:
+    fsci_sampling()
 
 
