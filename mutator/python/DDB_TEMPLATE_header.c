@@ -49,7 +49,8 @@ enum MutationType{
     VBT,
     INV,
     SS,
-		ASA
+		ASA,
+		SH
 };
 
 typedef enum MutationType MutationType;
@@ -125,9 +126,10 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice, int slic
   return (slice);
 }
 
-
+//this function is useful for checking the binary data during debugging
 
 void _FAQAS_print_binary(unsigned long long n) {
+
   int steps = 8 * sizeof(n) - 1;
 
   while (steps >= 0) {
@@ -137,9 +139,13 @@ void _FAQAS_print_binary(unsigned long long n) {
     unsigned long long relevant = n & mask;
 
     if (relevant == mask) {
+
       printf("1");
+
     } else {
+
       printf("0");
+
     }
 
     steps = steps - 1;

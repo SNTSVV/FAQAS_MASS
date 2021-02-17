@@ -1,0 +1,5 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+IfHK,1,1,FLOAT,VAT,0,0,10.3,15.2,0,0
+IfHK,4,1,FLOAT,VBT,0,0,0,15.5,0,0
+IfHK,3,1,FLOAT,IV,0,0,0,0,0,69.69
+IfHK,2,1,FLOAT,VOR,-5.5,5.5,0,2,0,0

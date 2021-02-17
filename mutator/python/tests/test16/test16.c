@@ -14,19 +14,14 @@ int mutate( std::vector<long int> *v, FaultModel *fm ){
 void print_double(long int val){
 	double tmp = 0;
 
-
-     	//std::cout << "long \n";
-     	//std::cout << val << '\n';
-
 	memcpy ( &tmp, &val, sizeof(long int) );
 
-     	//std::cout << "double \n";
      	std::cout << tmp << '\n';
 }
 
 double as_double(long int val){
-	double tmp = 0;
 
+	double tmp = 0;
 
 	memcpy ( &tmp, &val, sizeof(long int) );
 
@@ -36,16 +31,7 @@ double as_double(long int val){
 void push_back(std::vector<long int> *v, double val){
 	long int tmp = 0;
 
-     	//std::cout << "PB double \n";
-     	//std::cout << val << '\n';
-
 	memcpy ( &tmp, &val, sizeof(double) );
-
-     	//std::cout << "PB long \n";
-     	//std::cout << tmp << '\n';
-
-     	//std::cout << "PB long as double \n";
-	//print_double(tmp);
 
 	v->push_back(tmp);
 }
@@ -53,7 +39,7 @@ void push_back(std::vector<long int> *v, double val){
 
 int main()
 {
-    // Create a vector containing integers
+
     std::vector<long int> v;
 
     push_back(&v,1.1);
@@ -71,11 +57,12 @@ int main()
 
 
     for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
-     	//std::cout << *it << '\n';
+
 	print_double(*it);
+
     }
 
-    std::cout << "Mutation \n";
+    std::cout << "Mutation\n";
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
@@ -84,8 +71,9 @@ int main()
 
 
     for(std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
-    	//std::cout << *it << '\n';
-	print_double(*it);
+
+      print_double(*it);
+      
     }
 
     if (position!= -999){
