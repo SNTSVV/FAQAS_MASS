@@ -109,6 +109,70 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
+
+  if (OP->type == HV) {
+
+    if (sample==1){
+
+      if (fm->items[pos].type == INT) {
+
+        storedValueInt = valueInt;
+      }
+
+      if (fm->items[pos].type == DOUBLE) {
+
+        storedValueDouble = valueDouble;
+      }
+
+      if (fm->items[pos].type == FLOAT) {
+
+        storedValueFloat = valueFloat;
+      }
+
+      if (fm->items[pos].type == BIN) {
+
+        storedValueBin = valueBin;
+      }
+
+      sample=0;
+
+      repeatCounter = OP->value;
+
+    }
+
+    if(repeatCounter>0){
+
+      if (fm->items[pos].type == INT) {
+
+        valueInt = storedValueInt;
+      }
+
+      if (fm->items[pos].type == DOUBLE) {
+
+        valueDouble = storedValueDouble;
+      }
+
+      if (fm->items[pos].type == FLOAT) {
+
+        valueFloat = storedValueFloat;
+      }
+
+      if (fm->items[pos].type == BIN) {
+
+        valueBin = storedValueBin;
+      }
+
+      repeatCounter=repeatCounter-1;
+    }
+
+    if(repeatCounter==0){
+      sample=1;
+    }
+
+    _FAQAS_mutated = 1;
+  }
+
+
   if (OP->type == BF) {
 
     unsigned long long mask;
@@ -379,6 +443,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
+
   if (OP->type == INV) {
 
     if (fm->items[pos].type == INT) {
@@ -569,6 +634,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
+
+
 
   if (_FAQAS_mutated != 1) {
 

@@ -50,7 +50,7 @@ enum MutationType{
     INV,
     SS,
 		ASA,
-		SH
+		HV
 };
 
 typedef enum MutationType MutationType;
@@ -106,6 +106,16 @@ void _FAQAS_delete_FM(FaultModel *dm) {
     free( dm->items );
     free( dm );
 }
+
+//memory for HV
+int storedValueInt;
+unsigned long long storedValueBin;
+double storedValueDouble;
+float storedValueFloat;
+
+int repeatCounter;
+int sample=1;
+
 
 //_FAQAS_slice_it_up divides long integers in "slices" of binary to be stored in the elements of the buffer when span!=1
 unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice, int sliceStart,

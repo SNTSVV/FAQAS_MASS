@@ -32,11 +32,11 @@ def newBF(item,_span,_type,_min,_max,_state,_value):
 
     operations[elements] = 0
 
-def newSH(item,_span,_type,_value):
+def newHV(item,_span,_type,_value):
     global operations
     global faultModelsDef
     faultModelsDef+="\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=SH;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=HV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].value="+_value+";\n"
 
     operations[elements] = 0
@@ -239,8 +239,8 @@ def processRow(row):
 
     if FT == 'BF':
             newBF(item,_span,_type,_min,_max,_state,_value)
-    if FT == 'SH':
-            newBF(item,_span,_type,_value)
+    if FT == 'HV':
+            newHV(item,_span,_type,_value)
     if FT == 'VOR':
             newVOR(item,_span,_type,_min,_max,_delta)
     if FT == 'VAT':
