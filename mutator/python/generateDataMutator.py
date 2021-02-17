@@ -322,6 +322,23 @@ outfile.write(selectOperations)
 #TODO: we need to add an option to specify the number of mutations to apply
 outfile.write("\n\n#define APPLY_ONE_MUTATION 0\n\n")
 
+
+outfile.write("int FAQAS_fmCov;\n")
+outfile.write("void _FAQAS_fmCoverage(int fm){\n")
+outfile.write("    switch (fm){\n")
+for x in range(fmID):
+	line = "    case {}:\n"
+	outfile.write(line.format(fmID))
+	outfile.write("    FAQAS_fmCov++;\n")
+	outfile.write("    break;\n")
+
+
+
+outfile.write("    default:\n")
+outfile.write("    break;\n")
+outfile.write("    }\n")
+outfile.write("}\n")
+
 with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
     data = tfile.read().replace('BUFFER_TYPE', bufferType )
     outfile.write(data)
