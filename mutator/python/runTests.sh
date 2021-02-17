@@ -26,3 +26,6 @@ bash runTest23.sh
 bash runTest24.sh
 bash runTest25.sh
 bash runTest26.sh
+bash runTest27.sh
+bash runTest28.sh
+bash runTest29.sh
