@@ -9,6 +9,7 @@
 Value above threshold (VAT)&
 \begin{minipage}{6cm}
 INT\\
+LONG INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
@@ -29,6 +30,7 @@ The value is above a threshold T for a delta D.
 Value below threshold (VBT)&
 \begin{minipage}{6cm}
 INT\\
+LONG INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
@@ -51,6 +53,7 @@ The value is below a threshold T for a delta D.
 Value out of range (VOR)&
 \begin{minipage}{4cm}
 INT\\
+LONG INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
@@ -80,13 +83,14 @@ BIN
 MIN: lower bit\\
 MAX: higher bit\\
 STATE: mutate only if the bit is in the given state\\
+\TRFOUR{VALUE: integer specifying the number of bits to mutate}\\
 \end{minipage}
 &
 \begin{minipage}{6cm}
-One of the bits in the position between MIN and MAX (included) is flipped.
+A number of bits randomly chosen in the positions between MIN and MAX (included) are flipped.
 
-\EMPH{Data mutation operation:} the operator flips one randomly selected bit.
-If STATE is specified, the mutation is applied only if  the bit is in the specified state.
+\EMPH{Data mutation operation:} the operator flips N randomly selected bit.
+If STATE is specified, the mutation is applied only if  the bit is in the specified state. Parameter VALUE specifies the number of bits to mutate.
 \end{minipage}
 \\
 
@@ -94,6 +98,7 @@ If STATE is specified, the mutation is applied only if  the bit is in the specif
 Invalid numeric value (INV)&
 \begin{minipage}{6cm}
 INT\\
+LONG INT\\
 FLOAT\\
 DOUBLE
 \end{minipage}
@@ -101,12 +106,14 @@ DOUBLE
 \begin{minipage}{4cm}
 MIN: lower valid value\\
 MAX: higher valid value\\
+\TRFOUR{D: distribution to follow}\\
+\TRFOUR{VALUE: mean value for normal distribution}\\
 \end{minipage}
 &
 \begin{minipage}{6cm}
 The value is legal (i.e., in the specified range) but different than the current one, which, in this case, is expected to be consistent with the status of the system.
 
-\EMPH{Data mutation operation:} Mutation is performed by replacing the current value with a different value randomly sampled in the specified range.
+\EMPH{Data mutation operation:} Mutation is performed by replacing the current value with a different value randomly sampled in the specified range. The parameter D specified the distribution to follow when performing the mutation\footnote{In our implementation 0 indicates uniform, 1 indicates normal around the specified value (but in range).}
 \end{minipage}
 \\
 
@@ -115,9 +122,9 @@ Illegal Value (IV)
 &
 \begin{minipage}{6cm}
 INT\\
+LONG INT\\
 FLOAT\\
-DOUBLE\\
-HEX
+DOUBLE
 \end{minipage}
 &
 \begin{minipage}{6cm}
@@ -130,6 +137,123 @@ The value is illegal and equal to the provided one (i.e., parameter \emph{VALUE}
 \EMPH{Data mutation operation:} Mutation is performed by replacing the current value with the value \emph{VALUE}, if different than the current one.
 \end{minipage}
 \\
+
+\hline
+\TRFOUR{Anomalous Signal Amplitude (ASA)}
+&
+\begin{minipage}{6cm}
+INT\\
+LONG INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
+&
+\begin{minipage}{6cm}
+T: change point\\
+D: delta to add/remove\\
+V: value to multiply\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+The value is modified by amplifying/reducing it by a factor V and adding or removing D from the observed value. It is used to "amplify" a signal in a constant manner to simulate unusual signal. T indicates the observed value below which instead of adding  we subtract .
+
+\EMPH{Data mutation operation:} Mutation is performed by replacing the current value ($v$) with the value ($v'$) computed as follows:
+
+\[
+v' =  
+    \begin{cases}
+      T+(  (v-T)*V  ) + D   & \mathit{if}\ v \ge T\\
+      T - (  (T-v)*V  ) - D   & \mathit{if}\ v < T
+    \end{cases}       
+\]
+\end{minipage}
+\\
+
+
+\hline
+\TRFOUR{Signal Shift (SS)}
+&
+\begin{minipage}{6cm}
+INT\\
+LONG INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
+&
+\begin{minipage}{6cm}
+D: delta by which the signal should be shifted\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+The value is modified by adding a value D. It simulate an anomalous shift in the signal.
+\end{minipage}
+\\
+
+
+
+
+
+\hline
+\TRFOUR{Hold Value (HV)}
+&
+\begin{minipage}{6cm}
+BIN\\
+INT\\
+LONG INT\\
+FLOAT\\
+DOUBLE
+\end{minipage}
+&
+\begin{minipage}{6cm}
+V: number of times to repeat the same value\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+This operator keeps repeating an observed value for $V$ times. It emulates a constant signal replacing a signal supposed to vary.
+\end{minipage}
+\\
+
+
+
+\hline
+\TRFOUR{Array Swap (AS)}
+&
+\begin{minipage}{6cm}
+ARRAY\_*\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+MIN: position of element A\\
+MAX: position of element B\\
+VALUE: number of elements to move\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+Replace a number of elements (number specified by VALUE) located starting from position MIN, with a number of elements located starting from position MAX, and viceversa.
+\EMPH{Data mutation operation:} Mutation is performed by replacing the two set of elements with each other.
+\end{minipage}
+\\
+
+
+\hline
+\TRFOUR{Array Random Swap (ARS)}
+&
+\begin{minipage}{6cm}
+ARRAY\_*\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+MIN: min position of element A/B\\
+MAX: max position of element A/B\\
+VALUE: number of elements to move\\
+\end{minipage}
+&
+\begin{minipage}{6cm}
+Replace a number of elements (number specified by VALUE) located in a position between MIN and MAX, with a number of elements located in a position between MIN and MAX. MIN and MAX specify a position with respect to the beginning and end of the array.  For example, MIN=0 indicates the first element of teh array, MIN=-2 indicates the second element of the array.
+\EMPH{Data mutation operation:} Mutation is performed by replacing the two set of elements with each other.
+\end{minipage}
+\\
+
 
 
 %Incorrect Identifier& Several transmission data fields have fixed values, for example fields identifying the transmitting satellite. Hardware/software errors may assign incorrect identifiers.\\

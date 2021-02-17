@@ -187,16 +187,26 @@ A  \INDEX{data fault class} captures the type of an error that might affect the 
 Each {data mutation operator} performs data mutation by applying a \INDEX{data mutation operation} (e.g., set a value above the upper range value). Mutation operators might apply one or more data mutation operations.
 Each data mutation operator can be configured with a set of parameters. 
 
-Table~\ref{table:faultModel:FAQAS} provides a preliminary list of data fault classes that will be supported by the FAQAS framework along with a description. For each fault class we indicate the data types to which it is expected to be applied, we identify four data types: 
+Table~\ref{table:faultModel:FAQAS} provides a preliminary list of data fault classes that will be supported by the FAQAS framework along with a description. For each fault class we indicate the data types to which it is expected to be applied, we identify \FIXME{six} data types: 
 \begin{itemize}
-\item int, which indicates an integer
+\item int, which indicates an integer 
+\item long int, which indicates a long integer 
 \item float, which indicates a floating point number
 \item double, which indicates a double precision floating point number
-\item bin, which indicate data that should be treated in its binary form
-\item hex, which stands for an hexadecimal value
+\item bin, which indicates data that should be treated in its binary form
+%\item hex, which stands for an hexadecimal value
+\item array[x], which stands for an array of $x$ variables of a given type. In our implementation, the value $x$ might be a number or, for arrays of variable size, a reference to the i-th field in the data buffer, which is supposed to contain the array size\footnote{In our implementation, we specify a negative value to determine that the value of $x$ refers to the x-th variable}.  The array type is specified in the array type name. More precisely, the engineer should provide a specific keyword that consists of the keyword 'array' followed by the name of the primitive type, as follows:
+\begin{itemize}
+\item array\_int
+\item array\_long\_int
+\item array\_float
+\item array\_double
+\item array\_bin
+%\item array\_hex
+\end{itemize}
 \end{itemize}
 
-\CHANGEDNOV{We believe that the technology implementing data mutation should depend on the type of system under test. This is mostly due to the need for (1) implementing mutation operations that are fast and (2) reducing the amount of data-modelling to be manually performed (ideally engineers would like to reuse existing models and artefacts). Based on the case studies shared for WP2, we observe that data-driven mutation testing might be performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. In our vision, these two solutions differ for the strategy used to model the data and for the algorithms implemented to execute mutation. Despite a more general solution (e.g., based on UML models) that glue together these two strategies might be feasible its implementation might be the target of an ESA activity. Indeed, when data modelling is based on generic high-level models it is necessary to implement a layer that translate high-level representation into low-level data that can be efficiently processed at runtime. The following subsections describe the two distinct cases; however, in FAQAS, we will focus on the implementation of a solution for buffer arrays. The main reasons are two (1) buffer arrays appear to be a common strategy for implementing data communication (2) in FAQAS we lack case studies based on the ASN.1 grammar (see Section~\ref{sec:caseStudies:ASN:data}).}
+\CHANGEDNOV{We believe that the technology implementing data mutation should depend on the type of system under test. This is mostly due to the need for (1) implementing mutation operations that are fast and (2) reducing the amount of data-modelling to be manually performed (ideally engineers would like to reuse existing models and artefacts). Based on the case studies shared for WP2, we observe that data-driven mutation testing might be performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. In our vision, these two solutions differ for the strategy used to model the data and for the algorithms implemented to execute mutation. Despite a more general solution (e.g., based on UML models) that glue together these two strategies might be feasible, its implementation might be the target of an ESA activity. Indeed, when data modelling is based on generic high-level models it is necessary to implement a layer that translate high-level representation into low-level data that can be efficiently processed at runtime. The following subsections describe the two distinct cases; however, in FAQAS, we will focus on the implementation of a solution for buffer arrays. The main reasons are two (1) buffer arrays appear to be a common strategy for implementing data communication (2) in FAQAS we lack case studies based on the ASN.1 grammar (see Section~\ref{sec:caseStudies:ASN:data}).}
 
 
 
