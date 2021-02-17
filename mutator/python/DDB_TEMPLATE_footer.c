@@ -13,9 +13,10 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
 
   if (MUTATION == -2) {
-    FILE *f = fopen("/home/csp/logging.txt", "ab+");
-    fprintf(f, "fm.ID: %d\n", fm->ID);
-    fclose(f);
+    _FAQAS_fmCoverage(fm->ID);
+    //FILE *f = fopen("/home/csp/logging.txt", "ab+");
+    //fprintf(f, "fm.ID: %d\n", fm->ID);
+    //fclose(f);
 
     return 0;
   }
