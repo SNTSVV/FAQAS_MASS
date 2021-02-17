@@ -1,3 +1,4 @@
+
 //
 // Copyright (c) University of Luxembourg 2020.
 // Created by Fabrizio PASTORE, fabrizio.pastore@uni.lu, SnT, 2020.
@@ -24,10 +25,9 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   int op = _FAQAS_selectOperator();
   int opt = _FAQAS_selectOperation();
 
-  // FIXME: handle items spanning over multiple array positions
-
   int valueInt = 0;
-  int valueBin = 0;
+  // int valueBin = 0;
+  unsigned long long valueBin = 0;
   double valueDouble = 0;
   float valueFloat = 0;
 
@@ -38,68 +38,79 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   int span = fm->items[pos].span;
 
-  if (span == 1) {
+  // if (span == 1) {
+  //
+  //   if (fm->items[pos].type == BIN) {
+  //     valueBin = (int)data[pos];
+  //   }
+  //   if (fm->items[pos].type == INT) {
+  //
+  //     valueInt = (int)data[pos];
+  //   }
+  //   if (fm->items[pos].type == DOUBLE) {
+  //     valueDouble = (double)data[pos];
+  //   }
+  //   if (fm->items[pos].type == FLOAT) {
+  //     valueFloat = (float)data[pos];
+  //   }
+  // }
 
-    if (fm->items[pos].type == BIN) {
-      valueBin = (int)data[pos];
-    }
-    if (fm->items[pos].type == INT) {
+  // else if (span != 1) {
 
-      valueInt = (int)data[pos];
-    }
-    if (fm->items[pos].type == DOUBLE) {
-      valueDouble = (double)data[pos];
-    }
-    if (fm->items[pos].type == FLOAT) {
-      valueFloat = (float)data[pos];
-    }
+  int kk;
+  int step;
+  unsigned long long row = 0;
+  unsigned long long intermediate = 0;
+
+  for (kk = 0; kk < (span); kk = kk + 1) {
+
+    step = 8 * sizeof(data[pos + kk]);
+
+    intermediate = intermediate << step;
+
+    row = 0;
+
+    memcpy(&row, &data[pos + kk], sizeof(data[pos + kk]));
+
+    intermediate = (intermediate | row);
   }
 
-  else if (span != 1) {
+  if (fm->items[pos].type == BIN) {
 
-    unsigned long long kk;
-    unsigned long long step;
-    unsigned long long row;
-    unsigned long long intermediate = 0;
+    unsigned long long fitToSize = (unsigned long long)intermediate;
 
-    for (kk = 0; kk < (span); kk = kk + 1) {
-
-      step = 8 * sizeof(data[pos + kk]);
-
-      row = ((unsigned long long)data[pos + kk] << (step * (span - 1 - kk)));
-
-      intermediate = (intermediate | row);
-    }
-
-
-    if (fm->items[pos].type == BIN) {
-      unsigned int fitToSize = (unsigned int)intermediate;
-      memcpy(&valueBin, &fitToSize, sizeof(valueBin));
-
-    }
-
-    if (fm->items[pos].type == INT) {
-      unsigned int fitToSize = (unsigned int)intermediate;
-      memcpy(&valueInt, &fitToSize, sizeof(valueInt));
-    }
-
-    if (fm->items[pos].type == DOUBLE) {
-      unsigned long long int fitToSize = (unsigned long long int)intermediate;
-      memcpy(&valueDouble, &fitToSize, sizeof(valueDouble));
-    }
-
-    if (fm->items[pos].type == FLOAT) {
-      unsigned long int fitToSize = (unsigned long int)intermediate;
-      memcpy(&valueFloat, &fitToSize, sizeof(valueFloat));
-    }
-
+    memcpy(&valueBin, &fitToSize, sizeof(valueBin));
   }
+
+  if (fm->items[pos].type == INT) {
+
+    unsigned int fitToSize = (unsigned int)intermediate;
+
+    memcpy(&valueInt, &fitToSize, sizeof(valueInt));
+  }
+
+  if (fm->items[pos].type == DOUBLE) {
+
+    unsigned long long int fitToSize = (unsigned long long int)intermediate;
+
+    memcpy(&valueDouble, &fitToSize, sizeof(valueDouble));
+  }
+
+  if (fm->items[pos].type == FLOAT) {
+
+    unsigned long int fitToSize = (unsigned long int)intermediate;
+
+    memcpy(&valueFloat, &fitToSize, sizeof(valueFloat));
+  }
+
+  // }
+  //  if else closing bracket
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
   if (OP->type == BF) {
 
-    int mask;
+    unsigned long long mask;
     // min = position of the first flippable bit from right to left
     int Min = OP->min;
     // max = position of the last flippable bit from right to left
@@ -111,22 +122,28 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     int State = OP->state;
     // random position of the bit to be changed
     int randomPosition;
-    int flipped;
+
+    unsigned long long flipped;
+
     int avoidInfinite;
 
     if (State == 0) {
 
+      // printf("entra nello state 0\n" );
+
       int ii = 0;
 
       for (ii = 0; ii < numberOfBits; ii = ii + 1) {
+
         avoidInfinite = 0;
+
         flipped = valueBin;
 
         while (flipped == valueBin) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = (int)pow(2, randomPosition);
+          mask = pow(2, randomPosition);
 
           flipped = valueBin | mask;
 
@@ -146,14 +163,16 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       int ii = 0;
 
       for (ii = 0; ii < numberOfBits; ii = ii + 1) {
+
         avoidInfinite = 0;
+
         flipped = valueBin;
 
         while (flipped == valueBin) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = (int)pow(2, randomPosition);
+          mask = pow(2, randomPosition);
 
           flipped = valueBin & ~mask;
 
@@ -179,13 +198,14 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       for (ii = 0; ii < numberOfBits; ii = ii + 1) {
 
         flipped = valueBin;
+
         avoidInfinite = 0;
 
         while (flipped == valueBin) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = (int)pow(2, randomPosition);
+          mask = pow(2, randomPosition);
 
           flipped = valueBin & ~mask;
 
@@ -337,18 +357,21 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT) {
 
       int shift = OP->delta;
+
       valueInt = (int)valueInt + shift;
     }
 
     if (fm->items[pos].type == DOUBLE) {
 
       double shift = OP->delta;
+
       valueDouble = (double)valueDouble + shift;
     }
 
     if (fm->items[pos].type == FLOAT) {
 
       float shift = OP->delta;
+
       valueFloat = (float)valueFloat + shift;
     }
 
@@ -360,9 +383,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT) {
 
       int upper = OP->max;
+
       int lower = OP->min;
 
       if (upper == lower) {
+
         valueInt = upper;
         // FIXME: throw a warning
       }
@@ -374,18 +399,23 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       else {
 
         int randomNum = valueInt;
+
         int avoidInfinite = 0;
 
         while (valueInt == randomNum) {
 
           randomNum = (rand() % (upper - lower + 1)) + lower;
+
           avoidInfinite = avoidInfinite + 1;
 
           if (avoidInfinite == 1000) {
+
             randomNum = upper;
+
             break;
           }
         }
+
         valueInt = randomNum;
       }
     }
@@ -393,9 +423,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == DOUBLE) {
 
       double upper = OP->max;
+
       double lower = OP->min;
 
       if (upper == lower) {
+
         valueDouble = upper;
         // FIXME: throw a warning
       }
@@ -407,6 +439,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       else {
 
         double randomNum = valueDouble;
+
         int avoidInfinite = 0;
 
         while (valueDouble == randomNum) {
@@ -416,10 +449,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
           avoidInfinite = avoidInfinite + 1;
 
           if (avoidInfinite == 1000) {
+
             randomNum = upper;
+
             break;
           }
         }
+
         valueDouble = randomNum;
       }
     }
@@ -427,9 +463,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == FLOAT) {
 
       float upper = OP->max;
+
       float lower = OP->min;
 
       if (upper == lower) {
+
         valueFloat = upper;
         // FIXME: throw a warning
       }
@@ -441,6 +479,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       else {
 
         float randomNum = valueFloat;
+
         int avoidInfinite = 0;
 
         while (valueFloat == randomNum) {
@@ -450,10 +489,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
           avoidInfinite = avoidInfinite + 1;
 
           if (avoidInfinite == 1000) {
+
             randomNum = upper;
+
             break;
           }
         }
+
         valueFloat = randomNum;
       }
     }
@@ -461,26 +503,24 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
-
   if (OP->type == ASA) {
 
-    // printf("entra\n" );
     if (fm->items[pos].type == INT) {
-      // printf("intero\n" );
+
       int Tr = OP->threshold;
+
       int De = OP->delta;
+
       int Va = OP->value;
 
       if (valueInt >= Tr) {
-        // printf("sopra t\n" );
+
         valueInt = Tr + ((valueInt - Tr) * Va) + De;
-        // printf("nuovo value %d\n", valueInt);
       }
 
       if (valueInt < Tr) {
-        // printf("sotto t\n" );
+
         valueInt = Tr - ((valueInt - Tr) * Va) + De;
-        // printf("nuovo value %d\n", valueInt);
       }
 
       _FAQAS_mutated = 1;
@@ -489,14 +529,18 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == DOUBLE) {
 
       double Tr = OP->threshold;
+
       double De = OP->delta;
+
       double Va = OP->value;
 
       if (valueDouble >= Tr) {
+
         valueDouble = Tr + ((valueDouble - Tr) * Va) + De;
       }
 
       if (valueDouble < Tr) {
+
         valueDouble = Tr - ((valueDouble - Tr) * Va) + De;
       }
 
@@ -506,14 +550,18 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == FLOAT) {
 
       float Tr = OP->threshold;
+
       float De = OP->delta;
+
       float Va = OP->value;
 
       if (valueFloat >= Tr) {
+
         valueFloat = Tr + ((valueFloat - Tr) * Va) + De;
       }
 
       if (valueFloat < Tr) {
+
         valueFloat = Tr - ((valueFloat - Tr) * Va) + De;
       }
 
@@ -529,58 +577,78 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   // Store the data
   //
 
-  if (span == 1) {
+  // if (span == 1) {
+  //
+  //   if (fm->items[pos].type == INT) {
+  //     data[pos] = valueInt;
+  //   }
+  //   if (fm->items[pos].type == DOUBLE) {
+  //     data[pos] = valueDouble;
+  //   }
+  //   if (fm->items[pos].type == BIN) {
+  //     data[pos] = valueBin;
+  //   }
+  //   if (fm->items[pos].type == FLOAT) {
+  //     data[pos] = valueFloat;
+  //   }
+  //
+  // }
 
-    if (fm->items[pos].type == INT) {
-      data[pos] = valueInt;
-    }
-    if (fm->items[pos].type == DOUBLE) {
-      data[pos] = valueDouble;
-    }
-    if (fm->items[pos].type == BIN) {
-      data[pos] = valueBin;
-    }
-    if (fm->items[pos].type == FLOAT) {
-      data[pos] = valueFloat;
-    }
+  // else if (span != 1) {
 
+  unsigned long long fullNumber = 0;
+
+  switch (fm->items[pos].type) {
+
+  case BIN:
+
+    memcpy(&fullNumber, &valueBin, sizeof(valueBin));
+
+    break;
+
+  case INT:
+
+    memcpy(&fullNumber, &valueInt, sizeof(valueInt));
+
+    break;
+
+  case DOUBLE:
+
+    memcpy(&fullNumber, &valueDouble, sizeof(valueDouble));
+
+    break;
+
+  case FLOAT:
+
+    memcpy(&fullNumber, &valueFloat, sizeof(valueFloat));
+
+    break;
+
+  case LONG:
+
+    break;
   }
 
-  else if (span != 1) {
+  int counter = 0;
 
-    unsigned long long fullNumber;
+  while (counter < span) {
 
-    switch (fm->items[pos].type) {
+    step = 8 * sizeof(data[pos + counter]);
 
-    case BIN:
-      memcpy(&fullNumber, &valueBin, sizeof(valueBin));
-      break;
+    int startSlice = (span - counter - 1) * step;
 
-    case INT:
-      memcpy(&fullNumber, &valueInt, sizeof(valueInt));
-      break;
+    int endSlice = (span - counter) * step - 1;
 
-    case DOUBLE:
-      memcpy(&fullNumber, &valueDouble, sizeof(valueDouble));
-      break;
+    unsigned long long slice =
+        _FAQAS_slice_it_up(fullNumber, startSlice, endSlice);
 
-    case FLOAT:
-      memcpy(&fullNumber, &valueFloat, sizeof(valueFloat));
-      break;
+    memcpy(&data[pos + counter], &slice, sizeof(data[pos + counter]));
 
-    case LONG:
-      break;
-    }
-
-    int step = sizeof(data[pos]) * 8;
-    int perry = 0;
-
-    while (perry < span) {
-      data[pos + perry] = sliceItUp(fullNumber, (span - 1 - perry) * step,
-                                    (span - perry) * step);
-      perry = perry + 1;
-    }
+    counter = counter + 1;
   }
+
+  // }
+  // else if closing bracket
 
   return _FAQAS_mutated;
 }

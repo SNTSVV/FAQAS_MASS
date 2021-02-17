@@ -106,8 +106,8 @@ void _FAQAS_delete_FM(FaultModel *dm) {
     free( dm );
 }
 
-//SliceItUp divides long integers in "slices" of binary to be stored in the elements of the buffer when span!=1
-unsigned long long sliceItUp(unsigned long long numberToSlice, int sliceStart,
+//_FAQAS_slice_it_up divides long integers in "slices" of binary to be stored in the elements of the buffer when span!=1
+unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice, int sliceStart,
                              int sliceEnd) {
 
   int i = sliceStart;
@@ -123,4 +123,27 @@ unsigned long long sliceItUp(unsigned long long numberToSlice, int sliceStart,
     i=i+1;
   }
   return (slice);
+}
+
+
+
+void _FAQAS_print_binary(unsigned long long n) {
+  int steps = 8 * sizeof(n) - 1;
+
+  while (steps >= 0) {
+
+    unsigned long long mask = pow(2, steps);
+
+    unsigned long long relevant = n & mask;
+
+    if (relevant == mask) {
+      printf("1");
+    } else {
+      printf("0");
+    }
+
+    steps = steps - 1;
+  }
+
+  printf("\n");
 }
