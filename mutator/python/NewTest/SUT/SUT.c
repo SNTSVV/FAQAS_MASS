@@ -6,29 +6,29 @@
 #include <vector>
 #include <string.h>
 
-int mutate(std::vector<long long int> *v, FaultModel *fm) {
+int mutate(std::vector<long int> *v, FaultModel *fm) {
 return _FAQAS_mutate(v->data(), fm);
  }
 
-void double_push_back(std::vector<long long int> *v, double val) {
+void double_push_back(std::vector<long int> *v, double val) {
 
-  long long int tmp = 0;
+  long int tmp = 0;
 
   memcpy(&tmp, &val, sizeof(double));
 
   v->push_back(tmp);
 }
 
-void float_push_back(std::vector<long long int> *v, float val) {
-  long long int tmp = 0;
+void float_push_back(std::vector<long int> *v, float val) {
+  long int tmp = 0;
 
   memcpy(&tmp, &val, sizeof(float));
 
   v->push_back(tmp);
 }
 
-void int_push_back(std::vector<long long int> *v, int val) {
-  long long int tmp = 0;
+void int_push_back(std::vector<long int> *v, int val) {
+  long int tmp = 0;
 
   memcpy(&tmp, &val, sizeof(int));
 
@@ -41,10 +41,10 @@ std::vector<float> vectorB;
 
 std::vector<double> vectorC;
 
-std::vector<long long int> bufferA;
-std::vector<long long int> bufferB;
-std::vector<long long int> bufferC;
-std::vector<long long int> bufferMain;
+std::vector<long int> bufferA;
+std::vector<long int> bufferB;
+std::vector<long int> bufferC;
+std::vector<long int> bufferMain;
 
 std::vector<int> minA;
 std::vector<int> maxA;
@@ -64,9 +64,10 @@ void sensorA() {
     position = position + 1;
   }
 
-  // // PROBE
-  // int mutate(&bufferA, fm)
-  // // END OF THE PROBE
+   // PROBE
+  FaultModel *fm = _FAQAS_SensorA_FM();
+  mutate(&bufferA, fm);
+   // END OF THE PROBE
 }
 
 void sensorB() {
@@ -79,6 +80,11 @@ void sensorB() {
     float_push_back(&bufferB, vectorB[position]);
     position = position + 1;
   }
+  // PROBE
+  FaultModel *fm = _FAQAS_SensorB_FM();
+  mutate(&bufferA, fm);
+   // END OF THE PROBE
+
 }
 
 void sensorC() {
@@ -90,6 +96,12 @@ void sensorC() {
     double_push_back(&bufferC, vectorC[position]);
     position = position + 1;
   }
+
+  // PROBE
+  FaultModel *fm = _FAQAS_SensorC_FM();
+  mutate(&bufferA, fm);
+   // END OF THE PROBE
+
 }
 
 void actuatorA() {
@@ -265,7 +277,7 @@ int main() {
   //**************************************************************************
   //**************************************************************************
 
-  int controlType = 2;
+  int controlType = 0;
 
   // 0=feedback loop: both sensors and actuators are active.
   // 1=feedforward: actuators are active but non sensors.
