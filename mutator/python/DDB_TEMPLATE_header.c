@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 //time.h is  included for seeding the INV random number generator in the footer
 #include <time.h>

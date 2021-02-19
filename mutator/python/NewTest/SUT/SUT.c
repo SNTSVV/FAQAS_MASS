@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <string.h>
 
 int mutate(std::vector<long long int> *v, FaultModel *fm) {
 return _FAQAS_mutate(v->data(), fm);
