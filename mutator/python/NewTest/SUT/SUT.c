@@ -1,13 +1,13 @@
-// #include "FAQAS_dataDrivenMutator.h"
-// #include <assert.h> /* assert */
+//
+#include "FAQAS_dataDrivenMutator.h"
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
 
-// int mutate(std::vector<long long int> *v, FaultModel *fm) {
-//   return _FAQAS_mutate(v->data(), fm);
-// }
+int mutate(std::vector<long long int> *v, FaultModel *fm) {
+return _FAQAS_mutate(v->data(), fm);
+ }
 
 void double_push_back(std::vector<long long int> *v, double val) {
 
@@ -265,10 +265,10 @@ int main() {
   //**************************************************************************
 
   int controlType = 2;
-  // 0=feedback loop: both sensors and actuators are active
-  // 1=feedforward: actuators are active but non sensors
-  // 2=monitor: only sensors are activated and control that numbers stay in the
-  // range
+
+  // 0=feedback loop: both sensors and actuators are active.
+  // 1=feedforward: actuators are active but non sensors.
+  // 2=monitor: only sensors are active.
 
   //**************************************************************************
   //**************************************************************************
