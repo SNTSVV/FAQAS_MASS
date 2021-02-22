@@ -1,0 +1,245 @@
+        -:    0:Source:./SUTlib.h
+        -:    0:Graph:SUT.gcno
+        -:    0:Data:SUT.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "FAQAS_dataDrivenMutator.h"
+        -:    2:#include <iostream>
+        -:    3:#include <stdio.h>
+        -:    4:#include <stdlib.h>
+        -:    5:#include <string.h>
+        -:    6:#include <vector>
+        -:    7:
+        -:    8:int mutate(std::vector<long int> *v, FaultModel *fm) {
+       60:    9:  return _FAQAS_mutate(v->data(), fm);
+        -:   10:}
+        -:   11:
+        -:   12://*****************************************************************************
+        -:   13:// These 3 functions are used to write various datatypes into the buffer
+        -:   14:
+        -:   15:void double_push_back(std::vector<long int> *v, double val) {
+        -:   16:
+       50:   17:  long int tmp = 0;
+        -:   18:
+       50:   19:  memcpy(&tmp, &val, sizeof(double));
+        -:   20:
+       50:   21:  v->push_back(tmp);
+       50:   22:}
+        -:   23:
+        -:   24:void float_push_back(std::vector<long int> *v, float val) {
+       50:   25:  long int tmp = 0;
+        -:   26:
+       50:   27:  memcpy(&tmp, &val, sizeof(float));
+        -:   28:
+       50:   29:  v->push_back(tmp);
+       50:   30:}
+        -:   31:
+        -:   32:void int_push_back(std::vector<long int> *v, int val) {
+      200:   33:  long int tmp = 0;
+        -:   34:
+      200:   35:  memcpy(&tmp, &val, sizeof(int));
+        -:   36:
+      200:   37:  v->push_back(tmp);
+      200:   38:}
+        -:   39:
+        -:   40://*****************************************************************************
+        -:   41:// this vector represents the state variables of a system
+        -:   42:
+        2:   43:std::vector<int> vectorA;
+        -:   44:
+        2:   45:std::vector<float> vectorB;
+        -:   46:
+        2:   47:std::vector<double> vectorC;
+        -:   48:
+        -:   49://*****************************************************************************
+        -:   50:// this vectors represent the buffer
+        -:   51:
+        2:   52:std::vector<long int> bufferA;
+        2:   53:std::vector<long int> bufferB;
+        2:   54:std::vector<long int> bufferC;
+        2:   55:std::vector<long int> bufferMain;
+        -:   56:
+        -:   57://*****************************************************************************
+        -:   58:// this vectors will contain the parameters in which the variables must remain
+        -:   59:
+        2:   60:std::vector<int> minA;
+        2:   61:std::vector<int> maxA;
+        2:   62:std::vector<float> minB;
+        2:   63:std::vector<float> maxB;
+        2:   64:std::vector<double> minC;
+        2:   65:std::vector<double> maxC;
+        -:   66:
+        -:   67://*****************************************************************************
+        -:   68:// these functions simulate sensors acquiring the values of the state variables
+        -:   69:// and writing them on the buffer to be read by a control system
+        -:   70:
+        -:   71:void sensorA() {
+        -:   72:
+        -:   73:
+       20:   74:  bufferA.clear();
+       10:   75:  int position = 0;
+      120:   76:  while (position < 5) {
+       50:   77:    int_push_back(&bufferA, vectorA[position]);
+       50:   78:    position = position + 1;
+        -:   79:  }
+        -:   80:
+        -:   81:  // PROBE
+       10:   82:  FaultModel *fm = _FAQAS_SensorA_FM();
+       10:   83:  mutate(&bufferA, fm);
+        -:   84:  // END OF THE PROBE
+       10:   85:}
+        -:   86:
+        -:   87:void sensorB() {
+        -:   88:
+        -:   89:
+       20:   90:  bufferB.clear();
+       10:   91:  int position = 0;
+      120:   92:  while (position < 5) {
+       50:   93:    float_push_back(&bufferB, vectorB[position]);
+       50:   94:    position = position + 1;
+        -:   95:  }
+        -:   96:  // PROBE
+       10:   97:  FaultModel *fm = _FAQAS_SensorB_FM();
+       10:   98:  mutate(&bufferA, fm);
+        -:   99:  // END OF THE PROBE
+       10:  100:}
+        -:  101:
+        -:  102:void sensorC() {
+        -:  103:
+        -:  104:
+       20:  105:  bufferC.clear();
+       10:  106:  int position = 0;
+      120:  107:  while (position < 5) {
+       50:  108:    double_push_back(&bufferC, vectorC[position]);
+       50:  109:    position = position + 1;
+        -:  110:  }
+        -:  111:
+        -:  112:  // PROBE
+       10:  113:  FaultModel *fm = _FAQAS_SensorC_FM();
+       10:  114:  mutate(&bufferA, fm);
+        -:  115:  // END OF THE PROBE
+       10:  116:}
+        -:  117:
+        -:  118://*****************************************************************************
+        -:  119:// these functions emulate actuators acting on the state variables using the
+        -:  120:// vector BufferMain as reference
+        -:  121:
+        -:  122:void actuatorA() {
+        -:  123:
+       20:  124:  int add = 0;
+        -:  125:
+        -:  126:  // PROBE
+       10:  127:  FaultModel *fm = _FAQAS_ActuatorA_FM();
+       10:  128:  mutate(&bufferMain, fm);
+        -:  129:  // END OF THE PROBE
+        -:  130:
+       10:  131:  memcpy(&add, &bufferMain[0], sizeof(add));
+       10:  132:  vectorA[0] = vectorA[0] + add;
+       10:  133:  add = 0;
+       10:  134:  memcpy(&add, &bufferMain[1], sizeof(add));
+       10:  135:  vectorA[1] = vectorA[1] + add;
+       10:  136:  add = 0;
+       10:  137:  memcpy(&add, &bufferMain[2], sizeof(add));
+       10:  138:  vectorA[2] = vectorA[2] + add;
+       10:  139:  add = 0;
+       10:  140:  memcpy(&add, &bufferMain[3], sizeof(add));
+       10:  141:  vectorA[3] = vectorA[3] + add;
+       10:  142:  add = 0;
+       10:  143:  memcpy(&add, &bufferMain[4], sizeof(add));
+       10:  144:  vectorA[4] = vectorA[4] + add;
+       10:  145:  bufferMain.clear();
+       10:  146:}
+        -:  147:
+        -:  148:void actuatorB() {
+        -:  149:
+        -:  150:  // PROBE
+       20:  151:  FaultModel *fm = _FAQAS_ActuatorB_FM();
+       10:  152:  mutate(&bufferMain, fm);
+        -:  153:  // END OF THE PROBE
+        -:  154:
+       10:  155:  int add = 0;
+       10:  156:  memcpy(&add, &bufferMain[0], sizeof(add));
+       10:  157:  vectorB[0] = vectorB[0] + add;
+       10:  158:  add = 0;
+       10:  159:  memcpy(&add, &bufferMain[1], sizeof(add));
+       10:  160:  vectorB[1] = vectorB[1] + add;
+       10:  161:  add = 0;
+       10:  162:  memcpy(&add, &bufferMain[2], sizeof(add));
+       10:  163:  vectorB[2] = vectorB[2] + add;
+       10:  164:  add = 0;
+       10:  165:  memcpy(&add, &bufferMain[3], sizeof(add));
+       10:  166:  vectorB[3] = vectorB[3] + add;
+       10:  167:  add = 0;
+       10:  168:  memcpy(&add, &bufferMain[4], sizeof(add));
+       10:  169:  vectorB[4] = vectorB[4] + add;
+       10:  170:  bufferMain.clear();
+       10:  171:}
+        -:  172:
+        -:  173:void actuatorC() {
+        -:  174:
+        -:  175:  // PROBE
+       20:  176:  FaultModel *fm = _FAQAS_ActuatorC_FM();
+       10:  177:  mutate(&bufferMain, fm);
+        -:  178:  // END OF THE PROBE
+        -:  179:
+       10:  180:  int add = 0;
+       10:  181:  memcpy(&add, &bufferMain[0], sizeof(add));
+       10:  182:  vectorC[0] = vectorC[0] + add;
+       10:  183:  add = 0;
+       10:  184:  memcpy(&add, &bufferMain[1], sizeof(add));
+       10:  185:  vectorC[1] = vectorC[1] + add;
+       10:  186:  add = 0;
+       10:  187:  memcpy(&add, &bufferMain[2], sizeof(add));
+       10:  188:  vectorC[2] = vectorC[2] + add;
+       10:  189:  add = 0;
+       10:  190:  memcpy(&add, &bufferMain[3], sizeof(add));
+       10:  191:  vectorC[3] = vectorC[3] + add;
+       10:  192:  add = 0;
+       10:  193:  memcpy(&add, &bufferMain[4], sizeof(add));
+       10:  194:  vectorC[4] = vectorC[4] + add;
+       10:  195:  bufferMain.clear();
+       10:  196:}
+        -:  197:
+        -:  198://*****************************************************************************
+        -:  199:// this functions represent a proportional controller taking as input the error
+        -:  200:// and giving different outputs depending on the magnitude of the error
+        -:  201:
+        -:  202:int getCorrection(int error) {
+        -:  203:
+      150:  204:  int absoluteError = abs(error);
+        -:  205:  // e in base a quanto é sceglie il comando da applicare
+      150:  206:  int absCorrection = 0;
+        -:  207:
+      150:  208:  if (absoluteError == 0) {
+       42:  209:    absCorrection = 0;
+       42:  210:  }
+        -:  211:
+      216:  212:  else if (absoluteError > 0 && absoluteError < 5) {
+       32:  213:    absCorrection = 1;
+       32:  214:  }
+        -:  215:
+      152:  216:  else if (absoluteError >= 5 && absoluteError < 10) {
+       12:  217:    absCorrection = 5;
+       12:  218:  }
+        -:  219:
+      128:  220:  else if (absoluteError >= 10 && absoluteError < 50) {
+       29:  221:    absCorrection = 10;
+       29:  222:  }
+        -:  223:
+        -:  224:  else {
+       35:  225:    absCorrection = 100;
+        -:  226:  }
+        -:  227:
+        -:  228:  int correction;
+        -:  229:
+      150:  230:  if (error <= 0) {
+        -:  231:
+       92:  232:    correction = -absCorrection;
+       92:  233:  }
+        -:  234:
+      150:  235:  if (error > 0) {
+       58:  236:    correction = absCorrection;
+       58:  237:  }
+        -:  238:
+      150:  239:  return correction;
+        -:  240:}

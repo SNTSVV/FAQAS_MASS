@@ -1,0 +1,67 @@
+        -:    0:Source:/Library/Developer/CommandLineTools/usr/include/c++/v1/__nullptr
+        -:    0:Graph:SUT.gcno
+        -:    0:Data:SUT.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:// -*- C++ -*-
+        -:    2://===--------------------------- __nullptr --------------------------------===//
+        -:    3://
+        -:    4://                     The LLVM Compiler Infrastructure
+        -:    5://
+        -:    6:// This file is dual licensed under the MIT and the University of Illinois Open
+        -:    7:// Source Licenses. See LICENSE.TXT for details.
+        -:    8://
+        -:    9://===----------------------------------------------------------------------===//
+        -:   10:
+        -:   11:#ifndef _LIBCPP_NULLPTR
+        -:   12:#define _LIBCPP_NULLPTR
+        -:   13:
+        -:   14:#include <__config>
+        -:   15:
+        -:   16:#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+        -:   17:#pragma GCC system_header
+        -:   18:#endif
+        -:   19:
+        -:   20:#ifdef _LIBCPP_HAS_NO_NULLPTR
+        -:   21:
+        -:   22:_LIBCPP_BEGIN_NAMESPACE_STD
+        -:   23:
+        -:   24:struct _LIBCPP_TEMPLATE_VIS nullptr_t
+        -:   25:{
+        -:   26:    void* __lx;
+        -:   27:
+        -:   28:    struct __nat {int __for_bool_;};
+        -:   29:
+        -:   30:    _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR nullptr_t() : __lx(0) {}
+      560:   31:    _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR nullptr_t(int __nat::*) : __lx(0) {}
+        -:   32:
+        -:   33:    _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR operator int __nat::*() const {return 0;}
+        -:   34:
+        -:   35:    template <class _Tp>
+        -:   36:        _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR
+      280:   37:        operator _Tp* () const {return 0;}
+        -:   38:
+        -:   39:    template <class _Tp, class _Up>
+        -:   40:        _LIBCPP_INLINE_VISIBILITY
+        -:   41:        operator _Tp _Up::* () const {return 0;}
+        -:   42:
+        -:   43:    friend _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR bool operator==(nullptr_t, nullptr_t) {return true;}
+        -:   44:    friend _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR bool operator!=(nullptr_t, nullptr_t) {return false;}
+        -:   45:};
+        -:   46:
+      560:   47:inline _LIBCPP_INLINE_VISIBILITY _LIBCPP_CONSTEXPR nullptr_t __get_nullptr_t() {return nullptr_t(0);}
+        -:   48:
+        -:   49:#define nullptr _VSTD::__get_nullptr_t()
+        -:   50:
+        -:   51:_LIBCPP_END_NAMESPACE_STD
+        -:   52:
+        -:   53:#else  // _LIBCPP_HAS_NO_NULLPTR
+        -:   54:
+        -:   55:namespace std
+        -:   56:{
+        -:   57:    typedef decltype(nullptr) nullptr_t;
+        -:   58:}
+        -:   59:
+        -:   60:#endif  // _LIBCPP_HAS_NO_NULLPTR
+        -:   61:
+        -:   62:#endif  // _LIBCPP_NULLPTR
