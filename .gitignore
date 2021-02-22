@@ -10,7 +10,7 @@ mutator/python/provavettori
 mutator/python/valuetown
 mutator/python/a.out
 mutator/python/randomfloat
-*.h
+FAQAS*.h
 mutator/.DS_Store
 .DS_Store
 mutator/python/spannung
@@ -21,3 +21,6 @@ mutator/python/tests/test6/test6old.c
 mutator/python/executeTestFigureItOut.sh
 mutator/python/NewTest/SUT/main_-1
 mutator/python/NewTest/SUT/main_0
+*.gcov
+*.gcno
+mutator/python/tests/test32/SUT.gcda
