@@ -1,0 +1,521 @@
+        -:    0:Source:SUT.c
+        -:    0:Graph:SUT.gcno
+        -:    0:Data:SUT.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2:#include "SUTlib.h"
+        -:    3:
+        -:    4:int main() {
+        -:    5:
+        -:    6:  // TODO assign the following values by reading a .csv file to make testing
+        -:    7:  // with different values easier
+        -:    8:
+        -:    9:  //*****************************************************************************
+        -:   10:  // these are the initial conditions for the state variables
+        -:   11:
+        1:   12:  vectorA.clear();
+        1:   13:  vectorA.push_back(103);
+        1:   14:  vectorA.push_back(-223);
+        1:   15:  vectorA.push_back(532);
+        1:   16:  vectorA.push_back(87);
+        1:   17:  vectorA.push_back(-278);
+        -:   18:
+        1:   19:  vectorB.clear();
+        1:   20:  vectorB.push_back(103.2);
+        1:   21:  vectorB.push_back(-134.78);
+        1:   22:  vectorB.push_back(532.897);
+        1:   23:  vectorB.push_back(-23.7);
+        1:   24:  vectorB.push_back(100);
+        -:   25:
+        1:   26:  vectorC.push_back(188.99);
+        1:   27:  vectorC.push_back(178.678);
+        1:   28:  vectorC.push_back(-567);
+        1:   29:  vectorC.push_back(444.56);
+        1:   30:  vectorC.push_back(-42);
+        -:   31:
+        -:   32:  //*****************************************************************************
+        -:   33:  // these are the min and max values that delimit the range in which every
+        -:   34:  // variable should be after the execution of this script
+        -:   35:
+        1:   36:  maxA.push_back(50);
+        1:   37:  maxA.push_back(50);
+        1:   38:  maxA.push_back(50);
+        1:   39:  maxA.push_back(50);
+        1:   40:  maxA.push_back(50);
+        -:   41:
+        1:   42:  minA.push_back(-20);
+        1:   43:  minA.push_back(-20);
+        1:   44:  minA.push_back(-20);
+        1:   45:  minA.push_back(-20);
+        1:   46:  minA.push_back(-20);
+        -:   47:
+        1:   48:  maxB.push_back(50);
+        1:   49:  maxB.push_back(50);
+        1:   50:  maxB.push_back(50);
+        1:   51:  maxB.push_back(50);
+        1:   52:  maxB.push_back(50);
+        -:   53:
+        1:   54:  minB.push_back(-20);
+        1:   55:  minB.push_back(-20);
+        1:   56:  minB.push_back(-20);
+        1:   57:  minB.push_back(-20);
+        1:   58:  minB.push_back(-20);
+        -:   59:
+        1:   60:  maxC.push_back(50);
+        1:   61:  maxC.push_back(50);
+        1:   62:  maxC.push_back(50);
+        1:   63:  maxC.push_back(50);
+        1:   64:  maxC.push_back(50);
+        -:   65:
+        1:   66:  minC.push_back(-20);
+        1:   67:  minC.push_back(-20);
+        1:   68:  minC.push_back(-20);
+        1:   69:  minC.push_back(-20);
+        1:   70:  minC.push_back(-20);
+        -:   71:
+        -:   72:  //**************************************************************************
+        -:   73:  //**************************************************************************
+        -:   74:  //**************************************************************************
+        -:   75:  //**************************************************************************
+        -:   76:
+        -:   77:  // this value changes the behaviour of the script and consequently what
+        -:   78:  // functions are called upon from SUT.lib
+        -:   79:
+        1:   80:  int controlType = 1;
+        -:   81:
+        -:   82:  // 0=feedback loop: both sensors and actuators are active.
+        -:   83:  // 1=feedforward: actuators are active but not sensors.
+        -:   84:  // 2=monitor: only sensors are active.
+        -:   85:
+        -:   86:  //**************************************************************************
+        -:   87:  //**************************************************************************
+        -:   88:  //**************************************************************************
+        -:   89:  //**************************************************************************
+        -:   90:
+        -:   91:  // this variable specify the number of control cycles that the script will
+        -:   92:  // perform before stopping
+        -:   93:
+        1:   94:  int cycles = 10;
+        -:   95:
+        -:   96:  //**************************************************************************
+        -:   97:  //**************************************************************************
+        -:   98:  //**************************************************************************
+        -:   99:  //**************************************************************************
+        -:  100:
+        1:  101:  printf("vectorA before\n");
+        -:  102:
+       12:  103:  for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+        5:  104:       ++it) {
+        5:  105:    std::cout << *it << '\n';
+        5:  106:  }
+        -:  107:
+        1:  108:  printf("vectorB before\n");
+        -:  109:
+       12:  110:  for (std::vector<float>::iterator it = vectorB.begin(); it != vectorB.end();
+        5:  111:       ++it) {
+        5:  112:    std::cout << *it << '\n';
+        5:  113:  }
+        -:  114:
+        1:  115:  printf("vectorC before\n");
+        -:  116:
+       12:  117:  for (std::vector<double>::iterator it = vectorC.begin(); it != vectorC.end();
+        5:  118:       ++it) {
+        5:  119:    std::cout << *it << '\n';
+        5:  120:  }
+        -:  121:
+        -:  122:  //**********feedback****************************************************
+        -:  123:
+        1:  124:  if (controlType == 0) {
+        -:  125:
+    #####:  126:    while (cycles > 0) {
+        -:  127:
+    #####:  128:      bufferMain.clear();
+        -:  129:
+    #####:  130:      sensorA();
+        -:  131:
+        -:  132:      int variablePosition;
+        -:  133:
+    #####:  134:      variablePosition = 0;
+    #####:  135:      while (variablePosition < 5) {
+        -:  136:
+    #####:  137:        int target =
+    #####:  138:            (int)((minA[variablePosition] + maxA[variablePosition]) / 2);
+        -:  139:
+    #####:  140:        int variable = 0;
+    #####:  141:        memcpy(&variable, &bufferA[variablePosition], sizeof(variable));
+        -:  142:
+    #####:  143:        int error = (int)(target - variable);
+        -:  144:
+    #####:  145:        int u = getCorrection(error);
+        -:  146:
+    #####:  147:        int_push_back(&bufferMain, u);
+    #####:  148:        variablePosition = variablePosition + 1;
+        -:  149:      }
+        -:  150:
+    #####:  151:      actuatorA();
+        -:  152:
+    #####:  153:      bufferMain.clear();
+        -:  154:
+    #####:  155:      sensorB();
+        -:  156:
+    #####:  157:      variablePosition = 0;
+    #####:  158:      while (variablePosition < 5) {
+        -:  159:
+    #####:  160:        float target =
+    #####:  161:            (float)((minB[variablePosition] + maxB[variablePosition]) / 2);
+        -:  162:
+    #####:  163:        float variable = 0;
+        -:  164:
+    #####:  165:        memcpy(&variable, &bufferB[variablePosition], sizeof(variable));
+        -:  166:
+    #####:  167:        int error = (int)(target - variable);
+        -:  168:
+    #####:  169:        int u = getCorrection(error);
+        -:  170:
+    #####:  171:        int_push_back(&bufferMain, u);
+    #####:  172:        variablePosition = variablePosition + 1;
+        -:  173:      }
+        -:  174:
+    #####:  175:      actuatorB();
+        -:  176:
+    #####:  177:      bufferMain.clear();
+        -:  178:
+    #####:  179:      sensorC();
+        -:  180:
+    #####:  181:      variablePosition = 0;
+    #####:  182:      while (variablePosition < 5) {
+        -:  183:
+    #####:  184:        double target =
+    #####:  185:            (double)((minC[variablePosition] + maxC[variablePosition]) / 2);
+        -:  186:
+    #####:  187:        double variable = 0;
+        -:  188:
+    #####:  189:        memcpy(&variable, &bufferC[variablePosition], sizeof(variable));
+        -:  190:
+    #####:  191:        int error = (int)(target - variable);
+        -:  192:
+    #####:  193:        int u = getCorrection(error);
+        -:  194:
+    #####:  195:        int_push_back(&bufferMain, u);
+    #####:  196:        variablePosition = variablePosition + 1;
+        -:  197:      }
+        -:  198:
+    #####:  199:      actuatorC();
+        -:  200:
+    #####:  201:      printf("Remaining cycles: %d\n", cycles);
+        -:  202:
+    #####:  203:      printf("vectorA\n");
+        -:  204:
+    #####:  205:      for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+    #####:  206:           ++it) {
+    #####:  207:        std::cout << *it << '\n';
+    #####:  208:      }
+        -:  209:
+    #####:  210:      printf("vectorB\n");
+        -:  211:
+    #####:  212:      for (std::vector<float>::iterator it = vectorB.begin();
+    #####:  213:           it != vectorB.end(); ++it) {
+    #####:  214:        std::cout << *it << '\n';
+    #####:  215:      }
+        -:  216:
+    #####:  217:      printf("vectorC\n");
+        -:  218:
+    #####:  219:      for (std::vector<double>::iterator it = vectorC.begin();
+    #####:  220:           it != vectorC.end(); ++it) {
+    #####:  221:        std::cout << *it << '\n';
+    #####:  222:      }
+        -:  223:
+    #####:  224:      cycles = cycles - 1;
+        -:  225:    }
+        -:  226:
+    #####:  227:    printf("vectorA after\n");
+        -:  228:
+    #####:  229:    for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+    #####:  230:         ++it) {
+    #####:  231:      std::cout << *it << '\n';
+    #####:  232:    }
+        -:  233:
+    #####:  234:    printf("vectorB after\n");
+        -:  235:
+    #####:  236:    for (std::vector<float>::iterator it = vectorB.begin(); it != vectorB.end();
+    #####:  237:         ++it) {
+    #####:  238:      std::cout << *it << '\n';
+    #####:  239:    }
+        -:  240:
+    #####:  241:    printf("vectorC after\n");
+        -:  242:
+    #####:  243:    for (std::vector<double>::iterator it = vectorC.begin();
+    #####:  244:         it != vectorC.end(); ++it) {
+    #####:  245:      std::cout << *it << '\n';
+    #####:  246:    }
+    #####:  247:  }
+        -:  248:
+        -:  249:  //**********feedforward****************************************************
+        -:  250:
+        1:  251:  if (controlType == 1) {
+        -:  252:
+        1:  253:    std::vector<int> initialConditionsA = vectorA;
+        1:  254:    std::vector<float> initialConditionsB = vectorB;
+        1:  255:    std::vector<double> initialConditionsC = vectorC;
+        -:  256:
+       22:  257:    while (cycles > 0) {
+        -:  258:
+       10:  259:      bufferMain.clear();
+        -:  260:
+        -:  261:      int variablePosition;
+        -:  262:
+       10:  263:      variablePosition = 0;
+      120:  264:      while (variablePosition < 5) {
+        -:  265:
+       50:  266:        int target =
+      150:  267:            (int)((minA[variablePosition] + maxA[variablePosition]) / 2);
+        -:  268:
+      100:  269:        int error = (int)(target - initialConditionsA[variablePosition]);
+        -:  270:
+      100:  271:        int u = getCorrection(error);
+        -:  272:
+       50:  273:        int_push_back(&bufferMain, u);
+        -:  274:
+      100:  275:        initialConditionsA[variablePosition] =
+      100:  276:            initialConditionsA[variablePosition] + u;
+        -:  277:
+       50:  278:        variablePosition = variablePosition + 1;
+        -:  279:      }
+        -:  280:
+       10:  281:      actuatorA();
+        -:  282:
+       10:  283:      bufferMain.clear();
+        -:  284:
+       10:  285:      variablePosition = 0;
+      120:  286:      while (variablePosition < 5) {
+        -:  287:
+       50:  288:        float target =
+      150:  289:            (float)((minB[variablePosition] + maxB[variablePosition]) / 2);
+        -:  290:
+      100:  291:        int error = (int)(target - initialConditionsB[variablePosition]);
+        -:  292:
+      100:  293:        int u = getCorrection(error);
+        -:  294:
+       50:  295:        int_push_back(&bufferMain, u);
+        -:  296:
+      100:  297:        initialConditionsB[variablePosition] =
+      100:  298:            initialConditionsB[variablePosition] + u;
+        -:  299:
+       50:  300:        variablePosition = variablePosition + 1;
+        -:  301:      }
+        -:  302:
+       10:  303:      actuatorB();
+        -:  304:
+       10:  305:      bufferMain.clear();
+        -:  306:
+       10:  307:      variablePosition = 0;
+      120:  308:      while (variablePosition < 5) {
+        -:  309:
+       50:  310:        double target =
+      150:  311:            (double)((minC[variablePosition] + maxC[variablePosition]) / 2);
+        -:  312:
+      100:  313:        int error = (int)(target - initialConditionsC[variablePosition]);
+        -:  314:
+      100:  315:        int u = getCorrection(error);
+        -:  316:
+       50:  317:        int_push_back(&bufferMain, u);
+        -:  318:
+      100:  319:        initialConditionsC[variablePosition] =
+      100:  320:            initialConditionsC[variablePosition] + u;
+        -:  321:
+       50:  322:        variablePosition = variablePosition + 1;
+        -:  323:      }
+        -:  324:
+       10:  325:      actuatorC();
+        -:  326:
+       10:  327:      printf("Remaining cycles: %d\n", cycles);
+        -:  328:
+       10:  329:      printf("vectorA\n");
+        -:  330:
+      120:  331:      for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+       50:  332:           ++it) {
+      100:  333:        std::cout << *it << '\n';
+       50:  334:      }
+        -:  335:
+       10:  336:      printf("vectorB\n");
+        -:  337:
+      120:  338:      for (std::vector<float>::iterator it = vectorB.begin();
+      110:  339:           it != vectorB.end(); ++it) {
+      100:  340:        std::cout << *it << '\n';
+       50:  341:      }
+        -:  342:
+       10:  343:      printf("vectorC\n");
+        -:  344:
+      120:  345:      for (std::vector<double>::iterator it = vectorC.begin();
+      110:  346:           it != vectorC.end(); ++it) {
+      100:  347:        std::cout << *it << '\n';
+       50:  348:      }
+        -:  349:
+       10:  350:      cycles = cycles - 1;
+        -:  351:    }
+        -:  352:
+        1:  353:    printf("vectorA after\n");
+        -:  354:
+       12:  355:    for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+        5:  356:         ++it) {
+       10:  357:      std::cout << *it << '\n';
+        5:  358:    }
+        -:  359:
+        1:  360:    printf("vectorB after\n");
+        -:  361:
+       12:  362:    for (std::vector<float>::iterator it = vectorB.begin(); it != vectorB.end();
+        5:  363:         ++it) {
+       10:  364:      std::cout << *it << '\n';
+        5:  365:    }
+        -:  366:
+        1:  367:    printf("vectorC after\n");
+        -:  368:
+       12:  369:    for (std::vector<double>::iterator it = vectorC.begin();
+       11:  370:         it != vectorC.end(); ++it) {
+       10:  371:      std::cout << *it << '\n';
+        5:  372:    }
+        3:  373:  }
+        -:  374:
+        -:  375:  //**********monitor****************************************************
+        -:  376:
+        1:  377:  if (controlType == 2) {
+        -:  378:
+    #####:  379:    while (cycles > 0) {
+        -:  380:
+        -:  381:      // prende il vettore dai sensori e legge le variabili int
+        -:  382:
+    #####:  383:      sensorA();
+        -:  384:
+        -:  385:      int variablePosition;
+        -:  386:
+    #####:  387:      variablePosition = 0;
+    #####:  388:      while (variablePosition < 5) {
+        -:  389:
+    #####:  390:        int variable = 0;
+    #####:  391:        memcpy(&variable, &bufferA[variablePosition], sizeof(variable));
+        -:  392:
+    #####:  393:        if (variable > maxA[variablePosition]) {
+    #####:  394:          printf("variable A%d is too low\n", variablePosition);
+    #####:  395:        }
+        -:  396:
+    #####:  397:        else if (variable < minA[variablePosition]) {
+    #####:  398:          printf("variable A%d is too high\n", variablePosition);
+    #####:  399:        }
+        -:  400:
+        -:  401:        else {
+    #####:  402:          printf("variable A%d is in range\n", variablePosition);
+        -:  403:        }
+        -:  404:
+    #####:  405:        variablePosition = variablePosition + 1;
+        -:  406:      }
+        -:  407:
+    #####:  408:      sensorB();
+        -:  409:
+    #####:  410:      variablePosition = 0;
+    #####:  411:      while (variablePosition < 5) {
+        -:  412:
+    #####:  413:        float variable = 0;
+        -:  414:
+    #####:  415:        memcpy(&variable, &bufferB[variablePosition], sizeof(variable));
+        -:  416:
+    #####:  417:        if (variable > maxB[variablePosition]) {
+    #####:  418:          printf("variable B%d is too low\n", variablePosition);
+    #####:  419:        }
+        -:  420:
+    #####:  421:        else if (variable < minB[variablePosition]) {
+    #####:  422:          printf("variable B%d is too high\n", variablePosition);
+    #####:  423:        }
+        -:  424:
+        -:  425:        else {
+    #####:  426:          printf("variable B%d is in range\n", variablePosition);
+        -:  427:        }
+        -:  428:
+    #####:  429:        variablePosition = variablePosition + 1;
+        -:  430:      }
+        -:  431:
+    #####:  432:      sensorC();
+        -:  433:
+    #####:  434:      variablePosition = 0;
+    #####:  435:      while (variablePosition < 5) {
+        -:  436:
+    #####:  437:        double variable = 0;
+        -:  438:
+    #####:  439:        memcpy(&variable, &bufferC[variablePosition], sizeof(variable));
+        -:  440:
+    #####:  441:        if (variable > maxC[variablePosition]) {
+    #####:  442:          printf("variable C%d is too low\n", variablePosition);
+    #####:  443:        }
+        -:  444:
+    #####:  445:        else if (variable < minC[variablePosition]) {
+    #####:  446:          printf("variable C%d is too high\n", variablePosition);
+    #####:  447:        }
+        -:  448:
+        -:  449:        else {
+    #####:  450:          printf("variable C%d is in range\n", variablePosition);
+        -:  451:        }
+        -:  452:
+    #####:  453:        variablePosition = variablePosition + 1;
+        -:  454:      }
+        -:  455:
+    #####:  456:      printf("Remaining cycles: %d\n", cycles);
+        -:  457:
+    #####:  458:      printf("vectorA\n");
+        -:  459:
+    #####:  460:      for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+    #####:  461:           ++it) {
+    #####:  462:        std::cout << *it << '\n';
+    #####:  463:      }
+        -:  464:
+    #####:  465:      printf("vectorB\n");
+        -:  466:
+    #####:  467:      for (std::vector<float>::iterator it = vectorB.begin();
+    #####:  468:           it != vectorB.end(); ++it) {
+    #####:  469:        std::cout << *it << '\n';
+    #####:  470:      }
+        -:  471:
+    #####:  472:      printf("vectorC\n");
+        -:  473:
+    #####:  474:      for (std::vector<double>::iterator it = vectorC.begin();
+    #####:  475:           it != vectorC.end(); ++it) {
+    #####:  476:        std::cout << *it << '\n';
+    #####:  477:      }
+        -:  478:
+    #####:  479:      variablePosition = 0;
+        -:  480:
+    #####:  481:      while (variablePosition < 5) {
+        -:  482:
+    #####:  483:        vectorA[variablePosition] = vectorA[variablePosition] + 30;
+    #####:  484:        vectorB[variablePosition] = vectorB[variablePosition] + 30;
+    #####:  485:        vectorC[variablePosition] = vectorB[variablePosition] + 30;
+        -:  486:
+    #####:  487:        variablePosition = variablePosition + 1;
+        -:  488:      }
+        -:  489:
+    #####:  490:      cycles = cycles - 1;
+        -:  491:    }
+        -:  492:
+    #####:  493:    printf("vectorA after\n");
+        -:  494:
+    #####:  495:    for (std::vector<int>::iterator it = vectorA.begin(); it != vectorA.end();
+    #####:  496:         ++it) {
+    #####:  497:      std::cout << *it << '\n';
+    #####:  498:    }
+        -:  499:
+    #####:  500:    printf("vectorB after\n");
+        -:  501:
+    #####:  502:    for (std::vector<float>::iterator it = vectorB.begin(); it != vectorB.end();
+    #####:  503:         ++it) {
+    #####:  504:      std::cout << *it << '\n';
+    #####:  505:    }
+        -:  506:
+    #####:  507:    printf("vectorC after\n");
+        -:  508:
+    #####:  509:    for (std::vector<double>::iterator it = vectorC.begin();
+    #####:  510:         it != vectorC.end(); ++it) {
+    #####:  511:      std::cout << *it << '\n';
+    #####:  512:    }
+    #####:  513:  }
+        -:  514:
+        1:  515:  return 0;
+    #####:  516:}
