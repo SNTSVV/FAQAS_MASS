@@ -23,4 +23,4 @@ mutator/python/NewTest/SUT/main_-1
 mutator/python/NewTest/SUT/main_0
 *.gcov
 *.gcno
-mutator/python/tests/test32/SUT.gcda
+*.gcda
