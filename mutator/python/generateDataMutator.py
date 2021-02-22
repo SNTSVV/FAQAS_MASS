@@ -339,7 +339,7 @@ outfile.write("void _FAQAS_fmCoverage(int fm){\n")
 outfile.write("    switch (fm){\n")
 for x in range(fmID):
 	line = "    case {}:\n"
-	outfile.write(line.format(fmID))
+	outfile.write(line.format(x))
 	outfile.write("    FAQAS_fmCov++;\n")
 	outfile.write("    break;\n")
 

@@ -1,7 +1,6 @@
 *.compile.out
 test*.out
 mutator/python/tests/test1/expectedOld.out
-mutator/python/tests/test3/main_-1
 mutator/python/tests/test*/FAQAS_dataDrivenMutator.h
 mutator/python/tests/test*/main_*
 mutator/python/mainProve.c
@@ -19,3 +18,6 @@ mutator/python/mainProve2.c
 .metadata/*
 mutator/python/tests/test15/test15old.c
 mutator/python/tests/test6/test6old.c
+mutator/python/executeTestFigureItOut.sh
+mutator/python/NewTest/SUT/main_-1
+mutator/python/NewTest/SUT/main_0
