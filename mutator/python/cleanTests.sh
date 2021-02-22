@@ -8,10 +8,7 @@ pushd tests/${x}/
 
 rm FAQAS*
 rm main*
-rm *.compile.out
-rm *.gcov
-rm *.gcda
-rm *.gcno
+rm test*.compile.out
 
 popd
 x=$((x+1))
