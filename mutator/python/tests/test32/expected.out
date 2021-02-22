@@ -472,7 +472,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -491,13 +491,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -510,13 +510,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -529,13 +529,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -548,13 +548,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -567,13 +567,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -586,13 +586,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -605,13 +605,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -624,13 +624,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -643,13 +643,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -661,13 +661,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -699,7 +699,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -718,13 +718,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -737,13 +737,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -756,13 +756,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -775,13 +775,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -794,13 +794,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -813,13 +813,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -832,13 +832,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -851,13 +851,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -870,13 +870,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -888,13 +888,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -926,7 +926,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -945,13 +945,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -964,13 +964,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -983,13 +983,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -1002,13 +1002,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -1021,13 +1021,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -1040,13 +1040,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -1059,13 +1059,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -1078,13 +1078,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1097,13 +1097,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1115,13 +1115,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1153,7 +1153,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -1172,13 +1172,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -1191,13 +1191,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -1210,13 +1210,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -1229,13 +1229,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -1248,13 +1248,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -1267,13 +1267,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -1286,13 +1286,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -1305,13 +1305,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1324,13 +1324,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1342,13 +1342,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1380,7 +1380,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -1399,13 +1399,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -1418,13 +1418,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -1437,13 +1437,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -1456,13 +1456,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -1475,13 +1475,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -1494,13 +1494,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -1513,13 +1513,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -1532,13 +1532,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1551,13 +1551,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1569,13 +1569,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1607,7 +1607,7 @@ vectorC before
 Remaining cycles: 10
 vectorA
 3
-877
+677
 432
 -13
 -178
@@ -1626,13 +1626,13 @@ vectorC
 Remaining cycles: 9
 vectorA
 13
-1977
+1577
 332
 -3
 -78
 vectorB
 13.2
-2.29769e+09
+1.14885e+09
 332.897
 -3.7
 10
@@ -1645,13 +1645,13 @@ vectorC
 Remaining cycles: 8
 vectorA
 14
-2987
+2477
 232
 7
 22
 vectorB
 14.2
-3.44654e+09
+1.14885e+09
 232.897
 6.3
 15
@@ -1664,13 +1664,13 @@ vectorC
 Remaining cycles: 7
 vectorA
 15
-3997
+3377
 132
 12
 17
 vectorB
 14.2
-4.59538e+09
+1.14885e+09
 132.897
 11.3
 15
@@ -1683,13 +1683,13 @@ vectorC
 Remaining cycles: 6
 vectorA
 15
-5007
+4277
 32
 13
 16
 vectorB
 14.2
-5.74423e+09
+1.14885e+09
 32.897
 12.3
 15
@@ -1702,13 +1702,13 @@ vectorC
 Remaining cycles: 5
 vectorA
 15
-6012
+5177
 22
 14
 15
 vectorB
 14.2
-6.89308e+09
+1.14885e+09
 22.897
 13.3
 15
@@ -1721,13 +1721,13 @@ vectorC
 Remaining cycles: 4
 vectorA
 15
-7013
+6077
 17
 15
 15
 vectorB
 14.2
-8.04192e+09
+1.14885e+09
 17.897
 14.3
 15
@@ -1740,13 +1740,13 @@ vectorC
 Remaining cycles: 3
 vectorA
 15
-8014
+6977
 16
 15
 15
 vectorB
 14.2
-9.19077e+09
+1.14885e+09
 16.897
 14.3
 15
@@ -1759,13 +1759,13 @@ vectorC
 Remaining cycles: 2
 vectorA
 15
-9015
+7877
 15
 15
 15
 vectorB
 14.2
-1.03396e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1778,13 +1778,13 @@ vectorC
 Remaining cycles: 1
 vectorA
 15
-10015
+8777
 15
 15
 15
 vectorB
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
@@ -1796,13 +1796,13 @@ vectorC
 15
 vectorA after
 15
-10015
+8777
 15
 15
 15
 vectorB after
 14.2
-1.14885e+10
+1.14884e+09
 15.897
 14.3
 15
