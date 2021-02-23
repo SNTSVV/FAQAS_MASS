@@ -349,6 +349,7 @@ outfile.write("    default:\n")
 outfile.write("    break;\n")
 outfile.write("    }\n")
 outfile.write("}\n")
+outfile.write("//END _FAQAS_fmCoverage\n")
 
 with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
     data = tfile.read().replace('BUFFER_TYPE', bufferType )
