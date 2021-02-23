@@ -8,6 +8,7 @@ TYPE=$4
 
 python generateDataMutator.py "$TYPE" "$FAULTMODEL"
 mv FAQAS_dataDrivenMutator.h $TESTFOLDER
+cp FMcoverage.py $TESTFOLDER
 
 
 pushd $TESTFOLDER
@@ -28,6 +29,8 @@ while [ $x -le $operations ]; do
     g++ -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
     ./main_$x >> $outFile 2>&1
     gcov ${curTest}.c
+
+    python FMcoverage.py
 
   else
     g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
