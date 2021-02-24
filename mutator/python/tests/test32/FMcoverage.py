@@ -36,7 +36,7 @@ for i in range(start, end):
         status = 'covered'
         if secondLine[0].strip() == '#####':
             secondLine[0] = '0'
-            status = 'not covered'
+            status = 'not_covered'
         covData = {"test": str(sys.argv[1]), "FM": FaultModelName, "status": status, "times": secondLine[0].strip()}
         newLine = lineTemplate.substitute(**covData)
         outputFile.write(newLine)

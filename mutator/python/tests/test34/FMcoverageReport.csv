@@ -1,7 +1,0 @@
-FaultModel,Status,Times
-SensorA,covered,10
-SensorB,covered,10
-SensorC,covered,10
-ActuatorA,not covered,0
-ActuatorB,not covered,0
-ActuatorC,not covered,0

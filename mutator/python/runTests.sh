@@ -1,4 +1,7 @@
 #/bin/bash
+bash cleanTests.sh
+
+pushd tests
 
 bash runTest1.sh
 bash runTest2.sh
@@ -32,5 +35,7 @@ bash runTest29.sh
 bash runTest32.sh
 bash runTest33.sh
 bash runTest34.sh
+
+popd
 
 bash getCoverage.sh
