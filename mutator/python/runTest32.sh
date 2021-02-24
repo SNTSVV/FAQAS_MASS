@@ -1,7 +1,7 @@
 #/bin/bash
 
 TESTFOLDER=tests/test32/
-curTest="SUT"
+curTest="test32"
 FAULTMODEL=faultModel32.csv
 TYPE="long long int"
 

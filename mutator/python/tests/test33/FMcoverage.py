@@ -1,8 +1,13 @@
+import sys
 import re
 from string import Template
 
-outputFile = open("FMcoverageReport.csv", "a+")
+nameOutFile = "FMCoverageReport_" + str(sys.argv[1]) + ".csv"
+outputFile = open(nameOutFile, "a+")
 outputFile.truncate(0)
+
+hloutputFile = open("hlreport.csv", "a+")
+hloutputFile.truncate(0)
 
 table = []
 
@@ -18,9 +23,9 @@ for line in data:
         name = definition[1].split()
         table.append(name[0].strip())
 
-outputFile.write('FaultModel,Status,Times\n')
-print('FaultModel,status,times\n')
-lineTemplate = Template('$FM,$status,$times\n')
+outputFile.write('Test,FaultModel,Status,Times\n')
+print('Test,FaultModel,status,times\n')
+lineTemplate = Template('$test,$FM,$status,$times\n')
 for i in range(start, end):
     if data[i].__contains__('case'):
         case = re.split(':', data[i])
@@ -32,11 +37,13 @@ for i in range(start, end):
         if secondLine[0].strip() == '#####':
             secondLine[0] = '0'
             status = 'not covered'
-        covData = {"FM": FaultModelName, "status": status, "times": secondLine[0].strip()}
+        covData = {"test": str(sys.argv[1]), "FM": FaultModelName, "status": status, "times": secondLine[0].strip()}
         newLine = lineTemplate.substitute(**covData)
         outputFile.write(newLine)
+        hloutputFile.write(newLine)
         print(newLine)
 
 
 mutator.close()
 outputFile.close()
+hloutputFile.close()

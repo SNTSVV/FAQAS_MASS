@@ -1,0 +1,7 @@
+Test,FaultModel,Status,Times
+test33,SensorA,not covered,0
+test33,SensorB,not covered,0
+test33,SensorC,not covered,0
+test33,ActuatorA,covered,30
+test33,ActuatorB,covered,30
+test33,ActuatorC,covered,30

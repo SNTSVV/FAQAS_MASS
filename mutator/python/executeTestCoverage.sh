@@ -30,7 +30,7 @@ while [ $x -le $operations ]; do
     ./main_$x >> $outFile 2>&1
     gcov ${curTest}.c
 
-    python FMcoverage.py
+    python FMcoverage.py "${curTest}"
 
   else
     g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
