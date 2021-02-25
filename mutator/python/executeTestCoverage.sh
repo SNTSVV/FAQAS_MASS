@@ -43,12 +43,22 @@ while [ $x -le $operations ]; do
 
 done
 
+diff FMCoverageReport_${curTest}.csv expectedCoverage.csv
+
+if [ $? -eq 0 ]; then
+    echo "COVERAGE AS EXPECTED"
+else
+    echo "PROBLEM WITH COVERAGE"
+fi
+
 diff $outFile expected.out
 
 if [ $? -eq 0 ]; then
     echo PASSED
 else
-    echo FAILED;
+    echo FAILED
 fi
+
+
 
 popd
