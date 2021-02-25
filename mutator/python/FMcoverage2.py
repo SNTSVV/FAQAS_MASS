@@ -18,7 +18,6 @@ for line in data:
         definition = re.split('#define SIZE_', line)
         name = definition[1].split()
         table.append(name[0].strip())
-        print(table)
 
 mutator.close()
 

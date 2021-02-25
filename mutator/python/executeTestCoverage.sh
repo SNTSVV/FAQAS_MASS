@@ -26,11 +26,14 @@ while [ $x -le $operations ]; do
 
   if [ $x -eq -2 ]; then
 
-    g++ -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
+    y=$((x-1))
+    g++ -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
+    echo "=====" >> $outFile 2>&1
     ./main_$x >> $outFile 2>&1
     gcov ${curTest}.c
 
-    python FMcoverage.py "${curTest}"
+
+
 
   else
     g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
@@ -42,6 +45,8 @@ while [ $x -le $operations ]; do
     x=$((x+1))
 
 done
+
+python FMcoverage.py "${curTest}"
 
 diff FMCoverageReport_${curTest}.csv expectedCoverage.csv
 

@@ -35,6 +35,9 @@ bash runTest29.sh
 bash runTest32.sh
 bash runTest33.sh
 bash runTest34.sh
+bash runTest35.sh
+bash runTest36.sh
+bash runTest37.sh
 
 popd
 
