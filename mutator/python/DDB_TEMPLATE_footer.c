@@ -15,9 +15,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   if (MUTATION == -2) {
     _FAQAS_fmCoverage(fm->ID);
-    //FILE *f = fopen("/home/csp/logging.txt", "ab+");
-    //fprintf(f, "fm.ID: %d\n", fm->ID);
-    //fclose(f);
+    //before running the test do
+    //export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
+    const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+    FILE *f = fopen(faqas_coverage_file, "ab+");
+    fprintf(f, "fm.ID: %d\n", fm->ID);
+    fclose(f);
 
     return 0;
   }
