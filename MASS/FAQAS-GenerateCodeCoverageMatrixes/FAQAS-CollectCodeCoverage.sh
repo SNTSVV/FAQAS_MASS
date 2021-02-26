@@ -8,4 +8,5 @@ mkdir -p $COV_FILES
 # we save also test suite execution order
 echo $TST_NAME >> $COV_FILES/test_suite_order.txt
 
-find $TST_NAME \( -name '*.gcda' -or -name '*.gcno' \) -exec cp {} --parents $COV_FILES \;
+find $TST_NAME \( -name '*.gcda' -or -name '*.gcno' -or -name '*.c' \) -exec cp {} --parents $COV_FILES \;
+
