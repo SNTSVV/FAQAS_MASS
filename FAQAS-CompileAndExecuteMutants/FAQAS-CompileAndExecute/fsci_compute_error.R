@@ -14,16 +14,13 @@ computeError <- function( resultA, resultB ){
     
     r=binom.confint(nMismatches,totalMutants,conf.level=CL,method="wilson");
   
-#    print(r)
-  
     lower=r["1","lower"];
     higher=r["1","upper"];
-    mean=r["1","mean"];
   
-#    delta = higher-lower; 
+    delta = higher-lower; 
     
-#    cat(lower, higher, mean)
-    return (higher);
+    returnValue = paste(delta, lower, higher, sep=";")
+    return (returnValue);
 }
 
 args = commandArgs(trailingOnly=TRUE)

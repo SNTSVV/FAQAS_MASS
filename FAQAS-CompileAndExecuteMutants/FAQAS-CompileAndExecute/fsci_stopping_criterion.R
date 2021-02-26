@@ -7,7 +7,6 @@ oracleSTOP <- function( killed, totalRuns ){
     lower=r["1","lower"];
     higher=r["1","upper"];
     delta = higher-lower; 
-    o="";  
 
     if ( delta < 0.10 ) {
             res=1;

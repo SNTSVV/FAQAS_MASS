@@ -1,10 +1,13 @@
 #!/bin/bash
 
 PROJ=$PROJ
-TST=$COV_FILES
+TST=$1
 
 PARSER=$MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-UpdateCoverage.sh
-COVERAGE_TYPE=$1 # 0 means individual, 1 means global
+COVERAGE_TYPE=0 # 0 means individual, 1 means global
+
+SOURCE=$2
+MUTANT=$3
 
 shopt -s extglob
 
@@ -16,6 +19,12 @@ for tst in $TST/*/; do
 
     for gcda in $(find . -name '*.gcda'); do
         output=$(gcov $gcda 2>&1)
+
+        mismatch=$(echo $output | grep "stamp mismatch" | wc -l)
+        if [ $mismatch -eq 1 ];then
+            echo -ne "${SOURCE};${MUTANT};${tst};NO_COVERAGE_PRODUCED;0\n"
+            continue
+        fi
 
         # do not consider gcov files with 0.00% coverage
         covered=0
@@ -42,9 +51,9 @@ for tst in $TST/*/; do
                 if [ $COVERAGE_TYPE -eq 1 ];then
                     source $PARSER $gcov_file $source_file $TST
                 else
-                    source $PARSER $gcov_file $source_file $GC_FILES_FULL_PATH                                                            
+                    source $PARSER $gcov_file $source_file $GC_FILES_FULL_PATH
                 fi
-    
+
                 # not longer useful
                 rm $gcov_file
             done

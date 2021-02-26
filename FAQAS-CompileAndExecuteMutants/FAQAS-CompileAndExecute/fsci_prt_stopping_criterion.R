@@ -2,19 +2,24 @@
 
 library(binom); 
 
-oracleSTOP <- function( killed, totalRuns, error ){
+oracleSTOP <- function( killed, totalRuns, l_err, h_err){
     r=binom.confint(killed,totalRuns,conf.level=CL,method="exact");
-    lower=r["1","lower"];
-    higher=r["1","upper"] + error;
+    lower = r["1","lower"] + l_err;
+    higher = r["1","upper"] + h_errr;
     delta = higher-lower; 
-    o="";  
+    mean = r["", ""];
 
-    if ( delta < 0.10 ) {
-            res=1;
-        } else {
-            res=0;
-        }
-    return (res);
+    result = list()
+
+    if (length(delta) == 0){
+        result[1] = 0
+    } else if ( delta < 0.1 ) {
+        result[1] = 1;
+        result[2] = mean;
+    } else {
+        result[1] = 0;
+  }
+  return (result);
 }
 
 args = commandArgs(trailingOnly=TRUE)
@@ -26,45 +31,36 @@ if (length(args)==0) {
 #each column reports the test suite result for a mutant: 1 means killed, 0 means not killed
 
 executionsFile=args[1]
-error=as.numeric(args[2])
+delta=as.numeric(args[2])
+lower=as.numeric(args[3])
+higher=as.numeric(args[4])
 
 #assumption: we have a same number of mutants for every case study, otherwise leave an empty cell
 mutantsExecutions=read.csv(executionsFile, sep = ";", header=FALSE)
 
 totalMutants=nrow(mutantsExecutions)
 
-totalRuns=ncol(mutantsExecutions)
-
-#vector with the number of mutants executed for each run
-mutantsSimulatedPerRun <- rep(NA, totalRuns)
-
-#vector with the mutation score for each run
-mutationScore <- rep(NA, totalRuns)
+mutationScore <- 0.0 
 
 CL<<-0.95
 
 terminate=0
-for ( run in 1:totalRuns){
-  killed=0
-  
-  for( mutant in 1:totalMutants ){
-      result=mutantsExecutions[mutant,run]
-      
-      if( result == 1 ){ #killed
-        killed=killed+1        
-      }
-      
-      terminate=oracleSTOP(killed, mutant, error)
-      
-      if ( terminate == 1 ){
+killed=0
 
-        score = killed/mutant
-#        print(score)
-        mutationScore[run]=score
-        mutantsSimulatedPerRun[run]=mutant
+for( mutant in 1:totalMutants ){
+    result=mutantsExecutions[mutant]
+
+    if( result == 1 ){ #killed
+        killed=killed+1        
+    }
+
+    terminate=oracleSTOP(killed, mutant, lower, higher)
+
+    if ( terminate[[1]] == 1 ){
+        score = terminate[[2]] + delta
+        print(score)
         break
-      }
-  }  
+    }
 }
 
-cat(terminate)
+cat(terminate[[1]])
