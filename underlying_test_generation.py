@@ -2,7 +2,7 @@
 
 """
 Requires Python 3
-Use muteria for this
+Use muteria for this (update muteria on pip before)
 TODO
 """
 
