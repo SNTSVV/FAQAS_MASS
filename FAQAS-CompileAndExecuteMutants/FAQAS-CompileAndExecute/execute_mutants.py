@@ -12,7 +12,7 @@ parser.add_argument('--compilation_cmd', type=str)
 parser.add_argument('--additional_cmd', type=str)
 parser.add_argument('--additional_cmd_after', type=str)
 parser.add_argument('--prioritized', type=str)
-parser.add_argument('--full_tst_order', type=str)
+parser.add_argument('--reduced', type=str, nargs='?')
 
 args = parser.parse_args()
 
@@ -22,7 +22,7 @@ compilation_cmd = args.compilation_cmd
 additional_cmd = args.additional_cmd
 additional_cmd_after = args.additional_cmd_after
 prioritized = args.prioritized
-full_tst_order_file = args.full_tst_order
+reduced = args.reduced
 
 sampled_mutants_file = os.path.join(mut_exec_dir, "sampled_mutants")
 traces_mutants_file = os.path.join(mut_exec_dir, "main.csv") 
@@ -37,7 +37,6 @@ fsci_error_script = os.path.join(cwd, "fsci_compute_error.R")
 
 # fsci calibration variables
 tolerated_error = 0.035
-#fsci_calibration = 10
 fsci_calibration = 150
 delta = 1.0
 higher = 0.0
@@ -66,7 +65,7 @@ def estimate_error():
 
 def stopping_criterion(sampling, count):
     if sampling == "fsci":
-        if prioritized:
+        if reduced:
             global delta
 
             if count < fsci_calibration or delta >= tolerated_error:
@@ -84,9 +83,9 @@ def stopping_criterion(sampling, count):
         else: 
             return 0
 
-def load_prioritized():
+def load_test_set(set_csv):
     prt_dict = {}
-    with open(prioritized) as f:
+    with open(set_csv) as f:
         for line in f:
             prioritized_line = line.strip().split('|')
             key = prioritized_line[0] + '|' + prioritized_line[1]
@@ -98,20 +97,13 @@ def load_prioritized():
             prt_dict[key] = tst_list
     return prt_dict
 
-def load_full_ts_list():
-    ts_list = []
-    with open(full_tst_order_file) as f:
-        for line in f:
-            ts_list.append(line.strip())
-    return ts_list
-
 def log_mutation_result(mutant_file, output):
     print("logging mutation result:", output, "on file:", mutant_file)
 
     result_file_ = open(mutant_file, 'a+')
     result_file_.write(str(output) + '\n')
 
-def get_prioritized_tests_for_mutant(prt_dict, mutant):
+def get_tests_for_mutant(prt_dict, mutant):
     mutant_fields = mutant.split('|')
     mutant_id_fields = mutant_fields[0].split('.')
 
@@ -121,7 +113,7 @@ def get_prioritized_tests_for_mutant(prt_dict, mutant):
     
     return match
 
-def simulate_prioritized(mutant, prt_test_list):
+def simulate_reduced(mutant, prt_test_list):
 
     mutant_fields = mutant.split('|')
     mutant_id = mutant_fields[0] + ';' + mutant_fields[1]
@@ -141,8 +133,30 @@ def simulate_prioritized(mutant, prt_test_list):
     return killed
 
 
-def execute_mutants_prioritized_ts():
-    prt_dict = load_prioritized()
+def execute_mutants_full_ts():
+    prt_dict = load_test_set(prioritized)
+
+    count = 0 
+
+    with open(sampled_mutants_file) as f:
+        for line in f:
+            mutant = line.strip()
+
+            print(mutant, count)
+
+            prt_match = get_tests_for_mutant(prt_dict, mutant)
+            prt_mutant_test_list = ";".join(prt_match)
+
+            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
+            log_mutation_result(results_mutants_file, ret)
+
+            count += 1
+            if stopping_criterion(sampling, count) == 1:
+                break    
+
+def execute_mutants_reduced_ts():
+    prt_dict = load_test_set(prioritized)
+    red_dict = load_test_set(reduced)
     
     count = 0
     with open(sampled_mutants_file) as f:
@@ -151,14 +165,17 @@ def execute_mutants_prioritized_ts():
 
             print(mutant, count)
 
-            match = get_prioritized_tests_for_mutant(prt_dict, mutant)
-            mutant_test_list = ";".join(match)
+            prt_match = get_tests_for_mutant(prt_dict, mutant)
+            prt_mutant_test_list = ";".join(prt_match)
+
+            red_match = get_tests_for_mutant(red_dict, mutant)
+            red_mutant_test_list = ";".join(red_match)
             
             if count < fsci_calibration:
-                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, full_ts_list])
+                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
                 log_mutation_result(results_mutants_file, ret)  # complete for simulation
                 
-                prt_ret = simulate_prioritized(mutant, match) # reduced
+                prt_ret = simulate_reduced(mutant, prt_match) # reduced
                 log_mutation_result(error_mutants_file, prt_ret)
             
             else:
@@ -168,13 +185,13 @@ def execute_mutants_prioritized_ts():
                 global delta
  
                 if (delta < tolerated_error):
-                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, mutant_test_list])
+                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, red_mutant_test_list])
                     log_mutation_result(results_mutants_file, ret)
                 else:
-                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, full_ts_list])
+                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
                     log_mutation_result(results_mutants_file, ret)
 
-                    prt_ret = simulate_prioritized(mutant, match) # reduced
+                    prt_ret = simulate_reduced(mutant, prt_match) # reduced
                     log_mutation_result(error_mutants_file, prt_ret)
                     
                     setFsciError()
@@ -196,28 +213,8 @@ def setFsciError():
     print("delta", delta, "lower", lower, "higher", higher)
 
 
-def execute_mutants_full_ts():
-    count = 0
-
-    with open(sampled_mutants_file) as f:
-        for line in f:
-            mutant = line.strip()
-
-            print(mutant, count)
-
-            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, "full", full_ts_list])
-    #        ret = random.randint(0, 1)
-            log_mutation_result(results_mutants_file, ret)
-
-            count += 1
-            if stopping_criterion(sampling, count) == 1:
-                break    
-
-full_ts = load_full_ts_list()
-full_ts_list = ";".join(full_ts)
-
-if prioritized:
-    execute_mutants_prioritized_ts()
+if reduced:
+    execute_mutants_reduced_ts()
 else:
     execute_mutants_full_ts()
 

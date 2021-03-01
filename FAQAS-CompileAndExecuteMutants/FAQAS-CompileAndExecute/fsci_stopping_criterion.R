@@ -3,16 +3,16 @@
 library(binom); 
 
 oracleSTOP <- function( killed, totalRuns ){
-    r=binom.confint(killed,totalRuns,conf.level=CL,method="exact");
-    lower=r["1","lower"];
-    higher=r["1","upper"];
+    r = binom.confint(killed,totalRuns,conf.level=CL,method="exact");
+    lower = r["1","lower"];
+    higher = r["1","upper"];
     delta = higher-lower; 
 
     if ( delta < 0.10 ) {
-            res=1;
-        } else {
-            res=0;
-        }
+        res=1;
+    } else {
+        res=0;
+    }
     return (res);
 }
 
@@ -31,41 +31,29 @@ mutantsExecutions=read.csv(executionsFile, sep = ";", header=FALSE)
 
 totalMutants=nrow(mutantsExecutions)
 
-totalRuns=ncol(mutantsExecutions)
-
-#vector with the number of mutants executed for each run
-mutantsSimulatedPerRun <- rep(NA, totalRuns)
-
 #vector with the mutation score for each run
-mutationScore <- rep(NA, totalRuns)
+mutationScore <- 0.0
 
 CL<<-0.95
 
 terminate=0
-for ( run in 1:totalRuns){
-  killed=0
+killed=0
   
-  for( mutant in 1:totalMutants ){
-      result=mutantsExecutions[mutant,run]
+for( mutant in 1:totalMutants ){
+    result=mutantsExecutions[mutant,]
       
-      if( result == 1 ){ #killed
+    if( result == 1 ){ #killed
         killed=killed+1        
-      }
+    }
       
-      terminate=oracleSTOP(killed,mutant)
+    terminate=oracleSTOP(killed, mutant)
       
-      if ( terminate == 1 ){
+    if ( terminate == 1 ){
 
-        score = killed/mutant
-#        print(score)
-        mutationScore[run]=score
-        mutantsSimulatedPerRun[run]=mutant
-        break
-      }
-  }  
+#        score = killed/mutant
+#        mutationScore=score
+       break
+    }
 }
 
 cat(terminate)
-#result=rbind(t(mutantsSimulatedPerRun),t(mutationScore))
-#resultFile=paste0(executionsFile,".CI.csv")
-#write.csv(result, file =resultFile, row.names=FALSE)

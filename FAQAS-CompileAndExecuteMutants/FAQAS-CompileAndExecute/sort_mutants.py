@@ -6,7 +6,7 @@ import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--sampling', type=str)
-parser.add_argument('--rate', type=str)
+parser.add_argument('--rate', type=str, nargs='?')
 parser.add_argument('--all_filtered', type=str)
 parser.add_argument('--sampled_mutants', type=str)
 
