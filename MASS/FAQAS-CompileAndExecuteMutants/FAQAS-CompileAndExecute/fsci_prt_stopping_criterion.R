@@ -5,11 +5,13 @@ library(binom);
 oracleSTOP <- function( killed, totalRuns, l_err, h_err){
     r=binom.confint(killed,totalRuns,conf.level=CL,method="exact");
     lower = r["1","lower"] + l_err;
-    higher = r["1","upper"] + h_errr;
+    higher = r["1","upper"] + h_err;
+    mean = r["1", "mean"];
     delta = higher-lower; 
-    mean = r["", ""];
 
     result = list()
+
+#   cat(l_err, h_err, killed, totalRuns, delta, '\n', sep=" ")    
 
     if (length(delta) == 0){
         result[1] = 0
@@ -48,7 +50,7 @@ terminate=0
 killed=0
 
 for( mutant in 1:totalMutants ){
-    result=mutantsExecutions[mutant]
+    result=mutantsExecutions[mutant,]
 
     if( result == 1 ){ #killed
         killed=killed+1        
@@ -57,8 +59,7 @@ for( mutant in 1:totalMutants ){
     terminate=oracleSTOP(killed, mutant, lower, higher)
 
     if ( terminate[[1]] == 1 ){
-        score = terminate[[2]] + delta
-        print(score)
+        #mutationScore = terminate[[2]] + delta
         break
     }
 }

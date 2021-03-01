@@ -31,8 +31,8 @@ if (length(args)==0) {
 #input is a csv file
 #each column reports the test suite result for a mutant: 1 means killed, 0 means not killed
 
-fullTSFile=args[1]
-prioritizedTSFile=args[2]
+prioritizedTSFile=args[1]
+fullTSFile=args[2]
 
 full_results = read.csv(fullTSFile, header = FALSE, sep = ";", dec = ".")
 prioritized_results = read.csv(prioritizedTSFile, header = FALSE, sep = ";", dec = ".")
