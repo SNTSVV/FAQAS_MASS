@@ -36,6 +36,8 @@ mutation_script = os.path.join(cwd, "mutation.sh")
 fsci_stopping_script = os.path.join(cwd, "fsci_stopping_criterion.R")
 fsci_prt_stopping_script = os.path.join(cwd, "fsci_prt_stopping_criterion.R")
 fsci_error_script = os.path.join(cwd, "fsci_compute_error.R")
+get_ci_script = os.path.join(cwd, "get_ci.R")
+get_corrected_ci_script = os.path.join(cwd, "get_corrected_ci.R")
 
 # fsci calibration variables
 tolerated_error = 0.035
@@ -61,16 +63,32 @@ def fsci_prt_stopping_criterion():
     print("stopping criterion is", result)
     return int(result)
 
+def get_ci():
+    result = subprocess.run([get_ci_script, results_mutants_file], stdout = subprocess.PIPE).stdout.decode('utf-8')
+    return result
+
+def get_corrected_ci():
+    result = subprocess.run([get_corrected_ci_script, results_mutants_file, str(delta), str(lower), str(higher)], stdout = subprocess.PIPE).stdout.decode('utf-8')
+    return result
+
 def estimate_error():
     result = subprocess.run([fsci_error_script, error_mutants_file, results_mutants_file], stdout=subprocess.PIPE).stdout.decode('utf-8')
     return result
 
 def stopping_criterion(sampling, count):
+    total_mutants = file_len(sampled_mutants_file)
+    
     if sampling == "fsci":
+        
+        if count == total_mutants:
+            confidence_interval = get_corrected_ci() if reduced else get_ci()
+            print("Confidence interval", confidence_interval)
+
         if reduced:
             global delta
 
-            if count < fsci_calibration or delta >= tolerated_error:
+            # TODO
+            if count < fsci_calibration:
                 return 0
             else:
                 return fsci_prt_stopping_criterion()
@@ -79,7 +97,6 @@ def stopping_criterion(sampling, count):
         
     else:
         # we covered all sampled mutants
-        total_mutants = file_len(sampled_mutants_file)
         if count == total_mutants:
             return 1
         else: 
