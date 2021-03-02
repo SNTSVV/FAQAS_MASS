@@ -8,3 +8,4 @@ cp CompileOptimizedMutants.sh $INSTALL_DIR
 cp ExecuteMutants.sh $INSTALL_DIR
 cp PrepareSUT.sh $INSTALL_DIR
 cp mass_conf.sh $INSTALL_DIR
+cp mutation_additional_functions.sh $INSTALL_DIR
