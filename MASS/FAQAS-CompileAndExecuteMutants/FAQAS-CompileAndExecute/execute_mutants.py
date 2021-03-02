@@ -13,6 +13,7 @@ parser.add_argument('--additional_cmd', type=str)
 parser.add_argument('--additional_cmd_after', type=str)
 parser.add_argument('--prioritized', type=str)
 parser.add_argument('--reduced', type=str, nargs='?')
+parser.add_argument('--timeout', type=str)
 
 args = parser.parse_args()
 
@@ -23,6 +24,7 @@ additional_cmd = args.additional_cmd
 additional_cmd_after = args.additional_cmd_after
 prioritized = args.prioritized
 reduced = args.reduced
+timeout = args.timeout
 
 sampled_mutants_file = os.path.join(mut_exec_dir, "sampled_mutants")
 traces_mutants_file = os.path.join(mut_exec_dir, "main.csv") 
@@ -147,7 +149,7 @@ def execute_mutants_full_ts():
             prt_match = get_tests_for_mutant(prt_dict, mutant)
             prt_mutant_test_list = ";".join(prt_match)
 
-            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
+            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
             log_mutation_result(results_mutants_file, ret)
 
             count += 1
@@ -172,7 +174,7 @@ def execute_mutants_reduced_ts():
             red_mutant_test_list = ";".join(red_match)
             
             if count < fsci_calibration:
-                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
+                ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
                 log_mutation_result(results_mutants_file, ret)  # complete for simulation
                 
                 prt_ret = simulate_reduced(mutant, prt_match) # reduced
@@ -185,10 +187,10 @@ def execute_mutants_reduced_ts():
                 global delta
  
                 if (delta < tolerated_error):
-                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, red_mutant_test_list])
+                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, red_mutant_test_list, timeout])
                     log_mutation_result(results_mutants_file, ret)
                 else:
-                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list])
+                    ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
                     log_mutation_result(results_mutants_file, ret)
 
                     prt_ret = simulate_reduced(mutant, prt_match) # reduced

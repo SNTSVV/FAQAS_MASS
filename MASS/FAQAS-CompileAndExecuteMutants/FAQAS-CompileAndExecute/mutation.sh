@@ -61,6 +61,7 @@ COMPILATION_CMD=$3
 ADDITIONAL_CMD=$4
 ADDITIONAL_CMD_AFTER=$5
 TEST_LIST=$6
+TIMES=$7
 
 LOGFILE=$MUT_EXEC_DIR/main.csv
 mkdir -p $MUT_EXEC_DIR
@@ -123,8 +124,10 @@ for tst in $(echo $TEST_LIST | sed "s/;/ /g");do
     
     killed=0
 
+    TIMEOUT=$(grep "^${tst}:" $TIMES | awk -F':' '{print $2}')
+
     export -f run_tst_case
-    ctimeout 60 "run_tst_case $tst" 2>&1 | tee -a $MUTANT_LOGFILE
+    ctimeout $TIMEOUT "run_tst_case $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 
     EXEC_RET_CODE=${PIPESTATUS[0]}
 
