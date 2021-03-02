@@ -6,7 +6,7 @@ touch $LOGFILE
 trap "exit" INT
 start_time="$(date -u +%s)"
 
-jq -c '.[]' $COMMANDS_JSON | while read i; do
+jq -c '.[]' $MUTANTS_DIR/compile_commands.json | while read i; do
     FILE=$(echo $i | jq -r '.file')
     ARGS=$(echo $i | jq '.command')
     DIR=$(echo $i | jq -r '.directory')

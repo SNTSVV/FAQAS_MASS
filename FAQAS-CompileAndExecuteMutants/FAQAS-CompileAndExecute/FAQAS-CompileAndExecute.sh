@@ -4,7 +4,7 @@ sampling=$1
 rate=$2
 ts_prioritized_reduced=$3
 
-all_filtered=$ALL_FILTERED
+all_filtered=$APP_RUN_DIR/COMPILED/all_filtered
 mutation_dir=$MUTATION_DIR
 compilation_cmd="${COMPILATION_CMD[*]}"
 additional_cmd="${ADDITIONAL_CMD[*]}"
@@ -15,12 +15,23 @@ timeout_file=$APP_RUN_DIR/COV_FILES/test_suite_order.txt
 
 mut_exec_dir=$mutation_dir/test_runs
 
+if [ -d $mut_exec_dir ];then
+    echo "Backing up previous mutation folder"
+    nr_tests=$(ls $mutation_dir | wc -l)
+    mv $mut_exec_dir $mutation_dir/test_runs_$nr_tests
+fi
+
 mkdir -p $mut_exec_dir
 
 # clean list
 >$mut_exec_dir/sampled_mutants
 
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/sort_mutants.py --sampling "$sampling" --rate "$rate" --all_filtered "$all_filtered" --sampled_mutants "$mut_exec_dir/sampled_mutants"
+
+if [ "$ts_prioritized_reduced" == "true" ] && [ "$sampling" == "stratified" ] || [ "$sampling" == "uniform" ];then
+    echo "configuration not available, disabling prioritized reduced test suite"
+    ts_prioritized_reduced="false"
+fi
 
 if [ "$ts_prioritized_reduced" == "true" ];then
     $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/execute_mutants.py --sampling "$sampling" --mut_exec_dir "$mut_exec_dir" --compilation_cmd "$compilation_cmd" --additional_cmd "$additional_cmd" --additional_cmd_after "$additional_cmd_after" --prioritized "$prioritized_file" --reduced "$reduced_file" --timeout "$timeout_file" 

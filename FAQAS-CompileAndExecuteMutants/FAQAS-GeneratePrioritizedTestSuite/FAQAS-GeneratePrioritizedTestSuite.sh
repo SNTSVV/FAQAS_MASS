@@ -9,6 +9,11 @@ touch $PRIORITIZED
 REDUCED=$PRIORITIZED_DIR/reduced.txt
 touch $REDUCED
 
+if [[ -s $REDUCED ]];then
+    echo "reduced test suite already generated"
+    return 0
+fi
+
 for src in $(find $PROJ_SRC -name '*.c');do
     lines=$(wc -l $src | awk '{print $1}')
     count=1
