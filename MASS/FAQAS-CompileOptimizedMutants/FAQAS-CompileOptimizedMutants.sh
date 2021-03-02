@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PROJ_ORIGINAL_BUILD=$PROJ/original_build/$COMPILED
+
 # backing up original makefile
 cp $ORIGINAL_MAKEFILE $ORIGINAL_MAKEFILE.bkp
 

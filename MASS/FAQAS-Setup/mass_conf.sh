@@ -87,12 +87,8 @@ export RATE=
 
 ####
 
-export PROJ_ORIGINAL_BUILD=$PROJ/original_build/$COMPILED
 export MUTANTS_DIR=$APP_RUN_DIR/src-mutants
 export MUTATION_DIR=$APP_RUN_DIR/MUTATION
 export COV_FILES=$APP_RUN_DIR/COV_FILES
-export ALL_FILTERED=$APP_RUN_DIR/COMPILED/all_filtered
-
-export COMMANDS_JSON=$MUTANTS_DIR/compile_commands.json
 
 
