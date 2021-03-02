@@ -87,11 +87,10 @@ def stopping_criterion(sampling, count):
         if reduced:
             global delta
 
-            # TODO
             if count < fsci_calibration:
                 return 0
             else:
-                return fsci_prt_stopping_criterion()
+                return fsci_prt_stopping_criterion() if delta < tolerated_error else fsci_stopping_criterion()
         else:
             return fsci_stopping_criterion()
         
