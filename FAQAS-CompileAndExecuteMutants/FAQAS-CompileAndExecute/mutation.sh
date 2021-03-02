@@ -25,7 +25,7 @@ run_tst_case() {
 
     # define if test case execution passed or failed
     summaryreport=$tst_name/Reports/SessionSummaryReport.xml
-    originalreport=$ORIGINAL_REPORTS/$summaryreport
+    originalreport=$HOME/unit-reports/$summaryreport
 
     test_cases_failed=$(xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $summaryreport)
     o_test_cases_failed=$(xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $originalreport)
