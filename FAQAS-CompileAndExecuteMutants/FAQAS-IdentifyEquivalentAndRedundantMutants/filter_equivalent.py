@@ -51,7 +51,6 @@ def printList(list_to_print, path):
 
 if __name__ == '__main__':
     distances_path = str(sys.argv[1])
-    all_live_path = str(sys.argv[2])
 
     useful_live_dict = load_equivalents(distances_path)
 
