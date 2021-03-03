@@ -25,7 +25,7 @@ jq -c '.[]' $MUTANTS_DIR/compile_commands.json | while read i; do
     ARGS_wo_quotes=$(sed -e 's/^"//' -e 's/"$//' <<<"$ARGS")
 
     $SRCIROR_COMPILER --compilation "$ARGS_wo_quotes" 2>&1 | tee -a $LOGFILE
-    mv $orig_dir/*.mut.*.c $MUTANTS_DIR/$path_wo_root
+    rsync -avP --no-p --no-g --remove-source-files ${orig_dir}/*.mut.*.c $MUTANTS_DIR/$path_wo_root
 done
 
 end_time="$(date -u +%s)"
