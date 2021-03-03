@@ -14,7 +14,7 @@
 # cd $PROJ
 
 # # generate compile_commands.json and delete build
-# bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs:' compile_commands.json && mv compile_commands.json $MUTANTS_DIR
+# bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs/libm:' compile_commands.json && mv compile_commands.json $MUTANTS_DIR
 # eval "${COMPILATION_CMD[@]}"
 
 # 2. Prepare test scripts
