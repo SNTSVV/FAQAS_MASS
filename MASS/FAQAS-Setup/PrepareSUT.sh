@@ -8,12 +8,14 @@
 
 # 1. Compile SUT
 ## example
+
+# export HOME=/home/mlfs
+
 # cd $PROJ
 
 # # generate compile_commands.json and delete build
-# #bear make all && rm -rf build* && mv compile_commands.json $MUTANTS_DIR
-
-# "${COMPILATION_CMD[@]}"
+# bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs:' compile_commands.json && mv compile_commands.json $MUTANTS_DIR
+# eval "${COMPILATION_CMD[@]}"
 
 # 2. Prepare test scripts
 # example
