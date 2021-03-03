@@ -88,6 +88,8 @@ export RATE=
 ####
 
 export MUTANTS_DIR=$APP_RUN_DIR/src-mutants
+mkdir -p $MUTANTS_DIR
+
 export MUTATION_DIR=$APP_RUN_DIR/MUTATION
 export COV_FILES=$APP_RUN_DIR/COV_FILES
 
