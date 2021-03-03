@@ -18,6 +18,10 @@ export MASS=$SRCIROR/MASS
 # example: APP_RUN_DIR=/opt/example
 export APP_RUN_DIR=
 
+# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+# example: HPC="true"
+export HPC=
+
 # directory root path of the software under test
 # example: PROJ=$HOME/mlfs
 export PROJ=

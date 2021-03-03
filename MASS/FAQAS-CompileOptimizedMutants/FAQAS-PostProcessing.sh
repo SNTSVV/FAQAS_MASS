@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESULTS=$1
+RESULTS=$APP_RUN_DIR/COMPILED
 
 shopt -s extglob
 for level_dir in $RESULTS/*; do
