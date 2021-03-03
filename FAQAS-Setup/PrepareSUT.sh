@@ -3,7 +3,7 @@
 # dependencies: jq, bear
 
 # This file should be prepared by the engineer!
-
+cd INSTALL_DIR_REPL
 . ./mass_conf.sh
 
 # 1. Compile SUT
