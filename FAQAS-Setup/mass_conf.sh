@@ -77,7 +77,7 @@ export FLAGS=
 export PRIORITIZED=
 
 # set sampling technique, possible values are "uniform", "stratified", and "fsci"
-# note: if "fsci" is set, $PRIORITIZED must be "false"
+# note: if "uniform" or "stratified" is set, $PRIORITIZED must be "false"
 # example SAMPLING="fsci"
 export SAMPLING=
 
