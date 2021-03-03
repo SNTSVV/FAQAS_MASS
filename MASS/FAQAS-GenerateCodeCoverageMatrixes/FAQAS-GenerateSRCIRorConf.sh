@@ -4,8 +4,7 @@ coverage_file=$COV_FILES/coverage.txt
 
 srciror_coverage=$HOME/.srciror/coverage
 
-rm $srciror_coverage
-touch -a $srciror_coverage
+mkdir -p "${srciror_coverage%/*}" && touch "$srciror_coverage"
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 

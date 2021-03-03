@@ -17,7 +17,7 @@ def executeCommand(args, debug=False):
              exec_time: the time spent to execute the command.
     """
     start_time = time.time()
-    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err = p.communicate()
     end_time = time.time()
     out = decode(out)
