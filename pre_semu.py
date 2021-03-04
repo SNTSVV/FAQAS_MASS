@@ -2,10 +2,11 @@
 
 """
 Implement meta-mu source generator
-- Require libclang (https://pypi.org/project/libclang/)
+- Require srcML (https://www.srcml.org/)
 """
 
 import argparse
+import xml.etree.ElementTree as ET
 
 def main():
     pass
