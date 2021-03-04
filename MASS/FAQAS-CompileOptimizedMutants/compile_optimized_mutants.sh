@@ -8,7 +8,6 @@ FLAG=$5
 SRC_MUTANTS=$6
 COMPILED=$7
 EXEC_DIR=$8
-COMMAND=$9
 
 LOGFILE=$EXEC_DIR/main.log
 mkdir -p $EXEC_DIR
@@ -20,7 +19,7 @@ if [ ! -f "$PROJ_ORIGINAL_BUILD" ]; then
     cat $PROJ/Makefile
 
     cd $PROJ
-    eval "${COMMAND[*]}"
+    eval "${TCE_COMPILE_CMD[*]}" 2>&1 | tee -a $LOGFILE
     mkdir -p original_build
     cp $PROJ_BUILD/$COMPILED $PROJ/original_build
 fi
@@ -68,7 +67,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     echo cp $i $filename_orig 2>&1 | tee -a $LOGFILE
     cp $i $filename_orig
 
-    eval "${COMMAND[*]}" 2>&1 | tee -a $LOGFILE
+    eval "${TCE_COMPILE_CMD[*]}" 2>&1 | tee -a $LOGFILE
     
     RET_CODE=${PIPESTATUS[0]}
     if [ $RET_CODE -gt 0 ]; then
@@ -90,7 +89,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
    
     touch $filename_orig
  
-    if [ $count -eq 100000 ];then
+    if [ $count -eq 10000000 ];then
         break
     else
         count=$((count+1))
