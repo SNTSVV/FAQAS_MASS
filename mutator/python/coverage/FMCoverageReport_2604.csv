@@ -1,0 +1,10 @@
+Test,FaultModel,Status,Times
+2604,IfStatus,covered,62
+2604,IfHK,covered,53
+2604,GYTM,covered,95
+2604,MMTX,covered,6
+2604,SunSensorTM,covered,206
+2604,SSTP,covered,53
+2604,ReactionWheelTX,not_covered,0
+2604,SpaceCraftHK,covered,52
+2604,MagnetorquerSetPWMRSP,covered,14
