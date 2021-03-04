@@ -20,7 +20,6 @@ for src in $(find $PROJ_SRC -name '*.c');do
 
     echo $src $lines
     for line in $(seq $count $lines);do
-        echo prioritize.sh $COV_FILES $MUTANTS_DIR $src $line $PRIORITIZED
         source $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize.sh $COV_FILES $MUTANTS_DIR $src $line $PRIORITIZED $REDUCED
     done
 done
