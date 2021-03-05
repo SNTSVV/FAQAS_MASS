@@ -1,0 +1,9 @@
+./adcs/E-SAIL-ASW-TST-6600.py
+./adcs/E-SAIL-ASW-TST-5190.py
+./adcs/E-SAIL-ASW-TST-4294.py
+./adcs/E-SAIL-ASW-TST-4270.py
+./adcs/E-SAIL-ASW-TST-6583.py
+./adcs/E-SAIL-ASW-TST-6275.py
+./adcs/E-SAIL-ASW-TST-5393.py
+./adcs/E-SAIL-ASW-TST-2604.py
+./adcs/E-SAIL-ASW-TST-2411.py

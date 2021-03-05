@@ -39,7 +39,10 @@ bash runTest34.sh
 bash runTest35.sh
 bash runTest36.sh
 bash runTest37.sh
+bash runTest38.sh
+bash runTest39.sh
+bash runTest40.sh
 
 popd
 
-bash getCoverage.sh
+# bash getCoverage.sh

@@ -3,7 +3,7 @@
 
 int main() {
 
-  // TODO assign the following values by reading a .csv file to make testing
+  // TO DO assign the following values by reading a .csv file to make testing
   // with different values easier
 
   //*****************************************************************************
