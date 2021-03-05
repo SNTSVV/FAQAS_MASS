@@ -5,5 +5,4 @@ cd INSTALL_DIR_REPL
 
 # 2. FAQAS-CompileAndExecute
 
-source $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/FAQAS-CompileAndExecute.sh $SAMPLING $RATE $PRIORITIZED
-
+source $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/FAQAS-CompileAndExecute.sh
