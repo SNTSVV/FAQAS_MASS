@@ -131,7 +131,7 @@ def get_tests_for_mutant(prt_dict, mutant):
     
     return match
 
-def simulate_reduced(mutant, prt_test_list):
+def simulate_reduced(mutant, test_list):
 
     mutant_fields = mutant.split('|')
     mutant_id = mutant_fields[0] + ';' + mutant_fields[1]
@@ -140,7 +140,7 @@ def simulate_reduced(mutant, prt_test_list):
     with open(traces_mutants_file) as f:
         traces = [line for line in f if mutant_id in line]
       
-        for test_case in prt_test_list:
+        for test_case in test_list:
             test_case_key = ";" + test_case + ';'
     
             matches = len([s for s in traces if test_case_key in s and ";KILLED" in s])
@@ -193,8 +193,8 @@ def execute_mutants_reduced_ts():
                 ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
                 log_mutation_result(results_mutants_file, ret)  # complete for simulation
                 
-                prt_ret = simulate_reduced(mutant, prt_match) # reduced
-                log_mutation_result(error_mutants_file, prt_ret)
+                red_ret = simulate_reduced(mutant, red_match) # reduced
+                log_mutation_result(error_mutants_file, red_ret)
             
             else:
                 if count == fsci_calibration:
@@ -209,8 +209,8 @@ def execute_mutants_reduced_ts():
                     ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
                     log_mutation_result(results_mutants_file, ret)
 
-                    prt_ret = simulate_reduced(mutant, prt_match) # reduced
-                    log_mutation_result(error_mutants_file, prt_ret)
+                    red_ret = simulate_reduced(mutant, red_match) # reduced
+                    log_mutation_result(error_mutants_file, red_ret)
                     
                     setFsciError()
     
