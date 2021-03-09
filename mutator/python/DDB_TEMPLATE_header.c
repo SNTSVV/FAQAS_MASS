@@ -104,8 +104,11 @@ struct FaultModel* _FAQAS_create_FM(int items){
 void _FAQAS_delete_FM(FaultModel *dm) {
     if ( dm == 0 )
         return;
+
+    #ifndef _FAQAS_SINGLETON_FM
     free( dm->items );
     free( dm );
+    #endif
 }
 
 //memory for HV
