@@ -20,6 +20,7 @@ sizeDef = ""
 lastSpan = ""
 fmID = 0
 
+SINGLETON_FM = False
 
 def newBF(item, _span, _type, _min, _max, _state, _value):
     global operations
@@ -205,6 +206,7 @@ def processRow(row):
     global elements
     global faultModelsDef
     global fmID
+    global SINGLETON_FM
 
     _p = 0
     FM = row[_p]
@@ -249,8 +251,17 @@ def processRow(row):
             closeFaultModelsDef()
 
         lastItem = -1
-        faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
+	if SINGLETON_FM == True:
+        	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
+        
+	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
+	if SINGLETON_FM == True:
+        	faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){return _FAQAS_"+FM+"_FM_ptr;}\n"
         faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+	
+	if SINGLETON_FM == True:
+        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
+	
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         fmID += 1
 

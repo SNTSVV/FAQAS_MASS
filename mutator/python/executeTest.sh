@@ -1,5 +1,7 @@
 #/bin/bash
 
+#USE THE FOLLOWING TO SHOW ALL THE COMMANDS EXECUTED
+#set -x
 
 TESTFOLDER=$1
 curTest=$2
