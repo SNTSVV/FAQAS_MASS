@@ -3,7 +3,7 @@
 import os, sys
 import argparse
 import subprocess
-import random
+from mass_sampling import MASSSampling
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--sampling', type=str)
@@ -33,73 +33,12 @@ error_mutants_file = os.path.join(mut_exec_dir, "results_calibration.csv")
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 mutation_script = os.path.join(cwd, "mutation.sh")
-fsci_stopping_script = os.path.join(cwd, "fsci_stopping_criterion.R")
-fsci_prt_stopping_script = os.path.join(cwd, "fsci_prt_stopping_criterion.R")
-fsci_error_script = os.path.join(cwd, "fsci_compute_error.R")
-get_ci_script = os.path.join(cwd, "get_ci.R")
-get_corrected_ci_script = os.path.join(cwd, "get_corrected_ci.R")
-
-# fsci calibration variables
-tolerated_error = 0.035
-fsci_calibration = 150
-delta = 1.0
-higher = 0.0
-lower = 0.0
-
 
 def file_len(fname):
     with open(fname) as f:
         for i, l in enumerate(f):
             pass
     return i + 1
-
-def fsci_stopping_criterion():
-    result = subprocess.run([fsci_stopping_script, results_mutants_file], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    print("stopping criterion is", result)
-    return int(result)
-
-def fsci_prt_stopping_criterion():
-    result = subprocess.run([fsci_prt_stopping_script, results_mutants_file, str(delta), str(lower), str(higher)], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    print("stopping criterion is", result)
-    return int(result)
-
-def get_ci():
-    result = subprocess.run([get_ci_script, results_mutants_file], stdout = subprocess.PIPE).stdout.decode('utf-8')
-    return result
-
-def get_corrected_ci():
-    result = subprocess.run([get_corrected_ci_script, results_mutants_file, str(delta), str(lower), str(higher)], stdout = subprocess.PIPE).stdout.decode('utf-8')
-    return result
-
-def estimate_error():
-    result = subprocess.run([fsci_error_script, error_mutants_file, results_mutants_file], stdout=subprocess.PIPE).stdout.decode('utf-8')
-    return result
-
-def stopping_criterion(sampling, count):
-    total_mutants = file_len(sampled_mutants_file)
-    
-    if sampling == "fsci":
-        
-        if count == total_mutants:
-            confidence_interval = get_corrected_ci() if reduced else get_ci()
-            print("Confidence interval", confidence_interval)
-
-        if reduced:
-            global delta
-
-            if count < fsci_calibration:
-                return 0
-            else:
-                return fsci_prt_stopping_criterion() if delta < tolerated_error else fsci_stopping_criterion()
-        else:
-            return fsci_stopping_criterion()
-        
-    else:
-        # we covered all sampled mutants
-        if count == total_mutants:
-            return 1
-        else: 
-            return 0
 
 def load_test_set(set_csv):
     prt_dict = {}
@@ -154,6 +93,8 @@ def simulate_reduced(mutant, test_list):
 def execute_mutants_full_ts():
     prt_dict = load_test_set(prioritized)
 
+    mass_sampling = MASSSampling(results_mutants_file, sampling, file_len(sampled_mutants_file), reduced)
+
     count = 0 
 
     with open(sampled_mutants_file) as f:
@@ -169,10 +110,13 @@ def execute_mutants_full_ts():
             log_mutation_result(results_mutants_file, ret)
 
             count += 1
-            if stopping_criterion(sampling, count) == 1:
+            if mass_sampling.stopping_criterion(count) == 1:
                 break    
 
 def execute_mutants_reduced_ts():
+    
+    fsci = MASSSampling(results_mutants_file, sampling, file_len(sampled_mutants_file), reduced)
+
     prt_dict = load_test_set(prioritized)
     red_dict = load_test_set(reduced)
     
@@ -189,7 +133,7 @@ def execute_mutants_reduced_ts():
             red_match = get_tests_for_mutant(red_dict, mutant)
             red_mutant_test_list = ";".join(red_match)
             
-            if count < fsci_calibration:
+            if count < fsci.fsci_calibration:
                 ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
                 log_mutation_result(results_mutants_file, ret)  # complete for simulation
                 
@@ -197,12 +141,10 @@ def execute_mutants_reduced_ts():
                 log_mutation_result(error_mutants_file, red_ret)
             
             else:
-                if count == fsci_calibration:
-                    setFsciError()
+                if count == fsci.fsci_calibration:
+                    fsci.setFsciError()
                
-                global delta
- 
-                if (delta < tolerated_error):
+                if (fsci.delta < fsci.tolerated_error):
                     ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, red_mutant_test_list, timeout])
                     log_mutation_result(results_mutants_file, ret)
                 else:
@@ -212,25 +154,13 @@ def execute_mutants_reduced_ts():
                     red_ret = simulate_reduced(mutant, red_match) # reduced
                     log_mutation_result(error_mutants_file, red_ret)
                     
-                    setFsciError()
+                    fsci.setFsciError()
     
             count += 1    
                 
-            if stopping_criterion(sampling, count) == 1:
+            if fsci.stopping_criterion(count) == 1:
                 break
         
-def setFsciError():
-    global delta, lower, higher
-    
-    error_prt = estimate_error()
-    error_prt_split = error_prt.split(";")
-    delta = float(error_prt_split[0])
-    lower = float(error_prt_split[1])
-    higher = float(error_prt_split[2])                    
-
-    print("delta", delta, "lower", lower, "higher", higher)
-
-
 if reduced:
     execute_mutants_reduced_ts()
 else:
