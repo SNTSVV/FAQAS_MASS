@@ -10,7 +10,7 @@ export MUTANTS_DIR=$APP_RUN_DIR/hpc-src-mutants/m${mutant_id_nr}
 sampling=$SAMPLING
 ts_prioritized_reduced=$PRIORITIZED
 
-mutation_dir=$APP_RUN_DIR/HPC_MUTATION_/runs/run_${mutant_id_nr}
+mutation_dir=$APP_RUN_DIR/HPC_MUTATION/runs/run_${mutant_id_nr}
 
 compilation_cmd="${COMPILATION_CMD[*]}"
 additional_cmd="${ADDITIONAL_CMD[*]}"
