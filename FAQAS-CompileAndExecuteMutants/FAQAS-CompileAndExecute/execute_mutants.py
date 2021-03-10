@@ -142,7 +142,7 @@ def execute_mutants_reduced_ts():
             
             else:
                 if count == fsci.fsci_calibration:
-                    fsci.setFsciError()
+                    fsci.setFsciError(error_mutants_file)
                
                 if (fsci.delta < fsci.tolerated_error):
                     ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, red_mutant_test_list, timeout])
@@ -154,15 +154,17 @@ def execute_mutants_reduced_ts():
                     red_ret = simulate_reduced(mutant, red_match) # reduced
                     log_mutation_result(error_mutants_file, red_ret)
                     
-                    fsci.setFsciError()
+                    fsci.setFsciError(error_mutants_file)
     
             count += 1    
                 
             if fsci.stopping_criterion(count) == 1:
                 break
-        
-if reduced:
-    execute_mutants_reduced_ts()
-else:
-    execute_mutants_full_ts()
+
+if __name__ == '__main__':
+
+    if reduced:
+        execute_mutants_reduced_ts()
+    else:
+        execute_mutants_full_ts()
 
