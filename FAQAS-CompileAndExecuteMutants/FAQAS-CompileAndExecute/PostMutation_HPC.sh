@@ -4,6 +4,8 @@ min=$1
 max=$2
 
 mut_exec_dir=$MUTATION_DIR/test_runs
+mkdir -p $mut_exec_dir
+
 main=$mut_exec_dir/main.csv
 results=$mut_exec_dir/results.csv
 
