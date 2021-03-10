@@ -29,3 +29,13 @@ Operators command example:
 The full list of operators is the following:
 
 `AOR,ROR,ICR,LCR,ROR,SDL,UOI,ABS,AOD,LOD,ROD,BOD,SOD,LVR`
+
+
+SRCMutation mutates a source file based on the statement covered by test cases. Consequently, we tell SRCMutation which statements to mutate by loading a file named `coverage` inside the folder $HOME/.srciror/ with the line numbers to be mutated for each source.
+
+Example of $HOME/.srciror/coverage:
+
+```
+./test.c:1,2,3,4,5,6
+```
+
