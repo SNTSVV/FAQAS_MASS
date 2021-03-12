@@ -14,6 +14,8 @@ export MASS=$SRCIROR/MASS
 
 ####
 
+export HOME=
+
 # set directory path where MASS files can be stored
 # example: APP_RUN_DIR=/opt/example
 export APP_RUN_DIR=
