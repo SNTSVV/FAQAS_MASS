@@ -25,6 +25,7 @@ cp mutation_additional_functions.sh $INSTALL_DIR
 cp PrepareMutants_HPC.sh $INSTALL_DIR
 cp ExecuteMutants_HPC.sh $INSTALL_DIR
 cp PostMutation_HPC.sh $INSTALL_DIR
+cp MutationScore.sh $INSTALL_DIR
 
 cd $INSTALL_DIR
 
@@ -37,3 +38,5 @@ sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PrepareSUT.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PrepareMutants_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" ExecuteMutants_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PostMutation_HPC.sh
+sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" MutationScore.sh
+
