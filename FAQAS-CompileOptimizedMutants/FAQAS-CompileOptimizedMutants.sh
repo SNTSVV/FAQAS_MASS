@@ -12,6 +12,8 @@ echo "Compiling mutants with optimisation level $FLAG..."
 
 EXEC_DIR=$APP_RUN_DIR/COMPILED/$run
 
+eval "${CLEAN_CMD[@]}"
+
 source $MASS/FAQAS-CompileOptimizedMutants/compile_optimized_mutants.sh $PROJ $PROJ_SRC $PROJ_BUILD $PROJ_ORIGINAL_BUILD $FLAG $MUTANTS_DIR $COMPILED $EXEC_DIR
 
 rm $PROJ_ORIGINAL_BUILD
