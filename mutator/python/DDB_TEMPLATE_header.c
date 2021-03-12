@@ -89,12 +89,7 @@ struct DataItem {
 struct FaultModel {
     int itemsN;
     int ID;
-    #ifdef _FAQAS_SINGLETON_FM
-    struct DataItem _items[100];
     struct DataItem *items;
-    #else
-    struct DataItem *items;
-    #endif
 };
 
 typedef struct FaultModel FaultModel;

@@ -1,8 +1,6 @@
 #/bin/bash
 bash cleanTests.sh
 
-#The following is necessary to use the singletn mode
-#export _FAQAS_SINGLETON_FM=True
 pushd tests
 
 bash runTest1.sh
