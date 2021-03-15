@@ -24,6 +24,10 @@ export APP_RUN_DIR=
 # example: HPC="true"
 export HPC=
 
+# specifies the building system, available options are "Makefile" and "waf"
+# example: BUILD_SYSTEM="Makefile"
+export BUILD_SYSTEM=
+
 # directory root path of the software under test
 # example: PROJ=$HOME/mlfs
 export PROJ=
@@ -40,7 +44,7 @@ export PROJ_TST=
 # example: PROJ_BUILD=$PROJ/build-host/bin
 export PROJ_BUILD= 
 
-# list of folders to not include during the analysis
+# list of folders not to be included during the analysis
 # example: COVERAGE_NOT_INCLUDE="tst\|libutil\|libgscsp\|libparam_client" 
 export COVERAGE_NOT_INCLUDE=
 
