@@ -40,6 +40,10 @@ export PROJ_TST=
 # example: PROJ_BUILD=$PROJ/build-host/bin
 export PROJ_BUILD= 
 
+# list of folders to not include during the analysis
+# example: COVERAGE_NOT_INCLUDE="tst\|libutil\|libgscsp\|libparam_client" 
+export COVERAGE_NOT_INCLUDE=
+
 # filename of the compiled file/library                                                                                     
 # example: COMPILED=libmlfs.a
 export COMPILED=
