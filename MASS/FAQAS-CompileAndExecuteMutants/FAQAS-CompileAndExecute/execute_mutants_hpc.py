@@ -35,7 +35,7 @@ results_mutants_file = os.path.join(mut_exec_dir, "results.csv")
 error_mutants_file = os.path.join(mut_exec_dir, "results_calibration.csv")
 
 cwd = os.path.dirname(os.path.abspath(__file__))
-mutation_script = os.path.join(cwd, "mutation.sh")
+mutation_script = os.path.join(cwd, "mutation.sh") if os.environ['BUILD_SYSTEM'] == 'Makefile' else os.path.join(cwd, "mutation_waf.sh")
 
 def load_test_set(set_csv):
     prt_dict = {}
