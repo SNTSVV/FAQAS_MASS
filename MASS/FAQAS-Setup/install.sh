@@ -26,6 +26,7 @@ cp PrepareMutants_HPC.sh $INSTALL_DIR
 cp ExecuteMutants_HPC.sh $INSTALL_DIR
 cp PostMutation_HPC.sh $INSTALL_DIR
 cp MutationScore.sh $INSTALL_DIR
+cp Launcher.sh $INSTALL_DIR
 
 cd $INSTALL_DIR
 
@@ -39,4 +40,9 @@ sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PrepareMutants_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" ExecuteMutants_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PostMutation_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" MutationScore.sh
+sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" Launcher.sh
+
+mkdir MASS_STEPS_LAUNCHERS
+
+mv CompileOptimizedMutants.sh OptimizedPostProcessing.sh GeneratePTS.sh ExecuteMutants.sh IdentifyEquivalents.sh PrepareSUT.sh PrepareMutants_HPC.sh ExecuteMutants_HPC.sh PostMutation_HPC.sh MutationScore.sh MASS_STEPS_LAUNCHERS/
 
