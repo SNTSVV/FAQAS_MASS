@@ -3,13 +3,26 @@
 LOGFILE=$MUTANTS_DIR/mutation_$(date +"%Y%m%d%H%M").log
 touch $LOGFILE
 
-trap "exit" INT
 start_time="$(date -u +%s)"
 
 jq -c '.[]' $MUTANTS_DIR/compile_commands.json | while read i; do
     FILE=$(echo $i | jq -r '.file')
+    
+    if [ ! -z $COVERAGE_NOT_INCLUDE ];then
+         file_check=$(echo $FILE | grep "$PROJ" | grep -v "$COVERAGE_NOT_INCLUDE")
+   
+         if [ -z "$file_check" ] || [ ! -f "$file_check" ];then
+            continue
+         fi
+     fi
     ARGS=$(echo $i | jq '.command')
+    
+    if [ $ARGS == "null" ];then
+        ARGS=$(echo $i | jq '.arguments | join(" ")')
+    fi
+    
     DIR=$(echo $i | jq -r '.directory')
+
     echo "-----------------------" 2>&1 | tee -a $LOGFILE
     echo "Mutating "$FILE 2>&1 | tee -a $LOGFILE
 
@@ -26,6 +39,7 @@ jq -c '.[]' $MUTANTS_DIR/compile_commands.json | while read i; do
 
     $SRCIROR_COMPILER --compilation "$ARGS_wo_quotes" 2>&1 | tee -a $LOGFILE
     rsync -avP --no-p --no-g --remove-source-files ${orig_dir}/*.mut.*.c $MUTANTS_DIR/$path_wo_root
+    
 done
 
 end_time="$(date -u +%s)"
