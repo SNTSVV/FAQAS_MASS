@@ -95,9 +95,11 @@ struct FaultModel {
 typedef struct FaultModel FaultModel;
 
 struct FaultModel* _FAQAS_create_FM(int items){
-    struct FaultModel *dm = (struct FaultModel *) malloc ( sizeof( *dm ) );
+    //struct FaultModel *dm = (struct FaultModel *) malloc ( sizeof( *dm ) );
+		struct FaultModel *dm = new struct FaultModel;
     dm->itemsN=items;
-    dm->items = (struct DataItem *) malloc( sizeof ( struct DataItem ) * items );
+    //dm->items = (struct DataItem *) malloc( sizeof ( struct DataItem ) * items );
+		dm->items = new DataItem[items];
     return dm;
 }
 
@@ -106,8 +108,11 @@ void _FAQAS_delete_FM(FaultModel *dm) {
         return;
 
     #ifndef _FAQAS_SINGLETON_FM
-    free( dm->items );
-    free( dm );
+    //free( dm->items );
+    //free( dm );
+
+		delete dm->items;
+		delete dm;
     #endif
 }
 
