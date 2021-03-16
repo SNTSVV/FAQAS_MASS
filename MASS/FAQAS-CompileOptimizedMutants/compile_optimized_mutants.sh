@@ -15,8 +15,8 @@ touch $LOGFILE
 
 if [ ! -f "$PROJ_ORIGINAL_BUILD" ]; then
 
-    sed "s/TCE/$FLAG/g" $PROJ/Makefile.template > $PROJ/Makefile
-    cat $PROJ/Makefile
+    sed "s/TCE/$FLAG/g" ${ORIGINAL_MAKEFILE}.template > ${ORIGINAL_MAKEFILE}
+    cat $ORIGINAL_MAKEFILE
 
     cd $PROJ
     eval "${TCE_COMPILE_CMD[*]}" 2>&1 | tee -a $LOGFILE
