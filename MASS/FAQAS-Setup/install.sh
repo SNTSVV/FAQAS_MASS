@@ -16,6 +16,7 @@ mkdir -p $INSTALL_DIR
 
 cp CompileOptimizedMutants.sh $INSTALL_DIR
 cp OptimizedPostProcessing.sh $INSTALL_DIR
+cp GenerateMutants.sh $INSTALL_DIR
 cp GeneratePTS.sh $INSTALL_DIR
 cp ExecuteMutants.sh $INSTALL_DIR
 cp IdentifyEquivalents.sh $INSTALL_DIR
@@ -32,6 +33,7 @@ cd $INSTALL_DIR
 
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" CompileOptimizedMutants.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" OptimizedPostProcessing.sh
+sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" GenerateMutants.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" GeneratePTS.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" ExecuteMutants.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" IdentifyEquivalents.sh
@@ -44,5 +46,5 @@ sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" Launcher.sh
 
 mkdir MASS_STEPS_LAUNCHERS
 
-mv CompileOptimizedMutants.sh OptimizedPostProcessing.sh GeneratePTS.sh ExecuteMutants.sh IdentifyEquivalents.sh PrepareSUT.sh PrepareMutants_HPC.sh ExecuteMutants_HPC.sh PostMutation_HPC.sh MutationScore.sh MASS_STEPS_LAUNCHERS/
+mv CompileOptimizedMutants.sh OptimizedPostProcessing.sh GenerateMutants.sh GeneratePTS.sh ExecuteMutants.sh IdentifyEquivalents.sh PrepareSUT.sh PrepareMutants_HPC.sh ExecuteMutants_HPC.sh PostMutation_HPC.sh MutationScore.sh MASS_STEPS_LAUNCHERS/
 
