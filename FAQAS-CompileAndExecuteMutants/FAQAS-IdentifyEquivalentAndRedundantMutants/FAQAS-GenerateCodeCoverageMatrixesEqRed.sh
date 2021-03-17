@@ -38,13 +38,14 @@ for tst in $TST/*/; do
         if [ $covered -eq 0 ]; then
             gcov_filename=$(echo $output |  awk -F"'" '{print $4}')
             # remove gcov files with 0.00% coverage
-            rm $gcov_filename
+            if [ ! -z $gcov_filename ];then
+                rm $gcov_filename
+            fi
         else
             test_name=$(echo $tst | sed 's/\.//g; s:\/::g;')
 
             for gcov_file in $(find . -name '*.gcov'); do
                 first_line=$(head -n 1 $gcov_file)
-#                full_path=$(echo $first_line | sed -n -e 's/^.*Source://p' | xargs -i realpath "$PROJ"/{})
                 
                 full_path=$(echo $first_line | sed -n -e 's/^.*Source://p' | sed 's:\.\.\/::g' | xargs -i realpath "$PROJ"/{} 2>&1)
                 
