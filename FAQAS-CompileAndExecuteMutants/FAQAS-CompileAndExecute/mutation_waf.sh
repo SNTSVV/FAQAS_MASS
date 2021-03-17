@@ -66,7 +66,7 @@ for tst in $(echo $TEST_LIST | sed "s/;/ /g");do
 
     echo "Building mutant for test case $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 
-    cd $tst
+    cd $PROJ_TST/$tst
 
     eval "${COMPILATION_CMD[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
     COMP_RET_CODE=${PIPESTATUS[0]}
@@ -136,6 +136,9 @@ echo "Replacing original source" $mutant_full_path 2>&1 | tee -a $MUTANT_LOGFILE
 cd $PROJ
 mv $original_src.orig $original_src
 touch $original_src
+
+# reset coverage information
+find $PROJ_TST -name '*.gc*' -delete
 
 echo "Additional commands after execution of tests" 2>&1 | tee -a $MUTANT_LOGFILE
 eval "${ADDITIONAL_CMD_AFTER[@]}" 2>&1 | tee -a $MUTANT_LOGFILE
