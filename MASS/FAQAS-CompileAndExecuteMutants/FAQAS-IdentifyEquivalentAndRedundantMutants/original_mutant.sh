@@ -18,6 +18,7 @@ TST_COVERAGE_FOLDER=$APP_RUN_DIR/DETECTION/TST_COV_FOLDER
 mkdir -p $TST_COVERAGE_FOLDER
 
 pushd $APP_RUN_DIR/COV_FILES
+find . -type d -links 2 -exec mkdir -p "$TST_COVERAGE_FOLDER/{}" \;
 find . -name '*.c' -exec cp --parents {} $TST_COVERAGE_FOLDER \;
 popd
 
@@ -80,8 +81,8 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
 
             mutant_start_time=$(($(date +%s%N)/1000000))
 
-            RESULTS_COV=$RESULTS/${tst}Reports/Coverage/Data/coverage.txt
-            RESULTS_NEW_COV=$MUTANT_COVERAGE_FOLDER/${tst}Reports/Coverage/Data/coverage.txt
+            RESULTS_COV=$RESULTS/${tst}${GC_FILES_RELATIVE_PATH}/coverage.txt
+            RESULTS_NEW_COV=$MUTANT_COVERAGE_FOLDER/${tst}${GC_FILES_RELATIVE_PATH}/coverage.txt
 
             if ! grep -Fq $filename_orig $RESULTS_COV;then
                 continue

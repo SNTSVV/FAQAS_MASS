@@ -44,9 +44,23 @@ for tst in $TST/*/; do
 
             for gcov_file in $(find . -name '*.gcov'); do
                 first_line=$(head -n 1 $gcov_file)
-                full_path=$(echo $first_line | sed -n -e 's/^.*Source://p' | xargs -i realpath "$PROJ"/{})
+#                full_path=$(echo $first_line | sed -n -e 's/^.*Source://p' | xargs -i realpath "$PROJ"/{})
+                
+                full_path=$(echo $first_line | sed -n -e 's/^.*Source://p' | sed 's:\.\.\/::g' | xargs -i realpath "$PROJ"/{} 2>&1)
+                
+                if [ ! -z $COVERAGE_NOT_INCLUDE ];then
+                    full_path_filtered=$(echo $full_path | grep "$PROJ" | grep -v "$COVERAGE_NOT_INCLUDE")
+                else
+                    full_path_filtered=$(echo $full_path | grep "$PROJ")
+                fi
 
-                source_file=$(echo $full_path | sed 's/.*Data\///')
+
+                if [ -z "$full_path_filtered" ] || [ ! -f "$full_path_filtered" ];then
+                    rm $gcov_file
+                    continue
+                fi
+            
+                source_file=$(echo $full_path_filtered | sed 's/.*Data\///')
 
                 if [ $COVERAGE_TYPE -eq 1 ];then
                     source $PARSER $gcov_file $source_file $TST
