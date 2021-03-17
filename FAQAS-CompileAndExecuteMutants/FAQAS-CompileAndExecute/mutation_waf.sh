@@ -3,21 +3,6 @@
 # loading functions backup_tst_coverage and run_tst_case
 . $APP_RUN_DIR/mutation_additional_functions.sh
 
-# Returns 124 if timed out, otherwise it returns the exit code of command
-ctimeout() {
-    time=$1
-
-    # start the command in a subshell to avoid problem with pipes
-    # (spawn accepts one command)
-    command="/bin/bash -c \"$2\""
-
-    expect -c "set echo \"-noecho\"; set timeout $time; spawn -noecho $command; expect timeout { exit 124 } expect eof; catch wait result; exit [lindex \$result 3];"
-    RET_CODE=$?
-    
-    return $RET_CODE                                                                                                              
-}
-
-
 MUT_EXEC_DIR=$1
 MUTANT_ID=$2
 COMPILATION_CMD=$3
@@ -90,7 +75,7 @@ for tst in $(echo $TEST_LIST | sed "s/;/ /g");do
     TIMEOUT=$(grep "^${tst}:" $TIMES | awk -F':' '{print $2}')
 
     export -f run_tst_case
-    ctimeout $TIMEOUT "run_tst_case $tst" 2>&1 | tee -a $MUTANT_LOGFILE
+    timeout $TIMEOUT bash -c "run_tst_case $tst" 2>&1 | tee -a $MUTANT_LOGFILE
 
     EXEC_RET_CODE=${PIPESTATUS[0]}
 
