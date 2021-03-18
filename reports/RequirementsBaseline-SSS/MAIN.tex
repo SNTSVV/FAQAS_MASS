@@ -10,8 +10,6 @@
 \usepackage{multirow}
 \usepackage{pdfpages}
 
-\usepackage{xspace} 
-
 \usepackage{array}
 \usepackage{lipsum}
 
@@ -27,7 +25,7 @@
 %	\addtolength{\topmargin}{-.875in}
 %	\addtolength{\textheight}{1.75in}
 
-\geometry{a4paper,left=20mm,top=20mm,bottom=50mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ... 
+\geometry{a4paper,left=20mm,top=20mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{amssymb}
@@ -50,6 +48,15 @@
 \makeindex[intoc]
 
 \usepackage[font=normalsize]{caption}  
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 \renewcommand{\theparagraph}{\S\arabic{paragraph}}
 \setcounter{secnumdepth}{4}
@@ -180,16 +187,6 @@
 
 %\renewcommand{\,}{$^{\cdot}$}
 
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
-}
-
-
 %%%% Title
 \newcommand{\titleone}{\textsf{FAQAS Framework}}
 \newcommand{\titletwo}{\textsf{RB - Requirements Baseline}}
@@ -207,10 +204,8 @@
 
 \newcommand{\APPR}{$SMTS$}
 
-\newcounter{paranum}
-\newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
-
-\newcommand{\remark}{\textbf{Remark:}\xspace}
+\newcounter{paranum}[subsubsection]
+\newcommand{\RQ}{\vspace{10pt}\noindent\textbf{\thesubsection.\refstepcounter{paranum}\theparanum}\textbf}
 
 \begin{document}
 
@@ -258,7 +253,6 @@
 \newcommand{\prog}{P}
 \newcommand{\prop}{}
 
-\newcommand{\FAQAS}{FAQAS-framework\xspace}
 
 \newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
 %\newcommand{\MREVISION}[2]{#2}
