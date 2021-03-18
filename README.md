@@ -17,11 +17,6 @@ BUILDING:
 
   2. Build the SRC mutator. To build SRC mutator, see SRCMutation/README.
 
-  3. Build the IR mutator. To build IR mutator, see IRMutation/README.
-
-  4. Build the IR instrumentation code:  
-        `cd IRMutation/InstrumentationLib/; ./build-lib.sh`
-
   5. Set up the environment variables needed by SRCIROR.
   
         `export SRCIROR_LLVMMutate_LIB=${PATH_TO_LLVM_BUILD}/Release+Asserts/lib/LLVMMutate.so`
@@ -31,8 +26,6 @@ BUILDING:
         `export SRCIROR_LLVM_BIN=${PATH_TO_LLVM_BUILD}/Release+Asserts/bin/`
 
         `export SRCIROR_LLVM_INCLUDES=${PATH_TO_LLVM_BUILD}/Release+Asserts/lib/clang/3.8.0/include/`
-
-        `export SRCIROR_COVINSTRUMENTATION_LIB=${PATH_TO_SRCIROR_DIR}/InstrumentationLib/SRCIRORCoverageLib.o`
 
   Either set environment variables `PATH_TO_LLVM_BUILD` and `PATH_TO_SRCIROR_DIR`,
   or replace them with the corresponding values in the statements above.
