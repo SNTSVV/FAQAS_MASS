@@ -44,7 +44,7 @@ sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" PostMutation_HPC.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" MutationScore.sh
 sed -i "s:INSTALL_DIR_REPL:$EXECUTION_DIR:g" Launcher.sh
 
-mkdir MASS_STEPS_LAUNCHERS
+mkdir -p MASS_STEPS_LAUNCHERS
 
 mv CompileOptimizedMutants.sh OptimizedPostProcessing.sh GenerateMutants.sh GeneratePTS.sh ExecuteMutants.sh IdentifyEquivalents.sh PrepareSUT.sh PrepareMutants_HPC.sh ExecuteMutants_HPC.sh PostMutation_HPC.sh MutationScore.sh MASS_STEPS_LAUNCHERS/
 
