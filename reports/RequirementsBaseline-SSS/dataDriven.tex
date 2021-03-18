@@ -1,195 +1,52 @@
 % !TEX root = MAIN.tex
 
+\subsection{Test Suite Evaluation Based on Data-Mutation Testing Functionality}
+\label{sec:dataDriven}
 
+The following requirements regard the Test Suite Evaluation Based on Data-Mutation Testing functionality of the \FAQAS.
 
-\chapter{Data-driven Mutation Testing}
-\label{chapter:dataDriven}
+\RQ{} The engineer shall specify the fault model and the data model for the SUT according to D2.
 
-\section{General description}
+\RQ{} \FAQAS shall provide a testing API (i.e., predefined functions to perform data mutation for buffers).
 
+\RQ{} \FAQAS shall automatically generate the probes to be integrated within the SUT derived from the fault model.
 
+\RQ{} The engineer shall manually modify the source code of the SUT to integrate mutation probes into it.
 
+\RQ{} The engineer shall manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case. 
 
-\subsection{Product perspective}
-\RQ{} The data-driven mutation testing component implements the Mutation Testing Process for data-driven mutation testing described in D2.
-\clearpage
-\subsection{General capabilities}
+\RQ{} \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
 
-\RQ{} The data-driven mutation testing component shall implement the process for the evaluation of test suite effectiveness that is drafted in Figure~\ref{fig:process:dataDriven:evaluation}. Figure~\ref{fig:process:dataDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:dataDriven:evaluation} the execution of specific software artefacts by the end-user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. Each activity is described in Section~\ref{sec:data:rquirements:capabilities}.
+\RQ{} \FAQAS shall implement the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
 
-\begin{figure}[h]
-  \centering
-	\includegraphics[width=15cm]{images/png/Activity1!DataDrivenTestSuiteEvaluation_3.png}
-      \caption{Overview of the data-driven mutation testing process to evaluate test suite effectiveness.}
-      \label{fig:process:dataDriven:evaluation}
-\end{figure}
+\RQ{} The engineer shall indicate the mutants selection strategy and a configuration value that specifies the number of mutants to consider.
 
-\RQ{} The data-driven mutation testing component shall implement the process for the improvement of test suite effectiveness that is drafted in Figure~\ref{fig:process:dataDriven:augment}. Figure~\ref{fig:process:dataDriven:augment} relies on UML activity diagram notation. In Figure~\ref{fig:process:dataDriven:augment} the execution of specific software artefacts by the end-user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. Each activity is described in Section~\ref{sec:data:rquirements:capabilities}.
+\RQ{} \FAQAS shall enable the compilation of a version of the SUT that traces the data items (targeted by mutation) that are covered by each test case.
 
-\begin{figure}[h]
-  \centering
-	\includegraphics[width=10cm]{images/png/Activity1!DataDrivenTestSuiteAugmentation_4.png}
-      \caption{Overview of the data-driven test suite augmentation process.}
-      \label{fig:process:dataDriven:augment}
-\end{figure}
+\RQ{} \FAQAS shall derive from the execution of the SUT test suite for every test case, the data items being exercised by the test case.
 
+\RQ{} \FAQAS shall compile a version of the SUT with the selected mutation operation instance enabled.
 
+\RQ{} \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
 
-\clearpage
-\subsection{General constraints}
+\RQ{} \FAQAS shall determine if a mutation operation instance has been killed, if so then the test suite execution is terminated.
 
-\RQ{} Data-driven mutation testing is typically applied to system-level test cases which are particularly hard to be automatically generated, for this reason test generation is only partially supported by the FAQAS framework.
-
-
-
-\subsection{Operational environment}
-
-\RQ{} The system works with a Linux operating system and Bash shell.
-
-\subsection{Assumptions and dependencies}
-
-\RQ{} The system targets SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
-
-\RQ{} The system targets SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
-
-\section{Specific requirements}
-%\section{General}
-\subsection{Capabilities requirements}
-\label{sec:data:rquirements:capabilities}
-
-\RQ The activity \emph{Specify data model and fault model} in Figure~\ref{fig:process:dataDriven:evaluation} indicates that the engineer should prepare a csv file specifying the fault model and the data model for the SUT according to D2.
-
-\RQ{} The activity \emph{Execute FAQAS-APIGenerator} in Figure~\ref{fig:process:dataDriven:evaluation} concerns the execution of the program \emph{Execute FAQAS-APIGenerator}.
-
-\RQ{} The program \emph{FAQAS-APIGenerator} takes as input the \emph{fault model csv} and generates the file \emph{FAQAS\_dataDrivenMutator.h} and a csv file containing the \emph{list of mutation operation instances} derived from the fault model.
-
-\RQ{} File \emph{FAQAS\_dataDrivenMutator.h} contains the FAQAS mutation testing API (i.e., the predefined functions to perform data mutation for buffers) and the fault model represented as a data structure. Details are provided in D2.
-
-\RQ{} The activity \emph{Integrate probes in SUT} in Figure~\ref{fig:process:dataDriven:evaluation} indicates that the engineer should manually modify the source code of the SUT to integrate mutation probes into it. Examples are provided in \emph{Listing 2.3}, \emph{Listing 3.1}, and \emph{Appendix A - Section 1.1} of D2. 
-
-\RQ{} The activity \emph{Extend Test Case Execution Script} in Figure~\ref{fig:process:dataDriven:evaluation} indicates that the engineer is expected to manually modify the scripts used to execute test cases so that they include an invocation to \emph{FAQAS-VerifyDataDrivenResults} after the execution of every single test case. 
-
-\RQ{} The activity \emph{Execute FAQAS-CompileAndExecuteDataDrivenMutants} in Figure~\ref{fig:process:dataDriven:evaluation} concerns the execution of the program \emph{Execute FAQAS-CompileAndExecuteDataDrivenMutants}.
-
-\RQ{} The program \emph{Execute FAQAS-CompileAndExecuteDataDrivenMutants} receives as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. It automatically executes a number of activities required to compute the mutation score: \emph{Compile TracingMutant}, \emph{Execute TracingMutant with SUT test suite}, \emph{Randomly sort mutants}, \emph{Select and remove first mutant}, \emph{Compile mutant}, \emph{Execute test suite},  \emph{Compute mutation score}.
-
-\RQ{} The program \emph{FAQAS-CompileAndExecuteDataDrivenMutants} implements the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
-
-\RQ{} The \emph{mutants selection configuration} indicates the mutants selection strategy and a configuration value that specifies the number of mutants to consider; the value may indicate the percentage of mutants to sample (for \emph{proportional uniform sampling}), the number of mutants to sample (for \emph{uniform fixed-size sampling}), or the size of the confidence interval (for \emph{uniform FSCI sampling}).
-
-\RQ{} The activity \emph{Compile TracingMutant} indicates that the system compiles a version of the SUT that traces the data items (targeted by mutation) that are covered by each test case (see D2, Figure 2.9, line 5).
-
-\RQ{} The activity \emph{Execute TracingMutant with SUT test suite} indicates that the system executes the SUT test suite. Since the test suite is executed with the TracingMutant it leads to the generation of a csv files that indicates, for every test case, the data items being exercised by the test case.
-
-\RQ{} The activity \emph{Randomly sort mutants} indicates that  \emph{FAQAS-CompileAndExecuteDataDrivenMutants} generates a randomly sorted list of mutation operation instances. This list is derived from the \emph{list of mutation operation instances}.
-
-\RQ{} The activity \emph{Select and remove first mutant} indicates that  \emph{FAQAS-CompileAndExecuteMutants} selects the first item in the \emph{sorted mutation operation instances} and removes it from the list.
-
-\RQ{} The activity \emph{Compile mutant} indicates that the system compiles a version of the SUT with the selected mutation operation instance enabled.
-
-\RQ{} The activity \emph{Execute test case} indicates that the test suite of the SUT executes a test case. Only the test cases exercising the data item targeted by the mutation operator are executed. Since the test case is executed against the mutated SUT, if the mutation operation is performed, then the file \emph{FAQAS-MutationResults.Log} will be created (this is a feature of the FAQAS data-driven mutation API).
-
-\RQ{} File \emph{FAQAS-MutationResults.Log} contains the ID of the mutation operation instance applied.
-
-\RQ{} Program \emph{FAQAS-VerifyDataDrivenResults} receives as input the ID of the test case and  the status of a test case (i.e., PASS or FAIL). It checks if a data mutation operator has been applied based on the content of \emph{FAQAS-DataMutation.Log}. It deletes \emph{FAQAS-DataMutation.Log}. It updates the content of \emph{FAQAS-MutationResults.Log}.
-
-\RQ{} If program \emph{FAQAS-VerifyDataDrivenResults} determines that a mutation operation instance has been killed, then the test suite execution is terminated.
-
-\RQ{} File \emph{FAQAS-MutationResults.Log} indicates, for every executed test case, the ID of the mutation operation instance applied and the mutation result (KILLED or LIVE). A test case may appear multiple times in this file, each time with a different mutation operation instance ID associated.
-
-\RQ{} The execution of the test suite is repeated till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
+\RQ{} \FAQAS shall execute the test suite till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
 \begin{itemize}
-\item \emph{all mutants}: the list \emph{sorted list of mutants} is empty
+\item \emph{all mutants}: all mutants has been executed
 \item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
 \item \emph{uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
-\item \emph{uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than the length specified by the user.
+\item \emph{uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than 10\%.
 \end{itemize}
 
-\RQ{} The activity \emph{Compile mutation score} concerns the computation of the mutation score based on the mutation results reported in \emph{FAQAS-MutationResults.Log}. The formula is provided in D2. As output of the computation of the mutation score the system reports also the \emph{list of mutation operation instances not killed} and the \emph{list of mutation operation instances not applied}. The \emph{list of mutation operation instances not killed} includes also the name of test cases executed for each, to facilitate the improvement of the test suite.
+\RQ{} \FAQAS shall compute the mutation score based on the mutation results.
 
-\RQ{} The end-user inspects the \emph{list of mutation operation instances not applied} to understand which data types had not been covered by the test suite. The end-user inspects the \emph{list of mutation operation instances not killed} to understand which test cases need improvement.
+\RQ{} The engineer shall inspect the mutation results to understand which data types had not been covered by the test suite, and to understand which test cases need improvement.
 
-\RQ{} The data-driven mutation testing component does not implement any feature to automatically generate test cases. The generation of such test cases is performed by directly executing a native feature of KLEE, i.e., generating test cases that reach specific assertions (see D2 Section 2.3). The system simply supports the use of KLEE for this purpose by automatically generating a version of the API containing such assertions. 
+\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases. 
 
-\RQ{} The activity \emph{Execute FAQAS-GenerateDataDrivenReachabiliyAssertions} in Figure~\ref{fig:process:dataDriven:augment} concerns the execution of the program \emph{Execute FAQAS-GenerateDataDrivenReachabiliyAssertions}.
+\RQ{} \FAQAS shall generate a version of the testing API that shall contain reachability assertions that enable KLEE to generate inputs that reach the mutation.
 
-\RQ{} The program \emph{FAQAS-GenerateDataDrivenReachabiliyAssertions} takes as input the fault model and generates a version of \emph{FAQAS\_dataDrivenMutator.h} that contains reachability assertions that enable KLEE to generate inputs that reach the mutation.
+\RQ{} The engineer shall execute KLEE, after performing the required scaffolding, if necessary. 
 
-\RQ{} The activity \emph{Execute KLEE} indicates that the end-user should execute KLEE, after performing the required scaffolding, if necessary. A methodological procedure document to support the end-user will be provided.
-
-\RQ{} The activity \emph{Implement test case} indicates that the end-user should implement a test case based on KLEE's output.
-
-\subsection{System interface requirements}
-
-\RQ{} The main user interface for the system is the command line.
-
-\subsection{Adaptation and missionization requirements}
-
-\RQ{} The system shall not be used in mission. The system is tool aimed at supporting the development of flight software. The system shall be used only to support development, validation, and verification activities in the development environment. 
-
-\subsection{Computer resource requirements}
-
-\RQ{} The system shall be executed on a Linux operating system.
-
-\subsection{Security requirements }
-
-\RQ{} The system shall not use ports or use network connections.
-
-
-\subsection{Safety requirements}
-
-\RQ{} To avoid safety hazards, the system shall not be used to assess test cases that are executed with target hardware in the loop.
-
-\RQ{} The system cannot foresee the effect of data mutation. If executed on the target hardware, the generated mutants might damage the hardware or cause injuries to surrounding people.
-
-\subsection{Reliability and availability requirements}
-
-\RQ{} The system is expected to work according to is functional specifications every time it is invoked.
-
-\RQ{} Since mutation testing execution time depends on both the number of mutants to be executed and the duration of the test suite execution, it is not possible to provide an upper bound for mutation testing execution time.
-
-\subsection{Quality requirements}
-
-\RQ{} Usability. Software engineers (i.e., professionals with a master degree in informatics or related fields) should be able to successfully use the software after reading its documentation.
-
-\RQ{} Reusability. The software shall be used in any environment matching the characteristics indicated in this document.
-
-\RQ{} Software development standards. The software development process shall follow ECSS guidelines as per SoW.
-
-\subsection{Design requirements and constraints}
-
-\RQ{} The system should be released with ESA Software Community Licence Permissive – v2.3”, as defined at https://essr.esa.int/. Any reused component should be compatible with the abovementioned licence.
-
-\RQ{} The system shall be implemented using bash shell script language, Python, and C.
-
-\subsection{Software operations requirements}
-
-\RQ{} It should be possible to execute the system anytime, in an environment matching the characteristics indicated in this document.
-
-\subsection{Software maintenance requirements}
-
-\RQ{} One year maintenance support shall be provided as per SoW.
-
-
-\subsection{System and software observability requirements}
-
-\RQ{} To enable post-mortem debugging, all the temporary files generated by the FAQAS executables should be kept.
-
-\section{Verification, validation and system integration}
- \subsection{Verification and validation process requirements}
- 
-  \RQ{} Every mutation operation should be tested by a dedicated unit test.
-  
-     \RQ{} The system should enable the correct computation of the mutation score for the FAQAS case study systems indicated in deliverable D2.
-     
- \subsection{Validation approach}
- 
- \RQ{} SnT is expected to perform a preliminary validation of the delivered framework.
-
- \RQ{} FAQAS industry partners are expected to use the system at their premises to validate it.
- 
- 
-% \subsection{Validation requirements}
-% \subsection{Verification requirements}
-% \section{System models}
-
+\RQ{} The engineer shall implement a test case based on KLEE's output.
