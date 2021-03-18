@@ -1,0 +1,65 @@
+% !TEX root = MAIN.tex
+
+\chapter{Operations Manual}
+
+\section{Set-up and Initialization}
+
+\MASS strongly depends on LLVM for source code mutation. For this reason, the set-up procedure consists of installing LLVM-3.8.1 and the \texttt{SRCMutation} component. For this procedure, a Bash script is provided.
+
+Examples: the following shell command installs the corresponding dependencies and the \texttt{SRCMutation} component installation.
+
+\begin{lstlisting}[language=bash]
+  $ ./llvm-build.sh
+\end{lstlisting}
+
+
+\section{Getting started}
+
+\MASS shall create a workspace folder where all the steps from the methodology shall be stored. 
+
+An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{\$FAQAS/MASS/FAQAS-Setup/install.sh}
+
+To use the installation script the shell variable \texttt{INSTALL\_DIR} has to be set:
+
+\begin{lstlisting}[language=bash]
+  $ export INSTALL_DIR=/opt/MLFS
+\end{lstlisting}
+
+If \MASS will run inside a container (i.e., the \texttt{INSTALL\_DIR} must be binded inside a container), then also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
+
+After setting the corresponding variables, the following commands are necessary to create the \MASS workspace folder:
+
+\begin{lstlisting}[language=bash]
+  $ cd $FAQAS/MASS/FAQAS-Setup
+  $ ./install.sh
+\end{lstlisting}
+
+
+Once the installation folder has been created, the folder shall contain the following structure:
+
+\begin{itemize}
+	\item \texttt{Launcher.sh}
+	\item \texttt{mass_conf.sh}
+	\item \texttt{mutation_additional_functions.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/CompileOptimizedMutants.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/OptimizedPostProcessing.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/PrepareSUT.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/MutationScore.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/ExecuteMutants.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/GenerateMutants.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/IdentifyEquivalents.sh}
+	\item \texttt{MASS_STEPS_LAUNCHERS/GeneratePTS.sh}
+\end{itemize}
+
+
+\section{Mode selection and control}
+
+\section{Normal Operations}
+
+\section{Normal Termination}
+
+\section{Error Conditions}
+
+\section{Recover Runs}
+
+
