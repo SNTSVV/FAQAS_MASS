@@ -1,5 +1,7 @@
 #! /bin/bash -e
 
+CURR_DIR=$(pwd)
+
 # ================= Main Body ===================== #
 ZIPS_DIR=zips
 TOOLS_DIR=tools
@@ -32,3 +34,7 @@ export CPLUS_INCLUDE_PATH=
 ../llvm/configure
 # cmake  -G "Unix Makefiles" ../llvm
 make -j4
+
+# build SRCMutation
+cd $CURR_DIR/SRCMutation
+make
