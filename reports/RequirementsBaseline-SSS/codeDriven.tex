@@ -6,137 +6,147 @@
 
 The following requirements regard the Test Suite Evaluation Based on Code-Mutation functionality of the \FAQAS.
 
-\RQ{} \FAQAS shall implement a set of state-of-art optimizations to make code-driven mutation testing feasible (see D2).
+\RQ{} The \FAQAS shall implement a set of state-of-art optimizations to make code-driven mutation testing feasible (see D2).
 
-\RQ{} The engineer shall the configure \FAQAS to enable code-driven mutation testing on the SUT.
+\RQ{} The \FAQAS shall provide means to enable engineers to run code-driven mutation testing on the SUT.
 
-\RQ{} The engineer shall the configure \FAQAS to select the optimization steps to be carried on the SUT.
+\RQ{} The \FAQAS shall provide means to enable engineers to select the optimization steps to be carried on the SUT.
+\TODO{I think first we should indicate what are the optimizations supported by FAQAS}
 
-\RQ{} \FAQAS shall be provided with SUT code coverage information to enable code-driven mutation testing on the SUT.
+\RQ{} The \FAQAS shall receive as input code coverage information of the SUT.
 
-\RQ{} \FAQAS shall support test case execution following the practice for the SUT (e.g., running the command \texttt{make test}).
+\RQ{} The \FAQAS shall support test case execution following the practice for the SUT (e.g., running the command \texttt{make test}).
 
-\RQ{} \FAQAS shall mutate the source code of the SUT.
+\RQ{} The \FAQAS shall mutate the source code of the SUT.
 
-\RQ{} \FAQAS shall support C-coded software.
+\RQ{} The \FAQAS shall support C-coded software.
 
-\RQ{} \FAQAS shall mutate the SUT by applying a set of mutation operators that can be selected by the engineers.
+\RQ{} The \FAQAS shall mutate the SUT by applying a set of mutation operators that can be selected by the engineers.
 
 \RQ{} The \FAQAS shall implement the set of operators listed in Table~\ref{table:operators}.
 
 \input{tables/operators.tex}
 
-\RQ{} \FAQAS shall apply all available mutation operators in case they are not specified.
+\RQ{} The \FAQAS shall apply all available mutation operators in case they are not specified.
 
-\RQ{} \FAQAS shall store every generated mutant on a directory tree that follows the structure of the source directory tree of the SUT.
+\RQ{} The \FAQAS shall store every generated mutant on a directory tree that follows the structure of the source directory tree of the SUT.
 
 \remark Every source file is replaced by a folder; the folder has the same name of the file. The folder contains all the mutants generated for that file. 
 
-\RQ{} \FAQAS shall generate mutants with unique name identifiers.
+\RQ{} The \FAQAS shall generate mutants with unique name identifiers.
 
-\RQ{} \FAQAS shall generate mutants with names that results from the conjunction of the following information:
+\RQ{} The \FAQAS shall generate mutants with names that results from the conjunction of the following information:
 source file name, mutated function name, mutated line, mutation operator name, mutation operation, mutated ``column'' (i.e., char position from the beginning of the line).
 
-\RQ{} \FAQAS shall support compile methodologies by relying on a procedure that compile mutants incrementally to save compilation time.
+\RQ{} The \FAQAS shall compile mutants incrementally to save compilation time.
 
-\RQ{} \FAQAS shall disregard equivalent and redundant mutants based on trivial compiler equivalences.
+\RQ{} The \FAQAS shall disregard equivalent and redundant mutants based on trivial compiler equivalence.
 
 % not sure if we should keep this
-\RQ{} The engineer shall provide a modified compilation script for the SUT (e.g., the \emph{Makefile}). The modified compilation script (i) shall not contain debugging nor coverage flags, (ii) shall contain a placeholder for the compiler optimization option, and (iii) shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order.
+\RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according rules specific for the \FAQAS. 
+%Fabrizio: the subject should always be FAQAS
+%The engineer shall provide a modified compilation script for the SUT (e.g., the \emph{Makefile}). 
+The modified compilation script (i) shall not contain debugging nor coverage flags, (ii) shall contain a placeholder for the compiler optimization option, and (iii) shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order.
 
-\RQ{} \FAQAS shall compile every mutant the SUT with the \textit{O0}, \textit{O1}, \textit{O2}, \textit{O3}, \textit{Ofast}, and \textit{Os} GCC compiler optimisation options\footnote{https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html}.
+\RQ{} The \FAQAS shall compile every mutant with the \textit{O0}, \textit{O1}, \textit{O2}, \textit{O3}, \textit{Ofast}, and \textit{Os} GCC compiler optimisation options\footnote{https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html}.
 
-\RQ{} \FAQAS shall generate a SHA512 hash for every compiled mutant to enable mutant comparisons. 
+\RQ{} The \FAQAS shall generate a SHA512 hash for every compiled mutant to enable mutant comparisons. 
 
-\RQ{} \FAQAS shall disregard mutants that generate a compilation error.
+\RQ{} The \FAQAS shall disregard mutants that generate a compilation error.
 
-\RQ{} \FAQAS shall not disregard mutants that produce a compilation warning.
+\RQ{} The \FAQAS shall not disregard mutants that produce a compilation warning.
 
-\RQ{} \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalences. 
+\RQ{} The \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalences. 
 
-\RQ{} \FAQAS shall generate a set of prioritized and reduced test suites for every covered statement within the SUT.
+\RQ{} The \FAQAS shall generate a set of prioritized and reduced test suites for every covered statement within the SUT.
+The generaton of such test suites should be  based on the PrioritizeAndReduce Algorithm (See D2).
 
-\RQ{} \FAQAS shall generate the set of prioritized and reduced test suites based on the PrioritizeAndReduce Algorithm (See D2).
+\RQ{} The \FAQAS shall provide an option to execute only the prioritized and reduced set of test cases when testing a mutant affecting a certain statement. When the option is disabled, the \FAQAS shall execute the whole test suite for every mutant. The execution of a test suite shall be stopped when a mutant is killed.
 
-\RQ{} \FAQAS shall execute the prioritized and reduced set of test cases when testing a mutant affecting a certain statement.
+\TODO{Check my changes above}
 
-\RQ{} \FAQAS shall support strong mutation testing (see D2).
+\RQ{} The \FAQAS shall support strong mutation testing (see D2).
 
-\RQ{} \FAQAS shall sample the mutants to be executed.
+\RQ{} The \FAQAS shall sample the mutants to be executed.
 
-\RQ{} \FAQAS shall support the mutant selection strategy \textit{all mutants} (see D2).
+\RQ{} The \FAQAS shall support the mutant selection strategy \textit{all mutants} (see D2).
 
-\RQ{} \FAQAS shall support the mutant selection strategy \textit{proportional uniform sampling} (see D2).
+\RQ{} The \FAQAS shall support the mutant selection strategy \textit{proportional uniform sampling} (see D2).
 
-\RQ{} \FAQAS shall support the mutant selection strategy \textit{proportional method-based sampling} (see D2).
+\RQ{} The \FAQAS shall support the mutant selection strategy \textit{proportional method-based sampling} (see D2).
 
-\RQ{} The engineer shall provide a sampling rate if \textit{proportional uniform sampling} or \textit{proportional method-based sampling} is selected.
+\RQ{} The \FAQAS shall enable engineers to provide a sampling rate if \textit{proportional uniform sampling} or \textit{proportional method-based sampling} is selected.
 
-\RQ{} \FAQAS shall support the mutant selection strategy \textit{uniform FSCI sampling} (see D2).
+\RQ{} The \FAQAS shall support the mutant selection strategy \textit{uniform FSCI sampling} (see D2).
 
-\RQ{} \FAQAS shall compile a mutant by running the building script of the original program.
+\RQ{} The \FAQAS shall compile a mutant by running the build script of the original program.
 
-\RQ{} \FAQAS shall support simple runtime optimizations:
+\RQ{} The \FAQAS shall support simple runtime optimizations:
 \begin{enumerate}
 	\item stopping the execution of the test suite when the mutant has been killed,
 	\item executing only those test cases that cover the mutated statements, and 
 	\item rely on timeouts to automatically detect infinite loops introduced by mutation.
 \end{enumerate}
 
-\RQ{} \FAQAS shall execute the SUT test suite for every mutant.
+%\RQ{} The \FAQAS shall execute the SUT test suite for every mutant.
 
-\RQ{} \FAQAS shall compile and execute mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
+\RQ{} The \FAQAS shall compile and execute mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
 \begin{itemize}
-	\item \emph{all mutants}: all mutants has been executed
+	\item \emph{all mutants}: all mutants have been executed
 	\item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
 	\item \emph{proportional method-based sampling}: a number of mutants matching the selected percentage for all methods in the SUT has been executed
 	\item \emph{uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
 	\item \emph{uniform FSCI sampling}: the confidence interval computed is smaller than 10\%.
 \end{itemize}
 
-\RQ{} \FAQAS shall identify equivalent mutants based on code coverage information using the distance criterion $D_C$ (see D2).
+\RQ{} The \FAQAS shall identify equivalent mutants based on code coverage information using the distance criterion $D_C$ (see D2).
 
-\RQ{} \FAQAS shall disregard all the equivalent mutants from the mutation results.
+\RQ{} The \FAQAS shall disregard all the equivalent mutants from the mutation results.
 
-\RQ{} \FAQAS shall compute the mutation score of SUT based on the mutation results.
+\RQ{} The \FAQAS shall compute the mutation score of the SUT based on the mutation results.
 
-\RQ{} \FAQAS shall produce two prioritized lists of nondetected and nonequivalent mutants. The prioritization is made on the basis of statement coverage difference of each mutant with respect to the original statement coverage.
+\TODO{Below you wrote "nondetected" do you mean "live"?}
+\RQ{} The \FAQAS shall produce two prioritized lists of nondetected and nonequivalent mutants. 
+\TODO{We have to discuss the meaning of the following}
+The prioritization based made on the basis of statement coverage difference of each mutant with respect to the original statement coverage.
 
-\RQ{} \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
+
+
+\RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
 
 % test suite augmentation
 
 
-\subsection{Test Suite Augmentation Based on Code-Mutation Functionality}
+\subsection{Test Suite Augmentation Based on Code-driven Mutation Functionality}
 \label{sec:codeDrivenAugmentation}
 
-The following requirements regard the Test Suite Augmentation Based on Code-Mutation functionality of the \FAQAS.
+The following requirements regard the Test Suite Augmentation functionality Based on the Code-driven Mutation functionality of the \FAQAS.
 
-\RQ{} \FAQAS shall support test suite augmentation based on code mutation.
+\RQ{} The \FAQAS shall support test suite augmentation based on code mutation.
 
-\RQ{} \FAQAS shall rely on the KLEE test case generation tool for supporting test suite augmentation.
+\RQ{} The \FAQAS shall rely on the KLEE test case generation tool to support test suite augmentation.
 
-\RQ{} \FAQAS shall generate test scaffoldings for each live mutant, which shall be processed by KLEE.
+\RQ{} The \FAQAS shall generate test scaffoldings for each live mutant, which shall be processed by KLEE.
 
 \RQ{} The engineer shall be able to configure the test scaffoldings to refine assertions, if necessary.
 
 \remark Since assertions should concern output variables, it is necessary to verify that all the necessary output variables had been referred in assertion. Indeed, in C, with pointers and pointers to pointers, it is not possible to have a precise automated identification of output variables.
 
-\RQ{} \FAQAS shall generate a tentative unit test case (i.e., a source file in C) that kills the mutants.
+\RQ{} The \FAQAS shall generate a tentative unit test case (i.e., a source file in C) that kills the mutants.
 
-\RQ{} \FAQAS shall generate test cases consisting of (i) an invocation of the function under test (i.e., the function targeted by the mutation), (ii) its assigned arguments, and (iii) an assertion that verifies results.
+\RQ{} The \FAQAS shall generate test cases consisting of (i) an invocation of the function under test (i.e., the function targeted by the mutation), (ii) its assigned arguments, and (iii) an assertion that verifies results.
 
-\RQ{} The engineer shall inspect the generated test cases by verifying that KLEE has generated valid inputs (e.g., inputs that meet the program preconditions).
-
-\RQ{} The engineer shall inspect the generated test cases by verifying that the generated assertion with the expected value is correct (i.e., it reflects what indicated in the SUT specifications). 
-
-\remark If the value appearing in the assertion is not correct, it means that KLEE during its execution has observed an incorrect value being generated by the SUT; for this reason, the SUT might be faulty and should be fixed.
-
-\RQ{} The engineer shall add manually the generated test case to the test suite.
-
-\RQ{} The engineer shall inspect manually the mutant for equivalence when a test case is not generated.
-
-\RQ{} The engineer shall remove the mutant from the mutation results, if the manual inspection of mutant equivalence is positive.
-
-\RQ{} \FAQAS shall recompute the mutation score after ignoring the equivalent mutants detected by KLEE.
+%\RQ{} The engineer shall inspect the generated test cases by verifying that KLEE has generated valid inputs (e.g., inputs that meet the program preconditions).
+%
+%\RQ{} The engineer shall inspect the generated test cases by verifying that the generated assertion with the expected value is correct (i.e., it reflects what indicated in the SUT specifications). 
+%
+%\remark If the value appearing in the assertion is not correct, it means that KLEE during its execution has observed an incorrect value being generated by the SUT; for this reason, the SUT might be faulty and should be fixed.
+%
+%\RQ{} The engineer shall add manually the generated test case to the test suite.
+%
+%\RQ{} The engineer shall inspect manually the mutant for equivalence when a test case is not generated.
+%
+%\RQ{} The engineer shall remove the mutant from the mutation results, if the manual inspection of mutant equivalence is positive.
+%
+%\RQ{} The \FAQAS shall recompute the mutation score after ignoring the equivalent mutants detected by KLEE.
 

@@ -9,7 +9,7 @@ The FAQAS activity concerns the investigation of mutation testing as a method to
 
 The \FAQAS implements a toolset supporting code-driven and data-driven mutation testing that integrates and extends state-of-art solutions. The proposed methodology enables a scalable and accurate mutation testing process even when the software under test is large and characterized by test suites requiring long execution time.
 
-Since \FAQAS implements two distinct functionalities, code-driven mutation testing and data-driven mutation testing, the functional requirements contains two separate sections, each one concerning one of the two features: Section~\ref{sec:codeDriven} concerns code-driven mutation testing, Section~\ref{sec:dataDriven} concerns data-driven mutation testing.
+Since \FAQAS implements two distinct features, code-driven mutation testing and data-driven mutation testing, the functional requirements contains two separate sections, each one concerning one of the two features: Section~\ref{sec:codeDriven} concerns code-driven mutation testing, Section~\ref{sec:dataDriven} concerns data-driven mutation testing.
 
 The requirements defined in this chapter are univocally identified by the paragraph id appearing on the left.
 
@@ -26,7 +26,7 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{General Constraints}
 
-\RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) shall rely on existing tools because since it is considered an open, complex, research problem.  
+\RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) shall rely on existing tools because the automated generation of test cases is an open, complex, research problem.  
 
 \RQ{} The automated generation of test cases for code-mutation shall rely on KLEE, which is the most stable test case generation tool, based on WP2 evaluation.
 
@@ -53,7 +53,7 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} The \FAQAS shall support SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
 
-\RQ{} The \FAQAS shall support SUT test suites implemented as a script (hereafter, \emph{test suite script}) either a Makefile or a Bash script. Each test case is executed through the invocation of a command in the script.
+\RQ{} The \FAQAS shall support SUT test suites implemented as scripts (hereafter, \emph{test suite script}) that trigger the execution of test cases (each test case is executed in a separate process). Test suite scripts could be implemented either as Makefiles or a Bash scripts. Each test case is executed through the invocation of a command in the script.
 
 
 

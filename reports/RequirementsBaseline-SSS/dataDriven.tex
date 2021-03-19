@@ -7,31 +7,31 @@ The following requirements regard the Test Suite Evaluation Based on Data-Mutati
 
 \RQ{} The engineer shall specify the fault model and the data model for the SUT according to D2.
 
-\RQ{} \FAQAS shall provide a testing API (i.e., predefined functions to perform data mutation for buffers).
+\RQ{} The \FAQAS shall provide a mutation testing API (i.e., predefined functions to perform data mutation for buffers).
 
-\RQ{} \FAQAS shall automatically generate the probes to be integrated within the SUT derived from the fault model.
+\RQ{} The \FAQAS shall automatically generate the probes to be integrated within the SUT derived from the fault model.
 
 \RQ{} The engineer shall manually modify the source code of the SUT to integrate mutation probes into it.
 
 \RQ{} The engineer shall manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case. 
 
-\RQ{} \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
+\RQ{} The \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
 
-\RQ{} \FAQAS shall implement the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
+\RQ{} The \FAQAS shall implement the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
 
-\RQ{} The engineer shall indicate the mutants selection strategy and a configuration value that specifies the number of mutants to consider.
+\RQ{} The \FAQAS shall enable the engineer to indicate the mutants selection strategy and a configuration value that specifies the number of mutants to consider.
 
-\RQ{} \FAQAS shall enable the compilation of a version of the SUT that traces the data items (targeted by mutation) that are covered by each test case.
+\RQ{} The \FAQAS shall enable the compilation of a version of the SUT that traces the data items (targeted by mutation) that are covered by each test case.
 
-\RQ{} \FAQAS shall derive from the execution of the SUT test suite for every test case, the data items being exercised by the test case.
+\RQ{} The \FAQAS shall derive from the execution of the SUT test suite for every test case, the data items being exercised by the test case.
 
-\RQ{} \FAQAS shall compile a version of the SUT with the selected mutation operation instance enabled.
+\RQ{} The \FAQAS shall compile a version of the SUT with the selected mutation operation instance enabled.
 
-\RQ{} \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
+\RQ{} The \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
 
-\RQ{} \FAQAS shall determine if a mutation operation instance has been killed, if so then the test suite execution is terminated.
+\RQ{} The \FAQAS shall determine if a mutant has been killed. The \FAQAS shall terminate the test suite execution when a mutant is killed.
 
-\RQ{} \FAQAS shall execute the test suite till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
+\RQ{} The \FAQAS shall execute the test suite till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
 \begin{itemize}
 \item \emph{all mutants}: all mutants has been executed
 \item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
@@ -39,13 +39,13 @@ The following requirements regard the Test Suite Evaluation Based on Data-Mutati
 \item \emph{uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than 10\%.
 \end{itemize}
 
-\RQ{} \FAQAS shall compute the mutation score based on the mutation results.
+\RQ{} The \FAQAS shall compute the mutation score based on the mutation results.
 
 \RQ{} The engineer shall inspect the mutation results to understand which data types had not been covered by the test suite, and to understand which test cases need improvement.
 
 \RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases. 
 
-\RQ{} \FAQAS shall generate a version of the testing API that shall contain reachability assertions that enable KLEE to generate inputs that reach the mutation.
+\RQ{} The \FAQAS shall generate a version of the testing API that shall contain reachability assertions that enable KLEE to generate inputs that reach the mutation.
 
 \RQ{} The engineer shall execute KLEE, after performing the required scaffolding, if necessary. 
 
