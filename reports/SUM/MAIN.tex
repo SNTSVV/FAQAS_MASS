@@ -205,7 +205,7 @@
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
 
-\newcommand{\MASS}{$MASS$}
+\newcommand{\MASS}{\textit{MASS}\xspace}
 
 \newcounter{paranum}
 \newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
@@ -261,9 +261,7 @@
 \newcommand{\FAQAS}{FAQAS-framework\xspace}
 
 \newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
-%\newcommand{\MREVISION}[2]{#2}
 
-%\newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
 \newcommand{\REVTWO}[2]{#2}
 
 \thispagestyle{empty}

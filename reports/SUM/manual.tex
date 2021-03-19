@@ -3,17 +3,28 @@
 \chapter{Operations Manual}
 
 \section{Set-up and Initialization}
+\label{sec:install}
 
 \MASS strongly depends on LLVM for source code mutation. For this reason, the set-up procedure consists of installing LLVM-3.8.1 and the \texttt{SRCMutation} component. For this procedure, a Bash script is provided.
 
-Examples: the following shell command installs the corresponding dependencies and the \texttt{SRCMutation} component installation.
+The following shell command installs the corresponding dependencies and the \texttt{SRCMutation} component.
 
 \begin{lstlisting}[language=bash]
   $ ./llvm-build.sh
 \end{lstlisting}
 
+\subsection{Dependencies}
+
+\begin{itemize}
+	\item Linux packages: \texttt{r-base}, \texttt{jq}, \texttt{Python 3.7} or higher
+	\item R packages: \texttt{binom}
+	\item Python packages: \texttt{numpy}, \texttt{scipy}
+\end{itemize}
+
 
 \section{Getting started}
+
+\subsection{Initialization of the MASS workspace}
 
 \MASS shall create a workspace folder where all the steps from the methodology shall be stored. 
 
@@ -22,10 +33,10 @@ An installation Bash script is provided for the creation of this workspace, the 
 To use the installation script the shell variable \texttt{INSTALL\_DIR} has to be set:
 
 \begin{lstlisting}[language=bash]
-  $ export INSTALL_DIR=/opt/MLFS
+  $ export INSTALL_DIR=/opt/DIRECTORY
 \end{lstlisting}
 
-If \MASS will run inside a container (i.e., the \texttt{INSTALL\_DIR} must be binded inside a container), then also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
+If the \texttt{INSTALL\_DIR} directory must be binded inside a container. Then, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
 
 After setting the corresponding variables, the following commands are necessary to create the \MASS workspace folder:
 
@@ -34,22 +45,299 @@ After setting the corresponding variables, the following commands are necessary 
   $ ./install.sh
 \end{lstlisting}
 
-
-Once the installation folder has been created, the folder shall contain the following structure:
+Once the installation folder has been created, the folder shall contain the following structure and files:
 
 \begin{itemize}
-	\item \texttt{Launcher.sh}
-	\item \texttt{mass_conf.sh}
-	\item \texttt{mutation_additional_functions.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/CompileOptimizedMutants.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/OptimizedPostProcessing.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/PrepareSUT.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/MutationScore.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/ExecuteMutants.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/GenerateMutants.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/IdentifyEquivalents.sh}
-	\item \texttt{MASS_STEPS_LAUNCHERS/GeneratePTS.sh}
+	\item \texttt{Launcher.sh}: \MASS single launcher; the script executes all the steps of the methodology in one command. 
+	\item \texttt{mass\_conf.sh}: \MASS configuration file, has to be set before being able to execute \MASS.
+	\item \texttt{mutation\_additional\_functions.sh}: Bash script that must be filled by the application engineer before executing \MASS.
+	\item \texttt{MASS\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \MASS methodology.
+	\begin{itemize}
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}: launcher for the script that prepare the SUT and collects information about the SUT test suite.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/GenerateMutants.sh}: launcher for the generation of mutants.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/CompileOptimizedMutants.sh}: launcher for the trivial compiler optimization step.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/OptimizedPostProcessing.sh}: launcher for the post-processing of the trivial compiler optimization step.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/GeneratePTS.sh}: launcher for the generation of prioritized and reduced test suites.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/ExecuteMutants.sh}: launcher for the execution of mutants against the SUT test suite.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/IdentifyEquivalents.sh}: launcher for the identification of equivalent mutants based on code coverage.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/MutationScore.sh}: launcher for the computation of the mutation score and final reporting.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareMutants\_HPC.sh}: launcher that prepare the mutants workspace for the execution on HPCs.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/ExecuteMutants\_HPC.sh}: launcher that execute mutants on HPCs.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PostMutation\_HPC.sh}: launcher that assess past mutant executions, and decide whether more mutant executions are needed.
+	\end{itemize}
+
 \end{itemize}
+
+\subsection{MASS Configuration}
+
+There are three Bash scripts that needs intervention from the SUT engineer. These three scripts enable \MASS the correct identification of the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \MASS itself (e.g., trivial compiler optimizations flags, mutant selection strategy, sampling rate).
+
+The last intervention, regards providing a template of the original build script for the trivial compiler optimizations step. More details are provided in the following.
+
+\subsubsection{MASS Configuration File}
+
+The \MASS configuration file is the Bash file \texttt{\$INSTALL\_DIR/mass\_conf.sh}; within this file there are multiple environment variables that must be set:
+
+\begin{lstlisting}[language=bash]
+	# set SRCIROR path
+	export SRCIROR=
+
+	# set workspace directory path where MASS files can be stored (i.e., $INSTALL_DIR)
+	export APP_RUN_DIR=
+
+	# specifies the building system, available options are "Makefile" and "waf"
+	export BUILD_SYSTEM=
+
+	# directory root path of the SUT
+	export PROJ=
+
+	# directory source path of the SUT
+	export PROJ_SRC=
+
+	# directory test path of the SUT
+	export PROJ_TST=
+
+	# directory coverage path of the SUT
+	export PROJ_COV=
+
+	# directory path where the compiled binary is stored
+	export PROJ_BUILD=
+
+	# list of folders not to be included during coverage analysis, name folders shall be separated by '\|' 
+	export COVERAGE_NOT_INCLUDE=
+
+	# filename of the compiled file or library 
+	export COMPILED=
+
+	# path to the original build script        
+	export ORIGINAL_MAKEFILE=
+
+	# compilation command of the SUT, the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
+	export COMPILATION_CMD=
+
+	# additional commands for compiling the SUT (e.g., setup of workspace), the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
+	export ADDITIONAL_CMD=
+
+	# command to be executed after each test case execution (optional), the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
+	export ADDITIONAL_CMD_AFTER=
+
+	# compilation command for TCE analysis, the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
+	export TCE_COMPILE_CMD=
+
+	# command to clean installation of the SUT, the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
+	export CLEAN_CMD=
+
+	# relative path to location of gcov files (i.e., gcda and gcno files)
+	export GC_FILES_RELATIVE_PATH=
+\end{lstlisting}
+
+Furthermore, the following specific \MASS variables must be set:
+
+\begin{lstlisting}[language=bash]
+	# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+	export HPC=
+
+	# TCE flags to be tested, the flags shall be specified as a Bash array, e.g., ("-O0" "-O1").
+	export FLAGS=
+
+	# set if MASS should be executed with a prioritized and reduced test suite, possible values are "true" or "false"
+	export PRIORITIZED=
+
+	# set sampling technique, possible values are "uniform", "stratified", and "fsci"
+	# note: if "uniform" or "stratified" is set, $PRIORITIZED must be "false"
+	export SAMPLING=
+
+	# set sampling rate if whether "uniform" or "stratified" sampling has been selected
+	export RATE=
+\end{lstlisting}
+
+\subsection{Prepare SUT Script Configuration}
+
+The prepare SUT configuration file is the Bash file \texttt{\$INSTALL\_DIR/MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}; within this file the following actions must be provided by the engineer:
+
+\begin{enumerate}
+	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths;
+	\item Provide commands to compile the SUT;
+	\item Provide additional commands to prepare SUT workspace (optional);
+	\item Provide commands to execute the SUT test suite iteratively over each test case;
+	\begin{itemize}
+		\item After the execution of a test case add a call to \\\texttt{\$MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh} script;
+		\item the script \texttt{FAQAS-CollectCodeCoverage.sh} shall be invoked with three arguments: (i) the test case name, (ii) the time taken to run the test case in seconds, and (iii) the root folder where all the coverage files are being stored.
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Mutation Script Configuration}
+
+The mutation script configuration file is the Bash file \texttt{mutation\_additional\_functions.sh}; within this file a Bash function \texttt{run\_tst\_case} must be provided by the engineer to guarantee a correct mutation testing process. This function shall receive as an argument the name of the test case to be executed, and then it should execute the command for running the test case. Particularly, the return should return 0, if the test case passes, and it should return 1 if the test fails.
+
+
+\subsection{Build Script for Compiler Optimizations}
+
+The SUT engineer shall provide a template of the original SUT build script. Such template shall be placed in the same folder where the original build script resides. Moreover, the template should have the following characteristics:
+
+\begin{itemize}
+	\item The template shall not contain any debugging flags within compilation/linking commands;
+	\item The template shall not contain any code coverage flags within compilation/linking commands;
+	\item The template shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
+	\item The template shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order;
+	\item The template shall be named the same as the original build script, but with an ending '.template'.
+\end{itemize}
+
+
+\subsection{Running MASS on single machines}
+\label{sec:singlelaunch}
+
+\subsubsection{One Step Launcher}
+
+One possible way to run \MASS is to execute all the eight steps of the framework with one command. Such action will execute the following steps sequentially:
+
+\begin{enumerate}
+	\item PrepareSUT
+	\item GenerateMutants
+	\item CompileOptimizedMutants
+	\item OptimizedPostProcessing
+	\item GeneratePTS
+	\item ExecuteMutants
+	\item IdentifyEquivalents
+	\item MutationScore
+\end{enumerate}
+
+To execute the one step launcher, the following command shall be provided:
+
+\begin{lstlisting}[language=bash]
+  $ ./Launcher.sh
+\end{lstlisting}
+
+\subsubsection{Multiple Step Launchers}
+
+Another possible way to run \MASS is to execute all the eight steps of the framework through independent commands. 
+The multiple steps of the methodology and its command are described in the following.
+
+\begin{enumerate}
+	\item \textbf{Prepare the SUT}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
+\end{lstlisting}
+
+	\item \textbf{Generate Mutants}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
+\end{lstlisting}
+
+	\item \textbf{Compile Optimized Mutants}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh
+\end{lstlisting}
+
+	\item \textbf{Compile Optimized Mutants Post-Processing}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
+\end{lstlisting}
+
+	\item \textbf{Generate Prioritized and Reduced Test Suites}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
+\end{lstlisting}
+
+	\item \textbf{Execute mutants}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants.sh
+\end{lstlisting}
+
+	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
+\end{lstlisting}
+
+	\item \textbf{Computer Mutation Score}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
+\end{lstlisting} 
+\end{enumerate}
+
+
+\subsection{Running MASS on HPC infrastructures}
+
+Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \MASS in one step. 
+However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With a HPC, for example, \MASS could analyze way more mutants than if \MASS is executed on a single machine.
+
+The multiple steps of the methodology and its command are described in the following.
+
+\begin{enumerate}
+	\item \textbf{Prepare the SUT}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
+\end{lstlisting}
+
+	\item \textbf{Generate Mutants}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
+\end{lstlisting}
+
+	\item \textbf{Compile Optimized Mutants}: If the environment variable \texttt{HPC} is set to \texttt{true}. Then, a parameter can be passed to the launcher script indicating the optimization level to be processed. If six levels of optimizations are defined, then numbers between zero and five can be provided.
+
+	\begin{lstlisting}[language=bash]
+	  $ level=0
+	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh $level
+\end{lstlisting}
+
+	\item \textbf{Compile Optimized Mutants Post-Processing}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
+\end{lstlisting}
+
+	\item \textbf{Generate Prioritized and Reduced Test Suites}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
+\end{lstlisting}
+
+	\item \textbf{Prepare mutants}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/PrepareMutants_HPC.sh
+\end{lstlisting}
+
+	\item \textbf{Execute mutants}: The launcher script receives two parameters: the first parameter is the number of the mutant to be executed, the number of mutant is defined as ${1..M}$, being M the total number of mutants. The total number of mutants can be derived from the folder \texttt{\$INSTALL\_DIR/hpc-src-mutants}.
+	The second parameter defines if the test suite has to be executed in a reduced fashion or not. The possible values are ``true'' and ``false''.
+
+	\begin{lstlisting}[language=bash]
+	  $ nr_mutant=1
+	  $ reduced="false"
+	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants_HPC.sh $nr_mutant $reduced
+\end{lstlisting}
+
+	\item \textbf{Post-mutation execution}: The launcher script receives two numbers as parameters, a minimum and a maximum value, that represent the range of mutants to assess. The assessment consists of evaluating if more mutant executions are needed. 
+
+	\begin{lstlisting}[language=bash]
+	  $ min=1
+	  $	max=700
+	  $ ./MASS_STEPS_LAUNCHER/PostMutation_HPC.sh $min $max
+\end{lstlisting}
+
+	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
+\end{lstlisting}
+
+	\item \textbf{Computer Mutation Score}
+
+	\begin{lstlisting}[language=bash]
+	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
+\end{lstlisting} 
+\end{enumerate}
 
 
 \section{Mode selection and control}
