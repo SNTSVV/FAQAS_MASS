@@ -35,5 +35,8 @@ mkdir $outdir || error_exit "failed to create outdir"
 # put the dummy files
 echo "$args" > $outdir/info
 echo "Dummy assembly" > $outdir/assembly.ll
+sleep 5
+
+echo "SEMu mock is done"
 
 
