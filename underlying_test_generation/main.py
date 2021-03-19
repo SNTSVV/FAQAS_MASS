@@ -10,6 +10,8 @@ import os
 import argparse
 import shutil
 
+from jinja2 import Template
+
 TOOLNAME = "FAQAS_SEMu"
 
 def get_args():
@@ -30,6 +32,8 @@ def get_args():
 
 def call_underlying_semu(conf_file):
     assert False, "TODO: implement calling semu to generate tests from conf"
+
+TEST_GENERATION_TIMEOUT = 7200 #2h
 
 def main():
     """
@@ -79,7 +83,12 @@ def main():
 
     ## compute parameters and apply to resolve template (TODO)
     ### REPODIR, OUTDIR, 
-    resolved_conf = template_str.replace()
+    resolved_conf = Template(template_str).render({
+        "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
+        "template_output_dir": os.path.join(temporary_workdir, "output"),
+        "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file)),
+        "tempate_test_gen_maxtime": TEST_GENERATION_TIMEOUT
+    })
 
     ## write the resolved config
     with open(test_gen_muteria_conf, "w") as f:

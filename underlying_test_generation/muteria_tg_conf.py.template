@@ -45,6 +45,9 @@ CUSTOM_DEV_TEST_RUNNER_FUNCTION = lambda *args, **kwargs: None
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
                             PRE_TARGET_CMD_ORDERED_FLAGS_LIST=[
+                                ('--write-pcs',),
+                                ('--write-smt2s',),
+                                
                                 #('-semu-no-state-difference',),
                                 #('-semu-MDO-propagation-selection-strategy',),
                                 #('-semu-use-basicblock-for-distance',),
