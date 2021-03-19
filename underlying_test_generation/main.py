@@ -96,11 +96,13 @@ def main():
 
     ## compute parameters and apply to resolve template (TODO)
     ### REPODIR, OUTDIR, 
+    muteria_output = os.path.join(temporary_workdir, "output")
     resolved_conf = Template(template_str).render({
         "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
-        "template_output_dir": os.path.join(temporary_workdir, "output"),
+        "template_output_dir": muteria_output,
         "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file)),
-        "tempate_test_gen_maxtime": TEST_GENERATION_TIMEOUT
+        "tempate_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
+        "candidate_mutants_list": mutants_list_file
     })
 
     ## write the resolved config
@@ -112,6 +114,8 @@ def main():
 
     # move the generated tests (TODO) 
     os.mkdir(output_directory)
+
+    shutil.move(os.path.join(muteria_output, 'latest', 'testgeneration', 'semu'), output_directory)
 
     # Delete temporary files' folder
     shutil.rmtree(temporary_workdir)

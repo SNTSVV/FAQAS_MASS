@@ -42,9 +42,7 @@ CUSTOM_DEV_TEST_RUNNER_FUNCTION = lambda *args, **kwargs: None
 
 
 # semu tests
-semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
-                        tool_user_custom=ToolUserCustom(
-                            PRE_TARGET_CMD_ORDERED_FLAGS_LIST=[
+semu_config_args = [
                                 ('--write-pcs',),
                                 ('--write-smt2s',),
                                 
@@ -61,7 +59,14 @@ semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolna
                                 ('-semu-precondition-length', '0'), # start from top
                                 #('-semu-max-total-tests-gen', '1000')
                                 ('-semu-number-of-tests-per-mutant', '5'),
-                            ], 
+]
+
+if {{ candidate_mutants_list }} is not None:
+    semu_config_args.append(('-semu-candidate-mutants-list-file', {{ candidate_mutants_list }}))
+                            
+semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
+                        tool_user_custom=ToolUserCustom(
+                            PRE_TARGET_CMD_ORDERED_FLAGS_LIST=semu_config_args, 
                             POST_TARGET_CMD_ORDERED_FLAGS_LIST=[('-sym-args', '2', '2', '2')]
                             )
                         )
