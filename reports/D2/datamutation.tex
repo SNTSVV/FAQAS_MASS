@@ -187,13 +187,14 @@ A  \INDEX{data fault class} captures the type of an error that might affect the 
 Each {data mutation operator} performs data mutation by applying a \INDEX{data mutation operation} (e.g., set a value above the upper range value). Mutation operators might apply one or more data mutation operations.
 Each data mutation operator can be configured with a set of parameters. 
 
-Table~\ref{table:faultModel:FAQAS} provides a preliminary list of data fault classes that will be supported by the FAQAS framework along with a description. For each fault class we indicate the data types to which it is expected to be applied, we identify \FIXME{six} data types: 
+Table~\ref{table:faultModel:FAQAS} provides a preliminary list of data fault classes that will be supported by the FAQAS framework along with a description. For each fault class we indicate the data types to which it is expected to be applied, we identify \FIXME{seven} data types: 
 \begin{itemize}
 \item int, which indicates an integer 
 \item long int, which indicates a long integer 
 \item float, which indicates a floating point number
 \item double, which indicates a double precision floating point number
 \item bin, which indicates data that should be treated in its binary form
+\item hex, which indicates data that should be treated as hexadecimal
 %\item hex, which stands for an hexadecimal value
 \item array[x], which stands for an array of $x$ variables of a given type. In our implementation, the value $x$ might be a number or, for arrays of variable size, a reference to the i-th field in the data buffer, which is supposed to contain the array size\footnote{In our implementation, we specify a negative value to determine that the value of $x$ refers to the x-th variable}.  The array type is specified in the array type name. More precisely, the engineer should provide a specific keyword that consists of the keyword 'array' followed by the name of the primitive type, as follows:
 \begin{itemize}
