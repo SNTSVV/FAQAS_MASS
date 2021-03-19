@@ -40,6 +40,10 @@ export PROJ_SRC=
 # example: PROJ_TST=$HOME/unit-test-suite
 export PROJ_TST=
 
+# directory coverage path of the SUT
+# example: PROJ_COV=$HOME/blts_workspace
+export PROJ_COV=
+
 # directory path of the compiled binary
 # example: PROJ_BUILD=$PROJ/build-host/bin
 export PROJ_BUILD= 

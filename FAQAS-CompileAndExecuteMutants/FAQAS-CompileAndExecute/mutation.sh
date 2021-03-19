@@ -3,6 +3,17 @@
 # loading functions backup_tst_coverage and run_tst_case
 . $APP_RUN_DIR/mutation_additional_functions.sh
 
+backup_tst_coverage() {
+    tst=$1
+    mutant_src_name=$2
+    mutant_exec_path=$3
+
+    pushd $PROJ_COV
+    find $tst \( -name "${mutant_src_name}*.gcno" -or -name "${mutant_src_name}*.gcda" \) | tar czf ${tst}.tar.gz -T -
+    mv ${tst}.tar.gz $mutant_exec_path/coverage
+    popd
+}
+
 # Returns 124 if timed out, otherwise it returns the exit code of command
 ctimeout() {
     time=$1

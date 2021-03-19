@@ -1,31 +1,5 @@
 
-# implementation of the bash function backup_tst_coverage
-# backup_tst_coverage compress the coverage data
-# of the execution of a test case into a tar.gz file and
-# stores it into the mutant folder
-#
-# this function receives three parameters:
-# $1: name of the test case
-# $2: name of the source code under analysis (without the extension)
-# $3: mutation testing path
-#
-# example for the MLFS library
-#backup_tst_coverage() {
-#    tst=$1
-#    mutant_src_name=$2
-#    mutant_exec_path=$3
-#
-#    cd $HOME/blts_workspace
-#    rm -rf $tst/Reports/Data/libm
-#    GZIP=-9 tar czf ${tst}.tar.gz $tst/Reports/Coverage/Data/${mutant_src_name}.gc*
-#    mv ${tst}.tar.gz $mutant_exec_path/coverage
-#}
-
-backup_tst_coverage() {
-
-}
-
-# implementatino of the bash function run_tst_case
+# implementation of the bash function run_tst_case
 # run_tst_case receives the test case name, executes the test case,
 # and returns 0 if the test case passes, otherwise returns 1
 #
