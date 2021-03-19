@@ -4,26 +4,30 @@
 
 source MASS_STEPS_LAUNCHERS/PrepareSUT.sh
 
-# 2. Compile optimized mutants
+# 2. Generate mutants
+
+source MASS_STEPS_LAUNCHERS/GenerateMutants.sh
+
+# 3. Compile optimized mutants
 
 source MASS_STEPS_LAUNCHERS/CompileOptimizedMutants.sh
 
-# 3. Process optimized mutants
+# 4. Process optimized mutants
 
 source MASS_STEPS_LAUNCHERS/OptimizedPostProcessing.sh
 
-# 4. Generate prioritized and reduced test suite
+# 5. Generate prioritized and reduced test suite
 
 source MASS_STEPS_LAUNCHERS/GeneratePTS.sh
 
-# 5. Execute mutants
+# 6. Execute mutants
 
 source MASS_STEPS_LAUNCHERS/ExecuteMutants.sh
 
-# 6. Identifiy equivalents based on coverage
+# 7. Identifiy equivalents based on coverage
 
 source MASS_STEPS_LAUNCHERS/IdentifyEquivalents.sh
 
-# 7. Report final information
+# 8. Report final information
 
 source MASS_STEPS_LAUNCHERS/MutationScore.sh
