@@ -12,6 +12,10 @@ import shutil
 
 from jinja2 import Template
 
+import muteria.configmanager.configurations as configurations
+import muteria.configmanager.helper as configs_helper
+from muteria.controller.main_controller import MainController
+
 TOOLNAME = "FAQAS_SEMu"
 
 def get_args():
@@ -31,7 +35,16 @@ def get_args():
     return args
 
 def call_underlying_semu(conf_file):
-    assert False, "TODO: implement calling semu to generate tests from conf"
+    lang = "c"
+    cfg_obj = configs_helper.ConfigurationHelper()
+    raw_conf = cfg_obj.get_extend_file_raw_conf(conf_file, lang)
+    raw_conf['EXECUTION_CLEANSTART'] = True
+    raw_conf['RUN_MODE'] = configurations.SessionMode.EXECUTE_MODE
+
+    ctrl = MainController()
+    ctrl.raw_config_main(raw_config=cmd_raw_conf)
+    
+
 
 TEST_GENERATION_TIMEOUT = 7200 #2h
 
