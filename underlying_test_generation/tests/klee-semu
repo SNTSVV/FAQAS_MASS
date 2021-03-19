@@ -1,0 +1,39 @@
+#! /bin/bash
+
+# This file is a mock of klee semu. It outputs some dummy file (including one `info` that contains the call arguments) so that the test can check that it was called fine.
+#
+
+set -u
+
+error_exit(){
+    echo "error: $1"
+    exit 1
+}
+
+args="$@"
+
+# Get the output folder
+nargs=$#
+i=1
+while [ $i -le $nargs ] 
+do
+    if [ "$1" = "-output-dir" -o "$1" = "--output-dir" ]
+    then
+        shift 1
+        outdir=$1
+        [ "$outdir" = "" ] && error_exit "invalid outdir"
+        break
+    fi
+    i=$((i + 1));
+    shift 1;
+done
+[ "${outdir:-}" = "" ] && error_exit "outdir not specified"
+
+# create the output folder
+mkdir $outdir || error_exit "failed to create outdir"
+
+# put the dummy files
+echo "$args" > $outdir/info
+echo "Dummy assembly" > $outdir/assembly.ll
+
+
