@@ -4,11 +4,13 @@
 
 \section{Introduction}
 
-This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution, we provide an example for running \MASS on a single machine, and another example for running \MASS on HPC infrastructures.
+This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on HPC infrastructures), we provide an example for both.
 
 Both examples use the Mathematical Library for Flight Software as case study to exemplify the steps to follow for the use of \FAQAS.
 
 \section{Getting Started}
+
+\TODO{?}
 
 \section{Using the software on a typical task}
 
@@ -180,15 +182,13 @@ run_tst_case() {
 }
 \end{lstlisting}
 
-The sixth step consists of providing a template for the build script for the trivial compiler optimizations step:
-
-In particular, we replaced the following command: 
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the following command: 
 
 \begin{lstlisting}[language=bash]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g O2 -fno-builtin $(EXTRA_CFLAGS)
 \end{lstlisting}
 
-By this one:
+with the following one:
 
 \begin{lstlisting}[language=bash]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans TCE -fno-builtin $(EXTRA_CFLAGS)
@@ -200,7 +200,7 @@ The seventh step consists of launching the one step launcher (see Section~\ref{s
  $ /opt/MLFS/Launcher.sh
 \end{lstlisting}
 
-The results shall be reported at the end of the execution:
+The following results shall be reported at the end of the execution:
 
 \begin{lstlisting}[language=bash]
 ##### MASS Output #####                                                                                                                   
@@ -225,3 +225,4 @@ The results shall be reported at the end of the execution:
 
 The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
 
+\TODO{To complete?}

@@ -5,7 +5,7 @@
 \section{Set-up and Initialization}
 \label{sec:install}
 
-\MASS strongly depends on LLVM for source code mutation. For this reason, the set-up procedure consists of installing LLVM-3.8.1 and the \texttt{SRCMutation} component. For this procedure, a Bash script is provided.
+\MASS depends on LLVM for source code mutation. For this reason, the set-up procedure consists of installing LLVM-3.8.1 and the \texttt{SRCMutation} component. For this procedure, a Bash script is provided.
 
 The following shell command installs the corresponding dependencies and the \texttt{SRCMutation} component.
 
@@ -15,6 +15,7 @@ The following shell command installs the corresponding dependencies and the \tex
 
 \subsection{Dependencies}
 
+\TODO{should we add the LLVM version?}
 \begin{itemize}
 	\item Linux packages: \texttt{r-base}, \texttt{jq}, \texttt{Python 3.7} or higher
 	\item R packages: \texttt{binom}
@@ -36,9 +37,10 @@ To use the installation script the shell variable \texttt{INSTALL\_DIR} has to b
   $ export INSTALL_DIR=/opt/DIRECTORY
 \end{lstlisting}
 
+\TODO{the meaning of the ollowing is not clear. Add an example.}
 If the \texttt{INSTALL\_DIR} directory must be binded inside a container. Then, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
 
-After setting the corresponding variables, the following commands are necessary to create the \MASS workspace folder:
+After setting the corresponding environment variables, the following commands are necessary to create the \MASS workspace folder:
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
@@ -49,11 +51,12 @@ Once the installation folder has been created, the folder shall contain the foll
 
 \begin{itemize}
 	\item \texttt{Launcher.sh}: \MASS single launcher; the script executes all the steps of the methodology in one command. 
+	\TODO{"has to be set" what does it mean?}
 	\item \texttt{mass\_conf.sh}: \MASS configuration file, has to be set before being able to execute \MASS.
 	\item \texttt{mutation\_additional\_functions.sh}: Bash script that must be filled by the application engineer before executing \MASS.
 	\item \texttt{MASS\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \MASS methodology.
 	\begin{itemize}
-		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}: launcher for the script that prepare the SUT and collects information about the SUT test suite.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}: launcher for the script that prepares the SUT and collects information about the SUT test suite.
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/GenerateMutants.sh}: launcher for the generation of mutants.
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/CompileOptimizedMutants.sh}: launcher for the trivial compiler optimization step.
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/OptimizedPostProcessing.sh}: launcher for the post-processing of the trivial compiler optimization step.
@@ -61,24 +64,31 @@ Once the installation folder has been created, the folder shall contain the foll
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/ExecuteMutants.sh}: launcher for the execution of mutants against the SUT test suite.
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/IdentifyEquivalents.sh}: launcher for the identification of equivalent mutants based on code coverage.
 		\item \texttt{MASS\_STEPS\_LAUNCHERS/MutationScore.sh}: launcher for the computation of the mutation score and final reporting.
-		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareMutants\_HPC.sh}: launcher that prepare the mutants workspace for the execution on HPCs.
-		\item \texttt{MASS\_STEPS\_LAUNCHERS/ExecuteMutants\_HPC.sh}: launcher that execute mutants on HPCs.
-		\item \texttt{MASS\_STEPS\_LAUNCHERS/PostMutation\_HPC.sh}: launcher that assess past mutant executions, and decide whether more mutant executions are needed.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PrepareMutants\_HPC.sh}: launcher that prepares the mutants workspace for the execution on HPCs.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/ExecuteMutants\_HPC.sh}: launcher that executes mutants on HPCs.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/PostMutation\_HPC.sh}: launcher that assesses past mutant executions, and decides whether more mutant executions are needed.
 	\end{itemize}
 
 \end{itemize}
 
 \subsection{MASS Configuration}
 
-There are three Bash scripts that needs intervention from the SUT engineer. These three scripts enable \MASS the correct identification of the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \MASS itself (e.g., trivial compiler optimizations flags, mutant selection strategy, sampling rate).
+There are three Bash scripts that should be edited by the engineer to configure \MASS. These three scripts enable \MASS to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \MASS itself (e.g., trivial compiler optimizations flags, mutant selection strategy, sampling rate).
 
-The last intervention, regards providing a template of the original build script for the trivial compiler optimizations step. More details are provided in the following.
+\TODO{We should have a table with the script name, the parameter to be configured and a description}
+
+%The last intervention, regards providing a template of the original build script for the trivial compiler optimizations step. More details are provided in the following.
+
+A detailed description of the MASS Configuration File follows.
 
 \subsubsection{MASS Configuration File}
 
-The \MASS configuration file is the Bash file \texttt{\$INSTALL\_DIR/mass\_conf.sh}; within this file there are multiple environment variables that must be set:
+The \MASS configuration file is the Bash file \texttt{\$INSTALL\_DIR/mass\_conf.sh}; within this file there are multiple environment variables that must be set; they are shown in Listing~\ref{listing:MASS:conf}.
+
+\TODO{You should always refer to Figures/Listings in appropriate manner. However, this "style" is ok for the running example.}
 
 \begin{lstlisting}[language=bash]
+\label{listing:MASS:conf}
 	# set SRCIROR path
 	export SRCIROR=
 
@@ -151,41 +161,57 @@ Furthermore, the following specific \MASS variables must be set:
 	export RATE=
 \end{lstlisting}
 
-\subsection{Prepare SUT Script Configuration}
+\subsection{Prepare the SUT Script Configuration}
 
-The prepare SUT configuration file is the Bash file \texttt{\$INSTALL\_DIR/MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}; within this file the following actions must be provided by the engineer:
+\TODO{The title should be changed, probably it should become something like \emph{Edit PrepareSUT.sh}. My main problem is that I cannot map this section to something describe before, it comes out of the blue. Also, shouldn't it be a subsubsection? I would expect to have in 4.2.2 the list of all the files to be editng and in the following subsubsections a description for each of them.}
+
+To configure \MASS to work with the SUT, the engineer should edit the Bash file \texttt{\$INSTALL\_DIR/MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}. The following actions shall be performed by the engineer:
 
 \begin{enumerate}
-	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths;
+	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths; \TODO{Not clear why the engineer should do what written above}
 	\item Provide commands to compile the SUT;
-	\item Provide additional commands to prepare SUT workspace (optional);
-	\item Provide commands to execute the SUT test suite iteratively over each test case;
+	\item Provide additional commands to prepare the SUT workspace (optional);
+	\item Provide commands to execute the SUT test suite iteratively over each test case; more precisely, the engineer should do the following:
 	\begin{itemize}
-		\item After the execution of a test case add a call to \\\texttt{\$MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh} script;
+		\item After the command executing a a test case add a call to \\\texttt{\$MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh} script;
 		\item the script \texttt{FAQAS-CollectCodeCoverage.sh} shall be invoked with three arguments: (i) the test case name, (ii) the time taken to run the test case in seconds, and (iii) the root folder where all the coverage files are being stored.
 	\end{itemize}
 \end{enumerate}
 
 \subsection{Mutation Script Configuration}
 
-The mutation script configuration file is the Bash file \texttt{mutation\_additional\_functions.sh}; within this file a Bash function \texttt{run\_tst\_case} must be provided by the engineer to guarantee a correct mutation testing process. This function shall receive as an argument the name of the test case to be executed, and then it should execute the command for running the test case. Particularly, the return should return 0, if the test case passes, and it should return 1 if the test fails.
+\TODO{subsubsection?}
+
+The mutation script configuration file is the Bash file \texttt{mutation\_additional\_functions.sh}. In it, the engineer is expected to implement the Bash function \texttt{run\_tst\_case}.
+%Fabrizio: not clear what you mena below
+%; must be implemented by the engineer to guarantee a correct mutation testing process. 
+This function shall receive as argument the name of the test case to be executed. It should execute the command for running the specified test case. 
+%Why "Particularly" ?
+%Particularly, 
+The function shall return 0, if the test case passes; it shall return 1 if the test case fails.
 
 
 \subsection{Build Script for Compiler Optimizations}
 
-The SUT engineer shall provide a template of the original SUT build script. Such template shall be placed in the same folder where the original build script resides. Moreover, the template should have the following characteristics:
+\TODO{subsubsection?}
+
+The SUT engineer shall provide a build script for the SUT. Such script shall be placed in the same folder where the original build script resides (a different name shall be used). The script shall have the following characteristics:
 
 \begin{itemize}
-	\item The template shall not contain any debugging flags within compilation/linking commands;
-	\item The template shall not contain any code coverage flags within compilation/linking commands;
-	\item The template shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
-	\item The template shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order;
-	\item The template shall be named the same as the original build script, but with an ending '.template'.
+	\item The script shall not contain any debugging flag within compilation/linking commands;
+	\item The script shall not contain any code coverage flag within compilation/linking commands;
+	\item The script shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
+	\item The script shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order; \TODO{Not clear what a source dependency list is, example?}
+	\item The script shall be named the same as the original build script, but with an ending '.template'.
 \end{itemize}
 
 
 \subsection{Running MASS on single machines}
 \label{sec:singlelaunch}
+
+\TODO{Add a paragraph that explains that you are going to describe two ways of running MASS}
+
+\TODO{You should either (a) specify the files generated for each step, or (b) put a sentence saying that the output/inputs of each step aredescribed in the specification document XY (and you have t draft it by reciclying the old SSS.}
 
 \subsubsection{One Step Launcher}
 
@@ -267,7 +293,7 @@ The multiple steps of the methodology and its command are described in the follo
 \subsection{Running MASS on HPC infrastructures}
 
 Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \MASS in one step. 
-However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With a HPC, for example, \MASS could analyze way more mutants than if \MASS is executed on a single machine.
+However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With a HPC, for example, \MASS could analyze more mutants than if \MASS is executed on a single machine.
 
 The multiple steps of the methodology and its command are described in the following.
 
@@ -346,8 +372,12 @@ The multiple steps of the methodology and its command are described in the follo
 
 \section{Normal Termination}
 
+\TODO{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
+
 \section{Error Conditions}
+
+\TODO{Can 't we say anything about each program not returning any error message?}
 
 \section{Recover Runs}
 
-
+\TODO{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
