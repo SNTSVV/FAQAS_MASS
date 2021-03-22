@@ -21,7 +21,7 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 
 \RQ{} The \FAQAS shall support C-coded software.
 
-\RQ{} The \FAQAS shall mutate the SUT by applying a set of mutation operators that can be selected by the engineers.
+\RQ{} The \FAQAS shall mutate the SUT by applying a set of mutation operators that can be selected by the engineer.
 
 \RQ{} The \FAQAS shall implement the set of operators listed in Table~\ref{table:operators}.
 
@@ -43,7 +43,7 @@ source file name, mutated function name, mutated line, mutation operator name, m
 \RQ{} The \FAQAS shall disregard equivalent and redundant mutants based on trivial compiler equivalence.
 
 % not sure if we should keep this
-\RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according rules specific for the \FAQAS. 
+\RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according to rules specific for the \FAQAS. 
 %Fabrizio: the subject should always be FAQAS
 %The engineer shall provide a modified compilation script for the SUT (e.g., the \emph{Makefile}). 
 The modified compilation script (i) shall not contain debugging nor coverage flags, (ii) shall contain a placeholder for the compiler optimization option, and (iii) shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order.
@@ -56,9 +56,11 @@ The modified compilation script (i) shall not contain debugging nor coverage fla
 
 \RQ{} The \FAQAS shall not disregard mutants that produce a compilation warning.
 
-\RQ{} The \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalences. 
+\RQ{} The \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalence. 
 
-\RQ{} The \FAQAS shall generate a set of prioritized and reduced test suites for every covered statement within the SUT.
+%Fabrizio: it was fitting the implementation, not the problem to address
+\RQ{} The \FAQAS shall generate a set of prioritized and reduced test suites for every mutant.
+%covered statement within the SUT.
 The generaton of such test suites should be  based on the PrioritizeAndReduce Algorithm (See D2).
 
 \RQ{} The \FAQAS shall provide an option to execute only the prioritized and reduced set of test cases when testing a mutant affecting a certain statement. When the option is disabled, the \FAQAS shall execute the whole test suite for every mutant. The execution of a test suite shall be stopped when a mutant is killed.
@@ -99,15 +101,16 @@ The generaton of such test suites should be  based on the PrioritizeAndReduce Al
 	\item \emph{uniform FSCI sampling}: the confidence interval computed is smaller than 10\%.
 \end{itemize}
 
+
 \RQ{} The \FAQAS shall identify equivalent mutants based on code coverage information using the distance criterion $D_C$ (see D2).
 
-\RQ{} The \FAQAS shall disregard all the equivalent mutants from the mutation results.
+%\RQ{} The \FAQAS shall disregard all the equivalent mutants from the mutation results.
 
-\RQ{} The \FAQAS shall compute the mutation score of the SUT based on the mutation results.
+\RQ{} The \FAQAS shall compute the mutation score of the SUT based on mutation results. Equivalent mutants shall not be considered for the computation of the mutation score (see D2).
 
 \TODO{Below you wrote "nondetected" do you mean "live"?}
 \RQ{} The \FAQAS shall produce two prioritized lists of nondetected and nonequivalent mutants. 
-\TODO{We have to discuss the meaning of the following}
+\TODO{We have to discuss the meaning of the following sentence}
 The prioritization based made on the basis of statement coverage difference of each mutant with respect to the original statement coverage.
 
 
@@ -120,21 +123,22 @@ The prioritization based made on the basis of statement coverage difference of e
 \subsection{Test Suite Augmentation Based on Code-driven Mutation Functionality}
 \label{sec:codeDrivenAugmentation}
 
-The following requirements regard the Test Suite Augmentation functionality Based on the Code-driven Mutation functionality of the \FAQAS.
+The following requirements regard the Test Suite Augmentation functionality that aims to generate test cases that kill mutants generated with the Code-driven Mutation functionality of the \FAQAS.
 
 \RQ{} The \FAQAS shall support test suite augmentation based on code mutation.
 
 \RQ{} The \FAQAS shall rely on the KLEE test case generation tool to support test suite augmentation.
 
-\RQ{} The \FAQAS shall generate test scaffoldings for each live mutant, which shall be processed by KLEE.
+\RQ{} For each live mutant, the \FAQAS should generate test scaffoldings that are processed by KLEE.
 
-\RQ{} The engineer shall be able to configure the test scaffoldings to refine assertions, if necessary.
+\RQ{} The \FAQAS shall provide the engineer with the ability to configure the generated test scaffoldings.
 
-\remark Since assertions should concern output variables, it is necessary to verify that all the necessary output variables had been referred in assertion. Indeed, in C, with pointers and pointers to pointers, it is not possible to have a precise automated identification of output variables.
+
+\remark For example, the \FAQAS shall provide the engineer with the ability to refine the generated assertions. Since assertions concern output and state variables, it is necessary to verify that all the necessary output/state variables had been referred in assertion. Indeed, in C, with pointers and pointers to pointers, it is not possible to have a precise automated identification of output/state variables.
 
 \RQ{} The \FAQAS shall generate a tentative unit test case (i.e., a source file in C) that kills the mutants.
 
-\RQ{} The \FAQAS shall generate test cases consisting of (i) an invocation of the function under test (i.e., the function targeted by the mutation), (ii) its assigned arguments, and (iii) an assertion that verifies results.
+\remark  The \FAQAS may generate test cases consisting of (i) an invocation of the function under test (i.e., the function targeted by the mutation), (ii) its assigned arguments, and (iii) an assertion that verifies results.
 
 %\RQ{} The engineer shall inspect the generated test cases by verifying that KLEE has generated valid inputs (e.g., inputs that meet the program preconditions).
 %

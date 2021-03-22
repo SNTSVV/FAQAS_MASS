@@ -7,7 +7,9 @@
 
 The FAQAS activity concerns the investigation of mutation testing as a method to evaluate the quality of software test suites and mutation testing as a method to derive new software test cases. 
 
-The \FAQAS implements a toolset supporting code-driven and data-driven mutation testing that integrates and extends state-of-art solutions. The proposed methodology enables a scalable and accurate mutation testing process even when the software under test is large and characterized by test suites requiring long execution time.
+The \FAQAS shall support a code-driven and data-driven mutation testing methodology that integrates and extends state-of-art solutions. The reference methodology has been described in D2. The methodology enables a scalable and accurate mutation testing process even when the software under test is large and characterized by test suites requiring long execution time.
+
+The end-user of the \FAQAS is a software engineer (i.e., a professional with a master degree in informatics or related fields)  who aims to evaluate the quality of the test suite developed for a flight software component or system. Hereafter, the end-user of \FAQAS is referred to as \emph{the engineer}.
 
 Since \FAQAS implements two distinct features, code-driven mutation testing and data-driven mutation testing, the functional requirements contains two separate sections, each one concerning one of the two features: Section~\ref{sec:codeDriven} concerns code-driven mutation testing, Section~\ref{sec:dataDriven} concerns data-driven mutation testing.
 
@@ -21,16 +23,14 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} \FAQAS shall support test suite evaluation based on data mutation.
 
-\RQ{} \FAQAS shall support test suite augmentation based on data mutation.
+\RQ{} \FAQAS should support test suite augmentation based on data mutation.
 
 
 \section{General Constraints}
 
 \RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) shall rely on existing tools because the automated generation of test cases is an open, complex, research problem.  
 
-\RQ{} The automated generation of test cases for code-mutation shall rely on KLEE, which is the most stable test case generation tool, based on WP2 evaluation.
-
-\RQ{} \FAQAS shall partially support test generation for system-level test cases for the data-driven mutation testing.
+\RQ{} The automated generation of test cases for code-mutation may rely on KLEE, which is the most stable test case generation tool, based on WP2 evaluation.
 
 
 \section{Software Architecture}
@@ -45,15 +45,17 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} The \FAQAS shall be executed on a Linux operating system with a Bash shell.
 
-\RQ{} The \FAQAS shall support the following Linux distributions: (i) Debian 9, (ii) Ubuntu 16, and (iii) CentOS 7.
+\RQ{} The \FAQAS shall execute on the following Linux distributions: (i) Debian 9, (ii) Ubuntu 16, and (iii) CentOS 7.
 
 \section{Assumptions and dependencies}
 
-\RQ{} The \FAQAS shall support SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
+\RQ{} The \FAQAS shall process SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
 
-\RQ{} The \FAQAS shall support SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
+\RQ{} The \FAQAS shall process SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
 
-\RQ{} The \FAQAS shall support SUT test suites implemented as scripts (hereafter, \emph{test suite script}) that trigger the execution of test cases (each test case is executed in a separate process). Test suite scripts could be implemented either as Makefiles or a Bash scripts. Each test case is executed through the invocation of a command in the script.
+\TODO{GCC versions?}
+
+\RQ{} The \FAQAS shall process SUT test suites implemented as scripts (hereafter, \emph{test suite script}) that trigger the execution of test cases (each test case is executed in a separate process). Test suite scripts could be implemented either as Makefiles or a Bash scripts. Each test case is executed through the invocation of a command in the script.
 
 
 
@@ -69,11 +71,11 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{System interface requirements}
 
-\RQ{} The \FAQAS shall use the command line as main user interface.
+\RQ{} The user interface of the \FAQAS is provided through the command line.
 
-\RQ{} \FAQAS shall support SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
+\RQ{} \FAQAS shall process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
 
-\RQ{} The engineer shall configure the \FAQAS by editing a file to set multiple environment variables that shall enable the mutation testing process.
+\RQ{} The\FAQAS shall provide the engineer with the ability to configure the environment variables used to tune the mutation testing process.
 
 
 
@@ -81,7 +83,7 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} \FAQAS shall not be used in mission.
 
-\RQ{} \FAQAS shall be used only to support development, validation, and verification activities in the development environment. 
+\RQ{} \FAQAS shall be used in the development environment. 
 
 
 
@@ -89,13 +91,13 @@ The requirements defined in this chapter are univocally identified by the paragr
 \section{Computer resource requirements}
 
 
-\RQ{} The \FAQAS shall support Linux operating systems.
+\RQ{} The \FAQAS shall run on Linux operating systems.
 
 
 
 \section{Security requirements }
 
-\RQ{} \FAQAS shall no use network connections.
+\RQ{} \FAQAS shall not use network connections.
 
 \section{Safety requirements}
 
@@ -103,7 +105,7 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Reliability and availability requirements}
 
-\RQ{} \FAQAS shall work according to is functional specifications every time it is invoked.
+\RQ{} \FAQAS shall work according to its functional specifications every time it is invoked.
 
 % \RQ{} The system is expected to work according to is functional specifications every time it is invoked.
 
@@ -113,11 +115,11 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Quality requirements}
 
-\RQ{} Usability. Software engineers (i.e., professionals with a master degree in informatics or related fields) shall be able to successfully use the software after reading its documentation.
+\RQ{} Usability. Software engineers shall be able to successfully use the \FAQAS after reading its documentation.
 
-\RQ{} \FAQAS shall be used in any environment matching the characteristics indicated in this document.
+\RQ{} The \FAQAS shall be used in any environment matching the characteristics indicated in this document.
 
-\RQ{} \FAQAS shall comply with software development standards. The software development process shall follow ECSS guidelines as per SoW.
+\RQ{} The \FAQAS shall comply with software development standards. The software development process shall follow ECSS guidelines as per SoW.
 
 
 \section{Design requirements and constraints}
@@ -134,12 +136,12 @@ The requirements defined in this chapter are univocally identified by the paragr
 % - Deployment methods (it is maybe a bit early, but we have to think on the methodology to deploy the tool e.g. compile it, have it delivered with an installer, on a container, etc)
 
 % 
-\RQ{} \FAQAS can be installed using an installer that shall be provided by the SnT.
+\RQ{} The \FAQAS should be installed using an installer software.
 
 
 \section{Software operations requirements}
 
-\RQ{} \FAQAS shall be executed at anytime, 
+\RQ{} The \FAQAS shall be executed at anytime, 
 %It should be possible to execute the system anytime, 
 in an environment matching the characteristics indicated in this document.
 
@@ -149,18 +151,18 @@ in an environment matching the characteristics indicated in this document.
 
 \section{System and software observability requirements}
 
-\RQ{} The debugging of the \FAQAS shall be possible, if and only if 
+\RQ{} The debugging of the \FAQAS shall be possible if and only if 
 %To enable post-mortem debugging, 
 all the temporary files generated by the system are kept.
 
 \chapter{Verification, validation and system integration}
  \section{Verification and validation process requirements}
  
-\RQ{} Every mutation operator shall be tested by a dedicated unit test case.
+\RQ{} Every mutation operator implemented by the \FAQAS shall be tested by a dedicated unit test case.
  
  \RQ{} A system test suite for the Code-Driven Mutation Testing component shall be provided. The test suite shall be based on the MLFS case study (see D2).
  
- \RQ{} \FAQAS shall enable the correct computation of the mutation score for the FAQAS case study systems indicated in deliverable D2.
+ \RQ{} The \FAQAS shall enable the correct computation of the mutation score for the FAQAS case study systems indicated in deliverable D2.
  
  \subsection{Validation approach}
 

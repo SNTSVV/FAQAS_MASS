@@ -3,50 +3,56 @@
 \subsection{Test Suite Evaluation Based on Data-Mutation Testing Functionality}
 \label{sec:dataDriven}
 
-The following requirements regard the Test Suite Evaluation Based on Data-Mutation Testing functionality of the \FAQAS.
+The following requirements regard the Test Suite Evaluation Based on the Data-driven Mutation Testing functionality of the \FAQAS.
 
-\RQ{} The engineer shall specify the fault model and the data model for the SUT according to D2.
+\RQ{} The \FAQAS shall work with a fault model and a data model for the SUT specified according to D2.
 
 \RQ{} The \FAQAS shall provide a mutation testing API (i.e., predefined functions to perform data mutation for buffers).
 
-\RQ{} The \FAQAS shall automatically generate the probes to be integrated within the SUT derived from the fault model.
+\RQ{} The \FAQAS shall automatically generate the data mutation probes to be integrated within the SUT.
 
 \RQ{} The engineer shall manually modify the source code of the SUT to integrate mutation probes into it.
 
-\RQ{} The engineer shall manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case. 
-
-\RQ{} The \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
+%\RQ{} The \FAQAS shall require the engineer to manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case. 
+%
+%\RQ{} The \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
 
 \RQ{} The \FAQAS shall implement the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
 
-\RQ{} The \FAQAS shall enable the engineer to indicate the mutants selection strategy and a configuration value that specifies the number of mutants to consider.
+\RQ{} The \FAQAS shall provide the engineer with the ability to indicate the mutants selection strategy and a configuration value that specifies the number/percentage of mutants to consider.
 
 \RQ{} The \FAQAS shall enable the compilation of a version of the SUT that traces the data items (targeted by mutation) that are covered by each test case.
 
-\RQ{} The \FAQAS shall derive from the execution of the SUT test suite for every test case, the data items being exercised by the test case.
+\RQ{} The \FAQAS shall derive, from logs generated during the execution of the SUT test suite, the data items exercised by each test case.
 
 \RQ{} The \FAQAS shall compile a version of the SUT with the selected mutation operation instance enabled.
 
-\RQ{} The \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
+\RQ{} For each mutation operator, the \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
 
-\RQ{} The \FAQAS shall determine if a mutant has been killed. The \FAQAS shall terminate the test suite execution when a mutant is killed.
+\RQ{} The \FAQAS shall automatically determine if a mutant has been killed. The \FAQAS shall terminate the test suite execution when a mutant is killed.
 
 \RQ{} The \FAQAS shall execute the test suite till a termination criterion is met. The termination criterion depends on the mutants selection strategy:
 \begin{itemize}
-\item \emph{all mutants}: all mutants has been executed
-\item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
-\item \emph{uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
-\item \emph{uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than 10\%.
+\item \emph{.a) all mutants}: all mutants has been executed
+\item \emph{.b) proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
+\item \emph{.c) uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
+\item \emph{.d) uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than 10\%.
 \end{itemize}
 
 \RQ{} The \FAQAS shall compute the mutation score based on the mutation results.
 
-\RQ{} The engineer shall inspect the mutation results to understand which data types had not been covered by the test suite, and to understand which test cases need improvement.
+\RQ{} The \FAQAS shall provide the engineer with the means to inspect the mutation results. The \FAQAS data-driven mutation results shall include the list of data types not covered by any test case, the list of data types exercised by each test case, the list of live mutants, the list of killed mutants.
 
-\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases. 
+%\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases. 
+
+\subsection{Test Suite Augmentation Based on Code-driven Mutation Functionality}
+\label{sec:codeDrivenAugmentation}
+
+The following requirements regard the Test Suite Augmentation functionality that aims to generate test cases that kill mutants generated with the Data-driven Mutation functionality of the \FAQAS.
 
 \RQ{} The \FAQAS shall generate a version of the testing API that shall contain reachability assertions that enable KLEE to generate inputs that reach the mutation.
 
-\RQ{} The engineer shall execute KLEE, after performing the required scaffolding, if necessary. 
+\RQ{} The \FAQAS shall not fully automate the Data-driven Test Suite Augmentation functionality.
 
-\RQ{} The engineer shall implement a test case based on KLEE's output.
+\remark The engineer shall execute KLEE, after performing the required scaffolding, if necessary. 
+Also, the engineer shall implement a test case based on KLEE's output.
