@@ -15,7 +15,17 @@ TODO: Implement it as following:
 import argparse
 
 def main():
-    pass
+    # Call SDL generation
+
+    # use diff to get stmt start, stmt len pairs
+
+    # Call MASS generation
+
+    # Use diff to get (expr, expr-start, mut-expr) tuples
+
+    # cluster muts expr and stmt
+
+    # apply for meta-mu using above info
 
 if __name__ == "__main__":
     main()
