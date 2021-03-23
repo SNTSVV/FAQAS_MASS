@@ -51,9 +51,7 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} The \FAQAS shall process SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
 
-\RQ{} The \FAQAS shall process SUT compiled with GCC~\footnote{https://gcc.gnu.org}.
-
-\TODO{GCC versions?}
+\RQ{} The \FAQAS shall process SUT compiled with GCC~\footnote{https://gcc.gnu.org} versions 4.2.1, 5.4.0, and 6.3.0.
 
 \RQ{} The \FAQAS shall process SUT test suites implemented as scripts (hereafter, \emph{test suite script}) that trigger the execution of test cases (each test case is executed in a separate process). Test suite scripts could be implemented either as Makefiles or a Bash scripts. Each test case is executed through the invocation of a command in the script.
 
@@ -81,9 +79,9 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Adaptation and missionization requirements}
 
-\RQ{} \FAQAS shall not be used in mission.
+\RQ{} The \FAQAS shall not be used in mission.
 
-\RQ{} \FAQAS shall be used in the development environment. 
+\RQ{} The \FAQAS shall be used in the development environment. 
 
 
 
@@ -97,19 +95,19 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Security requirements }
 
-\RQ{} \FAQAS shall not use network connections.
+\RQ{} The \FAQAS shall not use network connections.
 
 \section{Safety requirements}
 
-\RQ{} \FAQAS shall not be used to assess test cases that are executed with target hardware in the loop, to avoid safety hazards.
+\RQ{} The \FAQAS shall not be used to assess test cases that are executed with target hardware in the loop, to avoid safety hazards.
 
 \section{Reliability and availability requirements}
 
-\RQ{} \FAQAS shall work according to its functional specifications every time it is invoked.
+\RQ{} The \FAQAS shall work according to its functional specifications every time it is invoked.
 
 % \RQ{} The system is expected to work according to is functional specifications every time it is invoked.
 
-\RQ{} \FAQAS shall not provide an upper bound for mutation testing execution time.
+\RQ{} The \FAQAS shall not provide an upper bound for mutation testing execution time.
 
 \remark Mutation testing execution time depends on both the number of mutants to be executed and the duration of the test suite execution, information that cannot be foreseen before execution.
 
@@ -124,9 +122,9 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Design requirements and constraints}
 
-\RQ{} \FAQAS shall be released with ESA Software Community Licence Permissive – v2.3, as defined at https://essr.esa.int/. Any reused component should be compatible with the abovementioned licence.
+\RQ{} The \FAQAS shall be released with ESA Software Community Licence Permissive – v2.3, as defined at https://essr.esa.int/. Any reused component should be compatible with the abovementioned licence.
 
-\RQ{} \FAQAS shall be implemented using the bash shell script language, the Python programming language, and the C/C++ programming language.
+\RQ{} The \FAQAS shall be implemented using the bash shell script language, the Python programming language, and the C/C++ programming language.
 
 \RQ{} \FAQAS shall mutate the source code of the SUT not the intermediate representation.
 

@@ -10,8 +10,18 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 
 \RQ{} The \FAQAS shall provide means to enable engineers to run code-driven mutation testing on the SUT.
 
+\RQ{} The \FAQAS shall implement the following optimization steps:
+\begin{enumerate}
+	\item Generation of mutants based on code coverage;
+	\item Generation of mutants based on the sufficient set of operators;
+	\item Discard of equivalent and redundant mutants based on trivial compiler optimizations;
+	\item Sample of mutants based on proportional uniform sampling, proportional method-based sampling, uniform fixed-size sampling, and uniform FSCI sampling;
+	\item Execution of prioritized and reduced test suites based on code coverage;
+	\item Discard of equivalent mutants based on code coverage.
+\end{enumerate}
+
 \RQ{} The \FAQAS shall provide means to enable engineers to select the optimization steps to be carried on the SUT.
-\TODO{I think first we should indicate what are the optimizations supported by FAQAS}
+\DONE{I think first we should indicate what are the optimizations supported by FAQAS}
 
 \RQ{} The \FAQAS shall receive as input code coverage information of the SUT.
 
@@ -61,11 +71,9 @@ The modified compilation script (i) shall not contain debugging nor coverage fla
 %Fabrizio: it was fitting the implementation, not the problem to address
 \RQ{} The \FAQAS shall generate a set of prioritized and reduced test suites for every mutant.
 %covered statement within the SUT.
-The generaton of such test suites should be  based on the PrioritizeAndReduce Algorithm (See D2).
+The generation of such test suites should be  based on the PrioritizeAndReduce Algorithm (See D2).
 
 \RQ{} The \FAQAS shall provide an option to execute only the prioritized and reduced set of test cases when testing a mutant affecting a certain statement. When the option is disabled, the \FAQAS shall execute the whole test suite for every mutant. The execution of a test suite shall be stopped when a mutant is killed.
-
-\TODO{Check my changes above}
 
 \RQ{} The \FAQAS shall support strong mutation testing (see D2).
 
@@ -108,10 +116,9 @@ The generaton of such test suites should be  based on the PrioritizeAndReduce Al
 
 \RQ{} The \FAQAS shall compute the mutation score of the SUT based on mutation results. Equivalent mutants shall not be considered for the computation of the mutation score (see D2).
 
-\TODO{Below you wrote "nondetected" do you mean "live"?}
-\RQ{} The \FAQAS shall produce two prioritized lists of nondetected and nonequivalent mutants. 
+\RQ{} The \FAQAS shall produce two prioritized lists of live and nonequivalent mutants. 
 \TODO{We have to discuss the meaning of the following sentence}
-The prioritization based made on the basis of statement coverage difference of each mutant with respect to the original statement coverage.
+The most relevant mutants shall be listed first within the list. Moreover, the prioritization shall be done on the basis of the statement coverage difference of each mutant with respect to the original statement coverage.
 
 
 
