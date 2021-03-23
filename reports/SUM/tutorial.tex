@@ -4,17 +4,18 @@
 
 \section{Introduction}
 
-This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on HPC infrastructures), we provide an example for both.
+This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on shared resources facilities), we provide an example for both.
 
 Both examples use the Mathematical Library for Flight Software as case study to exemplify the steps to follow for the use of \FAQAS.
 
-\section{Getting Started}
+% \section{Getting Started}
 
-\TODO{?}
+% \TODO{?}
 
 \section{Using the software on a typical task}
 
 \subsection{Single Machine Example: Mathematical Library for Flight Software}
+\label{sec:single_machine}
 
 The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
 
@@ -26,9 +27,9 @@ The second step, consists of creating and installing a workspace folder for runn
   $ ./install.sh
 \end{lstlisting}
 
-The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide excerpts of the file that require intervention from the engineer. The following excerpt contains the necessary configuration for the MLFS case study.
+The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide excerpts of the file that require intervention from the engineer. Listing~\ref{mass_conf_single} contains the necessary configuration for the MLFS case study.
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=mass_conf_single, caption=\MASS variables. Excerpt of mass\_conf.sh file.]
 # set FAQAS path
 export SRCIROR=/opt/srcirorfaqas
                                                      
@@ -80,9 +81,9 @@ export CLEAN_CMD=(make cleanall)
 export GC_FILES_RELATIVE_PATH=Reports/Coverage/Data
 \end{lstlisting}
 
-Also \MASS variables shall be configured within the same file. Particularly, we will run \MASS with the following setup. 
+Also \MASS variables shall be configured within the same file. Particularly, we will run \MASS with the setup contained in Listing~\ref{mass_conf_specific}. 
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=mass_conf_specific, caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
 ### MASS variables
 
 # TCE flags to be tested 
@@ -102,10 +103,9 @@ export SAMPLING="fsci"
 export RATE=""
 \end{lstlisting}
 
-The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{/opt/MLFS/MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}; within this file the following actions must be provided by the engineer:
+The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}; within this file the following actions must be provided by the engineer (see~\ref{preparesut_single}):
 
-
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=preparesut_single, caption=PrepareSUT.sh file.]
 #!/bin/bash
 
 # This file should be prepared by the engineer!                                                                                           
@@ -150,9 +150,9 @@ for tst in $(find $HOME/unit-test-suite -name '*.xml');do
 done
 \end{lstlisting}
 
-The fifth step consists of defining the function \texttt{run\_tst\_case} within the file \\\texttt{mutation\_additional\_functions.sh}:
+The fifth step consists of defining the function \texttt{run\_tst\_case} within the file \\\texttt{mutation\_additional\_functions.sh}. An example of its implementation is provided in Listing~\ref{mutation_additional}.
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=mutation_additional, caption='run\_tst\_case' Bash function for the MLFS. Excerpt of mutation\_additional\_functions.sh file.]
 run_tst_case() {
 
     tst_name=$1
@@ -194,7 +194,7 @@ with the following one:
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans TCE -fno-builtin $(EXTRA_CFLAGS)
 \end{lstlisting}
 
-The seventh step consists of launching the one step launcher (see Section~\ref{sec:singlelaunch}:
+The seventh step consists of launching the one step launcher (see Section~\ref{sec:singlelaunch}):
 
 \begin{lstlisting}[language=bash]
  $ /opt/MLFS/Launcher.sh
@@ -202,7 +202,7 @@ The seventh step consists of launching the one step launcher (see Section~\ref{s
 
 The following results shall be reported at the end of the execution:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, label=mass_output, caption=\MASS output.]
 ##### MASS Output #####                                                                                                                   
 ## Total mutants generated: 28071
 ## Total mutants filtered by TCE: 6918
@@ -223,6 +223,521 @@ The following results shall be reported at the end of the execution:
 
 \subsection{HPC Infrastructure Example: Mathematical Library for Flight Software}
 
-The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
+This tutorial was implemented by executing \MASS on the UL HPC\footnote{https://hpc.uni.lu} infrastructure.
+ Some of the examples shown in the following uses the SLURM job scheduler\footnote{https://slurm.schedmd.com/overview.html} and the GNU parallel utility\footnote{https://www.gnu.org/software/parallel/}. Both software are not mandatory for executing \MASS, and can be replaced by similar software.
 
-\TODO{To complete?}
+\MASS has been executed on a Singularity container\footnote{https://sylabs.io}, which enables reproducibility and parallelism for experiments.
+
+For running \MASS on a HPC infrastructure, the first step regards installing \MASS framework, to do so please refer to Section~\ref{sec:install}.
+
+The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. In this case, the workspace directory will be created on \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, and the execution directory on \texttt{/opt/MLFS}, since \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE} will be binded to \texttt{/opt/MLFS} inside the Singularity container.
+
+\begin{lstlisting}[language=bash]
+  $ cd $FAQAS/MASS/FAQAS-Setup
+  $ export INSTALL_DIR=$FAQAS/MASS_MLFS/MASS_WORKSPACE && export EXECUTION_DIR=/opt/MLFS 
+  $ ./install.sh
+\end{lstlisting}
+
+The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide excerpts of the file that require intervention from the engineer. Listing~\ref{mutation_additional_hpc} contains the necessary configuration for the MLFS case study.
+Notice that all paths defined here must refer to the container.
+
+\begin{lstlisting}[language=bash, label=mutation_additional_hpc ,caption=\MASS variables. Excerpt of mass\_conf.sh file.]
+# set FAQAS path
+export SRCIROR=/opt/srcirorfaqas
+                                                     
+...
+
+# set directory path where MASS files can be stored
+export APP_RUN_DIR=/opt/MLFS
+
+# specifies the building system, available options are "Makefile" and "waf"
+export BUILD_SYSTEM="Makefile"
+
+# directory root path of the software under test
+export PROJ=$HOME/mlfs
+
+# directory src path of the SUT
+export PROJ_SRC=$PROJ/libm
+
+# directory test path of the SUT
+export PROJ_TST=$HOME/unit-test-suite
+
+# directory coverage path of the SUT
+export PROJ_COV=$HOME/blts_workspace
+
+# directory path of the compiled binary
+export PROJ_BUILD=$PROJ/build-host/bin
+
+# filename of the compiled file/library
+export COMPILED=libmlfs.a
+
+# path to original Makefile
+export ORIGINAL_MAKEFILE=$PROJ/Makefile
+
+# compilation command of the SUT
+export COMPILATION_CMD=(make all ARCH=host EXTRA_CFLAGS="-DNDEBUG" \&\& make all COVERAGE="true" ARCH=host_cov EXTRA_CFLAGS="-DNDEBUG")
+
+# compilation additional commands of the SUT (e.g., setup of workspace)
+export ADDITIONAL_CMD=(cd $HOME/blts/BLTSConfig \&\& make clean install INSTALL_PATH="$HOME/blts_install" \&\& cd $HOME/blts_workspace \&\& $HOME/blts_install/bin/blts_app --init)
+
+# command to be executed after each test case (optional)
+export ADDITIONAL_CMD_AFTER=(rm -rf $HOME/blts_workspace/*)
+
+# compilation command for TCE analysis
+export TCE_COMPILE_CMD=(make all ARCH=host EXTRA_CFLAGS="-DNDEBUG")
+
+# command to clean installation of the SUT
+export CLEAN_CMD=(make cleanall)
+
+# relative path to location of gcov files (i.e., gcda and gcno files)
+export GC_FILES_RELATIVE_PATH=Reports/Coverage/Data
+\end{lstlisting}
+
+Also, \MASS variables shall be configured within the same file. We will run \MASS with the setup provided in Listing~\ref{mutation_additional_hpc_mass}. 
+
+\begin{lstlisting}[language=bash, label=mutation_additional_hpc_mass ,caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
+### MASS variables
+
+# TCE flags to be tested 
+export FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
+
+# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+export HPC="true"
+
+# set if MASS should be executed with a prioritized and reduced test suite
+export PRIORITIZED="true"
+
+# set sampling technique, possible values are "uniform", "stratified", and "fsci"
+# note: if "uniform" or "stratified" is set, $PRIORITIZED must be "false"
+export SAMPLING="fsci"
+
+# set sampling rate if whether "uniform" or "stratified" sampling has been selected
+export RATE=""
+\end{lstlisting}
+
+The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}; within this file the actions from Listing~\ref{preparesut_hpc} must be provided by the engineer:
+
+\begin{lstlisting}[language=bash, label=preparesut_hpc ,caption=\MASS PrepareSUT.sh file.]
+#!/bin/bash
+
+# This file should be prepared by the engineer!
+cd /opt/MLFS
+. ./mass_conf.sh
+
+# 1. Compile SUT
+## example
+
+cd $PROJ
+
+# generate compile_commands.json and delete build
+bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs/libm:' compile_commands.json && mv compile_commands.json $MUTANTS_DIR
+eval "${COMPILATION_CMD[@]}"
+
+# 2. Prepare test scripts
+# example
+
+cd $HOME/blts/BLTSConfig
+make clean install INSTALL_PATH="$HOME/blts_install"
+
+# Preparing MLFS workspace (e.g., where test cases data is stored)
+cd $HOME/blts_workspace
+$HOME/blts_install/bin/blts_app --init
+
+# 3. Execute test cases
+# Note: execution time for each test case should be measured and passed as argument to FAQAS-CollectCodeCoverage.sh
+
+# example
+for tst in $(find $HOME/unit-test-suite -name '*.xml');do
+    cd $HOME/blts_workspace
+
+    tst_filename_wo_xml=$(basename -- $tst .xml)
+    
+    start=$(date +%s)
+    $HOME/blts_install/bin/blts_app -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst
+    end=$(date +%s)    
+
+    # call to FAQAS-CollectCodeCoverage.sh
+    # parameter should be test case name and the execution time
+    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))" $PROJ_COV
+done
+\end{lstlisting}
+
+The fifth step consists of defining the function \texttt{run\_tst\_case} within the file \\\texttt{mutation\_additional\_functions.sh} (see Listing~\ref{run_test_case_hpc}).
+
+\begin{lstlisting}[language=bash, label=run_test_case_hpc ,caption=Implementation of the run test case Bash function for the MLFS.]
+run_tst_case() {
+
+    tst_name=$1
+    tst=$PROJ_TST/$tst_name.xml
+
+    echo $tst_name $tst
+
+    # run the test case
+    cd $PROJ_COV
+    $HOME/blts_install/bin/blts_app -gcrx $tst_name -b coverage --nocsv -s $tst
+
+    # define if test case execution passed or failed
+    summaryreport=$tst_name/Reports/SessionSummaryReport.xml
+    originalreport=$HOME/unit-reports/$summaryreport
+
+    test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $summaryreport`
+    o_test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $originalreport`
+
+    echo "comparing with original execution" 
+    echo $test_cases_failed $o_test_cases_failed 
+
+    if [ "$test_cases_failed" != "$o_test_cases_failed" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+\end{lstlisting}
+
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the following command: 
+
+\begin{lstlisting}[language=bash]
+CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g O2 -fno-builtin $(EXTRA_CFLAGS)
+\end{lstlisting}
+
+with the following one:
+
+\begin{lstlisting}[language=bash]
+CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans TCE -fno-builtin $(EXTRA_CFLAGS)
+\end{lstlisting}
+
+The seventh step consists of executing the steps PrepareSut and GenerateMutants on the HPC. For this purpose, the SLURM launcher from Listing~\ref{prepare_slurm} it is provided.
+
+Notice that the workspace has been defined in \texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, but it is being binded in \texttt{/opt/MLFS}. 
+The step PrepareSut is being executed on the line 27, and the step GenerateMutants on the line 29.
+
+The Singularity container is represented on the file \texttt{blts.sif}, which contains a singularity image file. The same sif file will be used throughout all the steps of the methodology.
+
+Also notice that the following SLURM launcher, and all the examples below can be send to the job scheduler with the command \texttt{sbatch}.
+
+\begin{lstlisting}[language=bash, label=prepare_slurm ,caption=Example of the SLURM launcher for PrepareSUT and GenerateMutants steps.]
+#!/bin/bash -l
+
+#SBATCH -J PrepSUT-GenMut
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 2
+#SBATCH --time=12:00:00
+
+RUNDIR=/tmp/MLFS/run
+
+echo "== Creating MLFS home folder"
+mkdir -p $RUNDIR
+cp -r $FAQAS/MASS_MLFS/mutant $RUNDIR
+
+MLFS_HOME=$RUNDIR/mutant
+
+echo "== Loading Singularity"
+module load tools/Singularity
+
+echo "== Loading container..."
+singularity instance start --bind $MLFS_HOME:/home/mlfs --bind $FAQAS/MASS_MLFS/unit-test-suite:/home/mlfs/unit-test-suite --bind $FAQAS/MASS_MLFS/unit-reports:/home/mlfs/unit-reports --bind $FAQAS/MASS_MLFS/MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $FAQAS/MASS_MLFS/blts.sif mlfs_instance
+
+singularity instance list
+
+echo "Running singularity instance"
+srun -N 1 -n 1 -c 2 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/PrepareSUT.sh
+
+srun -N 1 -n 1 -c 2 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/GenerateMutants.sh
+
+echo "== Stoping singularity instance"
+singularity instance stop mlfs_instance
+\end{lstlisting}
+
+The eighth step consists of compiling all the generated mutants against the different compilation flags. Since this step can be parallelized, we propose a SLURM launcher implemented with GNU parallels for the CompileOptimizedMutants step. An example is shown in Listing~\ref{compile_slurm}. This launcher shall be executed with the parameters \texttt{--min} and \texttt{--max}, indicating the minimum and the maximum of the Bash array that defines the trivial compiler optimizations to be used. For instance, if FLAGS has been defined as \texttt{FLAGS=(”-O0” ”-O1” ”-O2” ”-O3” ”-Ofast” ”-Os”)} then min should be 0, and max should be 5.
+
+\begin{lstlisting}[language=bash, label=compile_slurm ,caption=Example of the SLURM launcher for CompileOptimizedMutants step.]
+#!/bin/bash -l
+
+#SBATCH -J MLFSComp
+#SBATCH --time=02:00:00
+##SBATCH --partition=batch
+#SBATCH --mem-per-cpu=8192
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=6
+#SBATCH -c 2
+
+SRUN="srun --exclusive -n1 -c ${SLURM_CPUS_PER_TASK:=1} --cpu-bind=cores"
+
+# Parse the command-line argument
+while [ $# -ge 1 ]; do
+    case $1 in
+        -h | --help) usage; exit 0;;
+        -n | --dry-run) CMD_PREFIX=echo;;
+        --min) shift; MIN=$1;;
+        --max) shift; MAX=$1;;
+        *) TASK="$*";;
+    esac
+    shift;
+done
+
+# Use the UL HPC modules
+if [ -f  /etc/profile ]; then
+    .  /etc/profile
+fi
+
+module load tools/Singularity
+
+#######################
+# Data preparation
+
+RUNDIR=$FAQAS/MASS_MLFS
+
+TASK="cp -r $RUNDIR/mutant /dev/shm/mut_{} && \
+    singularity instance start --bind /dev/shm/mut_{}:/home/mlfs --bind $RUNDIR/MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $RUNDIR/blts.sif instance_{} \
+    sleep 5 && \
+    singularity exec instance://instance_{} /bin/bash /opt/MLFS/CompileOptimizedMutants.sh {}"
+
+#######################
+
+# Create logs directory
+mkdir -p logs
+
+PARALLEL="parallel --delay .2 -j ${SLURM_NTASKS} --joblog logs/state.parallel.log --resume"
+
+${CMD_PREFIX} ${PARALLEL} "${SRUN} ${TASK} 2>&1 | tee logs/parallel_{}.log && ${SRUN} singularity instance stop instance_{}" ::: $(seq ${MIN} ${MAX})
+\end{lstlisting}
+
+
+The ninth step consists of executing the launcher that processes all the compiled mutants in the previous step, and the launcher that generate prioritized and reduced test suites. Listing~\ref{post_compile_slurm} introduces a SLURM launcher example for this purpose.
+
+\begin{lstlisting}[language=bash, label=post_compile_slurm ,caption=Example of the SLURM launcher for OptimizedPostProcessing and GeneratePTS steps.]
+#!/bin/bash -l
+
+#SBATCH -J OptimizedAndGenPTS
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 4
+#SBATCH --time=12:00:00
+
+#RUNDIR=/tmp/MLFS/run
+
+echo "== Creating MLFS home folder"
+#mkdir -p $RUNDIR
+#cp -r $FAQAS/MASS_MLFS/mutant $RUNDIR
+
+#MLFS_HOME=$RUNDIR/mutant
+
+echo "== Loading Singularity"
+module load tools/Singularity
+
+echo "== Loading container..."
+singularity instance start --bind $FAQAS/MASS_MLFS/MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $FAQAS/MASS_MLFS/blts.sif mlfs_instance
+
+singularity instance list
+
+echo "Running singularity instance"
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/OptimizedPostProcessing.sh
+
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/GeneratePTS.sh
+
+echo "== Stoping singularity instance"
+singularity instance stop mlfs_instance
+\end{lstlisting}
+
+The tenth step consists of preparing the execution of mutants in the HPC. This can be done following the commands contained in Listing~\ref{prepare_mutants_slurm}.
+
+\begin{lstlisting}[language=bash, label=prepare_mutants_slurm ,caption=Example of the SLURM launcher for preparing mutants for its execution on the HPC.]
+#!/bin/bash -l
+
+#SBATCH -J PrepMutExec
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 4
+#SBATCH --time=12:00:00
+
+MASS_WORKSPACE=$FAQAS/MASS_MLFS/MASS_WORKSPACE
+
+echo "== Loading Singularity"
+module load tools/Singularity
+
+echo "== Loading container..."
+singularity instance start --bind $MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $FAQAS/MASS_MLFS/blts.sif mlfs_instance
+
+singularity instance list
+
+echo "Running singularity instance"
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/PrepareMutants_HPC.sh
+
+echo "== Stoping singularity instance"
+singularity instance stop mlfs_instance
+\end{lstlisting}
+
+The eleventh step consists of executing the mutants on the HPC, since executing mutants can be parallelized, we propose a SLURM launcher implemented with GNU Parallel. Listing~\ref{execute_slurm} provides an example of this step. 
+The script receives three parameters: (i) min -- the lower boundary mutant number, (ii) max -- the upper boundary mutant number, and (iii) range -- the mutant batch number. For instance, the parameters \texttt{--min 1 --max 100 --range 1} indicate that the script executes mutants number 1 to 100, and that they belong to the mutant batch \#1.
+
+\begin{lstlisting}[language=bash, label=execute_slurm ,caption=Example of the SLURM launcher for the execution of mutants on the HPC.]
+#!/bin/bash -l
+
+#SBATCH -J MLFSPar
+#SBATCH --time=2-00:00:00
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=14
+#SBATCH -c 2
+
+SRUN="srun --exclusive -n1 -c ${SLURM_CPUS_PER_TASK:=1} --cpu-bind=cores"
+
+####################### Let's go ##############################
+# Parse the command-line argument
+while [ $# -ge 1 ]; do
+    case $1 in
+        -h | --help) usage; exit 0;;
+        -n | --dry-run) CMD_PREFIX=echo;;
+        --min) shift; MIN=$1;;
+        --max) shift; MAX=$1;;
+        --range) shift; RANGE=$1;;
+        *) TASK="$*";;
+    esac
+    shift;
+done
+
+# Use the UL HPC modules
+if [ -f  /etc/profile ]; then
+    .  /etc/profile
+fi
+
+module load tools/Singularity
+
+#######################
+# Data preparation
+
+RUNDIR=$FAQAS/MASS_MLFS
+
+# to be set, "false" or "true"
+REDUCED="false"
+
+mkdir -p $RUNDIR/MASS_WORKSPACE/HPC_MUTATION/runs
+
+TASK="mkdir -p $RUNDIR/MASS_WORKSPACE/HPC_MUTATION/runs/run_{}/test_runs && \
+    cp -r $RUNDIR/mutant /dev/shm/mut_{} && \
+    singularity instance start --bind /dev/shm/mut_{}:/home/mlfs --bind $RUNDIR/MASS_WORKSPACE/HPC_MUTATION/runs/run_{}/test_runs:/home/mlfs/test_runs --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas --bind $RUNDIR/MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/MASS_MLFS/unit-test-suite:/home/mlfs/unit-test-suite --bind $FAQAS/MASS_MLFS/unit-reports:/home/mlfs/unit-reports $FAQAS/MASS_MLFS/blts.sif instance_{} && \
+    sleep 5 && \
+    singularity exec instance://instance_{} /bin/bash /opt/MLFS/ExecuteMutants_HPC.sh {} $REDUCED"
+
+#######################
+
+# Create logs directory
+mkdir -p logs
+
+PARALLEL="parallel --delay .2 -j ${SLURM_NTASKS} --joblog logs/state.${RANGE}.parallel.log --resume"
+
+${CMD_PREFIX} ${PARALLEL} "${SRUN} ${TASK} 2>&1 | tee logs/parallel_{}.log && ${SRUN} singularity instance stop instance_{} && rm -rf /dev/shm/mut_{}" ::: $(seq ${MIN} ${MAX})
+\end{lstlisting}
+
+To simplify the execution of several mutant batch, the Bash script of Listing~\ref{launcher_slurm} is provided.
+Given that the ExecuteMutants script from Listing~\ref{execute_slurm} is stored at \\\texttt{\$FAQAS/MASS\_MLFS/HPC\_LAUNCHERS/ExecuteMutants/ExecuteMutants\_HPC.sh}, the following script executes two batch of mutants of 336 mutants each.
+
+\begin{lstlisting}[language=bash, label=launcher_slurm ,caption=Example of a Bash launcher for the ExecuteMutants\_HPC.sh script.]
+#/bin/bash
+
+LAUNCHER=$FAQAS/MASS_MLFS/HPC_LAUNCHERS/ExecuteMutants/ExecuteMutants_HPC.sh
+JOBNAME=MLFS
+
+min=0
+max=600
+chunksize=336
+
+j=1
+for i in $(seq $min $chunksize $max); do
+    sbatch \
+        -J ${JOBNAME}_$j \
+        ${LAUNCHER} --min $((i+1)) --max $((i+chunksize)) --range $j;
+    j=$((j+1)) 
+done
+\end{lstlisting}
+
+The twelfth step consists of processing the executed mutants, and verifying if its necessary to execute a new batch of mutants. An example SLURM script is provided in Listing~\ref{postmutation_hpc}.
+
+\begin{lstlisting}[language=bash, label=postmutation_hpc ,caption=Example of a SLURM launcher for the PostMutation step.]
+#!/bin/bash -l
+
+#SBATCH -J PostMutExec
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 4
+##SBATCH --time=12:00:00
+#SBATCH --time=02:00:00
+
+MASS_WORKSPACE=$FAQAS/MASS_MLFS/MASS_WORKSPACE
+
+echo "== Loading Singularity"
+module load tools/Singularity
+
+echo "== Loading container..."
+singularity instance start --bind $MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $FAQAS/MASS_MLFS/blts.sif mlfs_instance
+
+singularity instance list
+
+echo "Running singularity instance"
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/PostMutation_HPC.sh 1 672
+
+echo "== Stoping singularity instance"
+singularity instance stop mlfs_instance
+\end{lstlisting}
+
+The thirteenth step consists of identifying equivalent mutants based on code coverage, and computing the final mutation score. Listing~\ref{identify_ms_slurm} provides an example of a SLURM launcher for executing both steps.
+
+\begin{lstlisting}[language=bash, label=identify_ms_slurm ,caption=Example of a Bash launcher for the steps IdentifyEquivalents and MutationScore.]
+#!/bin/bash -l
+
+#SBATCH -J IdEquiv
+#SBATCH --mem-per-cpu=4096
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 4
+#SBATCH --time=1-00:00:00
+
+RUNDIR=/tmp/MLFS/run
+
+echo "== Creating MLFS home folder"
+mkdir -p $RUNDIR
+cp -r $FAQAS/MASS_MLFS/mutant $RUNDIR
+
+MLFS_HOME=$RUNDIR/mutant
+
+echo "== Loading Singularity"
+module load tools/Singularity
+
+echo "== Loading container..."
+singularity instance start --bind $MLFS_HOME:/home/mlfs --bind $FAQAS/MASS_MLFS/MASS_WORKSPACE:/opt/MLFS --bind $FAQAS/srcirorfaqas:/opt/srcirorfaqas $FAQAS/MASS_MLFS/blts.sif mlfs_instance
+
+singularity instance list
+
+echo "Running singularity instance"
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/IdentifyEquivalents.sh
+
+srun -N 1 -n 1 -c 4 --exclusive singularity exec instance://mlfs_instance /bin/bash /opt/MLFS/MutationScore.sh
+
+echo "== Stoping singularity instance"
+singularity instance stop mlfs_instance
+\end{lstlisting}
+
+The output of the last step should provide the final output of MASS.
+
+\begin{lstlisting}[language=bash, label=output_mass_hpc ,caption=\MASS output.]
+##### MASS Output #####
+## Total mutants generated: 28071
+## Total mutants filtered by TCE: 6914
+## Sampling type: fsci
+## Total mutants analyzed: 672
+## Total killed mutants: 550
+## Total live mutants: 122
+## Total likely equivalent mutants: 86
+## MASS mutation score (%): 93.85
+## List A of useful undetected mutants: /opt/MLFS/DETECTION/test_runs/useful_list_a
+## List B of useful undetected mutants: /opt/MLFS/DETECTION/test_runs/useful_list_b
+## Number of statements covered: 1955
+## Statement coverage (%): 100
+## Minimum lines covered per source file: 2
+## Maximum lines covered per source file: 138
+\end{lstlisting}

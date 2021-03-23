@@ -1,0 +1,39 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[h]
+\scriptsize
+\caption{\MASS parameters to be configured.}
+\label{table:to_configure}
+\begin{tabular}{lllp{6.5cm}}
+\hline
+\textbf{Script Name}  & \textbf{Parameter} & \textbf{Optional} &  \textbf{Description} \\
+\hline
+mass\_conf.sh & SRCIROR & No & Installation directory of the \FAQAS.\\
+& APP\_RUN\_DIR & No & Workspace directory of \MASS.\\
+& BUILD\_SYSTEM & No & Specifies the building system type.\\
+& PROJ & No & Directory root path of the SUT.\\
+& PROJ\_SRC & No & Directory source path of the SUT.\\
+& PROJ\_TST & No & Directory test path of the SUT.\\
+& PROJ\_COV & No & Directory coverage path of the SUT.\\
+& PROJ\_BUILD & No & Directory path where the compiled binary is stored.\\
+& COMPILED & Yes & Filename of the compiled file/library.\\
+& ORIGINAL\_MAKEFILE & No & Path to the original build script.\\
+& COMPILATION\_CMD & No & Compilation command of the SUT.\\
+& ADDITIONAL\_CMD & Yes & Additional compilation commands of the SUT.\\
+& ADDITIONAL\_CMD\_AFTER & Yes & Command to be executed after each test case execution.\\
+& TCE\_COMPILE\_CMD & No & Compilation command for TCE analysis.\\
+& CLEAN\_CMD & No & Clean command for the SUT.\\
+& COVERAGE\_NOT\_INCLUDE & Yes & Folder(s) not to be included during coverage analysis.\\
+& GC\_FILES\_RELATIVE\_PATH & Yes & Relative path to the location of GCOV files.\\
+& HPC & No & Specifies whether \MASS will be executed on a HPC.\\
+& FLAGS & No & TCE flags to be tested.\\
+& PRIORITIZED & No & Specifies whether \MASS should be executed with a prioritized test suite.\\
+& SAMPLING & No & Specifies the mutant sampling technique.\\
+& RATE & Yes & Specifies the mutant sampling rate.\\
+\hline
+PrepareSUT.sh & None & No & Commands shall be provided manually.\\
+\hline
+mutation\_additional\_functions.sh & run\_tst\_case  & No & Implementation of the Bash function run\_tst\_case that executes the test case passed as a parameter.\\
+\hline
+\end{tabular}
+\end{table}
