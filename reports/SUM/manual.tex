@@ -19,7 +19,7 @@ The following shell command installs the corresponding dependencies and the \tex
 \OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
 
 \begin{itemize}
-	\item Linux packages: \texttt{clang 3.8}, \texttt{r-base}, \texttt{jq}, \texttt{Python 3.7} or higher
+	\item Linux packages: \texttt{bc}, \texttt{wget}, \texttt{clang 3.8}, \texttt{r-base}, \texttt{jq}, \texttt{Python 3.7} or higher
 	\item R packages: \texttt{binom}
 	\item Python packages: \texttt{numpy}, \texttt{scipy}
 \end{itemize}
@@ -208,7 +208,7 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 	\item The script shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
 	\item The script shall contain a 'sort' command in the source list to be compiled, to ensure that source files are always compiled in the same order; \DONE{Not clear what a source dependency list is, example?}
 	
-	Makefile example:
+	Makefile sort example:
 
 	\texttt{SRC=\$(sort \$(wildcard \$(SourceFolder/*.c))}
 
