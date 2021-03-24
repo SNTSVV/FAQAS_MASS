@@ -109,6 +109,19 @@ class MutantInfo:
         return changed_list
         
 
+def compute_mutation_point_str(mut_start_id, mut_end_id):
+    pass #TODO (Maybe the mutants with not corresponding SDL stmt are those on stmts that cannot be deleted)
+
+def compute_selection_stmt(id2str):
+    pass (TODO)
+
+def compute_switch_stmt(id2stmtinfo):
+    pass (TODO)
+
+def insert_header(meta_mu_file):
+    pass (TODO)
+
+
 def main():
     # Call SDL generation
 
