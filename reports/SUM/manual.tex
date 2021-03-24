@@ -173,7 +173,7 @@ Furthermore, the following specific \MASS variables must be set (See Listing~\re
 
 % \TODO{The title should be changed, probably it should become something like \emph{Edit PrepareSUT.sh}. My main problem is that I cannot map this section to something describe before, it comes out of the blue. Also, shouldn't it be a subsubsection? I would expect to have in 4.2.2 the list of all the files to be editng and in the following subsubsections a description for each of them.}
 
-To configure \MASS to work with the SUT, the engineer should also edit the Bash file \\\begin{small}\texttt{\$INSTALL\_DIR/MASS\_STEPS\_LAUNCHER/PrepareSUT.sh}\end{small}. The following actions shall be performed by the engineer:
+To configure \MASS to work with the SUT, the engineer should also edit the Bash file \\\begin{small}\texttt{\$INSTALL\_DIR/MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}\end{small}. The following actions shall be performed by the engineer:
 
 \begin{enumerate}
 	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation step of the methodology.
@@ -257,49 +257,49 @@ The multiple steps of the methodology and its command are described in the follo
 	\item \textbf{Prepare the SUT}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
+	  $ ./MASS_STEPS_LAUNCHERS/PrepareSUT.sh
 \end{lstlisting}
 
 	\item \textbf{Generate Mutants}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
+	  $ ./MASS_STEPS_LAUNCHERS/GenerateMutants.sh
 \end{lstlisting}
 
 	\item \textbf{Compile Optimized Mutants}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh
+	  $ ./MASS_STEPS_LAUNCHERS/CompileOptimizedMutants.sh
 \end{lstlisting}
 
 	\item \textbf{Compile Optimized Mutants Post-Processing}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
+	  $ ./MASS_STEPS_LAUNCHERS/OptimizedPostProcessing.sh
 \end{lstlisting}
 
 	\item \textbf{Generate Prioritized and Reduced Test Suites}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
+	  $ ./MASS_STEPS_LAUNCHERS/GeneratePTS.sh
 \end{lstlisting}
 
 	\item \textbf{Execute mutants}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants.sh
+	  $ ./MASS_STEPS_LAUNCHERS/ExecuteMutants.sh
 \end{lstlisting}
 
 	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
+	  $ ./MASS_STEPS_LAUNCHERS/IdentifyEquivalents.sh
 \end{lstlisting}
 
 	\item \textbf{Computer Mutation Score}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
+	  $ ./MASS_STEPS_LAUNCHERS/MutationScore.sh
 \end{lstlisting} 
 \end{enumerate}
 
@@ -315,38 +315,38 @@ The multiple steps of the methodology and its command are described in the follo
 	\item \textbf{Prepare the SUT}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
+	  $ ./MASS_STEPS_LAUNCHERS/PrepareSUT.sh
 \end{lstlisting}
 
 	\item \textbf{Generate Mutants}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
+	  $ ./MASS_STEPS_LAUNCHERS/GenerateMutants.sh
 \end{lstlisting}
 
 	\item \textbf{Compile Optimized Mutants}: If the environment variable \texttt{HPC} is set to \texttt{true}. Then, a parameter can be passed to the launcher script indicating the optimization level to be processed. If six levels of optimizations are defined, then numbers between zero and five can be provided.
 
 	\begin{lstlisting}[language=bash]
 	  $ level=0
-	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh $level
+	  $ ./MASS_STEPS_LAUNCHERS/CompileOptimizedMutants.sh $level
 \end{lstlisting}
 
 	\item \textbf{Compile Optimized Mutants Post-Processing}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
+	  $ ./MASS_STEPS_LAUNCHERS/OptimizedPostProcessing.sh
 \end{lstlisting}
 
 	\item \textbf{Generate Prioritized and Reduced Test Suites}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
+	  $ ./MASS_STEPS_LAUNCHERS/GeneratePTS.sh
 \end{lstlisting}
 
 	\item \textbf{Prepare mutants}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/PrepareMutants_HPC.sh
+	  $ ./MASS_STEPS_LAUNCHERS/PrepareMutants_HPC.sh
 \end{lstlisting}
 
 	\item \textbf{Execute mutants}: The launcher script receives two parameters: the first parameter is the number of the mutant to be executed, the number of mutant is defined as ${1..M}$, being M the total number of mutants. The total number of mutants can be derived from the folder \texttt{\$INSTALL\_DIR/hpc-src-mutants}.
@@ -355,7 +355,7 @@ The multiple steps of the methodology and its command are described in the follo
 	\begin{lstlisting}[language=bash]
 	  $ nr_mutant=1
 	  $ reduced="false"
-	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants_HPC.sh $nr_mutant $reduced
+	  $ ./MASS_STEPS_LAUNCHERS/ExecuteMutants_HPC.sh $nr_mutant $reduced
 \end{lstlisting}
 
 	\item \textbf{Post-mutation execution}: The launcher script receives two numbers as parameters, a minimum and a maximum value, that represent the range of mutants to assess. The assessment consists of evaluating if more mutant executions are needed. 
@@ -363,19 +363,19 @@ The multiple steps of the methodology and its command are described in the follo
 	\begin{lstlisting}[language=bash]
 	  $ min=1
 	  $	max=700
-	  $ ./MASS_STEPS_LAUNCHER/PostMutation_HPC.sh $min $max
+	  $ ./MASS_STEPS_LAUNCHERS/PostMutation_HPC.sh $min $max
 \end{lstlisting}
 
 	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
+	  $ ./MASS_STEPS_LAUNCHERS/IdentifyEquivalents.sh
 \end{lstlisting}
 
 	\item \textbf{Computer Mutation Score}
 
 	\begin{lstlisting}[language=bash]
-	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
+	  $ ./MASS_STEPS_LAUNCHERS/MutationScore.sh
 \end{lstlisting} 
 \end{enumerate}
 
