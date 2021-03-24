@@ -29,9 +29,9 @@ The following shell command installs the corresponding dependencies and the \tex
 
 \subsection{Initialization of the MASS workspace}
 
-\TODO{I think "shall" should be simply removed, "\MASS creates" "are stored".}
+% \DONE{I think "shall" should be simply removed, "\MASS creates" "are stored".}
 
-\MASS shall create a workspace folder where all the steps from the methodology shall be stored. 
+\MASS creates a workspace folder where all the steps from the methodology are stored. 
 
 An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{\$FAQAS/MASS/FAQAS-Setup/install.sh}
 
@@ -224,7 +224,7 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 \subsection{Running MASS on Single Machines}
 \label{sec:singlelaunch}
 
-\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
+%\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
 
 \MASS can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \MASS in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:shared} covers the \emph{shared resources mode}.
 
@@ -383,6 +383,30 @@ The multiple steps of the methodology and its command are described in the follo
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
 \end{lstlisting} 
+\end{enumerate}
+
+\subsection{MASS results}
+
+After the execution of \MASS the results will be stores in dedicated folders, such organization is defined as follows:
+
+\begin{enumerate}
+	\item Prepare SUT: results of this step are stored in the folder \texttt{COV\_FILES}, besides coverage files it contains (i) the coverage matrices, and (ii) the timeout file.
+	\item Generate Mutants: results of this step are stored in the folder \texttt{src-mutants}, it contains all mutant sources.
+	\item Compile Optimized Mutants: results of this step are stored in the folder \texttt{COMPILED}, particularly it contains one folder for each optimisation level.
+	\item Compile Optimized Mutants Post-Processing: results of this step are stored in folder \texttt{COMPILED}, particularly, it generates four lists: (i) list of all mutants, (ii) list of nonequivalent and nonredundant mutants, (iii) list of equivalent mutants, and (iv) list of redundant mutants.
+	\item Generate Prioritized and Reduced Test Suites: results of this step are stored in folder \texttt{PRIORITIZED}, it contains one file with the prioritized and reduced test suites, and one file with the prioritized test suites.
+	\item Execute Mutants: results of this step are stored in folder \texttt{MUTATION}. This step produces several files and folders:
+	\begin{itemize}
+		\item main.csv: complete mutation traces
+		\item sampled\_mutants: list of sampled mutants to be executede
+		\item all\_live: list of live mutants
+		\item all\_killed: list of killed mutants
+		\item traces\_live: live mutants traces
+		\item traces\_killed: killed mutants traces
+		\item mutant folder: there is one folder for each executed mutant, this folder contains the mutant code coverage information and test case execution logs.
+	\end{itemize}
+	\item Identify Equivalent Mutants based on Code Coverage: results of this step are stored in folder \texttt{DETECTION}.
+	\item Compute Mutation Score: results of this step are stored in folder \texttt{RESULTS}. Particularly, the file \texttt{MASS\_RESULTS} contains the final output of \MASS.
 \end{enumerate}
 
 

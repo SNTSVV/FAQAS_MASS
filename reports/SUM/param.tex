@@ -1,0 +1,210 @@
+% !TEX root = MAIN.tex
+
+\subsection{Single Machine Example: Libparam}
+\label{sec:single_machine_libparam}
+
+This tutorial concerns the example of the Libparam Case Study provided by GomSpace Luxembourg.
+
+The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
+
+The second step, consists of creating and installing a workspace folder for running \MASS on the PARAM example. For this case, the workspace folder will be created on \texttt{/opt/PARAM}.
+
+\begin{lstlisting}[language=bash]
+  $ cd $FAQAS/MASS/FAQAS-Setup
+  $ export INSTALL_DIR=/opt/PARAM
+  $ ./install.sh
+\end{lstlisting}
+
+The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide excerpts of the file that require intervention from the engineer. Listing~\ref{mass_conf_single} contains the necessary configuration for the PARAM case study.
+
+\begin{lstlisting}[language=bash, label=mass_conf_single, caption=\MASS variables. Excerpt of mass\_conf.sh file.]
+# set FAQAS path
+export SRCIROR=/opt/srcirorfaqas
+                                                     
+...
+
+# set directory path where MASS files can be stored
+export APP_RUN_DIR=/opt/PARAM
+
+# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+export HPC="false"
+
+# specifies the building system, available options are "Makefile" and "waf"
+export BUILD_SYSTEM="waf"
+
+# directory root path of the software under test
+export PROJ=/home/csp/libparam
+
+# directory src path of the SUT
+export PROJ_SRC=/home/csp/libparam/src
+
+# directory test path of the SUT
+export PROJ_TST=/home/csp/libparam/tst
+
+# directory coverage path of the SUT
+export PROJ_COV=$PROJ_TST
+
+# relative path to location of gcov files (i.e., gcda and gcno files)
+export GC_FILES_RELATIVE_PATH=build
+
+# list of folders not be included during the analysis
+export COVERAGE_NOT_INCLUDE="tst\|libutil\|libgscsp\|libparam_client"
+
+# directory path of the compiled binary
+export PROJ_BUILD=$PROJ/build
+
+# filename of the compiled file/library
+export COMPILED=libgsparam.so
+
+# path to original Makefile
+export ORIGINAL_MAKEFILE=$PROJ/tools/buildtools/gs/buildtools/compiler_settings.json
+
+# compilation command of the SUT
+export COMPILATION_CMD=(./waf build --notests)
+
+# compilation additional commands of the SUT (e.g., setup of workspace) (optional)
+export ADDITIONAL_CMD=""
+
+# command to be executed after each test case (optional)
+export ADDITIONAL_CMD_AFTER=""
+
+# compilation command for TCE analysis
+export TCE_COMPILE_CMD=(./waf configure \&\& ./waf build)
+
+# command to clean installation of the SUT
+export CLEAN_CMD=(./waf clean \&\& rm -rf build)
+\end{lstlisting}
+
+Also \MASS variables shall be configured within the same file. Particularly, we will run \MASS with the setup contained in Listing~\ref{mass_conf_specific}. 
+
+\begin{lstlisting}[language=bash, label=mass_conf_specific, caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
+### MASS variables
+
+# TCE flags to be tested 
+export FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
+
+# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+export HPC="false"
+
+# set if MASS should be executed with a prioritized and reduced test suite
+export PRIORITIZED="true"
+
+# set sampling technique, possible values are "uniform", "stratified", and "fsci"
+# note: if "uniform" or "stratified" is set, $PRIORITIZED must be "false"
+export SAMPLING="fsci"
+
+# set sampling rate if whether "uniform" or "stratified" sampling has been selected
+export RATE=""
+\end{lstlisting}
+
+The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}; within this file the following actions must be provided by the engineer (see~\ref{preparesut_single}):
+
+\begin{lstlisting}[language=bash, label=preparesut_single, caption=PrepareSUT.sh file.]
+#!/bin/bash
+
+# This file should be prepared by the engineer!
+cd /opt/PARAM
+. ./mass_conf.sh
+
+# 1. Compile SUT
+## example
+
+cd $PROJ
+./tools/buildtools/gsbuildtools_bootstrap.py
+
+# generate compile_commands.json and delete build
+./waf configure && ./waf build && sed -i 's:\.\./:/home/csp/libparam/:' build/compile_commands.json && mv build/compile_commands.json $MUTANTS_DIR
+
+# 2. Prepare test scripts
+# example
+
+# 3. Execute test cases
+# Note: execution time for each test case should be measured and passed as argument to FAQAS-CollectCodeCoverage.sh
+
+# example
+shopt -s extglob
+for tst in $PROJ_TST/!(include|example|bindings)/;do
+    echo $tst
+
+    cd $tst
+    ./waf configure
+
+    start=$(date +%s)
+    ./waf
+    end=$(date +%s)
+
+    tst_name=$(basename -- $tst)
+    # call to FAQAS-CollectCodeCoverage.sh
+    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_name "$(($end-$start))" $PROJ_TST
+
+    cd ../
+done
+\end{lstlisting}
+
+The fifth step consists of defining the function \texttt{run\_tst\_case} within the file \\\texttt{mutation\_additional\_functions.sh}. An example of its implementation is provided in Listing~\ref{mutation_additional}.
+
+\begin{lstlisting}[language=bash, label=mutation_additional, caption='run\_tst\_case' Bash function for PARAM. Excerpt of mutation\_additional\_functions.sh file.]
+run_tst_case() {
+    tst_name=$1
+
+    echo executing test case $tst_name
+
+    ./waf --alltests -v
+    RET=$?
+
+    return $RET
+}
+\end{lstlisting}
+
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the \texttt{CFLAGS\_RELEASE} value of the original build script: 
+
+\begin{lstlisting}[language=bash, caption=libparam/tools/buildtools/gs/buildtools/compiler\_settings.json]
+"name": "Linux x86 gcc-7, 64 bit",
+"gs_part": "x86_64-gcc-7",
+"gs_arch": "x86_64",
+"gs_os": "linux",
+"expected_cc_version": "7.4.0",
+"CFLAGS": ["-std=gnu99", "-m64"],
+"CFLAGS_RELEASE": ["03"],
+... 
+\end{lstlisting}
+
+with \texttt{TCE}, creating a new template for the build script:
+
+\begin{lstlisting}[language=bash, caption=libparam/tools/buildtools/gs/buildtools/compiler\_settings.json.template]
+"name": "Linux x86 gcc-7, 64 bit",
+"gs_part": "x86_64-gcc-7",
+"gs_arch": "x86_64",
+"gs_os": "linux",
+"expected_cc_version": "7.4.0",
+"CFLAGS": ["-std=gnu99", "-m64"],
+"CFLAGS_RELEASE": ["TCE"],
+...
+\end{lstlisting}
+
+The seventh step consists of launching the one step launcher (see Section~\ref{sec:singlelaunch}):
+
+\begin{lstlisting}[language=bash]
+ $ /opt/PARAM/Launcher.sh
+\end{lstlisting}
+
+The following results shall be reported at the end of the execution:
+
+\begin{lstlisting}[language=bash, label=mass_output, caption=\MASS output.]
+##### MASS Output #####
+##
+## Total mutants generated: 6450
+## Total mutants filtered by TCE: 2545
+## Sampling type: fsci
+## Total mutants analyzed: 603
+## Total killed mutants: 419
+## Total live mutants: 184
+## Total likely equivalent mutants: 101
+## MASS mutation score (%): 83.46
+## List A of useful undetected mutants: ./DETECTION/test_runs/useful_list_a
+## List B of useful undetected mutants: ./DETECTION/test_runs/useful_list_b
+## Number of statements covered: 1239
+## Statement coverage (%): 77.29
+## Minimum lines covered per source file: 0
+## Maximum lines covered per source file: 179
+\end{lstlisting}
