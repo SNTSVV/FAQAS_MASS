@@ -15,8 +15,8 @@ The following shell command installs the corresponding dependencies and the \tex
 
 \subsection{Dependencies}
 
-\TODO{should we add the LLVM version?}
-\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
+%\TODO{should we add the LLVM version?}
+%\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
 
 \begin{itemize}
 	\item Linux packages: \texttt{clang 3.8}, \texttt{r-base}, \texttt{jq}, \texttt{Python 3.7} or higher
@@ -29,6 +29,8 @@ The following shell command installs the corresponding dependencies and the \tex
 
 \subsection{Initialization of the MASS workspace}
 
+\TODO{I think "shall" should be simply removed, "\MASS creates" "are stored".}
+
 \MASS shall create a workspace folder where all the steps from the methodology shall be stored. 
 
 An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{\$FAQAS/MASS/FAQAS-Setup/install.sh}
@@ -39,10 +41,10 @@ To use the installation script the shell variable \texttt{INSTALL\_DIR} has to b
   $ export INSTALL_DIR=/opt/DIRECTORY
 \end{lstlisting}
 
-\DONE{the meaning of the ollowing is not clear. Add an example.}
+%\DONE{the meaning of the ollowing is not clear. Add an example.}
 If the \texttt{INSTALL\_DIR} directory must be binded inside a container. Then, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
 
-For instance, \MASS has been installed on \texttt{/opt/MASS\_WORKSPACE} (i.e., the \texttt{INSTALL\_DIR}), and \MASS will be executed inside a container, but on a different directory such as \\\texttt{/home/user/MASS\_WORKSPACE} (i.e., the \texttt{EXECUTION\_DIR}). Both environment variables enable this differentiation.
+For instance, \MASS has been installed on \texttt{/opt/MASS\_WORKSPACE} (i.e., the \texttt{INSTALL\_DIR}), and \MASS will be executed inside a container, but on a different directory such as \\\texttt{/home/user/MASS\_WORKSPACE} (i.e., the \texttt{EXECUTION\_DIR}). The use of both environment variables enable this differentiation.
 
 
 After setting the corresponding environment variables, the following commands are necessary to create the \MASS workspace folder:
@@ -56,7 +58,6 @@ Once the installation folder has been created, the folder shall contain the foll
 
 \begin{itemize}
 	\item \texttt{Launcher.sh}: \MASS single launcher; the script executes all the steps of the methodology in one command. 
-	\DONE{"has to be set" what does it mean?}
 	\item \texttt{mass\_conf.sh}: \MASS configuration file; the file has to be configured before being able to execute \MASS.
 	\item \texttt{mutation\_additional\_functions.sh}: Bash script that must be filled by the application engineer before executing \MASS.
 	\item \texttt{MASS\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \MASS methodology.
@@ -80,21 +81,23 @@ Once the installation folder has been created, the folder shall contain the foll
 
 There are three Bash scripts that should be edited by the engineer to configure \MASS. These three scripts enable \MASS to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \MASS itself (e.g., trivial compiler optimizations flags, mutant selection strategy, sampling rate).
 
-\DONE{We should have a table with the script name, the parameter to be configured and a description}
+%\DONE{We should have a table with the script name, the parameter to be configured and a description}
+Table~\ref{table:to_configure} provides a summary of \MASS configuration files, their parameters, and a brief description. A detailed description of the MASS configuration files follows.
+
 
 \input{tables/to_configure}
 
-Table~\ref{table:to_configure} provides a summary of \MASS configuration files, their parameters, and a brief description.
+
 
 %The last intervention, regards providing a template of the original build script for the trivial compiler optimizations step. More details are provided in the following.
 
-A detailed description of the MASS configuration files follows.
+
 
 \subsubsection{Edit mass\_conf.sh}
 
-The \MASS configuration file is the Bash file \texttt{\$INSTALL\_DIR/mass\_conf.sh}; within this file there are multiple environment variables that must be set; they are shown in Listing~\ref{listing:MASS:conf}.
+Within file \texttt{\$INSTALL\_DIR/mass\_conf.sh} there are multiple environment variables that must be set; they are shown in Listing~\ref{listing:MASS:conf}.
 
-\DONE{You should always refer to Figures/Listings in appropriate manner. However, this "style" is ok for the running example.}
+%\DONE{You should always refer to Figures/Listings in appropriate manner. However, this "style" is ok for the running example.}
 
 \begin{lstlisting}[language=bash,label=listing:MASS:conf,caption=Excerpt of mass\_conf.sh file.]
 	# set SRCIROR path
@@ -178,6 +181,7 @@ To configure \MASS to work with the SUT, the engineer should also edit the Bash 
 \begin{enumerate}
 	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation step of the methodology.
 	\DONE{Not clear why the engineer should do what written above}
+	\TODO{STill not clear}
 	\item Provide commands to compile the SUT;
 	\item Provide additional commands to prepare the SUT workspace (optional);
 	\item Provide commands to execute the SUT test suite iteratively over each test case; more precisely, the engineer should do the following:
@@ -206,9 +210,10 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 	\item The script shall not contain any debugging flag within compilation/linking commands;
 	\item The script shall not contain any code coverage flag within compilation/linking commands;
 	\item The script shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
-	\item The script shall contain a 'sort' command in the source list to be compiled, to ensure that source files are always compiled in the same order; \DONE{Not clear what a source dependency list is, example?}
+	\item The script shall contain a 'sort' command in the list of source files to be compiled, to ensure that source files are always compiled in the same order; 
+	%\DONE{Not clear what a source dependency list is, example?}
 	
-	Makefile example:
+	In the case of a Makefile, it can be achieved with the following command:
 
 	\texttt{SRC=\$(sort \$(wildcard \$(SourceFolder/*.c))}
 
@@ -221,7 +226,7 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 
 \DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
 
-\MASS can be executed in two modes, the single machine, and the shared resources facilities mode. The single machine mode provides the advantage of running \MASS in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode.
+\MASS can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \MASS in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:shared} covers the \emph{shared resources mode}.
 
 \TODO{You should either (a) specify the files generated for each step, or (b) put a sentence saying that the output/inputs of each step are described in the specification document XY (and you have t draft it by reciclying the old SSS.}
 
@@ -305,6 +310,7 @@ The multiple steps of the methodology and its command are described in the follo
 
 
 \subsection{Running MASS on Shared Resources Facilities}
+\label{sec:shared}
 
 Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \MASS in one step. 
 However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With a HPC, for example, \MASS could analyze more mutants than if \MASS is executed on a single machine.
@@ -386,19 +392,20 @@ The multiple steps of the methodology and its command are described in the follo
 
 \section{Normal Termination}
 
-\DONE{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
+%\DONE{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
 
 Each methodology step of \MASS is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
 If the engineer decides to interrupt \MASS execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
 
 \section{Error Conditions}
 
-\DONE{Can 't we say anything about each program not returning any error message?}
+%\DONE{Can 't we say anything about each program not returning any error message?}
 
 There is no error condition handling in the \FAQAS. If all preconditions are met, there should not be any error.
 
 \section{Recover Runs}
 
-\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
+%\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
 
-If for any reason the execution of \MASS is interrupted, an engineer can restart the process from a specific task if all preconditions are met. This is possible since the methodology steps from \MASS are independent between them.
+If for any reason the execution of \MASS is interrupted, an engineer can restart the process from a specific task if all preconditions are met. This is possible since each \MASS step work by processing data that is permanently stored by previous steps.
+
