@@ -18,7 +18,7 @@ import collections
 import difflib
 
 StmtInfo = collections.namedtuple("StmtInfo", ["start_index", "end_index"])
-ChangedInfo = collections.namedtuple("StmtInfo", ["start_index", "end_index", "filename"]) #End index character is excluded
+ChangedInfo = collections.namedtuple("ChangedInfo", ["start_index", "end_index", "filename"]) #End index character is excluded
 
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
@@ -42,6 +42,12 @@ class MutantInfo:
             while stmt_i < len(stmt_list):
                 if ci.start_index < stmt_list[stmt_i].start_index:
                     assert False, "mutant not in any stmt ({})".format(ci.filename)
+                if stmt_i + 1 < len(stmt_list):
+                    next_stmt = stmt_list[stmt_i + 1]
+                    if next_stmt.start_index <= ci.start_index:
+                        # stmt nesting, use next stmt
+                        stmt_i += 1
+                        continue
                 if ci.start_index < stmt_list[stmt_i].end_index:
                     assert ci.end_index <= stmt_list[stmt_i].end_index, \
                                                 "mutants spawn multiple stmts ({})".format(ci.filename)
@@ -74,7 +80,7 @@ class MutantInfo:
                     end_index=ci.end_index
                 )
             )
-        stmt_list.sort(key=lambda x: x.start_index)
+        stmt_list.sort(key=lambda x: (x.start_index, x.end_index))
 
         return stmt_list
 
