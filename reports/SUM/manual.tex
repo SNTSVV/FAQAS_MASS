@@ -1,6 +1,6 @@
 % !TEX root = MAIN.tex
 
-\chapter{Operations Manual}
+\chapter{MASS - Operations Manual}
 
 \section{Set-up and Initialization}
 \label{sec:install}
@@ -180,8 +180,8 @@ To configure \MASS to work with the SUT, the engineer should also edit the Bash 
 
 \begin{enumerate}
 	\item Provide commands to generate a compilation database file \texttt{compile\_commands.json} of the SUT. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation step of the methodology.
-	\DONE{Not clear why the engineer should do what written above}
-	\TODO{STill not clear}
+%	\DONE{Not clear why the engineer should do what written above}
+%	\TODO{STill not clear}
 	\item Provide commands to compile the SUT;
 	\item Provide additional commands to prepare the SUT workspace (optional);
 	\item Provide commands to execute the SUT test suite iteratively over each test case; more precisely, the engineer should do the following:
@@ -228,9 +228,9 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 
 \MASS can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \MASS in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:shared} covers the \emph{shared resources mode}.
 
-\TODO{You should either (a) specify the files generated for each step, or (b) put a sentence saying that the output/inputs of each step are described in the specification document XY (and you have t draft it by reciclying the old SSS.}
-
-The inputs and outputs of each step are described in the specification document XY.
+%\TODO{You should either (a) specify the files generated for each step, or (b) put a sentence saying that the output/inputs of each step are described in the specification document XY (and you have t draft it by reciclying the old SSS.}
+%
+%The inputs and outputs of each step are described in the specification document XY.
 
 
 \subsubsection{One Step Launcher}
