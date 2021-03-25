@@ -7,7 +7,7 @@ This tutorial concerns the example of the Libparam Case Study provided by GomSpa
 
 The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
 
-The second step, consists of creating and installing a workspace folder for running \MASS on the PARAM example. For this case, the workspace folder will be created on \texttt{/opt/PARAM}.
+The second step, consists of creating and installing a workspace folder for running \MASS on the PARAM example. For this case, the workspace folder will be created on \texttt{/opt/PARAM}. Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
@@ -25,9 +25,6 @@ export SRCIROR=/opt/srcirorfaqas
 
 # set directory path where MASS files can be stored
 export APP_RUN_DIR=/opt/PARAM
-
-# specify if MASS will be executed on a HPC, possible values are "true" or "false"
-export HPC="false"
 
 # specifies the building system, available options are "Makefile" and "waf"
 export BUILD_SYSTEM="waf"
@@ -107,7 +104,6 @@ cd /opt/PARAM
 . ./mass_conf.sh
 
 # 1. Compile SUT
-## example
 
 cd $PROJ
 ./tools/buildtools/gsbuildtools_bootstrap.py
@@ -115,13 +111,8 @@ cd $PROJ
 # generate compile_commands.json and delete build
 ./waf configure && ./waf build && sed -i 's:\.\./:/home/csp/libparam/:' build/compile_commands.json && mv build/compile_commands.json $MUTANTS_DIR
 
-# 2. Prepare test scripts
-# example
+# 2.  Execute test cases
 
-# 3. Execute test cases
-# Note: execution time for each test case should be measured and passed as argument to FAQAS-CollectCodeCoverage.sh
-
-# example
 shopt -s extglob
 for tst in $PROJ_TST/!(include|example|bindings)/;do
     echo $tst
@@ -135,7 +126,7 @@ for tst in $PROJ_TST/!(include|example|bindings)/;do
 
     tst_name=$(basename -- $tst)
     # call to FAQAS-CollectCodeCoverage.sh
-    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_name "$(($end-$start))" $PROJ_TST
+    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_name "$(($end-$start))"
 
     cd ../
 done
@@ -147,7 +138,7 @@ The fifth step consists of defining the function \texttt{run\_tst\_case} within 
 run_tst_case() {
     tst_name=$1
 
-    echo executing test case $tst_name
+    echo "Running test case $tst_name"
 
     ./waf --alltests -v
     RET=$?
@@ -159,6 +150,7 @@ run_tst_case() {
 The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the \texttt{CFLAGS\_RELEASE} value of the original build script: 
 
 \begin{lstlisting}[language=bash, caption=libparam/tools/buildtools/gs/buildtools/compiler\_settings.json]
+...
 "name": "Linux x86 gcc-7, 64 bit",
 "gs_part": "x86_64-gcc-7",
 "gs_arch": "x86_64",
@@ -172,6 +164,7 @@ The sixth step consists of providing a template for the build script for the tri
 with \texttt{TCE}, creating a new template for the build script:
 
 \begin{lstlisting}[language=bash, caption=libparam/tools/buildtools/gs/buildtools/compiler\_settings.json.template]
+...
 "name": "Linux x86 gcc-7, 64 bit",
 "gs_part": "x86_64-gcc-7",
 "gs_arch": "x86_64",

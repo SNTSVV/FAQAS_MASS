@@ -5,7 +5,7 @@
 
 The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
 
-The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. For this case, the workspace folder will be created on \texttt{/opt/MLFS}.
+The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. For this case, the workspace folder will be created on \texttt{/opt/MLFS}. Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
@@ -89,21 +89,19 @@ export SAMPLING="fsci"
 export RATE=""
 \end{lstlisting}
 
-The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}; within this file the following actions must be provided by the engineer (see~\ref{preparesut_single}):
+The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}, the actions provided in this file enables \MASS to collect the code coverage; within this file the following actions must be provided by the engineer (see~\ref{preparesut_single}), notice that we use the tool \texttt{bear} for the generation of the \texttt{compile\_commands.json}:
 
 \begin{lstlisting}[language=bash, label=preparesut_single, caption=PrepareSUT.sh file.]
 #!/bin/bash
-
-# This file should be prepared by the engineer!                                                                                           
+                                                                           
 cd /opt/MLFS
 . ./mass_conf.sh
 
 # 1. Compile SUT
-## example
 
 cd $PROJ
 
-# # generate compile_commands.json and delete build
+# generate compile_commands.json and delete build
 bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs/libm:' compile_commands.json && mv compile_commands.json $MUTANTS_DIR
 eval "${COMPILATION_CMD[@]}"
 
@@ -132,7 +130,7 @@ for tst in $(find $HOME/unit-test-suite -name '*.xml');do
 
     # call to FAQAS-CollectCodeCoverage.sh
     # parameter should be test case name and the execution time
-    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))" $PROJ_COV
+    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))"
 done
 \end{lstlisting}
 
@@ -168,15 +166,15 @@ run_tst_case() {
 }
 \end{lstlisting}
 
-The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the following command: 
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the optimization flag in the original build script: 
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, caption=Excerpt from Makefile.]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g O2 -fno-builtin $(EXTRA_CFLAGS)
 \end{lstlisting}
 
-with the following one:
+with \texttt{TCE}, creating a new template for the build script:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, caption=Excerpt from Makefile.template.]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans TCE -fno-builtin $(EXTRA_CFLAGS)
 \end{lstlisting}
 

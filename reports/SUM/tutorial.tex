@@ -6,11 +6,7 @@
 
 This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on shared resources facilities), we provide an example for both.
 
-Both examples use the Mathematical Library for Flight Software as case study to exemplify the steps to follow for the use of \FAQAS.
-
-% \section{Getting Started}
-
-% \TODO{?}
+Both examples use the Mathematical Library for Flight Software as case study to exemplify the use of \FAQAS.
 
 \section{Using the software on a typical task}
 
@@ -23,13 +19,14 @@ Both examples use the Mathematical Library for Flight Software as case study to 
 \subsection{HPC Infrastructure Example: Mathematical Library for Flight Software}
 
 This tutorial was implemented by executing \MASS on the UL HPC\footnote{https://hpc.uni.lu} infrastructure.
- Some of the examples shown in the following uses the SLURM job scheduler\footnote{https://slurm.schedmd.com/overview.html} and the GNU parallel utility\footnote{https://www.gnu.org/software/parallel/}. Both software are not mandatory for executing \MASS, and can be replaced by similar software.
+The examples shown in the following uses the SLURM job scheduler\footnote{https://slurm.schedmd.com/overview.html} and the GNU parallel utility\footnote{https://www.gnu.org/software/parallel/}. Both software are not mandatory for executing \MASS, and can be replaced by similar software if executed in a different environment.
 
-\MASS has been executed on a Singularity container\footnote{https://sylabs.io}, which enables reproducibility and parallelism for experiments.
+\MASS has been executed on a Singularity container\footnote{https://sylabs.io}, for enabling reproducibility and parallelism for experiments.
 
-For running \MASS on a HPC infrastructure, the first step regards installing \MASS framework, to do so please refer to Section~\ref{sec:install}.
+To run \MASS on a HPC infrastructure, the first step regards installing \MASS framework, to do so please refer to Section~\ref{sec:install}.
 
 The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. In this case, the workspace directory will be created on \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, and the execution directory on \texttt{/opt/MLFS}, since \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE} will be binded to \texttt{/opt/MLFS} inside the Singularity container.
+Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
@@ -124,7 +121,6 @@ cd /opt/MLFS
 . ./mass_conf.sh
 
 # 1. Compile SUT
-## example
 
 cd $PROJ
 
@@ -133,7 +129,6 @@ bear make all && rm -rf build* && sed -i 's: libm: /home/mlfs/mlfs/libm:' compil
 eval "${COMPILATION_CMD[@]}"
 
 # 2. Prepare test scripts
-# example
 
 cd $HOME/blts/BLTSConfig
 make clean install INSTALL_PATH="$HOME/blts_install"
@@ -157,7 +152,7 @@ for tst in $(find $HOME/unit-test-suite -name '*.xml');do
 
     # call to FAQAS-CollectCodeCoverage.sh
     # parameter should be test case name and the execution time
-    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))" $PROJ_COV
+    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))"
 done
 \end{lstlisting}
 

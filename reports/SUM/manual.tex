@@ -187,7 +187,7 @@ To configure \MASS to work with the SUT, the engineer should also edit the Bash 
 	\item Provide commands to execute the SUT test suite iteratively over each test case; more precisely, the engineer should do the following:
 	\begin{itemize}
 		\item After the command executing a a test case add a call to \\\texttt{\$MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh} script;
-		\item the script \texttt{FAQAS-CollectCodeCoverage.sh} shall be invoked with three arguments: (i) the test case name, (ii) the time taken to run the test case in seconds, and (iii) the root folder where all the coverage files are being stored.
+		\item the script \texttt{FAQAS-CollectCodeCoverage.sh} shall be invoked with two arguments: (i) the test case name, and (ii) the time taken to run the test case in seconds.
 	\end{itemize}
 \end{enumerate}
 
@@ -232,6 +232,7 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 
 The inputs and outputs of each step are described in the specification document XY.
 
+
 \subsubsection{One Step Launcher}
 
 The single machine mode give the possibility of running \MASS in one step, by executing all the eight steps of the framework with one command. The one step launcher will execute the following steps sequentially:
@@ -255,53 +256,53 @@ To execute the one step launcher, the following command shall be provided:
 
 \subsubsection{Multiple Step Launchers}
 
-Another possible way to run \MASS is to execute all the eight steps of the framework through independent commands. 
+The single machine mode also gives the possibility to run \MASS by executing all the eight steps of the framework through independent commands. 
 The multiple steps of the methodology and its command are described in the following.
 
 \begin{enumerate}
-	\item \textbf{Prepare the SUT}
+	\item \textbf{Prepare the SUT} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
 \end{lstlisting}
 
-	\item \textbf{Generate Mutants}
+	\item \textbf{Generate Mutants} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
 \end{lstlisting}
 
-	\item \textbf{Compile Optimized Mutants}
+	\item \textbf{Compile Optimized Mutants} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh
 \end{lstlisting}
 
-	\item \textbf{Compile Optimized Mutants Post-Processing}
+	\item \textbf{Compile Optimized Mutants Post-Processing} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
 \end{lstlisting}
 
-	\item \textbf{Generate Prioritized and Reduced Test Suites}
+	\item \textbf{Generate Prioritized and Reduced Test Suites} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
 \end{lstlisting}
 
-	\item \textbf{Execute mutants}
+	\item \textbf{Execute mutants} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants.sh
 \end{lstlisting}
 
-	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
+	\item \textbf{Identify Equivalent Mutants based on Code Coverage} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
 \end{lstlisting}
 
-	\item \textbf{Computer Mutation Score}
+	\item \textbf{Computer Mutation Score} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
@@ -318,13 +319,13 @@ However, since resources can be requested accordingly, \MASS can perform multipl
 The multiple steps of the methodology and its command are described in the following.
 
 \begin{enumerate}
-	\item \textbf{Prepare the SUT}
+	\item \textbf{Prepare the SUT} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/PrepareSUT.sh
 \end{lstlisting}
 
-	\item \textbf{Generate Mutants}
+	\item \textbf{Generate Mutants} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
@@ -337,19 +338,19 @@ The multiple steps of the methodology and its command are described in the follo
 	  $ ./MASS_STEPS_LAUNCHER/CompileOptimizedMutants.sh $level
 \end{lstlisting}
 
-	\item \textbf{Compile Optimized Mutants Post-Processing}
+	\item \textbf{Compile Optimized Mutants Post-Processing} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/OptimizedPostProcessing.sh
 \end{lstlisting}
 
-	\item \textbf{Generate Prioritized and Reduced Test Suites}
+	\item \textbf{Generate Prioritized and Reduced Test Suites} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/GeneratePTS.sh
 \end{lstlisting}
 
-	\item \textbf{Prepare mutants}
+	\item \textbf{Prepare mutants} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/PrepareMutants_HPC.sh
@@ -372,13 +373,13 @@ The multiple steps of the methodology and its command are described in the follo
 	  $ ./MASS_STEPS_LAUNCHER/PostMutation_HPC.sh $min $max
 \end{lstlisting}
 
-	\item \textbf{Identify Equivalent Mutants based on Code Coverage}
+	\item \textbf{Identify Equivalent Mutants based on Code Coverage} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/IdentifyEquivalents.sh
 \end{lstlisting}
 
-	\item \textbf{Computer Mutation Score}
+	\item \textbf{Computer Mutation Score} step can be executed with the following command:
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
@@ -387,7 +388,7 @@ The multiple steps of the methodology and its command are described in the follo
 
 \subsection{MASS results}
 
-After the execution of \MASS the results will be stores in dedicated folders, such organization is defined as follows:
+After the execution of \MASS the results are stored in dedicated folders, such folders are defined as follows:
 
 \begin{enumerate}
 	\item Prepare SUT: results of this step are stored in the folder \texttt{COV\_FILES}, besides coverage files it contains (i) the coverage matrices, and (ii) the timeout file.
@@ -397,13 +398,13 @@ After the execution of \MASS the results will be stores in dedicated folders, su
 	\item Generate Prioritized and Reduced Test Suites: results of this step are stored in folder \texttt{PRIORITIZED}, it contains one file with the prioritized and reduced test suites, and one file with the prioritized test suites.
 	\item Execute Mutants: results of this step are stored in folder \texttt{MUTATION}. This step produces several files and folders:
 	\begin{itemize}
-		\item main.csv: complete mutation traces
-		\item sampled\_mutants: list of sampled mutants to be executede
-		\item all\_live: list of live mutants
-		\item all\_killed: list of killed mutants
-		\item traces\_live: live mutants traces
-		\item traces\_killed: killed mutants traces
-		\item mutant folder: there is one folder for each executed mutant, this folder contains the mutant code coverage information and test case execution logs.
+		\item \texttt{main.csv}: complete mutation traces
+		\item \texttt{sampled\_mutants}: list of sampled mutants to be executed
+		\item \texttt{all\_live}: list of live mutants
+		\item \texttt{all\_killed}: list of killed mutants
+		\item \texttt{traces\_live}: live mutants traces
+		\item \texttt{traces\_killed}: killed mutants traces
+		\item \texttt{mutant folder}: there is one folder for each executed mutant, this folder contains the mutant code coverage information and test cases execution logs.
 	\end{itemize}
 	\item Identify Equivalent Mutants based on Code Coverage: results of this step are stored in folder \texttt{DETECTION}.
 	\item Compute Mutation Score: results of this step are stored in folder \texttt{RESULTS}. Particularly, the file \texttt{MASS\_RESULTS} contains the final output of \MASS.
