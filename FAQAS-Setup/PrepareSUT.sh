@@ -38,6 +38,6 @@ cd INSTALL_DIR_REPL
 
 #    # call to FAQAS-CollectCodeCoverage.sh
 #    # parameter should be test case name and the execution time
-#    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))" $HOME/blts_workspace
+#    source $MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh $tst_filename_wo_xml "$(($end-$start))" 
 #done
 
