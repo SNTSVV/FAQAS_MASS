@@ -31,6 +31,9 @@ def get_args():
                             + "The bitcode location is used by default.")
     parser.add_argument("--clear_existing", action="store_true"
                         help="Clear any existing output, instead of failing")
+    parser.add_argument("--enable_post_mutation_check", action="store_true"
+                        help="Enable post mutation check (may not be complete with loops)")
+                        disable_post_mutation_check
     args = parser.parse_args()
     return args
 
@@ -102,7 +105,8 @@ def main():
         "template_output_dir": muteria_output,
         "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file)),
         "tempate_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
-        "candidate_mutants_list": mutants_list_file
+        "candidate_mutants_list": mutants_list_file,
+        "disable_post_mutation_check": (not enable_post_mutation_check)
     })
 
     ## write the resolved config

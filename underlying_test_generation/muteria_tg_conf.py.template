@@ -63,6 +63,8 @@ semu_config_args = [
 
 if {{ candidate_mutants_list }} is not None:
     semu_config_args.append(('-semu-candidate-mutants-list-file', {{ candidate_mutants_list }}))
+if {{ disable_post_mutation_check }}:
+    semu_config_args.append(("--semu-disable-post-mutation-check",))
                             
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(

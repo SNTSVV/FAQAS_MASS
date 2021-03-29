@@ -116,7 +116,8 @@ class MutantInfo:
         
 
 def compute_mutation_point_str(mut_start_id, mut_end_id):
-    pass #TODO (Maybe the mutants with not corresponding SDL stmt are those on stmts that cannot be deleted)
+    return "klee_semu_GenMu_Mutant_ID_Selector_Func({},{});".format(mut_start_id, mut_end_id)
+    #TODO (Maybe the mutants with not corresponding SDL stmt are those on stmts that cannot be deleted)
 
 def compute_selection_stmt(id2str):
     pass (TODO)
