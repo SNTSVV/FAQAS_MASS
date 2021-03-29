@@ -132,7 +132,7 @@ def insert_header(meta_mu_file, number_of_mutants):
     with open(meta_mu_file) as f:
         content = f.read()
     with open(meta_mu_file, "w") as f:
-        f.write("unsigned long  klee_semu_GenMu_Mutant_ID_Selector = {};\n".format(number_of_mutants))
+        f.write("unsigned long  klee_semu_GenMu_Mutant_ID_Selector = {};\n".format(number_of_mutants+1))
         f.write("void klee_semu_GenMu_Mutant_ID_Selector_Func (unsigned long fromID, unsigned long toID);\n")
         f.write("void klee_semu_GenMu_Post_Mutation_Point_Func (unsigned long fromID, unsigned long toID);\n")
         f.write(content)
