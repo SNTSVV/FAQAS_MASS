@@ -18,7 +18,7 @@ import collections
 import difflib
 
 StmtInfo = collections.namedtuple("StmtInfo", ["start_index", "end_index"])
-ChangedInfo = collections.namedtuple("ChangedInfo", ["start_index", "end_index", "filename"]) #End index character is excluded
+ChangedInfo = collections.namedtuple("ChangedInfo", ["start_index", "end_index", "filename", "mut_str"]) #End index character is excluded
 
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
@@ -107,7 +107,8 @@ class MutantInfo:
                         ChangedInfo(
                             start_index=orig_idx,
                             end_index=mb.a, 
-                            filename=mutant_src_file
+                            filename=mutant_src_file, 
+                            mut_str=mutant_str[mut_idx: mb.b - mut_idx]
                         )
                     )
                 orig_idx = mb.a + mb.size
