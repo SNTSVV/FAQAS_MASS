@@ -114,20 +114,28 @@ class MutantInfo:
                 mut_idx = mb.b + mb.size
         return changed_list
         
+MID_SEL_GLOBAL = "klee_semu_GenMu_Mutant_ID_Selector"
 
 def compute_mutation_point_str(mut_start_id, mut_end_id):
     return "klee_semu_GenMu_Mutant_ID_Selector_Func({},{});".format(mut_start_id, mut_end_id)
     #TODO (Maybe the mutants with not corresponding SDL stmt are those on stmts that cannot be deleted)
 
-def compute_selection_stmt(id2str):
+def compute_selection_expr(orig_expr, mid2expr):
+    res = "(" + orig_str + ")"
+    for mid, mexpr in sorted(mid2expr.items()):
+        res = "({}=={}?({}):{})".format(MID_SEL_GLOBAL, mid, mexpr, res)
+
+def compute_switch_stmt(id2stmtinfo, default_stmt):
     pass (TODO)
 
-def compute_switch_stmt(id2stmtinfo):
-    pass (TODO)
-
-def insert_header(meta_mu_file):
-    pass (TODO)
-
+def insert_header(meta_mu_file, number_of_mutants):
+    with open(meta_mu_file) as f:
+        content = f.read()
+    with open(meta_mu_file, "w") as f:
+        f.write("unsigned long  klee_semu_GenMu_Mutant_ID_Selector = {};\n".format(number_of_mutants))
+        f.write("void klee_semu_GenMu_Mutant_ID_Selector_Func (unsigned long fromID, unsigned long toID);\n")
+        f.write("void klee_semu_GenMu_Post_Mutation_Point_Func (unsigned long fromID, unsigned long toID);\n")
+        f.write(content)
 
 def main():
     # Call SDL generation
