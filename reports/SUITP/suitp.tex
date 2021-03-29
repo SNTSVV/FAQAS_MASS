@@ -1,0 +1,34 @@
+% !TEX root = MAIN.tex
+
+\chapter{Software Unit Testing and Software Integration Testing}
+
+\section{Organization}
+
+The unit tests are to be prepared by SnT in the form of Bash shell scripts. Testing will be conducted by SnT personnel.
+
+If any software problems occur during testing a development issue shall be raised in GitLab Issue Tracker, which shall be amended by SnT personnel.
+
+%\section{Master schedule}
+
+
+\section{Resource Summary}
+
+Unit tests make use of the \FAQAS. Tests will be performed in one hardware platform, a x86-64 desktop PC. Unit test execution time should not exceed one day for all target platforms combined.
+
+\section{Responsibilities}
+
+The unit tests are to be prepared by SnT personnel.
+
+The tests will be conducted by a SnT specialist who will also have the responsibility of reporting any occurring software issues.
+
+\section{Tool, techniques and methods}
+
+Unit tests are specified in Bash files. Each unit test contains a launcher script that configures the environment for the correct execution of \FAQAS, and a source code example for its mutation. The launcher script will invoke a dedicated operator Bash script, that generates the corresponding mutants and assesses its results.
+
+\section{Personnel and Personnel Training Requirements}
+
+Unit testing can be performed by a single person using a general script. No special training is needed.
+
+\section{Risks and Contingencies}
+
+The unit testing campaign does not have any risk.
