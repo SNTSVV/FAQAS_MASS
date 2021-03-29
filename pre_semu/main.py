@@ -125,8 +125,13 @@ def compute_selection_expr(orig_expr, mid2expr):
     for mid, mexpr in sorted(mid2expr.items()):
         res = "({}=={}?({}):{})".format(MID_SEL_GLOBAL, mid, mexpr, res)
 
-def compute_switch_stmt(id2stmtinfo, default_stmt):
-    pass (TODO)
+def compute_switch_stmt(id2stmt, default_stmt):
+    res = "switch (klee_semu_GenMu_Mutant_ID_Selector) {\n"
+    for mid, stmt in id2stmt.items():
+        res += "    case {}: {}{} break".format(mid, stmt, ";" if stmt[-1] != ";" else "")
+    res += "    default: {}{} break".format(default_stmt, ";" if default_stmt[-1] != ";" else "")
+    res += "}"
+    return res
 
 def insert_header(meta_mu_file, number_of_mutants):
     with open(meta_mu_file) as f:
