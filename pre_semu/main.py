@@ -115,6 +115,33 @@ class MutantInfo:
                 mut_idx = mb.b + mb.size
         return changed_list
         
+def get_stmt_to_expr_to_mutant(mutant_list):
+    """
+    Take the mutant list, group by expression and statement, alterating mutant info accordingly
+    """
+    stmt_to_expr_to_mut = {}
+    
+    stmt_to_muts = {}
+    for mut_info in mutant_list:
+        if mut_info.stmt_info not in stmt_to_muts:
+            stmt_to_muts[mut_info.stmt_info] = []]
+            stmt_to_expr_to_mut[mut_info.stmt_info] = {}
+        stmt_to_muts[mut_info.stmt_info].append(mut_info)
+        
+        # get expressions
+        for stmt, mut_list in stmt_to_muts.items():
+            # TODO
+            
+            expr_to_mut = 
+    # TODO
+    return stmt_to_expr_to_mut
+
+def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
+    """
+    take stmt to expr to mutant and the original source code string and return the meta-mutant source code
+    """
+    pass #TODO
+
 MID_SEL_GLOBAL = "klee_semu_GenMu_Mutant_ID_Selector"
 
 def compute_mutation_point_str(mut_start_id, mut_end_id):
