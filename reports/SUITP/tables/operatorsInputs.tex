@@ -1,0 +1,67 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[h]
+\scriptsize
+\centering
+\caption{Terms to mutate and replacements per mutation oprator.}
+\label{table:operators:terms}
+
+\begin{tabular}{lll}
+\hline 
+\textbf{Operator}	&	\textbf{Term to mutate}	&	\textbf{Replacements}\\
+\hline 
+ABS	&	$v$	&	$-v$	\\
+AOR	&	$+$	&	$ -,*,/,\% $	\\
+AOR	&	$-$	&	$ +,*,/,\% $	\\
+AOR	&	$*$	&	$ +,-,/,\% $	\\
+AOR	&	$/$	&	$ +,-,*,\% $	\\
+AOR	&	$\%$	&	$ +,-,*,/ $	\\
+AOR	&	$+=$	&	$ -=,*=,/=,\%= $	\\
+AOR	&	$-=$	&	$ +=,*=,/=,\%= $	\\
+AOR	&	$*=$	&	$ +=,-=,/=,\%= $	\\
+AOR	&	$/=$	&	$ +=,-=,*=,\%= $	\\
+AOR	&	$\%=$	&	$ +=,-=,*=,/= $	\\
+ICR	&	$i$	&	$ 1, -1, 0, i+1, i-1, -i $	\\
+LCR	&	$\&\&$	&	$||$	\\
+LCR	&	$||$	&	$\&\&$	\\
+LCR	&	$\&$	&	$ |,\land $	\\
+LCR	&	$|$	&	$ \&,\land $	\\
+LCR	&	$\land$	&	$ \&,| $	\\
+LCR	&	$\&=$	&	$ |=, \land= $	\\
+LCR	&	$|=$	&	$ \&=, \land= $	\\
+LCR	&	$\land=$	&	$ \&=, |= $	\\
+ROR	&	$>$	&	$ >=, <, <=, ==, != $	\\
+ROR	&	$>=$	&	$ >, <, <=, ==, != $	\\
+ROR	&	$<$	&	$ >, >=, <=, ==, != $	\\
+ROR	&	$<=$	&	$ >, >=, <, ==, != $	\\
+ROR	&	$==$	&	$ >, >=, <, <=, != $	\\
+ROR	&	$!=$	&	$ >, >=, <, <=, == $	\\
+ROR	&	\texttt{if(e )}	&	\texttt{if(!e)}	\\
+ROR	&	\texttt{while( e)}	&	\texttt{while(!e)}	\\
+SDL	&	$s$	&	\texttt{remove(s)}	\\
+UOI	&	$v$	&	$ \texttt{--}v, v\texttt{--}, \texttt{++}v, v\texttt{++} $	\\
+AOD	&	$a + b$	&	$ a, b $	\\
+AOD	&	$a - b$	&	$ a, b $	\\
+AOD	&	$a * b$	&	$ a, b $	\\
+AOD	&	$a / b$	&	$ a, b $	\\
+AOD	&	$a \% b$	&	$ a, b $	\\
+LOD	&	$a \&\& b$	&	$ a, b $	\\
+LOD	&	$a || b$	&	$ a, b $	\\
+ROD	&	$>$	&	$ a, b $	\\
+ROD	&	$>=$	&	$ a, b $	\\
+ROD	&	$<$	&	$ a, b $	\\
+ROD	&	$<=$	&	$ a, b $	\\
+ROD	&	$==$	&	$ a, b $	\\
+ROD	&	$!=$	&	$ a, b $	\\
+BOD	&	$\&$	&	$ a, b $	\\
+BOD	&	$|$	&	$ a, b $	\\
+BOD	&	$\land$	&	$ a, b $	\\
+SOD	&	$>>$	&	$ a, b $	\\
+SOD	&	$<<$	&	$ a, b $	\\
+LVR	&	$0$	&	$-1$	\\
+LVR	&	$l$	&	$ -l, 0 $	\\
+LVR	&	\texttt{true}	&	\texttt{false}	\\
+LVR	&	\texttt{false}	&	\texttt{true}	\\
+\hline
+\end{tabular}
+\end{table}

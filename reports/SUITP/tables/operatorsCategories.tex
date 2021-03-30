@@ -1,0 +1,80 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[h]
+\scriptsize
+\centering
+\caption{Organization matrix of unit test cases for source code mutation operators component.}
+\label{table:operators:categories}
+
+\begin{tabular}{|llll|}
+\hline 
+\textbf{Operator}	&	\textbf{Term to replace}	&	\textbf{Constraints}	&	\textbf{Test Case} \\
+\hline 
+ABS	&	$v$	&	[single]	&	abs\_val.sh \\
+ABS	&	\textit{many}	&	[single]	&	 \\
+AOR	&	$+$	&	[single]	&	aor\_plus.sh \\
+AOR	&	$-$	&	[single]	&	aor\_minus.sh \\
+AOR	&	$*$	&	[single]	&	aor\_mult.sh \\
+AOR	&	$/$	&	[single]	&	aor\_div.sh \\
+AOR	&	$\%$	&	[single]	&	aor\_mod.sh \\
+AOR	&	$+=$	&	[single]	&	aor\_plus\_assign.sh \\
+AOR	&	$-=$	&	[single]	&	aor\_minus\_assign.sh \\
+AOR	&	$*=$	&	[single]	&	aor\_mult\_assign.sh \\
+AOR	&	$/=$	&	[single]	&	aor\_div\_assign.sh \\
+AOR	&	$\%=$	&	[single]	&	aor\_mod\_assign.sh \\
+AOR	&	\textit{many}	&	[single]	&	 \\
+ICR	&	$i$	&	[single]	&	icr\_val.sh \\
+ICR	&	\textit{many}	&	[single]	&	 \\
+LCR	&	$\&\&$	&	[single]	&	lcr\_logic\_or.sh \\
+LCR	&	$||$	&	[single]	&	lcr\_logic\_and.sh \\
+LCR	&	$\&$	&	[single]	&	lcr\_and.sh \\
+LCR	&	$|$	&	[single]	&	lcr\_or.sh \\
+LCR	&	$\land$	&	[single]	&	lcr\_xor.sh \\
+LCR	&	$\&=$	&	[single]	&	lcr\_and\_assign.sh \\
+LCR	&	$|=$	&	[single]	&	lcr\_or\_assign.sh \\
+LCR	&	$\land=$	&	[single]	&	lcr\_xor\_assign.sh \\
+LCR	&	\textit{many}&	[single]	&	 \\
+ROR	&	$>$	&	[single]	&	ror\_gt.sh \\
+ROR	&	$>=$	&	[single]	&	ror\_ge.sh \\
+ROR	&	$<$	&	[single]	&	ror\_lt.sh \\
+ROR	&	$<=$	&	[single]	&	ror\_le.sh \\
+ROR	&	$==$	&	[single]	&	ror\_eq.sh \\
+ROR	&	$!=$	&	[single]	&	ror\_neq.sh \\
+ROR	&	\texttt{if(e )}	&	[single]	&	ror\_if.sh \\
+ROR	&	\texttt{while( e)}	&	[single]&	ror\_while.sh \\
+ROR	&	\textit{many}&	[single]&	 \\
+SDL	&	$s$	&	[single]	&	sdl.sh \\
+SDL	&	\textit{many}	&	[single]	&	 \\
+UOI	&	$v$	&	[single]	&	uoi.sh \\
+UOI	&	\textit{many}	&	[single]	&	 \\
+AOD	&	$a + b$	&	[single]	&	aod\_plus.sh \\
+AOD	&	$a - b$	&	[single]	&	aod\_minus.sh \\
+AOD	&	$a * b$	&	[single]	&	aod\_mult.sh \\
+AOD	&	$a / b$	&	[single]	&	aod\_div.sh \\
+AOD	&	$a \% b$	&	[single]	&	aod\_mod.sh \\
+AOD	&	\textit{many}	&	[single]	&	 \\
+LOD	&	$a \&\& b$	&	[single]	&	lod\_logic\_and.sh \\
+LOD	&	$a || b$	&	[single]	&	lod\_logic\_or.sh \\
+LOD	&	\textit{many}	&	[single]	&	 \\
+ROD	&	$>$	&	[single]	&	rod\_gt.sh \\
+ROD	&	$>=$	&	[single]	&	rod\_ge.sh \\
+ROD	&	$<$	&	[single]	&	rod\_lt.sh \\
+ROD	&	$<=$	&	[single]	&	rod\_le.sh \\
+ROD	&	$==$	&	[single]	&	rod\_eq.sh \\
+ROD	&	$!=$	&	[single]	&	rod\_neq.sh \\
+ROD	&	\textit{many}	&	[single]	&	 \\
+BOD	&	$\&$	&	[single]	&	bod\_and.sh \\
+BOD	&	$|$	&	[single]	&	bod\_or.sh \\
+BOD	&	$\land$	&	[single]	&	bod\_xor.sh \\
+BOD	&	\textit{many}	&	[single]	&	 \\
+SOD	&	$>>$	&	[single]	&	sod\_sl.sh \\
+SOD	&	$<<$	&	[single]	&	sod\_sr.sh \\
+SOD	&	\textit{many}	&	[single]	&	 \\
+LVR	&	$0$	&	[single]	&	lvr\_zero.sh \\
+LVR	&	$l$	&	[single]	&	lvr\_literal.sh \\
+LVR	&	\texttt{true}	&	[single]	&	lvr\_true.sh \\
+LVR	&	\texttt{false}	&	[single]	&	lvr\_false.sh \\
+LVR	&	\textit{many}	&	[single]	&	 \\
+\hline
+\end{tabular}
+\end{table}

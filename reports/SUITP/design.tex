@@ -27,57 +27,28 @@ It also include OODL mutation operators: delete Arithmetic (AOD), Bitwise (BOD),
 
 \input{tables/operators}
 
+
 Each mutation operator, when applied to a statement, generates one or more mutated statements.
 Each mutation operator works by altering the value of a \emph{term} in a statement, which could be either an operator  ($op$), a value ($v$), or a literal ($l$). More precisely, each mutation operator replaces a term with a number of replacement terms, which are identified based on the rules in the description column of Table~\ref{table:operators}.
 For each term to mutate, SRCMutation shall generate one mutant including each replacement term.
-If a statement includes more than one term to mutate, the mutation operator generates a set of mutants for each term to mutate.
+If a statement includes more than one term to mutate, the mutation operator generates a set of mutants for each term to mutate. Table~\ref{table:operators:terms}, shows, for every mutation operator the terms it mutates and the replacement terms (separated by comma). Replacement terms shall be used when defining test assertions (i.e., we shall verify that the term to mutate has been replaced any of the available replacements, one for each generated mutant).
 
 
+\input{tables/operatorsInputs.tex}
+
+\subsection{Approach refinements}
+
+Based on Table~\ref{table:operators:terms} we can derive the categories to be used for the category-partition method. 
+They are \emph{Operator} (i.e., the operator to be applied, which could be a specific \emph{one} or \emph{many} operators at once) and \emph{Term to replace} (which depend on the operator and might be either \emph{one} or \emph{many} for each statement).
+
+We provide the identified categories and values in tabular form, in Table~\ref{table:operators:categories}. 
+Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, 
+to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
+In Table~\ref{table:operators:categories}, the keyword \emph{many} may indicates that either (a) more than one term should be replaced in a same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in a same statement (if the keyword \emph{many} appears under \emph{Operator}).
+In Table~\ref{table:operators:categories}, column \emph{Constraints} reports other standard category-partition constraints (in this case, all the value classes shall be tested once).
+Finally, we also provide corresponding test identifiers, which match the name of the test script file. Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' input.
+
+\input{tables/operatorsCategories.tex}
 
 
-\section{Organization of the Test Cases}
-
-Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' input.
-
-Mutation operators
-We define one test case for each mutation operator 
-The purpose of each test case is to verify that, for a selected CMC produces an output that matches the specifications. This implies that every line of
-
- i.e., alters the line
-
- according to the SDD, which implies that  that is, the corresponding syntactically altered version of the software according to operators defined in Table~\ref{table:operators}. 
-Note that a mutation operator might produce one or more mutants for a single input, all outputs shall be as expected.
-
-\begin{lstlisting}[language=C, label=test_source, caption=C function example.]
-double function() {
-int a = 4, b = 5;
-return a / b;
-}
-\end{lstlisting}
-
-\begin{lstlisting}[language=bash, label=test_example, caption=ABS test case example.]
-$MUTATOR --compilation "$FILE -o test" --operators ABS
-
-EXPECTED="double function() {\ndouble a = 3;\nreturn -(a);\n}"
-
-tst=`diff test.mut.3.1_1_8.ABS.function.c <(echo -e $EXPECTED) | wc -l`
-
-if [ $tst -eq 0 ];then
-    echo -e "TEST abs_val PASSED"
-else
-    echo -e "TEST abs_val FAILED"
-fi
-\end{lstlisting}
-
-
-Listings~\ref{test_source} and~\ref{test_example} introduce an example of source code and test case for the mutation operator ABS, respectively. As shown in Listing~\ref{test_example}, each test case (i) invokes the mutator component selecting the corresponding operator acronym, (ii) defines the expected output for operator, (iii) checks if there are differences between the actual output of the component and the expected output.
-
-All test cases are independent from each other; therefore there is no need of executing test cases in a specific order.
-
-
-Table~\ref{table:matrix} provides the complete list of unit test cases that covers all the mutation operators of \FAQAS. 
-Column \emph{Input} indicates the operator appearing in the line to be mutated.
-Note that the mutator shall generate one mutant for each element of the replacement column.
-
-\input{tables/matrix}
 
