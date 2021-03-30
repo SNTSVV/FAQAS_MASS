@@ -36,12 +36,14 @@ If a statement includes more than one term to mutate, the mutation operator gene
 
 \input{tables/operatorsInputs.tex}
 
+\clearpage
+
 \subsection{Approach refinements}
 
 Based on Table~\ref{table:operators:terms} we can derive the categories to be used for the category-partition method. 
 They are \emph{Operator} (i.e., the operator to be applied, which could be a specific \emph{one} or \emph{many} operators at once) and \emph{Term to replace} (which depend on the operator and might be either \emph{one} or \emph{many} for each statement).
 
-We provide the identified categories and values in tabular form, in Table~\ref{table:operators:categories}. 
+We provide the identified categories and class values in tabular form, in Table~\ref{table:operators:categories}. 
 Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, 
 to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
 In Table~\ref{table:operators:categories}, the keyword \emph{many} may indicates that either (a) more than one term should be replaced in a same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in a same statement (if the keyword \emph{many} appears under \emph{Operator}).
