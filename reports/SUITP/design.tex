@@ -1,6 +1,6 @@
 % !TEX root = MAIN.tex
 
-\chapter{MASS - Software Unit and Integration Test Case Design}
+\chapter{MASS - Software Unit Test Case Design}
 \label{chap:spec}
 
 
@@ -47,8 +47,8 @@ We provide the identified categories and class values in tabular form, in Table~
 Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, 
 to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
 In Table~\ref{table:operators:categories}, the keyword \emph{many} may indicates that either (a) more than one term should be replaced in a same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in a same statement (if the keyword \emph{many} appears under \emph{Operator}).
-In Table~\ref{table:operators:categories}, column \emph{Constraints} reports other standard category-partition constraints (in this case, all the value classes shall be tested once).
-Finally, we also provide corresponding test identifiers, which match the name of the test script file. Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' input.
+In Table~\ref{table:operators:categories}, column \emph{Constraints} reports other standard category-partition constraints (we use only the keyword \emph{[single]}, which indicates that all the value classes shall be tested once).
+Finally, we also provide corresponding test identifiers, which match the name of the test script file. Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' term to mutate.
 
 \input{tables/operatorsCategories.tex}
 

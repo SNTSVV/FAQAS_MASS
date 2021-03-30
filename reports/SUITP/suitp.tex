@@ -1,11 +1,11 @@
 % !TEX root = MAIN.tex
 
-\chapter{Software Unit Testing and Software Integration Testing}
+\chapter{Software Unit Testing}
 
 \section{Organization}
 \label{sec:SUTSIT:org}
 
-Unit tests are prepared by SnT in the form of Bash shell scripts. 
+Unit tests are prepared by SnT in the form of executable Bash shell scripts. Test inputs are identified according to the procedures described in this document.
 
 Since units are self-contained (i.e., they do not interact with other units but simply store results in files processed by other units), we avoid testing the integration of pairs of unit. Instead, we test the system as a whole, based on tutorial examples described in SUM. The system testing procedure is reported in the SVS - software validation specification.
 
@@ -18,7 +18,7 @@ If any software problems occur during testing a development issue shall be raise
 
 \section{Resource Summary}
 
-Unit tests and integration tests make use of the \FAQAS. Tests will be performed in one hardware platform, a x86-64 desktop PC. Unit test execution time should not exceed one day for all target platforms combined.
+Unit tests make use of the \FAQAS. Tests are performed in one hardware platform, a x86-64 desktop PC. Unit test execution time should not exceed one day for all target platforms combined.
 
 \section{Responsibilities}
 
