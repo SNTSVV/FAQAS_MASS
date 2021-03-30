@@ -1,0 +1,273 @@
+% !TEX root = MAIN.tex
+
+\section{MASS}
+
+\subsection{Software static architecture}
+
+
+
+
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=0.8\textwidth]{images/static_architecture.png}
+      \caption{UML Architecture diagram of MASS.}
+      \label{fig:architecture_diagram}
+\end{figure}
+
+The architcture of the code-driven mutation analysis toolset (i.e., MASS)  is drafted in Figure~\ref{fig:architecture_diagram}.
+Figure~\ref{fig:architecture_diagram} relies on UML package diagram notation. 
+
+As depicted in Figure~\ref{fig:architecture_diagram}, the architecture of the component is divided in three packages, which are named \textit{Mutant Generation}, \textit{Mutant Execution}, and \textit{Mutant Reporting}. Also, it includes the entry point \textit{FAQAS-Launcher}. 
+
+The package \textit{Mutant Generation} implements the features concerning (1) the collection of code coverage, (2) the generation of mutants, and (3) the discarding of equivalent and redundant mutants based on compiler optimisations.
+
+The package \textit{Mutant Execution} implements the features regarding the compilation and execution of mutants. Note that this layer implements also the strategies for mutation sampling and reduction of the test suites.
+
+The package \textit{Mutant Reporting} implements the features for the generation of the mutation analysis reports including the mutation score.
+
+
+
+\clearpage
+
+\subsection{Software components design}
+
+\begin{figure}[tb]
+  \centering
+	\includegraphics[width=0.9\textwidth]{images/component.png}
+      \caption{UML Component diagram of the code-driven mutation testing component to evaluate test suite effectiveness.}
+      \label{fig:component_diagram}
+      \TODO{Replace "creates" with "create".}
+            \TODO{Maybe yo can make "process" arrows red to make the data-flow more explicit?}
+\end{figure}
+
+The components of MASS are drafted in Figure~\ref{fig:component_diagram}. Figure~\ref{fig:component_diagram} relies on UML component diagram notation.
+
+As shown in Figure~\ref{fig:component_diagram}, the software is composed by the following components:
+
+\begin{itemize}
+	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
+
+	\item \textit{FAQAS-GenerateMutants}: This component processes the SUT source code, and the \textit{GlobalCoverageMatrix} file and generates the mutants directory.
+
+	\item \textit{FAQAS-GeneratePrioritizedTestSuite}: this component processes the source code and the \textit{IndividualCoverageMatrices}, and produces two files: the \textit{PrioritizedTestSuite} and the \textit{PrioritizedReducedTestSuite}.
+
+	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory, and produces five files: 
+	\begin{itemize}
+		\item \textit{MutantHashcodes}: file containing the list of hash-codes for each mutant
+		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants
+		\item \textit{EquivalentMutants}: file containing the list of equivalent mutants
+		\item \textit{RedundantMutants}: file containing the list of redundant mutants
+		\item \textit{NotCompiledMutants}: file containing the list of non-compiled mutants
+	\end{itemize}
+	\item \textit{FAQAS-CompileAndExecute}: this component is composed by two sub-components:
+		\begin{itemize}
+			\item \textit{SampleMutants}: this component processes the file \textit{UniqueMutants} and generates the file \textit{RandomlySortedMutants}
+			\item \textit{ExecuteMutants}: this component processes the file \textit{RandomlySortedMutants}, and execute the mutants (according to the strategy selected by the end-user). It produces the following files:
+			\begin{itemize}
+				\item \textit{LiveMutants}: file containing the list of live mutants
+				\item \textit{KilledMutants}: file containing the list of killed mutants
+				\item \textit{MutantsResults}: file containing the mutation traces
+				\item \textit{MutantsCoverage}: folder containing the coverage for every mutant
+			\end{itemize}
+		\end{itemize}
+	\item \textit{FAQAS-IdentifyEquivalentMutants}: this component processes the files \textit{LiveMutants}, \textit{MutantsResults}, and \textit{MutantsCoverage}, and generates the files \textit{EquivalentMutants}, \textit{UnivocalLiveMutants}, and \textit{UnivocalMutantsResults}, that is, it filters equivalent mutants from the mutation execution process.
+
+	\item \textit{FAQAS-MutationScore}: this component processes the \textit{UnivocalMutantsResults} and the \textit{KilledMutants} files and produces the files \textit{FAQASReport} and \textit{LiveUsefulMutants}.
+\end{itemize}
+
+\clearpage
+
+%\section{Software dynamic architecture}
+
+\subsection{Software Behavior}
+
+%Concerning the dynamic behavior of the software, we introduce in the following descriptions for each of the four components of the \FAQAS: the Code-Driven Test Suite Evaluation and Augmentation, and the Data-Driven Test Suite Evaluation and Augmentation.
+
+%\subsection{Code-Driven Test Suite Evaluation}
+
+\begin{figure}[h]
+  \centering
+	\includegraphics[width=\textwidth]{images/CodeDrivenTestSuiteEvaluation.png}
+      \caption{Overview of the code-driven mutation testing process to evaluate test suite effectiveness.}
+      \label{fig:process:codeDriven:evaluation}
+\end{figure}
+
+
+MASS implements the process for the evaluation of test suite effectiveness that is drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. In the following, we further describe the evaluation of test suite effectiveness process.
+
+
+The activity \emph{Edit MASS Configuration Files} indicates that the engineers must configure the following files:
+\begin{itemize}
+	\item MASS configuration file: general configuration file
+	\item PrepareSUT: script that compiles the SUT and executes the SUT test suite
+	\item Mutation Function: implementation of the function that executes the SUT test cases and decides whether a test case has been killed.
+	\item Compilation script: modified version of the original build script to be used by \emph{FAQAS-}\emph{Compile\-OptimizedMutants}
+\end{itemize}
+
+
+The activity \emph{Compile SUT} in Figure~\ref{fig:process:codeDriven:evaluation} indicates that \MASS shall compile the SUT with coverage options enabled.
+
+The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the \emph{test suite script} for the SUT to store the code coverage of each single test case separately. This is achieved by adding a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}) after the execution of every test case.
+
+\TODO{The \emph{Prepare test scripts} is manual. Thus it should not be part of FAQAS-Framework. However, I think it has been replaced by "Edit compilation script" or "Edit PrepareSUT", no?}
+
+The activity \emph{Execute test cases} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the test cases following the practice for the SUT (e.g., running the command \texttt{make test}).
+
+The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of a program delivered with the FAQAS framework (i.e., FAQAS-GenerateCodeCoverageMatrix).
+
+\TODO{Some output arrows departing from FAQAS-GenerateCodeCoverageMatrix are missing}
+
+The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files: 
+\begin{itemize}
+\item one csv file referred to as \emph{global coverage matrix}, which indicates, for every line of code of the SUT, the ID of the test cases that cover the line of code;
+\item a number of files  referred to as \emph{individual coverage matrices}, one for each test case of the SUT. Each file indicates, for every line of code of the SUT, the number of times it has been covered during a single execution of the test case;
+\item one file (\emph{TestTimeouts}) specifying, for each test case, a timeout value after which we shall consider a test case as hanging. The timeout value is generated by the system by triplicating the time taken by a test case launched in activity \emph{Execute test cases}.
+\end{itemize}
+
+Activity \emph{Execute FAQAS-GenerateMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-GenerateMutants}. 
+
+The program \emph{FAQAS-GenerateMutants} automatically generates a number of copies of each source file. Each copy contains one mutant.
+
+\emph{FAQAS-GenerateMutants} mutates source files implemented with C programming languages.
+
+\TODO{What about C++? I think we promised it...}
+
+\emph{FAQAS-GenerateMutants} generates mutants by applying a set of mutation operators that can be selected by the end-users.
+
+\emph{FAQAS-GenerateMutants} implements the set of operators listed in Table~\ref{table:operators}
+
+\input{tables/operators.tex}
+
+\emph{FAQAS-GenerateMutants} generates as output a directory tree (\emph{MutantsDirectory} in Figure~\ref{fig:process:codeDriven:evaluation}) that follows the structure of the source directory tree of the SUT. However, every source file is replaced by a folder; the folder has the same name of the file. The folder contains all the mutants generated for that file. Every mutant has a name that univocally identifies it. The mutant name results from the conjunction of the following information:
+source file name, mutated function name, mutated line, mutation operator name, mutation operation, mutated ``column'' (i.e., char position from the beginning of the line).
+In the following, we report the structure of the output directory generated for a program
+
+\begin{verbatim}
+./src/store/vmem/vmem_checksum_first.c
+./src/log/telemetry_appender.c
+
+./src-mutants/store/vmem/vmem_checksum_first/
+vmem_checksum_first.mut.145.7_1_13.ROR.vmem_param_load.c
+./src-mutants/log/telemetry_appender/
+telemetry_appender.mut.116.3_1_18.ROR.gs_log_appender_telem_append_isr.c
+\end{verbatim}
+
+
+Activity \emph{Prepare compilation scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns applying the modified build script for the SUT (e.g., the \emph{Makefile}). The file must be modified by:
+\begin{itemize}
+\item Removing debugging flags
+\item Removing coverage flags
+\item Adding a placeholder for the compiler optimization option
+\item Adding a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order
+\end{itemize}
+
+\TODO{I think \emph{Prepare compilation scripts} is now covered by \emph{Edit compilation script} in the End-user part. I suggest to remove it from \emph{FAQAS-Framework part}. Also add the information above to the description of \emph{Edit compilation script}.}
+
+\TODO{The "compilation script" should be an output of \emph{Edit compilation script}}
+
+Activity \emph{Execute FAQAS-CompileOptimizedMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-CompileOptimizedMutants}.
+
+The program \emph{FAQAS-CompileOptimizedMutants} compiles every mutant multiple times, once for every compiler optimization option selected by the end-user. It implements the pseudocode in Figure~\ref{alg:CompileOptimizedMutants}.
+
+\begin{figure}[h]
+\begin{algorithmic}[1]
+
+%\footnotesize
+\scriptsize
+
+\Require \emph{OPT}, the set of compiler optimization options specified by the end-user
+\Require \emph{MutantsDir}, path of the directory tree containing the mutants
+\Require \emph{SUTsources}, path of the folder containing the sources of the SUT
+\Require \emph{CompilatonCommand}, the command to execute to compile the original software
+
+\Ensure \emph{hashcodes csv}, a csv file containing for every mutant, for every option, the SHA512 hashcode of the generated executable
+
+\Ensure \emph{unique mutants}, a csv file containing the list of unique mutants. Unique mutants are mutants that are not equivalent and not redundant. See D2 for details.
+
+\For {OPT in OPTS}
+\For {Mutant in MutantsDir}
+\State Compile \emph{Mutant} with program \emph{FAQAS-CompileAndExecute}
+\State Generate a SHA512 hash of the generated executable
+\State Put the generated SHA512 hash in the \emph{hashcodes csv} file
+\EndFor
+\EndFor
+
+\State Process \emph{hashcodes csv} and identify the \emph{unique mutants}
+\State Save the list of \emph{unique mutants} in the output file \emph{unique mutants csv} 
+
+\end{algorithmic}
+\caption{FAQAS-CompileOptimizedMutants: Algorithm for compiling mutants with multiple optimization options}
+\label{alg:CompileOptimizedMutants}
+\end{figure}
+
+
+Activity \emph{Execute FAQAS-Compile\-And\-Execute\-Mutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-Compile\-And\-Execute\-Mutants}.
+
+The program \emph{FAQAS-CompileAndExecuteMutants} iterates over three activities: \emph{FAQAS-Generate\-Prioritized\-Test\-Suite}, \emph{FAQAS-CompileAndExecute}, \emph{FAQAS-IdentifyEquivalentMutants}. Each activity is implemented by a dedicated executable program that is invoked automatically by \emph{FAQAS-CompileAndExecuteMutants} without user intervention.
+
+The program \emph{FAQAS-CompileAndExecuteMutants} takes as inputs the \emph{mutants selection configuration}, the \emph{unique mutants csv}, the path of the \emph{SUT source folder}, the \emph{command to execute test cases}, and the \emph{path to the folder containing the test coverage matrices}.
+
+The program \emph{FAQAS-CompileAndExecuteMutants} implements the four mutants selection strategies described in D2: \emph{all mutants}, \emph{proportional uniform sampling}, \emph{proportional method-based sampling}, \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}.
+
+The \emph{mutants sampling configuration} consists of the mutants selection strategy and a configuration value that specifies the number of mutants to consider. The format of the value that specifies the number of mutants to consider depends on the strategy; the value may indicate the percentage of mutants to sample (for \emph{proportional uniform sampling}, \emph{proportional method-based sampling}), the number of mutants to sample (for \emph{uniform fixed-size sampling}).
+
+The program\emph{FAQAS-GeneratePrioritizedTestSuite} takes as input the test coverage matrices and generates a file that specifies, for every line of the SUT, the prioritized list of test cases to execute (\emph{prioritized test suite csv}). This file indicates the sequence of test cases that shall be executed when testing a mutant affecting a certain line.
+
+The activity \emph{Randomly sort mutants} indicates that  \emph{FAQAS-CompileAndExecuteMutants} generates a randomly sorted list of mutants. The list contains the mutants in \emph{unique mutants csv}.
+In the case of \emph{proportional method-based sampling}, the list contains a set of mutants selected by following the stratified sampling strategy.
+
+The activity \emph{Select and remove first mutant} indicates that  \emph{FAQAS-CompileAndExecuteMutants} selects the first mutant in \emph{sorted list of mutants} and removes it from the list.
+
+The program \emph{FAQAS-CompileAndExecute} compiles a mutant by running the build script of the original program; then it executes the SUT test suite. It follows the algorithm in Figure~\ref{alg:compileAndExecute}.
+
+
+\begin{figure}[h]
+\begin{algorithmic}[1]
+\scriptsize
+\Require \emph{Mutant}, path of the mutant to compile
+\Require \emph{SUTsources}, path of the folder containing the sources of the SUT
+\Require \emph{CompilatonCommand}, the command to execute to compile the original software
+\Require \emph{TestCommand}, the command to execute to execute a single test case
+\Require \emph{TestCases}, the prioritized list of test cases for the line of the mutant
+\Require \emph{TestTimeout}, the max execution time that can be taken by the test case
+\Ensure \emph{Result} KILLED or LIVE, based on test execution result (i.e., all test cases pass or one test case fails)
+\State put \emph{Mutant} in place of the file it has been derived (\emph{original file}), keep the original file in a safe place
+\State execute  \emph{CompilatonCommand} inside \emph{SUTsources}
+\For {TestCase in TestCases}
+\State execute the \emph{TestCase} by running \emph{TestCommand} inside \emph{SUTsources}
+% succede qualcosa strano quando scrivi "the"
+\If {the \emph{TestCase} fails (i.e., \emph{TestCommand} terminates with an error code)}
+\State set \emph{Result} as KILLED
+\State break the for loop
+\EndIf
+\If {the \emph{TestTimeout} expires}
+\State set \emph{Result} as KILLED
+\State break the for loop
+\EndIf
+\EndFor
+\State move code coverage information in a subfolder of \emph{mutants coverage dir}
+\State restore the \emph{original file}
+\end{algorithmic}
+\caption{FAQAS-CompileAndExecute: Algorithm to compile and test mutants}
+\label{alg:compileAndExecute}
+\end{figure}
+
+The program \emph{FAQAS-CompileAndExecute} collects the mutation results of every mutant in a file, i.e., \emph{mutation results csv}. It contains, for every mutant, the indication of the mutation result (KILLED/LIVE).
+
+The program \emph{FAQAS-CompileAndExecute} compiles and executes mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
+\begin{itemize}
+\item \emph{all mutants}: the list \emph{sorted list of mutants} is empty
+\item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
+\item \emph{proportional method-based sampling}: the list \emph{sorted list of mutants} is empty
+\item \emph{uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
+\item \emph{uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than the length specified by the user.
+\end{itemize}
+
+The program \emph{FAQAS-IdentifyEquivalentMutants} relies on code coverage information stored in \emph{mutants coverage dir} to identify equivalent and redundant mutants using the distance criterion $D_C$ (see D2).
+
+The program \emph{FAQAS-IdentifyEquivalentMutants} generates a copy of \emph{mutation results csv} (i.e., \emph{univocal mutation results csv}) where only mutants that are considered non-equivalent are reported.
+
+The program \emph{FAQAS-MutationScore} concerns the computation of the mutation score based on the mutation results reported in \emph{univocal mutation results csv}, and the production of two lists of useful mutants of live and nonequivalent mutants.
+
+
