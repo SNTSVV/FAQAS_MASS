@@ -1,23 +1,39 @@
 % !TEX root = MAIN.tex
 
-\chapter{Software Unit Testing and Integration Testing Approach}
+\chapter{MASS - Software Unit Testing and Integration Testing Approach}
 
 
 \section{Unit/Integration Testing Strategy}
 
-\OSCAR{Possibly integration testing might be the use of \FAQAS with the case studies?}
+Integration testing is out of scope because of the motivations discussed in Section~\ref{sec:SUTSIT:org}.
+
+Unit testing aims to verify that the functional requirements of MASS units are correctly implemented; test inputs are identified through the category-partition method.
+
+%\OSCAR{Possibly integration testing might be the use of \FAQAS with the case studies?}
 
 \section{Tasks and Items under Test}
 
-The items to be tested are all the mutation operators listed in Chapter~\ref{chap:spec}.
+Testing concerns the source code mutation component (hereafter, \emph{SRCMutation}) of MASS.
+SRCMutation is the component with the most complicate implementation logic and thus require detailed unit testing.
+All the other components either filter or join data, their implementation is simpler than SRCMutation and thus their test automation is performed through system tests (described in SVS).
+
+\section{Feature to be tested}
+
+Testing concerns verifying the correct implementation of the mutation operators implemented by \emph{SRCMutation}.
+
+\section{Feature not to be tested}
+
+Testing does not concern the verification of the capability of \emph{SRCMutation} to parse source files valid according to C/C++ language grammar. Since \emph{SRCMutation} is implemented on top of CLANG, we assume parsing capabilities are inherited from CLANG.
+
+
 
 \section{Test Pass - Fail Criteria}
 
-The unit test of a procedure can be regarded as passed if all of the following is true:
+Unit testing pass if all the following are true:
 \begin{itemize}
-	\item The test executed without failure (did not throw an error, etc.).
-	\item All tests were executed.
-	\item The general script shows all unit test cases as passed.
+	\item Every test case is executed
+	\item All test cases pass
+	\item Exceptions and unexpected messages do not appear on screen and logs.
 \end{itemize}
 
 

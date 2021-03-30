@@ -3,32 +3,38 @@
 \chapter{Software Unit Testing and Software Integration Testing}
 
 \section{Organization}
+\label{sec:SUTSIT:org}
 
-The unit tests are to be prepared by SnT in the form of Bash shell scripts. Testing will be conducted by SnT personnel.
+Unit tests are prepared by SnT in the form of Bash shell scripts. 
 
-If any software problems occur during testing a development issue shall be raised in GitLab Issue Tracker, which shall be amended by SnT personnel.
+Since units are self-contained (i.e., they do not interact with other units but simply store results in files processed by other units), we avoid testing the integration of pairs of unit. Instead, we test the system as a whole, based on tutorial examples described in SUM. The system testing procedure is reported in the SVS - software validation specification.
+
+Testing is conducted by SnT personnel.
+
+If any software problems occur during testing a development issue shall be raised in GitLab Issue Tracker for the \FAQAS, which shall be amended by SnT personnel.
 
 %\section{Master schedule}
 
 
 \section{Resource Summary}
 
-Unit tests make use of the \FAQAS. Tests will be performed in one hardware platform, a x86-64 desktop PC. Unit test execution time should not exceed one day for all target platforms combined.
+Unit tests and integration tests make use of the \FAQAS. Tests will be performed in one hardware platform, a x86-64 desktop PC. Unit test execution time should not exceed one day for all target platforms combined.
 
 \section{Responsibilities}
 
-The unit tests are to be prepared by SnT personnel.
+Unit tests tests are prepared by the SnT personnel.
 
-The tests will be conducted by a SnT specialist who will also have the responsibility of reporting any occurring software issues.
+The test cases are executed by an SnT specialist who has the responsibility of reporting any failure.
 
 \section{Tool, techniques and methods}
 
 Unit tests are specified in Bash files. Each unit test contains a launcher script that configures the environment for the correct execution of \FAQAS, and a source code example for its mutation. The launcher script will invoke a dedicated operator Bash script, that generates the corresponding mutants and assesses its results.
 
+
 \section{Personnel and Personnel Training Requirements}
 
-Unit testing can be performed by a single person using a general script. No special training is needed.
+Unit testing is performed by a single person using a launcher script from the source folder of the SUT. Additional training is not needed.
 
 \section{Risks and Contingencies}
 
-The unit testing campaign does not have any risk.
+The unit testing campaign is conducted in parallel with the development of the SUT and thus is not associated to any specific risk.
