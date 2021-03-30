@@ -21,7 +21,7 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 \RQ{} The \FAQAS shall provide means to enable engineers to run code-driven mutation testing on the SUT.
 
 \RQ{} The \FAQAS shall provide means to enable engineers to select the optimization steps to be carried on the SUT.
-\DONE{I think first we should indicate what are the optimizations supported by FAQAS}
+%\DONE{I think first we should indicate what are the optimizations supported by FAQAS}
 
 \RQ{} The \FAQAS shall receive as input code coverage information of the SUT.
 
@@ -116,10 +116,15 @@ The generation of such test suites should be  based on the PrioritizeAndReduce A
 
 \RQ{} The \FAQAS shall compute the mutation score of the SUT based on mutation results. Equivalent mutants shall not be considered for the computation of the mutation score (see D2).
 
-\RQ{} The \FAQAS shall produce two prioritized lists of live and nonequivalent mutants. 
-\TODO{We have to discuss the meaning of the following sentence}
-The most relevant mutants shall be listed first within the list. Moreover, the prioritization shall be done on the basis of the statement coverage difference of each mutant with respect to the original statement coverage.
+\RQ{} The \FAQAS shall produce two prioritized lists (list A and list B) of live and nonequivalent mutants. 
+%\TODO{We have to discuss the meaning of the following sentence}
+List A should contain live mutants that shall be inspected first by the engineers because different from the SUT (i.e., nonequivalent) and different from each other. Ideally, each mutant in list A should represent a distinct limitation of the SUT.
+List A contains mutants that have a distance $D_C$ (strictly) greater than zero; in other words, the distance between each pair of mutants appearing in list A should be greater than zero.
+List B contains all the remaining live, nonequivalent mutants.
+The two lists are sorted in decreasing order, based on the distance $D_C$ from the original program.
 
+\remark Equivalent mutants, which are discarder have a distance $D_C$ from the original program equal to zero.
+The generation of the list proceeds as follows. First, a list (list X) containing all the mutants, sorted based on distance $D_C$, is created. Iteratively, each mutant in list X is compared with each mutant in list A, if the distance is greater than zero, the mutant is added to list A, otherwise it is added to list B.
 
 
 \RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
