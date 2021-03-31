@@ -1,12 +1,17 @@
 % !TEX root =  ../MAIN.tex
 
-\begin{table}[h]
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
 \scriptsize
-\centering
-\caption{Unit test cases for SRCMutation.}
-\label{table:matrix}
+\begin{longtable}{|p{1cm}|p{5cm}|p{6cm}|p{2.5cm}|}
 
-\begin{tabular}{|llp{6cm}l|}
+% \begin{table}[h]
+% \scriptsize
+% \centering
+\caption{Unit test cases for SRCMutation.}
+\label{table:matrix} \\
+
+% \begin{tabular}{|llp{6cm}l|}
 \hline 
 \textbf{Operator}	&	\textbf{Term to replace}	&	\textbf{Replacements}	&	\textbf{Test Case} \\
 \hline 
@@ -52,29 +57,60 @@ AOD	&	$a - b$	&	$\{a, b\}$	&	aod\_minus.sh \\
 AOD	&	$a * b$	&	$\{a, b\}$	&	aod\_mult.sh \\
 AOD	&	$a / b$	&	$\{a, b\}$	&	aod\_div.sh \\
 AOD	&	$a \% b$	&	$\{a, b\}$	&	aod\_mod.sh \\
-AOD	&	$a / b + 1$	&	$\{1, b+1, a+1, a/b\}$	&	aod\_many.sh \\
-LOD	&	$a > 0 \&\& b > 0$	&	$\{a > 0, b > 0\}$	&	lod\_logic\_and.sh \\
-LOD	&	$a > 0 || b > 0$	&	$\{a > 0, b > 0\}$	&	lod\_logic\_or.sh \\
-LOD	&	$a > 0 \&\& b > 0) || 1$	&	$\{ 1, b>0 || 1, a > 0 || 1, a>0 \&\& b>0\}$	&	lod\_many.sh \\
+AOD	&	$a / b + 1$	&	\texttt{\{1, b+1, a+1, a/b\}}	&	aod\_many.sh \\
+LOD	&	$a > 0 \&\& b > 0$	&	\texttt{\{a > 0, b > 0\}}	&	lod\_logic\_and.sh \\
+LOD	&	$a > 0 || b > 0$	&	\texttt{\{a > 0, b > 0\}}	&	lod\_logic\_or.sh \\
+LOD	&	$a > 0 \&\& b > 0) || 1$	&	\texttt{\{1, b>0 || 1, a>0 || 1, a>0 \&\& b>0\}}	&	lod\_many.sh \\
 ROD	&	$a>b$	&	$\{a, b\}$	&	rod\_gt.sh \\
 ROD	&	$a>=b$	&	$\{a, b\}$	&	rod\_ge.sh \\
 ROD	&	$a<b$	&	$\{a, b\}$	&	rod\_lt.sh \\
 ROD	&	$a<=b$	&	$\{a, b\}$	&	rod\_le.sh \\
 ROD	&	$a==b$	&	$\{a, b\}$	&	rod\_eq.sh \\
 ROD	&	$a!=b$	&	$\{a, b\}$	&	rod\_neq.sh \\
-ROD	&	$a == b \&\& a != 0$	&	$\{b \&\& a != 0, a == b \&\&  0, a  \&\& a != 0, a == b \&\& a\}$	&	rod\_many.sh \\
+ROD	&	$a == b \&\& a != 0$	&	\texttt{\{b \&\& a != 0, a == b \&\&  0, a  \&\& a != 0, a == b \&\& a\}}	&	rod\_many.sh \\
 BOD	&	$a\&b$	&	$\{a, b\}$	&	bod\_and.sh \\
 BOD	&	$a|b$	&	$\{a, b\}$	&	bod\_or.sh \\
 BOD	&	$a \land b$	&	$\{a, b\}$	&	bod\_xor.sh \\
-BOD	&	$a \& b \& 1$	&	$\{ 1, b \& 1, a \& 1, a \& b\}$	&	bod\_many.sh \\
+BOD	&	$a \& b \& 1$	&	\texttt{\{1, b \& 1, a \& 1, a \& b\}}	&	bod\_many.sh \\
 SOD	&	$a>>b$	&	$\{a, b\}$	&	sod\_sl.sh \\
 SOD	&	$a<<b$	&	$\{a, b\}$	&	sod\_sr.sh \\
-SOD	&	$a >> b || b << a$	&	$\{b || b << a,a >> b || a, a || b << a, a >> b || b\}$	&	sod\_many.sh \\
+SOD	&	$a >> b || b << a$	&	\texttt{\{b || b << a,a >> b || a, a || b << a, a >> b || b\}}	&	sod\_many.sh \\
 LVR	&	$0$	&	$-1$	&	lvr\_zero.sh \\
 LVR	&	$3.5$	&	$\{-3.5, 0\}$	&	lvr\_literal.sh \\
 LVR	&	\texttt{true}	&	\texttt{false}	&	lvr\_true.sh \\
 LVR	&	\texttt{false}	&	\texttt{true}	&	lvr\_false.sh \\
-LVR	&	\texttt{true \& false}	&	\texttt{false \& false}, \texttt{true \& true}	&	lvr\_false.sh \\
+LVR	&	\texttt{true \& false}	&	\texttt{false \& false}, \texttt{true \& true}	&	lvr\_many.sh \\
+ALL	&	\texttt{int a = 4, b = 5; return a + b;}	&	\texttt{int a = 4, b = 1; return a + b;}	&	many.sh \\
+& & \texttt{return a + b;} & \\
+& & \texttt{int a = 1, b = 5; return a + b;} & \\
+& & \texttt{int a = (-1), b = 5; return a + b;} & \\
+& & \texttt{int a = 4, b = (-1); return a + b;} & \\
+& & \texttt{int a = 4, b = 0; return a + b;} & \\
+& & \texttt{int a = 0, b = 5; return a + b;} & \\
+& & \texttt{int a = (4 + 1), b = 5; return a + b;} & \\
+& & \texttt{int a = 4, b = (5 + 1); return a + b;} & \\
+& & \texttt{int a = (4 - 1), b = 5; return a + b;} & \\
+& & \texttt{int a = 4, b = (5 - 1); return a + b;} & \\
+& & \texttt{int a = 4, b = -(5); return a + b;} & \\
+& & \texttt{int a = -(4), b = 5; return a + b;} & \\
+& & \texttt{int a = 4, b = 5;} & \\
+& & \texttt{int a = 4, b = 5; return -(a) + b;} & \\
+& & \texttt{int a = 4, b = 5; return  b;} & \\
+& & \texttt{int a = 4, b = 5; return a + -(b);} & \\
+& & \texttt{int a = 4, b = 5; return (--a) + b;} & \\
+& & \texttt{int a = 4, b = 5; return a + (--b);} & \\
+& & \texttt{int a = 4, b = 5; return a ;} & \\
+& & \texttt{int a = 4, b = 5; return a - b;} & \\
+& & \texttt{int a = 4, b = 5; return (a--) + b;} & \\
+& & \texttt{int a = 4, b = 5; return a + (b--);} & \\
+& & \texttt{int a = 4, b = 5; return (++a) + b;} & \\
+& & \texttt{int a = 4, b = 5; return a * b;} & \\
+& & \texttt{int a = 4, b = 5; return a + (++b);} & \\
+& & \texttt{int a = 4, b = 5; return (a++) + b;} & \\
+& & \texttt{int a = 4, b = 5; return a / b;} & \\
+& & \texttt{int a = 4, b = 5; return a + (b++);} & \\
+& & \texttt{int a = 4, b = 5; return a \% b;} & \\
 \hline
-\end{tabular}
-\end{table}
+% \end{tabular}
+\end{longtable}
+\normalsize
