@@ -1,4 +1,4 @@
-% !TEX root = MAIN.tex
+: the results% !TEX root = MAIN.tex
 
 \chapter{MASS - Operations Manual}
 
@@ -31,7 +31,7 @@ The following shell command installs the corresponding dependencies and the \tex
 
 % \DONE{I think "shall" should be simply removed, "\MASS creates" "are stored".}
 
-\MASS creates a workspace folder where all the steps from the methodology are stored. 
+\MASS creates a workspace folder where all the steps from the methodology are stored.
 
 An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{\$FAQAS/MASS/FAQAS-Setup/install.sh}
 
@@ -57,7 +57,7 @@ After setting the corresponding environment variables, the following commands ar
 Once the installation folder has been created, the folder shall contain the following structure and files:
 
 \begin{itemize}
-	\item \texttt{Launcher.sh}: \MASS single launcher; the script executes all the steps of the methodology in one command. 
+	\item \texttt{Launcher.sh}: \MASS single launcher; the script executes all the steps of the methodology in one command.
 	\item \texttt{mass\_conf.sh}: \MASS configuration file; the file has to be configured before being able to execute \MASS.
 	\item \texttt{mutation\_additional\_functions.sh}: Bash script that must be filled by the application engineer before executing \MASS.
 	\item \texttt{MASS\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \MASS methodology.
@@ -124,13 +124,13 @@ Within file \texttt{\$INSTALL\_DIR/mass\_conf.sh} there are multiple environment
 	# directory path where the compiled binary is stored
 	export PROJ_BUILD=
 
-	# list of folders not to be included during coverage analysis, name folders shall be separated by '\|' 
+	# list of folders not to be included during coverage analysis, name folders shall be separated by '\|'
 	export COVERAGE_NOT_INCLUDE=
 
-	# filename of the compiled file or library 
+	# filename of the compiled file or library
 	export COMPILED=
 
-	# path to the original build script        
+	# path to the original build script
 	export ORIGINAL_MAKEFILE=
 
 	# compilation command of the SUT, the command shall be specified as a Bash array, e.g., (). Special characters shall be escaped.
@@ -155,7 +155,7 @@ Within file \texttt{\$INSTALL\_DIR/mass\_conf.sh} there are multiple environment
 Furthermore, the following specific \MASS variables must be set (See Listing~\ref{listing:MASS:conf_2}):
 
 \begin{lstlisting}[language=bash, label=listing:MASS:conf_2, caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
-	# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+	# specify if MASS will be executed on an HPC, possible values are "true" or "false"
 	export HPC=
 
 	# TCE flags to be tested, the flags shall be specified as a Bash array, e.g., ("-O0" "-O1").
@@ -195,10 +195,10 @@ To configure \MASS to work with the SUT, the engineer should also edit the Bash 
 
 The mutation script configuration file is the Bash file \texttt{mutation\_additional\_functions.sh}. In it, the engineer is expected to implement the Bash function \texttt{run\_tst\_case}.
 %Fabrizio: not clear what you mena below
-%; must be implemented by the engineer to guarantee a correct mutation testing process. 
-This function shall receive as argument the name of the test case to be executed. It should execute the command for running the specified test case. 
+%; must be implemented by the engineer to guarantee a correct mutation testing process.
+This function shall receive as argument the name of the test case to be executed. It should execute the command for running the specified test case.
 %Why "Particularly" ?
-%Particularly, 
+%Particularly,
 The function shall return 0, if the test case passes; it shall return 1 if the test case fails.
 
 
@@ -210,9 +210,9 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 	\item The script shall not contain any debugging flag within compilation/linking commands;
 	\item The script shall not contain any code coverage flag within compilation/linking commands;
 	\item The script shall contain a placeholder for the compiler optimization option, specifically the placeholder \texttt{TCE};
-	\item The script shall contain a 'sort' command in the list of source files to be compiled, to ensure that source files are always compiled in the same order; 
+	\item The script shall contain a 'sort' command in the list of source files to be compiled, to ensure that source files are always compiled in the same order;
 	%\DONE{Not clear what a source dependency list is, example?}
-	
+
 	In the case of a Makefile, it can be achieved with the following command:
 
 	\texttt{SRC=\$(sort \$(wildcard \$(SourceFolder/*.c))}
@@ -235,7 +235,7 @@ The SUT engineer shall provide a build script for the SUT. Such script shall be 
 
 \subsubsection{One Step Launcher}
 
-The single machine mode give the possibility of running \MASS in one step, by executing all the eight steps of the framework with one command. The one step launcher will execute the following steps sequentially:
+The single machine mode gives the possibility of running \MASS in one step, by executing all the eight steps of the framework with one command. The one step launcher will execute the following steps sequentially:
 
 \begin{enumerate}
 	\item PrepareSUT
@@ -256,8 +256,8 @@ To execute the one step launcher, the following command shall be provided:
 
 \subsubsection{Multiple Step Launchers}
 
-The single machine mode also gives the possibility to run \MASS by executing all the eight steps of the framework through independent commands. 
-The multiple steps of the methodology and its command are described in the following.
+The single machine mode also gives the possibility to run \MASS by executing all the eight steps of the framework through independent commands.
+The multiple steps of the methodology and their respective commands are described in the following.
 
 \begin{enumerate}
 	\item \textbf{Prepare the SUT} step can be executed with the following command:
@@ -306,17 +306,17 @@ The multiple steps of the methodology and its command are described in the follo
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
-\end{lstlisting} 
+\end{lstlisting}
 \end{enumerate}
 
 
 \subsection{Running MASS on Shared Resources Facilities}
 \label{sec:shared}
 
-Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \MASS in one step. 
-However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With a HPC, for example, \MASS could analyze more mutants than if \MASS is executed on a single machine.
+Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \MASS in one step.
+However, since resources can be requested accordingly, \MASS can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With an HPC, for example, \MASS could analyze more mutants than if \MASS was executed on a single machine.
 
-The multiple steps of the methodology and its command are described in the following.
+The multiple steps of the methodology and their respective commands are described in the following.
 
 \begin{enumerate}
 	\item \textbf{Prepare the SUT} step can be executed with the following command:
@@ -356,7 +356,7 @@ The multiple steps of the methodology and its command are described in the follo
 	  $ ./MASS_STEPS_LAUNCHER/PrepareMutants_HPC.sh
 \end{lstlisting}
 
-	\item \textbf{Execute mutants}: The launcher script receives two parameters: the first parameter is the number of the mutant to be executed, the number of mutant is defined as ${1..M}$, being M the total number of mutants. The total number of mutants can be derived from the folder \texttt{\$INSTALL\_DIR/hpc-src-mutants}.
+	\item \textbf{Execute mutants}: The launcher script receives two parameters: the first parameter is the number of the mutant to be executed, defined as ${1..M}$, being M the total number of mutants. The total number of mutants can be derived from the folder \texttt{\$INSTALL\_DIR/hpc-src-mutants}.
 	The second parameter defines if the test suite has to be executed in a reduced fashion or not. The possible values are ``true'' and ``false''.
 
 	\begin{lstlisting}[language=bash]
@@ -365,7 +365,7 @@ The multiple steps of the methodology and its command are described in the follo
 	  $ ./MASS_STEPS_LAUNCHER/ExecuteMutants_HPC.sh $nr_mutant $reduced
 \end{lstlisting}
 
-	\item \textbf{Post-mutation execution}: The launcher script receives two numbers as parameters, a minimum and a maximum value, that represent the range of mutants to assess. The assessment consists of evaluating if more mutant executions are needed. 
+	\item \textbf{Post-mutation execution}: The launcher script receives two numbers as parameters, a minimum and a maximum value, that represent the range of mutants to assess. The assessment consists of evaluating if more mutant executions are needed.
 
 	\begin{lstlisting}[language=bash]
 	  $ min=1
@@ -383,20 +383,20 @@ The multiple steps of the methodology and its command are described in the follo
 
 	\begin{lstlisting}[language=bash]
 	  $ ./MASS_STEPS_LAUNCHER/MutationScore.sh
-\end{lstlisting} 
+\end{lstlisting}
 \end{enumerate}
 
 \subsection{MASS results}
 
-After the execution of \MASS the results are stored in dedicated folders, such folders are defined as follows:
+After the execution of \MASS the results are stored in dedicated folders. Such folders are defined as follows:
 
 \begin{enumerate}
-	\item Prepare SUT: results of this step are stored in the folder \texttt{COV\_FILES}, besides coverage files it contains (i) the coverage matrices, and (ii) the timeout file.
-	\item Generate Mutants: results of this step are stored in the folder \texttt{src-mutants}, it contains all mutant sources.
-	\item Compile Optimized Mutants: results of this step are stored in the folder \texttt{COMPILED}, particularly it contains one folder for each optimisation level.
-	\item Compile Optimized Mutants Post-Processing: results of this step are stored in folder \texttt{COMPILED}, particularly, it generates four lists: (i) list of all mutants, (ii) list of nonequivalent and nonredundant mutants, (iii) list of equivalent mutants, and (iv) list of redundant mutants.
-	\item Generate Prioritized and Reduced Test Suites: results of this step are stored in folder \texttt{PRIORITIZED}, it contains one file with the prioritized and reduced test suites, and one file with the prioritized test suites.
-	\item Execute Mutants: results of this step are stored in folder \texttt{MUTATION}. This step produces several files and folders:
+	\item Prepare SUT: the results of this step are stored in the folder \texttt{COV\_FILES}. Besides the coverage files, it contains (i) the coverage matrices, and (ii) the timeout file.
+	\item Generate Mutants: the results of this step are stored in the folder \texttt{src-mutants}, it contains all mutant sources.
+	\item Compile Optimized Mutants: the results of this step are stored in the folder \texttt{COMPILED} that contains one folder for each optimisation level.
+	\item Compile Optimized Mutants Post-Processing: the results of this step are stored in the folder \texttt{COMPILED}. Particularly, it generates four lists: (i) list of all mutants, (ii) list of nonequivalent and nonredundant mutants, (iii) list of equivalent mutants, and (iv) list of redundant mutants.
+	\item Generate Prioritized and Reduced Test Suites: the results of this step are stored in the folder \texttt{PRIORITIZED}, which contains one file with the prioritized and reduced test suites, and one file with the prioritized test suites.
+	\item Execute Mutants: the results of this step are stored in the folder \texttt{MUTATION}. This step produces several files and folders:
 	\begin{itemize}
 		\item \texttt{main.csv}: complete mutation traces
 		\item \texttt{sampled\_mutants}: list of sampled mutants to be executed
@@ -406,8 +406,8 @@ After the execution of \MASS the results are stored in dedicated folders, such f
 		\item \texttt{traces\_killed}: killed mutants traces
 		\item \texttt{mutant folder}: there is one folder for each executed mutant, this folder contains the mutant code coverage information and test cases execution logs.
 	\end{itemize}
-	\item Identify Equivalent Mutants based on Code Coverage: results of this step are stored in folder \texttt{DETECTION}.
-	\item Compute Mutation Score: results of this step are stored in folder \texttt{RESULTS}. Particularly, the file \texttt{MASS\_RESULTS} contains the final output of \MASS.
+	\item Identify Equivalent Mutants based on Code Coverage: the results of this step are stored in the folder \texttt{DETECTION}.
+	\item Compute Mutation Score: the results of this step are stored in folder \texttt{RESULTS}. Particularly, the file \texttt{MASS\_RESULTS} contains the final output of \MASS.
 \end{enumerate}
 
 
@@ -433,4 +433,3 @@ There is no error condition handling in the \FAQAS. If all preconditions are met
 %\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
 
 If for any reason the execution of \MASS is interrupted, an engineer can restart the process from a specific task if all preconditions are met. This is possible since each \MASS step work by processing data that is permanently stored by previous steps.
-

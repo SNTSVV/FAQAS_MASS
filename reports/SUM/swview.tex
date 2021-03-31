@@ -3,30 +3,29 @@
 \chapter{External View of the Software}
 
 The \FAQAS is delivered as a compressed archive consisting of source files and an installer.
-The following bulletpoints provide a description of archive structure after it is uncompressed:
+The following bulletpoints provide a description of the archive's structure after it is uncompressed:
 
 \begin{itemize}
 	\item \texttt{FAQASFramework/}
 	\begin{itemize}
-		\item \texttt{SRCMutation/}: contains the source files of the component that performs code-driven mutations. 
+		\item \texttt{SRCMutation/}: contains the source files of the component that performs code-driven mutations.
 		\item \texttt{llvm-build.sh}: build script that compiles the SRCMutation component
 		\item \texttt{PythonWrappers/}: contains Python script wrappers that facilitate code-driven mutations.
 		\item \texttt{MASS/}: contains all the executable files and scripts that implement the methodology for code-driven mutation testing supported by  the FAQAS-Framework. They are listed below.
-		\begin{itemize} 
+		\begin{itemize}
 			\item \texttt{FAQAS-Setup}: contains the Bash scripts necessary to install the FAQAS-Framework.
 			\item \texttt{FAQAS-GenerateCodeCoverageMatrixes}: contains the Bash scripts providing procedures to collect code coverage from the SUT.
-			\item \texttt{FAQAS-GenerateMutants}: contains a Bash script that invokes the \texttt{SRCMutation} component to generate mutants. 
+			\item \texttt{FAQAS-GenerateMutants}: contains a Bash script that invokes the \texttt{SRCMutation} component to generate mutants.
 			\item \texttt{FAQAS-CompileOptimizedMutants}: contains the scripts (in Python and Bash)  that provide the procedures to compile mutants and filter equivalent and redundant mutants based on trivial compiler optimizations.
 			\item \texttt{FAQAS-CompileAndExecuteMutants}
 			\begin{itemize}
 				\item \texttt{FAQAS-GeneratePrioritizedTestSuite}: contains the Python and Bash scripts that provide the procedures to generate prioritized and reduced test suites from the SUT.
 
 				\item \texttt{FAQAS-CompileAndExecute}: contains the Python and Bash scripts that provide the procedures to compile and execute the mutants against the SUT test suite. It also provides the procedures to determine the mutation stopping criterion (i.e., mutant sampling).
-	
+
 				\item \texttt{FAQAS-IdentifyEquivalentAndRedundantMutants}: contains the Python and Bash scripts that provides the procedures to identify equivalent mutants based on code coverage.
 			\end{itemize}
 			\item \texttt{FAQAS-MutationScore}: contains the Python and Bash scripts that provide the procedures to compute the mutation score and provide summarized information about the code-driven mutation testing process.
 		\end{itemize}
 	\end{itemize}
 \end{itemize}
-

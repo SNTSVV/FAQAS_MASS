@@ -4,7 +4,7 @@
 
 \section{Introduction}
 
-This tutorial presents how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on shared resources facilities), we provide an example for both.
+This tutorial instructs on how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on shared resources facilities), we provide an example for both.
 
 Both examples use the Mathematical Library for Flight Software as case study to exemplify the use of \FAQAS.
 
@@ -26,14 +26,14 @@ The examples shown in the following uses the SLURM job scheduler\footnote{https:
 
 \MASS has been executed on a Singularity container\footnote{https://sylabs.io}, for enabling reproducibility and parallelism for experiments.
 
-To run \MASS on a HPC infrastructure, the first step regards installing \MASS framework, to do so please refer to Section~\ref{sec:install}.
+To run \MASS on a HPC infrastructure, the first step regards installing the \MASS framework, to do so please refer to Section~\ref{sec:install}.
 
-The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. In this case, the workspace directory will be created on \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, and the execution directory on \texttt{/opt/MLFS}, since \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE} will be binded to \texttt{/opt/MLFS} inside the Singularity container.
+The second step, consists of creating and installing a workspace folder to run \MASS on the MLFS example. In this case, the workspace directory will be created on \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, and the execution directory on \texttt{/opt/MLFS}, since \\\texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE} will be binded to \texttt{/opt/MLFS} inside the Singularity container.
 Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
-  $ export INSTALL_DIR=$FAQAS/MASS_MLFS/MASS_WORKSPACE && export EXECUTION_DIR=/opt/MLFS 
+  $ export INSTALL_DIR=$FAQAS/MASS_MLFS/MASS_WORKSPACE && export EXECUTION_DIR=/opt/MLFS
   $ ./install.sh
 \end{lstlisting}
 
@@ -43,7 +43,7 @@ Notice that all paths defined here must refer to the container.
 \begin{lstlisting}[language=bash, label=mutation_additional_hpc ,caption=\MASS variables. Excerpt of mass\_conf.sh file.]
 # set FAQAS path
 export SRCIROR=/opt/srcirorfaqas
-                                                     
+
 ...
 
 # set directory path where MASS files can be stored
@@ -92,12 +92,12 @@ export CLEAN_CMD=(make cleanall)
 export GC_FILES_RELATIVE_PATH=Reports/Coverage/Data
 \end{lstlisting}
 
-Also, \MASS variables shall be configured within the same file. We will run \MASS with the setup provided in Listing~\ref{mutation_additional_hpc_mass}. 
+Also, \MASS variables shall be configured within the same file. We will run \MASS with the setup provided in Listing~\ref{mutation_additional_hpc_mass}.
 
 \begin{lstlisting}[language=bash, label=mutation_additional_hpc_mass ,caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
 ### MASS variables
 
-# TCE flags to be tested 
+# TCE flags to be tested
 export FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
 
 # specify if MASS will be executed on a HPC, possible values are "true" or "false"
@@ -114,7 +114,7 @@ export SAMPLING="fsci"
 export RATE=""
 \end{lstlisting}
 
-The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}; within this file the actions from Listing~\ref{preparesut_hpc} must be provided by the engineer:
+The fourth step consists of configuring the \texttt{prepareSUT} configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}; within this file the actions from Listing~\ref{preparesut_hpc} must be performed by the engineer:
 
 \begin{lstlisting}[language=bash, label=preparesut_hpc ,caption=\MASS PrepareSUT.sh file.]
 #!/bin/bash
@@ -148,10 +148,10 @@ for tst in $(find $HOME/unit-test-suite -name '*.xml');do
     cd $HOME/blts_workspace
 
     tst_filename_wo_xml=$(basename -- $tst .xml)
-    
+
     start=$(date +%s)
     $HOME/blts_install/bin/blts_app -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst
-    end=$(date +%s)    
+    end=$(date +%s)
 
     # call to FAQAS-CollectCodeCoverage.sh
     # parameter should be test case name and the execution time
@@ -180,8 +180,8 @@ run_tst_case() {
     test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $summaryreport`
     o_test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $originalreport`
 
-    echo "comparing with original execution" 
-    echo $test_cases_failed $o_test_cases_failed 
+    echo "comparing with original execution"
+    echo $test_cases_failed $o_test_cases_failed
 
     if [ "$test_cases_failed" != "$o_test_cases_failed" ]; then
         return 1
@@ -191,7 +191,7 @@ run_tst_case() {
 }
 \end{lstlisting}
 
-The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the following command: 
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the following command:
 
 \begin{lstlisting}[language=bash]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g O2 -fno-builtin $(EXTRA_CFLAGS)
@@ -205,7 +205,7 @@ CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans 
 
 The seventh step consists of executing the steps PrepareSut and GenerateMutants on the HPC. For this purpose, the SLURM launcher from Listing~\ref{prepare_slurm} it is provided.
 
-Notice that the workspace has been defined in \texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, but it is being binded in \texttt{/opt/MLFS}. 
+Notice that the workspace has been defined in \texttt{\$FAQAS/MASS\_MLFS/MASS\_WORKSPACE}, but it is being binded in \texttt{/opt/MLFS}.
 The step PrepareSut is being executed on the line 27, and the step GenerateMutants on the line 29.
 
 The Singularity container is represented on the file \texttt{blts.sif}, which contains a singularity image file. The same sif file will be used throughout all the steps of the methodology.
@@ -368,7 +368,7 @@ echo "== Stoping singularity instance"
 singularity instance stop mlfs_instance
 \end{lstlisting}
 
-The eleventh step consists of executing the mutants on the HPC, since executing mutants can be parallelized, we propose a SLURM launcher implemented with GNU Parallel. Listing~\ref{execute_slurm} provides an example of this step. 
+The eleventh step consists of executing the mutants on the HPC. Since executing mutants can be parallelized, we propose a SLURM launcher implemented with GNU Parallel. Listing~\ref{execute_slurm} provides an example of this step.
 The script receives three parameters: (i) min -- the lower boundary mutant number, (ii) max -- the upper boundary mutant number, and (iii) range -- the mutant batch number. For instance, the parameters \texttt{--min 1 --max 100 --range 1} indicate that the script executes mutants number 1 to 100, and that they belong to the mutant batch \#1.
 
 \begin{lstlisting}[language=bash, label=execute_slurm ,caption=Example of the SLURM launcher for the execution of mutants on the HPC.]
@@ -448,7 +448,7 @@ for i in $(seq $min $chunksize $max); do
     sbatch \
         -J ${JOBNAME}_$j \
         ${LAUNCHER} --min $((i+1)) --max $((i+chunksize)) --range $j;
-    j=$((j+1)) 
+    j=$((j+1))
 done
 \end{lstlisting}
 

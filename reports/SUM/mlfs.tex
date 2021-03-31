@@ -5,7 +5,7 @@
 
 The first step regards installing the \MASS framework, please refer to Section~\ref{sec:install}.
 
-The second step, consists of creating and installing a workspace folder for running \MASS on the MLFS example. For this case, the workspace folder will be created on \texttt{/opt/MLFS}. Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
+The second step consists of creating and installing a workspace folder for running \MASS on the MLFS example. For this case, the workspace folder will be created on \texttt{/opt/MLFS}. Note that variable \texttt{\$FAQAS} represents the installation folder of the \FAQAS.
 
 \begin{lstlisting}[language=bash]
   $ cd $FAQAS/MASS/FAQAS-Setup
@@ -18,7 +18,7 @@ The third step consists of configuring the \MASS configuration file \texttt{mass
 \begin{lstlisting}[language=bash, label=mass_conf_single, caption=\MASS variables. Excerpt of mass\_conf.sh file.]
 # set FAQAS path
 export SRCIROR=/opt/srcirorfaqas
-                                                     
+
 ...
 
 # set directory path where MASS files can be stored
@@ -67,12 +67,12 @@ export CLEAN_CMD=(make cleanall)
 export GC_FILES_RELATIVE_PATH=Reports/Coverage/Data
 \end{lstlisting}
 
-Also \MASS variables shall be configured within the same file. Particularly, we will run \MASS with the setup contained in Listing~\ref{mass_conf_specific}. 
+Also \MASS variables shall be configured within the same file. Particularly, we will run \MASS with the setup contained in Listing~\ref{mass_conf_specific}.
 
 \begin{lstlisting}[language=bash, label=mass_conf_specific, caption=\MASS specific variables. Excerpt of mass\_conf.sh file.]
 ### MASS variables
 
-# TCE flags to be tested 
+# TCE flags to be tested
 export FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
 
 # specify if MASS will be executed on a HPC, possible values are "true" or "false"
@@ -89,11 +89,11 @@ export SAMPLING="fsci"
 export RATE=""
 \end{lstlisting}
 
-The fourth step consists of configuring the prepare SUT configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}, the actions provided in this file enables \MASS to collect the code coverage; within this file the following actions must be provided by the engineer (see~\ref{preparesut_single}), notice that we use the tool \texttt{bear} for the generation of the \texttt{compile\_commands.json}:
+The fourth step consists of configuring the \texttt{PrepareSUT} configuration file \\(\texttt{MASS\_STEPS\_LAUNCHERS/PrepareSUT.sh}, the actions provided in this file enables \MASS to collect the code coverage; within this file the following actions must be performed by the engineer (see~\ref{preparesut_single}), notice that we use the tool \texttt{bear} for the generation of the \texttt{compile\_commands.json}:
 
 \begin{lstlisting}[language=bash, label=preparesut_single, caption=PrepareSUT.sh file.]
 #!/bin/bash
-                                                                           
+
 cd /opt/MLFS
 . ./mass_conf.sh
 
@@ -123,10 +123,10 @@ for tst in $(find $HOME/unit-test-suite -name '*.xml');do
     cd $HOME/blts_workspace
 
     tst_filename_wo_xml=$(basename -- $tst .xml)
-    
+
     start=$(date +%s)
     $HOME/blts_install/bin/blts_app -gcrx $tst_filename_wo_xml -b coverage --nocsv -s $tst
-    end=$(date +%s)    
+    end=$(date +%s)
 
     # call to FAQAS-CollectCodeCoverage.sh
     # parameter should be test case name and the execution time
@@ -155,8 +155,8 @@ run_tst_case() {
     test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $summaryreport`
     o_test_cases_failed=`xmllint --xpath "//report_summary/test_set_summary/test_cases_failed/text()" $originalreport`
 
-    echo "comparing with original execution" 
-    echo $test_cases_failed $o_test_cases_failed 
+    echo "comparing with original execution"
+    echo $test_cases_failed $o_test_cases_failed
 
     if [ "$test_cases_failed" != "$o_test_cases_failed" ]; then
         return 1
@@ -166,7 +166,7 @@ run_tst_case() {
 }
 \end{lstlisting}
 
-The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the optimization flag in the original build script: 
+The sixth step consists of providing a template for the build script for the trivial compiler optimizations step. In particular, we replaced the optimization flag in the original build script:
 
 \begin{lstlisting}[language=bash, caption=Excerpt from Makefile.]
 CFLAGS = -c -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g O2 -fno-builtin $(EXTRA_CFLAGS)
@@ -187,7 +187,7 @@ The seventh step consists of launching the one step launcher (see Section~\ref{s
 The following results shall be reported at the end of the execution:
 
 \begin{lstlisting}[language=bash, label=mass_output, caption=\MASS output.]
-##### MASS Output #####                                                                                                                   
+##### MASS Output #####
 ## Total mutants generated: 28071
 ## Total mutants filtered by TCE: 6918
 ## Sampling type: fsci
