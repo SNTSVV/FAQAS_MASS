@@ -15,10 +15,10 @@
       \label{fig:architecture_diagram}
 \end{figure}
 
-The architcture of the code-driven mutation analysis toolset (i.e., MASS)  is drafted in Figure~\ref{fig:architecture_diagram}.
-Figure~\ref{fig:architecture_diagram} relies on UML package diagram notation. 
+The architecture of the code-driven mutation analysis toolset (i.e., MASS)  is drafted in Figure~\ref{fig:architecture_diagram}.
+Figure~\ref{fig:architecture_diagram} relies on UML package diagram notation.
 
-As depicted in Figure~\ref{fig:architecture_diagram}, the architecture of the component is divided in three packages, which are named \textit{Mutant Generation}, \textit{Mutant Execution}, and \textit{Mutant Reporting}. Also, it includes the entry point \textit{FAQAS-Launcher}. 
+As depicted in Figure~\ref{fig:architecture_diagram}, the architecture of the component is divided in three packages, which are named \textit{Mutant Generation}, \textit{Mutant Execution}, and \textit{Mutant Reporting}. Also, it includes the entry point \textit{FAQAS-Launcher}.
 
 The package \textit{Mutant Generation} implements the features concerning (1) the collection of code coverage, (2) the generation of mutants, and (3) the discarding of equivalent and redundant mutants based on compiler optimisations.
 
@@ -48,11 +48,11 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 \begin{itemize}
 	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
 
-	\item \textit{FAQAS-GenerateMutants}: This component processes the SUT source code, and the \textit{GlobalCoverageMatrix} file and generates the mutants directory.
+	\item \textit{FAQAS-GenerateMutants}: This component processes the SUT source code and the \textit{GlobalCoverageMatrix} file, and generates the mutants directory.
 
 	\item \textit{FAQAS-GeneratePrioritizedTestSuite}: this component processes the source code and the \textit{IndividualCoverageMatrices}, and produces two files: the \textit{PrioritizedTestSuite} and the \textit{PrioritizedReducedTestSuite}.
 
-	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory, and produces five files: 
+	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory and produces five files:
 	\begin{itemize}
 		\item \textit{MutantHashcodes}: file containing the list of hash-codes for each mutant
 		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants
@@ -94,7 +94,7 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 \end{figure}
 
 
-MASS implements the process for the evaluation of test suite effectiveness that is drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. In the following, we further describe the evaluation of test suite effectiveness process.
+MASS implements the process for the evaluation of test suite effectiveness, drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. In the following, we further describe the evaluation of test suite effectiveness process.
 
 
 The activity \emph{Edit MASS Configuration Files} indicates that the engineers must configure and perform the following activities:
@@ -125,14 +125,14 @@ The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:
 
 %\DONE{Some output arrows departing from FAQAS-GenerateCodeCoverageMatrix are missing}
 
-The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files: 
+The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files:
 \begin{itemize}
 \item one csv file referred to as \emph{global coverage matrix}, which indicates, for every line of code of the SUT, the ID of the test cases that cover the line of code;
 \item a number of files  referred to as \emph{individual coverage matrices}, one for each test case of the SUT. Each file indicates, for every line of code of the SUT, the number of times it has been covered during a single execution of the test case;
 \item one file (\emph{TestTimeouts}) specifying, for each test case, a timeout value after which we shall consider a test case as hanging. The timeout value is generated by the system by triplicating the time taken by a test case launched in activity \emph{Execute test cases}.
 \end{itemize}
 
-Activity \emph{Execute FAQAS-GenerateMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-GenerateMutants}. 
+Activity \emph{Execute FAQAS-GenerateMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-GenerateMutants}.
 
 The program \emph{FAQAS-GenerateMutants} automatically generates a number of copies of each source file. Each copy contains one mutant.
 
@@ -191,7 +191,7 @@ The program \emph{FAQAS-CompileOptimizedMutants} compiles every mutant multiple 
 \EndFor
 
 \State Process \emph{hashcodes csv} and identify the \emph{unique mutants}
-\State Save the list of \emph{unique mutants} in the output file \emph{unique mutants csv} 
+\State Save the list of \emph{unique mutants} in the output file \emph{unique mutants csv}
 
 \end{algorithmic}
 \caption{FAQAS-CompileOptimizedMutants: Algorithm for compiling mutants with multiple optimization options}
@@ -252,7 +252,7 @@ The program \emph{FAQAS-CompileAndExecute} compiles a mutant by running the buil
 
 The program \emph{FAQAS-CompileAndExecute} collects the mutation results of every mutant in a file, i.e., \emph{mutation results csv}. It contains, for every mutant, the indication of the mutation result (KILLED/LIVE).
 
-The program \emph{FAQAS-CompileAndExecute} compiles and executes mutants till a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
+The program \emph{FAQAS-CompileAndExecute} compiles and executes mutants until a termination criterion is met. The termination criterion depends on the mutants selection strategy (see D2 for details):
 \begin{itemize}
 \item \emph{all mutants}: the list \emph{sorted list of mutants} is empty
 \item \emph{proportional uniform sampling}: a number of mutants matching the selected percentage has been executed
@@ -266,5 +266,3 @@ The program \emph{FAQAS-IdentifyEquivalentMutants} relies on code coverage infor
 The program \emph{FAQAS-IdentifyEquivalentMutants} generates a copy of \emph{mutation results csv} (i.e., \emph{univocal mutation results csv}) where only mutants that are considered non-equivalent are reported.
 
 The program \emph{FAQAS-MutationScore} concerns the computation of the mutation score based on the mutation results reported in \emph{univocal mutation results csv}, and the production of two lists of useful mutants of live and nonequivalent mutants.
-
-
