@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 if [ "$HPC" == "false" ];then
     source $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/CompileAndExecute.sh
 else

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 LOGFILE=$MUTANTS_DIR/mutation_$(date +"%Y%m%d%H%M").log
 touch $LOGFILE
 

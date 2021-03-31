@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 # loading functions backup_tst_coverage and run_tst_case
 . $APP_RUN_DIR/mutation_additional_functions.sh
 

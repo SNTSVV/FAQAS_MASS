@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 # 1. Prepare SUT
 
 source MASS_STEPS_LAUNCHERS/PrepareSUT.sh

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 MUTANT_LIST=$1
 
 COV_SCRIPT=$MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/FAQAS-GenerateCodeCoverageMatrixesEqRed.sh

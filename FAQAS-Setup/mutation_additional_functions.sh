@@ -1,3 +1,7 @@
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
 
 # implementation of the bash function run_tst_case
 # run_tst_case receives the test case name, executes the test case,

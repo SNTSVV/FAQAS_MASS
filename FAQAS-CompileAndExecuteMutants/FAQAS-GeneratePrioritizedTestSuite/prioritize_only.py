@@ -1,5 +1,10 @@
 #!/usr/bin/env python3.7 
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 import os
 import re
 import sys
