@@ -13,7 +13,7 @@ Both examples use the Mathematical Library for Flight Software as case study to 
 
 \input{mlfs}
 
-\input{param}
+%\input{param}
 
 
 \newpage
@@ -37,7 +37,7 @@ Note that variable \texttt{\$FAQAS} represents the installation folder of the \F
   $ ./install.sh
 \end{lstlisting}
 
-The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide excerpts of the file that require intervention from the engineer. Listing~\ref{mutation_additional_hpc} contains the necessary configuration for the MLFS case study.
+The third step consists of configuring the \MASS configuration file \texttt{mass\_conf.sh}. In the following, we provide all the excerpts that require manual editing. Listing~\ref{mutation_additional_hpc} contains the necessary configuration for the MLFS case study.
 Notice that all paths defined here must refer to the container.
 
 \begin{lstlisting}[language=bash, label=mutation_additional_hpc ,caption=\MASS variables. Excerpt of mass\_conf.sh file.]

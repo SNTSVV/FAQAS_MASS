@@ -42,7 +42,7 @@ To use the installation script the shell variable \texttt{INSTALL\_DIR} has to b
 \end{lstlisting}
 
 %\DONE{the meaning of the ollowing is not clear. Add an example.}
-If the \texttt{INSTALL\_DIR} directory must be binded inside a container. Then, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
+If the \texttt{INSTALL\_DIR} directory must be binded inside a container. In addition, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
 
 For instance, \MASS has been installed on \texttt{/opt/MASS\_WORKSPACE} (i.e., the \texttt{INSTALL\_DIR}), and \MASS will be executed inside a container, but on a different directory such as \\\texttt{/home/user/MASS\_WORKSPACE} (i.e., the \texttt{EXECUTION\_DIR}). The use of both environment variables enable this differentiation.
 
@@ -331,7 +331,9 @@ The multiple steps of the methodology and their respective commands are describe
 	  $ ./MASS_STEPS_LAUNCHER/GenerateMutants.sh
 \end{lstlisting}
 
-	\item \textbf{Compile Optimized Mutants}: If the environment variable \texttt{HPC} is set to \texttt{true}. Then, a parameter can be passed to the launcher script indicating the optimization level to be processed. If six levels of optimizations are defined, then numbers between zero and five can be provided.
+	\item \textbf{Compile Optimized Mutants}: 
+	%If the environment variable \texttt{HPC} is set to \texttt{true}. 
+	A parameter shall be passed to the launcher script to indicate the chosen optimization level. If six levels of optimizations are defined, then numbers between zero and five can be provided.
 
 	\begin{lstlisting}[language=bash]
 	  $ level=0
@@ -394,7 +396,7 @@ After the execution of \MASS the results are stored in dedicated folders. Such f
 	\item Prepare SUT: the results of this step are stored in the folder \texttt{COV\_FILES}. Besides the coverage files, it contains (i) the coverage matrices, and (ii) the timeout file.
 	\item Generate Mutants: the results of this step are stored in the folder \texttt{src-mutants}, it contains all mutant sources.
 	\item Compile Optimized Mutants: the results of this step are stored in the folder \texttt{COMPILED} that contains one folder for each optimisation level.
-	\item Compile Optimized Mutants Post-Processing: the results of this step are stored in the folder \texttt{COMPILED}. Particularly, it generates four lists: (i) list of all mutants, (ii) list of nonequivalent and nonredundant mutants, (iii) list of equivalent mutants, and (iv) list of redundant mutants.
+	\item Compile Optimized Mutants Post-Processing: the results of this step are stored in the folder \texttt{COMPILED}. Specifically, it generates four lists: (i) list of all mutants, (ii) list of nonequivalent and nonredundant mutants, (iii) list of equivalent mutants, and (iv) list of redundant mutants.
 	\item Generate Prioritized and Reduced Test Suites: the results of this step are stored in the folder \texttt{PRIORITIZED}, which contains one file with the prioritized and reduced test suites, and one file with the prioritized test suites.
 	\item Execute Mutants: the results of this step are stored in the folder \texttt{MUTATION}. This step produces several files and folders:
 	\begin{itemize}
