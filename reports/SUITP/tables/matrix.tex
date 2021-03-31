@@ -6,11 +6,12 @@
 \caption{Unit test cases for SRCMutation.}
 \label{table:matrix}
 
-\begin{tabular}{|llll|}
+\begin{tabular}{|llp{6cm}l|}
 \hline 
 \textbf{Operator}	&	\textbf{Term to replace}	&	\textbf{Replacements}	&	\textbf{Test Case} \\
 \hline 
-ABS	&	$v$	&	$-v$	&	abs\_val.sh \\
+ABS	&	$a$	&	$-a$	&	abs\_val.sh \\
+ABS	&	$a,b$	&	$-a,-b$	&	abs\_many.sh \\
 AOR	&	$+$	&	$\{-,*,/,\%\}$	&	aor\_plus.sh \\
 AOR	&	$-$	&	$\{+,*,/,\%\}$	&	aor\_minus.sh \\
 AOR	&	$*$	&	$\{+,-,/,\%\}$	&	aor\_mult.sh \\
@@ -21,7 +22,9 @@ AOR	&	$-=$	&	$\{+=,*=,/=,\%=\}$	&	aor\_minus\_assign.sh \\
 AOR	&	$*=$	&	$\{+=,-=,/=,\%=\}$	&	aor\_mult\_assign.sh \\
 AOR	&	$/=$	&	$\{+=,-=,*=,\%=\}$	&	aor\_div\_assign.sh \\
 AOR	&	$\%=$	&	$\{+=,-=,*=,/=\}$	&	aor\_mod\_assign.sh \\
-ICR	&	$i$	&	$\{1, -1, 0, i+1, i-1, -i\}$	&	icr\_val.sh \\
+AOR	&	$+,-$	&	$\{+,-,*,\%\}$	&	aor\_many.sh \\
+ICR	&	$10$	&	$\{1, -1, 0, 11, 9, -10\}$	&	icr\_val.sh \\
+ICR	&	$10 + 1$	&	$\{1+1, -1+1, 10-1, 0+1, 10+0, 10+1, 10+2, 10-1+1, -10+1\}$	&	icr\_many.sh \\
 LCR	&	$\&\&$	&	$||$	&	lcr\_logic\_or.sh \\
 LCR	&	$||$	&	$\&\&$	&	lcr\_logic\_and.sh \\
 LCR	&	$\&$	&	$\{|,\land\}$	&	lcr\_and.sh \\
@@ -30,38 +33,48 @@ LCR	&	$\land$	&	$\{\&,|\}$	&	lcr\_xor.sh \\
 LCR	&	$\&=$	&	$\{|=, \land=\}$	&	lcr\_and\_assign.sh \\
 LCR	&	$|=$	&	$\{\&=, \land=\}$	&	lcr\_or\_assign.sh \\
 LCR	&	$\land=$	&	$\{\&=, |=\}$	&	lcr\_xor\_assign.sh \\
+LCR	&	$\land, \&\&$	&	$\{\&,|,||\}$	&	lcr\_many.sh \\
 ROR	&	$>$	&	$\{>=, <, <=, ==, !=\}$	&	ror\_gt.sh \\
 ROR	&	$>=$	&	$\{>, <, <=, ==, !=\}$	&	ror\_ge.sh \\
 ROR	&	$<$	&	$\{>, >=, <=, ==, !=\}$	&	ror\_lt.sh \\
 ROR	&	$<=$	&	$\{>, >=, <, ==, !=\}$	&	ror\_le.sh \\
 ROR	&	$==$	&	$\{>, >=, <, <=, !=\}$	&	ror\_eq.sh \\
 ROR	&	$!=$	&	$\{>, >=, <, <=, ==\}$	&	ror\_neq.sh \\
-ROR	&	\texttt{if(e )}	&	\texttt{if(!e)}	&	ror\_if.sh \\
-ROR	&	\texttt{while( e)}	&	\texttt{while(!e)}	&	ror\_while.sh \\
-SDL	&	$s$	&	\texttt{remove(s)}	&	sdl.sh \\
-UOI	&	$v$	&	$\{\texttt{--}v, v\texttt{--}, \texttt{++}v, v\texttt{++}\}$	&	uoi.sh \\
+ROR	&	\texttt{if(a)}	&	\texttt{if(!a)}	&	ror\_if.sh \\
+ROR	&	\texttt{while(a)}	&	\texttt{while(!a)}	&	ror\_while.sh \\
+ROR	&	\texttt{if(a), >}	&	\texttt{if(!a), >=, <, <=, ==, !=}	&	ror\_many.sh \\
+SDL	&	\texttt{int a = 0;} &	\texttt{}	&	sdl.sh \\
+SDL	&	\texttt{int a = 0; return;} &	\{\texttt{int a = 0;},\texttt{return;}\}	&	sdl\_many.sh \\
+UOI	&	$b$	&	$\{\texttt{--}b, b\texttt{--}, \texttt{++}b, b\texttt{++}\}$	&	uoi.sh \\
+UOI	&	$a,b$	&	$\{\texttt{--}\{a,b\}, \{a,b\}\texttt{--}, \texttt{++}\{a,b\}, \{a,b\}\texttt{++}\}$	&	uoi\_many.sh \\
 AOD	&	$a + b$	&	$\{a, b\}$	&	aod\_plus.sh \\
 AOD	&	$a - b$	&	$\{a, b\}$	&	aod\_minus.sh \\
 AOD	&	$a * b$	&	$\{a, b\}$	&	aod\_mult.sh \\
 AOD	&	$a / b$	&	$\{a, b\}$	&	aod\_div.sh \\
 AOD	&	$a \% b$	&	$\{a, b\}$	&	aod\_mod.sh \\
-LOD	&	$a \&\& b$	&	$\{a, b\}$	&	lod\_logic\_and.sh \\
-LOD	&	$a || b$	&	$\{a, b\}$	&	lod\_logic\_or.sh \\
-ROD	&	$>$	&	$\{a, b\}$	&	rod\_gt.sh \\
-ROD	&	$>=$	&	$\{a, b\}$	&	rod\_ge.sh \\
-ROD	&	$<$	&	$\{a, b\}$	&	rod\_lt.sh \\
-ROD	&	$<=$	&	$\{a, b\}$	&	rod\_le.sh \\
-ROD	&	$==$	&	$\{a, b\}$	&	rod\_eq.sh \\
-ROD	&	$!=$	&	$\{a, b\}$	&	rod\_neq.sh \\
-BOD	&	$\&$	&	$\{a, b\}$	&	bod\_and.sh \\
-BOD	&	$|$	&	$\{a, b\}$	&	bod\_or.sh \\
-BOD	&	$\land$	&	$\{a, b\}$	&	bod\_xor.sh \\
-SOD	&	$>>$	&	$\{a, b\}$	&	sod\_sl.sh \\
-SOD	&	$<<$	&	$\{a, b\}$	&	sod\_sr.sh \\
+AOD	&	$a / b + 1$	&	$\{1, b+1, a+1, a/b\}$	&	aod\_many.sh \\
+LOD	&	$a > 0 \&\& b > 0$	&	$\{a > 0, b > 0\}$	&	lod\_logic\_and.sh \\
+LOD	&	$a > 0 || b > 0$	&	$\{a > 0, b > 0\}$	&	lod\_logic\_or.sh \\
+LOD	&	$a > 0 \&\& b > 0) || 1$	&	$\{ 1, b>0 || 1, a > 0 || 1, a>0 \&\& b>0\}$	&	lod\_many.sh \\
+ROD	&	$a>b$	&	$\{a, b\}$	&	rod\_gt.sh \\
+ROD	&	$a>=b$	&	$\{a, b\}$	&	rod\_ge.sh \\
+ROD	&	$a<b$	&	$\{a, b\}$	&	rod\_lt.sh \\
+ROD	&	$a<=b$	&	$\{a, b\}$	&	rod\_le.sh \\
+ROD	&	$a==b$	&	$\{a, b\}$	&	rod\_eq.sh \\
+ROD	&	$a!=b$	&	$\{a, b\}$	&	rod\_neq.sh \\
+ROD	&	$a == b \&\& a != 0$	&	$\{b \&\& a != 0, a == b \&\&  0, a  \&\& a != 0, a == b \&\& a\}$	&	rod\_many.sh \\
+BOD	&	$a\&b$	&	$\{a, b\}$	&	bod\_and.sh \\
+BOD	&	$a|b$	&	$\{a, b\}$	&	bod\_or.sh \\
+BOD	&	$a \land b$	&	$\{a, b\}$	&	bod\_xor.sh \\
+BOD	&	$a \& b \& 1$	&	$\{ 1, b \& 1, a \& 1, a \& b\}$	&	bod\_many.sh \\
+SOD	&	$a>>b$	&	$\{a, b\}$	&	sod\_sl.sh \\
+SOD	&	$a<<b$	&	$\{a, b\}$	&	sod\_sr.sh \\
+SOD	&	$a >> b || b << a$	&	$\{b || b << a,a >> b || a, a || b << a, a >> b || b\}$	&	sod\_many.sh \\
 LVR	&	$0$	&	$-1$	&	lvr\_zero.sh \\
-LVR	&	$l$	&	$\{-l, 0\}$	&	lvr\_literal.sh \\
+LVR	&	$3.5$	&	$\{-3.5, 0\}$	&	lvr\_literal.sh \\
 LVR	&	\texttt{true}	&	\texttt{false}	&	lvr\_true.sh \\
 LVR	&	\texttt{false}	&	\texttt{true}	&	lvr\_false.sh \\
+LVR	&	\texttt{true \& false}	&	\texttt{false \& false}, \texttt{true \& true}	&	lvr\_false.sh \\
 \hline
 \end{tabular}
 \end{table}

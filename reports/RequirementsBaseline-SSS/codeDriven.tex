@@ -41,7 +41,7 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 
 \RQ{} The \FAQAS shall store every generated mutant on a directory tree that follows the structure of the source directory tree of the SUT.
 
-\remark Every source file is replaced by a folder; the folder has the same name of the file. The folder contains all the mutants generated for that file. 
+\remark Every source file is replaced by a folder; the folder has the same name of the file. The folder contains all the mutants generated for that file.
 
 \RQ{} The \FAQAS shall generate mutants with unique name identifiers.
 
@@ -53,20 +53,20 @@ source file name, mutated function name, mutated line, mutation operator name, m
 \RQ{} The \FAQAS shall disregard equivalent and redundant mutants based on trivial compiler equivalence.
 
 % not sure if we should keep this
-\RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according to rules specific for the \FAQAS. 
+\RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according to rules specific for the \FAQAS.
 %Fabrizio: the subject should always be FAQAS
-%The engineer shall provide a modified compilation script for the SUT (e.g., the \emph{Makefile}). 
+%The engineer shall provide a modified compilation script for the SUT (e.g., the \emph{Makefile}).
 The modified compilation script (i) shall not contain debugging nor coverage flags, (ii) shall contain a placeholder for the compiler optimization option, and (iii) shall contain a 'sort' command in the source dependency list to ensure that source files are always compiled in the same order.
 
 \RQ{} The \FAQAS shall compile every mutant with the \textit{O0}, \textit{O1}, \textit{O2}, \textit{O3}, \textit{Ofast}, and \textit{Os} GCC compiler optimisation options\footnote{https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html}.
 
-\RQ{} The \FAQAS shall generate a SHA512 hash for every compiled mutant to enable mutant comparisons. 
+\RQ{} The \FAQAS shall generate a SHA512 hash for every compiled mutant to enable mutant comparisons.
 
 \RQ{} The \FAQAS shall disregard mutants that generate a compilation error.
 
 \RQ{} The \FAQAS shall not disregard mutants that produce a compilation warning.
 
-\RQ{} The \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalence. 
+\RQ{} The \FAQAS shall a produce a list of nonequivalent and nonredundant mutants based on trivial compiler equivalence.
 
 %Fabrizio: it was fitting the implementation, not the problem to address
 \RQ{} The \FAQAS shall generate a set of prioritized and reduced test suites for every mutant.
@@ -94,7 +94,7 @@ The generation of such test suites should be  based on the PrioritizeAndReduce A
 \RQ{} The \FAQAS shall support simple runtime optimizations:
 \begin{enumerate}
 	\item stopping the execution of the test suite when the mutant has been killed,
-	\item executing only those test cases that cover the mutated statements, and 
+	\item executing only those test cases that cover the mutated statements, and
 	\item rely on timeouts to automatically detect infinite loops introduced by mutation.
 \end{enumerate}
 
@@ -116,15 +116,15 @@ The generation of such test suites should be  based on the PrioritizeAndReduce A
 
 \RQ{} The \FAQAS shall compute the mutation score of the SUT based on mutation results. Equivalent mutants shall not be considered for the computation of the mutation score (see D2).
 
-\RQ{} The \FAQAS shall produce two prioritized lists (list A and list B) of live and nonequivalent mutants. 
+\RQ{} The \FAQAS shall produce two prioritized lists (list A and list B) of live and nonequivalent mutants.
 %\TODO{We have to discuss the meaning of the following sentence}
 List A should contain live mutants that shall be inspected first by the engineers because different from the SUT (i.e., nonequivalent) and different from each other. Ideally, each mutant in list A should represent a distinct limitation of the SUT.
 List A contains mutants that have a distance $D_C$ (strictly) greater than zero; in other words, the distance between each pair of mutants appearing in list A should be greater than zero.
 List B contains all the remaining live, nonequivalent mutants.
 The two lists are sorted in decreasing order, based on the distance $D_C$ from the original program.
 
-\remark Equivalent mutants, which are discarder have a distance $D_C$ from the original program equal to zero.
-The generation of the list proceeds as follows. First, a list (list X) containing all the mutants, sorted based on distance $D_C$, is created. Iteratively, each mutant in list X is compared with each mutant in list A, if the distance is greater than zero, the mutant is added to list A, otherwise it is added to list B.
+\remark Equivalent mutants, which are discarded, have a distance $D_C$ from the original program equal to zero.
+The generation of the list proceeds as follows. First, a list (list X) containing all the mutants, sorted by distance $D_C$, is created. Iteratively, each mutant in list X is compared with each mutant in list A. If the distance is greater than zero, the mutant is added to list A, otherwise it is added to list B.
 
 
 \RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
@@ -135,7 +135,7 @@ The generation of the list proceeds as follows. First, a list (list X) containin
 \subsection{Test Suite Augmentation Based on Code-driven Mutation}
 \label{sec:codeDrivenAugmentation}
 
-The following requirements regard the Test Suite Augmentation functionality that aims to generate test cases that kill mutants generated with the Code-driven Mutation functionality of the \FAQAS.
+The following requirements regard the Test Suite Augmentation functionality aiming to generate test cases that kill mutants generated with the Code-driven Mutation functionality of the \FAQAS.
 
 \RQ{} The \FAQAS shall support test suite augmentation based on code mutation.
 
@@ -154,7 +154,7 @@ The following requirements regard the Test Suite Augmentation functionality that
 
 %\RQ{} The engineer shall inspect the generated test cases by verifying that KLEE has generated valid inputs (e.g., inputs that meet the program preconditions).
 %
-%\RQ{} The engineer shall inspect the generated test cases by verifying that the generated assertion with the expected value is correct (i.e., it reflects what indicated in the SUT specifications). 
+%\RQ{} The engineer shall inspect the generated test cases by verifying that the generated assertion with the expected value is correct (i.e., it reflects what indicated in the SUT specifications).
 %
 %\remark If the value appearing in the assertion is not correct, it means that KLEE during its execution has observed an incorrect value being generated by the SUT; for this reason, the SUT might be faulty and should be fixed.
 %
@@ -165,4 +165,3 @@ The following requirements regard the Test Suite Augmentation functionality that
 %\RQ{} The engineer shall remove the mutant from the mutation results, if the manual inspection of mutant equivalence is positive.
 %
 %\RQ{} The \FAQAS shall recompute the mutation score after ignoring the equivalent mutants detected by KLEE.
-

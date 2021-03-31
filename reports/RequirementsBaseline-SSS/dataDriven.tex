@@ -1,6 +1,6 @@
 % !TEX root = MAIN.tex
 
-\subsection{Test Suite Evaluation Based on Data-drive Mutation}
+\subsection{Test Suite Evaluation Based on Data-Mutation Testing Functionality}
 \label{sec:dataDriven}
 
 The following requirements regard the Test Suite Evaluation Based on the Data-driven Mutation Testing functionality of the \FAQAS.
@@ -13,9 +13,9 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 \RQ{} The engineer shall manually modify the source code of the SUT to integrate mutation probes into it.
 
-%\RQ{} The \FAQAS shall require the engineer to manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case. 
+%\RQ{} The \FAQAS shall require the engineer to manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case.
 %
-%\RQ{} The \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration. 
+%\RQ{} The \FAQAS shall receive as inputs the command to compile the SUT, the command to execute the test suite, the path to the extended SUT source code, and the mutants selection configuration.
 
 \RQ{} The \FAQAS shall implement the four mutants selection strategies: \emph{all mutants} (i.e., all the mutants are tested), \emph{proportional uniform sampling} (i.e., a subset of the mutants is tested selected based on a percentage), \emph{uniform fixed-size sampling} (i.e., a subset of the mutants is tested selected based on a fixed number), and \emph{uniform FSCI sampling} (i.e., a subset of the mutants is tested, they are selected according to the FSCI criterion).
 
@@ -43,9 +43,9 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 \RQ{} The \FAQAS shall provide the engineer with the means to inspect the mutation results. The \FAQAS data-driven mutation results shall include the list of data types not covered by any test case, the list of data types exercised by each test case, the list of live mutants, the list of killed mutants.
 
-%\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases. 
+%\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases.
 
-\subsection{Test Suite Augmentation Based on Data-driven Mutation}
+\subsection{Test Suite Augmentation Based on Data-driven Mutation Functionality}
 \label{sec:codeDrivenAugmentation}
 
 The following requirements regard the Test Suite Augmentation functionality that aims to generate test cases that kill mutants generated with the Data-driven Mutation functionality of the \FAQAS.
@@ -54,5 +54,5 @@ The following requirements regard the Test Suite Augmentation functionality that
 
 \RQ{} The \FAQAS shall not fully automate the Data-driven Test Suite Augmentation functionality.
 
-\remark The engineer shall execute KLEE, after performing the required scaffolding, if necessary. 
+\remark The engineer shall execute KLEE, after performing the required scaffolding, if necessary.
 Also, the engineer shall implement a test case based on KLEE's output.
