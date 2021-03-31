@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 ts_prioritized_reduced=$PRIORITIZED
 
 all_filtered=$APP_RUN_DIR/COMPILED/all_filtered

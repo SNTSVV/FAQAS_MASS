@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
 PRIORITIZED_DIR=$APP_RUN_DIR/PRIORITIZED
 mkdir -p $PRIORITIZED_DIR
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#
+# Copyright (c) University of Luxembourg 2021.
+# Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
+#
+
+
 # Both variables INSTALL_DIR and EXECUTION_DIR must be set before using this script
 # workspace installation directory
 # INSTALL_DIR=
