@@ -37,8 +37,8 @@ The package \textit{Mutant Reporting} implements the features for the generation
 	\includegraphics[width=0.9\textwidth]{images/component.png}
       \caption{UML Component diagram of the code-driven mutation testing component to evaluate test suite effectiveness.}
       \label{fig:component_diagram}
-      \DONE{Replace "creates" with "create".}
-            \DONE{Maybe yo can make "process" arrows red to make the data-flow more explicit?}
+%      \DONE{Replace "creates" with "create".}
+%            \DONE{Maybe yo can make "process" arrows red to make the data-flow more explicit?}
 \end{figure}
 
 The components of MASS are drafted in Figure~\ref{fig:component_diagram}. Figure~\ref{fig:component_diagram} relies on UML component diagram notation.
@@ -111,19 +111,19 @@ The activity \emph{Edit MASS Configuration Files} indicates that the engineers m
 	\end{itemize}
 \end{itemize}
 
-\DONE{I think \emph{Prepare compilation scripts} is now covered by \emph{Edit compilation script} in the End-user part. I suggest to remove it from \emph{FAQAS-Framework part}. Also add the information above to the description of \emph{Edit compilation script}.}
+%\DONE{I think \emph{Prepare compilation scripts} is now covered by \emph{Edit compilation script} in the End-user part. I suggest to remove it from \emph{FAQAS-Framework part}. Also add the information above to the description of \emph{Edit compilation script}.}
 
 The activity \emph{Compile SUT} in Figure~\ref{fig:process:codeDriven:evaluation} indicates that \MASS shall compile the SUT with coverage options enabled.
 
 % The activity \emph{Prepare test scripts} in Figure~\ref{fig:process:codeDriven:evaluation} concerns extending the \emph{test suite script} for the SUT to store the code coverage of each single test case separately. This is achieved by adding a call to a dedicated bash script provided by FAQAS (\emph{FAQAS-CollectCodeCoverage}) after the execution of every test case.
 
-\DONE{The \emph{Prepare test scripts} is manual. Thus it should not be part of FAQAS-Framework. However, I think it has been replaced by "Edit compilation script" or "Edit PrepareSUT", no?}
+%\DONE{The \emph{Prepare test scripts} is manual. Thus it should not be part of FAQAS-Framework. However, I think it has been replaced by "Edit compilation script" or "Edit PrepareSUT", no?}
 
 The activity \emph{Execute test cases} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the test cases following the practice for the SUT (e.g., running the command \texttt{make test}).
 
 The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of a program delivered with the FAQAS framework (i.e., FAQAS-GenerateCodeCoverageMatrix).
 
-\DONE{Some output arrows departing from FAQAS-GenerateCodeCoverageMatrix are missing}
+%\DONE{Some output arrows departing from FAQAS-GenerateCodeCoverageMatrix are missing}
 
 The activity \emph{Execute FAQAS-GenerateCodeCoverageMatrix} in Figure~\ref{fig:process:codeDriven:evaluation} generates a set of files: 
 \begin{itemize}
@@ -138,8 +138,8 @@ The program \emph{FAQAS-GenerateMutants} automatically generates a number of cop
 
 \emph{FAQAS-GenerateMutants} mutates source files implemented with C/C++ programming languages.
 
-\DONE{What about C++? I think we promised it...}
-\OSCAR{We haven't tried yet... since all case studies are written in C.}
+%\DONE{What about C++? I think we promised it...}
+%\OSCAR{We haven't tried yet... since all case studies are written in C.}
 
 \emph{FAQAS-GenerateMutants} generates mutants by applying a set of mutation operators that can be selected by the end-users.
 
@@ -161,7 +161,7 @@ vmem_checksum_first.mut.145.7_1_13.ROR.vmem_param_load.c
 telemetry_appender.mut.116.3_1_18.ROR.gs_log_appender_telem_append_isr.c
 \end{verbatim}
 
-\DONE{The "compilation script" should be an output of \emph{Edit compilation script}}
+%\DONE{The "compilation script" should be an output of \emph{Edit compilation script}}
 
 Activity \emph{Execute FAQAS-CompileOptimizedMutants} in Figure~\ref{fig:process:codeDriven:evaluation} concerns the execution of the program \emph{FAQAS-CompileOptimizedMutants}.
 
