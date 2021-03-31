@@ -4,7 +4,7 @@
 
 \section{General}
 
-A single procedure has been identified to perform unit testing of MASS, it is described in the following.
+A single procedure has been identified to perform unit testing of MASS. It is described in the following.
 
 \section{MASS Test Procedure}
 
@@ -19,25 +19,25 @@ This procedure aims to execute all the test cases reported in Table~\ref{table:m
 
 \subsection{Procedure steps}
 
-\subsubsection{log}
+\subsubsection{Log}
 %describe any special methods or format for logging the results of test execution, the incidents observed, and any other event pertinent to this test;
-Since test cases are executed within a console, the output of the test cases can be considered as is. 
+Since the test cases are executed within a console, the output of the test cases can be considered as is. 
 In case failures need to be reported, the console output should be copy-pasted.
-\subsubsection{set up}
-\emph{SRCMutation} comes with test cases already set-up. The only precondition is to compile the software by running the command \emph{make}.
+\subsubsection{Set-up}
+\emph{SRCMutation} comes with the test cases already set-up. The only precondition is to compile the software by running the command \emph{make}.
 %: describe the sequence of actions to set up the procedure execution;
-\subsubsection{start}
+\subsubsection{Start}
 %: describe the actions to begin the procedure execution; proceed: describe the actions during the procedure execution;
 Test cases are executed by running the script \texttt{run\_unit\_tests.sh}.
-\subsubsection{test result acquisition}
-Test results are print out on the console.
+\subsubsection{Test Result Acquisition}
+Test results are printed out on the console.
 %: describe how the test measurements is made;
-\subsubsection{shut down}
+\subsubsection{Shut Down}
 Test cases are shut down through a SIGINT (i.e., pressing \texttt{CTRL-C})
 %: describe the action to suspend testing when interruption is forced by unscheduled events;
-\subsubsection{restart}
+\subsubsection{Restart}
 Test cases can be restarted at any point by re-running the script \texttt{run\_unit\_tests.sh}.
 %: identify any procedural restart points and describe the actions to restart the procedure at each of these points;
-\subsubsection{wrap up}
-Test execution terminates autonomously, no further action is needed.
+\subsubsection{Wrap-up}
+The test execution terminates autonomously, no further action is needed.
 %: describe the actions to terminate testing.

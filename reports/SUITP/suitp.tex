@@ -7,11 +7,11 @@
 
 Unit tests are prepared by SnT in the form of executable Bash shell scripts. Test inputs are identified according to the procedures described in this document.
 
-Since units are self-contained (i.e., they do not interact with other units but simply store results in files processed by other units), we avoid testing the integration of pairs of unit. Instead, we test the system as a whole, based on tutorial examples described in SUM. The system testing procedure is reported in the SVS - software validation specification.
+Since units are self-contained (i.e., they do not interact with other units but simply store results in files processed by other units), we avoid testing the integration of pairs of unit. Instead, we test the system as a whole, based on tutorial examples described in SUM. The system testing procedure is reported in the SVS - Software Validation Specification.
 
 Testing is conducted by SnT personnel.
 
-If any software problems occur during testing a development issue shall be raised in GitLab Issue Tracker for the \FAQAS (see Section~\ref{chapter:control:procedure}), which shall be amended by SnT personnel.
+If any software problem occur during testing a development issue shall be raised in the GitLab Issue Tracker for the \FAQAS (see Section~\ref{chapter:control:procedure}), which shall be amended by SnT personnel.
 
 %\section{Master schedule}
 
@@ -28,7 +28,7 @@ The test cases are executed by an SnT specialist who has the responsibility of r
 
 \section{Tool, techniques and methods}
 
-Unit tests are specified in Bash files. Each unit test contains a launcher script that configures the environment for the correct execution of \FAQAS, and a source code example for its mutation. The launcher script will invoke a dedicated operator Bash script, that generates the corresponding mutants and assesses its results.
+Unit tests are specified in Bash files. Each unit test contains a launcher script that configures the environment for the correct execution of \FAQAS, and a source code example to mutate. The launcher script will invoke a dedicated operator Bash script, that will generate the corresponding mutants and will assess its results.
 
 
 \section{Personnel and Personnel Training Requirements}
