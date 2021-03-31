@@ -22,4 +22,4 @@ for it in `seq 1 1 $total_lines`;do coverage+=($it); done
 echo "$FILE:"`join_by , ${coverage[@]}` > ~/.srciror/coverage
 rm *.mut.*  
 
-source ./abs_val.sh $MUTATOR $FILE
+source ./aod_many.sh $MUTATOR $FILE
