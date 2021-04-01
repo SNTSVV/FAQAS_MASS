@@ -8,7 +8,7 @@
 
 
 
-Table~\ref{table:matrix} provides the list of unit test cases derived based on the procedure described in Chapter~\ref{chap:spec}. 
+Table~\ref{table:matrix} provides the list of unit test cases derived based on the procedure described in Chapter~\ref{chap:spec}.
 Column \emph{Term to replace} indicates the operator appearing in the line to be mutated. When a test case is supposed to mutate many terms, we report all of them.
 Column \emph{Replacements} provides, for each operator, the expected replacements.
 Note that \emph{SRCMutation} shall generate one distinct mutant for each element of the replacement column.
@@ -19,7 +19,7 @@ Note that \emph{SRCMutation} shall generate one distinct mutant for each element
 
 % \TODO{Add missing test cases}
 
-%We define one test case for each mutation operator 
+%We define one test case for each mutation operator
 %The purpose of each test case is to verify that, for a selected input CMC produces an output that matches the specifications. This implies that every line of
 
 
@@ -50,10 +50,7 @@ fi
 \end{lstlisting}
 
 
-Listings~\ref{test_source} and~\ref{test_example} introduce an example of source code and test case for the mutation operator ABS, respectively. As shown in Listing~\ref{test_example}, each test case (i) invokes the mutator component selecting the corresponding operator acronym (Line 1), (ii) defines the expected output for operator (Line 3), (iii) checks if there are differences between the actual output of the component and the expected output (Line 5), (iv) print out the test result (Lines 7-11).
+Listings~\ref{test_source} and~\ref{test_example} introduce an example of source code and test case for the mutation operator ABS, respectively. As shown in Listing~\ref{test_example}, each test case (i) invokes the mutator selecting the corresponding operator acronym (Line 1), (ii) defines the expected output for the operator (Line 3), (iii) checks if there are differences between the actual output of the component and the expected output (Line 5), (iv) prints out the test result (Lines 7-11).
 
 All test cases are independent from each other; therefore there is no need for executing test cases in a specific order.
-Note that a mutation operator might produce one or more mutants for a single input, all outputs shall be as expected.
-
-
-
+Note that, in the cases where a mutation operator might produce more than one mutant for a single input, all outputs shall be as expected.

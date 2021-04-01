@@ -6,7 +6,7 @@
 
 \section{General}
 
-The MASS unit test suite concerns the source code mutation component (SRCMutation). It address its functional requirements. A single test design has been identified, it is based on the category partition method and reported in the following sections.
+The MASS unit test suite concerns the source code mutation component (SRCMutation). It address its functional requirements. A single test design has been identified: it is based on the category partition method and reported in the following sections.
 
 
 
@@ -16,22 +16,22 @@ The MASS unit test suite concerns the source code mutation component (SRCMutatio
 
 The test design identifier is \emph{MASS-TD-SRCMutation-1}
 
-With this test design we aim to ensure that each mutation operator for the FAQAS is implemented according to its requirements.
+With this test design we aim to ensure that each mutation operator for the \FAQAS is implemented according to its requirements.
 
 \subsection{Features to be tested}
 
 Table~\ref{table:operators} shows the specifications for the mutation operators implemented by SRCMutation.
 
 The set of SRCMutation mutation operators is composed of the following: Absolute Value Insertion (ABS), Arithmetic Operator Replacement (AOR), Integer Constraint Replacement (ICR), Logical Connector Replacement (LCR), Relational Operator Replacement (ROR), Unary Operator Insertion (UOI), Statement Deletion Operator (SDL), and Literal Value Replacement (LVR).
-It also include OODL mutation operators: delete Arithmetic (AOD), Bitwise (BOD), Logical (LOD), Relational (ROD), and Shift (SOD) operators.
+It also includes OODL mutation operators: delete Arithmetic (AOD), Bitwise (BOD), Logical (LOD), Relational (ROD), and Shift (SOD) operators.
 
 \input{tables/operators}
 
 
-Each mutation operator, when applied to a statement, generates one or more mutated statements.
-Each mutation operator works by altering the value of a \emph{term} in a statement, which could be either an operator  ($op$), a value ($v$), or a literal ($l$). More precisely, each mutation operator replaces a term with a number of replacement terms, which are identified based on the rules in the description column of Table~\ref{table:operators}.
-For each term to mutate, SRCMutation shall generate one mutant including each replacement term.
-If a statement includes more than one term to mutate, the mutation operator generates a set of mutants for each term to mutate. Table~\ref{table:operators:terms}, shows, for every mutation operator the terms it mutates and the replacement terms (separated by comma). Replacement terms shall be used when defining test assertions (i.e., we shall verify that the term to mutate has been replaced by all the available replacements, one for each generated mutant).
+
+Each mutation operator, when applied to a statement, generates one or more mutated statements by altering the value of a \emph{term} in a statement, which could be either an operator  ($op$), a value ($v$), or a literal ($l$). More precisely, each mutation operator  replaces a term with a number of replacement terms, which are identified following the rules in the description column of Table~\ref{table:operators}.
+For each term to mutate, SRCMutation shall generate one mutant for every replacement term contained in its description.
+If a statement includes more than one term to mutate, the mutation operator generates a set of mutants for each term to mutate. Table~\ref{table:operators:terms}, shows, for every mutation operator the terms it targets and the replacement terms (separated by comma). Replacement terms shall be used when defining test assertions (i.e., we shall verify that the term to mutate has been replaced any of the available replacements, one for each generated mutant).
 
 
 \input{tables/operatorsInputs.tex}
@@ -40,19 +40,25 @@ If a statement includes more than one term to mutate, the mutation operator gene
 
 \subsection{Approach refinements}
 
-Based on Table~\ref{table:operators:terms} we can derive the categories to be used for the category-partition method. 
+Referring to Table~\ref{table:operators:terms} we can derive the categories to be used for the category-partition method.
 They are \emph{Operator} (i.e., the operator to be applied, which could be a specific \emph{one} or \emph{many} operators at once) and \emph{Term to replace} (which depend on the operator and might be either \emph{one} or \emph{many} for each statement).
 
-We provide the identified categories and class values in tabular form, in Table~\ref{table:operators:categories}. 
-%Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, 
-%to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
-To facilitate reading, due to the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations instead of listing dependencies.
-
-In Table~\ref{table:operators:categories}, the keyword \emph{many} indicates that either (a) more than one term should be replaced in a same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in a same statement (if the keyword \emph{many} appears under \emph{Operator}).
-In Table~\ref{table:operators:categories}, column \emph{Constraints} reports other standard category-partition constraints (we use only the keyword \emph{[single]}, which indicates that all the value classes shall be tested once).
-Finally, we also provide corresponding test identifiers, which match the name of the test script file. Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' term to mutate.
+%<<<<<<< HEAD
+%We provide the identified categories and class values in tabular form, in Table~\ref{table:operators:categories}. 
+%%Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, 
+%%to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
+%To facilitate reading, due to the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations instead of listing dependencies.
+%
+%In Table~\ref{table:operators:categories}, the keyword \emph{many} indicates that either (a) more than one term should be replaced in a same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in a same statement (if the keyword \emph{many} appears under \emph{Operator}).
+%In Table~\ref{table:operators:categories}, column \emph{Constraints} reports other standard category-partition constraints (we use only the keyword \emph{[single]}, which indicates that all the value classes shall be tested once).
+%Finally, we also provide corresponding test identifiers, which match the name of the test script file. Test cases are identified using the name of the operator acronym and the input type to be processed, for example the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' term to mutate.
+%=======
+We provide the identified categories and class values in tabular form (Table~\ref{table:operators:categories}).
+Because of the presence of many constraints between the categories \emph{Operator} and \emph{Term to replace},
+to simplify the reading, in Table~\ref{table:operators:categories}, instead of listing dependencies between \emph{Operator} and \emph{Term to replace}, we simply provide all the feasible combinations.
+The keyword \emph{many} may indicate that either (a) more than one term should be replaced in the same statement (if the keyword \emph{many} appears under \emph{Term to replace}) or (b) more than one operator shall be applied in the same statement (if the keyword \emph{many} appears under \emph{Operator}).
+The column \emph{Constraints} reports other standard category-partition constraints (we use only the keyword \emph{[single]}, which indicates that all the value classes shall be tested once).
+Finally, we provide corresponding test identifiers, which match the name of the parent test script file. Test cases are identified using the acronym of the operator's name and the input type to be processed. For example, the test case \texttt{ror\_lt.sh} represents the ROR operator for the ``less than'' term to mutate.
+%>>>>>>> a8242b31f0f6f39fc88cabd7d5f0487dbf8648d8
 
 \input{tables/operatorsCategories.tex}
-
-
-
