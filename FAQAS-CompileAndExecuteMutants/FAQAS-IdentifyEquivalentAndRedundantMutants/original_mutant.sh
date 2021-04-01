@@ -57,6 +57,13 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
         echo "Mutant: "$i 2>&1 | tee -a $MUTANT_LOGFILE
 
         # replacing mutant by original source
+        # Note: this has to be done on PROJ and TST_COVERAGE_FOLDER
+        # since we do not know where gcov files points to
+        pushd $TST_COVERAGE_FOLDER
+        find . -wholename "*${filename_orig}" -exec cp "{}" "{}.orig" \;
+        find . -wholename "*${filename_orig}" -exec cp $i "{}" \;
+        popd
+
         cd $PROJ
 
         echo cp $filename_orig $filename_orig.orig 2>&1 | tee -a $MUTANT_LOGFILE
@@ -111,6 +118,14 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
         cd $PROJ
         mv $filename_orig.orig $filename_orig
         touch $filename_orig
+
+        pushd $TST_COVERAGE_FOLDER
+            for find_filename_orig in $(find . -wholename "*${filename_orig}.orig");do
+                original_file=$(echo $find_filename_orig | sed "s:\.orig::")
+                mv $find_filename_orig $original_file
+                touch $original_file
+            done
+        popd
 
         rm -rf $MUTANT_COVERAGE_FOLDER/*
 
