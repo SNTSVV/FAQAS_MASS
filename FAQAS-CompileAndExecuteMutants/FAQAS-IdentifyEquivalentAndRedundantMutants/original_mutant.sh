@@ -38,6 +38,8 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
     
     line_number=$(echo $mutant_name | awk -F'.' '{print $3}')
     
+    operator=$(echo $mutant_name | awk -F'.' '{print $5}')
+    
     file_wo_mut_end=.${file_wo_opt%%.*}.c
 
     filename="$(basename -- ${file_wo_mut_end%.*})"
@@ -105,7 +107,7 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
 
             echo -n "${filename_orig};${mutant_name};${tst};" >> $LOGFILE
 
-            $DIST_SCRIPT --name "$filename_orig" --cov_a "$RESULTS_COV" --cov_b "$RESULTS_NEW_COV" --result "$LOGFILE" --line "$line_number" | tee -a $MUTANT_LOGFILE
+            $DIST_SCRIPT --name "$filename_orig" --cov_a "$RESULTS_COV" --cov_b "$RESULTS_NEW_COV" --result "$LOGFILE" --line "$line_number" --operator "$operator" | tee -a $MUTANT_LOGFILE
 
             mutant_end_time=$(($(date +%s%N)/1000000))
             mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
