@@ -18,7 +18,7 @@ def mutate(compiler, ext, mutator, args, compiler_include_flags, src_indices, op
 #            print("no coverage info for the file: " + src_file + ", so assume wants to mutate all")
 #            cov_info = "all"	
             print("no coverage info for the file: " + src_file + ", skipping file")
-	    return
+            return
 
         command = mutator + " " + src_file + " -coverage_info=" +  cov_info + " -operators=" + operators + " -- " + " ".join(args) + ' -I'  + compiler_include_flags.strip()
         print("THE ACTUAL COMMAND IS: " + command)
@@ -65,7 +65,7 @@ def main():
     if arguments.operators:
         operators = arguments.operators[0]
     else:
-	operators = "all"
+        operators = "all"
 
     if '-fstack-usage' in args: # TODO: What is -fstack-usage?
         args.remove('-fstack-usage')
