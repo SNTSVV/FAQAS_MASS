@@ -268,8 +268,8 @@ def compute_selection_expr(orig_expr, mid2expr):
 def compute_switch_stmt(id2stmt, default_stmt):
     res = "switch (klee_semu_GenMu_Mutant_ID_Selector) {\n"
     for mid, stmt in id2stmt.items():
-        res += "    case {}: {}{} break;\n".format(mid, stmt, ";" if (len(stmt) > 0 and stmt[-1] != ";") else "")
-    res += "    default: {}{} break;\n".format(default_stmt, ";" if (len(default_stmt) > 0 and default_stmt[-1] != ";") else "")
+        res += "    case {}: {{{}{} break;}}\n".format(mid, stmt, ";" if (len(stmt) > 0 and stmt[-1] != ";") else "")
+    res += "    default: {{{}{} break;}}\n".format(default_stmt, ";" if (len(default_stmt) > 0 and default_stmt[-1] != ";") else "")
     res += "}"
     return res
 

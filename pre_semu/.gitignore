@@ -1,0 +1,3 @@
+test/mutants/
+test/full_sdl_mutants/
+test/x.MetaMu.*
