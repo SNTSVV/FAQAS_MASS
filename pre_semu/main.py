@@ -177,7 +177,7 @@ def get_stmt_to_expr_to_mutant(mutant_list):
                         r_dat = tmp[r_idx]
                         o_dat = tmp[o_idx]
                         if min(r_dat[1], o_dat[1]) - max(r_dat[0], o_dat[0]) >= 0 \
-                                    and (r_dat[1] - o_dat[1]) * (r_dat[0] - o_dat[0]) >= 0:
+                                    and (r_dat[1] - o_dat[1]) * (r_dat[0] - o_dat[0]) > 0:
                             # there is crossing, merge
                             merged_obj = range_to_vlist[r_dat] + range_to_vlist[o_dat]
                             del range_to_vlist[r_dat]
@@ -188,7 +188,7 @@ def get_stmt_to_expr_to_mutant(mutant_list):
                             else:
                                 range_to_vlist[new_expr] = merged_obj
                             crossing = True
-                            assert False, "Got crosing, strange. (TODO: expand the mutant replacement code and uncomment this)"
+                            assert False, "Got crossing, strange. (TODO: expand the mutant replacement code and uncomment this) {}, {}".format(r_dat, o_dat)
                             break
                 
         # get expressions
@@ -206,13 +206,14 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
     
     code = {}
     for i in range(len(orig_src_str)):
-        code[i+1] = {(i+1, i+2): orig_src_str[i]}
+        code[i] = {(i, i+1): orig_src_str[i]}
     #print(len(orig_src_str) + 1)
 
     def get_code(start, after_end):
         # get the larget interval starting at start
         largest = max(code[start].keys(), key=lambda x:(int(after_end>=x[1]), x[1]-after_end))
         if largest[1] < after_end:
+            #print("DBG", largest[1], after_end, code[largest[1]])
             return code[start][largest] + get_code(largest[1], after_end)
         return code[start][largest]
 
@@ -226,16 +227,18 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
         for expr in exprs:
             existing_code = get_code(expr[0], expr[1])
             id2repl = {mut.int_id: mut.changed_info.mut_str for mut in stmt_to_expr_to_mut[stmt][expr]}
+            #print("# DBG", id2repl, stmt_to_expr_to_mut[stmt][expr][0].changed_info.mut_str, stmt_to_expr_to_mut[stmt][expr][0].changed_info.filename)
             if stmt_to_expr_to_mut[stmt][expr][0]._is_whole_stmt():
                 mutated = compute_switch_stmt(id2repl, existing_code)
             else:
                 mutated = compute_selection_expr(existing_code, id2repl)
+            set_code(expr[0], expr[1], mutated)
             stmt2mutant_ids[stmt] += list(id2repl)
     for stmt, mut_list in stmt2mutant_ids.items():
         existing_code = get_code(stmt.start_index, stmt.end_index)
         sel_stmts = compute_mutation_points(mut_list)
         set_code(stmt.start_index, stmt.end_index, sel_stmts + existing_code)
-    return get_code(1, len(orig_src_str)+1)
+    return get_code(0, len(orig_src_str))
 
 MID_SEL_GLOBAL = "klee_semu_GenMu_Mutant_ID_Selector"
 
@@ -243,7 +246,7 @@ def compute_mutation_points(mut_list):
     s_list = sorted(mut_list)
     ranges =[]
 
-    for k,g in groupby(enumerate(data),lambda x:x[0]-x[1]):
+    for k,g in groupby(enumerate(s_list),lambda x:x[0]-x[1]):
         group = (map(itemgetter(1),g))
         group = list(map(int,group))
         ranges.append((group[0],group[-1]))
@@ -257,15 +260,16 @@ def compute_mutation_point_str(mut_start_id, mut_end_id):
     return "klee_semu_GenMu_Mutant_ID_Selector_Func({},{});".format(mut_start_id, mut_end_id)
 
 def compute_selection_expr(orig_expr, mid2expr):
-    res = "(" + orig_str + ")"
+    res = "(" + orig_expr + ")"
     for mid, mexpr in sorted(mid2expr.items()):
-        res = "({}=={}?({}):{})".format(MID_SEL_GLOBAL, mid, mexpr, res)
+        res = "({}=={}?\n({}):\n{})".format(MID_SEL_GLOBAL, mid, mexpr, res)
+    return res
 
 def compute_switch_stmt(id2stmt, default_stmt):
     res = "switch (klee_semu_GenMu_Mutant_ID_Selector) {\n"
     for mid, stmt in id2stmt.items():
-        res += "    case {}: {}{} break".format(mid, stmt, ";" if stmt[-1] != ";" else "")
-    res += "    default: {}{} break".format(default_stmt, ";" if default_stmt[-1] != ";" else "")
+        res += "    case {}: {}{} break;\n".format(mid, stmt, ";" if (len(stmt) > 0 and stmt[-1] != ";") else "")
+    res += "    default: {}{} break;\n".format(default_stmt, ";" if (len(default_stmt) > 0 and default_stmt[-1] != ";") else "")
     res += "}"
     return res
 
