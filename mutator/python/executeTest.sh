@@ -17,12 +17,6 @@ rm $outFile
 
 pwd
 
-# if [[ -z _FAQAS_SINGLETON_FM ]]; then
-#     extra=""
-# else
-#     extra="-D_FAQAS_SINGLETON_FM"
-# fi
-
 operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
 echo $operations
 x=-1
