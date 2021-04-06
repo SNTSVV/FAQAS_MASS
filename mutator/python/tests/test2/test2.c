@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include "FAQAS_dataDrivenMutator.h"
 
 
@@ -8,7 +8,7 @@ int mutate( std::vector<int> *v, FaultModel *fm ){
     return _FAQAS_mutate(v->data(),fm);
 }
 
- 
+
 int main()
 {
     // Create a vector containing integers
@@ -22,7 +22,8 @@ int main()
 
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
-    mutate( &v, fm );    
+    mutate( &v, fm );
+    _FAQAS_delete_FM(fm);    
     //MANUALLY ADDED PROBE END
 
     for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {

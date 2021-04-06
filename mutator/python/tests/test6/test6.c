@@ -80,6 +80,7 @@ int main()
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
     mutate( &v, fm );
+_FAQAS_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
 
