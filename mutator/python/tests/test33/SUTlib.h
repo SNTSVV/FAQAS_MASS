@@ -81,6 +81,7 @@ void sensorA() {
   // PROBE
   FaultModel *fm = _FAQAS_SensorA_FM();
   mutate(&bufferA, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 }
 
@@ -96,6 +97,7 @@ void sensorB() {
   // PROBE
   FaultModel *fm = _FAQAS_SensorB_FM();
   mutate(&bufferA, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 }
 
@@ -112,6 +114,7 @@ void sensorC() {
   // PROBE
   FaultModel *fm = _FAQAS_SensorC_FM();
   mutate(&bufferA, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 }
 
@@ -126,6 +129,7 @@ void actuatorA() {
   // PROBE
   FaultModel *fm = _FAQAS_ActuatorA_FM();
   mutate(&bufferMain, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 
   memcpy(&add, &bufferMain[0], sizeof(add));
@@ -150,6 +154,7 @@ void actuatorB() {
   // PROBE
   FaultModel *fm = _FAQAS_ActuatorB_FM();
   mutate(&bufferMain, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 
   int add = 0;
@@ -175,6 +180,7 @@ void actuatorC() {
   // PROBE
   FaultModel *fm = _FAQAS_ActuatorC_FM();
   mutate(&bufferMain, fm);
+  _FAQAS_delete_FM(fm);
   // END OF THE PROBE
 
   int add = 0;
