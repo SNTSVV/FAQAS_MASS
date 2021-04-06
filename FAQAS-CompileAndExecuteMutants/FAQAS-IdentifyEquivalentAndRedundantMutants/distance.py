@@ -23,7 +23,7 @@ cov_a = args.cov_a
 cov_b = args.cov_b
 name = args.name
 result = args.result
-lineNumber = int(args.line)
+lineNumber = int(args.line) - 1
 operator = args.operator
 
 def getCoverageAsList(test):                                                                                                         
