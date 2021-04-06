@@ -16,7 +16,7 @@ compilerOutFile=${curTest}.compile.out
 valgrindOutFile=${curTest}.valgrind.out
 rm $outFile
 rm $compilerOutFile
-rm $valgrindOutFile
+#rm $valgrindOutFile
 
 pwd
 
@@ -25,7 +25,7 @@ echo $operations
 x=-1
 while [ $x -le $operations ]; do
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+    #valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
 

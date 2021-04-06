@@ -107,13 +107,16 @@ void _FAQAS_delete_FM(FaultModel *dm) {
     if ( dm == 0 )
         return;
 
-    #ifndef _FAQAS_SINGLETON_FM
+
     //free( dm->items );
     //free( dm );
 
-		delete dm->items;
+		delete[] dm->items;
 		delete dm;
-    #endif
+
+		dm->items = 0;
+		dm = 0;
+
 }
 
 //memory for HV
