@@ -1,7 +1,7 @@
 #/bin/bash
 
 #The following is necessary to use the singletn mode
-export _FAQAS_SINGLETON_FM=True
+#export _FAQAS_SINGLETON_FM=True
 
 bash cleanTests.sh
 
