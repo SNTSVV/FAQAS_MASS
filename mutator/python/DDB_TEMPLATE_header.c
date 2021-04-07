@@ -110,14 +110,14 @@ void _FAQAS_delete_FM(FaultModel *dm) {
 
     //free( dm->items );
     //free( dm );
-		dm->items = 0;
+
 
 		delete[] dm->items;
-
-		dm = 0;
+		dm->items = 0;
 
 		delete dm;
-
+		dm = 0;
+		
 }
 
 //memory for HV
