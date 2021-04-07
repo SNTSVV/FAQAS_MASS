@@ -114,7 +114,7 @@ void _FAQAS_delete_FM(FaultModel *dm) {
 		delete[] dm->items;
 		delete dm;
 
-		dm->items = 0;
+		dm->items = NULL;
 		dm = 0;
 
 }
