@@ -30,7 +30,7 @@ int main()
     //MANUALLY ADDED PROBE
 
     mutate( &v, fm );
-_FAQAS_delete_FM(fm);
+
     //MANUALLY ADDED PROBE END
     printf("*********%d**********\n",v.at(1));
 
@@ -40,6 +40,7 @@ _FAQAS_delete_FM(fm);
     }
 
     }
+    _FAQAS_delete_FM(fm);
 
     return 0;
 }
