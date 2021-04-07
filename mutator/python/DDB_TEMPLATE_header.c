@@ -110,12 +110,13 @@ void _FAQAS_delete_FM(FaultModel *dm) {
 
     //free( dm->items );
     //free( dm );
+		dm->items = 0;
 
 		delete[] dm->items;
-		delete dm;
 
-		dm->items = NULL;
 		dm = 0;
+
+		delete dm;
 
 }
 
