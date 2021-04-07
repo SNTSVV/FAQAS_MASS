@@ -6,6 +6,7 @@
 #
 
 import os, sys
+from collections import OrderedDict
 
 equivalents_list = [] # distance zero
 
@@ -19,7 +20,7 @@ def load_equivalents(file_path):
             if float(distance_trace[3]) == 0.0:
                 equivalents_list.append(distance_trace[1] + '|' + distance_trace[0])
             else:
-                key = distance_trace[0] + '|' + distance_trace[3]
+                key = distance_trace[3] + '|' + distance_trace[0]
                 value = distance_trace[1] + '|' + distance_trace[0]                
 
                 if key in eq_dict:
@@ -31,16 +32,18 @@ def load_equivalents(file_path):
 def get_list_useful_a(useful_live_dict):
    
     useful_list = []
-     
-    for key, value in useful_live_dict.items():
+    od = OrderedDict(sorted(useful_live_dict.items(), key = lambda x: float(x[0].split('|')[0]), reverse=True))
+ 
+    for key, value in od.items():
         useful_list.append(value.pop())
 
     return useful_list
 def get_list_useful_b(useful_live_dict):
    
     useful_list = []
-     
-    for key, value in useful_live_dict.items():
+    od = OrderedDict(sorted(useful_live_dict.items(), key = lambda x: float(x[0].split('|')[0]), reverse=True))
+
+    for key, value in od.items():
 
         if len(value) > 0:
             for mutant in value:
@@ -71,7 +74,6 @@ if __name__ == '__main__':
     print("size list A:", len(useful_list_a))
     print("size list B:", len(useful_list_b))
     print("size list equivalents:", len(equivalents_list))
-
 
     printList(useful_list_a, os.path.join(dir_path, "useful_list_a"))
     printList(useful_list_b, os.path.join(dir_path, "useful_list_b"))
