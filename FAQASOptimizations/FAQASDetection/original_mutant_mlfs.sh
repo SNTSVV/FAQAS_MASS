@@ -34,6 +34,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
     location_orig=$(dirname $filename_orig)
 
     line_number=$(echo $mutant_name | awk -F'.' '{print $3}')
+    operator=$(echo $mutant_name | awk -F'.' '{print $5}')
 
     if grep -Fxq $mutant_name $MUTANT_LIST;then
         start_time=$(($(date +%s%N)/1000000))  
@@ -56,6 +57,13 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         echo cp $i $filename_orig 2>&1 | tee -a $MUTANT_LOGFILE
         cp $i $filename_orig
 
+
+
+        pushd $PROJ_TST
+        find . -wholename "*${filename_orig/\.\//}" -exec cp "{}" "{}.orig" \;
+        find . -wholename "*${filename_orig/\.\//}" -exec cp $i "{}" \;
+        popd
+
         exec_loc=$(find $MUTANTS_TRACES -name 'main.csv' | xargs grep -m 1 "${mutant_name}" | awk -F':' '{print $1}' | xargs dirname)                                                                                                                           
         exec_loc_cov=${MUTANTS_RUN}/${exec_loc//$MUTANTS_TRACES/}
         
@@ -66,7 +74,8 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         for f in *.tar.gz;do tar -xzf "$f";done
     
         find . -name '*.gc*' -exec cp --parents {} $PROJ_TST \;
-        
+        cd ../ && rm -rf coverage/
+ 
         source $COV_SCRIPT   
    
         cd $PROJ_TST
@@ -99,7 +108,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             
             echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 
-            $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS_COV" --cov_b "$RESULTS_NEW_COV" --result "$LOGFILE" --line "$line_number" | tee -a $MUTANT_LOGFILE
+            $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS_COV" --cov_b "$RESULTS_NEW_COV" --result "$LOGFILE" --line "$line_number" --operator "$operator" | tee -a $MUTANT_LOGFILE
 
             mutant_end_time=$(($(date +%s%N)/1000000))
             mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
@@ -112,6 +121,14 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         cd $PROJ_SRC
         mv $filename_orig.orig $filename_orig
         touch $filename_orig
+
+        pushd $PROJ_TST
+            for find_filename_orig in $(find . -wholename "*${filename_orig/\.\//}.orig");do
+                original_file=$(echo $find_filename_orig | sed "s:\.orig::")
+                mv $find_filename_orig $original_file
+                touch $original_file
+            done
+        popd
 
         rm -rf $MUTANT_COVERAGE_FOLDER/*
 

@@ -39,6 +39,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
         location_prefix=$location_orig
     fi
     
+    operator=$(echo $mutant_name | awk -F'.' '{print $5}')    
     line_number=$(echo $mutant_name | awk -F'.' '{print $3}')
     mutant_key="${mutant_name}|${location_prefix}"
 
@@ -111,7 +112,7 @@ for i in $(find $SRC_MUTANTS -name '*.c');do
             
             echo -n "${mutant_cov_name};${mutant_name};${location_orig};${tst};" >> $LOGFILE
 
-            $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS/${tst}coverage.txt" --cov_b "$MUTANT_COVERAGE_FOLDER/${tst}coverage.txt" --result "$LOGFILE" --line "$line_number" | tee -a $MUTANT_LOGFILE
+            $PYTHON -u $DIST_SCRIPT --name "$mutant_cov_name" --cov_a "$RESULTS/${tst}coverage.txt" --cov_b "$MUTANT_COVERAGE_FOLDER/${tst}coverage.txt" --result "$LOGFILE" --line "$line_number" --operator "$operator" | tee -a $MUTANT_LOGFILE
 
             mutant_end_time=$(($(date +%s%N)/1000000))
             mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"

@@ -8,6 +8,7 @@ parser.add_argument('--cov_a', type=str)
 parser.add_argument('--cov_b', type=str)
 parser.add_argument('--result', type=str)
 parser.add_argument('--line', type=int) 
+parser.add_argument('--operator', type=str)
 
 args = parser.parse_args()
 
@@ -15,7 +16,8 @@ cov_a = args.cov_a
 cov_b = args.cov_b
 name = args.name
 result = args.result
-lineNumber = int(args.line)
+operator = args.operator
+lineNumber = int(args.line) - 1
 
 def getCoverageAsList(test):                                                                                                         
     global name
@@ -51,13 +53,17 @@ def get_distance(testA, testB):
         else:
             covBList.append(int(0))
 
-    if len(covAList) != len(covBList):
-        global lineNumber
-        while len(covAList) != len(covBList):
-            if len(covAList) > len(covBList):
-                covBList.insert(lineNumber, int(0))
-            else:
-                covAList.insert(lineNumber, int(0))
+    global lineNumber
+    if operator == "SDL":
+        if len(covAList) == len(covBList):
+            del covAList[lineNumber]
+            del covBList[lineNumber]
+        else:
+            while len(covAList) > len(covBList):
+                del covAList[lineNumber]
+            del covAList[lineNumber]
+            del covBList[lineNumber]
+    
     print(covAList) 
     print(covBList) 
 
