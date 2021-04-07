@@ -19,7 +19,12 @@ export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
 instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
+valgrindOutFile=${curTest}.valgrind.out
 rm $outFile
+rm $compilerOutFile
+rm $valgrindOutFile
+rm $instrumentedCompilerOutFile
+
 
 pwd
 
@@ -30,9 +35,15 @@ while [ $x -le $operations ]; do
 
 
 
-    g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
+    # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
+
+    g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+
     ./main_$x >> $outFile 2>&1
+
     echo "=====" >> $outFile 2>&1
+
 
     if [ $x -eq -2 ]; then
       python FMcoverage2.py "${curTest}"
