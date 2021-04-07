@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <assert.h>     /* assert */
 #include "FAQAS_dataDrivenMutator.h"
 
 
