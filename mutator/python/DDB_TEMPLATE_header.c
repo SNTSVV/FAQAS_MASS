@@ -14,8 +14,8 @@
 //math.h is included for the INV (normal distribution) and for the BF operator
 #include <math.h>
 
-#define MAX_OPS 10
-#define ITEMS 10
+#define MAX_OPS 200
+#define ITEMS 200
 //#define MUTATIONOPT 2
 
 int MUTATION=MUTATIONOPT;
@@ -117,7 +117,7 @@ void _FAQAS_delete_FM(FaultModel *dm) {
 
 		delete dm;
 		dm = 0;
-		
+
 }
 
 //memory for HV
