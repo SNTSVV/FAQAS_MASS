@@ -16,23 +16,23 @@ int main()
       FaultModel *fm = _FAQAS_IfHK_FM();
 
     for (i=0; i<=10; i=i+1){
-      // Create a vector containing integers
+      // Create a vector containing floats
     std::vector<float> v;
 
-    v.push_back(i);
-    v.push_back(i+1);
-    v.push_back(i+2);
-    v.push_back(i+3);
-    v.push_back(i+4);
+    v.push_back((float)i);
+    v.push_back((float)i+1);
+    v.push_back((float)i+2);
+    v.push_back((float)i+3);
+    v.push_back((float)i+4);
 
-    printf("*********%d**********\n",v.at(1));
+    printf("*********%f**********\n",v.at(1));
 
     //MANUALLY ADDED PROBE
 
     mutate( &v, fm );
-_FAQAS_delete_FM(fm);
+
     //MANUALLY ADDED PROBE END
-    printf("*********%d**********\n",v.at(1));
+    printf("*********%f**********\n",v.at(1));
 
 
     for(std::vector<float>::iterator it = v.begin(); it != v.end(); ++it) {
@@ -40,6 +40,8 @@ _FAQAS_delete_FM(fm);
     }
 
     }
+
+    _FAQAS_delete_FM(fm);
 
     return 0;
 }

@@ -16,23 +16,23 @@ int main()
       FaultModel *fm = _FAQAS_IfHK_FM();
 
     for (i=0; i<=10; i=i+1){
-      // Create a vector containing integers
+      // Create a vector containing doubles
     std::vector<double> v;
 
     v.push_back(i);
-    v.push_back(i+1);
-    v.push_back(i+2);
-    v.push_back(i+3);
-    v.push_back(i+4);
+    v.push_back((double)i+1);
+    v.push_back((double)i+2);
+    v.push_back((double)i+3);
+    v.push_back((double)i+4);
 
-    printf("*********%d**********\n",v.at(1));
+    printf("*********%f**********\n",v.at(1));
 
     //MANUALLY ADDED PROBE
 
     mutate( &v, fm );
 
     //MANUALLY ADDED PROBE END
-    printf("*********%d**********\n",v.at(1));
+    printf("*********%f**********\n",v.at(1));
 
 
     for(std::vector<double>::iterator it = v.begin(); it != v.end(); ++it) {
