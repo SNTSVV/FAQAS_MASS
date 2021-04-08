@@ -23,7 +23,7 @@ cov_a = args.cov_a
 cov_b = args.cov_b
 name = args.name
 result = args.result
-lineNumber = int(args.line)
+lineNumber = int(args.line) - 1
 operator = args.operator
 
 def getCoverageAsList(test):                                                                                                         
@@ -62,18 +62,15 @@ def get_distance(testA, testB):
 
     global lineNumber
     if operator == "SDL":
-        covBList[lineNumber] = covAList[lineNumber]
-        
-        if len(covAList) != len(covBList):
-            lineToFix = lineNumber + 1
+        if len(covAList) == len(covBList):
+            del covAList[lineNumber]
+            del covBList[lineNumber]
+        else:
             while len(covAList) > len(covBList):
-                covBList.insert(lineToFix, covAList[lineToFix])
-                lineToFix += 1
-    else:
-        if len(covAList) != len(covBList):
-            while len(covAList) != len(covBList):
-                if len(covAList) > len(covBList):
-                    covBList.insert(lineNumber, int(0))
+                del covAList[lineNumber]
+            del covAList[lineNumber]
+            del covBList[lineNumber]    
+
     print(covAList) 
     print(covBList) 
 
