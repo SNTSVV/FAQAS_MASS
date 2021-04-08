@@ -19,15 +19,9 @@ export MASS=$SRCIROR/MASS
 
 ####
 
-export HOME=
-
 # set directory path where MASS files can be stored
 # example: APP_RUN_DIR=/opt/example
 export APP_RUN_DIR=
-
-# specify if MASS will be executed on a HPC, possible values are "true" or "false"
-# example: HPC="true"
-export HPC=
 
 # specifies the building system, available options are "Makefile" and "waf"
 # example: BUILD_SYSTEM="Makefile"
@@ -90,6 +84,10 @@ export CLEAN_CMD=
 export GC_FILES_RELATIVE_PATH=
 
 ### MASS variables
+
+# specify if MASS will be executed on a HPC, possible values are "true" or "false"
+# example: HPC="true"
+export HPC=
 
 # TCE flags to be tested 
 #example FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
