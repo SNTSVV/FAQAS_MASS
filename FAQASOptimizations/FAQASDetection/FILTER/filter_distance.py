@@ -20,6 +20,7 @@ def sfilter(traces):
         trace = ''
         for distance_test in value:
             distance = distance_test.split(';')[4]
+            print(key, "d: ", distance, "h:", highest_distance)
             if float(distance) >= float(highest_distance):
                 highest_distance = distance
                 trace = distance_test

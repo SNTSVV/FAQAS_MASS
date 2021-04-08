@@ -53,17 +53,30 @@ def get_distance(testA, testB):
         else:
             covBList.append(int(0))
 
+
+    # SDL, LOD corrections
     global lineNumber
+
     if operator == "SDL":
         if len(covAList) == len(covBList):
             del covAList[lineNumber]
             del covBList[lineNumber]
         else:
-            while len(covAList) > len(covBList):
+            while len(covAList) != len(covBList):
+                if len(covAList) > len(covBList):
+                    del covAList[lineNumber]
+                else:
+                    covAList.insert(len(covAList), int(0))
                 del covAList[lineNumber]
-            del covAList[lineNumber]
-            del covBList[lineNumber]
-    
+                del covBList[lineNumber]
+
+    elif operator == 'LOD':
+         while len(covAList) != len(covBList):
+            if len(covAList) > len(covBList):
+                del covAList[lineNumber]
+            else:
+                covAList.insert(len(covAList), int(0))            
+   
     print(covAList) 
     print(covBList) 
 
