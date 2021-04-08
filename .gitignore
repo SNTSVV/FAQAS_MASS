@@ -38,7 +38,6 @@ mutator/python/tests/test34/FMCoverageReport_test34.csv
 mutator/python/tests/test32/FMCoverageReport_test32.csv
 mutator/python/tests/test33/FMCoverageReport_test33.csv
 mutator/python/tests/test33/FMCoverageReport_test33.csv
-*.csv
 mutator/python/tests/test34/FMCoverageReport_test34.csv
 mutator/python/tests/test32/FMCoverageReport_test32.csv
 mutator/python/tests/test34/FMCoverageReport_test34.csv

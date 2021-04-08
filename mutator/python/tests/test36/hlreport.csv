@@ -1,0 +1,6 @@
+test36,SensorA,not_covered,0
+test36,SensorB,not_covered,0
+test36,SensorC,not_covered,0
+test36,ActuatorA,covered,10
+test36,ActuatorB,covered,10
+test36,ActuatorC,covered,10
