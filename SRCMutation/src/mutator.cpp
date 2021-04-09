@@ -56,7 +56,16 @@ std::map<Replacement, int> mapReplacements;
 std::string metaMuInfoOutFile("meta-mu.info");
 std::map<Replacement, Replacement> metaMuInfo;
 CompilerInstance *metaMuUsedCompilerInstance;
-void processMetaMuExpr(Replacement &rep, const Stmt *stmt, const SourceManager *srcMgr, CompilerInstance *CI=nullptr) {
+void processMetaMuExpr(Replacement &rep, const Stmt *stmt, const MatchFinder::MatchResult &res, CompilerInstance *CI=nullptr, bool useAstParent=false) {
+    if (useAstParent) {
+        const auto& parents = (res.Context)->getParents(*stmt);
+        if (parents.empty())
+            return;
+        stmt = parents[0].get<Stmt>();
+        if (!stmt) 
+            return;
+    }
+
     bool invalid;
     if (!CI)
         CI = metaMuUsedCompilerInstance;
@@ -64,8 +73,8 @@ void processMetaMuExpr(Replacement &rep, const Stmt *stmt, const SourceManager *
     auto start_ = sr.getBegin();
     auto end_ = sr.getEnd();
     CharSourceRange statementRange = CharSourceRange::getTokenRange(start_, end_);
-    StringRef str = Lexer::getSourceText(statementRange, *(srcMgr), CI->getLangOpts(), &invalid);
-    Replacement accRep(*(srcMgr), start_, str.str().size(), std::string());
+    StringRef str = Lexer::getSourceText(statementRange, *(res.SourceManager), CI->getLangOpts(), &invalid);
+    Replacement accRep(*(res.SourceManager), start_, str.str().size(), std::string());
     metaMuInfo[rep] = accRep;
 }
 #endif
@@ -409,8 +418,8 @@ public:
 			mapReplacements[RepR] = 2;
 
 #ifdef GENERATE_META_MU
-            processMetaMuExpr(RepL, BinOp, Result.SourceManager, CI);
-            processMetaMuExpr(RepR, BinOp, Result.SourceManager, CI);
+            processMetaMuExpr(RepL, BinOp, Result, CI);
+            processMetaMuExpr(RepR, BinOp, Result, CI);
 #endif
 		}
 	}
@@ -470,7 +479,7 @@ public:
 				Replace->insert(Rep);
 				mapReplacements[Rep] = localMap[MutationOp];
 #ifdef GENERATE_META_MU
-                processMetaMuExpr(Rep, BinOp, Result.SourceManager);
+                processMetaMuExpr(Rep, BinOp, Result);
 #endif
 			}
 		}
@@ -528,6 +537,9 @@ public:
 				Replacement Rep(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "-(" + Value + ")");
 				Replace->insert(Rep);
 				mapReplacements[Rep] = 1;
+#ifdef GENERATE_META_MU
+                processMetaMuExpr(Rep, declRefExpr, Result, CI, true);
+#endif
 			} else if (Op == "UOI") {
 				Replacement Rep1(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(--" + Value + ")");
 				Replacement Rep2(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(" + Value + "--)");
@@ -542,6 +554,12 @@ public:
 				mapReplacements[Rep2] = 2;
 				mapReplacements[Rep3] = 3;
 				mapReplacements[Rep4] = 4;
+#ifdef GENERATE_META_MU
+                processMetaMuExpr(Rep1, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep2, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep3, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep4, declRefExpr, Result, CI, true);
+#endif
 			}
 		}
 	}
