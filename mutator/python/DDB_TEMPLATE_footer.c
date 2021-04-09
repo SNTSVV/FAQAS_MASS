@@ -66,15 +66,15 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   // else if (span != 1) {
 
   int kk;
-  int step;
+  int stepRead;
   unsigned long long row = 0;
   unsigned long long intermediate = 0;
 
   for (kk = 0; kk < (span); kk = kk + 1) {
 
-    step = 8 * sizeof(data[pos + kk]);
+    stepRead = 8 * sizeof(data[pos + kk]);
 
-    intermediate = intermediate << step;
+    intermediate = intermediate << stepRead;
 
     row = 0;
 
@@ -705,14 +705,15 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   }
 
   int counter = 0;
+  int stepWrite = 0;
 
   while (counter < span) {
 
-    step = 8 * sizeof(data[pos + counter]);
+    stepWrite = 8 * sizeof(data[pos + counter]);
 
-    int startSlice = (span - counter - 1) * step;
+    int startSlice = (span - counter - 1) * stepWrite;
 
-    int endSlice = (span - counter) * step - 1;
+    int endSlice = (span - counter) * stepWrite - 1;
 
     unsigned long long slice =
         _FAQAS_slice_it_up(fullNumber, startSlice, endSlice);
