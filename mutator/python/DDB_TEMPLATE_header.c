@@ -89,6 +89,8 @@ struct DataItem {
 struct FaultModel {
     int itemsN;
     int ID;
+    int minOperation; //min ID of the MUTATION OPERATION implemented by this FM, included
+    int maxOperation; //max ID of the MUTATION OPERATION implemented by this FM, included
     struct DataItem *items;
 };
 

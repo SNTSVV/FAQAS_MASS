@@ -10,6 +10,10 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     // if (_FAQAS_mutated == 1)
     return 0;
 
+  if ( MUTATION < fm->minOperation || MUTATION > fm->maxOperation ){
+    return 0;
+  }
+
   if (MUTATION == -1)
     return 0;
 

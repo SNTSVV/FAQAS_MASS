@@ -24,6 +24,8 @@ fmID = 0
 def newBF(item, _span, _type, _min, _max, _state, _value):
     global operations
     global faultModelsDef
+    global operatorsCount
+
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=BF;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
@@ -39,6 +41,8 @@ def newBF(item, _span, _type, _min, _max, _state, _value):
 def newHV(item, _span, _type, _value):
     global operations
     global faultModelsDef
+    global operatorsCount
+
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=HV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators[" + \
@@ -52,6 +56,7 @@ def newVOR(item, _span, _type, _min, _max, _delta):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VOR;\n"
@@ -75,6 +80,7 @@ def newVAT(item, _span, _type, _threshold, _delta):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VAT;\n"
@@ -91,6 +97,7 @@ def newVBT(item, _span, _type, _threshold, _delta):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VBT;\n"
@@ -107,6 +114,7 @@ def newIV(item, _span, _type, _value):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=IV;\n"
@@ -121,6 +129,7 @@ def newINV(item, _span, _type, _min, _max, _delta, _value):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=INV;\n"
@@ -139,6 +148,7 @@ def newSS(item, _span, _type, _threshold, _delta):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=SS;\n"
@@ -155,6 +165,7 @@ def newASA(item, _span, _type, _threshold, _delta, _value):
     global operations
     global elements
     global faultModelsDef
+    global operatorsCount
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=ASA;\n"
@@ -173,10 +184,12 @@ def closeFaultModelsDef():
     global operatorsCount
     global faultModelsDef
     global sizeDef
+    global elements
 
     size = int(lastItem)+1
     sizeDef += "#define SIZE_"+lastFM+" "+str(size)+"\n"
 
+    faultModelsDef += "fm->maxOperation = "+str(elements)+";\n"
     faultModelsDef += "return fm;\n"
     faultModelsDef += "}\n"
 
@@ -252,6 +265,7 @@ def processRow(row):
         faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
         faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
+        faultModelsDef += "fm->minOperation = "+str(elements)+";\n"
         fmID += 1
 
     operators[elements] = operatorsCount
