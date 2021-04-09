@@ -14,7 +14,7 @@
 //math.h is included for the INV (normal distribution) and for the BF operator
 #include <math.h>
 
-#define MAX_OPS 10
+#define MAX_OPS 200
 #define ITEMS 10
 //#define MUTATIONOPT 2
 
