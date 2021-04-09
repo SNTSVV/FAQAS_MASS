@@ -6,5 +6,5 @@ FAULTMODEL=tests/FaultModels/faultModel1.csv
 TYPE=int
 
 pushd ..
-bash executeTest.sh "$TESTFOLDER" "$curTest" "$FAULTMODEL" $TYPE
+bash -x executeTest.sh "$TESTFOLDER" "$curTest" "$FAULTMODEL" $TYPE
 popd
