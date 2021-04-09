@@ -5,6 +5,18 @@ curTest=$2
 FAULTMODEL=$3
 TYPE=$4
 
+echo ""
+echo ""
+echo "*************************************************************************"
+echo "*************************************************************************"
+echo "RUNNING ${curTest}"
+echo "*************************************************************************"
+echo "*************************************************************************"
+echo ""
+echo ""
+
+echo "FAULT MODEL:"
+echo ""
 python generateDataMutator.py "$TYPE" "$FAULTMODEL"
 mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 cp FMcoverage.py $TESTFOLDER
@@ -15,26 +27,41 @@ outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
 instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
 valgrindOutFile=${curTest}.valgrind.out
+testResults=${curTest}.results.out
+gcovLog=${curTest}.gcov.out
+
+echo ""
+echo "REMOVING PREVIOUS RESULTS..."
+echo ""
 
 rm $outFile
 rm $compilerOutFile
 rm $valgrindOutFile
 rm $instrumentedCompilerOutFile
+rm $testResults
+rm $gcovLog
 
-pwd
+echo ""
+echo "DONE"
+echo ""
 
 operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
-echo $operations
+echo "NUMBER OF OPERATIONS: ${operations}"
+echo ""
+
 x=-2
 while [ $x -le $operations ]; do
+
+  echo "OPERATION ${x} COMPILING..."
 
   if [ $x -eq -2 ]; then
 
     y=$((x-1))
     g++ -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
     echo "=====" >> $outFile 2>&1
+    echo "OPERATION ${x} RUNNING..."
     ./main_$x >> $outFile 2>&1
-    gcov ${curTest}.c
+    gcov ${curTest}.c >> $gcovLog 2>&1
 
 
 
@@ -46,6 +73,8 @@ while [ $x -le $operations ]; do
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
     valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
 
+    echo "OPERATION ${x} RUNNING..."
+
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
 
@@ -54,25 +83,47 @@ while [ $x -le $operations ]; do
     x=$((x+1))
 
 done
-
-python FMcoverage.py "${curTest}"
-
-diff FMCoverageReport_${curTest}.csv expectedCoverage.csv
-
-if [ $? -eq 0 ]; then
-    echo "COVERAGE AS EXPECTED"
-else
-    echo "PROBLEM WITH COVERAGE"
-fi
+echo ""
+echo "DONE"
 
 diff $outFile expected.out
 
 if [ $? -eq 0 ]; then
-    echo PASSED
+  echo ""
+  echo "*************************************************************************"
+    echo  "${curTest} PASSED"
+    status="PASSED"
 else
-    echo FAILED
+  echo ""
+  echo "*************************************************************************"
+    echo  "${curTest} FAILED"
+    status="FAILED";
 fi
 
+echo "*************************************************************************"
 
+python FMcoverage.py "${curTest}"
+
+echo ""
+echo "*************************************************************************"
+
+diff FMCoverageReport_${curTest}.csv expectedCoverage.csv
+
+if [ $? -eq 0 ]; then
+  echo ""
+  echo "*************************************************************************"
+    echo "COVERAGE AS EXPECTED"
+    coverage="COVERAGE AS EXPECTED"
+else
+  echo ""
+  echo "*************************************************************************"
+    echo "PROBLEM WITH COVERAGE"
+    coverage="PROBLEM WITH COVERAGE"
+fi
+
+echo "*************************************************************************"
+echo ""
+
+echo "${curTest},${status},${coverage}" >> $testResults 2>&1
 
 popd

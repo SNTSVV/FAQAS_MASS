@@ -1,6 +1,7 @@
 #/bin/bash
 
 bash cleanTests.sh
+rm results.csv
 
 pushd tests
 
@@ -48,5 +49,17 @@ bash runTest42.sh
 bash runTest43.sh
 
 popd
+
+echo ""
+echo ""
+echo "*************************************************************************"
+echo "THE FOLLOWING DATA CAN BE FOUND IN THE FILE results.csv"
+echo "*************************************************************************"
+echo ""
+
+find . -name "*.results.out" -exec cat > results.csv {} +
+
+sort results.csv
+
 
 # bash getCoverage.sh
