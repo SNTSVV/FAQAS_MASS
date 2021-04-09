@@ -613,7 +613,11 @@ bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
 }
 
 
-void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr){
+void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr
+#ifdef GENERATE_META_MU
+        , bool noDumpMutantFiles=false
+#endif
+){
 	int x = 0;
 
 	int previousLineNumber = 0;
@@ -659,11 +663,6 @@ void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::s
 				std::ofstream out_file;
 				std::string outFileName = srcDir + "/" + tool + ".mut." + std::to_string(lineNumber) + "." +  id + "." + NameSuffix + "." + function + ext;
 				if (access(outFileName.c_str(), F_OK) == -1) {
-					out_file.open(outFileName);
-					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
-					out_file.close();
-
-					printf("line: %i %s\n", lineNumber, (tool + ".mut." + std::to_string(lineNumber) + "." + id + "." +  NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
 #ifdef GENERATE_META_MU
                     // Write semu info
                     static bool firstTime = true;
@@ -689,7 +688,15 @@ void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::s
 					out_file << (tool + ".mut." + std::to_string(lineNumber) + "." + id + "." +  NameSuffix + "." + function + ext)
                                 << "," << startLine << "," << startCol << "," << size << "\n"; 
 					out_file.close();
+                    
+                    if (noDumpMutantFiles)
+                        continue;
 #endif
+					out_file.open(outFileName);
+					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
+					out_file.close();
+
+					printf("line: %i %s\n", lineNumber, (tool + ".mut." + std::to_string(lineNumber) + "." + id + "." +  NameSuffix + "." + function + ext).c_str());    // Outputting where mutants are
 				}
 				else {
 					printf("ERROR IN GENERATING MUTANTS: we have a name overlap for %s\n", outFileName.c_str());
@@ -993,6 +1000,14 @@ int main(int argc, const char **argv) {
 		} else {
 			Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 		}
+#ifdef GENERATE_META_MU
+    else
+		if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr, true);
+		}
+#endif
 	if (AllOps || OpSet.find("UOI") != OpSet.end())
 		if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
 			failed = 1;
