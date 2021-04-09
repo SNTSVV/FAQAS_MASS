@@ -7,6 +7,8 @@ void func1(int v)
 
     int x = 6*v; float y = 2.5, /* */ z=9 * x*1;
 
+    x=y
+        || z;
     if (x+y > z
             && 2*x+y==7) {
         x++;

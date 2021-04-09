@@ -37,13 +37,6 @@ mkdir -p $topdir/.srciror
 alllines=$(seq -s',' 1 $(cat $topdir/x.c | wc -l))
 echo "$topdir/x.c:$alllines" > $topdir/.srciror/coverage
 
-# full sdl generation
-HOME=$topdir python $mass_topdir/PythonWrappers/mutationClang \
-                                --compilation "gcc $topdir/x.c -o $topdir/x" --operators SDL \
-                                                        || error_exit "full_sdl generation failed" 
-mv $topdir/x.mut.* $full_sdl_dir
-mv $topdir/meta-mu.info $full_sdl_dir
-
 # Actual generation
 HOME=$topdir python $mass_topdir/PythonWrappers/mutationClang \
                                 --compilation "gcc $topdir/x.c -o $topdir/x" $selops \

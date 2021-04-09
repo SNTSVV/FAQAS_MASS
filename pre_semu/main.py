@@ -15,6 +15,7 @@ TODO: Implement it as following:
 import os
 import argparse
 import collections
+import json
 from itertools import groupby
 from operator import itemgetter
 
@@ -41,10 +42,10 @@ class MutantInfo:
         return os.path.basename(mut_filename)
 
     @classmethod
-    def get_mutant_list (cls, original_src_file, mutant_src_file_list, full_sdl_mutant_src_file_list, meta_mu_info_file, sdl_meta_mu_info_file):
-        stmt_list = cls._get_stmt_list(original_src_file, full_sdl_mutant_src_file_list, sdl_meta_mu_info_file)
+    def get_mutant_list (cls, original_src_file, mutant_src_file_list, meta_mu_info_file):
+        stmt_list = cls._get_stmt_list(original_src_file, meta_mu_info_file)
         mut_list = []
-        changed_list = cls._get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file,deletion_only=False)
+        changed_list = cls._get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file)
         changed_list.sort(key=lambda x: (x.start_index, x.end_index))
         stmt_i = 0
         for int_idx, ci in enumerate(changed_list):
@@ -78,37 +79,7 @@ class MutantInfo:
         return mut_list
 
     @staticmethod
-    def _get_stmt_list (original_src_file, full_sdl_mutant_src_file_list, meta_mu_info_file):
-        """
-        take original and SDL mutants, anf find stmts
-        """
-        stmt_list = []
-        for ci in MutantInfo._get_changed_list (original_src_file, full_sdl_mutant_src_file_list, meta_mu_info_file, deletion_only=True):
-            stmt_list.append(
-                StmtInfo(
-                    start_index=ci.start_index,
-                    end_index=ci.end_index
-                )
-            )
-        stmt_list.sort(key=lambda x: (x.start_index, x.end_index))
-
-        return stmt_list
-
-    @staticmethod
-    def _get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file, deletion_only=False):
-        # ensure no basename duplicate
-        assert len(set([os.path.basename(fn) for fn in mutant_src_file_list])) == len(mutant_src_file_list), "duplicate mutant basename"
-
-        #seq_matcher = SequenceMatcher()
-        with open(original_src_file) as f:
-            orig_str = f.read()
-            f.seek(0)
-            orig_lines_idx = [None, 0]
-            for l in f.readlines():
-                orig_lines_idx.append(orig_lines_idx[-1] + len(l))
-            del orig_lines_idx[-1]
-            #print('DBG', len(orig_lines_idx)-1, orig_lines_idx[-1], len(l), len(orig_str), l)
-
+    def get_change_key_to_start_and_afterend(meta_mu_info_file, orig_lines_idx):
         meta_mu_info_df = pd.read_csv(meta_mu_info_file)
         assert set(meta_mu_info_df) == {"MUTANT_FILE", "START_LINE", "START_COL", "SIZE"}, "Invalid meta mu info"
         mut_info_map = {}
@@ -118,17 +89,70 @@ class MutantInfo:
             assert fn not in mut_info_map, "duplicate mutant basename in meta mu info ()".format(meta_mu_info_file)
             mut_info_map[fn] = {k: row[k] for k in ("START_LINE", "START_COL", "SIZE")}
 
-        #seq_matcher.set_seq1(orig_str)
-        changed_list = []
-        for mutant_src_file in mutant_src_file_list:
-            mutant_basename = os.path.basename(mutant_src_file)
-            mut_info = mut_info_map[mutant_basename]
+        fn_to_start_afterend = {}
+        for fn, mut_info in mut_info_map.items():
             try:
                 mut_idx = orig_lines_idx[mut_info["START_LINE"]] + mut_info["START_COL"] - 1
             except IndexError as e:
                 print("\n# mut_info['START_LINE'] is", mut_info["START_LINE"], ", len(orig_lines_idx) is", len(orig_lines_idx), "\n")
                 raise
             mut_after_end = mut_idx + mut_info["SIZE"]
+            fn_to_start_afterend[fn] = (mut_idx, mut_after_end)
+        return fn_to_start_afterend
+
+    @staticmethod
+    def load_original_data(original_src_file):
+        #seq_matcher = SequenceMatcher()
+        with open(original_src_file) as f:
+            orig_str = f.read()
+            f.seek(0)
+            orig_lines_idx = [None, 0]
+            for l in f.readlines():
+                orig_lines_idx.append(orig_lines_idx[-1] + len(l))
+            del orig_lines_idx[-1]
+            #print('DBG', len(orig_lines_idx)-1, orig_lines_idx[-1], len(l), len(orig_str), l)
+        return orig_str, orig_lines_idx
+
+    @staticmethod
+    def _get_stmt_list (original_src_file, meta_mu_info_file):
+        """
+        take original and SDL mutants, anf find stmts
+        """
+        orig_str, orig_lines_idx = MutantInfo.load_original_data(original_src_file)
+        fn_to_start_afterend = MutantInfo.get_change_key_to_start_and_afterend(meta_mu_info_file, orig_lines_idx)
+
+        stmt_list = []
+        for fn, (start_index, post_end_index) in fn_to_start_afterend.items():
+            # if nt SDL, discard
+            dot_split = fn.split(".")
+            if "SDL" != dot_split[-3]:
+                continue
+
+            stmt_list.append(
+                StmtInfo(
+                    start_index=start_index,
+                    end_index=post_end_index
+                )
+            )
+        assert len(stmt_list) > 0, "No stmt found"
+        stmt_list.sort(key=lambda x: (x.start_index, x.end_index))
+
+        return stmt_list
+
+    @staticmethod
+    def _get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file):
+        # ensure no basename duplicate
+        assert len(set([os.path.basename(fn) for fn in mutant_src_file_list])) == len(mutant_src_file_list), "duplicate mutant basename"
+
+        orig_str, orig_lines_idx = MutantInfo.load_original_data(original_src_file)
+
+        fn_to_start_afterend = MutantInfo.get_change_key_to_start_and_afterend(meta_mu_info_file, orig_lines_idx)
+
+        #seq_matcher.set_seq1(orig_str)
+        changed_list = []
+        for mutant_src_file in mutant_src_file_list:
+            mutant_basename = os.path.basename(mutant_src_file)
+            mut_idx, mut_after_end = fn_to_start_afterend[mutant_basename]
 
             with open(mutant_src_file) as f:
                 mutant_str = f.read()
@@ -282,17 +306,7 @@ def insert_header(meta_mu_file, number_of_mutants):
         f.write("void klee_semu_GenMu_Post_Mutation_Point_Func (unsigned long fromID, unsigned long toID);\n")
         f.write(content)
 
-def compute(meta_mu_out_file, original_src_file, mutants_src_dir, full_sdl_src_dir):
-
-    full_sdl_mutant_src_file_list = []
-    sdl_meta_mu_info_file = None
-    for fn in os.listdir(full_sdl_src_dir):
-        if fn == META_MU_INFO_FILE_NAME:
-            sdl_meta_mu_info_file = os.path.join(full_sdl_src_dir, fn)
-        else:
-            full_sdl_mutant_src_file_list.append(os.path.join(full_sdl_src_dir, fn))
-    assert sdl_meta_mu_info_file is not None, "no meta mu info file for full sdl"
-    assert len(full_sdl_mutant_src_file_list) > 0, "no full sdl mutant found"
+def compute(meta_mu_out_file, original_src_file, mutants_src_dir):
 
     mutant_src_file_list = []
     meta_mu_info_file = None
@@ -305,7 +319,7 @@ def compute(meta_mu_out_file, original_src_file, mutants_src_dir, full_sdl_src_d
     assert len(mutant_src_file_list) > 0, "no mutant found"
 
     # Use diff to get (expr, expr-start, mut-expr) tuples
-    mutant_list = MutantInfo.get_mutant_list(original_src_file, mutant_src_file_list, full_sdl_mutant_src_file_list, meta_mu_info_file, sdl_meta_mu_info_file)
+    mutant_list = MutantInfo.get_mutant_list(original_src_file, mutant_src_file_list, meta_mu_info_file)
 
     number_of_mutants = len(mutant_list)
 
@@ -320,20 +334,35 @@ def compute(meta_mu_out_file, original_src_file, mutants_src_dir, full_sdl_src_d
 
     insert_header(meta_mu_out_file, number_of_mutants)
 
+    # Get and store mutants mapping
+    mut_map_file = os.path.splitext(meta_mu_out_file)[0] + ".mutant_mapping.json"
+    mutant_mapping = {}
+    for mut in mutant_list:
+        mutant_mapping[int(mut.int_id)] = mut.raw_id
+    
+    with open(mut_map_file, 'w') as f:
+        json.dump(mutant_mapping, f, indent=2, sort_keys=True)
+
+    print("\n=======================================================================")
+    print("[INPUT] Original source file:                       ", original_src_file)
+    print("[INPUT] MASS Generated mutants folder:              ", mutants_src_dir)
+    print("")
+    print("[OUTPUT] Meta mutant written in file:               ", meta_mu_out_file)
+    print("[OUTPUT] mutant ID, mutant src map written in file: ", mut_map_file)
+    print("=========================================================================\n")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("meta_mu_out_file", help="output meta mu file")
     parser.add_argument("original_src_file", help="original source file")
     parser.add_argument("mutants_src_dir", help="dircetory containing mutant files")
-    parser.add_argument("full_sdl_src_dir", help="directory containing full sdl mutants")
     args = parser.parse_args()
 
     assert os.path.isdir(os.path.dirname(args.meta_mu_out_file)), "meta mu out file parent dir non existant"
     assert os.path.isfile(args.original_src_file), "original source file non existant"
     assert os.path.isdir(args.mutants_src_dir), "mutants src dir non existant"
-    assert os.path.isdir(args.full_sdl_src_dir), "full_sdl_src_dir non existant"
 
-    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir, args.full_sdl_src_dir)
+    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir)
 
 if __name__ == "__main__":
     main()

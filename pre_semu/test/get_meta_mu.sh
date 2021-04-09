@@ -13,6 +13,7 @@ presemu_exec=$(readlink -f $topdir/../main.py)
 test -f "$presemu_exec" || error_exit "cannot find main.py"
 
 # remove the mutants that cannot build
+echo "# Checking compilability ..."
 failed_compile=0
 for f in `ls $topdir/mutants`
 do
@@ -29,7 +30,7 @@ done
 
 echo "# Failed to compile $failed_compile mutants!"
 
-$presemu_exec $topdir/x.MetaMu.c $topdir/x.c $topdir/mutants $topdir/full_sdl_mutants || error_exit "pre-semu failed"
+$presemu_exec $topdir/x.MetaMu.c $topdir/x.c $topdir/mutants || error_exit "pre-semu failed"
 
 echo "# Generation Successfull!"
 
