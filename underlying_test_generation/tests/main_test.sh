@@ -17,7 +17,7 @@ tmpout=$topdir/tmpoutput.tmp
 test -d $tmpout && rm -rf $tmpout
 mkdir $tmpout
 
-export PATH=$topdir:$PATH
+export PATH=$topdir/mock_exe:$PATH
 
-python $test_subject $topdir/bcmock.bc --output_top_directory $tmpout --clear_existing || error_exit "call to test subject failed"
+yes | python $test_subject $topdir/bcmock.bc --output_top_directory $tmpout --clear_existing || error_exit "call to test subject failed"
 

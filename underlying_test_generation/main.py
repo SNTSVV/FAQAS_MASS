@@ -29,11 +29,10 @@ def get_args():
                         help="Directory where to put the output "
                             + "(as {}-out). ".format(TOOLNAME)
                             + "The bitcode location is used by default.")
-    parser.add_argument("--clear_existing", action="store_true"
+    parser.add_argument("--clear_existing", action="store_true",
                         help="Clear any existing output, instead of failing")
-    parser.add_argument("--enable_post_mutation_check", action="store_true"
+    parser.add_argument("--enable_post_mutation_check", action="store_true",
                         help="Enable post mutation check (may not be complete with loops)")
-                        disable_post_mutation_check
     args = parser.parse_args()
     return args
 
@@ -45,7 +44,7 @@ def call_underlying_semu(conf_file):
     raw_conf['RUN_MODE'] = configurations.SessionMode.EXECUTE_MODE
 
     ctrl = MainController()
-    ctrl.raw_config_main(raw_config=cmd_raw_conf)
+    ctrl.raw_config_main(raw_config=raw_conf)
     
 
 
@@ -58,7 +57,7 @@ def main():
     # useful
     test_gen_muteria_conf_template = os.path.join(
                                 os.path.dirname(os.path.realpath(__file__)), 
-                                "muteria_tg_conf.py.template"
+                                "muteria_tg_conf.template.py"
     )
     
     # get comand line args
@@ -85,11 +84,14 @@ def main():
     if args.mutants_list_file is not None:
         assert os.path.isfile(mutants_list_file), \
                 "The specified mutant list file does not exist"
+        mutants_list_file = "'" + mutants_list_file + "'"
+
+    enable_post_mutation_check = args.enable_post_mutation_check
     
     sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
 
-    temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp")
-    os.mkdir(temporary_workdir)
+    temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
+    os.makedirs(temporary_workdir)
 
     test_gen_muteria_conf = os.path.join(temporary_workdir, 
                                             "tmp_muteria_tg_conf.py")
@@ -97,7 +99,7 @@ def main():
     # generate the muteria conf from template
     ## Load template
     with open(test_gen_muteria_conf_template) as ft:
-        template_str = f.read()
+        template_str = ft.read()
 
     ## compute parameters and apply to resolve template (TODO)
     ### REPODIR, OUTDIR, 
@@ -105,7 +107,7 @@ def main():
     resolved_conf = Template(template_str).render({
         "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
         "template_output_dir": muteria_output,
-        "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file)),
+        "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file))[0],
         "template_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
         "template_candidate_mutants_list": mutants_list_file,
         "template_disable_post_mutation_check": (not enable_post_mutation_check),
@@ -121,9 +123,8 @@ def main():
     call_underlying_semu(test_gen_muteria_conf)
 
     # move the generated tests (TODO) 
-    os.mkdir(output_directory)
-
-    shutil.move(os.path.join(muteria_output, 'latest', 'testgeneration', 'semu'), output_directory)
+    #os.mkdir(output_directory)
+    shutil.move(os.path.join(muteria_output, 'latest', 'testscases_workdir', 'semu'), output_directory)
 
     # Delete temporary files' folder
     shutil.rmtree(temporary_workdir)

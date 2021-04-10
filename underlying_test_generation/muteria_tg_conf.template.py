@@ -26,12 +26,19 @@ import muteria.drivers.testgeneration.tools_by_languages.c.semu.semu \
 
 
 PROGRAMMING_LANGUAGE='C'
-REPOSITORY_ROOT_DIR={{ template_repo_rootdir }}
-OUTPUT_ROOT_DIR={{ template_output_dir }}
+REPOSITORY_ROOT_DIR="{{ template_repo_rootdir }}"
+OUTPUT_ROOT_DIR="{{ template_output_dir }}"
 RUN_MODE=SessionMode.EXECUTE_MODE
 
 TARGET_SOURCE_INTERMEDIATE_CODE_MAP = {'{{ template_programe_name }}.c':'{{ template_programe_name }}.o'}
-REPO_EXECUTABLE_RELATIVE_PATHS = [{{ template_programe_name }}]
+REPO_EXECUTABLE_RELATIVE_PATHS = ["{{ template_programe_name }}"]
+
+if not os.path.isdir(REPOSITORY_ROOT_DIR):
+    os.mkdir(REPOSITORY_ROOT_DIR)
+    open(os.path.join(REPOSITORY_ROOT_DIR, '{{ template_programe_name }}.c'), "w").close()
+    open(os.path.join(REPOSITORY_ROOT_DIR, '{{ template_programe_name }}.o'), "w").close()
+    open(os.path.join(REPOSITORY_ROOT_DIR, '{{ template_programe_name }}'), "w").close()
+
 CODE_BUILDER_FUNCTION = lambda *args, **kwargs: None
 
 CUSTOM_DEV_TEST_RUNNER_FUNCTION = lambda *args, **kwargs: None
@@ -73,7 +80,7 @@ semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolna
                         tool_user_custom=ToolUserCustom(
                             PRE_TARGET_CMD_ORDERED_FLAGS_LIST=semu_config_args, 
                             POST_TARGET_CMD_ORDERED_FLAGS_LIST={{ template_sym_args_list_of_lists }},
-                            DRIVER_CONFIG = DriverConfigSemu(meta_mutant_source={{ template_meta_mu_bc_file }}}, \
+                            DRIVER_CONFIG = DriverConfigSemu(meta_mutant_source="{{ template_meta_mu_bc_file }}", \
                                                                      verbose_generation=True, \
                                                                      suppress_generation_stdout=False),
                         )
