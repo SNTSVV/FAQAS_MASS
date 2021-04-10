@@ -86,6 +86,8 @@ def main():
         assert os.path.isfile(mutants_list_file), \
                 "The specified mutant list file does not exist"
     
+    sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
+
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp")
     os.mkdir(temporary_workdir)
 
@@ -104,9 +106,11 @@ def main():
         "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
         "template_output_dir": muteria_output,
         "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file)),
-        "tempate_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
-        "candidate_mutants_list": mutants_list_file,
-        "disable_post_mutation_check": (not enable_post_mutation_check)
+        "template_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
+        "template_candidate_mutants_list": mutants_list_file,
+        "template_disable_post_mutation_check": (not enable_post_mutation_check),
+        "template_sym_args_list_of_lists": sym_args_list_of_lists,
+        "template_meta_mu_bc_file": input_metamu_bitcode_file
     })
 
     ## write the resolved config

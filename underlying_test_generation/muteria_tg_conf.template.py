@@ -10,6 +10,9 @@ from muteria.drivers.criteria import CriteriaToolType
 from muteria.drivers.criteria import TestCriteria
 from muteria.drivers import DriversUtils
 
+from muteria.drivers.testgeneration.tools_by_languages.c.semu.\
+                                        driver_config import DriverConfigSemu
+
 #from muteria.repositoryandcode.build_utils.c import make_build_func
 
 from muteria.common.mix import GlobalConstants
@@ -61,18 +64,21 @@ semu_config_args = [
                                 ('-semu-number-of-tests-per-mutant', '5'),
 ]
 
-if {{ candidate_mutants_list }} is not None:
-    semu_config_args.append(('-semu-candidate-mutants-list-file', {{ candidate_mutants_list }}))
-if {{ disable_post_mutation_check }}:
+if {{ template_candidate_mutants_list }} is not None:
+    semu_config_args.append(('-semu-candidate-mutants-list-file', {{ template_candidate_mutants_list }}))
+if {{ template_disable_post_mutation_check }}:
     semu_config_args.append(("--semu-disable-post-mutation-check",))
                             
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
                             PRE_TARGET_CMD_ORDERED_FLAGS_LIST=semu_config_args, 
-                            POST_TARGET_CMD_ORDERED_FLAGS_LIST=[('-sym-args', '2', '2', '2')]
-                            )
+                            POST_TARGET_CMD_ORDERED_FLAGS_LIST={{ template_sym_args_list_of_lists }},
+                            DRIVER_CONFIG = DriverConfigSemu(meta_mutant_source={{ template_meta_mu_bc_file }}}, \
+                                                                     verbose_generation=True, \
+                                                                     suppress_generation_stdout=False),
                         )
-semu_test.set_test_gen_maxtime({{ tempate_test_gen_maxtime }})
+                    )
+semu_test.set_test_gen_maxtime({{ template_test_gen_maxtime }})
 
 # test tool list
 TESTCASE_TOOLS_CONFIGS = [
