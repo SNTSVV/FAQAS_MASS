@@ -33,6 +33,8 @@ def get_args():
                         help="Clear any existing output, instead of failing")
     parser.add_argument("--enable_post_mutation_check", action="store_true",
                         help="Enable post mutation check (may not be complete with loops)")
+    parser.add_argument("--symbolic_args", default="",
+                        help="optional symbolic args as string")
     args = parser.parse_args()
     return args
 
@@ -88,7 +90,9 @@ def main():
 
     enable_post_mutation_check = args.enable_post_mutation_check
     
-    sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
+    symbolic_args = args.symbolic_args
+    #sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
+    sym_args_list_of_lists = [tuple(symbolic_args.split())]
 
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)

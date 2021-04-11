@@ -19,5 +19,8 @@ mkdir $tmpout
 
 export PATH=$topdir/mock_exe:$PATH
 
-yes | python $test_subject $topdir/bcmock.bc --output_top_directory $tmpout --clear_existing || error_exit "call to test subject failed"
+yes | python $test_subject $topdir/bcmock.bc \
+    --output_top_directory $tmpout \
+    --clear_existing \
+    --symbolic_args "-sym-arg 3 --sym-args 2 2 2" || error_exit "call to test subject failed"
 
