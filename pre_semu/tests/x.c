@@ -26,7 +26,7 @@ void func1(int v)
     }
 }
 
-int main() {
+int main(int argc, char **argv) {
     int t;
     printf("input t: ");
     scanf("%d", &t);

@@ -53,7 +53,7 @@ CUSTOM_DEV_TEST_RUNNER_FUNCTION = lambda *args, **kwargs: None
 
 # semu tests
 semu_config_args = [
-                                ('--write-pcs',),
+                                ('--write-kqueries',),
                                 ('--write-smt2s',),
                                 
                                 #('-semu-no-state-difference',),

@@ -16,7 +16,6 @@ test -d $mass_topdir || error_exit "mass_topdir missing ($mass_topdir)"
 topdir=$(dirname $(readlink -f $0))
 
 mut_dir=$topdir/mutants
-full_sdl_dir=$topdir/full_sdl_mutants
 
 selops=""
 if [ $# -eq 1 ]; then
@@ -27,8 +26,6 @@ fi
 
 test -d $mut_dir && rm -rf $mut_dir
 mkdir $mut_dir
-test -d $full_sdl_dir && rm -rf $full_sdl_dir
-mkdir $full_sdl_dir
 
 #cd $mut_dir
 

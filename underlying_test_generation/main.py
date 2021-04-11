@@ -18,6 +18,8 @@ from muteria.controller.main_controller import MainController
 
 TOOLNAME = "FAQAS_SEMu"
 
+TEST_GENERATION_TIMEOUT = 7200 #2h
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_metamu_bitcode_file", 
@@ -35,6 +37,8 @@ def get_args():
                         help="Enable post mutation check (may not be complete with loops)")
     parser.add_argument("--symbolic_args", default="",
                         help="optional symbolic args as string")
+    parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
+                        help="test generation timeout in seconds ( > 0).")
     args = parser.parse_args()
     return args
 
@@ -49,8 +53,6 @@ def call_underlying_semu(conf_file):
     ctrl.raw_config_main(raw_config=raw_conf)
     
 
-
-TEST_GENERATION_TIMEOUT = 7200 #2h
 
 def main():
     """
@@ -94,6 +96,9 @@ def main():
     #sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
     sym_args_list_of_lists = [tuple(symbolic_args.split())]
 
+    generation_timeout = args.generation_timeout
+    assert generation_timeout > 0, "generation timeout must be > 0."
+
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)
 
@@ -112,7 +117,7 @@ def main():
         "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
         "template_output_dir": muteria_output,
         "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file))[0],
-        "template_test_gen_maxtime": TEST_GENERATION_TIMEOUT,
+        "template_test_gen_maxtime": generation_timeout,
         "template_candidate_mutants_list": mutants_list_file,
         "template_disable_post_mutation_check": (not enable_post_mutation_check),
         "template_sym_args_list_of_lists": sym_args_list_of_lists,

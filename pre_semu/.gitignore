@@ -1,2 +1,3 @@
 tests/mutants/
 tests/x.MetaMu.*
+tests/.srciror
