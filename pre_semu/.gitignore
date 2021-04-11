@@ -1,2 +1,2 @@
-test/mutants/
-test/x.MetaMu.*
+tests/mutants/
+tests/x.MetaMu.*
