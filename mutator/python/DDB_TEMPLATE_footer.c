@@ -7,54 +7,30 @@
 
 int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
-    // if (_FAQAS_mutated == 1)
     return 0;
 
-  // if ( MUTATION < fm->minOperation || MUTATION > fm->maxOperation ){
-  //   return 0;
-  // }
-  //
-  // if (MUTATION == -1)
-  //   return 0;
-  //
-  // if (MUTATION == -2) {
-  //   _FAQAS_fmCoverage(fm->ID);
-  //
-  //   const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-  //   FILE *f = fopen(faqas_coverage_file, "ab+");
-  //   fprintf(f, "fm.ID: %d\n", fm->ID);
-  //   fclose(f);
-  //
-  //   return 0;
-  // }
-  //
-  // if (MUTATION == -3) {
-  //   _FAQAS_fmCoverage(fm->ID);
-  //   return 0;
-  // }
+   if (MUTATION == -1)
+     return 0;
+  
+   if (MUTATION == -2) {
+     _FAQAS_fmCoverage(fm->ID);
+  
+     const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+     FILE *f = fopen(faqas_coverage_file, "ab+");
+     fprintf(f, "fm.ID: %d\n", fm->ID);
+     fclose(f);
+  
+     return 0;
+  }
+  
+   if (MUTATION == -3) {
+     _FAQAS_fmCoverage(fm->ID);
+     return 0;
+  }
+
 
   if (MUTATION < fm->minOperation || MUTATION > fm->maxOperation) {
-
-    if (MUTATION == -2) {
-
-      _FAQAS_fmCoverage(fm->ID);
-
-      const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-      FILE *f = fopen(faqas_coverage_file, "ab+");
-      fprintf(f, "fm.ID: %d\n", fm->ID);
-      fclose(f);
-
       return 0;
-    }
-
-    else if (MUTATION == -3) {
-      _FAQAS_fmCoverage(fm->ID);
-      return 0;
-    }
-
-    else {
-      return 0;
-    }
   }
 
   int pos = _FAQAS_selectItem();
