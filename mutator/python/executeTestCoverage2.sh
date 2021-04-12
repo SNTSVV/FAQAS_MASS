@@ -55,15 +55,14 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} COMPILING..."
 
-    # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
-
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
 
-    if [ ! $x == -2 ];
-      valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
-    fi
-
     echo "OPERATION ${x} RUNNING..."
+
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+
+    rm $FAQAS_COVERAGE_FILE
+
     ./main_$x >> $outFile 2>&1
 
     echo "=====" >> $outFile 2>&1

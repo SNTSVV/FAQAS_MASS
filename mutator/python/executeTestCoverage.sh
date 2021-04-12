@@ -63,17 +63,13 @@ while [ $x -le $operations ]; do
     ./main_$x >> $outFile 2>&1
     gcov ${curTest}.c >> $gcovLog 2>&1
 
-
-
-
   else
-    # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
-
 
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
+
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
 
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
