@@ -2,6 +2,7 @@
 // Copyright (c) University of Luxembourg 2020.
 // Created by Fabrizio PASTORE, fabrizio.pastore@uni.lu, SnT, 2020.
 // Modified by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2020.
+// Modified by Enrico VIGANO', enrico.vigano@uni.lu, SnT, 2021.
 //
 
 #include <stdlib.h>
