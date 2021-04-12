@@ -25,10 +25,30 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} \FAQAS should support test suite augmentation based on data mutation.
 
+\REVISION{P-8 P-13}{\RQ{} \FAQAS shall implement the code-driven test suite evaluation and test suite augmentation steps depicted in Figure~\ref{fig:code:process}. Detailed explanation is provided in D2 Chapter 1.}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=12cm]{images/process}
+		\caption{Code-driven Mutation Testing Process.}
+		\label{fig:code:process}
+	\end{figure}
+	
+	
+\REVISION{P-8}{\RQ{} \FAQAS shall implement the data-driven test suite evaluation and test suite augmentation steps depicted in Figure~\ref{fig:data:process}. Detailed explanation is provided in D2 Chapter 2.}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=12cm]{images/dataProcess}
+		\caption{Data-driven Mutation Testing Process.}
+		\label{fig:data:process}
+	\end{figure}	
+
+\clearpage
 
 \section{General Constraints}
 
-\RQ{} Test suite evaluation for code-driven mutation testing shall be based on SRCIror (see discussion in D2).
+\REVISION{P-3}{\RQ{} Test suite evaluation for code-driven mutation testing shall be based on SRCIror\footnote{https://github.com/TestingResearchIllinois/srciror} (detailed motivation is provided in D2).}
 
 \RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) shall rely on existing tools because it is an open, complex, research problem.
 
@@ -73,7 +93,8 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \RQ{} The \FAQAS shall process SUT built using either GCC Make~\footnote{https://gcc.gnu.org/onlinedocs/gccint/Makefile.html} or WAF\footnote{https://waf.io/}.
 
-\RQ{} The \FAQAS shall process SUT compiled with GCC~\footnote{https://gcc.gnu.org} versions 4.2.1, 5.4.0, and 6.3.0.
+\REVISION{P-7}{\RQ{} The \FAQAS shall process SUT compiled with GCC~\footnote{https://gcc.gnu.org} versions above 4. }
+%4.2.1, 5.4.0, and 6.3.0.
 
 \RQ{} The \FAQAS shall process SUT test suites implemented as scripts (hereafter, \emph{test suite script}) that trigger the execution of test cases (each test case is executed in a separate process). Test suite scripts could be implemented either as Makefiles or a Bash scripts. Each test case is executed through the invocation of a command in the script.
 
@@ -91,9 +112,13 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{System interface requirements}
 
+\TODO{Oscar P-15}
+
 \RQ{} The user interface of the \FAQAS is provided through the command line.
 
-\RQ{} \FAQAS shall process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
+\RQ{} \FAQAS shall provide built-in features to process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
+
+\REVISION{P-16}{\RQ{} \FAQAS shall provide means to configure its execution with any test harness infrastructure for C/C++ software.}
 
 \RQ{} The \FAQAS shall provide the engineer with the ability to configure the environment variables used to tune the mutation testing process.
 

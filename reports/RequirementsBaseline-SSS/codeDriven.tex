@@ -6,12 +6,6 @@
 
 The following requirements regard the Test Suite Evaluation Based on Code-Mutation functionality of the \FAQAS.
 
-\begin{figure}
-	\centering
-		\includegraphics[width=\textwidth]{images/process}
-		\caption{Mutation Testing Process.}
-		\label{fig:code:process}
-	\end{figure}
 
 
 \RQ{} The \FAQAS shall implement a set of optimizations to make code-driven mutation testing feasible (see D2).
@@ -126,7 +120,7 @@ The generation of such test suites should be  based on the PrioritizeAndReduce A
 
 \RQ{} The \FAQAS shall produce two prioritized lists (list A and list B) of live and nonequivalent mutants.
 %\TODO{We have to discuss the meaning of the following sentence}
-List A should contain live mutants that shall be inspected first by the engineers because different from the SUT (i.e., nonequivalent) and different from each other. Ideally, each mutant in list A should represent a distinct limitation of the SUT.
+List A shall contain live mutants that are different from the SUT (i.e., nonequivalent) and different from each other. Ideally, each mutant in list A should represent a distinct limitation of the SUT.
 List A contains mutants that have a distance $D_C$ (strictly) greater than zero; in other words, the distance between each pair of mutants appearing in list A should be greater than zero.
 List B contains all the remaining live, nonequivalent mutants.
 The two lists are sorted in decreasing order, based on the distance $D_C$ from the original program.
@@ -136,6 +130,8 @@ The generation of the list proceeds as follows. First, a list (list X) containin
 
 
 \RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
+
+\TODO{Oscar P-12}
 
 % test suite augmentation
 
