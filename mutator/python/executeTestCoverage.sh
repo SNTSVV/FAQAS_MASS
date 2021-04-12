@@ -69,7 +69,11 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} RUNNING..."
 
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=666 ./main_$x >> $valgrindOutFile 2>&1
+    
+    if [ $? -eq 666 ]; then
+        $memoryErrors=$memoryErrors+1
+    fi
 
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
@@ -120,6 +124,6 @@ fi
 echo "*************************************************************************"
 echo ""
 
-echo "${curTest},${status},${coverage}" >> $testResults 2>&1
+echo "${curTest},${status},${coverage},$memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
 
 popd
