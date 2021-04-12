@@ -47,7 +47,7 @@ echo "DONE"
 echo ""
 
 operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
-echo "NUMBER OF OPERATIONS: ${operations}"
+echo "MAX ID: ${operations}"
 echo ""
 
 x=-2
