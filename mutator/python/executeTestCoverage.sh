@@ -29,6 +29,7 @@ instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
 valgrindOutFile=${curTest}.valgrind.out
 testResults=${curTest}.results.out
 gcovLog=${curTest}.gcov.out
+memoryErrors=0
 
 echo ""
 echo "REMOVING PREVIOUS RESULTS..."
