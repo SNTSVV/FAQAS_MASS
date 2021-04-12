@@ -30,7 +30,6 @@ export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
 
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
-instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
 valgrindOutFile=${curTest}.valgrind.out
 testResults=${curTest}.results.out
 
@@ -42,6 +41,7 @@ rm $compilerOutFile
 rm $valgrindOutFile
 rm $instrumentedCompilerOutFile
 rm $testResults
+rm $FAQAS_COVERAGE_FILE
 
 echo "DONE"
 echo ""
@@ -58,7 +58,10 @@ while [ $x -le $operations ]; do
     # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
 
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+
+    if [ ! $x == -2 ];
+      valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
+    fi
 
     echo "OPERATION ${x} RUNNING..."
     ./main_$x >> $outFile 2>&1
