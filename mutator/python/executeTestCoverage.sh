@@ -70,7 +70,7 @@ while [ $x -le $operations ]; do
     echo "OPERATION ${x} RUNNING..."
 
     valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=666 ./main_$x >> $valgrindOutFile 2>&1
-    
+
     if [ $? -eq 666 ]; then
         $memoryErrors=$memoryErrors+1
     fi
@@ -91,12 +91,12 @@ diff $outFile expected.out
 if [ $? -eq 0 ]; then
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} PASSED"
+    echo  "${curTest} PASSED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="PASSED"
 else
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} FAILED"
+    echo  "${curTest} FAILED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="FAILED";
 fi
 

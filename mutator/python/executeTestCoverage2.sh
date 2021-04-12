@@ -108,12 +108,12 @@ diff $outFile expected.out
 if [ $? -eq 0 ]; then
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} PASSED"
+    echo  "${curTest} PASSED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="PASSED"
 else
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} FAILED"
+    echo  "${curTest} FAILED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="FAILED";
 fi
 
