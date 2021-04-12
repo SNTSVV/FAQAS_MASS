@@ -30,8 +30,8 @@ int main() {
   vectorC.push_back(-42);
 
   //*****************************************************************************
-  // these are the min and max values that delimit  the range in which every variable should
-  // be after the execution of this script
+  // these are the min and max values that delimit  the range in which every
+  // variable should be after the execution of this script
 
   maxA.push_back(50);
   maxA.push_back(50);

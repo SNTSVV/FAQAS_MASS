@@ -1,6 +1,6 @@
-test32,SensorA,not_covered,0
-test32,SensorB,not_covered,0
-test32,SensorC,not_covered,0
-test32,ActuatorA,not_covered,0
-test32,ActuatorB,not_covered,0
-test32,ActuatorC,not_covered,0
+test32,SensorA,covered,10
+test32,SensorB,covered,10
+test32,SensorC,covered,10
+test32,ActuatorA,covered,10
+test32,ActuatorB,covered,10
+test32,ActuatorC,covered,10

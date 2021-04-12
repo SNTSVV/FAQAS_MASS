@@ -1,45 +1,41 @@
-#include <iostream>
-#include <vector>
-#include <stdlib.h>
 #include "FAQAS_dataDrivenMutator.h"
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
 
-
-int mutate( std::vector<int> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
+int mutate(std::vector<int> *v, FaultModel *fm) {
+  return _FAQAS_mutate(v->data(), fm);
 }
 
-
-int main()
-{
+int main() {
   int i;
 
-      FaultModel *fm = _FAQAS_IfHK_FM();
+  FaultModel *fm = _FAQAS_IfHK_FM();
 
-    for (i=0; i<=3; i=i+1){
-      // Create a vector containing integers
+  for (i = 0; i <= 3; i = i + 1) {
+    // Create a vector containing integers
     std::vector<int> v;
 
     v.push_back(i);
-    v.push_back(i+1);
-    v.push_back(i+2);
-    v.push_back(i+3);
-    v.push_back(i+4);
+    v.push_back(i + 1);
+    v.push_back(i + 2);
+    v.push_back(i + 3);
+    v.push_back(i + 4);
 
-    printf("*********%d**********\n",v.at(1));
+    printf("*********%d**********\n", v.at(1));
 
-    //MANUALLY ADDED PROBE
+    // MANUALLY ADDED PROBE
+    mutate(&v, fm);
+    // MANUALLY ADDED PROBE END
+    printf("*********%d**********\n", v.at(1));
 
-    mutate( &v, fm );
-    //MANUALLY ADDED PROBE END
-    printf("*********%d**********\n",v.at(1));
-
-
-    for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-    	std::cout << *it << '\n';
+    for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
+      std::cout << *it << '\n';
     }
+  }
+  // MANUALLY ADDED PROBE
+  _FAQAS_delete_FM(fm);
+  // MANUALLY ADDED PROBE END
 
-    }
-    _FAQAS_delete_FM(fm);
-
-    return 0;
+  return 0;
 }

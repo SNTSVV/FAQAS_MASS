@@ -36,15 +36,6 @@ int main()
 _FAQAS_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
-
-
-     // printf("********************************************\n");
-     // printf("this is the position:%i\n", position);
-     // printf("********************************************\n");
-    // printf("this is v(1):%i\n", v.at(1));
-    // printf("********************************************\n");
-
-
     if (position!= -999){
       assert( v.at(position) != n.at(position));
       assert( v.at(position) <= 5 );

@@ -10,28 +10,27 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     return 0;
 
-   if (MUTATION == -1)
-     return 0;
-  
-   if (MUTATION == -2) {
-     _FAQAS_fmCoverage(fm->ID);
-  
-     const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-     FILE *f = fopen(faqas_coverage_file, "ab+");
-     fprintf(f, "fm.ID: %d\n", fm->ID);
-     fclose(f);
-  
-     return 0;
-  }
-  
-   if (MUTATION == -3) {
-     _FAQAS_fmCoverage(fm->ID);
-     return 0;
+  if (MUTATION == -1)
+    return 0;
+
+  if (MUTATION == -2) {
+    _FAQAS_fmCoverage(fm->ID);
+
+    const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+    FILE *f = fopen(faqas_coverage_file, "ab+");
+    fprintf(f, "fm.ID: %d\n", fm->ID);
+    fclose(f);
+
+    return 0;
   }
 
+  if (MUTATION == -3) {
+    _FAQAS_fmCoverage(fm->ID);
+    return 0;
+  }
 
   if (MUTATION < fm->minOperation || MUTATION > fm->maxOperation) {
-      return 0;
+    return 0;
   }
 
   int pos = _FAQAS_selectItem();
@@ -39,7 +38,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   int opt = _FAQAS_selectOperation();
 
   int valueInt = 0;
-  // int valueBin = 0;
   unsigned long long valueBin = 0;
   double valueDouble = 0;
   float valueFloat = 0;
@@ -50,25 +48,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   //
 
   int span = fm->items[pos].span;
-
-  // if (span == 1) {
-  //
-  //   if (fm->items[pos].type == BIN) {
-  //     valueBin = (int)data[pos];
-  //   }
-  //   if (fm->items[pos].type == INT) {
-  //
-  //     valueInt = (int)data[pos];
-  //   }
-  //   if (fm->items[pos].type == DOUBLE) {
-  //     valueDouble = (double)data[pos];
-  //   }
-  //   if (fm->items[pos].type == FLOAT) {
-  //     valueFloat = (float)data[pos];
-  //   }
-  // }
-
-  // else if (span != 1) {
 
   int kk;
   int stepRead;
@@ -116,8 +95,9 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     memcpy(&valueFloat, &fitToSize, sizeof(valueFloat));
   }
 
-  // }
-  //  if else closing bracket
+  //
+  // Mutate the data
+  //
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
@@ -203,8 +183,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (State == 0) {
 
-      // printf("entra nello state 0\n" );
-
       int ii = 0;
 
       for (ii = 0; ii < numberOfBits; ii = ii + 1) {
@@ -261,11 +239,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
     }
 
-    // else if (State==-1)
     else {
-
-      // mask = 1;                   // 00000011
-      // valueBin = valueBin ^ mask; // 00000100
 
       int ii = 0;
 
@@ -315,7 +289,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
 
       else {
-        // ERROR
+        // FIXME: throw an error
       }
 
       _FAQAS_mutated = 1;
@@ -333,7 +307,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
 
       else {
-        // ERROR
+        // FIXME: throw an error
       }
 
       _FAQAS_mutated = 1;
@@ -351,7 +325,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
 
       else {
-        // ERROR
+        // FIXME: throw an error
       }
 
       _FAQAS_mutated = 1;
@@ -649,26 +623,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   }
 
   // Store the data
-  //
-
-  // if (span == 1) {
-  //
-  //   if (fm->items[pos].type == INT) {
-  //     data[pos] = valueInt;
-  //   }
-  //   if (fm->items[pos].type == DOUBLE) {
-  //     data[pos] = valueDouble;
-  //   }
-  //   if (fm->items[pos].type == BIN) {
-  //     data[pos] = valueBin;
-  //   }
-  //   if (fm->items[pos].type == FLOAT) {
-  //     data[pos] = valueFloat;
-  //   }
-  //
-  // }
-
-  // else if (span != 1) {
 
   unsigned long long fullNumber = 0;
 
@@ -721,9 +675,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     counter = counter + 1;
   }
-
-  // }
-  // else if closing bracket
 
   return _FAQAS_mutated;
 }

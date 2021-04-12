@@ -3,9 +3,6 @@
 
 int main() {
 
-  // TODO assign the following values by reading a .csv file to make testing
-  // with different values easier
-
   //*****************************************************************************
   // these are the initial conditions for the state variables
 
@@ -30,8 +27,8 @@ int main() {
   vectorC.push_back(-42);
 
   //*****************************************************************************
-  // these are the min and max values that delimit  the range in which every variable should
-  // be after the execution of this script
+  // these are the min and max values that delimit  the range in which every
+  // variable should be after the execution of this script
 
   maxA.push_back(50);
   maxA.push_back(50);

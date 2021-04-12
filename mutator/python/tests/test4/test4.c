@@ -11,7 +11,7 @@ int mutate( std::vector<double> *v, FaultModel *fm ){
 
 int main()
 {
-    // Create a vector containing integers
+    // Create a vector containing doubles
     std::vector<double> v;
 
     v.push_back(1.1);
@@ -23,7 +23,7 @@ int main()
     //MANUALLY ADDED PROBE
     FaultModel *fm = _FAQAS_IfHK_FM();
     mutate( &v, fm );
-_FAQAS_delete_FM(fm);
+    _FAQAS_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
     for(std::vector<double>::iterator it = v.begin(); it != v.end(); ++it) {

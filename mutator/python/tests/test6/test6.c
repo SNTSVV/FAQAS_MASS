@@ -1,101 +1,73 @@
-#include <iostream>
-#include <vector>
-#include <stdlib.h>
-#include <assert.h>     /* assert */
-#include <stdio.h>
 #include "FAQAS_dataDrivenMutator.h"
+#include <assert.h> /* assert */
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 
-//this test will be used for INV operators
+// this test will be used for INV operators
 
-int mutate( std::vector<int> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
+int mutate(std::vector<int> *v, FaultModel *fm) {
+  return _FAQAS_mutate(v->data(), fm);
 }
 
-void print_float(int val){
-	float tmp = 0;
+void print_float(int val) {
+  float tmp = 0;
 
+  memcpy(&tmp, &val, sizeof(int));
 
-     	//std::cout << "long \n";
-     	//std::cout << val << '\n';
-
-	memcpy ( &tmp, &val, sizeof(int) );
-
-     	//std::cout << "float \n";
-     	std::cout << tmp << '\n';
+  std::cout << tmp << '\n';
 }
 
-float as_float(int val){
-	float tmp = 0;
+float as_float(int val) {
+  float tmp = 0;
 
+  memcpy(&tmp, &val, sizeof(int));
 
-	memcpy ( &tmp, &val, sizeof(int) );
-
-	return tmp;
+  return tmp;
 }
 
-void push_back(std::vector<int> *v, float val){
-	long int tmp = 0;
+void push_back(std::vector<int> *v, float val) {
+  long int tmp = 0;
 
-     	//std::cout << "PB float \n";
-     	//std::cout << val << '\n';
+  memcpy(&tmp, &val, sizeof(float));
 
-	memcpy ( &tmp, &val, sizeof(float) );
-
-     	//std::cout << "PB long \n";
-     	//std::cout << tmp << '\n';
-
-     	//std::cout << "PB long as float \n";
-	//print_float(tmp);
-
-	v->push_back(tmp);
+  v->push_back(tmp);
 }
 
+int main() {
+  // Create a vector containing doubles
+  std::vector<int> v;
 
-int main()
-{
-    // Create a vector containing integers
-    std::vector<int> v;
+  push_back(&v, 1.1);
+  push_back(&v, 2.2);
+  push_back(&v, 3.3);
+  push_back(&v, 4.4);
+  push_back(&v, 5.5);
 
-    push_back(&v,1.1);
-    push_back(&v,2.2);
-    push_back(&v,3.3);
-    push_back(&v,4.4);
-    push_back(&v,5.5);
+  std::vector<int> n;
 
+  n = v;
 
-    std::vector<int> n;
+  int position = _FAQAS_selectItem();
 
-    n=v;
+  for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
+    // std::cout << *it << '\n';
+    print_float(*it);
+  }
 
-    int position = _FAQAS_selectItem();
+  std::cout << "Mutation\n";
 
+  // MANUALLY ADDED PROBE
+  FaultModel *fm = _FAQAS_IfHK_FM();
+  mutate(&v, fm);
+  _FAQAS_delete_FM(fm);
+  // MANUALLY ADDED PROBE END
 
-    for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-     	//std::cout << *it << '\n';
-	print_float(*it);
-    }
+  for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
 
-    std::cout << "Mutation\n";
+    print_float(*it);
+  }
 
-    //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_IfHK_FM();
-    mutate( &v, fm );
-_FAQAS_delete_FM(fm);
-    //MANUALLY ADDED PROBE END
-
-
-    for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-    	//std::cout << *it << '\n';
-	print_float(*it);
-    }
-
-  //   if (position!= -999){
-	// for( int j=0; j<5; j++ ){
-	// 	float a = as_float ( v.at(j) );
-	// 	float b = as_float ( n.at(j) );
-	// 	assert( faqas_float_equal(a,b) );
-	// }
-  //   }
-
-    return 0;
+  return 0;
 }

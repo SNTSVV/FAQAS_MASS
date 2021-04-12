@@ -70,7 +70,6 @@ std::vector<double> maxC;
 
 void sensorA() {
 
-
   bufferA.clear();
   int position = 0;
   while (position < 5) {
@@ -87,7 +86,6 @@ void sensorA() {
 
 void sensorB() {
 
-
   bufferB.clear();
   int position = 0;
   while (position < 5) {
@@ -102,7 +100,6 @@ void sensorB() {
 }
 
 void sensorC() {
-
 
   bufferC.clear();
   int position = 0;
