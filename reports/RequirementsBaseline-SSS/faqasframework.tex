@@ -28,6 +28,8 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{General Constraints}
 
+\RQ{} Test suite evaluation for code-driven mutation testing shall be based on SRCIror (see discussion in D2).
+
 \RQ{} The automated generation of test cases (i.e., the objective of test suite augmentation) shall rely on existing tools because it is an open, complex, research problem.
 
 \RQ{} The automated generation of test cases for code-mutation may rely on KLEE, which is the most stable test case generation tool, based on WP2 evaluation.
@@ -35,7 +37,13 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Software Architecture}
 
-\RQ{} \FAQAS shall follow a modular architecture.
+\RQ{} \FAQAS shall follow a modular architecture. It shall consists of four components 
+\begin{itemize}
+\item MASS (Mutation Analysis for Space Software), which implements test suite evaluation based on code-driven mutation.
+\item SEMuS (Symbolic Execution-based Mutation testing for Space), which implements test suite augmentation based on code-driven mutation.
+\item DATA (Data-driven Mutation Analysis), which implements test suite evaluation based on data-driven mutation.
+\item DAMTE (DAta-driven Mutation TEsting), which implements test suite augmentation based on data-driven mutation.
+\end{itemize}
 
 \section{Operational Environment}
 
