@@ -57,10 +57,9 @@ while [ $x -le $operations ]; do
     valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
 
     if [ $? -eq 3 ]; then
-        echo $?
-        echo "presta attenzione"
+
         memoryErrors=$((memoryErrors+1))
-        echo "$memoryErrors"
+        
     fi
 
     ./main_$x >> $outFile 2>&1
