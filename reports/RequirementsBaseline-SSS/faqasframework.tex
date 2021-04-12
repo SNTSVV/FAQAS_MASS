@@ -37,23 +37,37 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{Software Architecture}
 
-\RQ{} \FAQAS shall follow a modular architecture. It shall consists of four components 
+\RQ{} \REVISION{P-4}{\FAQAS shall follow a modular architecture. The FAQAS Architecture is depicted in Figure~\ref{fig:architecture}. The FAQAS system shall consists of four components 
 \begin{itemize}
 \item MASS (Mutation Analysis for Space Software), which implements test suite evaluation based on code-driven mutation.
 \item SEMuS (Symbolic Execution-based Mutation testing for Space), which implements test suite augmentation based on code-driven mutation.
 \item DATA (Data-driven Mutation Analysis), which implements test suite evaluation based on data-driven mutation.
 \item DAMTE (DAta-driven Mutation TEsting), which implements test suite augmentation based on data-driven mutation.
-\end{itemize}
+\end{itemize}}
 
+\RQ{} \REVISION{P-4}{At high-level, the four \FAQAS components shall work as follows. All the components receive as input the software under test (SUT), the test suite to evaluate (SUT Test Suite), and a set of configurations. MASS generates a set of code-driven mutants, the mutation score, and a list of live mutants. SEMuS receive as input the list of live mutants and generate test cases that kill them. DAMA generates a set of data-driven mutants, the mutation score, and a list of live mutants. DAMTE receive as input the list of live data-driven mutants and generate test cases that kill them.}
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=12cm]{images/Architecture}
+		\caption{FAQAS Architecture. Arrows represent data-flow.}
+		\label{fig:architecture}
+	\end{figure}
+
+\clearpage
 \section{Operational Environment}
 
-\RQ{} The \FAQAS shall run on x86-64 processor architectures and HPC infrastructures.
+\RQ{} \REVISION{P-5}{The \FAQAS shall run on any operating system provided that a bash shell and Python 3 are installed on it.}
+
+\RQ{} The \FAQAS shall provide support to work on HPC infrastructure.
 
 \RQ{} The \FAQAS shall be executed on the following minimum hardware specifications: 4 GB RAM and 10 GB of free disk space.
 
-\RQ{} The \FAQAS shall be executed on a Linux operating system with a Bash shell.
+%\RQ{} The \FAQAS shall be executed on a Linux operating system with a Bash shell.
 
-\RQ{} The \FAQAS shall execute on the following Linux distributions: (i) Debian 9, (ii) Ubuntu 16, and (iii) CentOS 7.
+\RQ{} The \FAQAS shall be tested to work on the following Linux distributions: (i) Debian 9, (ii) Ubuntu 16, and (iii) CentOS 7.
+
+
 
 \section{Assumptions and dependencies}
 
