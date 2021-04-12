@@ -29,6 +29,7 @@ instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
 valgrindOutFile=${curTest}.valgrind.out
 testResults=${curTest}.results.out
 gcovLog=${curTest}.gcov.out
+memoryErrors=0
 
 echo ""
 echo "REMOVING PREVIOUS RESULTS..."
@@ -63,17 +64,17 @@ while [ $x -le $operations ]; do
     ./main_$x >> $outFile 2>&1
     gcov ${curTest}.c >> $gcovLog 2>&1
 
-
-
-
   else
-    # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
-
 
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
+
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
+
+    if [ $? -eq 3 ]; then
+        memoryErrors=$((memoryErrors+1))
+    fi
 
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
@@ -91,14 +92,16 @@ diff $outFile expected.out
 if [ $? -eq 0 ]; then
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} PASSED"
+    echo  "${curTest} PASSED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="PASSED"
 else
   echo ""
   echo "*************************************************************************"
-    echo  "${curTest} FAILED"
+    echo  "${curTest} FAILED ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
     status="FAILED";
 fi
+
+echo "SEE $valgrindOutFile FOR DETAILS ON MEMORY ERRORS"
 
 echo "*************************************************************************"
 
@@ -124,6 +127,6 @@ fi
 echo "*************************************************************************"
 echo ""
 
-echo "${curTest},${status},${coverage}" >> $testResults 2>&1
+echo "${curTest},${status},${coverage},$memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
 
 popd

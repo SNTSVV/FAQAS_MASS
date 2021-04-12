@@ -27,6 +27,7 @@ outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
 valgrindOutFile=${curTest}.valgrind.out
 testResults=${curTest}.results.out
+memoryErrors=0
 
 echo ""
 echo "REMOVING PREVIOUS RESULTS..."
@@ -50,9 +51,16 @@ while [ $x -le $operations ]; do
     echo "OPERATION ${x} COMPILING..."
 
     g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes ./main_$x >> $valgrindOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
+
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
+
+    if [ $? -eq 3 ]; then
+
+        memoryErrors=$((memoryErrors+1))
+        
+    fi
 
     ./main_$x >> $outFile 2>&1
     echo "=====" >> $outFile 2>&1
@@ -68,12 +76,14 @@ echo "*************************************************************************"
 diff $outFile expected.out
 
 if [ $? -eq 0 ]; then
-    echo "${curTest},PASSED,COVERAGE NOT MEASURED" >> $testResults 2>&1
-    echo  "${curTest} PASSED"
+    echo "${curTest},PASSED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
+    echo  "${curTest} PASSED, ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
 else
-    echo "${curTest},FAILED,COVERAGE NOT MEASURED" >> $testResults 2>&1
-    echo  "${curTest} FAILED";
+    echo "${curTest},FAILED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
+    echo  "${curTest} FAILED, $memoryErrors MUTANT(S) PRESENT MEMORY ERRORS";
 fi
+
+echo "SEE $valgrindOutFile FOR DETAILS ON MEMORY ERRORS"
 
 echo "*************************************************************************"
 echo ""
