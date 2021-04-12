@@ -10,27 +10,51 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     // if (_FAQAS_mutated == 1)
     return 0;
 
-  if ( MUTATION < fm->minOperation || MUTATION > fm->maxOperation ){
-    return 0;
-  }
+  // if ( MUTATION < fm->minOperation || MUTATION > fm->maxOperation ){
+  //   return 0;
+  // }
+  //
+  // if (MUTATION == -1)
+  //   return 0;
+  //
+  // if (MUTATION == -2) {
+  //   _FAQAS_fmCoverage(fm->ID);
+  //
+  //   const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+  //   FILE *f = fopen(faqas_coverage_file, "ab+");
+  //   fprintf(f, "fm.ID: %d\n", fm->ID);
+  //   fclose(f);
+  //
+  //   return 0;
+  // }
+  //
+  // if (MUTATION == -3) {
+  //   _FAQAS_fmCoverage(fm->ID);
+  //   return 0;
+  // }
 
-  if (MUTATION == -1)
-    return 0;
+  if (MUTATION < fm->minOperation || MUTATION > fm->maxOperation) {
 
-  if (MUTATION == -2) {
-    _FAQAS_fmCoverage(fm->ID);
+    if (MUTATION == -2) {
 
-    const char* faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-    FILE *f = fopen(faqas_coverage_file, "ab+");
-    fprintf(f, "fm.ID: %d\n", fm->ID);
-    fclose(f);
+      _FAQAS_fmCoverage(fm->ID);
 
-    return 0;
-  }
+      const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+      FILE *f = fopen(faqas_coverage_file, "ab+");
+      fprintf(f, "fm.ID: %d\n", fm->ID);
+      fclose(f);
 
-  if (MUTATION == -3) {
-    _FAQAS_fmCoverage(fm->ID);
-    return 0;
+      return 0;
+    }
+
+    else if (MUTATION == -3) {
+      _FAQAS_fmCoverage(fm->ID);
+      return 0;
+    }
+
+    else {
+      return 0;
+    }
   }
 
   int pos = _FAQAS_selectItem();
@@ -120,10 +144,9 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   MutationOperator *OP = &(fm->items[pos].operators[op]);
 
-
   if (OP->type == HV) {
 
-    if (sample==1){
+    if (sample == 1) {
 
       if (fm->items[pos].type == INT) {
 
@@ -145,13 +168,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         storedValueBin = valueBin;
       }
 
-      sample=0;
+      sample = 0;
 
       repeatCounter = OP->value;
-
     }
 
-    if(repeatCounter>0){
+    if (repeatCounter > 0) {
 
       if (fm->items[pos].type == INT) {
 
@@ -173,16 +195,15 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         valueBin = storedValueBin;
       }
 
-      repeatCounter=repeatCounter-1;
+      repeatCounter = repeatCounter - 1;
     }
 
-    if(repeatCounter==0){
-      sample=1;
+    if (repeatCounter == 0) {
+      sample = 1;
     }
 
     _FAQAS_mutated = 1;
   }
-
 
   if (OP->type == BF) {
 
@@ -454,7 +475,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     _FAQAS_mutated = 1;
   }
 
-
   if (OP->type == INV) {
 
     if (fm->items[pos].type == INT) {
@@ -645,8 +665,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
-
-
 
   if (_FAQAS_mutated != 1) {
 
