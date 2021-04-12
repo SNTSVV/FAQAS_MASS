@@ -1,4 +1,4 @@
-# FAQAS_DataDrivenMutator
+# FAQAS_DataDrivenMutator: DAta-driven Mutation Analysis (DAMA)
 
 This project concern the FAQAS DataDrivenMutator for systems that work with data buffers.
 
