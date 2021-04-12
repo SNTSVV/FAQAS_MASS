@@ -101,6 +101,8 @@ else
     coverage="PROBLEM WITH COVERAGE"
 fi
 
+echo "SEE $valgrindOutFile FOR DETAILS ON MEMORY ERRORS"
+
 echo "*************************************************************************"
 
 diff $outFile expected.out
@@ -118,7 +120,6 @@ else
 fi
 
 echo "${curTest},${status},${coverage},$memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
-
 
 echo "*************************************************************************"
 echo ""

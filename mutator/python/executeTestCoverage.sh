@@ -101,6 +101,8 @@ else
     status="FAILED";
 fi
 
+echo "SEE $valgrindOutFile FOR DETAILS ON MEMORY ERRORS"
+
 echo "*************************************************************************"
 
 python FMcoverage.py "${curTest}"

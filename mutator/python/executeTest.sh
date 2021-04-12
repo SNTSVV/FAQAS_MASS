@@ -81,6 +81,8 @@ else
     echo  "${curTest} FAILED, $memoryErrors MUTANT(S) PRESENT MEMORY ERRORS";
 fi
 
+echo "SEE $valgrindOutFile FOR DETAILS ON MEMORY ERRORS"
+
 echo "*************************************************************************"
 echo ""
 
