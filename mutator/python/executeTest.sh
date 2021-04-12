@@ -54,9 +54,11 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} RUNNING..."
 
-    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=666 ./main_$x >> $valgrindOutFile 2>&1
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
 
-    if [ $? -eq 666 ]; then
+    if [ $? -eq 3 ]; then
+        echo $?
+        echo "presta attenzione"
         memoryErrors=$((memoryErrors+1))
         echo "$memoryErrors"
     fi
