@@ -112,11 +112,11 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{System interface requirements}
 
-\DONE{Oscar P-15}
-
 \RQ{} The user interface of the \FAQAS is provided through the command line.
 
-\REVISION{P-15a}{\RQ{} The \FAQAS shall use \texttt{gcov}\footnote{https://gcc.gnu.org/onlinedocs/gcc/Gcov.html} to generate and process the code coverage of the SUT.}
+\REVISION{P-15a}{\RQ{} The \FAQAS shall process code coverage information recorded using the format of \texttt{gcov}\footnote{https://gcc.gnu.org/onlinedocs/gcc/Gcov.html}.
+
+\REVISION{P-15a}{\RQ{} The \FAQAS shall automatically execute gcov, when available, to generate code coverage information.}
 
 
 \REVISION{P-15c}{\RQ{} The \FAQAS shall support the following commands:
@@ -152,7 +152,9 @@ The requirements defined in this chapter are univocally identified by the paragr
 }
 
 \REVISION{P-15d}{
-\RQ{} The \FAQAS shall be configured through a text file named \texttt{mass\_conf.sh}.
+\RQ{} The \FAQAS shall be configured through a text file.
+%named \texttt{mass\_conf.sh
+}
 
 \RQ{} The \FAQAS configuration file shall be set with the following parameters:
 	\begin{itemize}
@@ -169,9 +171,9 @@ The requirements defined in this chapter are univocally identified by the paragr
 	\end{itemize}
 }
 
-\RQ{} \FAQAS shall provide built-in features to process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
+\RQ{} The \FAQAS shall provide built-in features to process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
 
-\REVISION{P-16}{\RQ{} \FAQAS shall provide means to configure its execution with any test harness infrastructure for C/C++ software.}
+\REVISION{P-16}{\RQ{} The \FAQAS shall provide means to configure its execution with any test harness infrastructure for C/C++ software.}
 
 \RQ{} The \FAQAS shall provide the engineer with the ability to configure the environment variables used to tune the mutation testing process.
 

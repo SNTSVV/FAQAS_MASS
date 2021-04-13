@@ -61,7 +61,7 @@ The following bulletpoints provide a description of the archive's structure once
 \clearpage
 
 \subsection{Software components design}
-
+\label{sec:component:design}
 \begin{figure}[tb]
   \centering
 	\includegraphics[width=0.9\textwidth]{images/component.png}
@@ -78,16 +78,18 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 \begin{itemize}
 	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
 	
+	\TODO{In GlobalCoverageMatrix parli di line. Si tratta di line o statement?}
+	
 	\REVISION{P-1b}{
 	\begin{itemize}
-		\item \textit{GlobalCoverageMatrix}: csv file containing one line per source under test. The structure of each line is name of the source file, followed by a list with the coverage frequency for all the statements within that source file. Lines that cannot be covered are represented by a '-' character. For example, the coverage line:
+		\item \textit{GlobalCoverageMatrix}: csv file containing one line per source under test. Each line includes the name of the source file followed by a list with the coverage frequency for all the lines within that source file. Lines that cannot be covered are represented by a '-' character. For example, the coverage line:
 
 		\texttt{source.c:-,-,-,1,4,4,-,0,1,0} 
 		
 		Indicates that the source \texttt{source.c} contains 10 lines, where the fourth line has been covered one time, and the fifth line has been covered four times.
 
 		\item \textit{IndividualCoverageMatrices}: one csv coverage matrix file for each test case of the test suite. The structure of the file is identical to the \textit{GlobalCoverageMatrix}.
-		\item \textit{TestTimeouts}: csv file containing one line per test case. The structure of each line is the name of the test case, followed by the test execution time times three, in seconds. For example, the line \texttt{acos:6} indicates that the test case \texttt{acos} cannot be executed for more than six seconds.
+		\item \textit{TestTimeouts}: csv file containing one line per test case. Each line includes the name  of the test case, followed by the test execution time threshold, in seconds. For example, the line \texttt{acos:6} indicates that the test case \texttt{acos} cannot be executed for more than six seconds.
 	\end{itemize}
 	
 
@@ -97,22 +99,22 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 	\item \textit{FAQAS-GeneratePrioritizedTestSuite}: this component processes the source code and the \textit{IndividualCoverageMatrices}, and produces two files: the \textit{PrioritizedTestSuite} and the \textit{PrioritizedReducedTestSuite}.
 
 	\begin{itemize}
-		\item \textit{PrioritizedTestSuite}: csv file containing one line per each covered line of the SUT. The structure of each line is the name of the source file, the line number, followed by a list of prioritized test cases to be executed. Each test case indicates the coverage distance estimated as the cosine distance of the coverage profile. For example, the line:
+		\item \textit{PrioritizedTestSuite}: csv file containing one line per each covered line of the SUT. Each line of the csv file includes the name of the source file, the line number, followed by a list of prioritized test cases to be executed. Each test case indicates the coverage distance estimated as the cosine distance of the coverage profile. For example, the line:
 
 		\texttt{source.c|54|test5:0;test3:0.03;test2:0.01;test1:0.003;test4:0.0}
 
 		Indicates that mutants affecting \texttt{source.c} on line 54 shall be executed first against \texttt{test5}, followed by \texttt{test3}, \texttt{test2}, \texttt{test1}, and finally \texttt{test4}.
 
-		\textit{PrioritizedReducedTestSuite}: csv file containing one line per each covered line of the SUT. The structure of each line is the name of the source file, the line number, followed by a list of prioritized and reduced test cases to be executed. The structure is identical to the \textit{PrioritizedReducedTestSuite}.
+		\textit{PrioritizedReducedTestSuite}: csv file containing one line for each covered line of the SUT. Each line of the csv file includes the name of the source file, the line number, followed by a list of prioritized and reduced test cases to be executed. The structure is identical to the \textit{PrioritizedReducedTestSuite}.
 	\end{itemize}
 
 	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory and produces five files:
 	\begin{itemize}
-		\item \textit{MutantHashcodes}: File containing the list of hash-codes for each mutant, the file contains one line per mutant. The structure of each line is the name of the mutant, the original source of the mutant, and the hash code of the compiled mutant. An example follows:
+		\item \textit{MutantHashcodes}: File containing the list of hash-codes for each mutant, the file contains one line per mutant. Each line of the file includes the name of the mutant, the original source of the mutant, and the hash code of the compiled mutant. An example follows:
 
 		\texttt{source.mut.126.1\_6\_19.ICR.function\_1;src/source.c;947899b54fe9eb785}
 
-		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants, each line contains the name of the mutant followed by the original source of the mutant. An example follows:
+		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants, each line contains the name of the mutant followed by the location of the original source file that has been mutated. An example follows:
 
 		\texttt{source.mut.126.1\_6\_19.ICR.function\_1|src/source.c}
 		
@@ -127,15 +129,15 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 			\item \textit{SampleMutants}: this component processes the file \textit{UniqueMutants} and generates the file \textit{RandomlySortedMutants}.
 
 			\begin{itemize}
-				\item \textit{RandomlySortedMutants}: File containing one line per each sampled mutant. The structure of the file is identical to \textit{UniqueMutants}.
+				\item \textit{RandomlySortedMutants}: File containing one line for each sampled mutant. The structure of the file is identical to \textit{UniqueMutants}.
 			\end{itemize}
 			\item \textit{ExecuteMutants}: this component processes the file \textit{RandomlySortedMutants}, and execute the mutants (according to the strategy selected by the end-user). It produces the following files:
 			\begin{itemize}
-				\item \textit{LiveMutants}: file containing the list of live mutants, it contains one line per live mutant. The structure of the file is identical to \textit{UniqueMutants}.
+				\item \textit{LiveMutants}: file containing the list of live mutants, it contains one line for each live mutant. The structure of the file is identical to \textit{UniqueMutants}.
 				
-				\item \textit{KilledMutants}: file containing the list of killed mutants, it contains one line per killed mutant. The structure of the file is identical to \textit{UniqueMutants}.
+				\item \textit{KilledMutants}: file containing the list of killed mutants, it contains one line for each killed mutant. The structure of the file is identical to \textit{UniqueMutants}.
 				
-				\item \textit{MutantsResults}: file containing the mutation traces, it contains one line per each test case executed against a mutant. Each line contains the name of the mutant, followed by the path of the original source, the compilation output (i.e., COMPILED/STILLBORN), the name of the executed test case, the test case outcome (i.e., PASSED/FAILED), the mutation output (i.e., LIVE/KILLED), and the execution time measured in milliseconds. An example follows:
+				\item \textit{MutantsResults}: file containing the mutation traces, it contains one line for each test case executed with a mutant. Each line of MutantsResults contains the name of the mutant, followed by the path of the original source, the compilation output (i.e., COMPILED/STILLBORN), the name of the executed test case, the test case outcome (i.e., PASSED/FAILED), the mutation output (i.e., LIVE/KILLED), and the execution time measured in milliseconds. An example follows:
 
 				\stt{source.mut.211.2\_4\_9.UOI.function;src/source.c;COMPILED;test1;FAILED;KILLED;5593}
 				
@@ -154,7 +156,7 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 	\item \textit{FAQAS-MutationScore}: this component processes the \textit{UnivocalMutantsResults} and the \textit{KilledMutants} files and produces the files \textit{FAQASReport} and \textit{LiveUsefulMutants}.
 
 	\begin{itemize}
-		\item \textit{FAQASReport}: text file containing information about \MASS mutation process. The information concerns total number of mutants generated, mutants filtered by TCE, type of sampling, total number of mutants executed, killed mutants, live mutants, mutation score, statement coverage, path to the \textit{LiveUsefulMutants} files.
+		\item \textit{FAQASReport}: text file containing information about the \MASS mutation process. More precisely, the file FAQASReport indicates the total number of mutants generated, the number of mutants filtered by TCE, the type of sampling applied to select the mutants to be tested, the total number of mutants executed, the number of killed mutants, the number of live mutants, the mutation score, the statement coverage, and the  path to the \textit{LiveUsefulMutants} files.
 		
 		\item \textit{LiveUsefulMutants}: set of two csv files that contains one line per live mutant. The lists are sorted by the degree of coverage difference with respect to the original program. The structure of the file is identical to \textit{UniqueMutants}.
 	\end{itemize}
@@ -179,7 +181,7 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 \end{figure}
 
 
-MASS implements the process for the evaluation of test suite effectiveness, drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. In the following, we further describe the evaluation of test suite effectiveness process.
+MASS implements the process for the evaluation of test suite effectiveness, drafted in Figure~\ref{fig:process:codeDriven:evaluation}. Figure~\ref{fig:process:codeDriven:evaluation} relies on UML activity diagram notation. In Figure~\ref{fig:process:codeDriven:evaluation} the execution of specific software artefacts from the end user is made explicit. Also, we use black arrows to draw control-flow, red arrows for data-flow. All the activities within the FAQAS Framework swimlane are implemented by a program (a Bash or Python script) that automates the activity; they are described below. In the following, we provide a detailed description of the process in Figure~\ref{fig:process:codeDriven:evaluation}.
 
 
 The activity \emph{Edit MASS Configuration Files} indicates that the engineers must configure and perform the following activities:
@@ -354,16 +356,18 @@ The program \emph{FAQAS-MutationScore} concerns the computation of the mutation 
 
 
 \subsection{Internal interface design}
-\REVISION{P-1a}{
-The internal interface design is limited to the interactions between different activities.
 
-In general, each activity with a name starting with \emph{FAQAS-} is a wrapper. These wrappers do nothing by themselves other than calling an internal script.  
+\TODO{Controlla se va bene}
+
+\REVISION{P-1a}{All the programs that automate the different steps of \MASS communicate only through the files that had been described in Section~\ref{sec:component:design}.
+
+%The internal interface design is limited to the interactions between different activities.
+%
+%In general, each activity with a name starting with \emph{FAQAS-} is a wrapper. These wrappers do nothing by themselves other than calling an internal script.  
 
 \subsection{External interface design}
 
-The external interface design is limited to the interaction with a set of launchers that are provided in \MASS.
-
-The set of launcher is composed by the following script files:
+The external interfaces of the \MASS are the programs that automate the different steps of \MASS, which have been described above. They are
 
 \begin{itemize}
 	\item \texttt{PrepareSUT.sh}: launcher for the script that prepares the SUT and collects information about the SUT test suite.
