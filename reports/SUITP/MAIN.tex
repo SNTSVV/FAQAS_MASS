@@ -6,7 +6,7 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
 
-\documentclass[11pt,twoside]{book}
+\documentclass[11pt,twoside,openany]{book}
 \usepackage{multirow}
 \usepackage{pdfpages}
 
@@ -261,7 +261,7 @@
 
 \newcommand{\FAQAS}{FAQAS-framework\xspace}
 
-\newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
 
 \newcommand{\REVTWO}[2]{#2}
 
@@ -294,6 +294,8 @@
 \include{additional}
 
 \newpage
+
+\include{ESA_comments}
 
 \clearpage
 
