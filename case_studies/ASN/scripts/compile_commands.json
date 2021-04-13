@@ -1,0 +1,7 @@
+[
+    {
+        "command": "cc -c -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I . -O0 -fprofile-arcs -ftest-coverage -o ./test.o ./test.c",
+        "directory": "/home/asn/grammar_test",
+        "file": "/home/asn/grammar_test/test.c"
+	}
+]
