@@ -1,0 +1,38 @@
+% !TEX root = MAIN.tex
+
+\section{MASS - Software Component Design}
+
+
+\subsection{FAQAS-GenerateCodeCoverageMatrixes}
+
+\begin{itemize}
+	\item Interface: \texttt{FAQAS-GenerateCodeCoverageMatrixes \$MatrixType}
+	\item Type: wrapper for procedure
+	\item Files: \stt{MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-GenerateCodeCoverageMatrixes.sh}
+	\item Parameters: 
+	\begin{itemize}
+		\item \texttt{MatrixType}: indicates if whether the global or individual coverage matrix shall be produced.
+	\end{itemize} 
+	\item Returns:
+	\begin{itemize}
+		\item \texttt{coverage.txt}: matrix file containing one list of coverage frequencies for each source under test.
+	\end{itemize}
+	\item Purpose: \texttt{FAQAS-GenerateCodeCoverageMatrixes} shall generate global and individual code coverage matrices for a test suite execution.
+	\item Procedure Design
+\end{itemize}
+
+\subsection{FAQAS-GenerateMutants}
+
+\subsection{FAQAS-CompileOptimizedMutants}
+
+\subsection{FAQAS-CompileAndExecuteMutants}
+
+\subsubsection{FAQAS-GeneratePrioritizedTestSuite}
+
+\subsubsection{FAQAS-CompileAndExecute}
+
+\subsubsection{FAQAS-IdentifyEquivalents}
+
+\subsection{FAQAS-MutationScore}
+
+

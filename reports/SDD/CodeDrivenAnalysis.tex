@@ -27,7 +27,37 @@ The package \textit{Mutant Execution} implements the features regarding the comp
 The package \textit{Mutant Reporting} implements the features for the generation of the mutation analysis reports including the mutation score.
 
 
+\subsubsection{Source Code Structure}
 
+
+\REVISION{P-00}{ \MASS is delivered as a compressed archive consisting of source files and an installer.
+The following bulletpoints provide a description of the archive's structure once uncompressed:
+
+\begin{itemize}
+	\item \texttt{MASS/}
+	\begin{itemize}
+		\item \texttt{SRCMutation/}: contains the source files and unit test cases of the component that performs code-driven mutations.
+		\item \texttt{llvm-build.sh}: build script that compiles the SRCMutation component
+		\item \texttt{PythonWrappers/}: contains Python script wrappers that facilitate code-driven mutations.
+		\item \texttt{MASS/}: contains all the executable files and scripts that implement the methodology for code-driven mutation testing supported by the \MASS. They are listed below.
+		\begin{itemize}
+			\item \texttt{FAQAS-Setup}: contains the Bash scripts necessary to install the FAQAS-Framework.
+			\item \texttt{FAQAS-GenerateCodeCoverageMatrixes}: contains the Bash scripts providing procedures to collect code coverage from the SUT.
+			\item \texttt{FAQAS-GenerateMutants}: contains a Bash script that invokes the \texttt{SRCMutation} component to generate mutants.
+			\item \texttt{FAQAS-CompileOptimizedMutants}: contains the scripts (in Python and Bash)  that provide the procedures to compile mutants and filter equivalent and redundant mutants based on trivial compiler optimizations.
+			\item \texttt{FAQAS-CompileAndExecuteMutants}
+			\begin{itemize}
+				\item \texttt{FAQAS-GeneratePrioritizedTestSuite}: contains the Python and Bash scripts that provide the procedures to generate prioritized and reduced test suites from the SUT.
+
+				\item \texttt{FAQAS-CompileAndExecute}: contains the Python and Bash scripts that provide the procedures to compile and execute the mutants against the SUT test suite. It also provides the procedures to determine the mutation stopping criterion (i.e., mutant sampling).
+
+				\item \texttt{FAQAS-IdentifyEquivalentAndRedundantMutants}: contains the Python and Bash scripts that provides the procedures to identify equivalent mutants based on code coverage.
+			\end{itemize}
+			\item \texttt{FAQAS-MutationScore}: contains the Python and Bash scripts that provide the procedures to compute the mutation score and provide summarized information about the code-driven mutation testing process.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+}
 \clearpage
 
 \subsection{Software components design}
@@ -47,40 +77,94 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 
 \begin{itemize}
 	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
+	
+	\REVISION{P-1b}{
+	\begin{itemize}
+		\item \textit{GlobalCoverageMatrix}: csv file containing one line per source under test. The structure of each line is name of the source file, followed by a list with the coverage frequency for all the statements within that source file. Lines that cannot be covered are represented by a '-' character. For example, the coverage line:
+
+		\texttt{source.c:-,-,-,1,4,4,-,0,1,0} 
+		
+		Indicates that the source \texttt{source.c} contains 10 lines, where the fourth line has been covered one time, and the fifth line has been covered four times.
+
+		\item \textit{IndividualCoverageMatrices}: one csv coverage matrix file for each test case of the test suite. The structure of the file is identical to the \textit{GlobalCoverageMatrix}.
+		\item \textit{TestTimeouts}: csv file containing one line per test case. The structure of each line is the name of the test case, followed by the test execution time times three, in seconds. For example, the line \texttt{acos:6} indicates that the test case \texttt{acos} cannot be executed for more than six seconds.
+	\end{itemize}
+	
 
 	\item \textit{FAQAS-GenerateMutants}: This component processes the SUT source code and the \textit{GlobalCoverageMatrix} file, and generates the mutants directory.
+		
 
 	\item \textit{FAQAS-GeneratePrioritizedTestSuite}: this component processes the source code and the \textit{IndividualCoverageMatrices}, and produces two files: the \textit{PrioritizedTestSuite} and the \textit{PrioritizedReducedTestSuite}.
 
+	\begin{itemize}
+		\item \textit{PrioritizedTestSuite}: csv file containing one line per each covered line of the SUT. The structure of each line is the name of the source file, the line number, followed by a list of prioritized test cases to be executed. Each test case indicates the coverage distance estimated as the cosine distance of the coverage profile. For example, the line:
+
+		\texttt{source.c|54|test5:0;test3:0.03;test2:0.01;test1:0.003;test4:0.0}
+
+		Indicates that mutants affecting \texttt{source.c} on line 54 shall be executed first against \texttt{test5}, followed by \texttt{test3}, \texttt{test2}, \texttt{test1}, and finally \texttt{test4}.
+
+		\textit{PrioritizedReducedTestSuite}: csv file containing one line per each covered line of the SUT. The structure of each line is the name of the source file, the line number, followed by a list of prioritized and reduced test cases to be executed. The structure is identical to the \textit{PrioritizedReducedTestSuite}.
+	\end{itemize}
+
 	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory and produces five files:
 	\begin{itemize}
-		\item \textit{MutantHashcodes}: file containing the list of hash-codes for each mutant
-		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants
-		\item \textit{EquivalentMutants}: file containing the list of equivalent mutants
-		\item \textit{RedundantMutants}: file containing the list of redundant mutants
-		\item \textit{NotCompiledMutants}: file containing the list of non-compiled mutants
+		\item \textit{MutantHashcodes}: File containing the list of hash-codes for each mutant, the file contains one line per mutant. The structure of each line is the name of the mutant, the original source of the mutant, and the hash code of the compiled mutant. An example follows:
+
+		\texttt{source.mut.126.1\_6\_19.ICR.function\_1;src/source.c;947899b54fe9eb785}
+
+		\item \textit{UniqueMutants}: file containing the list of nonequivalent and nonredundant mutants, each line contains the name of the mutant followed by the original source of the mutant. An example follows:
+
+		\texttt{source.mut.126.1\_6\_19.ICR.function\_1|src/source.c}
+		
+		\item \textit{EquivalentMutants}: File containing the list of equivalent mutants. The structure of the file is identical to \textit{UniqueMutants}.
+		
+		\item \textit{RedundantMutants}: File containing the list of redundant mutants. The structure of the file is identical to \textit{UniqueMutants}.
+		
+		\item \textit{NotCompiledMutants}: File containing the list of non-compiled mutants. The structure of the file is identical to \textit{UniqueMutants}.
 	\end{itemize}
 	\item \textit{FAQAS-CompileAndExecute}: this component is composed by two sub-components:
 		\begin{itemize}
-			\item \textit{SampleMutants}: this component processes the file \textit{UniqueMutants} and generates the file \textit{RandomlySortedMutants}
+			\item \textit{SampleMutants}: this component processes the file \textit{UniqueMutants} and generates the file \textit{RandomlySortedMutants}.
+
+			\begin{itemize}
+				\item \textit{RandomlySortedMutants}: File containing one line per each sampled mutant. The structure of the file is identical to \textit{UniqueMutants}.
+			\end{itemize}
 			\item \textit{ExecuteMutants}: this component processes the file \textit{RandomlySortedMutants}, and execute the mutants (according to the strategy selected by the end-user). It produces the following files:
 			\begin{itemize}
-				\item \textit{LiveMutants}: file containing the list of live mutants
-				\item \textit{KilledMutants}: file containing the list of killed mutants
-				\item \textit{MutantsResults}: file containing the mutation traces
-				\item \textit{MutantsCoverage}: folder containing the coverage for every mutant
+				\item \textit{LiveMutants}: file containing the list of live mutants, it contains one line per live mutant. The structure of the file is identical to \textit{UniqueMutants}.
+				
+				\item \textit{KilledMutants}: file containing the list of killed mutants, it contains one line per killed mutant. The structure of the file is identical to \textit{UniqueMutants}.
+				
+				\item \textit{MutantsResults}: file containing the mutation traces, it contains one line per each test case executed against a mutant. Each line contains the name of the mutant, followed by the path of the original source, the compilation output (i.e., COMPILED/STILLBORN), the name of the executed test case, the test case outcome (i.e., PASSED/FAILED), the mutation output (i.e., LIVE/KILLED), and the execution time measured in milliseconds. An example follows:
+
+				\stt{source.mut.211.2\_4\_9.UOI.function;src/source.c;COMPILED;test1;FAILED;KILLED;5593}
+				
+				\item \textit{MutantsCoverage}: folder containing the coverage for every mutant and each test case. The coverage is stored in gcov files (i.e., gcda and gcno files).
 			\end{itemize}
 		\end{itemize}
+
 	\item \textit{FAQAS-IdentifyEquivalentMutants}: this component processes the files \textit{LiveMutants}, \textit{MutantsResults}, and \textit{MutantsCoverage}, and generates the files \textit{EquivalentMutants}, \textit{UnivocalLiveMutants}, and \textit{UnivocalMutantsResults}, that is, it filters equivalent mutants from the mutation execution process.
+	\begin{itemize}
+		\item \textit{EquivalentMutants}: file containing the list of equivalent mutants, that is, mutants with a coverage profile identical to the original program. The structure of the file is identical to \textit{UniqueMutants}.
+		\item \textit{UnivocalLiveMutants}: file containing the list of live mutants, it contains one line per live mutant. The structure of the file is identical to \textit{UniqueMutants}.
+		\item \textit{UnivocalMutantsResults}: file containing the filtered mutation traces, it contains one line per each test case executed against a mutant. The structure of the file is identical to \textit{MutantsResults}.
+
+	\end{itemize}
 
 	\item \textit{FAQAS-MutationScore}: this component processes the \textit{UnivocalMutantsResults} and the \textit{KilledMutants} files and produces the files \textit{FAQASReport} and \textit{LiveUsefulMutants}.
+
+	\begin{itemize}
+		\item \textit{FAQASReport}: text file containing information about \MASS mutation process. The information concerns total number of mutants generated, mutants filtered by TCE, type of sampling, total number of mutants executed, killed mutants, live mutants, mutation score, statement coverage, path to the \textit{LiveUsefulMutants} files.
+		\item \textit{LiveUsefulMutants}: set of two csv files that contains one line per live mutant. The lists are sorted by the degree of coverage difference with respect to the original program. The structure of the file is identical to \textit{UniqueMutants}.
+	\end{itemize}
+	}
 \end{itemize}
 
 \clearpage
 
 %\section{Software dynamic architecture}
 
-\subsection{Software Behavior}
+\subsection{Software behavior}
 
 %Concerning the dynamic behavior of the software, we introduce in the following descriptions for each of the four components of the \FAQAS: the Code-Driven Test Suite Evaluation and Augmentation, and the Data-Driven Test Suite Evaluation and Augmentation.
 
@@ -266,3 +350,39 @@ The program \emph{FAQAS-IdentifyEquivalentMutants} relies on code coverage infor
 The program \emph{FAQAS-IdentifyEquivalentMutants} generates a copy of \emph{mutation results csv} (i.e., \emph{univocal mutation results csv}) where only mutants that are considered non-equivalent are reported.
 
 The program \emph{FAQAS-MutationScore} concerns the computation of the mutation score based on the mutation results reported in \emph{univocal mutation results csv}, and the production of the two prioritized lists (list A and list B) of live and nonequivalent mutants (see FAQAS-SSS-REQ-051).
+
+
+\subsection{Internal interface design}
+\REVISION{P-1a}{
+The internal interface design is limited to the interactions between different activities.
+
+In general, each activity with a name starting with \emph{FAQAS-} is a wrapper. These wrappers do nothing by themselves other than calling an internal script.  
+
+\subsection{External interface design}
+
+The external interface design is limited to the interaction with a set of launchers that are provided in \MASS.
+
+The set of launcher is composed by the following script files:
+
+\begin{itemize}
+	\item \texttt{PrepareSUT.sh}: launcher for the script that prepares the SUT and collects information about the SUT test suite.
+	\item \texttt{GenerateMutants.sh}: launcher for the generation of mutants.
+	\item \texttt{CompileOptimizedMutants.sh}: launcher for the trivial compiler optimization step.
+	\item \texttt{OptimizedPostProcessing.sh}: launcher for the post-processing of the trivial compiler optimization step.
+	\item \texttt{GeneratePTS.sh}: launcher for the generation of prioritized and reduced test suites.
+	\item \texttt{ExecuteMutants.sh}: launcher for the execution of mutants against the SUT test suite.
+	\item \texttt{IdentifyEquivalents.sh}: launcher for the identification of equivalent mutants based on code coverage.
+	\item \texttt{MutationScore.sh}: launcher for the computation of the mutation score and final reporting.
+	\item \texttt{PrepareMutants\_HPC.sh}: HPC launcher that prepares the mutants workspace for the execution on HPCs.
+	\item \texttt{ExecuteMutants\_HPC.sh}: HPC launcher that executes mutants on HPCs.
+	\item \texttt{PostMutation\_HPC.sh}: HPC launcher that assesses past mutant executions, and decides whether more mutant executions are needed.
+\end{itemize}
+
+\subsection{Test harness}
+
+\MASS provide unit test cases for the \texttt{SRCMutation} component that generate mutants from the SUT source code. More information can be found in the \textit{ESA-FAQAS-SUITP} document.
+}
+
+
+
+
