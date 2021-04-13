@@ -1,0 +1,32 @@
+% !TEX root = MAIN.tex
+
+\chapter{Reference Manual}
+\label{chapter:reference}
+
+\REVISION{P-2}{
+
+\section{Code-driven mutation analysis toolset (MASS)}
+
+\MASS shall support the following commands:
+	\begin{itemize}
+	\item \texttt{PrepareSUT}: command to prepare the SUT and collect information about the SUT test suite.
+	\item \texttt{GenerateMutants}: command to generate mutants from the SUT source code.
+	\item \texttt{CompileOptimizedMutants}: command to compile the mutants with the multiple optimisation levels.
+	\item \texttt{OptimizedPostProcessing}: command to disregard equivalent and redundant mutants based on compiler optimisations.
+	\item \texttt{GeneratePTS}: command to generate the prioritized and reduced test suites.
+	\item \texttt{ExecuteMutants}: command to execute mutants against the SUT test suite.
+	\item \texttt{IdentifyEquivalents}: command to identify equivalent mutants based on code coverage.
+	\item \texttt{MutationScore}: command to compute the mutation score and final reporting.
+	\item \texttt{PrepareMutants\_HPC}: command to prepare the mutants workspace for the execution on HPCs.
+	\item \texttt{ExecuteMutants\_HPC}: command to execute mutants on HPCs.
+	\item \texttt{PostMutation\_HPC}: command to assess past mutant executions, and to decide whether more mutant executions are needed.
+\end{itemize}
+
+For more information about how to operate each command, please refer to Section~\ref{sec:launchers}.
+
+\section{Code-driven test generation toolset (SEMuS)}
+
+\section{Data-driven mutation analysis toolset (DAMA)}
+
+\section{Data-driven test generation toolset (DAMTE)}
+}
