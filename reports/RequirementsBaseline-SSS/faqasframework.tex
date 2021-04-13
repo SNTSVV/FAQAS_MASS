@@ -112,9 +112,62 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 \section{System interface requirements}
 
-\TODO{Oscar P-15}
+\DONE{Oscar P-15}
 
 \RQ{} The user interface of the \FAQAS is provided through the command line.
+
+\REVISION{P-15a}{\RQ{} The \FAQAS shall use \texttt{gcov}\footnote{https://gcc.gnu.org/onlinedocs/gcc/Gcov.html} to generate and process the code coverage of the SUT.}
+
+
+\REVISION{P-15c}{\RQ{} The \FAQAS shall support the following commands:
+	\begin{itemize}
+	\item \texttt{PrepareSUT}: command to prepare the SUT and collect information about the SUT test suite.
+	\item \texttt{GenerateMutants}: command to generate mutants from the SUT source code.
+	\item \texttt{CompileOptimizedMutants}: command to compile the mutants with the multiple optimisation levels.
+	\item \texttt{OptimizedPostProcessing}: command to disregard equivalent and redundant mutants based on compiler optimisations.
+	\item \texttt{GeneratePTS}: command to generate the prioritized and reduced test suites.
+	\item \texttt{ExecuteMutants}: command to execute mutants against the SUT test suite.
+	\item \texttt{IdentifyEquivalents}: command to identify equivalent mutants based on code coverage.
+	\item \texttt{MutationScore}: command to compute the mutation score and final reporting.
+	\item \texttt{PrepareMutants\_HPC}: command to prepare the mutants workspace for the execution on HPCs.
+	\item \texttt{ExecuteMutants\_HPC}: command to execute mutants on HPCs.
+	\item \texttt{PostMutation\_HPC}: command to assess past mutant executions, and to decide whether more mutant executions are needed.
+\end{itemize}
+}
+
+\REVISION{P-15b}{\RQ{} The \FAQAS shall generate the following log files:
+	\begin{itemize}
+		\item output concerning SUT compilation process
+		\item output concerning execution of SUT test cases
+		\item output concerning the execution of the \texttt{CompileOptimizedMutants} command
+		\item output concerning the execution of the \texttt{OptimizedPostProcessing} command
+		\item output concerning the execution of the \texttt{GeneratePTS} command
+		\item output concerning the execution of the \texttt{ExecuteMutants} command
+		\item output concerning the execution of the \texttt{IdentifyEquivalents} command
+		\item output concerning the execution of the \texttt{MutationScore} command
+		\item output concerning the execution of the \texttt{PrepareMutants\_HPC} command
+		\item output concerning the execution of the \texttt{ExecuteMutants\_HPC} command
+		\item output concerning the execution of the \texttt{PostMutation\_HPC} command
+	\end{itemize}
+}
+
+\REVISION{P-15d}{
+\RQ{} The \FAQAS shall be configured through a text file named \texttt{mass\_conf.sh}.
+
+\RQ{} The \FAQAS configuration file shall be set with the following parameters:
+	\begin{itemize}
+		\item \FAQAS installation path
+		\item \FAQAS workspace path
+		\item SUT relevant paths (e.g., source code folder, test folder, coverage folder)
+		\item SUT compilation command
+		\item SUT test case execution command
+		\item \FAQAS execution environment mode (i.e., single machine, HPC)
+		\item \FAQAS trivial compiler optimisation flags
+		\item \FAQAS sampling type
+		\item \FAQAS sampling rate
+		\item \FAQAS test suite prioritization type
+	\end{itemize}
+}
 
 \RQ{} \FAQAS shall provide built-in features to process the SUT test harness Google Test\footnote{https://github.com/google/googletest} and the Basic mathematical Library Test Suite (BLTS)\footnote{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}.
 

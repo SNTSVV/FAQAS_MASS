@@ -129,9 +129,9 @@ The two lists are sorted in decreasing order, based on the distance $D_C$ from t
 The generation of the list proceeds as follows. First, a list (list X) containing all the mutants, sorted by distance $D_C$, is created. Iteratively, each mutant in list X is compared with each mutant in list A. If the distance is greater than zero, the mutant is added to list A, otherwise it is added to list B.
 
 
-\RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process.
+\RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process. \REVISION{P-12}{The report shall report information about the total number of mutants generated, the total number of mutants filtered by compiler optimisations, type of sampling, total number of mutants executed, total number of killed mutants, total number of live mutants, mutation score, statement coverage, and the location of the two prioritized lists of nonequivalent mutants.}
 
-\TODO{Oscar P-12}
+\DONE{Oscar P-12}
 
 % test suite augmentation
 
