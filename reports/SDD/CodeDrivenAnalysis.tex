@@ -79,6 +79,7 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
 	
 	\TODO{In GlobalCoverageMatrix parli di line. Si tratta di line o statement?}
+	\DONE{I files gcov mostrano tutte le line del codice sorgente; rappresentano gli statement con il numero/frequenza, ed invece le line che non sono statement gli rappresenta con un '-'. Quindi si, si trattano di lines.}
 	
 	\REVISION{P-1b}{
 	\begin{itemize}
@@ -358,6 +359,7 @@ The program \emph{FAQAS-MutationScore} concerns the computation of the mutation 
 \subsection{Internal interface design}
 
 \TODO{Controlla se va bene}
+\DONE{Si', perfetto}
 
 \REVISION{P-1a}{All the programs that automate the different steps of \MASS communicate only through the files that had been described in Section~\ref{sec:component:design}.
 
