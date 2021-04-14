@@ -78,19 +78,19 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 \begin{itemize}
 	\item \textit{FAQAS-GenerateCodeCoverageMatrices}: this component processes the SUT test suite and generates the files \textit{GlobalCoverageMatrix}, \textit{IndividualCoverageMatrices}, and \textit{TestTimeouts}. The information produced by the component is mainly processed by the \textit{FAQAS-GenerateMutants} component.
 	
-	\TODO{In GlobalCoverageMatrix parli di line. Si tratta di line o statement?}
-	\DONE{I files gcov mostrano tutte le line del codice sorgente; rappresentano gli statement con il numero/frequenza, ed invece le line che non sono statement gli rappresenta con un '-'. Quindi si, si trattano di lines.}
+%	\TODO{In GlobalCoverageMatrix parli di line. Si tratta di line o statement?}
+%	\DONE{I files gcov mostrano tutte le line del codice sorgente; rappresentano gli statement con il numero/frequenza, ed invece le line che non sono statement gli rappresenta con un '-'. Quindi si, si trattano di lines.}
 	
 	\REVISION{P-1b}{
 	\begin{itemize}
-		\item \textit{GlobalCoverageMatrix}: csv file containing one line per source under test. Each line includes the name of the source file followed by a list with the coverage frequency for all the lines within that source file. Lines that cannot be covered are represented by a '-' character. For example, the coverage line:
+		\item \textit{GlobalCoverageMatrix}: csv file containing one row per source file under test. Each row in GlobalCoverageMatrix includes the name of the source file followed by a list with the coverage frequency for all the lines within that source file. Source lines that cannot be covered (e.g., code comments) are represented by a '-' character. For example, the coverage row:
 
 		\texttt{source.c:-,-,-,1,4,4,-,0,1,0} 
 		
-		Indicates that the source \texttt{source.c} contains 10 lines, where the fourth line has been covered one time, and the fifth line has been covered four times.
+		Indicates that the source \texttt{source.c} contains 10 lines, where the first three lines cannot be covered (e.g., comments), the fourth line has been covered one time, and the fifth line has been covered four times.
 
 		\item \textit{IndividualCoverageMatrices}: one csv coverage matrix file for each test case of the test suite. The structure of the file is identical to the \textit{GlobalCoverageMatrix}.
-		\item \textit{TestTimeouts}: csv file containing one line per test case. Each line includes the name  of the test case, followed by the test execution time threshold, in seconds. For example, the line \texttt{acos:6} indicates that the test case \texttt{acos} cannot be executed for more than six seconds.
+		\item \textit{TestTimeouts}: csv file containing one row per test case. Each row includes the name  of the test case, followed by the test execution time threshold, in seconds. For example, the row \texttt{acos:6} indicates that the test case \texttt{acos} cannot be executed for more than six seconds.
 	\end{itemize}
 	
 
@@ -100,18 +100,18 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 	\item \textit{FAQAS-GeneratePrioritizedTestSuite}: this component processes the source code and the \textit{IndividualCoverageMatrices}, and produces two files: the \textit{PrioritizedTestSuite} and the \textit{PrioritizedReducedTestSuite}.
 
 	\begin{itemize}
-		\item \textit{PrioritizedTestSuite}: csv file containing one line per each covered line of the SUT. Each line of the csv file includes the name of the source file, the line number, followed by a list of prioritized test cases to be executed. Each test case indicates the coverage distance estimated as the cosine distance of the coverage profile. For example, the line:
+		\item \textit{PrioritizedTestSuite}: csv file containing one row for each line of the SUT that has been covered. Each row of the csv file includes the name of the source file, the line number, followed by a list of prioritized test cases to be executed. Each test case indicates the coverage distance estimated as the cosine distance of the coverage profile. For example, the row:
 
 		\texttt{source.c|54|test5:0;test3:0.03;test2:0.01;test1:0.003;test4:0.0}
 
 		Indicates that mutants affecting \texttt{source.c} on line 54 shall be executed first against \texttt{test5}, followed by \texttt{test3}, \texttt{test2}, \texttt{test1}, and finally \texttt{test4}.
 
-		\textit{PrioritizedReducedTestSuite}: csv file containing one line for each covered line of the SUT. Each line of the csv file includes the name of the source file, the line number, followed by a list of prioritized and reduced test cases to be executed. The structure is identical to the \textit{PrioritizedReducedTestSuite}.
+		\textit{PrioritizedReducedTestSuite}: csv file containing one row for each line of the SUT that has been covered. Each row of the csv file includes the name of the source file, the line number, followed by a list of prioritized and reduced test cases to be executed. The structure is identical to the \textit{PrioritizedReducedTestSuite}.
 	\end{itemize}
 
 	\item \textit{FAQAS-CompileOptimizedMutants}: this component processes the mutants directory and produces five files:
 	\begin{itemize}
-		\item \textit{MutantHashcodes}: File containing the list of hash-codes for each mutant, the file contains one line per mutant. Each line of the file includes the name of the mutant, the original source of the mutant, and the hash code of the compiled mutant. An example follows:
+		\item \textit{MutantHashcodes}: File containing the list of hash-codes for each mutant, the file contains one line per mutant. Each line of MutantHashcodes includes the name of the mutant, the original source of the mutant, and the hash code of the compiled mutant. An example follows:
 
 		\texttt{source.mut.126.1\_6\_19.ICR.function\_1;src/source.c;947899b54fe9eb785}
 
@@ -159,7 +159,7 @@ As shown in Figure~\ref{fig:component_diagram}, the software is composed by the 
 	\begin{itemize}
 		\item \textit{FAQASReport}: text file containing information about the \MASS mutation process. More precisely, the file FAQASReport indicates the total number of mutants generated, the number of mutants filtered by TCE, the type of sampling applied to select the mutants to be tested, the total number of mutants executed, the number of killed mutants, the number of live mutants, the mutation score, the statement coverage, and the  path to the \textit{LiveUsefulMutants} files.
 		
-		\item \textit{LiveUsefulMutants}: set of two csv files that contains one line per live mutant. The lists are sorted by the degree of coverage difference with respect to the original program. The structure of the file is identical to \textit{UniqueMutants}.
+		\item \textit{LiveUsefulMutants}: set of two csv files that contains one row per live mutant. The lists are sorted by the degree of coverage difference with respect to the original program. More precisely, mutants showing higher differences with respect to the original program (i.e., mutants that are likely not equivalent) are shown first. The structure of the file is identical to \textit{UniqueMutants}.
 	\end{itemize}
 	}
 \end{itemize}
@@ -358,8 +358,7 @@ The program \emph{FAQAS-MutationScore} concerns the computation of the mutation 
 
 \subsection{Internal interface design}
 
-\TODO{Controlla se va bene}
-\DONE{Si', perfetto}
+
 
 \REVISION{P-1a}{All the programs that automate the different steps of \MASS communicate only through the files that had been described in Section~\ref{sec:component:design}.
 
