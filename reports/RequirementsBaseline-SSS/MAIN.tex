@@ -210,6 +210,8 @@
 \newcounter{paranum}
 \newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
 
+\newcommand{\RQN}[1]{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\ifnum\value{paranum}<10 00\else 0\fi\theparanum-#1}}
+
 \newcommand{\remark}{\textbf{Remark:}\xspace}
 
 \begin{document}
