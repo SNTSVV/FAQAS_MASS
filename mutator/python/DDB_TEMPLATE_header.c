@@ -97,6 +97,7 @@ int storedValueInt;
 unsigned long long storedValueBin;
 double storedValueDouble;
 float storedValueFloat;
+long int storedValueLong;
 
 int repeatCounter;
 int sample = 1;

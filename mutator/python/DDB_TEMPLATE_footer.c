@@ -38,6 +38,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   int opt = _FAQAS_selectOperation();
 
   int valueInt = 0;
+  long int valueLong = 0;
   unsigned long long valueBin = 0;
   double valueDouble = 0;
   float valueFloat = 0;
@@ -95,6 +96,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     memcpy(&valueFloat, &fitToSize, sizeof(valueFloat));
   }
 
+  if (fm->items[pos].type == LONG) {
+
+    unsigned long int fitToSize = (unsigned long int)intermediate;
+
+    memcpy(&valueLong, &fitToSize, sizeof(valueLong));
+  }
+
   //
   // Mutate the data
   //
@@ -125,6 +133,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         storedValueBin = valueBin;
       }
 
+      if (fm->items[pos].type == LONG) {
+
+        storedValueBin = valueBin;
+      }
+
       sample = 0;
 
       repeatCounter = OP->value;
@@ -150,6 +163,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (fm->items[pos].type == BIN) {
 
         valueBin = storedValueBin;
+      }
+
+      if (fm->items[pos].type == LONG) {
+
+        valueLong = storedValueLong;
       }
 
       repeatCounter = repeatCounter - 1;
@@ -295,6 +313,24 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
 
+    if (fm->items[pos].type == LONG) {
+
+      if (opt == 0) {
+
+        valueLong = OP->min - OP->delta;
+      }
+
+      else if (opt == 1) {
+        valueLong = OP->max + OP->delta;
+      }
+
+      else {
+        // FIXME: throw an error
+      }
+
+      _FAQAS_mutated = 1;
+    }
+
     if (fm->items[pos].type == DOUBLE) {
 
       if (opt == 0) {
@@ -341,6 +377,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
 
+    if (fm->items[pos].type == LONG) {
+
+      valueLong = OP->threshold + OP->delta;
+
+      _FAQAS_mutated = 1;
+    }
+
     if (fm->items[pos].type == DOUBLE) {
 
       valueDouble = (double)OP->threshold + OP->delta;
@@ -365,9 +408,16 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
 
+    if (fm->items[pos].type == LONG) {
+
+      valueLong = OP->threshold - OP->delta;
+
+      _FAQAS_mutated = 1;
+    }
+
     if (fm->items[pos].type == DOUBLE) {
 
-      valueDouble = (double)OP->threshold - OP->delta;
+      valueDouble = (double)OP->threshold - (double)OP->delta;
 
       _FAQAS_mutated = 1;
     }
@@ -387,6 +437,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       valueInt = OP->value;
     }
 
+    if (fm->items[pos].type == LONG) {
+
+      valueLong = (long)OP->value;
+    }
+
     if (fm->items[pos].type == DOUBLE) {
 
       valueDouble = (double)OP->value;
@@ -404,21 +459,28 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT) {
 
-      int shift = OP->delta;
+      int shift = (int)OP->delta;
 
       valueInt = (int)valueInt + shift;
     }
 
+    if (fm->items[pos].type == LONG) {
+
+      long int shift = (long int)OP->delta;
+
+      valueLong = (long int)valueInt + shift;
+    }
+
     if (fm->items[pos].type == DOUBLE) {
 
-      double shift = OP->delta;
+      double shift = (double)OP->delta;
 
       valueDouble = (double)valueDouble + shift;
     }
 
     if (fm->items[pos].type == FLOAT) {
 
-      float shift = OP->delta;
+      float shift = (float)OP->delta;
 
       valueFloat = (float)valueFloat + shift;
     }
@@ -465,6 +527,46 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         }
 
         valueInt = randomNum;
+      }
+    }
+
+    if (fm->items[pos].type == LONG) {
+
+      long int upper = (long int)OP->max;
+
+      long int lower = (long int)OP->min;
+
+      if (upper == lower) {
+
+        valueLong = upper;
+        // FIXME: throw a warning
+      }
+
+      else if (upper < lower) {
+        // FIXME: throw an error
+      }
+
+      else {
+
+        long int randomNum = valueLong;
+
+        int avoidInfinite = 0;
+
+        while (valueLong == randomNum) {
+
+          randomNum = (rand() % (upper - lower + 1)) + lower;
+
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == 1000) {
+
+            randomNum = upper;
+
+            break;
+          }
+        }
+
+        valueLong = randomNum;
       }
     }
 
@@ -653,6 +755,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     break;
 
   case LONG:
+
+    memcpy(&fullNumber, &valueLong, sizeof(valueLong));
 
     break;
   }
