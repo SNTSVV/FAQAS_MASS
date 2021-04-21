@@ -47,6 +47,10 @@ bash runTest40.sh
 bash runTest41.sh
 bash runTest42.sh
 bash runTest43.sh
+# bash runTest44.sh
+bash runTest45.sh
+bash runTest46.sh
+bash runTest47.sh
 
 popd
 
