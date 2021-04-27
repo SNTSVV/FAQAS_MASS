@@ -310,6 +310,9 @@ if __name__ == "__main__":
         print("Usage: generateDataMutator.py <BufferType> <FaultModel.csv>")
 
 bufferType = sys.argv[1]
+
+print(str(bufferType))
+
 fileName = sys.argv[2]
 
 with open(fileName) as csv_file:
@@ -348,7 +351,7 @@ outfile.write(maxFMO)
 
 
 with open('DDB_TEMPLATE_header.c', 'r') as tfile:
-    data = tfile.read().replace('BUFFER_TYPE', bufferType)
+    data = tfile.read().replace('BUFFER_TYPE', str(bufferType))
     outfile.write(data)
     tfile.close()
 
@@ -383,7 +386,7 @@ outfile.write("}\n")
 outfile.write("//END _FAQAS_fmCoverage\n")
 
 with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
-    data = tfile.read().replace('BUFFER_TYPE', bufferType)
+    data = tfile.read().replace('BUFFER_TYPE', str(bufferType))
     outfile.write(data)
     tfile.close()
 
