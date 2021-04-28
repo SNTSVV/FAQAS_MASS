@@ -23,7 +23,7 @@ meta_mutant_dir=$FAQAS_SEMU_META_MU_TOPDIR
 meta_mutant_src_file=$FAQAS_SEMU_GENERATED_META_MU_SRC_FILE
 meta_mutant_bc_file=$FAQAS_SEMU_GENERATED_META_MU_BC_FILE
 gen_test_dir=$FAQAS_SEMU_GENERATED_TESTS_TOPDIR
-build_bc_func=$FAQAS_SEMU_BUILD_LLVM_BC
+build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
 original_src_file=$FAQAS_SEMU_ORIGINAL_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 
@@ -51,12 +51,14 @@ test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create o
 
 if [ $phase -le 1 ]; then
     echo "[$filename] Calling mutant generation ..."
+    cd $TOPDIR
     $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
+    cd - > /dev/null
 fi
 
 has_semu()
 {
-    if klee-semu --version | grep -i llvm > /dev/null; then
+    if klee-semu --version 2>&1 | grep -i llvm > /dev/null; then
         return 0
     fi
     return 1
