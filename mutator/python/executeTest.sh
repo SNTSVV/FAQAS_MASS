@@ -19,6 +19,7 @@ echo "FAULT MODEL:"
 echo ""
 
 python generateDataMutator.py "$TYPE" "$FAULTMODEL"
+
 mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 
 
@@ -59,7 +60,7 @@ while [ $x -le $operations ]; do
     if [ $? -eq 3 ]; then
 
         memoryErrors=$((memoryErrors+1))
-        
+
     fi
 
     ./main_$x >> $outFile 2>&1

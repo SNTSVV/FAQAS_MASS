@@ -468,7 +468,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       long int shift = (long int)OP->delta;
 
-      valueLong = (long int)valueInt + shift;
+      valueLong = (long int)valueLong + shift;
     }
 
     if (fm->items[pos].type == DOUBLE) {
