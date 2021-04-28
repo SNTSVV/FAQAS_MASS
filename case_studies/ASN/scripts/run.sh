@@ -17,7 +17,7 @@ source $faqas_semu_config_file
 
 cd $TOPDIR
 
-output_topdir=$FAQAS_SEMU_OUTPUT_TOPDIR
+output_topdir=$(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR)
 mutants_dir=$FAQAS_SEMU_GENERATED_MUTANTS_DIR
 meta_mutant_dir=$FAQAS_SEMU_META_MU_TOPDIR
 meta_mutant_src_file=$FAQAS_SEMU_GENERATED_META_MU_SRC_FILE
@@ -47,11 +47,11 @@ elif [ $# -ne 0 ]; then
 fi
 
 # Create output dir
-test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create output dir $output_topdir"
+test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create output dir '$output_topdir'"
+test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
 
 if [ $phase -le 1 ]; then
     echo "[$filename] Calling mutant generation ..."
-    test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
     # coverage
     alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
     mkdir -p $output_topdir/.srciror
