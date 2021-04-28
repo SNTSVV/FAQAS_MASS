@@ -24,7 +24,7 @@ meta_mutant_src_file=$FAQAS_SEMU_GENERATED_META_MU_SRC_FILE
 meta_mutant_bc_file=$FAQAS_SEMU_GENERATED_META_MU_BC_FILE
 gen_test_dir=$FAQAS_SEMU_GENERATED_TESTS_TOPDIR
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
-original_src_file=$FAQAS_SEMU_ORIGINAL_SOURCE_FILE
+original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 
 phase=1
@@ -51,9 +51,13 @@ test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create o
 
 if [ $phase -le 1 ]; then
     echo "[$filename] Calling mutant generation ..."
-    cd $TOPDIR
-    $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
-    cd - > /dev/null
+    test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
+    # coverage
+    alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
+    mkdir -p $output_topdir/.srciror
+    echo "$original_src_file:$alllines" > $output_topdir/.srciror/coverage
+    HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
+    rm -rf $output_topdir/.srciror
 fi
 
 has_semu()
