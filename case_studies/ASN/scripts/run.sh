@@ -63,9 +63,6 @@ remove_uncompilable_mutants()
     local count=0
     for f_path in `find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c`
     do
-        # progress
-        count=$(($count+1))
-        [ $(($count % $chunk)) -eq 0 ] && echo -n "$count/$total "
         if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
         then
             rm -f $f_path $f_path.tmp
@@ -73,6 +70,9 @@ remove_uncompilable_mutants()
         else
             rm -f $f_path.tmp
         fi
+        # progress
+        count=$(($count+1))
+        [ $(($count % $chunk)) -eq 0 ] && echo -n "$count/$total ($failed_compile failed) "
     done
 
     echo 
