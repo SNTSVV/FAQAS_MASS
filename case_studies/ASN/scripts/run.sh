@@ -57,9 +57,15 @@ remove_uncompilable_mutants()
 {
     # remove the mutants that cannot build
     echo "## Checking mutants compilability ..."
-    failed_compile=0
+    local failed_compile=0
+    local total=$(find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c | wc -l)
+    local chunk=$(($total/20)
+    local count=0
     for f_path in `find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c`
     do
+        # progress
+        count=$(($count+1))
+        [ $(($count % $chunk)) -eq 0 ] && echo -n "$count/$total "
         if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
         then
             rm -f $f_path $f_path.tmp
@@ -69,6 +75,7 @@ remove_uncompilable_mutants()
         fi
     done
 
+    echo 
     echo "## Failed to compile $failed_compile mutants!"
 }
 
