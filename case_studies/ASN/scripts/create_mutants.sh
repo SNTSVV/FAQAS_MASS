@@ -39,6 +39,9 @@ jq -c '.[]' compile_commands.json | while read i; do
 	ARGS=`echo $i | jq '.command'`
 	DIR=`echo $i | jq -r '.directory'`
 	
+	FILE=$(readlink -f $FILE)
+	DIR=$(readlink -f $DIR)
+
 	echo "-----------------------" 2>&1 | tee -a $LOGFILE
 	echo "Mutating "$FILE 2>&1 | tee -a $LOGFILE
 
