@@ -25,6 +25,7 @@ meta_mutant_bc_file=$FAQAS_SEMU_GENERATED_META_MU_BC_FILE
 gen_test_dir=$FAQAS_SEMU_GENERATED_TESTS_TOPDIR
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
 original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
+compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 
 phase=1
@@ -55,7 +56,7 @@ if [ $phase -le 1 ]; then
     # coverage
     alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
     mkdir -p $output_topdir/.srciror
-    echo "$original_src_file:$alllines" > $output_topdir/.srciror/coverage
+    echo "$compile_command_spec_src:$alllines" > $output_topdir/.srciror/coverage
     HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
     rm -rf $output_topdir/.srciror
 fi
