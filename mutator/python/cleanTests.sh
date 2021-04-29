@@ -4,12 +4,12 @@ pushd tests
 for d in */ ; do
     pushd $d
     echo "cleaning $d"
-    rm FAQAS*
-    rm main*
-    rm *.compile.out
-    rm *.gcov
-    rm *.gcda
-    rm *.gcno
+    rm -f FAQAS*
+    rm -f main*
+    rm -f *.compile.out
+    rm -f *.gcov
+    rm -f *.gcda
+    rm -f *.gcno
     popd
 done
 popd

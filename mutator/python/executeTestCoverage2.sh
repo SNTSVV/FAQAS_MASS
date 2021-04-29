@@ -37,12 +37,12 @@ memoryErrors=0
 echo ""
 echo "REMOVING PREVIOUS RESULTS..."
 
-rm $outFile
-rm $compilerOutFile
-rm $valgrindOutFile
-rm $instrumentedCompilerOutFile
-rm $testResults
-rm $FAQAS_COVERAGE_FILE
+rm -f $outFile
+rm -f $compilerOutFile
+rm -f $valgrindOutFile
+rm -f $instrumentedCompilerOutFile
+rm -f $testResults
+rm -f $FAQAS_COVERAGE_FILE
 
 echo "DONE"
 echo ""
@@ -66,7 +66,7 @@ while [ $x -le $operations ]; do
         memoryErrors=$((memoryErrors+1))
     fi
 
-    rm $FAQAS_COVERAGE_FILE
+    rm -f $FAQAS_COVERAGE_FILE
 
     ./main_$x >> $outFile 2>&1
 
@@ -76,7 +76,7 @@ while [ $x -le $operations ]; do
     if [ $x -eq -2 ]; then
       python FMcoverage2.py "${curTest}"
     fi
-
+    
     > faqas_coverage.txt
 
     x=$((x+1))

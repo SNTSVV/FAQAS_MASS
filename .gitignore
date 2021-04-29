@@ -1,3 +1,4 @@
+faqas_coverage.txt
 *.compile.out
 test*.out
 mutator/python/tests/test1/expectedOld.out
@@ -10,6 +11,7 @@ mutator/python/provavettori
 mutator/python/valuetown
 mutator/python/a.out
 mutator/python/randomfloat
+mutator/python/results.csv
 FAQAS*.h
 mutator/.DS_Store
 .DS_Store
@@ -28,12 +30,9 @@ mutator/python/tests/test35/FMCoverageReport_test35.csv
 mutator/python/tests/test38/FMcoverage2.py
 mutator/python/tests/test37/FMCoverageReport_test37.csv
 mutator/python/tests/test37/FMcoverage2.py
-mutator/python/tests/test37/faqas_coverage.txt
 mutator/python/tests/test36/FMCoverageReport_test36.csv
 mutator/python/tests/test36/FMcoverage2.py
-mutator/python/tests/test36/faqas_coverage.txt
 mutator/python/tests/test35/FMcoverage2.py
-mutator/python/tests/test35/faqas_coverage.txt
 mutator/python/tests/test34/FMCoverageReport_test34.csv
 mutator/python/tests/test32/FMCoverageReport_test32.csv
 mutator/python/tests/test33/FMCoverageReport_test33.csv
