@@ -24,6 +24,7 @@ meta_mutant_src_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_SRC_FILE)
 meta_mutant_bc_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_BC_FILE)
 gen_test_dir=$(readlink -f $FAQAS_SEMU_GENERATED_TESTS_TOPDIR)
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
+build_native_func=FAQAS_SEMU_BUILD_NATIVE
 original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
@@ -66,7 +67,7 @@ remove_uncompilable_mutants()
         # progress
         count=$(($count+1))
         [ $(($count % $chunk)) -eq 0 ] && echo -n "$count/$total "
-        if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
+        if ! $build_native_func $f_path $f_path.tmp > /dev/null 2>&1
         then
             rm -f $f_path $f_path.tmp
             failed_compile=$(($failed_compile + 1))

@@ -20,6 +20,15 @@ FAQAS_SEMU_BUILD_LLVM_BC()
     return $?
 }
 
+FAQAS_SEMU_BUILD_NATIVE()
+{
+    local in_file=$1
+    local out_file=$2
+    # compile
+    gcc -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I $FAQAS_SEMU_REPO_ROOTDIR -O0 $in_file -o $out_file
+    return $?
+}
+
 FAQAS_SEMU_META_MU_TOPDIR=../OUTPUT/meta_mu_topdir
 
 FAQAS_SEMU_GENERATED_META_MU_SRC_FILE=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/test.MetaMu.c
