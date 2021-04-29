@@ -23,12 +23,12 @@ source $faqas_semu_config_file
 #variables
 SRCIROR_COMPILER=$mass_topdir/PythonWrappers/mutationClang
 
-SRC_MUTANTS=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR
+SRC_MUTANTS=$(readlink -f $FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR)
 
 mkdir -p $SRC_MUTANTS
 
 #modify accordingly
-PATH_TO_SRC=$FAQAS_SEMU_REPO_ROOTDIR
+PATH_TO_SRC=$(readlink -f $FAQAS_SEMU_REPO_ROOTDIR)
 
 LOGFILE=$SRC_MUTANTS/mutation`date +"%Y%m%d%H%M"`.log
 touch $LOGFILE
