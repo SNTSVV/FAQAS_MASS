@@ -95,6 +95,7 @@ if [ $phase -le 1 ]; then
     alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
     mkdir -p $output_topdir/.srciror
     echo "$compile_command_spec_src:$alllines" > $output_topdir/.srciror/coverage
+    test -d $mutants_dir && rm -rf $mutants_dir
     HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
     rm -rf $output_topdir/.srciror
     echo "## Finished mutant generation!"
