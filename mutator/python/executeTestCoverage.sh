@@ -23,6 +23,9 @@ cp FMcoverage.py $TESTFOLDER
 
 
 pushd $TESTFOLDER
+
+export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
+
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
 instrumentedCompilerOutFile=${curTest}Instrumented.compile.out
@@ -35,12 +38,13 @@ echo ""
 echo "REMOVING PREVIOUS RESULTS..."
 echo ""
 
-rm $outFile
-rm $compilerOutFile
-rm $valgrindOutFile
-rm $instrumentedCompilerOutFile
-rm $testResults
-rm $gcovLog
+rm -f $outFile
+rm -f $compilerOutFile
+rm -f $valgrindOutFile
+rm -f $instrumentedCompilerOutFile
+rm -f $testResults
+rm -f $gcovLog
+rm -f $FAQAS_COVERAGE_FILE
 
 echo ""
 echo "DONE"

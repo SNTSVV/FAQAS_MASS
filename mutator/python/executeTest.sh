@@ -24,6 +24,9 @@ mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 
 
 pushd $TESTFOLDER
+
+export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
+
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
 valgrindOutFile=${curTest}.valgrind.out
@@ -33,10 +36,11 @@ memoryErrors=0
 echo ""
 echo "REMOVING PREVIOUS RESULTS..."
 
-rm $outFile
-rm $compilerOutFile
-rm $valgrindOutFile
-rm $testResults
+rm -f $outFile
+rm -f $compilerOutFile
+rm -f $valgrindOutFile
+rm -f $testResults
+rm -f $FAQAS_COVERAGE_FILE
 
 echo "DONE"
 echo ""

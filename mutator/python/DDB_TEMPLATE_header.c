@@ -20,6 +20,11 @@
 
 int MUTATION = MUTATIONOPT;
 
+const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+FILE *coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
+
+int _FAQAS_COVERAGE_EXIT = 0;
+
 double faqas_abs(double a) {
   if (a < 0)
     return -a;

@@ -6,6 +6,10 @@
 // Modified by Enrico VIGANO', enrico.vigano@uni.lu, SnT, 2021.
 //
 
+void coverage_exit(void){
+  fclose(coverage_file_pointer);
+}
+
 int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     return 0;
@@ -14,12 +18,16 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
 
   if (MUTATION == -2) {
-    _FAQAS_fmCoverage(fm->ID);
 
-    const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-    FILE *f = fopen(faqas_coverage_file, "ab+");
-    fprintf(f, "fm.ID: %d\n", fm->ID);
-    fclose(f);
+    // to setup the coverage fclose
+    if (_FAQAS_COVERAGE_EXIT == 0){
+      _FAQAS_COVERAGE_EXIT = 1;
+      atexit(coverage_exit);
+    } 
+
+   _FAQAS_fmCoverage(fm->ID);
+
+    fprintf(coverage_file_pointer, "fm.ID: %d\n", fm->ID);
 
     return 0;
   }
