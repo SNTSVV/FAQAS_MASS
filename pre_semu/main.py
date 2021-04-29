@@ -42,7 +42,7 @@ class MutantInfo:
         return os.path.basename(mut_filename)
 
     @classmethod
-    def get_mutant_list (cls, original_src_file, mutant_src_file_list, meta_mu_info_file):
+    def get_mutant_list (cls, original_src_file, mutant_src_file_list, meta_mu_info_file, no_skip_non_function_mutants=False):
         stmt_list = cls._get_stmt_list(original_src_file, meta_mu_info_file)
         mut_list = []
         changed_list = cls._get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file)
@@ -52,7 +52,10 @@ class MutantInfo:
             stmt_info = None
             while stmt_i < len(stmt_list):
                 if ci.start_index < stmt_list[stmt_i].start_index:
-                    assert False, "mutant not in any stmt ({})".format(ci.filename)
+                    if no_skip_non_function_mutants:
+                        assert False, "mutant not in any stmt ({})".format(ci.filename)
+                    else:
+                        break
                 if stmt_i + 1 < len(stmt_list):
                     next_stmt = stmt_list[stmt_i + 1]
                     if next_stmt.start_index <= ci.start_index:
@@ -65,7 +68,10 @@ class MutantInfo:
                     stmt_info = stmt_list[stmt_i]
                     break
                 stmt_i += 1
-            assert stmt_info is not None, "Could not find stmt for mutant {}".format(ci.filename)
+            if no_skip_non_function_mutants:
+                assert stmt_info is not None, "Could not find stmt for mutant {}".format(ci.filename)
+            else:
+                continue
 
             mut_list.append(
                 MutantInfo(
@@ -306,7 +312,7 @@ def insert_header(meta_mu_file, number_of_mutants):
         f.write("void klee_semu_GenMu_Post_Mutation_Point_Func (unsigned long fromID, unsigned long toID);\n")
         f.write(content)
 
-def compute(meta_mu_out_file, original_src_file, mutants_src_dir):
+def compute(meta_mu_out_file, original_src_file, mutants_src_dir, no_skip_non_function_mutants=False):
 
     mutant_src_file_list = []
     meta_mu_info_file = None
@@ -319,7 +325,7 @@ def compute(meta_mu_out_file, original_src_file, mutants_src_dir):
     assert len(mutant_src_file_list) > 0, "no mutant found"
 
     # Use diff to get (expr, expr-start, mut-expr) tuples
-    mutant_list = MutantInfo.get_mutant_list(original_src_file, mutant_src_file_list, meta_mu_info_file)
+    mutant_list = MutantInfo.get_mutant_list(original_src_file, mutant_src_file_list, meta_mu_info_file, no_skip_non_function_mutants=no_skip_non_function_mutants)
 
     number_of_mutants = len(mutant_list)
 
@@ -356,13 +362,14 @@ def main():
     parser.add_argument("meta_mu_out_file", help="output meta mu file")
     parser.add_argument("original_src_file", help="original source file")
     parser.add_argument("mutants_src_dir", help="dircetory containing mutant files")
+    parser.add_argument("--no_skip_non_function_mutants", action="store_true", help="disable skiping mutants not in functions (which are not supported by semu)")
     args = parser.parse_args()
 
     assert os.path.isdir(os.path.dirname(args.meta_mu_out_file)), "meta mu out file parent dir non existant"
     assert os.path.isfile(args.original_src_file), "original source file non existant"
     assert os.path.isdir(args.mutants_src_dir), "mutants src dir non existant"
 
-    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir)
+    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir, no_skip_non_function_mutants=args.no_skip_non_function_mutants)
 
 if __name__ == "__main__":
     main()
