@@ -51,15 +51,30 @@ fi
 test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create output dir '$output_topdir'"
 test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
 
-if [ $phase -le 1 ]; then
-    echo "[$filename] Calling mutant generation ..."
-    # coverage
-    alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
-    mkdir -p $output_topdir/.srciror
-    echo "$compile_command_spec_src:$alllines" > $output_topdir/.srciror/coverage
-    HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
-    rm -rf $output_topdir/.srciror
-fi
+############################ FUNCTIONS 
+
+remove_uncompilable_mutants()
+{
+    # remove the mutants that cannot build
+    echo "## Checking mutants compilability ..."
+    failed_compile=0
+    for inner_dir in `ls $mutants_dir`
+    do
+        test -d $mutants_dir/$inner_dir || continue
+        for f_path in `find $mutants_dir/$inner_dir -maxdepth 1 -type f -name *.mut.*.c`
+        do
+            if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
+            then
+                rm -f $f_path $f_path.tmp
+                failed_compile=$(($failed_compile + 1))
+            else
+                rm -f $f_path.tmp
+            fi
+        done
+    done
+
+    echo "## Failed to compile $failed_compile mutants!"
+}
 
 has_semu()
 {
@@ -68,6 +83,23 @@ has_semu()
     fi
     return 1
 }
+
+############################ EXECUTION
+
+if [ $phase -le 1 ]; then
+    echo "[$filename] Calling mutant generation ..."
+    # coverage
+    alllines=$(seq -s',' 1 $(cat $original_src_file | wc -l))
+    mkdir -p $output_topdir/.srciror
+    echo "$compile_command_spec_src:$alllines" > $output_topdir/.srciror/coverage
+    HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
+    rm -rf $output_topdir/.srciror
+    echo "## Finished mutant generation!"
+    # remove uncompilable mutants
+    remove_uncompilable_mutants
+    echo "# Mutation Done!"
+fi
+
 in_docker_cmd="/home/FAQAS/workspace/scripts/$(basename $0)"
 if test -f $cd_docker_script; then
     tool_dir=$TOPDIR/../../../
