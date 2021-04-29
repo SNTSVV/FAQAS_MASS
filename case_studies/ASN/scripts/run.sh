@@ -58,19 +58,15 @@ remove_uncompilable_mutants()
     # remove the mutants that cannot build
     echo "## Checking mutants compilability ..."
     failed_compile=0
-    for inner_dir in `ls $mutants_dir`
+    for f_path in `find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c`
     do
-        test -d $mutants_dir/$inner_dir || continue
-        for f_path in `find $mutants_dir/$inner_dir -maxdepth 1 -type f -name *.mut.*.c`
-        do
-            if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
-            then
-                rm -f $f_path $f_path.tmp
-                failed_compile=$(($failed_compile + 1))
-            else
-                rm -f $f_path.tmp
-            fi
-        done
+        if ! $build_bc_func $f_path $f_path.tmp > /dev/null 2>&1
+        then
+            rm -f $f_path $f_path.tmp
+            failed_compile=$(($failed_compile + 1))
+        else
+            rm -f $f_path.tmp
+        fi
     done
 
     echo "## Failed to compile $failed_compile mutants!"
