@@ -53,7 +53,7 @@ bash runTest39.sh
 bash runTest40.sh
 #bash runTest41.sh
 bash runTest42.sh
-#bash runTest43.sh
+bash runTest43.sh
 # bash runTest44.sh
 bash runTest45.sh
 bash runTest46.sh
@@ -62,6 +62,14 @@ bash runTest47.sh
 popd
 
 find . -name "*.results.out" -exec cat > results.csv {} +
+
+echo ""
+echo ""
+echo "*************************************************************************"
+echo "THE FOLLOWING DATA CAN BE FOUND IN THE FILE results_$setup.csv"
+echo "*************************************************************************"
+echo ""
+
 sort results.csv
 mv results.csv results_$setup.csv
 
@@ -72,7 +80,7 @@ done
 echo ""
 echo ""
 echo "*************************************************************************"
-echo "THE FOLLOWING DATA CAN BE FOUND IN THE FILE results.csv"
+echo "THE FOLLOWING DATA CAN BE FOUND IN THE FILE results_$setup.csv"
 echo "*************************************************************************"
 echo ""
 
