@@ -51,7 +51,7 @@ operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F=
 echo "MAX ID: ${operations}"
 echo ""
 
-if [[ -z _FAQAS_SINGLETON_FM ]]; then
+if [[ -z $_FAQAS_SINGLETON_FM ]]; then
 	extra=""
 else
 	extra="-D_FAQAS_SINGLETON_FM"
