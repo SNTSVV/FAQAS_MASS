@@ -54,6 +54,12 @@ operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F=
 echo "MAX ID: ${operations}"
 echo ""
 
+if [[ -z _FAQAS_SINGLETON_FM ]]; then
+	extra=""
+else
+	extra="-D_FAQAS_SINGLETON_FM"
+fi
+
 x=-2
 while [ $x -le $operations ]; do
 
@@ -62,7 +68,7 @@ while [ $x -le $operations ]; do
   if [ $x -eq -2 ]; then
 
     y=$((x-1))
-    g++ -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
+    g++ -extra -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
     echo "=====" >> $outFile 2>&1
     echo "OPERATION ${x} RUNNING..."
     ./main_$x >> $outFile 2>&1
