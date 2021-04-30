@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <stdlib.h>
+#include <bitset>
 #include "FAQAS_dataDrivenMutator.h"
 
 
