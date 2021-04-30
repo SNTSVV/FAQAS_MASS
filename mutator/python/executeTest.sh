@@ -51,8 +51,10 @@ echo ""
 
 if [[ -z $_FAQAS_SINGLETON_FM ]]; then
 	extra=""
+	memorymode="NORMAL"
 else
 	extra="-D_FAQAS_SINGLETON_FM"
+	memorymode="SINGLETON"
 fi
 
 x=-1
@@ -87,10 +89,10 @@ echo "*************************************************************************"
 diff $outFile expected.out
 
 if [ $? -eq 0 ]; then
-    echo "${curTest},PASSED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
+    echo "${curTest},PASSED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS,$memorymode" >> $testResults 2>&1
     echo  "${curTest} PASSED, ($memoryErrors MUTANT(S) PRESENT MEMORY ERRORS)"
 else
-    echo "${curTest},FAILED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
+    echo "${curTest},FAILED,COVERAGE NOT MEASURED, $memoryErrors MUTANTS PRESENT MEMORY ERRORS,$memorymode" >> $testResults 2>&1
     echo  "${curTest} FAILED, $memoryErrors MUTANT(S) PRESENT MEMORY ERRORS";
 fi
 

@@ -53,8 +53,10 @@ echo ""
 
 if [[ -z $_FAQAS_SINGLETON_FM ]]; then
 	extra=""
+	memorymode="NORMAL"
 else
 	extra="-D_FAQAS_SINGLETON_FM"
+	memorymode="SINGLETON"
 fi
 
 x=-2
@@ -124,7 +126,7 @@ else
     status="FAILED";
 fi
 
-echo "${curTest},${status},${coverage},$memoryErrors MUTANTS PRESENT MEMORY ERRORS" >> $testResults 2>&1
+echo "${curTest},${status},${coverage},$memoryErrors MUTANTS PRESENT MEMORY ERRORS,$memorymode" >> $testResults 2>&1
 
 echo "*************************************************************************"
 echo ""
