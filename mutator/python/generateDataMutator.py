@@ -268,9 +268,9 @@ def processRow(row):
 
 	if SINGLETON_FM == True:
         	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
-		faultModelsDef += "void _FAQAS_delete_"+FM+"_FM(void){\n"
-        	faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);"
-        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;"
+		faultModelsDef += "\nvoid _FAQAS_delete_"+FM+"_FM(void){\n"
+        	faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);\n"
+        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;\n"
 		faultModelsDef += "}\n"
 
 
@@ -281,7 +281,7 @@ def processRow(row):
         	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
 
 	if SINGLETON_FM == True:
-		faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);"
+		faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);\n"
         	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
         	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
 
