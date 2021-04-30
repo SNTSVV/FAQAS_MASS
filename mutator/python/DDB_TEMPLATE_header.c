@@ -20,10 +20,35 @@
 
 int MUTATION = MUTATIONOPT;
 
-const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-FILE *coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
-
 int _FAQAS_COVERAGE_EXIT = 0;
+
+FILE* handleCoverage();
+
+const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+FILE *coverage_file_pointer = handleCoverage();
+
+void coverage_exit(void) {
+    fclose(coverage_file_pointer);
+}
+
+FILE* handleCoverage() {
+    
+    if ( MUTATION != -2 )
+        return 0;
+
+   FILE* ptr = fopen(faqas_coverage_file, "ab+");
+
+    if (_FAQAS_COVERAGE_EXIT == 0) {
+        _FAQAS_COVERAGE_EXIT = 1;
+        // if there is no support for atexit, or if the system never exit,
+        // this line of code should be commented out and "coverage_exit" 
+        // shall be manually invoked where appropriate
+        atexit(coverage_exit);
+    }
+
+    return ptr;
+}
+
 
 double faqas_abs(double a) {
   if (a < 0)
