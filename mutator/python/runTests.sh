@@ -3,6 +3,8 @@
 bash cleanTests.sh
 rm results.csv
 
+#The following is necessary to use the singletn mode
+export _FAQAS_SINGLETON_FM=True
 pushd tests
 
 bash runTest1.sh
@@ -44,7 +46,7 @@ bash runTest37.sh
 bash runTest38.sh
 bash runTest39.sh
 bash runTest40.sh
-bash runTest41.sh
+#bash runTest41.sh
 bash runTest42.sh
 bash runTest43.sh
 # bash runTest44.sh

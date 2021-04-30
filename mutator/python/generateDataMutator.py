@@ -262,8 +262,23 @@ def processRow(row):
             closeFaultModelsDef()
 
         lastItem = -1
-        faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
-        faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+
+
+	if SINGLETON_FM == True:
+        	faultModelsDef += "struct FaultModel __FAQAS_"+FM+"_FM;\n"
+        	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = &__FAQAS_"+FM+"_FM;\n"
+
+	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
+	if SINGLETON_FM == True:
+        	faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ _FAQAS_"+FM+"_FM_ptr->items=_FAQAS_"+FM+"_FM_ptr->_items; return _FAQAS_"+FM+"_FM_ptr;}\n"
+        	# faultModelsDef += "_FAQAS_"+FM+"_FM_ptr->items=_FAQAS_"+FM+"_FM_ptr->_items;\n"
+        else:
+        	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+
+	if SINGLETON_FM == True:
+        	#faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
+        	faultModelsDef += "FaultModel *fm = _FAQAS_"+FM+"_FM_ptr;\n"
+
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         faultModelsDef += "fm->minOperation = "+str(elements)+";\n"
         fmID += 1
