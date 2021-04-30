@@ -1,10 +1,15 @@
 #/bin/bash
 
-bash cleanTests.sh
 rm results.csv
 
-#The following is necessary to use the singletn mode
-export _FAQAS_SINGLETON_FM=True
+for setup in "" "export _FAQAS_SINGLETON_FM=TRUE";
+
+do $setup;
+
+echo "_FAQAS_SINGLETON_FM=" $_FAQAS_SINGLETON_FM;
+
+bash cleanTests.sh
+
 pushd tests
 
 bash runTest1.sh
@@ -55,6 +60,10 @@ bash runTest46.sh
 bash runTest47.sh
 
 popd
+
+done
+
+
 
 echo ""
 echo ""
