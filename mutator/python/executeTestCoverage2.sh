@@ -62,7 +62,7 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} COMPILING..."
 
-    g++ -extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    g++ $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
 

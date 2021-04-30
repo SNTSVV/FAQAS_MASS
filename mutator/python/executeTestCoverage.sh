@@ -68,7 +68,7 @@ while [ $x -le $operations ]; do
   if [ $x -eq -2 ]; then
 
     y=$((x-1))
-    g++ -extra -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
+    g++ $extra -Wall -fprofile-arcs -ftest-coverage -DMUTATIONOPT=$y ${curTest}.c -o main_$x >> $instrumentedCompilerOutFile 2>&1
     echo "=====" >> $outFile 2>&1
     echo "OPERATION ${x} RUNNING..."
     ./main_$x >> $outFile 2>&1
@@ -76,7 +76,7 @@ while [ $x -le $operations ]; do
 
   else
 
-    g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    g++ $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
 

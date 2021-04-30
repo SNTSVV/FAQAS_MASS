@@ -131,7 +131,7 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 void _FAQAS_delete_FM(FaultModel *dm) {
   #ifdef _FAQAS_SINGLETON_FM
   #else
-  //__FAQAS_delete_FM(dm);
+  __FAQAS_delete_FM(dm);
   #endif
 }
 
