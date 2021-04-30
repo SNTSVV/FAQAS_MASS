@@ -72,7 +72,6 @@ while [ $x -le $operations ]; do
 
     echo "=====" >> $outFile 2>&1
 
-
     if [ $x -eq -2 ]; then
       python FMcoverage2.py "${curTest}"
     fi
