@@ -49,13 +49,19 @@ operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F=
 echo "MAX ID: ${operations}"
 echo ""
 
+if [[ -z _FAQAS_SINGLETON_FM ]]; then
+	extra=""
+else
+	extra="-D_FAQAS_SINGLETON_FM"
+fi
+
 x=-1
 while [ $x -le $operations ]; do
     # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} COMPILING..."
 
-    g++ -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    g++ $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
 

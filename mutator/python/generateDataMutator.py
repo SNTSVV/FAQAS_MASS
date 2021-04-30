@@ -20,6 +20,7 @@ sizeDef = ""
 lastSpan = ""
 fmID = 0
 
+SINGLETON_FM = os.getenv("_FAQAS_SINGLETON_FM", 'False').lower() in ['true', '1']
 
 def newBF(item, _span, _type, _min, _max, _state, _value):
     global operations
@@ -218,6 +219,7 @@ def processRow(row):
     global elements
     global faultModelsDef
     global fmID
+    global SINGLETON_FM
 
     _p = 0
     FM = row[_p]
@@ -265,19 +267,23 @@ def processRow(row):
 
 
 	if SINGLETON_FM == True:
-        	faultModelsDef += "struct FaultModel __FAQAS_"+FM+"_FM;\n"
-        	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = &__FAQAS_"+FM+"_FM;\n"
+        	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
+		faultModelsDef += "void _FAQAS_delete_"+FM+"_FM(void){\n"
+        	faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);"
+        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;"
+		faultModelsDef += "}\n"
+
 
 	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
 	if SINGLETON_FM == True:
-        	faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ _FAQAS_"+FM+"_FM_ptr->items=_FAQAS_"+FM+"_FM_ptr->_items; return _FAQAS_"+FM+"_FM_ptr;}\n"
-        	# faultModelsDef += "_FAQAS_"+FM+"_FM_ptr->items=_FAQAS_"+FM+"_FM_ptr->_items;\n"
+        	faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ return _FAQAS_"+FM+"_FM_ptr;}\n"
         else:
         	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
 
 	if SINGLETON_FM == True:
-        	#faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
-        	faultModelsDef += "FaultModel *fm = _FAQAS_"+FM+"_FM_ptr;\n"
+		faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);"
+        	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
 
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         faultModelsDef += "fm->minOperation = "+str(elements)+";\n"

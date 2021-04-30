@@ -96,10 +96,6 @@ struct FaultModel {
   int maxOperation; // max ID of the MUTATION OPERATION implemented by this FM,
                     // included
 
-  #ifdef _FAQAS_SINGLETON_FM
-  struct DataItem _items[100];
-  struct DataItem *items;
-  #else
   struct DataItem *items;
 };
 
@@ -116,7 +112,7 @@ struct FaultModel *_FAQAS_create_FM(int items) {
   return dm;
 }
 
-void _FAQAS_delete_FM(FaultModel *dm) {
+void __FAQAS_delete_FM(FaultModel *dm) {
   if (dm == 0)
     return;
 
@@ -130,6 +126,16 @@ void _FAQAS_delete_FM(FaultModel *dm) {
 
   //&__FAQAS_IfHK_FM
 }
+
+
+void _FAQAS_delete_FM(FaultModel *dm) {
+  #ifdef _FAQAS_SINGLETON_FM
+  #else
+  //__FAQAS_delete_FM(dm);
+  #endif
+}
+
+
 
 // memory for HV
 int storedValueInt;
