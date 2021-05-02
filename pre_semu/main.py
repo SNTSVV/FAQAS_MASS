@@ -240,12 +240,20 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
     #print(len(orig_src_str) + 1)
 
     def get_code(start, after_end):
-        # get the larget interval starting at start
-        largest = max(code[start].keys(), key=lambda x:(int(after_end>=x[1]), x[1]-after_end))
-        if largest[1] < after_end:
-            #print("DBG", start, largest[1], after_end, code[largest[1]])
-            return code[start][largest] + get_code(largest[1], after_end)
-        return code[start][largest]
+        result = ""
+        tmp_start = start
+        tmp_after_end = after_end
+        while True:
+            # get the larget interval starting at tmp_start
+            largest = max(code[tmp_start].keys(), key=lambda x:(int(tmp_after_end>=x[1]), x[1]-tmp_after_end))
+            if largest[1] < tmp_after_end:
+                #print("DBG", tmp_start, largest[1], tmp_after_end, code[largest[1]])
+                result += code[start][largest]
+                tmp_start = largest[1]
+            else:
+                result += code[tmp_start][largest]
+                break;
+        return result
 
     def set_code(start, after_end, code_str):
         code[start][(start, after_end)] = code_str
