@@ -36,8 +36,8 @@ def get_args():
                         help="Clear any existing output, instead of failing")
     parser.add_argument("--enable_post_mutation_check", action="store_true",
                         help="Enable post mutation check (may not be complete with loops)")
-    parser.add_argument("--symbolic_args", default="",
-                        help="optional symbolic args as string")
+    parser.add_argument("--symbolic_args", default=None,
+                        help="optional symbolic args as string (this enables the system tests mode)")
     parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
                         help="test generation timeout in seconds ( > 0).")
     args = parser.parse_args()
@@ -97,8 +97,11 @@ def main():
     enable_post_mutation_check = args.enable_post_mutation_check
     
     symbolic_args = args.symbolic_args
-    #sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
-    sym_args_list_of_lists = [tuple(symbolic_args.split())]
+    if symbolic_args is None:
+        sym_args_list_of_lists = None
+    else:
+        #sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
+        sym_args_list_of_lists = [tuple(symbolic_args.split())]
 
     generation_timeout = args.generation_timeout
     assert generation_timeout > 0, "generation timeout must be > 0."
