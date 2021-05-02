@@ -15,6 +15,7 @@ from jinja2 import Template
 import muteria.configmanager.configurations as configurations
 import muteria.configmanager.helper as configs_helper
 from muteria.controller.main_controller import MainController
+import muteria.common.mix as common_mix
 
 TOOLNAME = "FAQAS_SEMu"
 
@@ -49,8 +50,11 @@ def call_underlying_semu(conf_file):
     raw_conf['EXECUTION_CLEANSTART'] = True
     raw_conf['RUN_MODE'] = configurations.SessionMode.EXECUTE_MODE
 
+    ce_backup = common_mix.confirm_execution
+    common_mix.confirm_execution = lambda _: True
     ctrl = MainController()
     ctrl.raw_config_main(raw_config=raw_conf)
+    common_mix.confirm_execution = ce_backup
     
 
 
