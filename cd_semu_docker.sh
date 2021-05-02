@@ -33,5 +33,5 @@ prepare_cmd="pip install -U -r $indocker_topdir/requirements.txt && mkdir -p /ho
 sudo docker run -it --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     --mount type=bind,src=$topdir,dst=$indocker_topdir \
     --mount type=bind,src=$workspace_dir,dst=$indocker_workspace_dir \
-    $docker_image bash -c "export  C_INCLUDE_PATH=$C_INCLUDE_PATH:/home/klee-semu/klee_src/include/ && $prepare_cmd && bash $in_docker_cmd"
+    $docker_image bash -c "export  C_INCLUDE_PATH=\$C_INCLUDE_PATH:/home/klee-semu/klee_src/include/ && $prepare_cmd && bash $in_docker_cmd"
 
