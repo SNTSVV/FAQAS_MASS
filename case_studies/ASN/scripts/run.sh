@@ -1,6 +1,7 @@
 #! /bin/bash
 
 set -u
+set -o pipefail
 
 TOPDIR=$(dirname $(readlink -f $0))
 filename=$(basename $0)
@@ -88,6 +89,8 @@ has_semu()
 }
 
 ############################ EXECUTION
+ws_dir_here="$(readlink -f $TOPDIR/..)"
+ws_in_docker="/home/FAQAS/workspace"
 
 if [ $phase -le 1 ]; then
     echo "[$filename] Calling mutant generation ..."
@@ -120,7 +123,7 @@ if [ $phase -le 2 ]; then
         $build_bc_func $meta_mutant_src_file $meta_mutant_bc_file || error_exit "Building bc file failed"
     else
         echo "[$filename] Switching to docker..."
-        $cd_docker_script $TOPDIR/.. "$in_docker_cmd pre-semu" || error_exit "Failure in docker"
+        $cd_docker_script $ws_dir_here "$in_docker_cmd pre-semu" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g" || error_exit "Failure in docker"
     fi
 fi
 
@@ -131,7 +134,7 @@ if [ $phase -le 3 ]; then
         $tool_dir/underlying_test_generation/main.py $meta_mutant_bc_file --output_top_directory $gen_test_dir --clear_existing --generation_timeout $gen_timeout || error_exit "Test generation failed"
     else
         echo "[$filename] Switching to docker..."
-        $cd_docker_script $TOPDIR/.. "$in_docker_cmd testgeneration" || error_exit "Failure in docker"
+        $cd_docker_script $ws_dir_here "$in_docker_cmd testgeneration" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g" || error_exit "Failure in docker"
     fi
 fi
 
