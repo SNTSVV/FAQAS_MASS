@@ -68,10 +68,11 @@ class MutantInfo:
                     stmt_info = stmt_list[stmt_i]
                     break
                 stmt_i += 1
-            if no_skip_non_function_mutants:
-                assert stmt_info is not None, "Could not find stmt for mutant {}".format(ci.filename)
-            else:
-                continue
+            if stmt_info is None:
+                if no_skip_non_function_mutants:
+                    assert False, "Could not find stmt for mutant {}".format(ci.filename)
+                else:
+                    continue
 
             mut_list.append(
                 MutantInfo(
