@@ -356,7 +356,7 @@ def compute(meta_mu_out_file, original_src_file, mutants_src_dir, no_skip_non_fu
     with open(mut_map_file, 'w') as f:
         json.dump(mutant_mapping, f, indent=2, sort_keys=True)
 
-    print("\n=======================================================================")
+    print("\n=========================================================================")
     print("[INPUT] Original source file:                       ", original_src_file)
     print("[INPUT] MASS Generated mutants folder:              ", mutants_src_dir)
     print("")

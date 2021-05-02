@@ -68,11 +68,11 @@ def main():
     args = get_args()
     input_metamu_bitcode_file = args.input_metamu_bitcode_file
     assert os.path.isfile(input_metamu_bitcode_file), \
-            "The specified input metamu bitcode file does not exist!"
+            "The specified input metamu bitcode file does not exist ({})!".format(input_metamu_bitcode_file)
     if args.output_top_directory is not None:
         output_top_directory = args.output_top_directory
         assert os.path.isdir(output_top_directory), \
-                "The specified output top directory does not exist!"
+                "The specified output top directory does not exist ({})!".format(output_top_directory)
     else:
         output_top_directory = os.path.dirname(input_metamu_bitcode_file)
     output_directory = os.path.join(output_top_directory, 
