@@ -1,7 +1,7 @@
-#include "klee/klee.h"
 
-#include "asn1crt.h"
-#include "test.h"
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.WithMain.c*/
+
+#include "klee/klee.h"
 
 int main(int argc, char** argv)
 {
