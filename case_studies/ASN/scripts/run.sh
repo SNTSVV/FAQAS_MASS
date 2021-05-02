@@ -130,6 +130,7 @@ if [ $phase -le 3 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
         # call test generation
+        test -f $gen_test_dir || mkdir $gen_test_dir || error_exit "Failed to create gen_test_dir $gen_test_dir"
         $tool_dir/underlying_test_generation/main.py $meta_mutant_bc_file --output_top_directory $gen_test_dir --clear_existing --generation_timeout $gen_timeout || error_exit "Test generation failed"
     else
         echo "[$filename] Switching to docker..."
