@@ -246,12 +246,11 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
         while True:
             # get the larget interval starting at tmp_start
             largest = max(code[tmp_start].keys(), key=lambda x:(int(tmp_after_end>=x[1]), x[1]-tmp_after_end))
+            result += code[tmp_start][largest]
             if largest[1] < tmp_after_end:
                 #print("DBG", tmp_start, largest[1], tmp_after_end, code[largest[1]])
-                result += code[start][largest]
                 tmp_start = largest[1]
             else:
-                result += code[tmp_start][largest]
                 break;
         return result
 
