@@ -28,7 +28,14 @@ void func1(int v)
 
 int main(int argc, char **argv) {
     int t;
-    printf("input t: ");
+    switch(argc)
+    {
+        case 1: printf("input t: "); 
+                break;
+        default:
+                printf("input default t: ");
+                break;
+    }
     scanf("%d", &t);
     func1(t);
     return 0;
