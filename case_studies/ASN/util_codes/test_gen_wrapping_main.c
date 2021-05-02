@@ -1,5 +1,5 @@
 
-/* Append this to the generate meta-mu source code to create the <name>.MetaMu.WithMain.c*/
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
 
 #include "klee/klee.h"
 
