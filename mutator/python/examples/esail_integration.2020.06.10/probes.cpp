@@ -1,4 +1,4 @@
-#include "FAQAS_dataDrivenMutator.h"
+//#include "FAQAS_dataDrivenMutator.h"
 
 
 /* Copyright (C) OHB-System AG
@@ -159,17 +159,17 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
 
                 //MANUALLY INSERTED PROBES
                 if(cr == CR_Failure){
-                  //probe IfStatusFailure
+                  probe IfStatusFailure
                   FaultModel *fm = _FAQAS_IfStatusFailure_FM();
       		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
+  		            _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 else{
                   //probe IfStatus
                   FaultModel *fm = _FAQAS_IfStatus_FM();
       		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
+  		            _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 //END PROBES
@@ -180,22 +180,22 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetIfHk(newBlock);
 
-                // //MANUALLY INSERTED PROBES
-                // if(cr == CR_Failure){
-                //   //probe IfHKFailure
-                //   FaultModel *fm = _FAQAS_IfHKFailure_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // else{
-                //   //probe IfHK
-                //   FaultModel *fm = _FAQAS_IfHK_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBES
+                //MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+                  //probe IfHKFailure
+                  FaultModel *fm = _FAQAS_IfHKFailure_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe IfHK
+                  FaultModel *fm = _FAQAS_IfHK_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBES
 
 
             }
@@ -234,25 +234,25 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetGyroTm(newBlock);
 
-                // //MANUALLY INSERTED PROBES
-                // if(cr == CR_Failure){
-                //
-                //   //probe GYTMFailure
-                //   FaultModel *fm = _FAQAS_GYTMFailure_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                //
-                // }
-                // else{
-                //
-                //   //probe GYTM
-                //   FaultModel *fm = _FAQAS_GYTM_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBES
+                //MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+
+                  //probe GYTMFailure
+                  FaultModel *fm = _FAQAS_GYTMFailure_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+
+                }
+                else{
+
+                  //probe GYTM
+                  FaultModel *fm = _FAQAS_GYTM_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBES
             }
             break;
             default:
@@ -269,22 +269,22 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetMgtmTm(newBlock);
 
-                // //MANUALLY INSERTED PROBES
-                // if(cr == CR_Failure){
-                //   //probe MMTXfailure (wrong name on the document?)
-                //   FaultModel *fm = _FAQAS_MMTXFailure_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // else{
-                //   //probe MMTX (wrong name on the document?)
-                //   FaultModel *fm = _FAQAS_MMTX_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBES
+                //MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+                  //probe MMTXfailure (wrong name on the document?)
+                  FaultModel *fm = _FAQAS_MMTXFailure_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe MMTX (wrong name on the document?)
+                  FaultModel *fm = _FAQAS_MMTX_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBES
 
 
             }
@@ -302,44 +302,44 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetSsTm(newBlock);
-                // //MANUALLY INSERTED PROBES
-                // if(cr == CR_Failure){
-                //   //probe SunSensorTMfailure
-                //   FaultModel *fm = _FAQAS_SunSensorTMFailure_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // else{
-                //   //probe SunSensorTM
-                //   FaultModel *fm = _FAQAS_SunSensorTM_FM();
-      		      //   mutate( &newBlock, fm );
-  		          //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBES
+                //MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+                  //probe SunSensorTMfailure
+                  FaultModel *fm = _FAQAS_SunSensorTMFailure_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe SunSensorTM
+                  FaultModel *fm = _FAQAS_SunSensorTM_FM();
+      		        mutate( &newBlock, fm );
+  		            //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBES
 
             }
             break;
             case 1:
             {
                 cr = GetSsTemp(newBlock);
-                // //MANUALLY INSERTED PROBES
-                // if(cr == CR_Failure){
-                //   //probe SSTPFailure
-                //   FaultModel *fm = _FAQAS_SSTPFailure_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // else{
-                //   //probe SSTP
-                //   FaultModel *fm = _FAQAS_SSTP_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBES
+                //MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+                  //probe SSTPFailure
+                  FaultModel *fm = _FAQAS_SSTPFailure_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe SSTP
+                  FaultModel *fm = _FAQAS_SSTP_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBES
 
 
             }
@@ -374,22 +374,22 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                 cr = SetMgtqPwm(newBlock);
 
 
-// //MANUALLY INSERTED PROBES
-//                 if(cr == CR_Failure){
-//                   //probe MagnetorquerSetPWMRSPFailure
-//                   FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSP_FM();
-//                   mutate( &newBlock, fm );
-//                   //_FAQAS_delete_FM(fm);
-//                   //end probe
-//                 }
-//                 else{
-//                   //probe MagnetorquerSetPWMRSP
-//                   FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
-//                   mutate( &newBlock, fm );
-//                   //_FAQAS_delete_FM(fm);
-//                   //end probe
-//                 }
-// //END PROBES
+//MANUALLY INSERTED PROBES
+                if(cr == CR_Failure){
+                  //probe MagnetorquerSetPWMRSPFailure
+                  FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSP_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe MagnetorquerSetPWMRSP
+                  FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+//END PROBES
 
                 if(cr == CR_Success)
                 {
@@ -421,22 +421,22 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetIfScHk(newBlock);
 
-                // //  MANUALLY INSERTED PROBE
-                // if(cr == CR_Failure){
-                //   //probe SpaceCraftHK
-                //   FaultModel *fm = _FAQAS_SpaceCraftHKFailure_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // else{
-                //   //probe SpaceCraftHK
-                //   FaultModel *fm = _FAQAS_SpaceCraftHK_FM();
-                //   mutate( &newBlock, fm );
-                //   //_FAQAS_delete_FM(fm);
-                //   //end probe
-                // }
-                // //END PROBE
+                //  MANUALLY INSERTED PROBE
+                if(cr == CR_Failure){
+                  //probe SpaceCraftHK
+                  FaultModel *fm = _FAQAS_SpaceCraftHKFailure_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                else{
+                  //probe SpaceCraftHK
+                  FaultModel *fm = _FAQAS_SpaceCraftHK_FM();
+                  mutate( &newBlock, fm );
+                  //_FAQAS_delete_FM(fm);
+                  //end probe
+                }
+                //END PROBE
 
             }
             break;
@@ -649,6 +649,25 @@ void AdcsIf::Configure(::Smp::Services::ILogger* logger)
 {
     // Call base implementation first
     ::Generic::PoweredUnit::Configure(logger);
+
+    _FAQAS_IfStatusFailure_FM();
+    _FAQAS_IfStatus_FM();
+    _FAQAS_IfHKFailure_FM();
+    _FAQAS_IfHK_FM();
+    _FAQAS_GYTMFailure_FM();
+    _FAQAS_GYTM_FM();
+    _FAQAS_MMTXFailure_FM();
+    _FAQAS_MMTX_FM();
+    _FAQAS_SunSensorTMFailure_FM();
+    _FAQAS_SunSensorTM_FM();
+    _FAQAS_SSTP_FM();
+    _FAQAS_SSTPFailure_FM();
+    _FAQAS_ReactionWheelTXFailure_FM();
+    _FAQAS_ReactionWheelTX_FM();
+    _FAQAS_SpaceCraftHKFailure_FM();
+    _FAQAS_SpaceCraftHK_FM();
+    _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
+    _FAQAS_MagnetorquerSetPWMRSP_FM();
 
     // MARKER: CONFIGURE BODY: START
     // MARKER: CONFIGURE BODY: END

@@ -46,3 +46,13 @@ mutator/python/tests/test33/FMCoverageReport_test33.csv
 mutator/python/tests/test32/FMCoverageReport_test32.csv
 *.txt
 .vagrant/machines/default/virtualbox/vagrant_cwd
+*.sol
+.vagrant/machines/default/virtualbox/action_provision
+.vagrant/machines/default/virtualbox/action_set_name
+.vagrant/machines/default/virtualbox/box_meta
+.vagrant/machines/default/virtualbox/creator_uid
+.vagrant/machines/default/virtualbox/id
+.vagrant/machines/default/virtualbox/index_uuid
+.vagrant/machines/default/virtualbox/private_key
+.vagrant/machines/default/virtualbox/synced_folders
+.vagrant/rgloader/loader.rb
