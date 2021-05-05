@@ -40,21 +40,43 @@ def is_switch_cond(stmt_start_pos, code_str):
         return True
     return False  
 
-def get_case_to_switch_stmt(sorted_stmt_list, original_src_file):
+
+def process_case_mutation(changed_list, original_src_file, stmt_list):
     case_to_switch = {}
+    switches = []
     with open(original_src_file) as f:
         orig_str = f.read()
     for stmt in sorted_stmt_list:
         if is_case_stmt(stmt.start_index, orig_str):
-            pass
+            # Find containing switch
+            for i in range( len(switches) - 1, -1, -1) :
+                sw = switches[i]
+                if sw.start_index <= stmt.start_index and sw.end_index >= stmt.end_index:
+                    case_to_switch[stmt] = sw
+                    break
+            assert stmt in case_to_switch, "case statement without corresponding switch ({})".format(stmt)
         elif is_switch_cond(stmt.start_index, orig_str):
-            pass
+            switches.append(stmt)
         else:
             continue
 
-def process_case_mutation(ci, original_src_file, case_to_switch):
-    pass 
-
+    new_changed_list = []
+    for ci in changed_list:
+        for case, sw in case_to_switch.items():
+            if case.start_index <= ci.start_index and case.end_index >= ci.end_index:
+                # mutate the whole switch
+                new_start_index = sw.start_index
+                new_end_index = sw.end_index
+                new_mut_str = orig_str[new_start_index: ci.start_index] + ci.mut_str + orig_str[ci.end_index:new_end_index]
+                ci = ChangedInfo(
+                    start_index=new_start_index, 
+                    end_index=new_end_index, 
+                    filename=ci.filename, 
+                    mut_str=new_mut_str
+                )
+                break
+        new_changed_list.append(ci)
+    return new_changed_list
 
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
@@ -73,9 +95,9 @@ class MutantInfo:
     @classmethod
     def get_mutant_list (cls, original_src_file, mutant_src_file_list, meta_mu_info_file, no_skip_non_function_mutants=False):
         stmt_list = cls._get_stmt_list(original_src_file, meta_mu_info_file)
-        case_to_switch = get_case_to_switch_stmt(stmt_list, original_src_file)
         mut_list = []
         changed_list = cls._get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file)
+        changed_list = process_case_mutation(changed_list, original_src_file, stmt_list)
         changed_list.sort(key=lambda x: (x.start_index, x.end_index))
         stmt_i = 0
         for int_idx, ci in enumerate(changed_list):
@@ -103,8 +125,6 @@ class MutantInfo:
                     assert False, "Could not find stmt for mutant {}".format(ci.filename)
                 else:
                     continue
-
-            ci = process_case_mutation(ci, original_src_file, case_to_switch)
 
             mut_list.append(
                 MutantInfo(
