@@ -16,6 +16,7 @@ import os
 import argparse
 import collections
 import json
+import re
 from itertools import groupby
 from operator import itemgetter
 
@@ -26,6 +27,34 @@ META_MU_INFO_FILE_NAME = "meta-mu.info"
 
 StmtInfo = collections.namedtuple("StmtInfo", ["start_index", "end_index"])
 ChangedInfo = collections.namedtuple("ChangedInfo", ["start_index", "end_index", "filename", "mut_str"]) #End index character is excluded
+
+def is_case_stmt(stmt_start_pos, code_str):
+    sub_code = code_str[stmt_start_pos:]
+    if re.match('^case(\s|//|/\*)', sub_code):
+        return True
+    return False
+
+def is_switch_cond(stmt_start_pos, code_str):
+    sub_code = code_str[stmt_start_pos:]
+    if re.match('^switch(\(|\s|//|/\*)', sub_code):
+        return True
+    return False  
+
+def get_case_to_switch_stmt(sorted_stmt_list, original_src_file):
+    case_to_switch = {}
+    with open(original_src_file) as f:
+        orig_str = f.read()
+    for stmt in sorted_stmt_list:
+        if is_case_stmt(stmt.start_index, orig_str):
+            pass
+        elif is_switch_cond(stmt.start_index, orig_str):
+            pass
+        else:
+            continue
+
+def process_case_mutation(ci, original_src_file, case_to_switch):
+    pass 
+
 
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
@@ -44,6 +73,7 @@ class MutantInfo:
     @classmethod
     def get_mutant_list (cls, original_src_file, mutant_src_file_list, meta_mu_info_file, no_skip_non_function_mutants=False):
         stmt_list = cls._get_stmt_list(original_src_file, meta_mu_info_file)
+        case_to_switch = get_case_to_switch_stmt(stmt_list, original_src_file)
         mut_list = []
         changed_list = cls._get_changed_list (original_src_file, mutant_src_file_list, meta_mu_info_file)
         changed_list.sort(key=lambda x: (x.start_index, x.end_index))
@@ -73,6 +103,8 @@ class MutantInfo:
                     assert False, "Could not find stmt for mutant {}".format(ci.filename)
                 else:
                     continue
+
+            ci = process_case_mutation(ci, original_src_file, case_to_switch)
 
             mut_list.append(
                 MutantInfo(
