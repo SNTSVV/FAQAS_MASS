@@ -57,3 +57,6 @@ mutator/python/tests/test32/FMCoverageReport_test32.csv
 .vagrant/machines/default/virtualbox/synced_folders
 .vagrant/rgloader/loader.rb
 Vagrantfile
+mutator/python/all_results.csv
+mutator/python/results_SINGLETON.csv
+mutator/python/results_NORMAL.csv

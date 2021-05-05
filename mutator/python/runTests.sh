@@ -24,15 +24,15 @@ do
 
   pushd tests
 
-  # bash runTest1.sh
-  # bash runTest2.sh
-  # bash runTest3.sh
-  # bash runTest4.sh
-  # bash runTest5.sh
-  # bash runTest6.sh
-  # bash runTest7.sh
-  # bash runTest8.sh
-  # bash runTest9.sh
+  bash runTest01.sh
+  bash runTest02.sh
+  bash runTest03.sh
+  bash runTest04.sh
+  bash runTest05.sh
+  bash runTest06.sh
+  bash runTest07.sh
+  bash runTest08.sh
+  bash runTest09.sh
   bash runTest10.sh
   bash runTest11.sh
   bash runTest12.sh
@@ -70,6 +70,20 @@ do
   bash runTest45.sh
   bash runTest46.sh
   bash runTest47.sh
+  bash runTest48.sh
+  bash runTest49.sh
+
+  bash runTest50.sh
+  bash runTest51.sh
+  bash runTest52.sh
+  bash runTest53.sh
+  bash runTest54.sh
+  bash runTest55.sh
+  bash runTest56.sh
+  bash runTest57.sh
+  bash runTest58.sh
+  bash runTest59.sh
+
 
   popd
 

@@ -1,8 +1,8 @@
 #/bin/bash
 
-TESTFOLDER=tests/test1/
-curTest="test1"
-FAULTMODEL=tests/FaultModels/faultModel1.csv
+TESTFOLDER=tests/test01/
+curTest="test01"
+FAULTMODEL=tests/FaultModels/faultModel01.csv
 TYPE=int
 
 pushd ..
