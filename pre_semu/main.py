@@ -30,7 +30,7 @@ ChangedInfo = collections.namedtuple("ChangedInfo", ["start_index", "end_index",
 
 def is_case_stmt(stmt_start_pos, code_str):
     sub_code = code_str[stmt_start_pos:]
-    if re.match('^case(\s|//|/\*)', sub_code):
+    if re.match('^case(\s|//|/\*)', sub_code) or re.match('^default(:|\s|//|/\*)', sub_code):
         return True
     return False
 
