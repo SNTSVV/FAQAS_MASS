@@ -41,7 +41,7 @@ def is_switch_cond(stmt_start_pos, code_str):
     return False  
 
 
-def process_case_mutation(changed_list, original_src_file, stmt_list):
+def process_case_mutation(changed_list, original_src_file, sorted_stmt_list):
     case_to_switch = {}
     switches = []
     with open(original_src_file) as f:
