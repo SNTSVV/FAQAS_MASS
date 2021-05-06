@@ -36,11 +36,14 @@ if [ $# -eq 1 ]; then
         "mutation"|"mutantgeneration")
             phase=1
             ;;
-        "pre-semu"|"presemu"|"pre_semu")
+        "compile"|"remove-uncompilable")
             phase=2
             ;;
-        "testgeneration"|"semu")
+        "pre-semu"|"presemu"|"pre_semu")
             phase=3
+            ;;
+        "testgeneration"|"semu")
+            phase=4
             ;;
         *)
             error_exit "invalid starting phase argument: $1"
@@ -89,6 +92,14 @@ has_semu()
     return 1
 }
 
+run_in_docker()
+{
+    local cmd_arg=$1
+    echo "[$filename] Switching to docker..."
+    (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd $cmd_arg" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
+                || error_exit "Failure in docker. Debug in docker with command: $cd_docker_script $ws_dir_here ''"
+}
+
 ############################ EXECUTION
 
 ws_dir_here="$(readlink -f $TOPDIR/..)"
@@ -105,10 +116,7 @@ if [ $phase -le 1 ]; then
     test -d $mutants_dir && rm -rf $mutants_dir
     HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
     rm -rf $output_topdir/.srciror
-    echo "## Finished mutant generation!"
-    # remove uncompilable mutants
-    remove_uncompilable_mutants
-    echo "# Mutation Done!"
+    echo "# Finished mutant generation!"
 fi
 
 in_docker_cmd="/home/FAQAS/workspace/scripts/$(basename $0)"
@@ -118,7 +126,17 @@ else
     tool_dir=/home/FAQAS/faqas_semu/
 fi
 
-if [ $phase -le 2 ]; then
+if [ $phase -le 3 ]; then
+    if has_semu; then
+        # remove uncompilable mutants
+        remove_uncompilable_mutants
+        echo "# Finished Remove uncompilable mutants Done!"
+    else
+        run_in_docker "compile"
+    fi
+fi
+
+if [ $phase -le 3 ]; then
     if has_semu; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
         # generate meta-mu
@@ -128,22 +146,18 @@ if [ $phase -le 2 ]; then
         # build meta-mu
         $build_bc_func $meta_mutant_make_sym_src_file $meta_mutant_make_sym_bc_file || error_exit "Building bc file failed ($meta_mutant_make_sym_src_file)"
     else
-        echo "[$filename] Switching to docker..."
-        (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd pre-semu" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
-                || error_exit "Failure in docker. Debug in docker with command: $cd_docker_script $ws_dir_here ''"
+        run_in_docker "pre-semu"
     fi
 fi
 
-if [ $phase -le 3 ]; then
+if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
         # call test generation
         test -d $gen_test_dir || mkdir $gen_test_dir || error_exit "Failed to create gen_test_dir $gen_test_dir"
         $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file --output_top_directory $gen_test_dir --clear_existing --generation_timeout $gen_timeout || error_exit "Test generation failed"
     else
-        echo "[$filename] Switching to docker..."
-        (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd testgeneration" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
-                || error_exit "Failure in docker. Debug in docker with command: $cd_docker_script $ws_dir_here ''"
+        run_in_docker "testgeneration"
     fi
 fi
 
