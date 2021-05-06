@@ -126,7 +126,7 @@ else
     tool_dir=/home/FAQAS/faqas_semu/
 fi
 
-if [ $phase -le 3 ]; then
+if [ $phase -le 2 ]; then
     if has_semu; then
         # remove uncompilable mutants
         remove_uncompilable_mutants
