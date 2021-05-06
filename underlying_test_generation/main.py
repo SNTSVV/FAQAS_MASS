@@ -98,10 +98,10 @@ def main():
     
     symbolic_args = args.symbolic_args
     if symbolic_args is None:
-        sym_args_list_of_lists = None
+        sym_args_list_of_lists = []
     else:
         #sym_args_list_of_lists = [('-sym-args', '2', '2', '2')]
-        sym_args_list_of_lists = [tuple(symbolic_args.split())]
+        sym_args_list_of_lists = [tuple(arg_group.split()) for arg_group in symbolic_args.split(",")]
 
     generation_timeout = args.generation_timeout
     assert generation_timeout > 0, "generation timeout must be > 0."
