@@ -221,6 +221,20 @@ class MutantInfo:
             assert mutant_str[mut_chunk_end:] == orig_str[mut_after_end:], "suffix mismatch"
 
             mut_chunk_str = mutant_str[mut_idx: mut_chunk_end]
+
+            # constants with suffix (L, UL, U, ...)
+            try:
+                int(mut_chunk_str)
+                is_const_int = True
+            except ValueError:
+                is_const_int = False
+            if is_const_int:
+                suff_ind = mut_after_end
+                while orig_str[suff_ind].isalpha():
+                    suff_ind += 1
+                mut_chunk_str += orig_str[mut_after_end:suff_ind]
+                mut_after_end = suff_ind
+
             changed_list.append(
                 ChangedInfo(
                     start_index=mut_idx,
