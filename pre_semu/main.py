@@ -187,35 +187,6 @@ class MutantInfo:
             if "SDL" != dot_split[-3]:
                 continue
 
-            # ensure that the stmt ends with ; or }
-            if orig_str[post_end_index - 1] not in (';', '}'):
-                # look for the next ; or } and include it
-                in_line_comment = False
-                in_multi_line_comment = False
-                while orig_str[post_end_index] not in (';', '}'):
-                    if in_line_comment:
-                        if orig_str[post_end_index] == '\n':
-                            in_line_comment = False
-                        post_end_index += 1
-                    elif in_multi_line_comment:
-                        if orig_str[post_end_index: post_end_index+2] == "*/":
-                            in_multi_line_comment = False
-                            post_end_index += 2
-                        else:
-                            post_end_index += 1
-                    else:
-                        if orig_str[post_end_index: post_end_index+2] == "//":
-                            in_line_comment = True
-                            post_end_index += 2
-                        elif orig_str[post_end_index: post_end_index+2] == "/*":
-                            in_multi_line_comment = True
-                            post_end_index += 2
-                        else:
-                            assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
-                                                                            orig_str[start_index:post_end_index+1], post_end_index)
-                            post_end_index += 1
-                post_end_index += 1
-
             stmt_list.append(
                 StmtInfo(
                     start_index=start_index,
@@ -368,11 +339,43 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
             set_code(expr[0], expr[1], mutated)
             stmt2mutant_ids[stmt] += list(id2repl)
     for stmt, mut_list in stmt2mutant_ids.items():
-        existing_code = get_code(stmt.start_index, stmt.end_index)
+        new_end = find_stmt_after_end(orig_src_str, stmt.end_index)
+        existing_code = get_code(stmt.start_index, new_end)
         sel_stmts = compute_mutation_points(mut_list)
         post_mut_stmts = get_post_mutation_point_str(sel_stmts)
-        set_code(stmt.start_index, stmt.end_index, sel_stmts + existing_code + post_mut_stmts)
+        set_code(stmt.start_index, new_end, sel_stmts + existing_code + post_mut_stmts)
     return get_code(0, len(orig_src_str))
+
+def find_stmt_after_end(orig_str, post_end_index):
+    # ensure that the stmt ends with ; or }
+    if orig_str[post_end_index - 1] not in (';', '}'):
+        # look for the next ; or } and include it
+        in_line_comment = False
+        in_multi_line_comment = False
+        while orig_str[post_end_index] not in (';', '}'):
+            if in_line_comment:
+                if orig_str[post_end_index] == '\n':
+                    in_line_comment = False
+                post_end_index += 1
+            elif in_multi_line_comment:
+                if orig_str[post_end_index: post_end_index+2] == "*/":
+                    in_multi_line_comment = False
+                    post_end_index += 2
+                else:
+                    post_end_index += 1
+            else:
+                if orig_str[post_end_index: post_end_index+2] == "//":
+                    in_line_comment = True
+                    post_end_index += 2
+                elif orig_str[post_end_index: post_end_index+2] == "/*":
+                    in_multi_line_comment = True
+                    post_end_index += 2
+                else:
+                    assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
+                                                                    orig_str[start_index:post_end_index+1], post_end_index)
+                    post_end_index += 1
+        post_end_index += 1
+    return post_end_index
 
 MID_SEL_GLOBAL = "klee_semu_GenMu_Mutant_ID_Selector"
 MUT_SEL_FUNC = "klee_semu_GenMu_Mutant_ID_Selector_Func"
