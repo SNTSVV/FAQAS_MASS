@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&tc_data, sizeof(tc_data), "tc_data");
 
     MyInt_Initialize((&(tmp0)));
-    result = MyInt_enc_dec(&tc_data, &errCode, "test_case_UPER_*");
+    result = MyInt_enc_dec(&tc_data, &errCode, "test_case_UPER_X");
     return (int)result;
 }
 

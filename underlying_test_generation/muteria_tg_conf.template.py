@@ -62,6 +62,7 @@ semu_config_args = [
                                 ('-semu-forkprocessfor-segv-externalcalls',),
                                 #('-semu-testsgen-only-for-critical-diffs',),
                                 #('-semu-no-environment-output-diff',),
+                                ('--semu-no-error-on-memory-limit',),
 
                                 ('-semu-checkpoint-window', '0'),
                                 ('-semu-minimum-propagation-depth', '2'),
