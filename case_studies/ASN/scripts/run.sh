@@ -156,7 +156,11 @@ if [ $phase -le 4 ]; then
         echo "[$filename] Calling semu test generation ..."
         # call test generation
         test -d $gen_test_dir || mkdir $gen_test_dir || error_exit "Failed to create gen_test_dir $gen_test_dir"
-        $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file --output_top_directory $gen_test_dir --clear_existing --generation_timeout $gen_timeout || error_exit "Test generation failed"
+        (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
+                                                                        --output_top_directory $gen_test_dir \
+                                                                        --clear_existing \
+                                                                        --generation_timeout $gen_timeout \
+                                                                        2>&1 | tee $gen_test_dir/test_gen.log) || error_exit "Test generation failed"
     else
         run_in_docker "testgeneration"
     fi
