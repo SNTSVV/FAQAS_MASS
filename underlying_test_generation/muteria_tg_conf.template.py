@@ -63,10 +63,11 @@ semu_config_args = [
                                 #('-semu-testsgen-only-for-critical-diffs',),
                                 #('-semu-no-environment-output-diff',),
                                 ('--semu-no-error-on-memory-limit',),
+                                ('--semu-use-only-multi-branching-for-depth',),
 
-                                ('-semu-checkpoint-window', '0'),
+                                ('-semu-checkpoint-window', '2'),
                                 ('-semu-minimum-propagation-depth', '2'),
-                                ('-semu-propagation-proportion', '0.25'),
+                                ('-semu-propagation-proportion', '0.5'),
                                 ('-semu-precondition-length', '0'), # start from top
                                 #('-semu-max-total-tests-gen', '1000')
                                 ('-semu-number-of-tests-per-mutant', '5'),
