@@ -76,7 +76,7 @@ remove_uncompilable_mutants()
         fi
         # progress
         count=$(($count+1))
-        [ $(($count % $chunk)) -eq 0 ] && echo -n "$count/$total ($failed_compile failed) "
+        [ $(($count % $chunk)) -eq 0 ] && stdbuf -o0 echo -n "$count/$total ($failed_compile failed) "
     done
 
     echo 
