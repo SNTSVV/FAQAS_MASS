@@ -341,10 +341,13 @@ def apply_metamu(stmt_to_expr_to_mut, orig_src_str):
     for stmt, mut_list in stmt2mutant_ids.items():
         existing_code = get_code(stmt.start_index, stmt.end_index)
         sel_stmts = compute_mutation_points(mut_list)
-        set_code(stmt.start_index, stmt.end_index, sel_stmts + existing_code)
+        post_mut_stmts = get_post_mutation_point_str(sel_stmts)
+        set_code(stmt.start_index, stmt.end_index, sel_stmts + existing_code + post_mut_stmts)
     return get_code(0, len(orig_src_str))
 
 MID_SEL_GLOBAL = "klee_semu_GenMu_Mutant_ID_Selector"
+MUT_SEL_FUNC = "klee_semu_GenMu_Mutant_ID_Selector_Func"
+POST_MUT_FUNC = "klee_semu_GenMu_Post_Mutation_Point_Func"
 
 def compute_mutation_points(mut_list):
     s_list = sorted(mut_list)
@@ -361,7 +364,10 @@ def compute_mutation_points(mut_list):
     return sel
 
 def compute_mutation_point_str(mut_start_id, mut_end_id):
-    return "klee_semu_GenMu_Mutant_ID_Selector_Func({},{});".format(mut_start_id, mut_end_id)
+    return "{}({},{});".format(MUT_SEL_FUNC, mut_start_id, mut_end_id)
+
+def get_post_mutation_point_str (mut_points_str):
+    return mut_points_str.replace(MUT_SEL_FUNC, POST_MUT_FUNC)
 
 def compute_selection_expr(orig_expr, mid2expr):
     res = "(" + orig_expr + ")"
