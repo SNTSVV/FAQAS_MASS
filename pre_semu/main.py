@@ -187,6 +187,35 @@ class MutantInfo:
             if "SDL" != dot_split[-3]:
                 continue
 
+            # ensure that the stmt ends with ; or }
+            if orig_str[post_end_index - 1] not in (';', '}'):
+                # look for the next ; or } and include it
+                in_line_comment = False
+                in_multi_line_comment = False
+                while orig_str[post_end_index] not in (';', '}'):
+                    if in_line_comment:
+                        if orig_str[post_end_index] == '\n':
+                            in_line_comment = False
+                        post_end_index += 1
+                    elif in_multi_line_comment:
+                        if orig_str[post_end_index: post_end_index+2] == "*/":
+                            in_multi_line_comment = False
+                            post_end_index += 2
+                        else:
+                            post_end_index += 1
+                    else:
+                        if orig_str[post_end_index: post_end_index+2] == "//":
+                            in_line_comment = True
+                            post_end_index += 2
+                        elif orig_str[post_end_index: post_end_index+2] == "/*":
+                            in_multi_line_comment = True
+                            post_end_index += 2
+                        else:
+                            assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
+                                                                            orig_str[start_index:post_end_index+1], post_end_index)
+                            post_end_index += 1
+                post_end_index += 1
+
             stmt_list.append(
                 StmtInfo(
                     start_index=start_index,
