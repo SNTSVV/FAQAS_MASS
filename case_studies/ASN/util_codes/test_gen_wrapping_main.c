@@ -1,6 +1,9 @@
 
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
 
+#include "asn1crt.c"
+#include "asn1crt_encoding.c"
+#include "asn1crt_encoding_uper.c"
 #include "test_auto_tcs.c"
 
 #include "klee/klee.h"
