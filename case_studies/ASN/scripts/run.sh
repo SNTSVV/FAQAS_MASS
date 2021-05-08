@@ -98,6 +98,7 @@ run_in_docker()
     echo "[$filename] Switching to docker..."
     (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd $cmd_arg" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
                 || error_exit "Failure in docker. Debug in docker with command: $cd_docker_script $ws_dir_here ''"
+    echo "To enter docker, run:   $cd_docker_script $ws_dir_here"
     exit
 }
 
