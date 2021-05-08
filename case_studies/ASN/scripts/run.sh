@@ -178,7 +178,7 @@ if [ $phase -le 4 ]; then
                 meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
                 func_gen_test_dir=$gen_test_dir/$category/$func_name
                 # call test generation
-                test -d $func_gen_test_dir || mkdir $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
+                test -d $func_gen_test_dir || mkdir -p $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
                 (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
                                                                         --output_top_directory $func_gen_test_dir \
                                                                         --clear_existing \
