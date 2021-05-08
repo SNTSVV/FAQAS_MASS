@@ -148,7 +148,7 @@ if [ $phase -le 3 ]; then
             category_dir=$make_sym_to_append_top_dir/$category
             for func_template in `ls $category_dir`
             do
-                func_name=$(echo $func_template | cut -d'.' -f1')
+                func_name=$(echo $func_template | cut -d'.' -f1)
                 func_template_path=$category_dir/$func_template
                 func_meta_dir=$meta_mutant_make_sym_top_dir/$category/$func_name
                 test -d $func_meta_dir || mkdir -p $func_meta_dir || error_exit "Failed to create func_meta_dir $func_meta_dir" 
