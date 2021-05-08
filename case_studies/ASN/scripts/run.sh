@@ -22,8 +22,7 @@ mutants_dir=$(readlink -f $FAQAS_SEMU_GENERATED_MUTANTS_DIR)
 meta_mutant_dir=$(readlink -f $FAQAS_SEMU_META_MU_TOPDIR)
 meta_mutant_src_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_SRC_FILE)
 meta_mutant_bc_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_BC_FILE)
-meta_mutant_make_sym_src_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_SRC_FILE)
-meta_mutant_make_sym_bc_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_BC_FILE)
+meta_mutant_make_sym_top_dir=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR)
 gen_test_dir=$(readlink -f $FAQAS_SEMU_GENERATED_TESTS_TOPDIR)
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
 original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
@@ -107,7 +106,7 @@ run_in_docker()
 ws_dir_here="$(readlink -f $TOPDIR/..)"
 ws_in_docker="/home/FAQAS/workspace"
 
-make_sym_to_append="$TOPDIR/../util_codes/test_gen_wrapping_main.c"
+make_sym_to_append_top_dir="$TOPDIR/../util_codes/"
 
 if [ $phase -le 1 ]; then
     echo "[$filename] Calling mutant generation ..."
@@ -143,10 +142,25 @@ if [ $phase -le 3 ]; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
         # generate meta-mu
         $tool_dir/pre_semu/main.py $meta_mutant_src_file $original_src_file $mutants_dir || error_exit "Pre-semu failed"
-        cp $meta_mutant_src_file $meta_mutant_make_sym_src_file || error_exit "copy meta-mu to make_sym failed"
-        cat $make_sym_to_append >> $meta_mutant_make_sym_src_file || error_exit "appending to meta-mu to make_sym failed"
-        # build meta-mu
-        $build_bc_func $meta_mutant_make_sym_src_file $meta_mutant_make_sym_bc_file || error_exit "Building bc file failed ($meta_mutant_make_sym_src_file)"
+
+        for category in `ls $make_sym_to_append_top_dir`
+        do
+            category_dir=$make_sym_to_append_top_dir/$category
+            for func_template in `ls $category_dir`
+            do
+                func_name=$(echo $func_template | cut -d'.' -f1')
+                func_template_path=$category_dir/$func_template
+                func_meta_dir=$meta_mutant_make_sym_top_dir/$category/$func_name
+                test -d $func_meta_dir || mkdir -p $func_meta_dir || error_exit "Failed to create func_meta_dir $func_meta_dir" 
+                meta_mutant_make_sym_src_file=$func_meta_dir/$(basename $meta_mutant_src_file)
+                meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
+        
+                cp $meta_mutant_src_file $meta_mutant_make_sym_src_file || error_exit "copy meta-mu to make_sym failed"
+                cat $func_template_path >> $meta_mutant_make_sym_src_file || error_exit "appending to meta-mu to make_sym failed"
+                # build various meta-mu
+                $build_bc_func $meta_mutant_make_sym_src_file $meta_mutant_make_sym_bc_file || error_exit "Building bc file failed ($meta_mutant_make_sym_src_file)"
+            done
+        done
     else
         run_in_docker "pre-semu"
     fi
@@ -155,13 +169,23 @@ fi
 if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
-        # call test generation
-        test -d $gen_test_dir || mkdir $gen_test_dir || error_exit "Failed to create gen_test_dir $gen_test_dir"
-        (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
-                                                                        --output_top_directory $gen_test_dir \
+        for category in `ls $meta_mutant_make_sym_top_dir`
+        do
+            category_dir=$meta_mutant_make_sym_top_dir/$category
+            for func_name in `ls $category_dir`
+            do
+                func_meta_dir=$category_dir/$func_name
+                meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
+                func_gen_test_dir=$gen_test_dir/$category/$func_name
+                # call test generation
+                test -d $func_gen_test_dir || mkdir $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
+                (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
+                                                                        --output_top_directory $func_gen_test_dir \
                                                                         --clear_existing \
                                                                         --generation_timeout $gen_timeout \
-                                                                        2>&1 | tee $gen_test_dir/test_gen.log) || error_exit "Test generation failed"
+                                                                        2>&1 | tee $func_gen_test_dir/test_gen.log) || error_exit "Test generation failed"
+            done
+        done
     else
         run_in_docker "testgeneration"
     fi
