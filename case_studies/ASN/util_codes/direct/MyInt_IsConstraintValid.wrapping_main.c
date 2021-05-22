@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&val0, sizeof(val0), "val0");
 
     result = MyInt_IsConstraintValid(&val0, &errCode);
+    printf("%d\n", errCode);
     return (int)result;
 }
 

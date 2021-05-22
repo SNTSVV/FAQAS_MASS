@@ -20,5 +20,6 @@ int main(int argc, char** argv)
     klee_make_symbolic(&bitStrm, sizeof(bitStrm), "bitStrm");
 
     result = My2ndInt_Decode(&val0, &bitStrm, &errCode);
+    printf("%d\n", errCode);
     return (int)result;
 }

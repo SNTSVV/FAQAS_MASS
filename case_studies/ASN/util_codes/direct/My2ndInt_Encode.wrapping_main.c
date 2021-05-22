@@ -21,5 +21,6 @@ int main(int argc, char** argv)
     klee_make_symbolic(&checkC, sizeof(checkC), "checkC");
 
     result = My2ndInt_Encode(&val0, &bitStrm, &errCode, checkC);
+    printf("%d\n", errCode);
     return (int)result;
 }

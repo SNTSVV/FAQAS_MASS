@@ -21,6 +21,7 @@ int main(int argc, char** argv)
 
     MyInt_Initialize((&(tmp0)));
     result = MyInt_enc_dec(&tc_data, &errCode, "test_case_UPER_X");
+    printf("%d\n", errCode);
     return (int)result;
 }
 
