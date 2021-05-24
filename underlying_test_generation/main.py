@@ -57,7 +57,7 @@ def get_args():
                         help="optional symbolic args as string (this enables the system tests mode)")
     parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
                         help="test generation timeout in seconds ( > 0).")
-    parser.add_argument("--semu_config", default="FULL", type=str, choices=list(CONFIGS)
+    parser.add_argument("--semu_heuristics_config", default="FULL", type=str, choices=list(CONFIGS)
                         help="Configuration for test generation. must be a string of {}.".format(list(CONFIGS)))
     args = parser.parse_args()
     return args

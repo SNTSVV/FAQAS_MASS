@@ -32,3 +32,6 @@ FAQAS_SEMU_GENERATED_TESTS_TOPDIR=../OUTPUT/test_generation
 
 FAQAS_SEMU_TEST_GEN_TIMEOUT=600
 
+# This may be 'FULL' or 'PARTIAL' (for FULL exploration or partial exploration)
+FAQAS_SEMU_HEURISTICS_CONFIG="FULL"
+

@@ -28,6 +28,7 @@ build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
 original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
+semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
 
 phase=1
 if [ $# -eq 1 ]; then
@@ -183,6 +184,7 @@ if [ $phase -le 4 ]; then
                                                                         --output_top_directory $func_gen_test_dir \
                                                                         --clear_existing \
                                                                         --generation_timeout $gen_timeout \
+                                                                        --semu_heuristics_config $semu_heuristics_config \
                                                                         2>&1 | tee $func_gen_test_dir/test_gen.log) || error_exit "Test generation failed"
             done
         done
