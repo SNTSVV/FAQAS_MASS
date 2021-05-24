@@ -65,12 +65,12 @@ semu_config_args = [
                                 ('--semu-no-error-on-memory-limit',),
                                 ('--semu-use-only-multi-branching-for-depth',),
 
-                                ('-semu-checkpoint-window', '2'),
-                                ('-semu-minimum-propagation-depth', '2'),
-                                ('-semu-propagation-proportion', '0.5'),
-                                ('-semu-precondition-length', '0'), # start from top
+                                ('-semu-checkpoint-window', '{{ template_CW }}'),
+                                ('-semu-minimum-propagation-depth', '{{ template_MPD }}'),
+                                ('-semu-propagation-proportion', '{{ template_PP }}'),
+                                ('-semu-precondition-length', '{{ template_PL }}'), # start from top
                                 #('-semu-max-total-tests-gen', '1000')
-                                ('-semu-number-of-tests-per-mutant', '5'),
+                                ('-semu-number-of-tests-per-mutant', '{{ template_NTPM }}'),
 ]
 
 if {{ template_candidate_mutants_list }} is not None:

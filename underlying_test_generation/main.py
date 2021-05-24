@@ -21,6 +21,23 @@ TOOLNAME = "FAQAS_SEMu"
 
 TEST_GENERATION_TIMEOUT = 7200 #2h
 
+CONFIGS = {
+    "FULL": {
+        "template_PL": "0",
+        "template_CW": "4294967295",
+        "template_MPD": "0",
+        "template_PP": "1.0",
+        "template_NTPM": "5"
+    },
+    "PARTIAL": {
+        "template_PL": "0",
+        "template_CW": "2",
+        "template_MPD": "2",
+        "template_PP": "0.5",
+        "template_NTPM": "5"
+    }
+}
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_metamu_bitcode_file", 
@@ -40,6 +57,8 @@ def get_args():
                         help="optional symbolic args as string (this enables the system tests mode)")
     parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
                         help="test generation timeout in seconds ( > 0).")
+    parser.add_argument("--semu_config", default="FULL", type=str, choices=list(CONFIGS)
+                        help="Configuration for test generation. must be a string of {}.".format(list(CONFIGS)))
     args = parser.parse_args()
     return args
 
@@ -106,6 +125,8 @@ def main():
     generation_timeout = args.generation_timeout
     assert generation_timeout > 0, "generation timeout must be > 0."
 
+    semu_config = args.semu_config
+
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)
 
@@ -120,7 +141,7 @@ def main():
     ## compute parameters and apply to resolve template (TODO)
     ### REPODIR, OUTDIR, 
     muteria_output = os.path.join(temporary_workdir, "output")
-    resolved_conf = Template(template_str).render({
+    template_data = {
         "template_repo_rootdir": os.path.join(temporary_workdir, "repo"),
         "template_output_dir": muteria_output,
         "template_programe_name": os.path.splitext(os.path.basename(input_metamu_bitcode_file))[0],
@@ -129,7 +150,9 @@ def main():
         "template_disable_post_mutation_check": (not enable_post_mutation_check),
         "template_sym_args_list_of_lists": sym_args_list_of_lists,
         "template_meta_mu_bc_file": input_metamu_bitcode_file
-    })
+    }
+    template_data.update(CONFIGS[semu_config])
+    resolved_conf = Template(template_str).render(template_data)
 
     ## write the resolved config
     with open(test_gen_muteria_conf, "w") as f:
