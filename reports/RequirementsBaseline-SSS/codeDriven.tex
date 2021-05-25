@@ -8,7 +8,9 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 
 
 
-\RQ{} The \FAQAS shall implement a set of optimizations to make code-driven mutation testing feasible (see D2).
+\RQ{} The \FAQAS shall implement a set of optimizations to make code-driven mutation analysis feasible (see D2).
+
+\remark  The term mutation analysis refers to the process of assessing a test suite through code-driven mutation. In D2 it is also called code-driven test suite evaluation and code-driven test suite assessment. 
 
 \RQ{} The \FAQAS shall implement the following optimization steps:
 \begin{enumerate}
@@ -20,12 +22,14 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 	\item Discard equivalent mutants based on code coverage.
 \end{enumerate}
 
-\RQ{} The \FAQAS shall provide means to enable engineers to run code-driven mutation testing on the SUT.
+\RQ{} The \FAQAS shall provide means to enable engineers to run code-driven mutation analysis on the SUT.
 
 \RQ{} The \FAQAS shall provide means to enable engineers to select the optimization steps to be carried on the SUT.
 %\DONE{I think first we should indicate what are the optimizations supported by FAQAS}
 
 \RQ{} The \FAQAS shall receive as input code coverage information of the SUT.
+
+\RQN{a} \REVISION{P-10}{The \FAQAS shall provide means to enable engineers to execute code-driven mutation analysis both when code coverage information is available and not available.}
 
 \RQ{} The \FAQAS shall support test case execution following the practice for the SUT (e.g., running the command \texttt{make test}).
 
@@ -41,7 +45,7 @@ The following requirements regard the Test Suite Evaluation Based on Code-Mutati
 
 \RQ{} The \FAQAS shall apply all available mutation operators in case they are not specified. 
 
-\RQN{-a} The \FAQAS shall generate all the mutants defined by each operator to be applied. 
+\RQN{-a} \REVISION{P-10}{The \FAQAS shall generate all the mutants defined by each operator to be applied.} 
 
 \RQ{} The \FAQAS shall store every generated mutant on a directory tree that follows the structure of the source directory tree of the SUT.
 
@@ -79,7 +83,7 @@ The generation of such test suites should be  based on the PrioritizeAndReduce A
 
 \RQ{} The \FAQAS shall provide an option to execute only the prioritized and reduced set of test cases when testing a mutant affecting a certain statement. When the option is disabled, the \FAQAS shall execute the whole test suite for every mutant. The execution of a test suite shall be stopped when a mutant is killed.
 
-\RQ{} The \FAQAS shall support strong mutation testing (see D2).
+\RQ{} The \FAQAS shall support strong mutation analysis (see D2).
 
 \RQ{} The \FAQAS shall sample the mutants to be executed.
 
@@ -131,7 +135,7 @@ The two lists are sorted in decreasing order, based on the distance $D_C$ from t
 The generation of the list proceeds as follows. First, a list (list X) containing all the mutants, sorted by distance $D_C$, is created. Iteratively, each mutant in list X is compared with each mutant in list A. If the distance is greater than zero, the mutant is added to list A, otherwise it is added to list B.
 
 
-\RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation testing process. \REVISION{P-12}{The generated reports shall include information about the total number of mutants generated, the total number of mutants filtered by compiler optimisations, the type of mutants sampling employed, the total number of mutants executed, the total number of killed mutants, the total number of live mutants, the mutation score, the statement coverage, and the location of the two prioritized lists of nonequivalent mutants.}
+\RQ{} The \FAQAS shall report a summary of the results obtained in every step of the mutation analysis process. \REVISION{P-12}{The generated reports shall include information about the total number of mutants generated, the total number of mutants filtered by compiler optimisations, the type of mutants sampling employed, the total number of mutants executed, the total number of killed mutants, the total number of live mutants, the mutation score, the statement coverage, and the location of the two prioritized lists of nonequivalent mutants.}
 
 
 % test suite augmentation
