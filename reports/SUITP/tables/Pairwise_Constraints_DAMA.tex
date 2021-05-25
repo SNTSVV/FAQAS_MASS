@@ -1,0 +1,60 @@
+% !TEX root =  ../MAIN.tex
+
+
+\begin{table}[ht]
+
+  \scriptsize
+  \centering
+  \caption{Contraints for pairwise combination testing between the Fault Class and Span input classes.}
+  \label{table:constraints_1_DAMA}
+
+  \begin{tabular}{@{}lll@{}}
+  \textbf{Buffer   Type} & \textbf{Constraint} & \textbf{Span}   \\ \midrule
+  long long int          & cannot exist with       & \textgreater{}1 \\
+  u long long int        & cannot exist with       & \textgreater{}1 \\
+  double                 & cannot exist with       & \textgreater{}1 \\
+  long int               & cannot exist with       & \textgreater{}1 \\
+  u long int             & cannot exist with       & \textgreater{}1 \\
+  float                  & cannot exist with       & \textgreater{}1 \\
+  double                 & cannot exist with       & \textgreater{}1 \\ \bottomrule
+  \end{tabular}
+
+\end{table}
+
+
+\begin{table}[ht]
+
+\scriptsize
+\centering
+\caption{Contraints for pairwise combination testing between the Buffer Type and Data Type input classes.}
+\label{table:constraints_2_DAMA}
+
+\begin{tabular}{@{}lll@{}}
+\textbf{Fault Class} & \textbf{Constraint} & \textbf{Data type} \\ \midrule
+vat                  & cannot exist with with  & bin                \\
+vbt                  & cannot exist with with  & bin                \\
+vor                  & cannot exist with with  & bin                \\
+inv                  & cannot exist with with  & bin                \\
+iv                   & cannot exist with with  & bin                \\
+asa                  & cannot exist with with  & bin                \\
+ss                   & cannot exist with with  & bin                \\
+bf                   & can exist only with & bin                \\ \bottomrule
+\end{tabular}
+
+\end{table}
+
+
+\begin{table}[ht]
+
+\scriptsize
+\centering
+\caption{Contraints for pairwise combination testing between the Buffer Type and Data Type input classes.}
+\label{table:constraints_3_DAMA}
+
+\begin{tabular}{@{}lll@{}}
+\textbf{Buffer   Type} & \textbf{Constraint} & \textbf{Data Type} \\ \midrule
+float                  & can exist only with     & float              \\
+double                 & can exist only with     & double             \\ \bottomrule
+\end{tabular}
+
+\end{table}

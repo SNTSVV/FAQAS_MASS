@@ -3,6 +3,7 @@
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
 \scriptsize
+
 \begin{longtable}{|p{1cm}|p{5cm}|p{6cm}|p{2.5cm}|}
 
 % \begin{table}[h]
@@ -12,9 +13,9 @@
 \label{table:matrix} \\
 
 % \begin{tabular}{|llp{6cm}l|}
-\hline 
+\hline
 \textbf{Operator}	&	\textbf{Term to replace}	&	\textbf{Replacements}	&	\textbf{Test Case} \\
-\hline 
+\hline
 ABS	&	$a$	&	$-a$	&	abs\_val.sh \\
 ABS	&	$a,b$	&	$-a,-b$	&	abs\_many.sh \\
 AOR	&	$+$	&	$\{-,*,/,\%\}$	&	aor\_plus.sh \\
@@ -112,5 +113,6 @@ ALL	&	\texttt{int a = 4, b = 5; return a + b;}	&	\texttt{int a = 4, b = 1; retur
 & & \texttt{int a = 4, b = 5; return a \% b;} & \\
 \hline
 % \end{tabular}
+
 \end{longtable}
 \normalsize

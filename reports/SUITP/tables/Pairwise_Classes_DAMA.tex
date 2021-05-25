@@ -1,0 +1,28 @@
+% !TEX root =  ../MAIN.tex
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[h]
+
+  \scriptsize
+  \centering
+  \caption{DAMA chosen input classes.}
+  \label{table:classes_DAMA}
+
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Fault   Class} & \textbf{Data Type} & \textbf{Buffer Type}   & \textbf{Span}   \\ \midrule
+VAT                    & INT                & short int              & 1               \\
+VBT                    & FLOAT              & unsigned short int     & \textgreater{}1 \\
+VOR                    & DOUBLE             & unsigned int           &                 \\
+BF                     & BIN                & int                    &                 \\
+INV                    & HEX                & long int               &                 \\
+IV                     & LONG               & unsigned long int      &                 \\
+ASA                    &                    & long long int          &                 \\
+SS                     &                    & unsigned long long int &                 \\
+HV                     &                    & signed char            &                 \\
+                       &                    & unsigned char          &                 \\
+                       &                    & float                  &                 \\
+                       &                    & double                 &                 \\ \bottomrule
+\end{tabular}
+\end{table}
