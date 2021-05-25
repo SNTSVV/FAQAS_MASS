@@ -1,0 +1,57 @@
+% !TEX root = MAIN.tex
+
+\chapter{DAMA - Software Unit Test Case Design}
+\label{chap:design_DAMA}
+
+
+\section{General}
+
+% The DAMA unit test suite concerns the data-driven mutation component. It addresses its functional requirements. A single test design has been identified: it is based on the pairwise combination testing method and reported in the following sections.
+
+The DAMA unit test suite concerns the data-driven mutation API. It address its functional requirements. A single test design has been identified: it is based on the category partition method and reported in the following sections.
+
+
+\section{DAMA - Test Design - Data-driven Mutation - Operators}
+
+\subsection{Test design identifier}
+
+The test design identifier is \emph{DAMA-TD-DDMutation-1}
+
+With this test design we aim to ensure that the data-driven mutation API template, which contains the data-driven mutation operators and performs the \emph{Mutate Data} activity, is implemented according to requirements of the \FAQAS.
+
+\subsection{Features to be tested}
+
+Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMA.
+
+The set of data-driven mutation operators implemented in the DAMA API is composed of the following fault classes: Value Above Threshold (VAT), Value Below Threshold (VBT), Value Out of Range (VOR), Bit Flip (BF), Invalid Numeric Value (INV), Illegal Value (IV), Anomalous Signal Amplitude (ASA), Signal Shift (SS), Hold Value (HV), Array Swap (AS) and Array Random Swap (ARS).
+
+\input{tables/operators_DAMA}
+
+Each data mutation operator performs data mutation by applying a data mutation operation (e.g., set a value above the upper range value).
+Mutation operators might apply one or more data mutation operations.
+Each data mutation operator can be configured with a set of parameters describing the type and charachteristics of the fault class. These parameters, provided by the user, specify the behaviour of the operators contained in the fault model with regards to the data described in the data model.
+The parameters are: \emph{Fault Model}, \emph{Data Item}, \emph{Span}, \emph{Type}, \emph{Fault Class}, \emph{Min}, \emph{Max}, \emph{Threshold}, \emph{Delta}, \emph{State} and \emph{Value}.
+\emph{Min, Max, Threshold, Delta, State} and \emph{Value} assume a different meaning depending on the Fault Class.
+\emph{DataItem, Span} and \emph{Type} describe the position, extension and type of the data targeted by the mutation.
+
+\clearpage
+
+\subsection{Approach refinements}
+
+% From the previous definitions we derive the input classes to be used for the pairwise method.
+% They are \emph{Fault Class}, \emph{Data Type}, \emph{Buffer Type} and \emph{Span}.
+%
+% We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA}) and also the applied constraints (Table~\ref{table:constraints_1_DAMA}, Table~\ref{table:constraints_2_DAMA} and Table~\ref{table:constraints_3_DAMA})
+%
+%
+% \input{tables/Pairwise_Classes_DAMA.tex}
+%
+% \input{tables/Pairwise_Constraints_DAMA.tex}
+
+From the previous definitions we derive the input classes to be used for the category partition method.
+These are the input that affects the behaviour of the program in the most impactful way.
+Iterating on their combinations provides the best trade-off between extensive coverage and efficiency.
+They are \emph{Fault Class}, \emph{Data Type}, \emph{Buffer Type} and \emph{Span}.
+We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA})
+
+\input{tables/Pairwise_Classes_DAMA.tex}

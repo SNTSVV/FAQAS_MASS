@@ -1,0 +1,42 @@
+% !TEX root = MAIN.tex
+
+\chapter{DAMA - Software Unit Testing Approach}
+\label{chap:approach_DAMA}
+
+
+\section{Unit Testing Strategy}
+
+% Unit testing aims to verify that the functional requirements of DAMA units are correctly implemented; test inputs are identified through the category-partition method.
+
+Unit testing aims to verify that the functional requirements of DAMA units are correctly implemented; test inputs are identified through the pairwise combination testing method. Additional test cases were then added, focusing on inputs combinations of particular interest.
+
+
+\section{Tasks and Items under Test}
+
+Testing concerns the data-driven mutation API of DAMA, from now on defined as \emph{DDMutation}, which handles the \emph{Mutate Data} activity.
+
+\section{Feature to be tested}
+
+Testing concerns verifying the correct behavior of the data mutation operators implemented in \emph{DDMutation}, with regards to the instructions contained in the fault model and data model provided by the user, and to the C data type of the buffer targeted by the mutation.
+
+\section{Feature not to be tested}
+
+Testing does not concern the verification of the capability of \emph{DDMutation} to handle every possible numeric parameter that could be specified by the user in the fault model, since the number of possible combinations would render such a pursuit highly impractical if not impossible.
+It is instead based on realistic use cases and inputs.
+In the same way, testing do not cover every possible value of data that could be targeted by a mutation operator, but the focus is on testing the behaviour of the software with the supported C datatypes.
+
+
+\section{Test Pass - Fail Criteria}
+
+Unit testing pass if all the following are true:
+\begin{itemize}
+	\item Every test case is executed
+	\item All test cases pass
+	\item Exceptions and unexpected messages do not appear on screen and logs.
+\end{itemize}
+
+
+
+\section{Manually and Automatically Generated Code}
+
+Part of the \emph{DDMutation} code is automatically generated for every specific \emph{FAQAS fault model} (see D2).
