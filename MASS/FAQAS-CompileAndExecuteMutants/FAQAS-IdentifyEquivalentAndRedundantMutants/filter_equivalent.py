@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.6
 
 #
 # Copyright (c) University of Luxembourg 2021.
@@ -6,75 +6,200 @@
 #
 
 import os, sys
+import random
 from collections import OrderedDict
 
 equivalents_list = [] # distance zero
 
 def load_equivalents(file_path):
-    eq_dict = {}
+    eq_list = []
 
-    with open(file_path) as f:
+    with open(file_path, encoding='utf-8') as f:
         for line in f:
-            distance_trace = line.strip().split(';')
+            source, mutant, test, distance, time = line.strip().split(';')
+    
+            mutant_tuple = (source, mutant, float(distance))
 
-            if float(distance_trace[3]) == 0.0:
-                equivalents_list.append(distance_trace[1] + '|' + distance_trace[0])
+            if float(distance) == 0.0:
+                equivalents_list.append(mutant_tuple)
             else:
-                key = distance_trace[3] + '|' + distance_trace[0]
-                value = distance_trace[1] + '|' + distance_trace[0]                
+                eq_list.append(mutant_tuple)
 
-                if key in eq_dict:
-                    eq_dict[key].append(value)
-                else:
-                    eq_dict[key] = [value]
-    return eq_dict
+    return sorted(eq_list, key = lambda tup: tup[2], reverse=True) 
 
-def get_list_useful_a(useful_live_dict):
+def diff_distance(mutant_t1, mutant_t2):
+    return abs(mutant_t1[2] - mutant_t2[2])
+
+
+def stratify(ordered_mutants, structure):
+    strat_dict = {}
+
+    for mutant in ordered_mutants:
+        line = mutant[1].split('.')[2]
+        function = mutant[1].split('.')[5]
+        
+        source = mutant[0]
+
+        if structure == 'lines':
+            key = source + '|' + line
+
+        elif structure == 'functions':
+            key = source + '|' + function
+
+        if key in strat_dict:
+            strat_dict[key].append(mutant)
+        else:
+            strat_dict[key] = [mutant]
+
+    return strat_dict  
+
+
+def strategy_s1(ordered_mutants):
+    listA = []
+    listB = []
+
+    while len(ordered_mutants) > 0:  
+
+        if len(listA) == 0:
+            listA.append(ordered_mutants.pop(0))
+        else:
+            higher_distance = -1
+            higher_mutant = ()
+
+            last_mutant_listA = listA[-1]
+
+            for mutant in list(ordered_mutants):
+                diff = diff_distance(last_mutant_listA, mutant)
+                
+                if diff == 0:
+                    listB.append(mutant)
+                    ordered_mutants.remove(mutant)
+
+                elif diff > higher_distance:
+                    higher_mutant = mutant
+                    higher_distance = diff
+
+            if higher_distance > 0:
+                listA.append(higher_mutant)
+                ordered_mutants.remove(higher_mutant)          
+          
+    return (listA, listB)
+
+def strategy_s2(ordered_mutants):
+
+    priority_lists = {}
+
+    dict_lines = stratify(ordered_mutants, 'lines')
    
-    useful_list = []
-    od = OrderedDict(sorted(useful_live_dict.items(), key = lambda x: float(x[0].split('|')[0]), reverse=True))
+    print(len(dict_lines))
  
-    for key, value in od.items():
-        useful_list.append(value.pop())
+    priority = 1
 
-    return useful_list
-def get_list_useful_b(useful_live_dict):
+    while len(dict_lines) > 0:
+        print("priority", priority)
+        new_list = []
+
+    
+        for key, value in list(dict_lines.items()):
+            if len(value) == 0:
+                del dict_lines[key]
+            else:
+                new_list.append(value.pop(0))
+       
+        if len(new_list) > 0:
+            print("len", len(new_list)) 
+            priority_lists[priority] = new_list
+            priority += 1
+
+    print(len(priority_lists))
+    return priority_lists
+
+def strategy_s3(ordered_mutants):
+
+    priority_lists = {}
+
+    dict_lines = stratify(ordered_mutants, 'functions')
+
+    print(len(dict_lines))
+
+    priority = 1
+
+    while len(dict_lines) > 0:
+        print("priority", priority)
+        new_list = []
+
+
+        for key, value in list(dict_lines.items()):
+            if len(value) == 0:
+                del dict_lines[key]
+            else:
+                new_list.append(value.pop(0))
+
+        if len(new_list) > 0:
+            print("len", len(new_list))
+            priority_lists[priority] = new_list
+            priority += 1
+
+    print(len(priority_lists))
+    return priority_lists
+
+def strategy_s4(ordered_mutants):
+
+    random_lists = {}
    
-    useful_list = []
-    od = OrderedDict(sorted(useful_live_dict.items(), key = lambda x: float(x[0].split('|')[0]), reverse=True))
+    random.shuffle(ordered_mutants)
 
-    for key, value in od.items():
+    list_nr = 1 
+    while len(ordered_mutants) > 0:
+        random_list = ordered_mutants[0:100]
+        del ordered_mutants[0:100]
+ 
+        random_lists[list_nr] = random_list
+        list_nr += 1
 
-        if len(value) > 0:
-            for mutant in value:
-                useful_list.append(mutant)
-
-    return useful_list
-
+    return random_lists
+        
 def printList(list_to_print, path):
-    file_path = open(path, 'w')
+    file_path = open(path, 'w', encoding='utf-8')
 
     for mutant in list_to_print:
-        file_path.write(mutant + '\n')
+        file_path.write(mutant[1] + ';' + mutant[0] + ';' + str(mutant[2]) + '\n')
 
 if __name__ == '__main__':
     distances_path = str(sys.argv[1])
+    strategy = str(sys.argv[2])
 
-    useful_live_dict = load_equivalents(distances_path)
-
-    useful_list_a = []
-    useful_list_b = []
-
-    useful_list_a = get_list_useful_a(useful_live_dict)
-    useful_list_b = get_list_useful_b(useful_live_dict)
+    mutants = load_equivalents(distances_path)
 
     dir_path = os.path.dirname(distances_path)
-
     
-    print("size list A:", len(useful_list_a))
-    print("size list B:", len(useful_list_b))
-    print("size list equivalents:", len(equivalents_list))
+    printList(equivalents_list, os.path.join(dir_path, "equivalents_distance_zero.csv"))
 
-    printList(useful_list_a, os.path.join(dir_path, "useful_list_a"))
-    printList(useful_list_b, os.path.join(dir_path, "useful_list_b"))
-    printList(equivalents_list, os.path.join(dir_path, "equivalents_distance_zero"))
+    if strategy == 's1':
+        listA, listB = strategy_s1(mutants)
+    
+    
+        print("size list A:", len(listA))
+        print("size list B:", len(listB))
+        print("size list equivalents:", len(equivalents_list))
+
+        printList(listA, os.path.join(dir_path, "useful_list_a.csv"))
+        printList(listB, os.path.join(dir_path, "useful_list_b.csv"))
+
+    elif strategy == 's2':
+        priority_lists = strategy_s2(mutants) 
+
+        for key, value in priority_lists.items():
+            printList(value, os.path.join(dir_path, "useful_list_lines_" + str(key) + ".csv"))
+    
+    elif strategy == 's3':
+        priority_lists = strategy_s3(mutants) 
+
+        for key, value in priority_lists.items():
+            printList(value, os.path.join(dir_path, "useful_list_functions_" + str(key) + ".csv"))
+
+    elif strategy == 's4':
+        random_lists = strategy_s4(mutants)
+
+        for key, value in random_lists.items():
+            printList(value, os.path.join(dir_path, "random_list_" + str(key) + ".csv"))
