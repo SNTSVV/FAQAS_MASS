@@ -6,52 +6,131 @@
 
 \section{General}
 
-% The DAMA unit test suite concerns the data-driven mutation component. It addresses its functional requirements. A single test design has been identified: it is based on the pairwise combination testing method and reported in the following sections.
+The DAMA test suite concerns the data-driven mutation API. It address its functional requirements. Three test designs have been identified. Two are based on the category partition method and target the units composing \emph{DDMutation}: \emph{DDMutationData} and \emph{DDMutationFault}.
+The other is based on the pairwise combination testing method and it target their integration.
 
-The DAMA unit test suite concerns the data-driven mutation API. It address its functional requirements. A single test design has been identified: it is based on the category partition method and reported in the following sections.
-
-
-\section{DAMA - Test Design - Data-driven Mutation - Operators}
+\section{DAMA - Test Design - Data-driven Mutation - DDMutationFault}
 
 \subsection{Test design identifier}
 
 The test design identifier is \emph{DAMA-TD-DDMutation-1}
 
-With this test design we aim to ensure that the data-driven mutation API template, which contains the data-driven mutation operators and performs the \emph{Mutate Data} activity, is implemented according to requirements of the \FAQAS.
+With this test design we aim to ensure that \emph{DDMutationFault}, which contains the implementation of the data-driven mutation operators, is implemented according to requirements of the \FAQAS.
 
 \subsection{Features to be tested}
 
-Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMA.
+\emph{DDMutationFault} implements the data-driven mutation operators.
 
-The set of data-driven mutation operators implemented in the DAMA API is composed of the following fault classes: Value Above Threshold (VAT), Value Below Threshold (VBT), Value Out of Range (VOR), Bit Flip (BF), Invalid Numeric Value (INV), Illegal Value (IV), Anomalous Signal Amplitude (ASA), Signal Shift (SS), Hold Value (HV), Array Swap (AS) and Array Random Swap (ARS).
+The set of data-driven mutation operators  is composed of the following fault classes: Value Above Threshold (VAT), Value Below Threshold (VBT), Value Out of Range (VOR), Bit Flip (BF), Invalid Numeric Value (INV), Illegal Value (IV), Anomalous Signal Amplitude (ASA), Signal Shift (SS), Hold Value (HV), Array Swap (AS) and Array Random Swap (ARS).
+Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMA.
 
 \input{tables/operators_DAMA}
 
 Each data mutation operator performs data mutation by applying a data mutation operation (e.g., set a value above the upper range value).
 Mutation operators might apply one or more data mutation operations.
 Each data mutation operator can be configured with a set of parameters describing the type and charachteristics of the fault class. These parameters, provided by the user, specify the behaviour of the operators contained in the fault model with regards to the data described in the data model.
-The parameters are: \emph{Fault Model}, \emph{Data Item}, \emph{Span}, \emph{Type}, \emph{Fault Class}, \emph{Min}, \emph{Max}, \emph{Threshold}, \emph{Delta}, \emph{State} and \emph{Value}.
-\emph{Min, Max, Threshold, Delta, State} and \emph{Value} assume a different meaning depending on the Fault Class.
-\emph{DataItem, Span} and \emph{Type} describe the position, extension and type of the data targeted by the mutation.
+
+% The parameters are: \emph{Fault Model}, \emph{Data Item}, \emph{Span}, \emph{Type}, \emph{Fault Class}, \emph{Min}, \emph{Max}, \emph{Threshold}, \emph{Delta}, \emph{State} and \emph{Value}.
+% \emph{Min, Max, Threshold, Delta, State} and \emph{Value} assume a different meaning depending on the Fault Class.
+% \emph{DataItem, Span} and \emph{Type} describe the position, extension and type of the data targeted by the mutation.
 
 \clearpage
 
 \subsection{Approach refinements}
 
-% From the previous definitions we derive the input classes to be used for the pairwise method.
-% They are \emph{Fault Class}, \emph{Data Type}, \emph{Buffer Type} and \emph{Span}.
-%
-% We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA}) and also the applied constraints (Table~\ref{table:constraints_1_DAMA}, Table~\ref{table:constraints_2_DAMA} and Table~\ref{table:constraints_3_DAMA})
-%
-%
-% \input{tables/Pairwise_Classes_DAMA.tex}
-%
-% \input{tables/Pairwise_Constraints_DAMA.tex}
-
-From the previous definitions we derive the input classes to be used for the category partition method.
-These are the input that affects the behaviour of the program in the most impactful way.
+From the previous definitions, we derive the input classes to be used for the category partition method.
+These are the input that affects the behaviour of \emph{DDMutationFault} in the most impactful way.
 Iterating on their combinations provides the best trade-off between extensive coverage and efficiency.
+They are \emph{Fault Class} and \emph{Data Type} and their possible values are represented below in tabular form (Table~\ref{table:ddmutation1_categories}).
+
+\begin{table}[h!]
+  \scriptsize
+  \centering
+  \caption{\emph{DDMutationFault} input categories and their values}
+  \label{table:ddmutation1_categories}
+\begin{tabular}{@{}ll@{}}
+  \toprule
+\textbf{Fault Class} & \textbf{Data Type} \\ \midrule
+VAT           & INT       \\
+VBT           & FLOAT     \\
+VOR           & DOUBLE    \\
+BF            & BIN       \\
+INV           & HEX       \\
+IV            & LONG      \\
+ASA           &           \\
+SS            &           \\
+HV            &           \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\section{DAMA - Test Design - Data-driven Mutation - DDMutationData}
+
+\subsection{Test design identifier}
+%
+The test design identifier is \emph{DAMA-TD-DDMutation-2}
+
+With this test design we aim to ensure that \emph{DDMutationData}, which reads and writes the data targeted by the mutation into the buffer, is implemented according to requirements of the \FAQAS.
+%
+\subsection{Features to be tested}
+
+\emph{DDMutationFault} implements the functions that read and write the data from the targeted buffer, which is implemented as an array of one of the supported C/C++ data types.
+The data type of the elements of the array must be specified by the user when generating \emph{DDMutation}.
+In the data model, the user specifies the number of elements of the array to consider using the \emph{Span} parameter and how the data will be casted prior of being mutated using the \emph{Type} parameter.
+
+
+\subsection{Approach refinements}
+%
+The input categories to be used for the category partition method are \emph{Data Type}, \emph{Buffer Type} and \emph{Span}.
+\emph{Data Type} is defined as the the value of the \emph{Type} parameter, as described in Table~\ref{table:operators_DAMA} while \emph{Buffer Type} is the C/C++ datatype used for implementing the buffer.
+
+In the following, we provide the identified categories and their respective values in tabular form (Table~\ref{table:ddmutation2_categories}).
+
+\begin{table}[h]
+  \scriptsize
+  \centering
+  \caption{\emph{DDMutationData} input categories and their values}
+  \label{table:ddmutation2_categories}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Data Type} & \textbf{Buffer Type}   & \textbf{Span}   \\ \midrule
+INT                & short int              & 1               \\
+FLOAT              & unsigned short int     & \textgreater{}1 \\
+DOUBLE             & unsigned int           &                 \\
+BIN                & int                    &                 \\
+HEX                & long int               &                 \\
+LONG               & unsigned long int      &                 \\
+                   & long long int          &                 \\
+                   & unsigned long long int &                 \\
+                   & signed char            &                 \\
+                   & unsigned char          &                 \\
+                   & float                  &                 \\
+                   & double                 &                 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
+\section{DAMA - Test Design - Data-driven Mutation - Integration}
+
+\subsection{Test design identifier}
+%
+The test design identifier is \emph{DAMA-TD-DDMutation-3}
+%
+With this test design we aim to ensure that the integration betweeen the units composing \emph{DDMutation}, which performs the \emph{Mutate Data} activity, are implemented according to requirements of the \FAQAS.
+%
+\subsection{Features to be tested}
+
+The subject of this tests is the correct integration between the two units that compose \emph{DDMutation}: \emph{DDMutationFault} and \emph{DDMutationData}.
+
+\subsection{Approach refinements}
+%
+From the previous definitions we derive the input classes to be used for the pairwise combination testing method.
 They are \emph{Fault Class}, \emph{Data Type}, \emph{Buffer Type} and \emph{Span}.
-We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA})
+% %
+We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA}) and also the applied constraints (Table~\ref{table:constraints_1_DAMA}, Table~\ref{table:constraints_2_DAMA}
+ and Table~\ref{table:constraints_3_DAMA}).
+
+The inputs for the \emph{DAMA-TD-DDMutation-3} test cases have beeen automatically generated following the method's guidelines.
 
 \input{tables/Pairwise_Classes_DAMA.tex}
+
+\input{tables/Pairwise_Constraints_DAMA.tex}

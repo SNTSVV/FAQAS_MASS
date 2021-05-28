@@ -16,14 +16,14 @@ A single procedure has been identified to perform unit testing of DAMA. It is de
 
 \subsection{Purpose}
 
-This procedure aims to execute all the test cases reported in Table~\ref{table:matrix_DAMA}.
+This procedure aims to execute all the test cases reported in Table~\ref{table:matrix_DATA}, Table~\ref{table:matrix_FAULT} and Table~\ref{table:matrix_Pairwise}.
 
 \subsection{Procedure steps}
 
 \subsubsection{Log}
 %describe any special methods or format for logging the results of test execution, the incidents observed, and any other event pertinent to this test;
 Since the test cases are executed within a console, the output of the test cases can be considered as is.
-In addition to that, every test case produces three files \texttt{<test name> compile.out"}, containing the output of the compiler, \texttt{<test name>.out}, which contains the output of the SUT, and \texttt{<test name>.valgrind.out}, containing the output of Valgrind, reporting information on eventual memory errors.
+In addition to that, every test case produces three files \texttt{<testID> compile.out}, containing the output of the compiler, \texttt{<testID>.out}, which contains the output of the SUT, and \texttt{<testID>.valgrind.out}, containing the output of Valgrind, reporting information on eventual memory errors.
 Moreover, the test procedure produces a file called \texttt{results.csv}, which contains a general summary of the results of all the test cases.
 
 \subsubsection{Set-up}
@@ -35,13 +35,14 @@ The complete test suite is executed by running the script \texttt{runTests.sh}.
 Singular test cases can be executed by running the corresponding bash script in the "test" directory (i.e \texttt{run<test name>.sh}).
 \subsubsection{Test Result Acquisition}
 Results are printed out on the console and saved in the \texttt{results.csv} file.
-Additional informations can be found in the \texttt{<test name>.compile.out} \texttt{<test name>.out} and \texttt{<test name>.valgrind.out} files, produced by all test cases.
+Additional informations can be found in the \texttt{<testID>.compile.out}, 
+\texttt{<testID>.out} and \texttt{<testID>.valgrind.out} files, produced by all test cases.
 %: describe how the test measurements is made;
 \subsubsection{Shut Down}
 Test cases are shut down through a SIGINT (i.e., pressing \texttt{CTRL-C})
 %: describe the action to suspend testing when interruption is forced by unscheduled events;
 \subsubsection{Restart}
-Test cases can be restarted from \texttt{test01} by re-running the script \texttt{runTests.sh}.
+Test cases can be restarted from the beginning by re-running the script \texttt{runTests.sh}.
 %: identify any procedural restart points and describe the actions to restart the procedure at each of these points;
 \subsubsection{Wrap-up}
 The test execution terminates autonomously, no further action is needed.

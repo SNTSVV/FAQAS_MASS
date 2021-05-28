@@ -10,8 +10,8 @@
 % \begin{table}[h]
 % \scriptsize
 % \centering
-\caption{Unit test cases for SRCMutation.}
-\label{table:matrix_DAMA} \\
+\caption{Unit test cases for \emph{DDMutationFault}.}
+\label{table:matrix_FAULT} \\
 
 \hline
 \textbf{Test ID} & \textbf{Buffer Type} & \textbf{Fault Model} & \textbf{Data Item} & \textbf{Span} & \textbf{Type} & \textbf{Fault Class} & \textbf{Min} & \textbf{Max} & \textbf{Threshold} & \textbf{Delta} & \textbf{State} & \textbf{Value}\\
@@ -190,82 +190,6 @@ test47\_1 & L. INT & IfHK & 1 & 1 & INT & ASA & 0 & 0 & 3 & 5 & 0 & 2 \\
 test47\_2 & L. INT & IfHK & 2 & 1 & INT & ASA & 0 & 0 & 3 & 5 & 0 & 2 \\
 test47\_3 & L. INT & IfHK & 3 & 1 & INT & ASA & 0 & 0 & 3 & 5 & 0 & 2 \\
 test47\_4 & L. INT & IfHK & 4 & 1 & INT & ASA & 0 & 0 & 3 & 5 & 0 & 2 \\
-test48\_0 & SHORT INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_1 & SHORT INT & IfHK & 1 & 2 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_2 & SHORT INT & IfHK & 3 & 4 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_3 & SHORT INT & IfHK & 7 & 2 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_4 & SHORT INT & IfHK & 9 & 2 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_5 & SHORT INT & IfHK & 11 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test48\_6 & SHORT INT & IfHK & 12 & 4 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_0 & UNS. SH. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_1 & UNS. SH. INT & IfHK & 1 & 2 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_2 & UNS. SH. INT & IfHK & 3 & 4 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_3 & UNS. SH. INT & IfHK & 7 & 2 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_4 & UNS. SH. INT & IfHK & 9 & 2 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_5 & UNS. SH. INT & IfHK & 11 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test49\_6 & UNS. SH. INT & IfHK & 12 & 4 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_0 & UNS. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_1 & UNS. INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_2 & UNS. INT & IfHK & 2 & 2 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_3 & UNS. INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_4 & UNS. INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test50\_5 & UNS. INT & IfHK & 6 & 2 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_0 & INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_1 & INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_2 & INT & IfHK & 2 & 2 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_3 & INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_4 & INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test51\_5 & INT & IfHK & 6 & 2 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_0 & L. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_1 & L. INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_2 & L. INT & IfHK & 2 & 1 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_3 & L. INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_4 & L. INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test52\_5 & L. INT & IfHK & 6 & 1 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_0 & UNS. L. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_1 & UNS. L. INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_2 & UNS. L. INT & IfHK & 2 & 1 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_3 & UNS. L. INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_4 & UNS. L. INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test53\_5 & UNS. L. INT & IfHK & 6 & 1 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_0 & L. L. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_1 & L. L. INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_2 & L. L. INT & IfHK & 2 & 1 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_3 & L. L. INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_4 & L. L. INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test54\_5 & L. L. INT & IfHK & 6 & 1 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_0 & UNS. L. L. INT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_1 & UNS. L. L. INT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_2 & UNS. L. L. INT & IfHK & 2 & 1 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_3 & UNS. L. L. INT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_4 & UNS. L. L. INT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test55\_5 & UNS. L. L. INT & IfHK & 6 & 1 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_0 & S. CHAR & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_1 & S. CHAR & IfHK & 1 & 4 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_2 & S. CHAR & IfHK & 5 & 8 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_3 & S. CHAR & IfHK & 14 & 4 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_4 & S. CHAR & IfHK & 19 & 4 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_5 & S. CHAR & IfHK & 24 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test56\_6 & S. CHAR & IfHK & 29 & 4 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_0 & UNS. CHAR & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_1 & UNS. CHAR & IfHK & 1 & 4 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_2 & UNS. CHAR & IfHK & 5 & 8 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_3 & UNS. CHAR & IfHK & 14 & 4 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_4 & UNS. CHAR & IfHK & 19 & 4 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_5 & UNS. CHAR & IfHK & 24 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test57\_6 & UNS. CHAR & IfHK & 29 & 4 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_0 & FLOAT & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_1 & FLOAT & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_2 & FLOAT & IfHK & 2 & 2 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_3 & FLOAT & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_4 & FLOAT & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test58\_5 & FLOAT & IfHK & 6 & 2 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_0 & DOUBLE & IfHK & 0 & 1 & INT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_1 & DOUBLE & IfHK & 1 & 1 & FLOAT & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_2 & DOUBLE & IfHK & 2 & 1 & DOUBLE & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_3 & DOUBLE & IfHK & 4 & 1 & HEX & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_4 & DOUBLE & IfHK & 5 & 1 & BIN & BF & 0 & 0 & 0 & 0 & 0 & 0 \\
-test59\_5 & DOUBLE & IfHK & 6 & 1 & LONG & SS & 0 & 0 & 0 & 0 & 0 & 0 \\
 \hline
 \end{longtable}
 \normalsize

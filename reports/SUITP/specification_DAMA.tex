@@ -5,11 +5,16 @@
 
 \section{General}
 
-Table~\ref{table:matrix_DAMA} provides the list of unit test cases derived based on the procedure described in Chapter~\ref{chap:spec_DAMA}.
+Table~\ref{table:matrix_DATA} and Table~\ref{table:matrix_FAULT} provide the list of unit test cases derived based on the procedures described in Chapter~\ref{chap:design_DAMA}, respectively for \emph{DDMutationData} and \emph{DDMutationFault}.
+Table~\ref{table:matrix_Pairwise}, provides the list of test cases for their integration.
 
 % Column \emph{Test ID} refers to the test folder and executable numbers: \emph{test01\_1}, for example, refers to the executable \texttt{main_1} in the \texttt{test01} directory.
 \emph{Buffer Type} contains information on the C datatype used for the element of the buffer targeted by the mutation.
 \emph{Fault Model} indicates the name chosen for the fault model.\
 The remaining columns (i.e. \emph{Data Item}, \emph{Type}, \emph{Fault Class}, \emph{Min}, \emph{Max}, \emph{Threshold}, \emph{Delta}, \emph{State}  and \emph{Value}) contain the parameters describing the fault class, and were chosen to be representative of the real life use-cases.
 
-\input{tables/matrix_DAMA}
+\input{tables/matrixDDMData.tex}
+
+\input{tables/matrixDDMFault.tex}
+
+\input{tables/matrixPAIRWISE.tex}

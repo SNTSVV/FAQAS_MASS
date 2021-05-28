@@ -1,0 +1,95 @@
+% !TEX root = ../MAIN.tex
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\scriptsize
+
+% \begin{longtable}{|p{1cm}|l|p{1cm}|p{0.6cm}|p{0.6cm}|p{1cm}|p{0.6cm}|p{0.5cm}|p{0.5cm}|l|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+\begin{longtable}{|l|l|l|l|l|l|}
+
+% \begin{table}[h]
+% \scriptsize
+% \centering
+\caption{Test cases for the integration of \emph{DDMutationData} and \emph{DDMutationFault} .}
+\label{table:matrix_Pairwise} \\
+
+\hline
+\textbf{Test ID} & \textbf{Buffer Type} & \textbf{Fault Model} & \textbf{Fault Class} & \textbf{Data Type} & \textbf{Span}\\
+\hline
+test60\_0 & double & Pairwise & SS & DOUBLE & 1 \\
+test61\_0 & float & Pairwise & VAT & FLOAT & 1 \\
+test62\_0 & int & Pairwise & VAT & FLOAT & 1 \\
+test62\_1 & int & Pairwise & VBT & INT & 1 \\
+test62\_2 & int & Pairwise & IV & LONG & \textgreater{}1 \\
+test62\_3 & int & Pairwise & ASA & HEX & 1 \\
+test62\_4 & int & Pairwise & SS & DOUBLE & \textgreater{}1 \\
+test62\_5 & int & Pairwise & HV & FLOAT & \textgreater{}1 \\
+test62\_6 & int & Pairwise & VBT & LONG & 1 \\
+test62\_7 & int & Pairwise & VOR & HEX & 1 \\
+test62\_8 & int & Pairwise & INV & DOUBLE & \textgreater{}1 \\
+test63\_0 & long int & Pairwise & VAT & HEX & 1 \\
+test63\_1 & long int & Pairwise & VOR & FLOAT & 1 \\
+test63\_2 & long int & Pairwise & SS & LONG & 1 \\
+test64\_0 & long long int & Pairwise & VAT & HEX & 1 \\
+test64\_1 & long long int & Pairwise & VOR & FLOAT & 1 \\
+test64\_2 & long long int & Pairwise & INV & INT & 1 \\
+test64\_3 & long long int & Pairwise & ASA & LONG & 1 \\
+test64\_4 & long long int & Pairwise & HV & DOUBLE & 1 \\
+test65\_0 & short int & Pairwise & INV & HEX & \textgreater{}1 \\
+test65\_1 & short int & Pairwise & IV & DOUBLE & 1 \\
+test65\_2 & short int & Pairwise & ASA & FLOAT & \textgreater{}1 \\
+test65\_3 & short int & Pairwise & SS & INT & 1 \\
+test65\_4 & short int & Pairwise & HV & LONG & 1 \\
+test65\_5 & short int & Pairwise & HV & BIN & \textgreater{}1 \\
+test65\_6 & short int & Pairwise & VAT & DOUBLE & 1 \\
+test65\_7 & short int & Pairwise & VBT & DOUBLE & 1 \\
+test65\_8 & short int & Pairwise & VOR & INT & 1 \\
+test65\_9 & short int & Pairwise & VOR & FLOAT & \textgreater{}1 \\
+test65\_10 & short int & Pairwise & INV & INT & 1 \\
+test66\_0 & signed char & Pairwise & VBT & LONG & \textgreater{}1 \\
+test66\_1 & signed char & Pairwise & INV & DOUBLE & \textgreater{}1 \\
+test66\_2 & signed char & Pairwise & IV & FLOAT & 1 \\
+test66\_3 & signed char & Pairwise & ASA & INT & \textgreater{}1 \\
+test66\_4 & signed char & Pairwise & HV & BIN & 1 \\
+test66\_5 & signed char & Pairwise & VAT & HEX & 1 \\
+test66\_6 & signed char & Pairwise & VBT & DOUBLE & \textgreater{}1 \\
+test66\_7 & signed char & Pairwise & VOR & FLOAT & 1 \\
+test66\_8 & signed char & Pairwise & INV & INT & \textgreater{}1 \\
+test67\_0 & unsigned char & Pairwise & INV & HEX & 1 \\
+test67\_1 & unsigned char & Pairwise & IV & DOUBLE & \textgreater{}1 \\
+test67\_2 & unsigned char & Pairwise & ASA & FLOAT & 1 \\
+test67\_3 & unsigned char & Pairwise & SS & INT & 1 \\
+test67\_4 & unsigned char & Pairwise & HV & BIN & \textgreater{}1 \\
+test67\_5 & unsigned char & Pairwise & BF & BIN & 1 \\
+test67\_6 & unsigned char & Pairwise & VAT & LONG & \textgreater{}1 \\
+test67\_7 & unsigned char & Pairwise & VBT & HEX & 1 \\
+test67\_8 & unsigned char & Pairwise & VOR & DOUBLE & \textgreater{}1 \\
+test67\_9 & unsigned char & Pairwise & INV & FLOAT & 1 \\
+test68\_0 & unsigned int & Pairwise & VBT & FLOAT & 1 \\
+test68\_1 & unsigned int & Pairwise & ASA & LONG & 1 \\
+test68\_2 & unsigned int & Pairwise & SS & HEX & \textgreater{}1 \\
+test68\_3 & unsigned int & Pairwise & HV & DOUBLE & 1 \\
+test68\_4 & unsigned int & Pairwise & VAT & INT & 1 \\
+test68\_5 & unsigned int & Pairwise & VOR & LONG & \textgreater{}1 \\
+test68\_6 & unsigned int & Pairwise & INV & HEX & 1 \\
+test69\_0 & unsigned long int & Pairwise & VBT & HEX & 1 \\
+test69\_1 & unsigned long int & Pairwise & INV & FLOAT & 1 \\
+test69\_2 & unsigned long int & Pairwise & HV & LONG & 1 \\
+test69\_3 & unsigned long int & Pairwise & VBT & FLOAT & 1 \\
+test70\_0 & unsigned long long int & Pairwise & VBT & HEX & 1 \\
+test70\_1 & unsigned long long int & Pairwise & VOR & DOUBLE & 1 \\
+test70\_2 & unsigned long long int & Pairwise & IV & INT & 1 \\
+test70\_3 & unsigned long long int & Pairwise & SS & LONG & 1 \\
+test71\_0 & unsigned short int & Pairwise & INV & LONG & 1 \\
+test71\_1 & unsigned short int & Pairwise & IV & HEX & \textgreater{}1 \\
+test71\_2 & unsigned short int & Pairwise & ASA & DOUBLE & 1 \\
+test71\_3 & unsigned short int & Pairwise & SS & FLOAT & \textgreater{}1 \\
+test71\_4 & unsigned short int & Pairwise & HV & INT & 1 \\
+test71\_5 & unsigned short int & Pairwise & BF & BIN & \textgreater{}1 \\
+test71\_6 & unsigned short int & Pairwise & VAT & LONG & 1 \\
+test71\_7 & unsigned short int & Pairwise & VBT & HEX & \textgreater{}1 \\
+test71\_8 & unsigned short int & Pairwise & VOR & DOUBLE & 1 \\
+test71\_9 & unsigned short int & Pairwise & INV & FLOAT & 1 \\
+\hline
+\end{longtable}
+\normalsize
