@@ -21,4 +21,9 @@ when generating a test to kill a mutant. (This is implemented in the source code
 [7d19d05](https://github.com/thierry-tct/KLEE-SEMu/commit/7d19d050b967e741f9d215b41f7d51070bfad0a2),
 [3b0bf1f](https://github.com/thierry-tct/KLEE-SEMu/commit/3b0bf1f548b5f7130768f8495916c98c16034f8c#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5)).
 
+## Install dependencies
 
+Install dependencies (tested on ubuntu) using the following command:
+```
+./install_requirements.sh
+```
