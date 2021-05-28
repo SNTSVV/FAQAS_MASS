@@ -35,8 +35,8 @@ echo "## Total live mutants: $live"  2>&1 | tee -a $RESULT_FILE
 echo "## Total likely equivalent mutants: $zero" 2>&1 | tee -a $RESULT_FILE
 echo "## MASS mutation score (%): $MASS_ms"  2>&1 | tee -a $RESULT_FILE
 
-echo "## List A of useful undetected mutants: $APP_RUN_DIR/DETECTION/test_runs/useful_list_a"  2>&1 | tee -a $RESULT_FILE
-echo "## List B of useful undetected mutants: $APP_RUN_DIR/DETECTION/test_runs/useful_list_b"  2>&1 | tee -a $RESULT_FILE
+echo "## List A of useful undetected mutants: $APP_RUN_DIR/DETECTION/test_runs/useful_list_a.csv"  2>&1 | tee -a $RESULT_FILE
+echo "## List B of useful undetected mutants: $APP_RUN_DIR/DETECTION/test_runs/useful_list_b.csv"  2>&1 | tee -a $RESULT_FILE
 
 source $MASS/FAQAS-MutationScore/statement_coverage.sh $APP_RUN_DIR/COV_FILES/coverage.txt.overall
 
