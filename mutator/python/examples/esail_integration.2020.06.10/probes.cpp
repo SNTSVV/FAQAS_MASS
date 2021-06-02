@@ -269,24 +269,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetMgtmTm(newBlock);
 
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-                  //probe MMTXfailure (wrong name on the document?)
-                  FaultModel *fm = _FAQAS_MMTXFailure_FM();
-                  mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe MMTX (wrong name on the document?)
-                  FaultModel *fm = _FAQAS_MMTX_FM();
-                  mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                //END PROBES
-
-
             }
             break;
             default:
@@ -656,14 +638,10 @@ void AdcsIf::Configure(::Smp::Services::ILogger* logger)
     _FAQAS_IfHK_FM();
     _FAQAS_GYTMFailure_FM();
     _FAQAS_GYTM_FM();
-    _FAQAS_MMTXFailure_FM();
-    _FAQAS_MMTX_FM();
     _FAQAS_SunSensorTMFailure_FM();
     _FAQAS_SunSensorTM_FM();
     _FAQAS_SSTP_FM();
     _FAQAS_SSTPFailure_FM();
-    _FAQAS_ReactionWheelTXFailure_FM();
-    _FAQAS_ReactionWheelTX_FM();
     _FAQAS_SpaceCraftHKFailure_FM();
     _FAQAS_SpaceCraftHK_FM();
     _FAQAS_MagnetorquerSetPWMRSPFailure_FM();

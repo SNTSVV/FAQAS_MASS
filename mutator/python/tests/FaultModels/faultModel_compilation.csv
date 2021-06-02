@@ -1,0 +1,5 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+General,0,1,LONG,SS,0,0,0,100,0,0
+General,0,1,LONG,SS,0,0,0,1000,0,0
+General,0,1,LONG,SS,0,0,0,10,0,0
+General,0,1,LONG,SS,0,0,0,69696969,0,0

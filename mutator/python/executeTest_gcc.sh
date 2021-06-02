@@ -59,11 +59,11 @@ fi
 
 x=-1
 while [ $x -le $operations ]; do
-    # g++ -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
+    # gcc -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} COMPILING..."
 
-    g++ $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    gcc $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
     echo "OPERATION ${x} RUNNING..."
 
     valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1

@@ -32,7 +32,7 @@ void coverage_exit(void) {
 }
 
 FILE* handleCoverage() {
-    
+
     if ( MUTATION != -2 )
         return 0;
 
@@ -41,7 +41,7 @@ FILE* handleCoverage() {
     if (_FAQAS_COVERAGE_EXIT == 0) {
         _FAQAS_COVERAGE_EXIT = 1;
         // if there is no support for atexit, or if the system never exit,
-        // this line of code should be commented out and "coverage_exit" 
+        // this line of code should be commented out and "coverage_exit"
         // shall be manually invoked where appropriate
         atexit(coverage_exit);
     }
@@ -103,11 +103,21 @@ typedef struct FaultModel FaultModel;
 
 struct FaultModel *_FAQAS_create_FM(int items) {
 
+  #ifdef __cplusplus
+
   struct FaultModel *dm = new struct FaultModel;
 
   dm->itemsN = items;
 
   dm->items = new DataItem[items];
+
+  #else
+
+  struct FaultModel *dm = (struct FaultModel *) malloc ( sizeof( *dm ) );
+
+  dm->items = (struct DataItem *) malloc( sizeof ( struct DataItem ) * items );
+
+  #endif
 
   return dm;
 }
@@ -116,11 +126,26 @@ void __FAQAS_delete_FM(FaultModel *dm) {
   if (dm == 0)
     return;
 
-  delete[] dm->items;
-  dm->items = 0;
+    #ifdef __cplusplus
 
-  delete dm;
-  dm = 0;
+    delete[] dm->items;
+
+    dm->items = 0;
+
+    delete dm;
+
+    #else
+
+    free( dm->items );
+
+    free( dm );
+
+    dm->items=0;
+    dm = 0;
+
+    #endif
+
+  
 
   //_FAQAS_"+FM+"_FM_ptr != 0
 
