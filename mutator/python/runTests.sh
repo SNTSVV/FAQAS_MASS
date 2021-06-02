@@ -24,6 +24,7 @@ do
 
   pushd tests
 
+  bash runTest_compilation.sh
   bash runTest01.sh
   bash runTest02.sh
   bash runTest03.sh
