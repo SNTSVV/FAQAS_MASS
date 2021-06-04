@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include "FAQAS_dataDrivenMutator.h"
+#include <stdio.h>
+
 
 //mutate function
 int mutate(long long int *v , FaultModel *fm ){
