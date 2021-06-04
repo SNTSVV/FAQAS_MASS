@@ -17,6 +17,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
    _FAQAS_fmCoverage(fm->ID);
 
+   FILE *coverage_file_pointer = handleCoverage();
+
     fprintf(coverage_file_pointer, "fm.ID: %d\n", fm->ID);
 
     return 0;
@@ -211,7 +213,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = pow(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
 
           flipped = valueBin | mask;
 
@@ -240,7 +242,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = pow(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
 
           flipped = valueBin & ~mask;
 
@@ -269,7 +271,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
           randomPosition = (rand() % (Max - Min + 1)) + Min;
 
-          mask = pow(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
 
           flipped = valueBin & ~mask;
 

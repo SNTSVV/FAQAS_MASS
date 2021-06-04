@@ -18,23 +18,28 @@
 #define MAX_OPS 200
 #define ITEMS 10
 
+//macros to define at compilation
 int MUTATION = MUTATIONOPT;
 
 int _FAQAS_COVERAGE_EXIT = 0;
 
 FILE* handleCoverage();
 
-const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
-FILE *coverage_file_pointer = handleCoverage();
 
 void coverage_exit(void) {
-    fclose(coverage_file_pointer);
+
+  //FILE *coverage_file_pointer = handleCoverage();
+
+    fclose(handleCoverage());
+
 }
 
 FILE* handleCoverage() {
 
     if ( MUTATION != -2 )
         return 0;
+
+  const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
 
    FILE* ptr = fopen(faqas_coverage_file, "ab+");
 
@@ -126,30 +131,25 @@ void __FAQAS_delete_FM(FaultModel *dm) {
   if (dm == 0)
     return;
 
-    #ifdef __cplusplus
+  #ifdef __cplusplus
 
-    delete[] dm->items;
+  delete[] dm->items;
 
-    dm->items = 0;
+  dm->items = 0;
 
-    delete dm;
+  delete dm;
 
-    #else
+  #else
 
-    free( dm->items );
+  free( dm->items );
 
-    free( dm );
+  free( dm );
 
-    dm->items=0;
-    dm = 0;
+  // dm->items=0;
+  // dm = 0;
 
-    #endif
+  #endif
 
-  
-
-  //_FAQAS_"+FM+"_FM_ptr != 0
-
-  //&__FAQAS_IfHK_FM
 }
 
 
