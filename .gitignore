@@ -60,3 +60,6 @@ Vagrantfile
 mutator/python/all_results.csv
 mutator/python/results_SINGLETON.csv
 mutator/python/results_NORMAL.csv
+mutator/python/tests/test_compilation/FMcoverage2.py
+mutator/python/tests/test_compilation/FMCoverageReport_test_compilation.csv
+mutator/python/tests/test_compilation/hlreport.csv
