@@ -12,8 +12,6 @@
 // time.h is  included for seeding the INV random number generator in the footer
 #include <time.h>
 
-// math.h is included for the INV (normal distribution) and for the BF operator
-#include <math.h>
 
 #define MAX_OPS 200
 #define ITEMS 10
@@ -27,8 +25,6 @@ FILE* handleCoverage();
 
 
 void coverage_exit(void) {
-
-  //FILE *coverage_file_pointer = handleCoverage();
 
     fclose(handleCoverage());
 
@@ -62,6 +58,24 @@ double faqas_abs(double a) {
 }
 
 int faqas_double_equal(double a, double b) { return faqas_abs(a - b) < 1E-3; }
+
+unsigned long long int FAQAS_pow_substitute(int base, int power){
+  //this function substitutes "pow" so that including math.h is not needed
+  if(power < 0){
+    return 0;
+  }
+
+  unsigned long long int result=1;
+
+  if(power >= 0){
+    int step;
+    for ( step=1; step <= power; step=step+1 ) {
+      result= result * base;
+    }
+  }
+  return result;
+}
+
 
 enum DataType { INT, FLOAT, DOUBLE, BIN, LONG };
 
@@ -180,11 +194,11 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
   int i = sliceStart;
   unsigned long long slice = 0;
   while (i <= sliceEnd) {
-    unsigned long long mask = pow(2, i);
+    unsigned long long mask = FAQAS_pow_substitute(2, i);
     unsigned long long relevant = numberToSlice & mask;
 
     if (relevant == mask) {
-      unsigned long long knife = pow(2, i - sliceStart);
+      unsigned long long knife = FAQAS_pow_substitute(2, i - sliceStart);
       slice = slice | knife;
     }
     i = i + 1;
@@ -200,7 +214,7 @@ void _FAQAS_print_binary(unsigned long long n) {
 
   while (steps >= 0) {
 
-    unsigned long long mask = pow(2, steps);
+    unsigned long long mask = FAQAS_pow_substitute(2, steps);
 
     unsigned long long relevant = n & mask;
 
