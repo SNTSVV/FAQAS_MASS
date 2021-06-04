@@ -63,7 +63,7 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} COMPILING..."
 
-    gcc $extra -DMUTATIONOPT=$x ${curTest}.c -std=c++11 -g -o main_$x >> $compilerOutFile 2>&1
+    gcc -g $extra -DMUTATIONOPT=$x ${curTest}.c  -o main_$x -lm >> $compilerOutFile 2>&1
     echo "OPERATION ${x} RUNNING..."
 
     valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
