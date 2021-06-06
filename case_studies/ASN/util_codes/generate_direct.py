@@ -7,6 +7,12 @@ import argparse
 
 import clang.cindex
 
+class Prototype:
+    return_type = None
+    function_name = None
+    # list of tuples of: def type
+    params_type_name = []
+
 def get_prototype(func_decl):
     pass
 
@@ -27,7 +33,7 @@ def main():
     parser.add_argument("compilation_db", metavar="compilation-db", help="Compilation database file")
     parser.add_argument("source_file", metavar="source-file", help="source file containing the functions to test (all defined functions)")
     args = parser.parse_args()
-    get_function_prototypes(args.source_file, args.compilation_db)
+    prototypes = get_function_prototypes(args.source_file, args.compilation_db)
 
 if __name__ == "__main__":
     main()
