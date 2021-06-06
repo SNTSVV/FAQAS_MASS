@@ -7,6 +7,9 @@ import argparse
 
 import clang.cindex
 
+def get_prototype(func_decl):
+    pass
+
 def get_function_prototypes(source_file, compilation_db):
     index = clang.cindex.create()
     translation_unit = index.parse(source_file)
@@ -14,6 +17,9 @@ def get_function_prototypes(source_file, compilation_db):
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
             func_definitions.append(list(elem.get_children())[0])
+    function_protos = []
+    for fp in func_definitions:
+        function_protos.append(get_prototype(fp))
     
 
 def main():
