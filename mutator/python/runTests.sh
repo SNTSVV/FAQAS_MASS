@@ -2,8 +2,8 @@
 
 rm results.csv
 
-for c in "NORMAL" "SINGLETON";
-
+# for c in "NORMAL" "SINGLETON";
+for c in "SINGLETON";
 do
 
   if [ $c = "SINGLETON" ]; then
@@ -66,14 +66,13 @@ do
   bash runTest40.sh
   #bash runTest41.sh
   bash runTest42.sh
-  bash runTest43.sh
-  # bash runTest44.sh
+  #bash runTest43.sh
+  #bash runTest44.sh
   bash runTest45.sh
   bash runTest46.sh
   bash runTest47.sh
   bash runTest48.sh
   bash runTest49.sh
-
   bash runTest50.sh
   bash runTest51.sh
   bash runTest52.sh
