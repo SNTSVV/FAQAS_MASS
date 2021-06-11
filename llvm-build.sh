@@ -25,6 +25,9 @@ mv llvm-3.8.1.src $LLVM_DIR
 mv compiler-rt-3.8.1.src $LLVM_DIR/projects/compiler-rt
 mv cfe-3.8.1.src $LLVM_DIR/tools/clang
 
+# TCT patch
+sed -i'' 's|bool hasMD() const { return MDMap; }|bool hasMD() const { return bool(MDMap); }|g' $LLVM_DIR/include/llvm/IR/ValueMap.h
+
 # build llvm
 rm -rf  $LLVM_BUILD
 mkdir $LLVM_BUILD

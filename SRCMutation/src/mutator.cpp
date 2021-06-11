@@ -50,6 +50,34 @@ static bool AllOps = false;
 std::map<int, std::string> mapFunctions;
 std::map<Replacement, int> mapReplacements;
 
+#define GENERATE_META_MU
+
+#ifdef GENERATE_META_MU
+std::string metaMuInfoOutFile("meta-mu.info");
+std::map<Replacement, Replacement> metaMuInfo;
+CompilerInstance *metaMuUsedCompilerInstance;
+void processMetaMuExpr(Replacement &rep, const Stmt *stmt, const MatchFinder::MatchResult &res, CompilerInstance *CI=nullptr, bool useAstParent=false) {
+    if (useAstParent) {
+        const auto& parents = (res.Context)->getParents(*stmt);
+        if (parents.empty())
+            return;
+        stmt = parents[0].get<Stmt>();
+        if (!stmt) 
+            return;
+    }
+
+    bool invalid;
+    if (!CI)
+        CI = metaMuUsedCompilerInstance;
+    auto sr = stmt->getSourceRange();
+    auto start_ = sr.getBegin();
+    auto end_ = sr.getEnd();
+    CharSourceRange statementRange = CharSourceRange::getTokenRange(start_, end_);
+    StringRef str = Lexer::getSourceText(statementRange, *(res.SourceManager), CI->getLangOpts(), &invalid);
+    Replacement accRep(*(res.SourceManager), start_, str.str().size(), std::string());
+    metaMuInfo[rep] = accRep;
+}
+#endif
 
 class StmntHandler : public MatchFinder::MatchCallback {
 
@@ -388,6 +416,11 @@ public:
 			Replacement RepR(*(Result.SourceManager), BinOp->getOperatorLoc(), totalRightSize, MutatedString);
 			Replace->insert(RepR);
 			mapReplacements[RepR] = 2;
+
+#ifdef GENERATE_META_MU
+            processMetaMuExpr(RepL, BinOp, Result, CI);
+            processMetaMuExpr(RepR, BinOp, Result, CI);
+#endif
 		}
 	}
 
@@ -445,6 +478,9 @@ public:
 				Replacement Rep(*(Result.SourceManager), BinOp->getOperatorLoc(), Size, MutationOp);
 				Replace->insert(Rep);
 				mapReplacements[Rep] = localMap[MutationOp];
+#ifdef GENERATE_META_MU
+                processMetaMuExpr(Rep, BinOp, Result);
+#endif
 			}
 		}
 	}
@@ -501,6 +537,9 @@ public:
 				Replacement Rep(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "-(" + Value + ")");
 				Replace->insert(Rep);
 				mapReplacements[Rep] = 1;
+#ifdef GENERATE_META_MU
+                processMetaMuExpr(Rep, declRefExpr, Result, CI, true);
+#endif
 			} else if (Op == "UOI") {
 				Replacement Rep1(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(--" + Value + ")");
 				Replacement Rep2(*(Result.SourceManager), declRefExpr->getLocStart(), Value.size(), "(" + Value + "--)");
@@ -515,6 +554,12 @@ public:
 				mapReplacements[Rep2] = 2;
 				mapReplacements[Rep3] = 3;
 				mapReplacements[Rep4] = 4;
+#ifdef GENERATE_META_MU
+                processMetaMuExpr(Rep1, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep2, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep3, declRefExpr, Result, CI, true);
+                processMetaMuExpr(Rep4, declRefExpr, Result, CI, true);
+#endif
 			}
 		}
 	}
@@ -568,7 +613,11 @@ bool applyReplacement(const Replacement &Replace, Rewriter &Rewrite) {
 }
 
 
-void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr){
+void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::string ext, std::string srcDir, SourceManager& SourceMgr, CompilerInstance& TheCompInst, FileManager& FileMgr
+#ifdef GENERATE_META_MU
+        , bool noDumpMutantFiles=false
+#endif
+){
 	int x = 0;
 
 	int previousLineNumber = 0;
@@ -614,6 +663,35 @@ void Mutate(Replacements& repl, std::string NameSuffix, std::string tool, std::s
 				std::ofstream out_file;
 				std::string outFileName = srcDir + "/" + tool + ".mut." + std::to_string(lineNumber) + "." +  id + "." + NameSuffix + "." + function + ext;
 				if (access(outFileName.c_str(), F_OK) == -1) {
+#ifdef GENERATE_META_MU
+                    // Write semu info
+                    static bool firstTime = true;
+                    if (firstTime) {
+					    out_file.open(srcDir + "/" + metaMuInfoOutFile);
+                        firstTime = false;
+                        out_file << "MUTANT_FILE" << "," << "START_LINE" << "," << "START_COL" << "," << "SIZE" << "\n";
+                    } else {
+					    out_file.open(srcDir + "/" + metaMuInfoOutFile, std::ios_base::app);
+                    }
+                    unsigned startLine, startCol, size;
+                    auto iit = metaMuInfo.find(r);
+                    if (iit != metaMuInfo.end()) {
+                        mutloc = startLoc.getLocWithOffset((iit->second).getOffset());
+                        startLine = SourceMgr.getSpellingLineNumber(mutloc);
+                        startCol = SourceMgr.getSpellingColumnNumber(mutloc);
+                        size = (iit->second).getLength();
+                    } else {
+                        startLine = lineNumber;
+                        startCol = colNumber;
+                        size = r.getLength();
+                    }
+					out_file << (tool + ".mut." + std::to_string(lineNumber) + "." + id + "." +  NameSuffix + "." + function + ext)
+                                << "," << startLine << "," << startCol << "," << size << "\n"; 
+					out_file.close();
+                    
+                    if (noDumpMutantFiles)
+                        continue;
+#endif
 					out_file.open(outFileName);
 					out_file << std::string(RewriteBuf->begin(), RewriteBuf->end());
 					out_file.close();
@@ -708,6 +786,9 @@ int main(int argc, const char **argv) {
 	TheCompInst.createPreprocessor(TU_Module);
 	TheCompInst.createASTContext();
 
+#ifdef GENERATE_META_MU
+    metaMuUsedCompilerInstance = &TheCompInst;
+#endif
 
 	// Set up AST matcher callbacks.
 
@@ -919,6 +1000,14 @@ int main(int argc, const char **argv) {
 		} else {
 			Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr);
 		}
+#ifdef GENERATE_META_MU
+    else
+		if (int Result = SSDLTool.run(newFrontendActionFactory(&SSDLFinder).get())) {
+			failed = 1;
+		} else {
+			Mutate(SSDLTool.getReplacements(), "SDL", CurrTool, Ext, SrcDir, SourceMgr, TheCompInst, FileMgr, true);
+		}
+#endif
 	if (AllOps || OpSet.find("UOI") != OpSet.end())
 		if (int Result = UOITool.run(newFrontendActionFactory(&UOIFinder).get())) {
 			failed = 1;
