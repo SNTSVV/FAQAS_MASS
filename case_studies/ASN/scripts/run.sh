@@ -147,6 +147,7 @@ if [ $phase -le 3 ]; then
         for category in `ls $make_sym_to_append_top_dir`
         do
             category_dir=$make_sym_to_append_top_dir/$category
+            test -d $category_dir || continue
             for func_template in `ls $category_dir`
             do
                 func_name=$(echo $func_template | cut -d'.' -f1)
