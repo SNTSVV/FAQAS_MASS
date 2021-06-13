@@ -27,20 +27,23 @@ int main(int argc, char** argv)
 {% endfor %}
 {% for arg_name in input_arg_name_list %}
     klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}");
-{% endfor %}}
+{% endfor %}
 
     result_faqas_semu = {{ function_name }}}({{ call_args_list|join(", ") }});
-    {{ output_out_arg }}
+{%for ooa in output_out_args %}
+    {{ ooa }}
+{% endfor %}
     return {{ result_faqas_semu_to_int }};
 }
 
 """
 
 class Prototype:
-    return_type = None
-    function_name = None
-    # list of tuples of: def type
-    params_type_name = []
+    def __init__(self, return_type, function_name, params_name_and_decl):
+        self.return_type = return_type
+        self.function_name = function_name
+        # list of tuples of: def type
+        self.params_name_and_decl = params_name_and_decl
 
     @staticmethod
     def type_is_ptr(arg_decl):
@@ -53,8 +56,17 @@ class Prototype:
             return arg_decl
         return arg_decl[:last_star_index] + ' ' + arg_decl[last_star_index + 1:]
 
+    def get_call_args_list(self):
+        pass #TODO
+
+    def get_arg_ptr_stripped_decl_list(self):
+        return [self.get_ptr_stripped(arg_decl) for _, arg_decl in self.params_name_and_decl]
+
+    def get_argname_list(self, discard=[]):
+        return [arg_name for arg_name, _ in self.params_name_and_decl if arg_name not in discard]
+
 def get_prototype(func_decl):
-    pass
+    pass #TODO
 
 def get_function_prototypes(source_file, compilation_db):
     index = clang.cindex.create()
@@ -66,7 +78,11 @@ def get_function_prototypes(source_file, compilation_db):
     function_protos = []
     for fp in func_definitions:
         function_protos.append(get_prototype(fp))
-    
+    return function_protos
+
+OUT_ARGS = {"errCode": 'printf("%d\n", errCode);'}
+RESULT_TYPE = "flag"
+RESULT_TO_INT = "(int)result_faqas_semu"
 
 def main():
     parser = argparse.ArgumentParser()
@@ -85,8 +101,34 @@ def main():
 
     for prototype in prototypes:
         code_filepath = os.path.join(args.output_dir, prototype.function_name + '.' + "wrapping_main.c")
+        # checks
+        ## check 1
+        ooa_left = set(OUT_ARGS.keys()) - set(prototype.get_argname_list())
+        if len(ooa_left) > 0:
+            used_out_args = {k:v for k,v inO OUT_ARGS.items() if k not in ooa_left}
+            print("warning: specified ooa are not all used. There are not used: ".format(ooa_left))
+        else:
+            used_out_args = dict(OUT_ARGS)
+        ## check2
+        if prototype.return_type != RESULT_TYPE:
+            res_to_int = input("The function return type for function '{}' is not '{}' but is '{}'. {}".format(
+                    prototype.function_name,
+                    RESULT_TYPE,
+                    prototype.return_type,
+                    "Input the conversion to int for variable 'result_faqas_semu': "
+                )
+            )
+        else:
+            res_to_int = RESULT_TO_INT
+
         code = Template(USED_TEMPLATE).render(
-            something="World"
+            function_return_type=prototype.return_type,
+            arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
+            input_arg_name_list=prototype.get_argname_list(discard=set(used_out_args.keys())),
+            function_name=prototype.function_name,
+            call_args_list=[('&'+arg if prototype.type_is_ptr(decl) else arg) for arg, decl in prototype.params_name_and_decl],
+            output_out_arg=list(used_out_args.values()),
+            result_faqas_semu_to_int=res_to_int
         )
         with open(code_filepath) as f:
             f.write(code)
