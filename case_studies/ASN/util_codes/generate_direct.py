@@ -72,7 +72,7 @@ def get_prototype(func_decl):
     return Prototype(ret_type, func_name, params_name_decl)
 
 def get_function_prototypes(source_file, compilation_db):
-    index = clang.cindex.create()
+    index = clang.cindex.Index.create()
     translation_unit = index.parse(source_file)
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
