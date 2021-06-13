@@ -57,7 +57,7 @@ class Prototype:
         return arg_decl[:last_star_index] + ' ' + arg_decl[last_star_index + 1:]
 
     def get_call_args_list(self):
-        pass #TODO
+        return [('&'+arg if self.type_is_ptr(decl) else arg) for arg, decl in self.params_name_and_decl]
 
     def get_arg_ptr_stripped_decl_list(self):
         return [self.get_ptr_stripped(arg_decl) for _, arg_decl in self.params_name_and_decl]
@@ -126,7 +126,7 @@ def main():
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
             input_arg_name_list=prototype.get_argname_list(discard=set(used_out_args.keys())),
             function_name=prototype.function_name,
-            call_args_list=[('&'+arg if prototype.type_is_ptr(decl) else arg) for arg, decl in prototype.params_name_and_decl],
+            call_args_list=prototype.get_call_args_list(),
             output_out_arg=list(used_out_args.values()),
             result_faqas_semu_to_int=res_to_int
         )
