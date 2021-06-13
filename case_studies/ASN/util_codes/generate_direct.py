@@ -45,30 +45,48 @@ class Prototype:
         # list of tuples of: def type
         self.params_name_and_decl = params_name_and_decl
 
-    @staticmethod
-    def type_is_ptr(arg_decl):
-        return '*' in arg_decl
-
-    @staticmethod
-    def get_ptr_stripped(arg_decl):
-        last_star_index = arg_decl.rfind("*")
-        if last_star_index < 0:
-            return arg_decl
-        return arg_decl[:last_star_index] + ' ' + arg_decl[last_star_index + 1:]
-
     def get_call_args_list(self):
-        return [('&'+arg if self.type_is_ptr(decl) else arg) for arg, decl in self.params_name_and_decl]
+        return [tup[4] for tup in self.params_name_and_decl]
 
     def get_arg_ptr_stripped_decl_list(self):
-        return [self.get_ptr_stripped(arg_decl) for _, arg_decl in self.params_name_and_decl]
+        return [tup[3] for tup in self.params_name_and_decl]
 
     def get_argname_list(self, discard=[]):
-        return [arg_name for arg_name, _ in self.params_name_and_decl if arg_name not in discard]
+        return [tup[0] for tup in self.params_name_and_decl if tup[0] not in discard]
+
+def strip_type_qualifier(in_type_str):
+    split = in_type_str.split()
+    while len(split) > 0:
+        if split[0] in ('const', 'volatile', 'restrict'):
+            split.pop(0)
+        else:
+            break
+    return " ".join(split)
+
+def strip_one_ptr(in_type):
+    tmp = in_type.get_pointee()
+    if tmp.spelling:
+        return True, tmp
+    return False, in_type
+
+def get_decl(name, type_str):
+    ind = type_str.find('[')
+    if ind >= 0:
+        return type_str[:ind] + name + type_str[ind:]
+    return type_str + " " + name
 
 def get_prototype(func_decl):
     func_name = func_decl.spelling
-    ret_type = func_decl.result_type.spelling
-    params_name_decl = #TODO
+    ret_type = strip_type_qualifier(func_decl.result_type.get_canonical().spelling)
+    params_name_decl = []
+    for child in func_decl.get_arguments():
+        can_type = child.type.get_canonical()
+        c_type_str = strip_type_qualifier(can_type.spelling)
+        has_ptr, ptr_stripped = strip_one_ptr(can_type)
+        un_ptr_type = strip_type_qualifier(ptr_stripped.spelling)
+        un_ptr_decl = get_decl(child.spelling, un_ptr_type)
+        call_arg = "&" + child.spelling if ptr_stripped else child.spelling
+        params_name_decl.append((child.spelling, c_type_str, un_ptr_type, un_ptr_decl, call_arg))
     return Prototype(ret_type, func_name, params_name_decl)
 
 def get_function_prototypes(source_file, compilation_db):
@@ -78,6 +96,8 @@ def get_function_prototypes(source_file, compilation_db):
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
             func_definitions.append(elem)
+            if elem.type.is_function_variadic():
+                print("WARNING: The function {} is variadic. manually check for the call statement to pass more arguments".format(elem.spelling))
     function_protos = []
     for cursor in func_definitions:
         function_protos.append(get_prototype(cursor))
