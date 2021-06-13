@@ -66,7 +66,10 @@ class Prototype:
         return [arg_name for arg_name, _ in self.params_name_and_decl if arg_name not in discard]
 
 def get_prototype(func_decl):
-    pass #TODO
+    func_name = func_decl.spelling
+    ret_type = #TODO
+    params_name_decl = #TODO
+    return Prototype(ret_type, func_name, params_name_decl)
 
 def get_function_prototypes(source_file, compilation_db):
     index = clang.cindex.create()
@@ -76,8 +79,8 @@ def get_function_prototypes(source_file, compilation_db):
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
             func_definitions.append(list(elem.get_children())[0])
     function_protos = []
-    for fp in func_definitions:
-        function_protos.append(get_prototype(fp))
+    for cursor in func_definitions:
+        function_protos.append(get_prototype(cursor))
     return function_protos
 
 OUT_ARGS = {"errCode": 'printf("%d\n", errCode);'}
