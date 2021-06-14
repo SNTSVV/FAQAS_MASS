@@ -2,8 +2,9 @@
 
 rm results.csv
 
-for c in "NORMAL" "SINGLETON";
-# for c in "SINGLETON";
+# for c in "NORMAL" "SINGLETON";
+for c in "SINGLETON";
+# for c in "NORMAL";
 do
 
   if [ $c = "SINGLETON" ]; then
