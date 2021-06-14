@@ -22,6 +22,7 @@ fmID = 0
 
 SINGLETON_FM = os.getenv("_FAQAS_SINGLETON_FM", 'False').lower() in ['true', '1']
 
+
 def newBF(item, _span, _type, _min, _max, _state, _value):
     global operations
     global faultModelsDef
@@ -265,25 +266,23 @@ def processRow(row):
 
         lastItem = -1
 
+        if SINGLETON_FM == True:
+            faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
+            faultModelsDef += "\nvoid _FAQAS_delete_"+FM+"_FM(void){\n"
+            faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);\n"
+            faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;\n"
+            faultModelsDef += "}\n"
 
-	if SINGLETON_FM == True:
-        	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
-		faultModelsDef += "\nvoid _FAQAS_delete_"+FM+"_FM(void){\n"
-        	faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);\n"
-        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;\n"
-		faultModelsDef += "}\n"
-
-
-	faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
-	if SINGLETON_FM == True:
-        	faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ return _FAQAS_"+FM+"_FM_ptr;}\n"
+        faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
+        if SINGLETON_FM == True:
+            faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ return _FAQAS_"+FM+"_FM_ptr;}\n"
         else:
-        	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+            faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
 
-	if SINGLETON_FM == True:
-		faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);\n"
-        	faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
-        	faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
+        if SINGLETON_FM == True:
+            faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);\n"
+            faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+            faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
 
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         faultModelsDef += "fm->minOperation = "+str(elements)+";\n"
@@ -335,6 +334,33 @@ bufferType = sys.argv[1]
 print(str(bufferType))
 
 fileName = sys.argv[2]
+
+# this lines produce an output csv files with the numerical ID of every mutant
+
+with open(fileName, 'r') as fault_model, open("FAQAS_mutants_table.csv", 'w') as map:
+    map.truncate(0)
+    fault_model_reader = csv.reader(fault_model, delimiter=',')
+    map_writer = csv.writer(map, delimiter=',')
+    mutant_count = -1
+    duplicate = 0
+    for row in fault_model_reader:
+        new_row = row
+        if mutant_count == -1:
+            column_0 = 'MutationOpt'
+        else:
+            column_0 = mutant_count
+        new_row.insert(0, column_0)
+        map_writer.writerow(new_row)
+        mutant_count += 1
+
+        if row[5] == 'VOR':  # at the moment VOR is the only one to double
+            mutant_count += 1
+            new_row[0] = mutant_count
+            map_writer.writerow(new_row)
+
+# fin (it's not elegant but I didn't want to modify Fabrizio's code)
+# Enrico
+
 
 with open(fileName) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
