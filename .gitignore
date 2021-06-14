@@ -44,7 +44,6 @@ mutator/python/tests/test32/FMCoverageReport_test32.csv
 mutator/python/tests/test34/FMCoverageReport_test34.csv
 mutator/python/tests/test33/FMCoverageReport_test33.csv
 mutator/python/tests/test32/FMCoverageReport_test32.csv
-*.txt
 .vagrant/machines/default/virtualbox/vagrant_cwd
 *.sol
 .vagrant/machines/default/virtualbox/action_provision
@@ -63,3 +62,7 @@ mutator/python/results_NORMAL.csv
 mutator/python/tests/test_compilation/FMcoverage2.py
 mutator/python/tests/test_compilation/FMCoverageReport_test_compilation.csv
 mutator/python/tests/test_compilation/hlreport.csv
+mutator/python/operators_map.csv
+mutator/python/tests/test01/logging.txt
+mutator/python/FAQAS_mutants_table.csv
+mutator/logz.txt
