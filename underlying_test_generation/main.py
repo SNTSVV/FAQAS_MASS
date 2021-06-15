@@ -57,7 +57,7 @@ def get_args():
                         help="optional symbolic args as string (this enables the system tests mode)")
     parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
                         help="test generation timeout in seconds ( > 0).")
-    parser.add_argument("--semu_heuristics_config", default="FULL", type=str, choices=list(CONFIGS)
+    parser.add_argument("--semu_heuristics_config", default="FULL", type=str, choices=list(CONFIGS),
                         help="Configuration for test generation. must be a string of {}.".format(list(CONFIGS)))
     args = parser.parse_args()
     return args
@@ -125,7 +125,7 @@ def main():
     generation_timeout = args.generation_timeout
     assert generation_timeout > 0, "generation timeout must be > 0."
 
-    semu_config = args.semu_config
+    semu_config = args.semu_heuristics_config
 
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)
