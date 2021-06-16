@@ -2,8 +2,8 @@
 
 rm results.csv
 
-# for c in "NORMAL" "SINGLETON";
-for c in "SINGLETON";
+for c in "NORMAL" "SINGLETON";
+# for c in "SINGLETON";
 # for c in "NORMAL";
 do
 
@@ -88,6 +88,8 @@ do
 
   popd
 
+  rm -f results_$c.csv
+
   find . -name "*.results.out" -exec cat > results_$c.csv {} +
 
 
@@ -102,7 +104,7 @@ echo ""
 
 cat results_*.csv > all_results.csv
 
-sort all_results.csv
+sort -n all_results.csv
 
 
 #find . -name "*.results.out" -exec cat > results.csv {} +
