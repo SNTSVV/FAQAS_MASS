@@ -21,7 +21,7 @@ def cancelUnusedParameters(FC_definition):
     if faultClass in unused_parameters:
 
         for parameter in unused_parameters[str(faultClass)]:
-            FC_definition[parameter] = "u"
+            FC_definition[parameter] = "NA"
 
     return FC_definition
 
@@ -30,6 +30,8 @@ if sys.argv[1] == "h":
     raw_has_header = True
 
 lookup_map = {}
+
+lookup_map["empty"] = ['NA'] * 11
 
 with open("FAQAS_mutants_table.csv", 'r') as map:
     linecount = 0
@@ -56,6 +58,9 @@ with open("main.csv", 'r') as raw, open("results.csv", 'w') as results:
         new_row = row
         if mutant in lookup_map:
             definition = lookup_map[str(mutant)]
-            new_row = row + definition
+        else:
+            definition = lookup_map["empty"]
+
+        new_row = row + definition
         results_writer.writerow(new_row)
         linecount += 1

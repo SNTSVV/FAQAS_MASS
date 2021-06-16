@@ -1,4 +1,4 @@
-beautify_results.py is a python script that takes as input "FAQAS_mutants_table" and a "main.csv" file and produces a "results.csv" file containing all the relevant data, with the unused parameters replaced by the letter "u" to make it easier to read.
+beautify_results.py is a python script that takes as input "FAQAS_mutants_table" and a "main.csv" file and produces a "results.csv" file containing all the relevant data, with the unused parameters replaced by the letter "NA" to make it easier to understand.
 
 The first column of the main.csv file should contain the MutationOpt to enable the script to link it with the table. the rest of the columns may contain the results of your tests, compilation, elapsed time etc.
 
