@@ -1,7 +1,7 @@
 FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
-SensorA,1,1,INT,SS,0,0,0,1000,0,0
-SensorB,1,1,FLOAT,SS,0,0,0,1000,0,0
-SensorC,1,1,DOUBLE,SS,0,0,0,1000,0,0
-ActuatorA,1,1,INT,SS,0,0,0,1000,0,0
-ActuatorB,1,1,FLOAT,SS,0,0,0,1000,0,0
-ActuatorC,1,1,DOUBLE,SS,0,0,0,1000,0,0
+SensorA,1,1,INT,SS,NA,NA,NA,1000,NA,NA
+SensorB,1,1,FLOAT,SS,NA,NA,NA,1000,NA,NA
+SensorC,1,1,DOUBLE,SS,NA,NA,NA,1000,NA,NA
+ActuatorA,1,1,INT,SS,NA,NA,NA,1000,NA,NA
+ActuatorB,1,1,FLOAT,SS,NA,NA,NA,1000,NA,NA
+ActuatorC,1,1,DOUBLE,SS,NA,NA,NA,1000,NA,NA
