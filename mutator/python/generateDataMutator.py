@@ -155,8 +155,6 @@ def newSS(item, _span, _type, _threshold, _delta):
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=SS;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].threshold="+_threshold+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
         str(operatorsCount)+"].delta="+_delta+";\n"
 
     operations[elements] = 0
