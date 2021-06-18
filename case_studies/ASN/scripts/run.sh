@@ -30,6 +30,9 @@ compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
 
+# TODO make parameter $1 as --phase (-p)
+# TODO: add parameters: -m (--testgen-target_mutants) (list file) and -f (--testgen-target-function-templates) (comma separated list)
+
 phase=1
 if [ $# -eq 1 ]; then
     case "$1" in
