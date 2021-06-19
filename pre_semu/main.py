@@ -424,7 +424,7 @@ def insert_header(meta_mu_file, number_of_mutants):
         f.write("void klee_semu_GenMu_Post_Mutation_Point_Func (unsigned long fromID, unsigned long toID);\n")
         f.write(content)
 
-def compute(meta_mu_out_file, original_src_file, mutants_src_dir, no_skip_non_function_mutants=False):
+def compute(meta_mu_out_file, original_src_file, mutants_src_dir, no_skip_non_function_mutants=False, target_mutant_list_file=None):
 
     mutant_src_file_list = []
     meta_mu_info_file = None
@@ -435,6 +435,13 @@ def compute(meta_mu_out_file, original_src_file, mutants_src_dir, no_skip_non_fu
             mutant_src_file_list.append(os.path.join(mutants_src_dir, fn))
     assert meta_mu_info_file is not None, "no meta mu info file"
     assert len(mutant_src_file_list) > 0, "no mutant found"
+
+    if target_mutant_list_file:
+        with open(target_mutant_list_file) as f:
+            target_mutant_list = {v.strip() for v in f.readlines() if v.strip()}
+        non_existing_spec_muts = target_mutant_list - {os.path.basename(v) for v in mutant_src_file_list}
+        assert len(non_existing_spec_muts) == 0, "the following specified mutant in list do not exist: {}".format(non_existing_spec_muts)
+        mutant_src_file_list = [v for v in mutant_src_file_list if os.path.basename(v) in target_mutant_list]
 
     # Use diff to get (expr, expr-start, mut-expr) tuples
     mutant_list = MutantInfo.get_mutant_list(original_src_file, mutant_src_file_list, meta_mu_info_file, no_skip_non_function_mutants=no_skip_non_function_mutants)
@@ -475,13 +482,17 @@ def main():
     parser.add_argument("original_src_file", help="original source file")
     parser.add_argument("mutants_src_dir", help="dircetory containing mutant files")
     parser.add_argument("--no_skip_non_function_mutants", action="store_true", help="disable skiping mutants not in functions (which are not supported by semu)")
+    parser.add_argument("--target-mutant-list", dest="target_mutant_list_file", help="Optional file containing NEW-LINE separated list of mutants to consider")
     args = parser.parse_args()
 
     assert os.path.isdir(os.path.dirname(args.meta_mu_out_file)), "meta mu out file parent dir non existant"
     assert os.path.isfile(args.original_src_file), "original source file non existant"
     assert os.path.isdir(args.mutants_src_dir), "mutants src dir non existant"
+    if args.target_mutant_list_file:
+        assert os.path.isfile(args.target_mutant_list_file), "target mutants list file does not exist"
 
-    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir, no_skip_non_function_mutants=args.no_skip_non_function_mutants)
+    compute(args.meta_mu_out_file, args.original_src_file, args.mutants_src_dir, 
+            no_skip_non_function_mutants=args.no_skip_non_function_mutants, target_mutant_list_file=args.target_mutant_list_file)
 
 if __name__ == "__main__":
     main()

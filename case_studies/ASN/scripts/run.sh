@@ -30,11 +30,23 @@ compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
 
-# TODO make parameter $1 as --phase (-p)
-# TODO: add parameters: -m (--testgen-target_mutants) (list file) and -f (--testgen-target-function-templates) (comma separated list)
+help="
+Run as following:
+
+./run.sh [<starting-phase>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
+
+Where:
+    - starting-phase: is the phase from which to starting
+    - mutants-list-file: if the file containing the list of mutants to use during the phases pre-semu and semu
+    - output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
+                                    This directory must be specified relative to the main OUTPUT dir $FAQAS_SEMU_OUTPUT_TOPDIR (contained there).
+                                    For example specifying 'my-output' will result in putting the output in '$FAQAS_SEMU_OUTPUT_TOPDIR/my-output'
+"
 
 phase=1
-if [ $# -eq 1 ]; then
+mutants_list_file=""
+custom_semu_pre_output=""
+if [ $# -eq 1 -o $# -e 3 ]; then
     case "$1" in
         "mutation"|"mutantgeneration")
             phase=1
@@ -51,8 +63,17 @@ if [ $# -eq 1 ]; then
         *)
             error_exit "invalid starting phase argument: $1"
     esac
+    if [ $# -eq 3 ]; then
+        raw_mutants_list_file="$2"
+        raw_custom_semu_pre_output="$3"
+        mutants_list_file=$(readlink -f $raw_mutants_list_file)
+        custom_semu_pre_output=$FAQAS_SEMU_OUTPUT_TOPDIR/$raw_custom_semu_pre_output
+        custom_meta_mutant_src_file=$custom_semu_pre_output/mutants_generation/$(basename $meta_mutant_src_file)
+        test -f $mutants_list_file || "specified mutant list file missing ($mutants_list_file)"
+        [ "$custom_semu_pre_output" != "" ] || error_exit "empty custom out dir"
+    fi
 elif [ $# -ne 0 ]; then
-    error_exit "Expecting 0 or 1 argument (starting phase)"
+    error_exit "Expecting 0, 1 or3 arguments: $help"
 fi
 
 # Create output dir
@@ -85,6 +106,18 @@ remove_uncompilable_mutants()
 
     echo 
     echo "## Failed to compile $failed_compile mutants!"
+}
+
+check_function_has_mutants()
+{
+    local function_name=$1
+    # if mutant list, use it else use all mutants
+    if [ "$mutants_list_file" = "" ]; then
+        cat $mutants_list_file | rev | cut -d'.' -f2 | rev | grep "$function_name" > /dev/null && return 0
+    else
+        find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c | rev | cut -d'.' -f2 | rev | grep "$function_name" > /dev/null && return 0
+    fi
+    return 1
 }
 
 has_semu()
@@ -145,27 +178,34 @@ if [ $phase -le 3 ]; then
     if has_semu; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
         # generate meta-mu
-        $tool_dir/pre_semu/main.py $meta_mutant_src_file $original_src_file $mutants_dir || error_exit "Pre-semu failed"
+        if [ "$mutants_list_file" = "" ]; then
+            $tool_dir/pre_semu/main.py $custom_meta_mutant_src_file $original_src_file $mutants_dir --target-mutant-list $mutants_list_file || \
+                                                                                                            error_exit "Pre-semu failed"
+            # TODO: check for if function if there is mutant using check_function_has_mutants and generate pre-semu
+        else
+            $tool_dir/pre_semu/main.py $meta_mutant_src_file $original_src_file $mutants_dir || error_exit "Pre-semu failed"
 
-        for category in `ls $make_sym_to_append_top_dir`
-        do
-            category_dir=$make_sym_to_append_top_dir/$category
-            test -d $category_dir || continue
-            for func_template in `ls $category_dir`
+            for category in `ls $make_sym_to_append_top_dir`
             do
-                func_name=$(echo $func_template | cut -d'.' -f1)
-                func_template_path=$category_dir/$func_template
-                func_meta_dir=$meta_mutant_make_sym_top_dir/$category/$func_name
-                test -d $func_meta_dir || mkdir -p $func_meta_dir || error_exit "Failed to create func_meta_dir $func_meta_dir" 
-                meta_mutant_make_sym_src_file=$func_meta_dir/$(basename $meta_mutant_src_file)
-                meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
-        
-                cp $meta_mutant_src_file $meta_mutant_make_sym_src_file || error_exit "copy meta-mu to make_sym failed"
-                cat $func_template_path >> $meta_mutant_make_sym_src_file || error_exit "appending to meta-mu to make_sym failed"
-                # build various meta-mu
-                $build_bc_func $meta_mutant_make_sym_src_file $meta_mutant_make_sym_bc_file || error_exit "Building bc file failed ($meta_mutant_make_sym_src_file)"
+                category_dir=$make_sym_to_append_top_dir/$category
+                test -d $category_dir || continue
+                for func_template in `ls $category_dir`
+                do
+                    func_name=$(echo $func_template | cut -d'.' -f1)
+                    func_template_path=$category_dir/$func_template
+                    func_meta_dir=$meta_mutant_make_sym_top_dir/$category/$func_name
+                    test -d $func_meta_dir || mkdir -p $func_meta_dir || error_exit "Failed to create func_meta_dir $func_meta_dir" 
+                    meta_mutant_make_sym_src_file=$func_meta_dir/$(basename $meta_mutant_src_file)
+                    meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
+            
+                    cp $meta_mutant_src_file $meta_mutant_make_sym_src_file || error_exit "copy meta-mu to make_sym failed"
+                    cat $func_template_path >> $meta_mutant_make_sym_src_file || error_exit "appending to meta-mu to make_sym failed"
+                    # build various meta-mu
+                    $build_bc_func $meta_mutant_make_sym_src_file $meta_mutant_make_sym_bc_file \
+                                                                || error_exit "Building bc file failed ($meta_mutant_make_sym_src_file)"
+                done
             done
-        done
+        fi
     else
         run_in_docker "pre-semu"
     fi
@@ -174,24 +214,29 @@ fi
 if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
-        for category in `ls $meta_mutant_make_sym_top_dir`
-        do
-            category_dir=$meta_mutant_make_sym_top_dir/$category
-            for func_name in `ls $category_dir`
+        if [ "$mutants_list_file" = "" ]; then
+            # TODO: check for if function if there is mutant using check_function_has_mutants and generate tests
+        else
+            for category in `ls $meta_mutant_make_sym_top_dir`
             do
-                func_meta_dir=$category_dir/$func_name
-                meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
-                func_gen_test_dir=$gen_test_dir/$category/$func_name
-                # call test generation
-                test -d $func_gen_test_dir || mkdir -p $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
-                (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
-                                                                        --output_top_directory $func_gen_test_dir \
-                                                                        --clear_existing \
-                                                                        --generation_timeout $gen_timeout \
-                                                                        --semu_heuristics_config $semu_heuristics_config \
-                                                                        2>&1 | tee $func_gen_test_dir/test_gen.log) || error_exit "Test generation failed"
+                category_dir=$meta_mutant_make_sym_top_dir/$category
+                for func_name in `ls $category_dir`
+                do
+                    func_meta_dir=$category_dir/$func_name
+                    meta_mutant_make_sym_bc_file=$func_meta_dir/$(basename $meta_mutant_bc_file)
+                    func_gen_test_dir=$gen_test_dir/$category/$func_name
+                    # call test generation
+                    test -d $func_gen_test_dir || mkdir -p $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
+                    (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
+                                                                            --output_top_directory $func_gen_test_dir \
+                                                                            --clear_existing \
+                                                                            --generation_timeout $gen_timeout \
+                                                                            --semu_heuristics_config $semu_heuristics_config \
+                                                                            2>&1 | tee $func_gen_test_dir/test_gen.log) \
+                                                                                                || error_exit "Test generation failed"
+                done
             done
-        done
+        fi
     else
         run_in_docker "testgeneration"
     fi
