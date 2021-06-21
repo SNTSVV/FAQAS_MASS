@@ -3,6 +3,7 @@
 # Use libclang
 
 import os
+import re
 import argparse
 from jinja2 import Template
 
@@ -10,6 +11,8 @@ import clang.cindex
 
 USED_TEMPLATE = """
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+
+#include <stdio.h>
 
 #include "asn1crt.c"
 #include "asn1crt_encoding.c"
@@ -38,6 +41,8 @@ int main(int argc, char** argv)
 
 """
 
+USE_COMP_DB = False
+
 class Prototype:
     def __init__(self, return_type, function_name, params_name_and_decl):
         self.return_type = return_type
@@ -61,7 +66,12 @@ def strip_type_qualifier(in_type_str):
             split.pop(0)
         else:
             break
-    return " ".join(split)
+    tmp_str = " ".join(split)
+
+    split = re.findall(r"\w+|[^\w\s]+", tmp_str)
+    tmp_str = " ".join(list(filter(lambda a: a != 'const', split)))
+    
+    return tmp_str
 
 def strip_one_ptr(in_type):
     tmp = in_type.get_pointee()
@@ -89,9 +99,12 @@ def get_prototype(func_decl):
         params_name_decl.append((child.spelling, c_type_str, un_ptr_type, un_ptr_decl, call_arg))
     return Prototype(ret_type, func_name, params_name_decl)
 
-def get_function_prototypes(source_file, compilation_db):
+def get_function_prototypes(source_file, compilation_info):
     index = clang.cindex.Index.create()
-    translation_unit = index.parse(source_file)
+    if USE_COMP_DB:
+        assert False, "Using compilation DB not yet implemented. FIXME"
+    else:
+        translation_unit = index.parse(source_file, args=compilation_info)
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
@@ -109,15 +122,22 @@ RESULT_TO_INT = "(int)result_faqas_semu"
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("compilation_db", metavar="compilation-db", help="Compilation database file")
     parser.add_argument("source_file", metavar="source-file", help="source file containing the functions to test (all defined functions)")
     parser.add_argument("output_dir", metavar="output-dir", help="Directory to put the generated files")
+    if USE_COMP_DB:
+        parser.add_argument("compilation_db", metavar="compilation-db", help="Compilation database file")
+    else:
+        parser.add_argument("compilation_cflags", metavar="compilation-cflags", type=str, help="Compilation cflags (include dir, defines, ...)")
     args = parser.parse_args()
-    if not os.path.join(args.compilation_db):
-        assert False, "The specified compilation_db file does not exist"
+    
     if not os.path.join(args.source_file):
-        assert False, "The specified source file does not exist" 
-    prototypes = get_function_prototypes(args.source_file, args.compilation_db)
+        assert False, "The specified source file does not exist"
+    if USE_COMP_DB:
+        if not os.path.join(args.compilation_db):
+            assert False, "The specified compilation_db file does not exist" 
+        prototypes = get_function_prototypes(args.source_file, args.compilation_db)
+    else:
+        prototypes = get_function_prototypes(args.source_file, args.compilation_cflags)
 
     if not os.path.join(args.output_dir):
         os.mkdir(args.output_dir)
