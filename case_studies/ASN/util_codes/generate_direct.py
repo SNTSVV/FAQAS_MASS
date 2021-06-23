@@ -2,6 +2,10 @@
 
 # Use libclang
 
+# For example, for ASN case, runn as following
+# >   ./generate_direct.py ../DOWNLOADED/casestudy/test.c direct " -I../DOWNLOADED/casestudy/"
+
+
 import os
 import re
 import argparse
@@ -24,7 +28,9 @@ int main(int argc, char** argv)
 {
     (void)argc;
     (void)argv;
+{% if not returns_void %}
     {{ function_return_type }} result_faqas_semu;
+{% endif %}
 {% for arg_ptr_stripped_decl in arg_ptr_stripped_decl_list %}
     {{ arg_ptr_stripped_decl }};
 {% endfor %}
@@ -32,11 +38,19 @@ int main(int argc, char** argv)
     klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}");
 {% endfor %}
 
-    result_faqas_semu = {{ function_name }}}({{ call_args_list|join(", ") }});
+{% if not returns_void %}
+    result_faqas_semu = {{ function_name }}({{ call_args_list|join(", ") }});
+{% else %}
+    {{ function_name }}({{ call_args_list|join(", ") }});
+{% endif %}
 {%for ooa in output_out_args %}
     {{ ooa }}
 {% endfor %}
+{% if not returns_void %}
     return {{ result_faqas_semu_to_int }};
+{% else %}
+    return 0;
+{% endif %}
 }
 
 """
@@ -104,7 +118,7 @@ def get_function_prototypes(source_file, compilation_info):
     if USE_COMP_DB:
         assert False, "Using compilation DB not yet implemented. FIXME"
     else:
-        translation_unit = index.parse(source_file, args=compilation_info)
+        translation_unit = index.parse(source_file, args=[compilation_info])
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
@@ -116,9 +130,17 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
-OUT_ARGS = {"errCode": 'printf("%d\n", errCode);'}
+OUT_ARGS = {"pErrCode": 'printf("%d\n", *pErrCode);'}
 RESULT_TYPE = "flag"
 RESULT_TO_INT = "(int)result_faqas_semu"
+
+def is_primitive_type(type_name):
+    type_list = [
+        "char", "unsigned char", "signed char", "int", "unsigned int", "short", "unsigned short", "long", "unsigned long", 
+        "float", "double", "long double"
+    ]
+    type_name = " ".join(type_name.split())
+    return type_name in type_list
 
 def main():
     parser = argparse.ArgumentParser()
@@ -139,7 +161,7 @@ def main():
     else:
         prototypes = get_function_prototypes(args.source_file, args.compilation_cflags)
 
-    if not os.path.join(args.output_dir):
+    if not os.path.isdir(args.output_dir):
         os.mkdir(args.output_dir)
 
     for prototype in prototypes:
@@ -148,12 +170,18 @@ def main():
         ## check 1
         ooa_left = set(OUT_ARGS.keys()) - set(prototype.get_argname_list())
         if len(ooa_left) > 0:
-            used_out_args = {k:v for k,v inO OUT_ARGS.items() if k not in ooa_left}
-            print("warning: specified ooa are not all used. There are not used: ".format(ooa_left))
+            used_out_args = {k:v for k,v in OUT_ARGS.items() if k not in ooa_left}
+            print("warning: specified output args are not all used.",
+                    "function name is {}.".format(prototype.function_name),
+                    "function argument names are: {}.".format(prototype.get_argname_list()),
+                    "These are not used: {}\n".format(ooa_left))
         else:
             used_out_args = dict(OUT_ARGS)
         ## check2
-        if prototype.return_type != RESULT_TYPE:
+        returns_void = False
+        if prototype.return_type == "void":
+            returns_void = True
+        elif prototype.return_type != RESULT_TYPE and not is_primitive_type(prototype.return_type):
             res_to_int = input("The function return type for function '{}' is not '{}' but is '{}'. {}".format(
                     prototype.function_name,
                     RESULT_TYPE,
@@ -171,9 +199,10 @@ def main():
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
             output_out_arg=list(used_out_args.values()),
-            result_faqas_semu_to_int=res_to_int
+            result_faqas_semu_to_int=res_to_int,
+            returns_void=returns_void
         )
-        with open(code_filepath) as f:
+        with open(code_filepath, 'w') as f:
             f.write(code)
     
     print("Done writing templates in folder {}".format(args.output_dir))
