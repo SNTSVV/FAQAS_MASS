@@ -46,7 +46,7 @@ Where:
 phase=1
 mutants_list_file=""
 custom_semu_pre_output=""
-if [ $# -eq 1 -o $# -e 3 ]; then
+if [ $# -eq 1 -o $# -eq 3 ]; then
     case "$1" in
         "mutation"|"mutantgeneration")
             phase=1
