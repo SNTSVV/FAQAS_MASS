@@ -1,6 +1,7 @@
 
-
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+
+#include <stdio.h>
 
 #include "asn1crt.c"
 #include "asn1crt_encoding.c"
@@ -8,20 +9,26 @@
 
 #include "klee/klee.h"
 
-#include <stdio.h>
-
 int main(int argc, char** argv)
 {
     (void)argc;
     (void)argv;
-    flag result;
-    My2ndInt val0;
-    BitStream bitStrm;
-    int errCode;
-    klee_make_symbolic(&val0, sizeof(val0), "val0");
-    klee_make_symbolic(&bitStrm, sizeof(bitStrm), "bitStrm");
 
-    result = My2ndInt_Decode(&val0, &bitStrm, &errCode);
-    printf("%d\n", errCode);
-    return (int)result;
+    // Declare variable to hold function returned value
+    int result_faqas_semu;
+
+    // Declare arguments and make input ones symbolic
+    unsigned long pVal;
+    struct BitStream_t pBitStrm;
+    int pErrCode;
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pBitStrm, sizeof(pBitStrm), "pBitStrm");
+
+    // Call function under test
+    result_faqas_semu = My2ndInt_Decode(&pVal, &pBitStrm, &pErrCode);
+
+    // Make some output
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    return (int)result_faqas_semu;
 }
