@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&bCheckConstraints, sizeof(bCheckConstraints), "bCheckConstraints");
 
     // Call function under test
-    result_faqas_semu = MyInt_Encode(&pVal, &pBitStrm, &pErrCode, &bCheckConstraints);
+    result_faqas_semu = MyInt_Encode(&pVal, &pBitStrm, &pErrCode, bCheckConstraints);
 
     // Make some output
     printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);

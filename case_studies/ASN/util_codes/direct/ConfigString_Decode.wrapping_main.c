@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&pBitStrm, sizeof(pBitStrm), "pBitStrm");
 
     // Call function under test
-    result_faqas_semu = ConfigString_Decode(&val, &pBitStrm, &pErrCode);
+    result_faqas_semu = ConfigString_Decode(val, &pBitStrm, &pErrCode);
 
     // Make some output
     printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);

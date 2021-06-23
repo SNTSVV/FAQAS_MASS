@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&val, sizeof(val), "val");
 
     // Call function under test
-    result_faqas_semu = FixedLenConfigString_IsConstraintValid(&val, &pErrCode);
+    result_faqas_semu = FixedLenConfigString_IsConstraintValid(val, &pErrCode);
 
     // Make some output
     printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);

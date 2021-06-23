@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&val, sizeof(val), "val");
 
     // Call function under test
-    ConfigString_Initialize(&val);
+    ConfigString_Initialize(val);
 
     // Make some output
     return 0;

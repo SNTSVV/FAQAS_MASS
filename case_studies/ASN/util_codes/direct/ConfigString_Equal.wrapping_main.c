@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     klee_make_symbolic(&val2, sizeof(val2), "val2");
 
     // Call function under test
-    result_faqas_semu = ConfigString_Equal(&val1, &val2);
+    result_faqas_semu = ConfigString_Equal(val1, val2);
 
     // Make some output
     printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);

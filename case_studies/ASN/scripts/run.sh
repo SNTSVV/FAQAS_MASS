@@ -46,6 +46,10 @@ Where:
 phase=1
 mutants_list_file=""
 custom_semu_pre_output=""
+custom_meta_mutant_src_file=""
+custom_meta_mutant_bc_file=""
+custom_meta_mutant_make_sym_top_dir=""
+custom_gen_test_dir=""
 if [ $# -eq 1 -o $# -eq 3 ]; then
     case "$1" in
         "mutation"|"mutantgeneration")
@@ -61,7 +65,7 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
             phase=4
             ;;
         *)
-            error_exit "invalid starting phase argument: $1"
+            error_exit "invalid starting phase argument: $1. $help"
     esac
     if [ $# -eq 3 ]; then
         raw_mutants_list_file="$2"
@@ -215,7 +219,7 @@ if [ $phase -le 3 ]; then
     if has_semu; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
         # generate meta-mu
-        if [ "$mutants_list_file" = "" ]; then
+        if [ "$mutants_list_file" != "" ]; then
             $tool_dir/pre_semu/main.py $custom_meta_mutant_src_file $original_src_file $mutants_dir --target-mutant-list $mutants_list_file || \
                                                                                                             error_exit "Pre-semu failed"
             

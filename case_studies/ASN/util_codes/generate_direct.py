@@ -116,7 +116,7 @@ def get_prototype(func_decl):
         has_ptr, ptr_stripped = strip_one_ptr(can_type)
         un_ptr_type = strip_type_qualifier(ptr_stripped.spelling)
         un_ptr_decl = get_decl(child.spelling, un_ptr_type)
-        call_arg = "&" + child.spelling if ptr_stripped else child.spelling
+        call_arg = "&" + child.spelling if has_ptr else child.spelling
         params_name_decl.append((child.spelling, c_type_str, un_ptr_type, un_ptr_decl, call_arg))
     return Prototype(ret_type, func_name, params_name_decl)
 
