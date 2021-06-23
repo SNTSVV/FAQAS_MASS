@@ -39,8 +39,8 @@ Where:
     - starting-phase: is the phase from which to starting
     - mutants-list-file: if the file containing the list of mutants to use during the phases pre-semu and semu
     - output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
-                                    This directory must be specified relative to the main OUTPUT dir $FAQAS_SEMU_OUTPUT_TOPDIR (contained there).
-                                    For example specifying 'my-output' will result in putting the output in '$FAQAS_SEMU_OUTPUT_TOPDIR/my-output'
+                                    This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR/..) (contained there).
+                                    For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR/my-output)'
 "
 
 phase=1
