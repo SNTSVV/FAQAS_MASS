@@ -223,7 +223,8 @@ if [ $phase -le 3 ]; then
             $tool_dir/pre_semu/main.py $custom_meta_mutant_src_file $original_src_file $mutants_dir --target-mutant-list $mutants_list_file || \
                                                                                                             error_exit "Pre-semu failed"
             
-            category=direct
+            echo "# generate Templates specific Meta Mu files ..."
+            category="direct"
             category_dir=$make_sym_to_append_top_dir/$category
             for func_template in `ls $category_dir`
             do
@@ -236,6 +237,7 @@ if [ $phase -le 3 ]; then
         else
             $tool_dir/pre_semu/main.py $meta_mutant_src_file $original_src_file $mutants_dir || error_exit "Pre-semu failed"
 
+            echo "# generate Templates specific Meta Mu files ..."
             for category in `ls $make_sym_to_append_top_dir`
             do
                 category_dir=$make_sym_to_append_top_dir/$category
