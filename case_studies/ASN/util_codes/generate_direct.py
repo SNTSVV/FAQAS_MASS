@@ -137,17 +137,31 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
-OUT_ARGS = {"pErrCode": 'printf("%d\\n", pErrCode);'}
+OUT_ARGS = {"pErrCode": 'printf("FAQAS-SEMU-TEST_OUTPUT: %d\\n", pErrCode);'}
 RESULT_TYPE = "flag"
 RESULT_TO_INT = "(int)result_faqas_semu"
+RESULT_OUT = 'printf("%d\\n", result_faqas_semu);'
 
-def is_primitive_type(type_name):
-    type_list = [
-        "char", "unsigned char", "signed char", "int", "unsigned int", "short", "unsigned short", "long", "unsigned long", 
-        "float", "double", "long double"
-    ]
+def is_primitive_type_get_fmt(type_name):
+    printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: {}\\n", result_faqas_semu);'
+    type_list = {
+        "char": "%d", 
+        "unsigned char": "%d", 
+        "signed char": "%d", 
+        "int": "%d", 
+        "unsigned int": "%u", 
+        "short": "%hi", 
+        "unsigned short": "%hu", 
+        "long": "%ld", 
+        "unsigned long": "%lu", 
+        "float": "%g", 
+        "double": "%G", 
+        "long double": "%LG"
+    }
     type_name = " ".join(type_name.split())
-    return type_name in type_list
+    if type_name in type_list:
+        return printf_fmt.format(type_list[type_name])
+    return None
 
 def main():
     parser = argparse.ArgumentParser()
@@ -186,9 +200,10 @@ def main():
             used_out_args = dict(OUT_ARGS)
         ## check2
         returns_void = False
+        print_retval_stmts = []
         if prototype.return_type == "void":
             returns_void = True
-        elif prototype.return_type != RESULT_TYPE and not is_primitive_type(prototype.return_type):
+        elif prototype.return_type != RESULT_TYPE and is_primitive_type_get_fmt(prototype.return_type) is None:
             res_to_int = input("The function return type for function '{}' is not '{}' but is '{}'. {}".format(
                     prototype.function_name,
                     RESULT_TYPE,
@@ -198,6 +213,10 @@ def main():
             )
         else:
             res_to_int = RESULT_TO_INT
+            if prototype.return_type == RESULT_TYPE:
+                print_retval_stmts.append(RESULT_OUT)
+            else:
+                print_retval_stmts.append(is_primitive_type_get_fmt(prototype.return_type))
 
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
@@ -205,7 +224,7 @@ def main():
             input_arg_name_list=prototype.get_argname_list(discard=set(used_out_args.keys())),
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
-            output_out_args=list(used_out_args.values()),
+            output_out_args=list(used_out_args.values()) + print_retval_stmts,
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void
         )
