@@ -29,8 +29,12 @@ int main(int argc, char** argv)
     (void)argc;
     (void)argv;
 {% if not returns_void %}
+
+    // Declare variable to hold function returned value
     {{ function_return_type }} result_faqas_semu;
 {% endif %}
+
+    // Declare arguments and make input ones symbolic
 {% for arg_ptr_stripped_decl in arg_ptr_stripped_decl_list %}
     {{ arg_ptr_stripped_decl }};
 {% endfor %}
@@ -38,11 +42,14 @@ int main(int argc, char** argv)
     klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}");
 {% endfor %}
 
+    // Call function under test
 {% if not returns_void %}
     result_faqas_semu = {{ function_name }}({{ call_args_list|join(", ") }});
 {% else %}
     {{ function_name }}({{ call_args_list|join(", ") }});
 {% endif %}
+
+    // Make some output
 {%for ooa in output_out_args %}
     {{ ooa }}
 {% endfor %}
@@ -130,7 +137,7 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
-OUT_ARGS = {"pErrCode": 'printf("%d\n", *pErrCode);'}
+OUT_ARGS = {"pErrCode": 'printf("%d\\n", pErrCode);'}
 RESULT_TYPE = "flag"
 RESULT_TO_INT = "(int)result_faqas_semu"
 
@@ -192,13 +199,13 @@ def main():
         else:
             res_to_int = RESULT_TO_INT
 
-        code = Template(USED_TEMPLATE).render(
+        code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
             input_arg_name_list=prototype.get_argname_list(discard=set(used_out_args.keys())),
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
-            output_out_arg=list(used_out_args.values()),
+            output_out_args=list(used_out_args.values()),
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void
         )
