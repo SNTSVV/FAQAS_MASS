@@ -37,10 +37,11 @@ Run as following:
 
 Where:
     - starting-phase: is the phase from which to starting
-    - mutants-list-file: if the file containing the list of mutants to use during the phases pre-semu and semu
+    - mutants-list-file: is the file containing the list of mutants to use during the phases pre-semu and semu. This must be a realtive path to the case study dir 
+                                    $(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR) (must be contained there).
     - output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
-                                    This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR/..) (contained there).
-                                    For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR/my-output)'
+                                    This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR) (must be contained there).
+                                    For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR/OUTPUT/my-output)'
 "
 
 phase=1
@@ -70,13 +71,17 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
     if [ $# -eq 3 ]; then
         raw_mutants_list_file="$2"
         raw_custom_semu_pre_output="$3"
+
+        cd $FAQAS_SEMU_CASE_STUDY_TOPDIR || error_exit "cd $FAQAS_SEMU_CASE_STUDY_TOPDIR failed"
         mutants_list_file=$(readlink -f $raw_mutants_list_file)
-        custom_semu_pre_output=$FAQAS_SEMU_OUTPUT_TOPDIR/$raw_custom_semu_pre_output
+        custom_semu_pre_output=$(readlink -f $raw_custom_semu_pre_output)
+        cd - > /dev/null || error_exit "cd - failed"
+        
         custom_meta_mutant_src_file=$custom_semu_pre_output/mutants_generation/$(basename $meta_mutant_src_file)
         custom_meta_mutant_bc_file=$custom_semu_pre_output/mutants_generation/$(basename $meta_mutant_bc_file)
         custom_meta_mutant_make_sym_top_dir=$custom_semu_pre_output/mutants_generation/$(basename $meta_mutant_make_sym_top_dir)
         custom_gen_test_dir=$custom_semu_pre_output/$(basename $gen_test_dir)
-        test -f $mutants_list_file || "specified mutant list file missing ($mutants_list_file)"
+        test -f $mutants_list_file || "specified mutant list file missing ($mutants_list_file). $help"
         [ "$custom_semu_pre_output" != "" ] || error_exit "empty custom out dir"
     fi
 elif [ $# -ne 0 ]; then
@@ -173,7 +178,7 @@ run_in_docker()
 {
     local cmd_arg=$1
     if [ "$mutants_list_file" != "" ]; then
-        cmd_arg+=" $raw_mutants_list_file $raw_custom_semu_pre_output"
+        cmd_arg+=" $ws_in_docker/$raw_mutants_list_file $ws_in_docker/$raw_custom_semu_pre_output"
     fi
     echo "[$filename] Switching to docker..."
     (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd $cmd_arg" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
