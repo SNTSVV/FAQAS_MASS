@@ -248,6 +248,7 @@ if [ $phase -le 3 ]; then
             do
                 g_func_name=$(echo $func_template | cut -d'.' -f1)
                 check_function_has_mutants $g_func_name || continue
+                echo "[$filename] pre-semu processing function $g_func_name ..."
                 g_func_template_path=$category_dir/$func_template
                 g_func_meta_dir=$custom_meta_mutant_make_sym_top_dir/$category/$g_func_name
                 apply_pre_semu_template $custom_meta_mutant_src_file $custom_meta_mutant_bc_file $g_func_template_path $g_func_meta_dir
@@ -263,6 +264,7 @@ if [ $phase -le 3 ]; then
                 for func_template in `ls $category_dir`
                 do
                     g_func_name=$(echo $func_template | cut -d'.' -f1)
+                    echo "[$filename] pre-semu processing function $g_func_name ..."
                     g_func_template_path=$category_dir/$func_template
                     g_func_meta_dir=$meta_mutant_make_sym_top_dir/$category/$g_func_name
                     apply_pre_semu_template $meta_mutant_src_file $meta_mutant_bc_file $g_func_template_path $g_func_meta_dir
@@ -283,6 +285,7 @@ if [ $phase -le 4 ]; then
             for g_func_name in `ls $category_dir`
             do
                 check_function_has_mutants $g_func_name || continue
+                echo "[$filename] semu processing function $g_func_name ..."
                 g_func_meta_dir=$category_dir/$g_func_name
                 g_meta_mutant_make_sym_bc_file=$g_func_meta_dir/$(basename $custom_meta_mutant_bc_file)
                 g_func_gen_test_dir=$custom_gen_test_dir/$category/$g_func_name
@@ -294,6 +297,7 @@ if [ $phase -le 4 ]; then
                 category_dir=$meta_mutant_make_sym_top_dir/$category
                 for g_func_name in `ls $category_dir`
                 do
+                    echo "[$filename] semu processing function $g_func_name ..."
                     g_func_meta_dir=$category_dir/$g_func_name
                     g_meta_mutant_make_sym_bc_file=$g_func_meta_dir/$(basename $meta_mutant_bc_file)
                     g_func_gen_test_dir=$gen_test_dir/$category/$g_func_name
