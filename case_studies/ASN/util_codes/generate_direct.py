@@ -251,7 +251,6 @@ def main():
             output_out_args=list(used_out_args.values()) + print_retval_stmts,
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void,
-            function_name=prototype.function_name,
             source_file=args.source_file
         )
         with open(code_filepath, 'w') as f:
