@@ -172,6 +172,9 @@ has_semu()
 run_in_docker()
 {
     local cmd_arg=$1
+    if [ "$mutants_list_file" != "" ]; then
+        cmd_arg+=" $raw_mutants_list_file $raw_custom_semu_pre_output"
+    fi
     echo "[$filename] Switching to docker..."
     (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd $cmd_arg" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
                 || error_exit "Failure in docker. Debug in docker with command: $cd_docker_script $ws_dir_here ''"
@@ -259,8 +262,8 @@ fi
 if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
-        if [ "$mutants_list_file" = "" ]; then
-            category=direct
+        if [ "$mutants_list_file" != "" ]; then
+            category="direct"
             category_dir=$custom_meta_mutant_make_sym_top_dir/$category
             for g_func_name in `ls $category_dir`
             do
