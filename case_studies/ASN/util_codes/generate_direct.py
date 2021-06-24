@@ -130,6 +130,7 @@ def get_standard_includes():
         cmd,
         stderr=subprocess.STDOUT
     )
+    log = log.decode('UTF-8', 'backslashreplace')
     started = False
     include_dirs = []
     for line in log.splitlines():
