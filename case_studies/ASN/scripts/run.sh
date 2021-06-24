@@ -235,6 +235,9 @@ if [ $phase -le 3 ]; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
         # generate meta-mu
         if [ "$mutants_list_file" != "" ]; then
+            test -d $(dirname $custom_meta_mutant_src_file) || mkdir -p $(dirname $custom_meta_mutant_src_file) || \
+                                                                    error_exit "faile to create dir $(dirname $custom_meta_mutant_src_file)"
+                                                                    
             $tool_dir/pre_semu/main.py $custom_meta_mutant_src_file $original_src_file $mutants_dir --target-mutant-list $mutants_list_file || \
                                                                                                             error_exit "Pre-semu failed"
             

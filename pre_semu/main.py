@@ -485,9 +485,9 @@ def main():
     parser.add_argument("--target-mutant-list", dest="target_mutant_list_file", help="Optional file containing NEW-LINE separated list of mutants to consider")
     args = parser.parse_args()
 
-    assert os.path.isdir(os.path.dirname(args.meta_mu_out_file)), "meta mu out file parent dir non existant"
-    assert os.path.isfile(args.original_src_file), "original source file non existant"
-    assert os.path.isdir(args.mutants_src_dir), "mutants src dir non existant"
+    assert os.path.isdir(os.path.dirname(args.meta_mu_out_file)), "meta mu out file parent dir non existant ({})".format(os.path.dirname(args.meta_mu_out_file))
+    assert os.path.isfile(args.original_src_file), "original source file non existant ({})".format(args.original_src_file)
+    assert os.path.isdir(args.mutants_src_dir), "mutants src dir non existant ({})".format(args.mutants_src_dir)
     if args.target_mutant_list_file:
         assert os.path.isfile(args.target_mutant_list_file), "target mutants list file does not exist"
 
