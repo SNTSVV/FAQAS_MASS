@@ -14,7 +14,8 @@ from jinja2 import Template
 import clang.cindex
 
 USED_TEMPLATE = """
-/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+/* Wrapping main template for the function {{ function_name }} defined in the file {{ source_file }}
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
 
@@ -173,10 +174,10 @@ def main():
         parser.add_argument("compilation_cflags", metavar="compilation-cflags", type=str, help="Compilation cflags (include dir, defines, ...)")
     args = parser.parse_args()
     
-    if not os.path.join(args.source_file):
+    if not os.path.isfile(args.source_file):
         assert False, "The specified source file does not exist"
     if USE_COMP_DB:
-        if not os.path.join(args.compilation_db):
+        if not os.path.isfile(args.compilation_db):
             assert False, "The specified compilation_db file does not exist" 
         prototypes = get_function_prototypes(args.source_file, args.compilation_db)
     else:
@@ -226,7 +227,9 @@ def main():
             call_args_list=prototype.get_call_args_list(),
             output_out_args=list(used_out_args.values()) + print_retval_stmts,
             result_faqas_semu_to_int=res_to_int,
-            returns_void=returns_void
+            returns_void=returns_void,
+            function_name=prototype.function_name,
+            source_file=args.source_file
         )
         with open(code_filepath, 'w') as f:
             f.write(code)
