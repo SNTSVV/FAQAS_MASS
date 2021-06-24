@@ -9,6 +9,7 @@
 import os
 import re
 import argparse
+import subprocess
 from jinja2 import Template
 
 import clang.cindex
@@ -121,12 +122,34 @@ def get_prototype(func_decl):
         params_name_decl.append((child.spelling, c_type_str, un_ptr_type, un_ptr_decl, call_arg))
     return Prototype(ret_type, func_name, params_name_decl)
 
+def get_standard_includes():
+    """ libclang has problem locating some standard include. Help it
+    """
+    cmd = ["cc", "-E", "-x", "c", "-v", "/dev/null"]
+    log = subprocess.check_output(
+        cmd,
+        stderr=subprocess.STDOUT
+    )
+    started = False
+    include_dirs = []
+    for line in log.splitlines():
+        if line.strip() == "#include <...> search starts here:":
+            started = True
+            continue
+        if line.strip() == "End of search list.":
+            started = False
+            continue
+        if started:
+            include_dirs.append(line.strip())
+            
+    return include_dirs
+
 def get_function_prototypes(source_file, compilation_info):
     index = clang.cindex.Index.create()
     if USE_COMP_DB:
         assert False, "Using compilation DB not yet implemented. FIXME"
     else:
-        translation_unit = index.parse(source_file, args=[compilation_info])
+        translation_unit = index.parse(source_file, args=[compilation_info] + get_standard_includes())
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
