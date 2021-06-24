@@ -42,6 +42,13 @@ Where:
     - output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
                                     This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR) (must be contained there).
                                     For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR/OUTPUT/my-output)'
+
+--------------------------------------------------------------------------------------
+
+Example 1:  ./run.sh 
+Example 2:  ./run.sh compile
+Example 3:  ./run.sh pre-semu DOWNLOADED/live_mutants OUTPUT/live_mutants_output
+
 "
 
 phase=1
