@@ -150,7 +150,7 @@ def get_function_prototypes(source_file, compilation_info):
     if USE_COMP_DB:
         assert False, "Using compilation DB not yet implemented. FIXME"
     else:
-        translation_unit = index.parse(source_file, args=[compilation_info] + get_standard_includes())
+        translation_unit = index.parse(source_file, args=[compilation_info] + ["-I"+v for v in get_standard_includes()])
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
@@ -170,6 +170,7 @@ RESULT_OUT = 'printf("%d\\n", result_faqas_semu);'
 def is_primitive_type_get_fmt(type_name):
     printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: {}\\n", result_faqas_semu);'
     type_list = {
+        "_Bool": "%d",
         "char": "%d", 
         "unsigned char": "%d", 
         "signed char": "%d", 
