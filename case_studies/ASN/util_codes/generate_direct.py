@@ -15,7 +15,7 @@ from jinja2 import Template
 import clang.cindex
 
 USED_TEMPLATE = """
-/* Wrapping main template for the function {{ function_name }} defined in the file {{ source_file }}
+/* Wrapping main template for the function {{ function_name }} defined in the file {{ source_file }} */
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
