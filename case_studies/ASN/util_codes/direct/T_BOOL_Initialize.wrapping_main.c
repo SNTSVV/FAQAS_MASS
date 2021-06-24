@@ -1,5 +1,6 @@
 
-/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+/* Wrapping main template for the function T_BOOL_Initialize defined in the file ../DOWNLOADED/casestudy/test.c
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
 
@@ -15,7 +16,7 @@ int main(int argc, char** argv)
     (void)argv;
 
     // Declare arguments and make input ones symbolic
-    int pVal;
+    _Bool pVal;
     klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
 
     // Call function under test

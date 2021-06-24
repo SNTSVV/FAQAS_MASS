@@ -1,5 +1,6 @@
 
-/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+/* Wrapping main template for the function TypeNested_label_Initialize defined in the file ../DOWNLOADED/casestudy/test.c
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
 

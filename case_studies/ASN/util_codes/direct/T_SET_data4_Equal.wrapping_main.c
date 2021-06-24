@@ -1,5 +1,6 @@
 
-/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/
+/* Wrapping main template for the function T_SET_data4_Equal defined in the file ../DOWNLOADED/casestudy/test.c
+/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
 
@@ -15,7 +16,7 @@ int main(int argc, char** argv)
     (void)argv;
 
     // Declare variable to hold function returned value
-    int result_faqas_semu;
+    _Bool result_faqas_semu;
 
     // Declare arguments and make input ones symbolic
     long pVal1;
