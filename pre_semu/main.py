@@ -100,7 +100,8 @@ class MutantInfo:
         changed_list = process_case_mutation(changed_list, original_src_file, stmt_list)
         changed_list.sort(key=lambda x: (x.start_index, x.end_index))
         stmt_i = 0
-        for int_idx, ci in enumerate(changed_list):
+        mut_int_idx = 1
+        for ci in changed_list:
             stmt_info = None
             while stmt_i < len(stmt_list):
                 if ci.start_index < stmt_list[stmt_i].start_index:
@@ -130,9 +131,10 @@ class MutantInfo:
                 MutantInfo(
                     stmt_info=stmt_info,
                     changed_info=ci,
-                    int_id=int_idx+1
+                    int_id=mut_int_idx
                 )
             )
+            mut_int_idx += 1
         
 
         return mut_list
