@@ -1,6 +1,7 @@
 import argparse
 import numpy
 import time, sys, os
+import itertools
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--original_coverages', type=str)
@@ -112,7 +113,10 @@ def get_mutant_name(mutant_key):
     return mutant_key.split('|')[0]
 
 def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
-   
+  
+    a_file = open(exec_dir + "/cosa.txt", "w") 
+
+    count = 0
     print("generating table...") 
     for mutant in mutant_list:
         start_time = time.time()
@@ -121,10 +125,10 @@ def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
         mutant_source = get_source_name(mutant)
         mutant_name = get_mutant_name(mutant)
 
-        mutant_coverage_list = []
-
+        mutant_coverage_dict = {}
+        i = 0
+        
         for test in test_list:
-
             for source in lines_dict:
                 
                 source_key = source + '|' + test
@@ -134,6 +138,7 @@ def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
                 else:
                     original_coverage = [0] * lines_dict[source]
 
+                s = 0
                 if source == mutant_source:
                     mutant_key = mutant_source + '|' + mutant_name + '|' + test
     
@@ -144,16 +149,25 @@ def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
 
                         cor_mutant_coverage = correct_coverage(mutant_coverage, original_coverage, int(line) - 1, operator)
 
-                        mutant_coverage_list = mutant_coverage_list + cor_mutant_coverage
+                        mutant_coverage_dict[i] = cor_mutant_coverage
                     else:
-                        mutant_coverage_list = mutant_coverage_list + original_coverage
+                        mutant_coverage_dict[i] = original_coverage
                 
                 else:
-                    mutant_coverage_list = mutant_coverage_list + original_coverage
-             
-        print(len(mutant_coverage_list), "elapsed:", time.time() - start_time)   
+                    mutant_coverage_dict[i] = original_coverage
+                i += 1
 
-        break 
+        mutant_coverage_list = numpy.hstack(list(mutant_coverage_dict.values()))
+
+        numpy.savetxt(a_file, mutant_coverage_list, delimiter=',') 
+
+        print(len(mutant_coverage_list), "elapsed:", time.time() - start_time)   
+        count +=1
+
+        if count == 2:
+            break
+    a_file.close()
+
 
 if __name__ == '__main__':
    
