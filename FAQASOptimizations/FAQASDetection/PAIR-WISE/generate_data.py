@@ -114,9 +114,8 @@ def get_mutant_name(mutant_key):
 
 def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
   
-    a_file = open(exec_dir + "/cosa.txt", "w") 
-
     count = 0
+    final_coverage = None
     print("generating table...") 
     for mutant in mutant_list:
         start_time = time.time()
@@ -138,7 +137,6 @@ def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
                 else:
                     original_coverage = [0] * lines_dict[source]
 
-                s = 0
                 if source == mutant_source:
                     mutant_key = mutant_source + '|' + mutant_name + '|' + test
     
@@ -158,15 +156,19 @@ def process(original_coverages_dict, coverages_dict, mutant_list, test_list):
                 i += 1
 
         mutant_coverage_list = numpy.hstack(list(mutant_coverage_dict.values()))
+       
+        if count == 0:
+            final_coverage = numpy.array(mutant_coverage_list)
+        else:
+            final_coverage = numpy.vstack([final_coverage, mutant_coverage_list])
 
-        numpy.savetxt(a_file, mutant_coverage_list, delimiter=',') 
-
-        print(len(mutant_coverage_list), "elapsed:", time.time() - start_time)   
+        print(len(mutant_coverage_list), "elapsed:", time.time() - start_time, "sizeof:", sys.getsizeof(mutant_coverage_list))   
         count +=1
 
-        if count == 2:
+        if count == 10:
+            dataset = exec_dir + '/main.npy'
+            numpy.save(dataset, final_coverage)
             break
-    a_file.close()
 
 
 if __name__ == '__main__':
