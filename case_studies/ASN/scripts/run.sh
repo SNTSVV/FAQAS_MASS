@@ -45,9 +45,9 @@ Where:
 
 --------------------------------------------------------------------------------------
 
-Example 1:  ./run.sh 
-Example 2:  ./run.sh compile
-Example 3:  ./run.sh pre-semu DOWNLOADED/live_mutants OUTPUT/live_mutants_output
+Example 1:  scripts/run.sh 
+Example 2:  scripts/run.sh compile
+Example 3:  scripts/run.sh pre-semu DOWNLOADED/live_mutants OUTPUT/live_mutants_output
 
 "
 
@@ -131,10 +131,10 @@ check_function_has_mutants()
 {
     local function_name=$1
     # if mutant list, use it else use all mutants
-    if [ "$mutants_list_file" = "" ]; then
-        cat $mutants_list_file | rev | cut -d'.' -f2 | rev | grep "$function_name" > /dev/null && return 0
+    if [ "$mutants_list_file" != "" ]; then
+        cat $mutants_list_file | rev | cut -d'.' -f2 | rev | grep "^$function_name$" > /dev/null && return 0
     else
-        find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c | rev | cut -d'.' -f2 | rev | grep "$function_name" > /dev/null && return 0
+        find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c | rev | cut -d'.' -f2 | rev | grep "^$function_name$" > /dev/null && return 0
     fi
     return 1
 }
