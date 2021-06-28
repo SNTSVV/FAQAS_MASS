@@ -72,6 +72,10 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
         "testgeneration"|"semu")
             phase=4
             ;;
+        "--help"|"-h")
+            echo "$help"
+            exit 0
+            ;;
         *)
             error_exit "invalid starting phase argument: $1. $help"
     esac
