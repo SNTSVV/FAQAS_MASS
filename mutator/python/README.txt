@@ -5,11 +5,18 @@ If you need to enable the "SINGLETON" option you must run the following command 
 
 export _FAQAS_SINGLETON_FM="TRUE"
 
+To avoid mutating a certain number of elements at the beginning of the buffer array, you can set this environmental variable
+
+export _FAQAS_INITIAL_PADDING=n
+
+where n is the number of elements to skip.
+
+
 some examples:
 
-ESAIL-ADCS (with the "SINGLETON" option)
+ESAIL-ADCS (with the "SINGLETON" option and skipping the first two elements)
 
-export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" "./case_studies_fault_models/fault_model_ESAIL_ADCS.csv"
+export _FAQAS_INITIAL_PADDING=2  _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" "./case_studies_fault_models/fault_model_ESAIL_ADCS.csv"
 
 LIBPARAM (without the "SINGLETON" option)
 
