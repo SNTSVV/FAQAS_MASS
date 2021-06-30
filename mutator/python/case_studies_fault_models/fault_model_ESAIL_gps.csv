@@ -1,0 +1,25 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+week
+F40,0,1,LONG,VAT,NA,NA,20,1,NA,NA
+seconds of week
+F40,1,1,LONG,SS,NA,NA,NA,1,NA,NA
+(unsigned)cartNavData.gpsUtc
+F40,1,1,LONG,SS,NA,NA,NA,-1,NA,NA
+cartNavData.x
+F40,1,1,LONG,HV,NA,NA,NA,NA,NA,10
+cartNavData.y
+F40,2,1,LONG,SS,NA,NA,NA,1,NA,NA
+cartNavData.z
+F40,2,1,LONG,SS,NA,NA,NA,-1,NA,NA
+cartNavData.vx
+F40,2,1,LONG,IV,NA,NA,NA,NA,NA,0
+cartNavData.vy
+F40,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+cartNavData.vz
+F40,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+(unsigned)cartNavData.navigationStatus
+F40,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+(unsigned)cartNavData.nbOfTrackSats
+F40,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+cartNavData.pdop
+F40,2,1,LONG,VAT,NA,NA,180,1,NA,NA

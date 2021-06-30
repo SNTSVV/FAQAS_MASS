@@ -9,10 +9,14 @@ some examples:
 
 ESAIL-ADCS (with the "SINGLETON" option)
 
-export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" fault_model_ESAIL_ADCS.csv
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" "./case_studies_fault_models/fault_model_ESAIL_ADCS.csv"
 
 LIBPARAM (without the "SINGLETON" option)
 
-python generateDataMutator.py  "unsigned long long int" LibParamFaultModel.csv
+python generateDataMutator.py  "unsigned long long int" "./case_studies_fault_models/LibParamFaultModel.csv"
+
+LIBPARAM (with the "SINGLETON" option)
+
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned long long int" "./case_studies_fault_models/LibParamFaultModel.csv"
 
 This script should generate two files: FAQAS_dataDrivenMutator.h and FAQAS_mutants_table.csv

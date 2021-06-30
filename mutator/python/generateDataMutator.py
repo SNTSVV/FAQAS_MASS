@@ -352,9 +352,10 @@ with open(fileName, 'r') as fault_model, open("FAQAS_mutants_table.csv", 'w') as
         mutant_count += 1
 
         if row[5] == 'VOR':  # at the moment VOR is the only one to double
-            mutant_count += 1
             new_row[0] = mutant_count
             map_writer.writerow(new_row)
+            mutant_count += 1
+
 
 # fin (it's not elegant but I didn't want to modify Fabrizio's code)
 # Enrico

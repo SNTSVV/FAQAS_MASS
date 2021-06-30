@@ -1,0 +1,21 @@
+GYTM Size: 3 Fault Model Size: 2
+
+GYTMFailure Size: 3 Fault Model Size: 1
+
+IfHK Size: 40 Fault Model Size: 38
+
+MagnetorquerSetPWMRSP Size: 10 Fault Model Size: 40
+
+MagnetorquerSetPWMRSPFailure Size: 3 Fault Model Size: 1
+
+SSTP Size: 14 Fault Model Size: 12
+
+SSTPFailure Size: 3 Fault Model Size: 1
+
+SpacecraftHK Size: 20 Fault Model Size: 16
+
+SunSensorTM Size: 50 Fault Model Size: 48
+
+SunsensorTmFailure Size: 3 Fault Model Size: 1
+
+IfStatus Size: 8 Fault Model Size: 6
