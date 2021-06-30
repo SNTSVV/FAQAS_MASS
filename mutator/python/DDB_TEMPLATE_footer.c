@@ -33,7 +33,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
   }
 
-  int pos = _FAQAS_selectItem();
+  int pos = _FAQAS_INITIAL_PADDING + _FAQAS_selectItem();
   int op = _FAQAS_selectOperator();
   int opt = _FAQAS_selectOperation();
 

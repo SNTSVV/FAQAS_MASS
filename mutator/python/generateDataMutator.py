@@ -21,6 +21,7 @@ lastSpan = ""
 fmID = 0
 
 SINGLETON_FM = os.getenv("_FAQAS_SINGLETON_FM", 'False').lower() in ['true', '1']
+INITIAL_PADDING = os.getenv("_FAQAS_INITIAL_PADDING", '0').lower()
 
 
 def newBF(item, _span, _type, _min, _max, _state, _value):
@@ -381,6 +382,7 @@ selectItem = "int _FAQAS_selectItem(){\n"
 selectItem += generateSelectFunctionContent(positions)
 selectItem += "return -999;\n"
 selectItem += "}\n"
+selectItem += "int _FAQAS_INITIAL_PADDING =" + str(INITIAL_PADDING)  + "; \n"
 
 selectOperator = "int _FAQAS_selectOperator(){\n"
 selectOperator += generateSelectFunctionContent(operators)
