@@ -38,10 +38,10 @@ Run as following:
 Where:
     - starting-phase: is the phase from which to starting
     - mutants-list-file: is the file containing the list of mutants to use during the phases pre-semu and semu. This must be a realtive path to the case study dir 
-                                    $(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR) (must be contained there).
+                                    $(readlink -f $FAQAS_SEMU_CASE_STUDY_WORKSPACE) (must be contained there).
     - output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
-                                    This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR) (must be contained there).
-                                    For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_CASE_STUDY_TOPDIR/OUTPUT/my-output)'
+                                    This directory must be specified relative to the case study dir $(readlink -f $FAQAS_SEMU_CASE_STUDY_WORKSPACE) (must be contained there).
+                                    For example specifying 'OUTPUT/my-output' will result in putting the output in '$(readlink -f $FAQAS_SEMU_CASE_STUDY_WORKSPACE/OUTPUT/my-output)'
 
 --------------------------------------------------------------------------------------
 
@@ -83,7 +83,7 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
         raw_mutants_list_file="$2"
         raw_custom_semu_pre_output="$3"
 
-        cd $FAQAS_SEMU_CASE_STUDY_TOPDIR || error_exit "cd $FAQAS_SEMU_CASE_STUDY_TOPDIR failed"
+        cd $FAQAS_SEMU_CASE_STUDY_WORKSPACE || error_exit "cd $FAQAS_SEMU_CASE_STUDY_WORKSPACE failed"
         mutants_list_file=$(readlink -f $raw_mutants_list_file)
         custom_semu_pre_output=$(readlink -f $raw_custom_semu_pre_output)
         cd - > /dev/null || error_exit "cd - failed"
