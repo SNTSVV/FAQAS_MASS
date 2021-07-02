@@ -23,10 +23,14 @@ int _FAQAS_COVERAGE_EXIT = 0;
 
 FILE* handleCoverage();
 
+const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+
+FILE *coverage_file_pointer = handleCoverage();
+
 
 void coverage_exit(void) {
 
-    fclose(handleCoverage());
+fclose(coverage_file_pointer);
 
 }
 
@@ -34,8 +38,6 @@ FILE* handleCoverage() {
 
     if ( MUTATION != -2 )
         return 0;
-
-  const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
 
    FILE* ptr = fopen(faqas_coverage_file, "ab+");
 
