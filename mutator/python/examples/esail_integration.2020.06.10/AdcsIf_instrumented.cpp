@@ -1,4 +1,5 @@
-//#include "FAQAS_dataDrivenMutator.h"
+//FAQAS API
+#include "FAQAS_dataDrivenMutator.h"
 
 
 /* Copyright (C) OHB-System AG
@@ -47,6 +48,10 @@
 #include "SystemIF/IUARTNode.h"
 #include "vector"
 
+//inclusions for logging
+#include <bitset>
+#include <fstream>
+
 // --OPENING ELEMENT--::Adcs::AdcsIf/AdcsIf::Extra_Includes--
 // MARKER: FILE INCLUSION: START
 #include "Generic/ByVeAsynchRequest.h"
@@ -54,10 +59,6 @@
 
 // MARKER: FORWARD DECLARATIONS: START
 // MARKER: FORWARD DECLARATIONS: END
-
-//int mutate( std::vector<Smp::UInt8> *v, FaultModel *fm ){
-//    return _FAQAS_mutate(v->data(),fm);
-//}
 
 // -----------------------------------------------------------------------------
 // ------------------------ Custom field definitions ---------------------------
@@ -93,9 +94,43 @@ void AdcsIf::ObcSendCb(::Smp::UInt8 sendByte)
 }
 // --CLOSING ELEMENT--AdcsIf::ObcSendCb--
 
-
+// FAQAS mutate function
 int mutate( std::vector<unsigned char> *v, FaultModel *fm ){
     return _FAQAS_mutate(v->data(),fm);
+}
+
+
+void log_data_before( std::vector<unsigned char> *v ){
+
+std::ofstream MyFile("/home/svf/logging_change_BEFORE.txt", std::ios_base::app);
+
+  MyFile << "\n BUFFER:\n";
+
+for (auto i = v->begin(); i != v->end(); ++i){
+    MyFile << std::bitset<8>(*i)  << std::endl;
+    MyFile << "***********" << std::endl;
+}
+
+  MyFile << "\n=========\n";
+  MyFile.close();
+
+}
+
+void log_data_after( std::vector<unsigned char> *v ){
+
+std::ofstream MyFile("/home/svf/logging_change_AFTER.txt", std::ios_base::app);
+
+  MyFile << "\n BUFFER:\n";
+
+for (auto i = v->begin(); i != v->end(); ++i){
+
+  MyFile << std::bitset<8>(*i)  << std::endl;
+
+}
+
+  MyFile << "\n=========\n";
+  MyFile.close();
+
 }
 
 // --OPENING ELEMENT--AdcsIf::ObcRecvBlockCb--
@@ -158,19 +193,12 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                 cr = GetIfStatus(newBlock);
 
                 //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-                  probe IfStatusFailure
-                  FaultModel *fm = _FAQAS_IfStatusFailure_FM();
-      		        mutate( &newBlock, fm );
-  		            _FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe IfStatus
+                if(cr != CR_Failure){
+
                   FaultModel *fm = _FAQAS_IfStatus_FM();
       		        mutate( &newBlock, fm );
   		            _FAQAS_delete_FM(fm);
-                  //end probe
+
                 }
                 //END PROBES
 
@@ -180,22 +208,15 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetIfHk(newBlock);
 
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-                  //probe IfHKFailure
-                  FaultModel *fm = _FAQAS_IfHKFailure_FM();
-      		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe IfHK
+                //MANUALLY INSERTED PROBE
+                if(cr != CR_Failure){
+
                   FaultModel *fm = _FAQAS_IfHK_FM();
       		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
-                  //end probe
+  		            _FAQAS_delete_FM(fm);
+
                 }
-                //END PROBES
+                //END PROBE
 
 
             }
@@ -211,7 +232,7 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             }
             break;
             case 4:
-            {
+           {
                 cr = SetConfiguration(newBlock);
             }
             break;
@@ -234,25 +255,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetGyroTm(newBlock);
 
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-
-                  //probe GYTMFailure
-                  FaultModel *fm = _FAQAS_GYTMFailure_FM();
-      		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
-                  //end probe
-
-                }
-                else{
-
-                  //probe GYTM
-                  FaultModel *fm = _FAQAS_GYTM_FM();
-      		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                //END PROBES
             }
             break;
             default:
@@ -286,17 +288,19 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                 cr = GetSsTm(newBlock);
                 //MANUALLY INSERTED PROBES
                 if(cr == CR_Failure){
+
                   //probe SunSensorTMfailure
                   FaultModel *fm = _FAQAS_SunSensorTMFailure_FM();
       		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
+  		            _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 else{
+
                   //probe SunSensorTM
                   FaultModel *fm = _FAQAS_SunSensorTM_FM();
       		        mutate( &newBlock, fm );
-  		            //_FAQAS_delete_FM(fm);
+  		            _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 //END PROBES
@@ -308,17 +312,18 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                 cr = GetSsTemp(newBlock);
                 //MANUALLY INSERTED PROBES
                 if(cr == CR_Failure){
+
                   //probe SSTPFailure
                   FaultModel *fm = _FAQAS_SSTPFailure_FM();
                   mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
+                  _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 else{
                   //probe SSTP
                   FaultModel *fm = _FAQAS_SSTP_FM();
                   mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
+                  _FAQAS_delete_FM(fm);
                   //end probe
                 }
                 //END PROBES
@@ -356,22 +361,16 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                 cr = SetMgtqPwm(newBlock);
 
 
-//MANUALLY INSERTED PROBES
+                //MANUALLY INSERTED PROBES
                 if(cr == CR_Failure){
-                  //probe MagnetorquerSetPWMRSPFailure
-                  FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSP_FM();
-                  mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe MagnetorquerSetPWMRSP
+
                   FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
                   mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
+                  _FAQAS_delete_FM(fm);
+
                 }
-//END PROBES
+
+                //END PROBE
 
                 if(cr == CR_Success)
                 {
@@ -380,6 +379,13 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                         // Bypass Magnetometer response
                         newBlock.resize(2);
                         cr = GetMgtqTm(newBlock);
+
+                        //MANUALLY INSERTED PROBE
+                        FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSP_FM();
+                        mutate( &newBlock, fm );
+                        _FAQAS_delete_FM(fm);
+                        //END PROBE
+
                     }
                     else
                     {
@@ -403,20 +409,13 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             {
                 cr = GetIfScHk(newBlock);
 
-                //  MANUALLY INSERTED PROBE
-                if(cr == CR_Failure){
-                  //probe SpaceCraftHK
-                  FaultModel *fm = _FAQAS_SpaceCraftHKFailure_FM();
-                  mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe SpaceCraftHK
+                //MANUALLY INSERTED PROBE
+                if(cr != CR_Failure){
+
                   FaultModel *fm = _FAQAS_SpaceCraftHK_FM();
                   mutate( &newBlock, fm );
-                  //_FAQAS_delete_FM(fm);
-                  //end probe
+                  _FAQAS_delete_FM(fm);
+
                 }
                 //END PROBE
 
@@ -632,9 +631,8 @@ void AdcsIf::Configure(::Smp::Services::ILogger* logger)
     // Call base implementation first
     ::Generic::PoweredUnit::Configure(logger);
 
-    _FAQAS_IfStatusFailure_FM();
+//FAQAS fault models generation
     _FAQAS_IfStatus_FM();
-    _FAQAS_IfHKFailure_FM();
     _FAQAS_IfHK_FM();
     _FAQAS_GYTMFailure_FM();
     _FAQAS_GYTM_FM();
@@ -642,7 +640,6 @@ void AdcsIf::Configure(::Smp::Services::ILogger* logger)
     _FAQAS_SunSensorTM_FM();
     _FAQAS_SSTP_FM();
     _FAQAS_SSTPFailure_FM();
-    _FAQAS_SpaceCraftHKFailure_FM();
     _FAQAS_SpaceCraftHK_FM();
     _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
     _FAQAS_MagnetorquerSetPWMRSP_FM();
@@ -725,6 +722,15 @@ void AdcsIf::RequestCompleted(::Smp::UInt8, const ::std::vector<Smp::UInt8>& com
         block.insert(block.end(), command.begin(), command.end());
         block.insert(block.end(), response.begin(), response.end());
 
+//MANUALLY INSERTED PROBE
+
+        FaultModel *fm = _FAQAS_GYTM_FM();
+        mutate( &block, fm );
+        _FAQAS_delete_FM(fm);
+
+//PROBE END
+
+
         SendResponse(block, false);
     }
     else
@@ -740,6 +746,14 @@ void AdcsIf::RequestCompleted(::Smp::UInt8, const ::std::vector<Smp::UInt8>& com
             Log(Smp::Services::LMK_Warning, "Unknown error %u", error);
             block.push_back(error);
         }
+
+//MANUALLY INSERTED PROBE
+
+        FaultModel *fm = _FAQAS_GYTMFailure_FM();
+        mutate( &block, fm );
+        _FAQAS_delete_FM(fm);
+
+//PROBE END
 
         SendResponse(block, true);
     }

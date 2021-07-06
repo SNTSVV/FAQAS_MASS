@@ -1,8 +1,8 @@
 #/bin/bash
 
-rm results.csv
+rm all_results.csv
 
-for c in "NORMAL" "SINGLETON";
+ for c in "NORMAL" "SINGLETON";
 # for c in "SINGLETON";
 # for c in "NORMAL";
 do
@@ -22,6 +22,8 @@ do
   echo "************<<<<<< |||||||>>>>>>>************"
 
   echo ""
+
+  rm -f results_$c.csv
 
   pushd tests
 
@@ -56,9 +58,9 @@ do
   bash runTest28.sh
   bash runTest29.sh
   bash runTest30.sh
-  bash runTest32.sh
-  bash runTest33.sh
-  bash runTest34.sh
+  # bash runTest32.sh
+  # bash runTest33.sh
+  # bash runTest34.sh
   bash runTest35.sh
   bash runTest36.sh
   bash runTest37.sh
@@ -84,11 +86,13 @@ do
   bash runTest57.sh
   bash runTest58.sh
   bash runTest59.sh
+  bash runTest60.sh
+  bash runTest61.sh
 
 
   popd
 
-  rm -f results_$c.csv
+
 
   find . -name "*.results.out" -exec cat > results_$c.csv {} +
 
@@ -104,7 +108,7 @@ echo ""
 
 cat results_*.csv > all_results.csv
 
-sort -n all_results.csv
+sort all_results.csv
 
 
 #find . -name "*.results.out" -exec cat > results.csv {} +
