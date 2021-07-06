@@ -29,7 +29,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
   }
 
-  if (MUTATION < fm->minOperation || MUTATION > fm->maxOperation) {
+  if (MUTATION < fm->minOperation || MUTATION >= fm->maxOperation) {
     return 0;
   }
 
