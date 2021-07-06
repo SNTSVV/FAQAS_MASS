@@ -181,7 +181,7 @@ def newASA(item, _span, _type, _threshold, _delta, _value):
     operations[elements] = 0
 
 
-def closeFaultModelsDef():
+def closeFaultModelsDef(last=False):
     global lastItem
     global operatorsCount
     global faultModelsDef
@@ -191,7 +191,12 @@ def closeFaultModelsDef():
     size = int(lastItem)+1
     sizeDef += "#define SIZE_"+lastFM+" "+str(size)+"\n"
 
-    faultModelsDef += "fm->maxOperation = "+str(elements)+";\n"
+    if ( last == True ):
+         maxOperation = elements+1
+    else:
+         maxOperation = elements
+
+    faultModelsDef += "fm->maxOperation = "+str(maxOperation)+";\n"
     faultModelsDef += "return fm;\n"
     faultModelsDef += "}\n"
 
@@ -250,7 +255,6 @@ def processRow(row):
     _value = row[_p]
 
     elements += 1
-
     positions[elements] = item
 
     if FM == lastFM:
@@ -375,7 +379,7 @@ with open(fileName) as csv_file:
             line_count += 1
 
 closeOperators()
-closeFaultModelsDef()
+closeFaultModelsDef(True)
 
 maxFMO = "//max MUTATIONOPT="+str(elements)
 
