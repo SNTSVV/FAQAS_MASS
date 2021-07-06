@@ -27,3 +27,10 @@ LIBPARAM (with the "SINGLETON" option)
 export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned long long int" "./case_studies_fault_models/LibParamFaultModel.csv"
 
 This script should generate two files: FAQAS_dataDrivenMutator.h and FAQAS_mutants_table.csv
+
+
+WORK IN PROGRESS:
+
+for the ESAIL gps
+
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "double" "./case_studies_fault_models/fault_model_ESAIL_gps_blank.csv"
