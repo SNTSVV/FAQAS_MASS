@@ -34,8 +34,18 @@ FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPD
 
 FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
 
+# timeout in seconds
 FAQAS_SEMU_TEST_GEN_TIMEOUT=7200
 
 # This may be 'FULL' or 'PARTIAL' (for FULL exploration or partial exploration)
 FAQAS_SEMU_HEURISTICS_CONFIG="FULL"
 
+# max Test Generation memory in MB
+FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
+
+# Set to 'ON' to stop test generation when the memory limit is reached
+FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
+
+# Set this to 'ON' so thae the states discarded when memory limit is reached are removed, to avoid going over memory limit 
+# When the checkoint is to far
+FAQAS_SEMU_NO_COMPARE_MEMORY_LIMIT_DISCARDED_STATES="OFF"
