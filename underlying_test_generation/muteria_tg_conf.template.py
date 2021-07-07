@@ -79,8 +79,8 @@ if {{ template_disable_post_mutation_check }}:
     semu_config_args.append(("--semu-disable-post-mutation-check",))
 if not {{ template_stop_on_memory_limit }}:
     semu_config_args.append(('--semu-no-error-on-memory-limit',))
-if not {{ template_no_compare_memory_limit_discarded }}:
-    semu_config_args.append(('--semu-no-compare-memory-limit-discarded',))
+if not {{ template_max_memory_inhibit }}:
+    semu_config_args.append(('--max-memory-inhibit',))
                             
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(

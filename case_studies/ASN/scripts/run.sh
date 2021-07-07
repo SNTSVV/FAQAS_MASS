@@ -31,7 +31,7 @@ gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
 gen_memory_limit=$FAQAS_SEMU_TEST_GEN_MAX_MEMORY
 gen_stop_on_mem_limit=$FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT
-gen_no_cmp_mem_limit_discarded_states=$FAQAS_SEMU_NO_COMPARE_MEMORY_LIMIT_DISCARDED_STATES
+gen_max_memory_inhibit=$FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT
 
 help="
 Run as following:
@@ -174,8 +174,8 @@ invoke_semu()
     if [ "$gen_stop_on_mem_limit" = "ON" ]; then
         other_args+=" --stop_on_memory_limit"
     fi
-    if [ "$gen_no_cmp_mem_limit_discarded_states" = "ON" ]; then
-        other_args+=" --no_compare_memory_limit_discarded"
+    if [ "$gen_max_memory_inhibit" = "ON" ]; then
+        other_args+=" --max_memory_inhibit"
     fi
 
     # call test generation

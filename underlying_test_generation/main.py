@@ -66,8 +66,8 @@ def get_args():
                         help="memory limit (in MB) of the test generation (> 0).")
     parser.add_argument("--stop_on_memory_limit", action="store_true",
                         help="abort the test generation when the memory limit is exceeded)")
-    parser.add_argument("--no_compare_memory_limit_discarded", action="store_true",
-                        help="directly destroy the states discarded due to memory limit (effective only when abort on memory limit is disabled)")
+    parser.add_argument("--max_memory_inhibit", action="store_true",
+                        help="Stop forking new states on condition when the max memory is reached")
     args = parser.parse_args()
     return args
 
@@ -140,7 +140,7 @@ def main():
     assert memory_limit > 0, "memory limit must be > 0."
 
     stop_on_memory_limit = args.stop_on_memory_limit
-    no_compare_memory_limit_discarded = args.no_compare_memory_limit_discarded
+    max_memory_inhibit = args.max_memory_inhibit
 
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)
@@ -167,7 +167,7 @@ def main():
         "template_meta_mu_bc_file": input_metamu_bitcode_file,
         "template_memory_limit": memory_limit,
         "template_stop_on_memory_limit": stop_on_memory_limit,
-        "template_no_compare_memory_limit_discarded": no_compare_memory_limit_discarded
+        "template_max_memory_inhibit": max_memory_inhibit
     }
     template_data.update(CONFIGS[semu_config])
     resolved_conf = Template(template_str).render(template_data)

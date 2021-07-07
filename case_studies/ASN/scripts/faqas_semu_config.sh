@@ -46,6 +46,5 @@ FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
 # Set to 'ON' to stop test generation when the memory limit is reached
 FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
 
-# Set this to 'ON' so thae the states discarded when memory limit is reached are removed, to avoid going over memory limit 
-# When the checkoint is to far
-FAQAS_SEMU_NO_COMPARE_MEMORY_LIMIT_DISCARDED_STATES="OFF"
+# Set this to 'ON' so thae the states the sate fork is disabled when the memory limit is reached, to avoid going much over it
+FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="OFF"
