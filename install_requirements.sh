@@ -21,5 +21,10 @@ python -c "import platform; exit(int(not (platform.python_version_tuple() > ('3'
 pip install -r $TOPDIR/requirements.txt
 
 # Install system packages (case study dependencies)
-sudo apt-get -y install jq cproto 
+if [ $(id -u) -eq 0 ]; then
+    # already sudo
+    apt-get -y install jq
+else
+    sudo apt-get -y install jq
+fi
 
