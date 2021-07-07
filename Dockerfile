@@ -21,7 +21,7 @@ RUN apt-get -y install cmake clang lib32z1-dev \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3 python \
   && cd - \
-  && ln -s $(which pip3) $(dirname $(which pip3))/pip
+  && { test -f $(dirname $(which pip3))/pip || ln -s $(which pip3) $(dirname $(which pip3))/pip; }
 
 RUN mv /home/FAQAS/faqas_semu/srcirorfaqas /home/FAQAS/MASS 
 RUN cd /home/FAQAS/MASS && bash llvm-build.sh 
