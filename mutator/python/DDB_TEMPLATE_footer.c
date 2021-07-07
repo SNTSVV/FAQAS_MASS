@@ -33,7 +33,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     return 0;
   }
 
-  int pos = _FAQAS_INITIAL_PADDING + _FAQAS_selectItem();
+  int pos = _FAQAS_selectItem();
+  int data_pos = _FAQAS_INITIAL_PADDING + pos;
   int op = _FAQAS_selectOperator();
   int opt = _FAQAS_selectOperation();
 
@@ -57,13 +58,13 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   for (kk = 0; kk < (span); kk = kk + 1) {
 
-    stepRead = 8 * sizeof(data[pos + kk]);
+    stepRead = 8 * sizeof(data[data_pos + kk]);
 
     intermediate = intermediate << stepRead;
 
     row = 0;
 
-    memcpy(&row, &data[pos + kk], sizeof(data[pos + kk]));
+    memcpy(&row, &data[data_pos + kk], sizeof(data[data_pos + kk]));
 
     intermediate = (intermediate | row);
   }
@@ -766,7 +767,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   while (counter < span) {
 
-    stepWrite = 8 * sizeof(data[pos + counter]);
+    stepWrite = 8 * sizeof(data[data_pos + counter]);
 
     int startSlice = (span - counter - 1) * stepWrite;
 
@@ -775,7 +776,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     unsigned long long slice =
         _FAQAS_slice_it_up(fullNumber, startSlice, endSlice);
 
-    memcpy(&data[pos + counter], &slice, sizeof(data[pos + counter]));
+    memcpy(&data[data_pos + counter], &slice, sizeof(data[data_pos + counter]));
 
     counter = counter + 1;
   }
