@@ -21,6 +21,8 @@ TOOLNAME = "FAQAS_SEMu"
 
 TEST_GENERATION_TIMEOUT = 7200 #2h
 
+MEMORY_LIMIT = 2000 # MB
+
 CONFIGS = {
     "FULL": {
         "template_PL": "0",
@@ -59,6 +61,13 @@ def get_args():
                         help="test generation timeout in seconds ( > 0).")
     parser.add_argument("--semu_heuristics_config", default="FULL", type=str, choices=list(CONFIGS),
                         help="Configuration for test generation. must be a string of {}.".format(list(CONFIGS)))
+
+    parser.add_argument("--max_memory_MB", default=MEMORY_LIMIT, type=int,
+                        help="memory limit (in MB) of the test generation (> 0).")
+    parser.add_argument("--stop_on_memory_limit", action="store_true",
+                        help="abort the test generation when the memory limit is exceeded)")
+    parser.add_argument("--no_compare_memory_limit_discarded", action="store_true",
+                        help="directly destroy the states discarded due to memory limit (effective only when abort on memory limit is disabled)")
     args = parser.parse_args()
     return args
 
