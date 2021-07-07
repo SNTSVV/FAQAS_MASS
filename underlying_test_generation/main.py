@@ -136,6 +136,12 @@ def main():
 
     semu_config = args.semu_heuristics_config
 
+    memory_limit = args.max_memory_MB
+    assert memory_limit > 0, "memory limit must be > 0."
+
+    stop_on_memory_limit = args.stop_on_memory_limit
+    no_compare_memory_limit_discarded = args.no_compare_memory_limit_discarded
+
     temporary_workdir = os.path.join(output_directory, "todelete_{}.tmp".format("work"))
     os.makedirs(temporary_workdir)
 
@@ -158,7 +164,10 @@ def main():
         "template_candidate_mutants_list": mutants_list_file,
         "template_disable_post_mutation_check": (not enable_post_mutation_check),
         "template_sym_args_list_of_lists": sym_args_list_of_lists,
-        "template_meta_mu_bc_file": input_metamu_bitcode_file
+        "template_meta_mu_bc_file": input_metamu_bitcode_file,
+        "template_memory_limit": memory_limit,
+        "template_stop_on_memory_limit": stop_on_memory_limit,
+        "template_no_compare_memory_limit_discarded": no_compare_memory_limit_discarded
     }
     template_data.update(CONFIGS[semu_config])
     resolved_conf = Template(template_str).render(template_data)

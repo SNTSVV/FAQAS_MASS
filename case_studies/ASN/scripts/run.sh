@@ -29,6 +29,9 @@ original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
+gen_memory_limit=$FAQAS_SEMU_TEST_GEN_MAX_MEMORY
+gen_stop_on_mem_limit=$FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT
+gen_no_cmp_mem_limit_discarded_states=$FAQAS_SEMU_NO_COMPARE_MEMORY_LIMIT_DISCARDED_STATES
 
 help="
 Run as following:
@@ -166,6 +169,15 @@ invoke_semu()
 {
     local meta_mutant_make_sym_bc_file=$1
     local func_gen_test_dir=$2
+
+    local other_args=""
+    if [ "$gen_stop_on_mem_limit" = "ON" ]; then
+        other_args+=" --stop_on_memory_limit"
+    fi
+    if [ "$gen_no_cmp_mem_limit_discarded_states" = "ON" ]; then
+        other_args+=" --no_compare_memory_limit_discarded"
+    fi
+
     # call test generation
     test -d $func_gen_test_dir || mkdir -p $func_gen_test_dir || error_exit "Failed to create func_gen_test_dir $func_gen_test_dir"
     (set -o pipefail && $tool_dir/underlying_test_generation/main.py $meta_mutant_make_sym_bc_file \
@@ -173,6 +185,7 @@ invoke_semu()
                                                                             --clear_existing \
                                                                             --generation_timeout $gen_timeout \
                                                                             --semu_heuristics_config $semu_heuristics_config \
+                                                                            ----max_memory_MB $gen_memory_limit \
                                                                             2>&1 | tee $func_gen_test_dir/test_gen.log) \
                                                                                                 || error_exit "Test generation failed"
 }

@@ -55,6 +55,7 @@ CUSTOM_DEV_TEST_RUNNER_FUNCTION = lambda *args, **kwargs: None
 semu_config_args = [
                                 ('--write-kqueries',),
                                 ('--write-smt2s',),
+                                ('-max-memory', '{{ template_memory_limit }}'),
                                 
                                 #('-semu-no-state-difference',),
                                 #('-semu-MDO-propagation-selection-strategy',),
@@ -62,7 +63,6 @@ semu_config_args = [
                                 ('-semu-forkprocessfor-segv-externalcalls',),
                                 #('-semu-testsgen-only-for-critical-diffs',),
                                 #('-semu-no-environment-output-diff',),
-                                ('--semu-no-error-on-memory-limit',),
                                 ('--semu-use-only-multi-branching-for-depth',),
 
                                 ('-semu-checkpoint-window', '{{ template_CW }}'),
@@ -77,6 +77,10 @@ if {{ template_candidate_mutants_list }} is not None:
     semu_config_args.append(('-semu-candidate-mutants-list-file', {{ template_candidate_mutants_list }}))
 if {{ template_disable_post_mutation_check }}:
     semu_config_args.append(("--semu-disable-post-mutation-check",))
+if not {{ template_stop_on_memory_limit }}:
+    semu_config_args.append(('--semu-no-error-on-memory-limit',))
+if not {{ template_no_compare_memory_limit_discarded }}:
+    semu_config_args.append(('--semu-no-compare-memory-limit-discarded',))
                             
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
