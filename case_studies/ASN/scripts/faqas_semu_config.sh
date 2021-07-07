@@ -47,4 +47,4 @@ FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
 FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
 
 # Set this to 'ON' so thae the states the sate fork is disabled when the memory limit is reached, to avoid going much over it
-FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="OFF"
+FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
