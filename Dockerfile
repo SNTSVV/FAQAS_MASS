@@ -17,12 +17,12 @@ RUN test -d /home/FAQAS/faqas_semu/srcirorfaqas || { \
 
 RUN apt-get -y update; exit 0
 RUN apt-get -y install cmake clang-10 lib32z1-dev \
-  && rm -f $(which clang) && ln -s $(which clang-10) $(dirname $(which clang-10))/clang \
-  && apt-get install -y python3-pip python3-dev \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && cd - \
-  && { test -f $(dirname $(which pip3))/pip || ln -s $(which pip3) $(dirname $(which pip3))/pip; }
+  && rm -f $(which clang) && ln -s $(which clang-10) $(dirname $(which clang-10))/clang 
+#RUN  && apt-get install -y python3-pip python3-dev \
+#  && cd /usr/local/bin \
+#  && ln -s /usr/bin/python3 python \
+#  && cd - \
+#  && { test -f $(dirname $(which pip3))/pip || ln -s $(which pip3) $(dirname $(which pip3))/pip; }
 
 RUN mv /home/FAQAS/faqas_semu/srcirorfaqas /home/FAQAS/MASS 
 RUN cd /home/FAQAS/MASS && bash llvm-build.sh 
