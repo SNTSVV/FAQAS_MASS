@@ -15,4 +15,4 @@ local_workspace_dir="$(readlink -f $topdir/../WORKSPACE)"
 
 sudo docker run -it --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     --mount type=bind,src=$local_workspace_dir,dst=$in_docker_workspace_dir \
-    $docker_image bash #-c "$in_docker_run_script ${@:1}"
+    $docker_image bash -c "$in_docker_run_script ${@:1}"
