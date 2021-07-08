@@ -17,7 +17,9 @@ set -e
 mass_topdir=$(dirname ${SRCIROR_SRC_MUTATOR})/../../
 test -d $mass_topdir || { echo "mass_topdir missing ($mass_topdir)"; exit 1; }
 
-faqas_semu_config_file=$(dirname $0)/faqas_semu_config.sh
+cd $(dirname $0)
+
+faqas_semu_config_file=./faqas_semu_config.sh
 source $faqas_semu_config_file
 
 #variables
