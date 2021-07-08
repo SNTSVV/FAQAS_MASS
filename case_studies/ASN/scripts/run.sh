@@ -17,15 +17,15 @@ source $faqas_semu_config_file
 
 cd $TOPDIR
 
-output_topdir=$(readlink -f $FAQAS_SEMU_OUTPUT_TOPDIR)
-mutants_dir=$(readlink -f $FAQAS_SEMU_GENERATED_MUTANTS_DIR)
-meta_mutant_dir=$(readlink -f $FAQAS_SEMU_META_MU_TOPDIR)
-meta_mutant_src_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_SRC_FILE)
-meta_mutant_bc_file=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_BC_FILE)
-meta_mutant_make_sym_top_dir=$(readlink -f $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR)
-gen_test_dir=$(readlink -f $FAQAS_SEMU_GENERATED_TESTS_TOPDIR)
+output_topdir=$(readlink -fm $FAQAS_SEMU_OUTPUT_TOPDIR)
+mutants_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_MUTANTS_DIR)
+meta_mutant_dir=$(readlink -fm $FAQAS_SEMU_META_MU_TOPDIR)
+meta_mutant_src_file=$(readlink -fm $FAQAS_SEMU_GENERATED_META_MU_SRC_FILE)
+meta_mutant_bc_file=$(readlink -fm $FAQAS_SEMU_GENERATED_META_MU_BC_FILE)
+meta_mutant_make_sym_top_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR)
+gen_test_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_TESTS_TOPDIR)
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
-original_src_file=$(readlink -f $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
+original_src_file=$(readlink -fm $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
 semu_heuristics_config=$FAQAS_SEMU_HEURISTICS_CONFIG
