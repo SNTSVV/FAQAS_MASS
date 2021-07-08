@@ -203,8 +203,8 @@ run_in_docker()
     local cmd_arg=$1
     if [ "$mutants_list_file" != "" ]; then
         local _tmp=
-        cmd_arg+=" $(echo $mutants_list_file | sed 's|^$ws_dir_here|$ws_in_docker|g')"
-        cmd_arg+=" $(echo $custom_semu_pre_output | sed 's|^$ws_dir_here|$ws_in_docker|g')"
+        cmd_arg+=" "$(echo $mutants_list_file | sed "s|^$ws_dir_here|$ws_in_docker|g")
+        cmd_arg+=" "$(echo $custom_semu_pre_output | sed "s|^$ws_dir_here|$ws_in_docker|g")
     fi
     echo "[$filename] Switching to docker..."
     (set -o pipefail && $cd_docker_script $ws_dir_here "$in_docker_cmd $cmd_arg" 2>&1 | sed "s|$ws_in_docker|$ws_dir_here|g") \
