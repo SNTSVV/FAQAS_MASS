@@ -4,7 +4,7 @@
 #
 
 # build llvm-3.8 and MASS
-FROM ubuntu:20.04 AS builder
+FROM thierrytct/klee-semu:llvm-3.4.2 AS builder
 
 COPY . /home/FAQAS/faqas_semu
 
@@ -16,7 +16,8 @@ RUN test -d /home/FAQAS/faqas_semu/srcirorfaqas || { \
     exit 1; }
 
 RUN apt-get -y update; exit 0
-RUN apt-get -y install cmake clang lib32z1-dev \
+RUN apt-get -y install cmake clang-10 lib32z1-dev \
+  && rm -f $(which clang) && ln -s $(which clang-10) $(dirname $(which clang-10))/clang \
   && apt-get install -y python3-pip python3-dev \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3 python \
