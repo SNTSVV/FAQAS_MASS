@@ -78,7 +78,7 @@ def main():
         return 1
 
     # mutate
-    c_indices = [ i for i, word in enumerate(args) if word.endswith('.c')]  # Mutating only .c files
+    c_indices = [ i for i, word in enumerate(args) if word.endswith('.c') or word.endswith('.cpp') or word.endswith('.cc')]
     if c_indices:
         ext = ".c"
         mutate(compiler, ext, mutator, args, compiler_include_flags, c_indices, operators)
