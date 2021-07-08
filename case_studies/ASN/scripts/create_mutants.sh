@@ -23,7 +23,7 @@ source $faqas_semu_config_file
 #variables
 SRCIROR_COMPILER=$mass_topdir/PythonWrappers/mutationClang
 
-SRC_MUTANTS=$(readlink -f $FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR)
+SRC_MUTANTS=$(readlink -fm $FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR)
 
 mkdir -p $SRC_MUTANTS
 
