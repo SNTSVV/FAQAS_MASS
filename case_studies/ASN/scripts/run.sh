@@ -87,8 +87,8 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
         raw_custom_semu_pre_output="$3"
 
         cd $FAQAS_SEMU_CASE_STUDY_WORKSPACE || error_exit "cd $FAQAS_SEMU_CASE_STUDY_WORKSPACE failed"
-        mutants_list_file=$(readlink -f $raw_mutants_list_file)
-        custom_semu_pre_output=$(readlink -f $raw_custom_semu_pre_output)
+        mutants_list_file=$(readlink -fm $raw_mutants_list_file)
+        custom_semu_pre_output=$(readlink -fm $raw_custom_semu_pre_output)
         cd - > /dev/null || error_exit "cd - failed"
         
         custom_meta_mutant_src_file=$custom_semu_pre_output/mutants_generation/$(basename $meta_mutant_src_file)
