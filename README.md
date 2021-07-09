@@ -21,7 +21,15 @@ when generating a test to kill a mutant. (This is implemented in the source code
 [7d19d05](https://github.com/thierry-tct/KLEE-SEMu/commit/7d19d050b967e741f9d215b41f7d51070bfad0a2),
 [3b0bf1f](https://github.com/thierry-tct/KLEE-SEMu/commit/3b0bf1f548b5f7130768f8495916c98c16034f8c#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5)).
 
-## Install dependencies
+## Building the FAQAS-SEMu Docker image
+Given that the mutation is performed by MASS, prio to building the Docker image, MASS must temporarily be cloned in the root of this repository (for the purpose of building the Docker image). MASS is available at `https://gitlab.uni.lu/ocornejo1/srcirorfaqas.git` (through HTTPS) or `ssh://git@gitlab.uni.lu:8022/ocornejo1/srcirorfaqas.git` (through SSH)
+
+The exact command to build the `faqas_semu` Docker image is available in the header of the [Dockerfile](Dockerfile)
+
+## Running ASN case study
+Instruction to run the ASN case study is available in [ASN README.md](case_studies/ASN/README.md)
+
+## Installing dependencies
 
 Install dependencies (tested on ubuntu) using the following command:
 ```

@@ -1,5 +1,5 @@
 #
-# Build command (from folder containing Dockerfile):
+# Build comman, ran from folder containing Dockerfile (use ssh://git@gitlab.uni.lu:8022/ocornejo1/srcirorfaqas.git for MASS clone through SSH)):
 #
 #>  git clone https://gitlab.uni.lu/ocornejo1/srcirorfaqas.git srcirorfaqas && sudo docker build --no-cache -t faqas_semu . && rm -rf srcirorfaqas
 #
