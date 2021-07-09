@@ -36,7 +36,6 @@ fclose(coverage_file_pointer);
 
 FILE* handleCoverage() {
 
-  //printf("handleCvorage");
 
     if ( MUTATION != -2 )
         return 0;
@@ -147,7 +146,6 @@ struct FaultModel *_FAQAS_create_FM(int items) {
 
 void __FAQAS_delete_FM(FaultModel *dm) {
 
-  //printf("__delete");
 
 
   if (dm == 0)
@@ -167,8 +165,6 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 
   free( dm );
 
-  // dm->items=0;
-  // dm = 0;
 
   #endif
 
@@ -177,7 +173,6 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 
 void _FAQAS_delete_FM(FaultModel *dm) {
 
-  //printf("_delete");
 
   #ifdef _FAQAS_SINGLETON_FM
   #else
@@ -231,15 +226,13 @@ void _FAQAS_print_binary(unsigned long long n) {
 
     if (relevant == mask) {
 
-      //printf("1");
 
     } else {
 
-      //printf("0");
     }
 
     steps = steps - 1;
   }
 
-  //printf("\n");
+
 }

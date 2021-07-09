@@ -17,8 +17,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
    _FAQAS_fmCoverage(fm->ID);
 
-   FILE *coverage_file_pointer = handleCoverage();
-
     fprintf(coverage_file_pointer, "fm.ID: %d\n", fm->ID);
 
     return 0;
