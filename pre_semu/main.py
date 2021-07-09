@@ -401,7 +401,7 @@ def compute_mutation_point_str(mut_start_id, mut_end_id):
     return "{}({},{});".format(MUT_SEL_FUNC, mut_start_id, mut_end_id)
 
 def get_post_mutation_point_str (mut_points_str):
-    return "\n{}(0,0);\n".format(POST_MUT_FUNC) + mut_points_str.replace(MUT_SEL_FUNC, POST_MUT_FUNC)
+    return "\n{}(0,0);".format(POST_MUT_FUNC) + mut_points_str.replace(MUT_SEL_FUNC, POST_MUT_FUNC)
 
 def compute_selection_expr(orig_expr, mid2expr):
     res = "(" + orig_expr + ")"
