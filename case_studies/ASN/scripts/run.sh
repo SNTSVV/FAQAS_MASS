@@ -19,6 +19,8 @@ if test -f $TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh; then
     faqas_semu_config_file=$TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh
     echo "[run.sh] using overriding faqas_semu_config_file $faqas_semu_config_file."
     source $faqas_semu_config_file
+else
+    echo "[run.sh] using default faqas_semu_config_file $faqas_semu_config_file."
 fi
 
 cd $TOPDIR
