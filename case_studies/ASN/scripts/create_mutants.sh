@@ -22,6 +22,11 @@ cd $(dirname $0)
 faqas_semu_config_file=./faqas_semu_config.sh
 source $faqas_semu_config_file
 
+if test -f $FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh; then
+    faqas_semu_config_file=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh
+	source $faqas_semu_config_file
+fi
+
 #variables
 SRCIROR_COMPILER=$mass_topdir/PythonWrappers/mutationClang
 

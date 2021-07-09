@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# This script uses the version of the repository code in the docker image (it calls the run.sh script of the image)
+
 set -u
 
 topdir=$(dirname $(readlink -f $0))

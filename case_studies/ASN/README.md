@@ -3,8 +3,19 @@
 - Download ASN folder as zip from [https://dropit.uni.lu/invitations/?share=b5654d5f4e23cc9020f2#](https://dropit.uni.lu/invitations/?share=b5654d5f4e23cc9020f2#)
 - Extract it here into folder a folder named `WORKSPACE/DOWNLOADED`
 
-## Running Using FAQAS-SEMu Docker image
+## Optioanl Configurations
+In order to change the values of configuration such as the test generation timeout or memory limit (see the file [scripts/faqas_semu_config.sh](scripts/faqas_semu_config.sh)):
 
+1. Make a copy of the file in the `WORSPACE` folder
+```
+cp scripts/faqas_semu_config.sh WORKSPACE/faqas_semu_config.sh
+```
+
+2. Change the configuration values in the resulting file `WORKSPACE/faqas_semu_config.sh`
+
+The scripts will use the configuration file `WORKSPACE/faqas_semu_config.sh` if present. if not, it will use `scripts/faqas_semu_config.sh`
+
+## Running Using FAQAS-SEMu Docker image
 #### Requirement
 The `faqas_semu` Docker image must be build as specified in the header of the [Dockerfile](../../Dockerfile)
 
