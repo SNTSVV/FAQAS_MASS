@@ -15,6 +15,12 @@ error_exit()
 faqas_semu_config_file=$TOPDIR/faqas_semu_config.sh
 source $faqas_semu_config_file
 
+if test -f $TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh; then
+    faqas_semu_config_file=$TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh
+    echo "[run.sh] using overriding faqas_semu_config_file $faqas_semu_config_file."
+    source $faqas_semu_config_file
+fi
+
 cd $TOPDIR
 
 output_topdir=$(readlink -fm $FAQAS_SEMU_OUTPUT_TOPDIR)
