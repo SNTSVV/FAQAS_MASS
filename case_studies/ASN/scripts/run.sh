@@ -102,6 +102,8 @@ elif [ $# -ne 0 ]; then
     error_exit "Expecting 0, 1 or3 arguments: $help"
 fi
 
+echo "[run.sh] Running with: PHASE=$phase, OPTIONAL_MUTANT_LIST='$mutants_list_file', OPTIONAL_OUTDIR='$custom_semu_pre_output'"
+
 # Create output dir
 test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create output dir '$output_topdir'"
 test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
