@@ -5,6 +5,8 @@
 # Created by Oscar Eduardo CORNEJO OLIVARES, oscar.cornejo@uni.lu, SnT, 2021.
 #
 
+set -e
+
 ts_prioritized_reduced=$PRIORITIZED
 
 all_filtered=$APP_RUN_DIR/COMPILED/all_filtered
@@ -28,6 +30,10 @@ mkdir -p $mut_exec_dir
 
 # clean list
 >$mut_exec_dir/sampled_mutants
+
+if [[ $SAMPLING == "uniform" ]] || [[ $SAMPLING == "stratified" ]];then
+    [ -n "$RATE" ] || echo "if sampling uniform or stratified is selected, then the rate should be provided on MASS configuration file" && exit 1
+fi
 
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/sort_mutants.py --sampling "$SAMPLING" --rate "$RATE" --all_filtered "$all_filtered" --sampled_mutants "$mut_exec_dir/sampled_mutants"
 

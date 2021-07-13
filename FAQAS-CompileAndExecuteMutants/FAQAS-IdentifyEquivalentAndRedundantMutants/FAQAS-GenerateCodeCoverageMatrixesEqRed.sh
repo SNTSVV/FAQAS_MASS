@@ -17,7 +17,6 @@ MUTANT=$3
 shopt -s extglob
 
 for tst in $TST/*/; do
-
     pushd $tst/$GC_FILES_RELATIVE_PATH > /dev/null
 
     GC_FILES_FULL_PATH=$(pwd)

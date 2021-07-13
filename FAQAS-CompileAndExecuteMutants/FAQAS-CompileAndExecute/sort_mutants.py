@@ -18,7 +18,7 @@ parser.add_argument('--sampled_mutants', type=str)
 args = parser.parse_args()
 
 sampling = args.sampling
-rate = float(args.rate)
+rate = float(args.rate) if args.rate else 0.0
 all_filtered = args.all_filtered
 sampled_mutants = args.sampled_mutants
 

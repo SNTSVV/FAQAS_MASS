@@ -36,8 +36,10 @@ while IFS="" read -r p || [ -n "$p" ];do
     mkdir -p $folder
 
     mutant_name=$(echo $p | awk -F'|' '{print $1}')
-    mutant_location=$(echo $p | awk -F'|' '{print $2}' | sed "s:\.c::")
-    mutant_full_path=$(find . -wholename "*$mutant_location*$mutant_name.c")
+    original_src=$(echo $p | awk -F'|' '{print $2}')
+    src_extension="${original_src##*.}"
+    mutant_location=$(echo $p | awk -F'|' '{print $2}' | sed "s:\.$src_extension::")
+    mutant_full_path=$(find . -wholename "*$mutant_location*$mutant_name.$src_extension")
 
     cp "$mutant_full_path" --parents $folder
     n=$((n+1))

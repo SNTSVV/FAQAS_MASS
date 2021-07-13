@@ -12,9 +12,17 @@ mkdir -p $COV_FILES
 
 TIMEOUT=$(echo "$ORIGINAL_TIME*3" | bc)
 
+[ $TIMEOUT -eq 0 ] && TIMEOUT=3
+
 # we save also test suite execution order
 echo $TST_NAME:$TIMEOUT >> $COV_FILES/test_suite_order.txt
 
-pushd $PROJ_COV
-find $TST_NAME \( -name '*.gcda' -or -name '*.gcno' -or -name '*.c' \) -exec cp {} --parents $COV_FILES \;
-popd
+if [[ "$PROJ" != "$PROJ_COV" ]]; then
+    pushd $PROJ_COV
+    find $TST_NAME \( -name '*.gcda' -or -name '*.gcno' -or -name '*.c' -or -name '*.cpp' -or -name '*.cc' \) -exec cp {} --parents $COV_FILES \;
+    popd
+else
+    pushd $PROJ
+    find . \( -name '*.gcda' -or -name '*.gcno' -or -name '*.c' -or -name '*.cpp' -or -name '*.cc' \) -exec cp {} --parents $COV_FILES \;
+    popd
+fi

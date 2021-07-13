@@ -15,7 +15,7 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 
 re='^[0-9]+$'
 
-for src in `find $PROJ_SRC -name "*.c"`;do
+for src in `find $PROJ_SRC \( -name '*.c' -or -name '*.cpp' -or -name '*.cc' \)`;do
     file=`basename -- $src`
 
     relative_file=${src//$PROJ_SRC\//}
