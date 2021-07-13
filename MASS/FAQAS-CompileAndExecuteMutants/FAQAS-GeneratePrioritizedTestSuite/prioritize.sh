@@ -42,6 +42,8 @@ prioritized+=($mostExecutedTest)
 
 coverage_array=("${coverage_array[@]}")
 
+[ ${#coverage_array[@]} -eq 0 ] && return 1
+
 echo prioritize.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "s2" --method "cosine" --result "$pts_file" 
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "s2" --method "cosine" --result "$red_file" 
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize_only.py --cov_array "${coverage_array[@]}" --prio "${prioritized[@]}" --mut_name "$mutantName" --line "$lineNumber" --strat "s2" --method "cosine" --result "$pts_file" 

@@ -14,7 +14,7 @@ $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants
 # filter equivalent
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/filter_equivalent.py $APP_RUN_DIR/DETECTION/test_runs/filtered_main.csv s1
 
-comm -13 <(sort $APP_RUN_DIR/DETECTION/test_runs/equivalents_distance_zero) <(sort $MUTATION_DIR/test_runs/all_live) > $MUTATION_DIR/test_runs/filtered_live
+comm -13 <(sort $APP_RUN_DIR/DETECTION/test_runs/equivalents_distance_zero.csv) <(sort $MUTATION_DIR/test_runs/all_live) > $MUTATION_DIR/test_runs/filtered_live
 
 
 

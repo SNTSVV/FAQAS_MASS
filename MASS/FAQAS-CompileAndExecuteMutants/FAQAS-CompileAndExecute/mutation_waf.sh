@@ -34,11 +34,14 @@ touch $LOGFILE
 start_time=$(($(date +%s%N)/1000000))
 
 mutant_name=$(echo $MUTANT_ID | awk -F'|' '{print $1}')
-mutant_location=$(echo $MUTANT_ID | awk -F'|' '{print $2}' | sed "s:\.c::")
 
 original_src=$(echo $MUTANT_ID | awk -F'|' '{print $2}')
 
-mutant_full_path=$(find $MUTANTS_DIR -wholename "*$mutant_location*$mutant_name.c")
+src_extension="${original_src##*.}"
+
+mutant_location=$(echo $MUTANT_ID | awk -F'|' '{print $2}' | sed "s:\.$src_extension::")
+
+mutant_full_path=$(find $MUTANTS_DIR -wholename "*$mutant_location*$mutant_name.$src_extension")
 
 mutant_src_name=$(echo $mutant_name | awk -F'.' '{print $1}')
 

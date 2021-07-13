@@ -19,7 +19,11 @@ if [[ -s $REDUCED ]];then
     return 0
 fi
 
-for src in $(find $PROJ_SRC -name '*.c');do
+for src in $(find $PROJ_SRC \( -name '*.c' -or -name '*.cpp' -or -name '*.cc' \));do
+    src_covered=$(grep -Ir "$src" $COV_FILES | wc -l)
+
+    [ $src_covered -gt 0 ] || continue
+
     lines=$(wc -l $src | awk '{print $1}')
     count=1
 

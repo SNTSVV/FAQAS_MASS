@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.7
 
 #
 # Copyright (c) University of Luxembourg 2021.

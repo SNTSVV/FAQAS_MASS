@@ -48,13 +48,16 @@ trap "exit" INT
 
 count=0
 
-for i in $(find $SRC_MUTANTS -name '*.c');do
+for i in $(find $SRC_MUTANTS  \( -name '*.c' -or -name '*.cpp' -or -name '*.cc' \));do
     start_time=$(($(date +%s%N)/1000000))
 
     file_wo_opt=${i//$SRC_MUTANTS/}
+
+    file_extension="${i##*.}"
+    
     mutant_name="$(basename -- ${file_wo_opt%.*})"
 
-    file_wo_mut_end=.${file_wo_opt%%.*}.c
+    file_wo_mut_end=.${file_wo_opt%%.*}.${file_extension}
 
     filename="$(basename -- ${file_wo_mut_end%.*})"
 

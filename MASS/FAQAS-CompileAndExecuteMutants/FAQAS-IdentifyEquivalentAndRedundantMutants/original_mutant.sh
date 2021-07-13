@@ -24,14 +24,14 @@ mkdir -p $TST_COVERAGE_FOLDER
 
 pushd $APP_RUN_DIR/COV_FILES
 find . -type d -links 2 -exec mkdir -p "$TST_COVERAGE_FOLDER/{}" \;
-find . -name '*.c' -exec cp --parents {} $TST_COVERAGE_FOLDER \;
+find . \( -name '*.c' -or -name '*.cpp' -or -name '*.cc' \) -exec cp --parents {} $TST_COVERAGE_FOLDER \;
 popd
 
 LOGFILE=$EXEC_DIR/main.csv
 touch $LOGFILE
 
 shopt -s nullglob;
-for i in $(find $MUTANTS_DIR -name '*.c');do
+for i in $(find $MUTANTS_DIR \( -name '*.c' -or -name '*.cpp' -or -name '*.cc' \));do
 
     file_wo_opt=${i//$MUTANTS_DIR/}
     mutant_name="$(basename -- ${file_wo_opt%.*})"
@@ -40,7 +40,9 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
     
     operator=$(echo $mutant_name | awk -F'.' '{print $5}')
     
-    file_wo_mut_end=.${file_wo_opt%%.*}.c
+    file_extension="${i##*.}"
+
+    file_wo_mut_end=.${file_wo_opt%%.*}.$file_extension
 
     filename="$(basename -- ${file_wo_mut_end%.*})"
 
@@ -79,13 +81,14 @@ for i in $(find $MUTANTS_DIR -name '*.c');do
         cd coverage
         for f in *.tar.gz;do tar -xzf "$f";done
 
+        echo $TST_COVERAGE_FOLDER
+
         find . -name '*.gc*' -exec cp --parents {} $TST_COVERAGE_FOLDER \;
         cd ../ && rm -rf coverage/
 
         source $COV_SCRIPT $TST_COVERAGE_FOLDER $filename_orig $mutant_name
-        
-        cd $TST_COVERAGE_FOLDER
 
+        cd $TST_COVERAGE_FOLDER
         find . -name 'coverage.txt' -exec cp --parents {} $MUTANT_COVERAGE_FOLDER \;
         pushd $MUTANT_COVERAGE_FOLDER
 
