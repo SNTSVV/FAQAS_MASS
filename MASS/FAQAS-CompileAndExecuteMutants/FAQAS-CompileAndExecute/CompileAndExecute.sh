@@ -32,7 +32,10 @@ mkdir -p $mut_exec_dir
 >$mut_exec_dir/sampled_mutants
 
 if [[ $SAMPLING == "uniform" ]] || [[ $SAMPLING == "stratified" ]];then
-    [ -n "$RATE" ] || echo "if sampling uniform or stratified is selected, then the rate should be provided on MASS configuration file" && exit 1
+    if [ -z "$RATE" ];then
+        echo "if sampling uniform or stratified is selected, then the rate should be provided on MASS configuration file"
+        exit 1
+    fi
 fi
 
 $MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/sort_mutants.py --sampling "$SAMPLING" --rate "$RATE" --all_filtered "$all_filtered" --sampled_mutants "$mut_exec_dir/sampled_mutants"
