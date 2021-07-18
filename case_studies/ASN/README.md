@@ -3,7 +3,7 @@
 - Download ASN folder as zip from [https://dropit.uni.lu/invitations/?share=b5654d5f4e23cc9020f2#](https://dropit.uni.lu/invitations/?share=b5654d5f4e23cc9020f2#)
 - Extract it here into folder a folder named `WORKSPACE/DOWNLOADED`
 
-## Optioanl Configurations
+## Optional Configurations
 In order to change the values of configuration such as the test generation timeout or memory limit (see the file [scripts/faqas_semu_config.sh](scripts/faqas_semu_config.sh)):
 
 1. Make a copy of the file in the `WORSPACE` folder

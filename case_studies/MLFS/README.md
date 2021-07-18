@@ -1,9 +1,9 @@
 
 ## Preparation
 - Download MLFS folder as zip from [https://dropit.uni.lu/invitations/?share=46d83f64940adf814043#/MLFS-TestGeneration/MLFS-QDP_I1_R1.zip](https://dropit.uni.lu/invitations/?share=46d83f64940adf814043#/MLFS-TestGeneration/MLFS-QDP_I1_R1.zip)
-- Extract it here into folder a folder named `WORKSPACE/DOWNLOADED`as `WORSPACE/DOWNLOADED/MLFS-QDP_I1_R1`
+- Extract it here into folder a folder named `WORKSPACE/DOWNLOADED` as `WORSPACE/DOWNLOADED/MLFS-QDP_I1_R1`
 
-## Optioanl Configurations
+## Optional Configurations
 In order to change the values of configuration such as the test generation timeout or memory limit (see the file [scripts/faqas_semu_config.sh](scripts/faqas_semu_config.sh)):
 
 1. Make a copy of the file in the `WORSPACE` folder
