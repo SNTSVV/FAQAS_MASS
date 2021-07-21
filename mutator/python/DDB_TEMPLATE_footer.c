@@ -1,4 +1,3 @@
-
 //
 // Copyright (c) University of Luxembourg 2020.
 // Created by Fabrizio PASTORE, fabrizio.pastore@uni.lu, SnT, 2020.
@@ -298,11 +297,35 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       if (opt == 0) {
 
-        valueInt = OP->min - OP->delta;
+        if (valueInt >= OP->min){
+
+          valueInt = OP->min - OP->delta;
+
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+
+        else{
+          //value already below min
+          fprintf(coverage_file_pointer, "VOR: value already below min\n");
+        }
+
       }
 
       else if (opt == 1) {
-        valueInt = OP->max + OP->delta;
+
+        if (valueInt <= OP->max){
+
+          valueInt = OP->max + OP->delta;
+
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+        else {
+          //value already above max
+          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+        }
+
       }
 
       else {
@@ -316,11 +339,35 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       if (opt == 0) {
 
-        valueLong = OP->min - OP->delta;
+        if (valueLong >= OP->min){
+
+          valueLong = OP->min - OP->delta;
+
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+
+        else{
+          //value already below min
+          fprintf(coverage_file_pointer, "VOR: value already below min\n");
+        }
+
       }
 
       else if (opt == 1) {
-        valueLong = OP->max + OP->delta;
+
+        if (valueLong <= OP->max){
+
+          valueLong = OP->max + OP->delta;
+
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+        else {
+          //value already above max
+          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+        }
+
       }
 
       else {
@@ -334,11 +381,34 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       if (opt == 0) {
 
-        valueDouble = (double)OP->min - OP->delta;
+        if (valueDouble >= OP->min){
+          valueDouble = OP->min - OP->delta;
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+
+        else{
+          //value already below min
+          fprintf(coverage_file_pointer, "VOR: value already below min\n");
+
+        }
+
       }
 
       else if (opt == 1) {
-        valueDouble = (double)OP->max + OP->delta;
+
+        if (valueDouble <= OP->max){
+
+          valueDouble = OP->max + OP->delta;
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+        else {
+          //value already above max
+          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+
+        }
+
       }
 
       else {
@@ -352,11 +422,33 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       if (opt == 0) {
 
-        valueFloat = (float)OP->min - OP->delta;
+        if (valueFloat >= OP->min){
+          valueFloat = OP->min - OP->delta;
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+
+        else{
+          //value already below min
+          fprintf(coverage_file_pointer, "VOR: value already below min\n");
+
+        }
+
       }
 
       else if (opt == 1) {
-        valueFloat = (float)OP->max + OP->delta;
+
+        if (valueFloat <= OP->max){
+
+          valueFloat = OP->max + OP->delta;
+          fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
+
+        }
+        else {
+          //value already above max
+          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+        }
+
       }
 
       else {
@@ -365,34 +457,81 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
       _FAQAS_mutated = 1;
     }
+
+
   }
 
   if (OP->type == VAT) {
 
     if (fm->items[pos].type == INT) {
 
-      valueInt = OP->threshold + OP->delta;
+      if (valueInt <= OP->threshold){
+
+        valueInt = OP->threshold + OP->delta;
+
+        fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
+
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
+
+      }
+
 
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
 
-      valueLong = OP->threshold + OP->delta;
+      if (valueLong <= OP->threshold){
+
+        valueLong = OP->threshold + OP->delta;
+
+        fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
+
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
+
+      }
 
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
 
-      valueDouble = (double)OP->threshold + OP->delta;
+      if (valueDouble <= OP->threshold){
+
+        valueDouble = (double)OP->threshold + OP->delta;
+
+        fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
+
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
+
+      }
 
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
 
-      valueFloat = (float)OP->threshold + OP->delta;
+      if (valueFloat <= (float)OP->threshold){
+
+        valueFloat = (float)OP->threshold + OP->delta;
+
+        fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
+
+      }
+      else{
+        //value already above threshold
+        fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
+
+      }
 
       _FAQAS_mutated = 1;
     }
@@ -402,7 +541,18 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT) {
 
-      valueInt = OP->threshold - OP->delta;
+      if (valueInt >= OP->threshold){
+
+        valueInt = OP->threshold - OP->delta;
+
+        fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
+
+      }
+      else{
+        //value already below threshold
+        fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
+
+      }
 
       _FAQAS_mutated = 1;
     }
@@ -416,14 +566,37 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE) {
 
-      valueDouble = (double)OP->threshold - (double)OP->delta;
+      if (valueDouble >= (double)OP->threshold){
+
+        valueDouble = (double)OP->threshold - (double)OP->delta;
+
+        fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
+
+      }
+      else {
+        //value already below threshold
+        fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
+
+      }
+
 
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
 
-      valueFloat = (float)OP->threshold - OP->delta;
+      if (valueFloat >= (float)OP->threshold){
+
+        valueFloat = (float)OP->threshold - OP->delta;
+
+        fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
+
+      }
+      else{
+        //value already below threshold
+        fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
+
+      }
 
       _FAQAS_mutated = 1;
     }

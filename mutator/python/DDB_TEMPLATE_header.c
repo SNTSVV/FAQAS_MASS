@@ -37,8 +37,8 @@ fclose(coverage_file_pointer);
 FILE* handleCoverage() {
 
 
-    if ( MUTATION != -2 )
-        return 0;
+    //if ( MUTATION != -2 )
+      //  return 0;
 
    FILE* ptr = fopen(faqas_coverage_file, "ab+");
 
