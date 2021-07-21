@@ -1148,7 +1148,7 @@ vectorC before
 444.56
 -42
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1182,7 +1182,7 @@ vectorC
 444.56
 -42
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1216,7 +1216,7 @@ vectorC
 36.3
 160
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1250,7 +1250,7 @@ vectorC
 66.3
 190
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1284,7 +1284,7 @@ vectorC
 96.3
 220
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1318,7 +1318,7 @@ vectorC
 126.3
 250
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1352,7 +1352,7 @@ vectorC
 156.3
 280
 variable A0 is too low
-variable A1 is too low
+variable A1 is too high
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1386,7 +1386,7 @@ vectorC
 186.3
 310
 variable A0 is too low
-variable A1 is too low
+variable A1 is in range
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1420,7 +1420,7 @@ vectorC
 216.3
 340
 variable A0 is too low
-variable A1 is too low
+variable A1 is in range
 variable A2 is too low
 variable A3 is too low
 variable A4 is too high
@@ -1454,7 +1454,7 @@ vectorC
 246.3
 370
 variable A0 is too low
-variable A1 is too low
+variable A1 is in range
 variable A2 is too low
 variable A3 is too low
 variable A4 is in range
