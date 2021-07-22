@@ -379,11 +379,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT) {
       if (valueInt < OP->min){
-        valueInt = OP->min + OP->delta
+        valueInt = OP->min + OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else if (valueInt > OP->max){
-        valueInt = OP->max - OP->delta
+        valueInt = OP->max - OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else{
@@ -394,11 +394,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == LONG) {
       if (valueLong < OP->min){
-        valueLong = OP->min + OP->delta
+        valueLong = OP->min + OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else if (valueLong > OP->max){
-        valueLong = OP->max - OP->delta
+        valueLong = OP->max - OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else{
@@ -409,11 +409,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat < OP->min){
-        valueFloat = OP->min + OP->delta
+        valueFloat = OP->min + OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else if (valueFloat > OP->max){
-        valueFloat = OP->max - OP->delta
+        valueFloat = OP->max - OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else{
@@ -424,11 +424,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble < OP->min){
-        valueDouble = OP->min + OP->delta
+        valueDouble = OP->min + OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else if (valueInt > OP->max){
-        valueDouble = OP->max - OP->delta
+        valueDouble = OP->max - OP->delta;
         fprintf(coverage_file_pointer, "FIXVOR:1\n");
       }
       else{
