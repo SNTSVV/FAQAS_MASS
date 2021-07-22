@@ -79,6 +79,23 @@ def newVOR(item, _span, _type, _min, _max, _delta):
     operators[elements] = currentOperator
 
 
+def newFIXVOR(item, _span, _type, _min, _max, _delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    global operatorsCount
+
+    faultModelsDef += "\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=FIXVOR;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+        str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+
+
 def newVAT(item, _span, _type, _threshold, _delta):
     global operators
     global operations
@@ -96,6 +113,23 @@ def newVAT(item, _span, _type, _threshold, _delta):
     operations[elements] = 0
 
 
+def newFIXVAT(item, _span, _type, _threshold, _delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    global operatorsCount
+
+    faultModelsDef += "\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=FIXVAT;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+        str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+        str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+
+
 def newVBT(item, _span, _type, _threshold, _delta):
     global operators
     global operations
@@ -105,6 +139,23 @@ def newVBT(item, _span, _type, _threshold, _delta):
 
     faultModelsDef += "\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=VBT;\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+        str(operatorsCount)+"].threshold="+_threshold+";\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+        str(operatorsCount)+"].delta="+_delta+";\n"
+
+    operations[elements] = 0
+
+
+def newFIXVBT(item, _span, _type, _threshold, _delta):
+    global operators
+    global operations
+    global elements
+    global faultModelsDef
+    global operatorsCount
+
+    faultModelsDef += "\n"
+    faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=FIXVBT;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators[" + \
         str(operatorsCount)+"].threshold="+_threshold+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators[" + \
@@ -301,10 +352,16 @@ def processRow(row):
         newHV(item, _span, _type, _value)
     if FT == 'VOR':
         newVOR(item, _span, _type, _min, _max, _delta)
+    if FT == 'FIXVOR':
+        newFIXVOR(item, _span, _type, _min, _max, _delta)
     if FT == 'VAT':
         newVAT(item, _span, _type, _threshold, _delta)
+    if FT == 'FIXVAT':
+        newFIXVAT(item, _span, _type, _threshold, _delta)
     if FT == 'VBT':
         newVBT(item, _span, _type, _threshold, _delta)
+    if FT == 'FIXVBT':
+        newFIXVBT(item, _span, _type, _threshold, _delta)
     if FT == 'IV':
         newIV(item, _span, _type, _value)
     if FT == 'INV':

@@ -375,12 +375,79 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     }
   }
 
+  if (OP->type == FIXVOR) {
+
+    if (fm->items[pos].type == INT) {
+      if (valueInt < OP->min){
+        valueInt = OP->min + OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else if (valueInt > OP->max){
+        valueInt = OP->max - OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else{
+        fprintf(coverage_file_pointer, "FIXVOR:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == LONG) {
+      if (valueLong < OP->min){
+        valueLong = OP->min + OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else if (valueLong > OP->max){
+        valueLong = OP->max - OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else{
+        fprintf(coverage_file_pointer, "FIXVOR:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == FLOAT) {
+      if (valueFloat < OP->min){
+        valueFloat = OP->min + OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else if (valueFloat > OP->max){
+        valueFloat = OP->max - OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else{
+        fprintf(coverage_file_pointer, "FIXVOR:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == DOUBLE) {
+      if (valueDouble < OP->min){
+        valueDouble = OP->min + OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else if (valueInt > OP->max){
+        valueDouble = OP->max - OP->delta
+        fprintf(coverage_file_pointer, "FIXVOR:1\n");
+      }
+      else{
+        fprintf(coverage_file_pointer, "FIXVOR:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+  }
+
   if (OP->type == VAT) {
 
     if (fm->items[pos].type == INT){
       if (valueInt <= OP->threshold){
         valueInt = OP->threshold + OP->delta;
         fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
+        storedValueInt = storedValueInt +1;
+        fprintf(coverage_file_pointer, "VAT: time %d\n", storedValueInt);
+
       }
       else {
         //value already above threshold
@@ -425,6 +492,58 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
+
+  if (OP->type == FIXVAT) {
+
+    if (fm->items[pos].type == INT){
+      if (valueInt > OP->threshold){
+        valueInt = OP->threshold - OP->delta;
+        fprintf(coverage_file_pointer, "FIXVAT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVAT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == LONG){
+      if (valueLong > OP->threshold){
+        valueLong = OP->threshold - OP->delta;
+        fprintf(coverage_file_pointer, "FIXVAT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVAT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == DOUBLE){
+      if (valueDouble > OP->threshold){
+        valueDouble = OP->threshold - OP->delta;
+        fprintf(coverage_file_pointer, "FIXVAT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVAT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == FLOAT){
+      if (valueFloat > OP->threshold){
+        valueFloat = OP->threshold - OP->delta;
+        fprintf(coverage_file_pointer, "FIXVAT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVAT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+  }//FINAL PAR
 
   if (OP->type == VBT) {
 
@@ -475,6 +594,58 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       _FAQAS_mutated = 1;
     }
   }
+
+  if (OP->type == FIXVBT) {
+
+    if (fm->items[pos].type == INT){
+      if (valueInt < OP->threshold){
+        valueInt = OP->threshold + OP->delta;
+        fprintf(coverage_file_pointer, "FIXVBT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVBT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == LONG){
+      if (valueLong < OP->threshold){
+        valueLong = OP->threshold + OP->delta;
+        fprintf(coverage_file_pointer, "FIXVBT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVBT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == DOUBLE){
+      if (valueDouble < OP->threshold){
+        valueDouble = OP->threshold + OP->delta;
+        fprintf(coverage_file_pointer, "FIXVBT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVBT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+    if (fm->items[pos].type == FLOAT){
+      if (valueFloat < OP->threshold){
+        valueFloat = OP->threshold + OP->delta;
+        fprintf(coverage_file_pointer, "FIXVBT:1\n");
+      }
+      else {
+        //value already above threshold
+        fprintf(coverage_file_pointer, "FIXVBT:0\n");
+      }
+      _FAQAS_mutated = 1;
+    }
+
+  }//FINAL PAR
 
   if (OP->type == IV) {
 

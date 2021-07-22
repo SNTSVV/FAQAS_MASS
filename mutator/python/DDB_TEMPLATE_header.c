@@ -84,7 +84,7 @@ enum DataType { INT, FLOAT, DOUBLE, BIN, LONG };
 
 typedef enum DataType DataType;
 
-enum MutationType { BF, IV, VOR, VAT, VBT, INV, SS, ASA, HV };
+enum MutationType { BF, IV, VOR, FIXVOR, VAT, FIXVAT, VBT, FIXVBT, INV, SS, ASA, HV };
 
 typedef enum MutationType MutationType;
 
