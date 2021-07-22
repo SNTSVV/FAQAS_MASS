@@ -11,11 +11,11 @@ int main() {
   // Create a vector containing hexadecimal numbers
   std::vector<long int> v;
 
-  v.push_back(0x15); //== (Integer) 21
-  v.push_back(0x16); // 22
-  v.push_back(0x17); // 23
-  v.push_back(0x18); // 24
-  v.push_back(0x19); // 25
+  v.push_back(0x05); //== (Integer) 21
+  v.push_back(0x05); // 22
+  v.push_back(0x05); // 23
+  v.push_back(0x05); // 24
+  v.push_back(0x05); // 25
 
   // MANUALLY ADDED PROBE
   FaultModel *fm = _FAQAS_IfHK_FM();

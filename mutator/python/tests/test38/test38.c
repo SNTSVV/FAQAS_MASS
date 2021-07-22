@@ -12,9 +12,9 @@ int main() {
   std::vector<int> v;
 
   v.push_back(0x15); //== (Integer) 21
-  v.push_back(0x01); // 22
-  v.push_back(0x17); // 23
-  v.push_back(0x06); // 24
+  v.push_back(0x01); // 1
+  v.push_back(0x06); // 6
+  v.push_back(0x06); // 6
   v.push_back(0x19); // 25
 
   // MANUALLY ADDED PROBE
