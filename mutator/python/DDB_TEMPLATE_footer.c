@@ -99,6 +99,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     unsigned long int fitToSize = (unsigned long int)intermediate;
 
     memcpy(&valueLong, &fitToSize, sizeof(valueLong));
+
   }
 
   //
@@ -294,310 +295,183 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (OP->type == VOR) {
 
     if (fm->items[pos].type == INT) {
-
-      if (opt == 0) {
-
-        if (valueInt >= OP->min){
-
+      if (valueInt >= OP->min && valueInt <= OP->max ) {
+        if (opt == 0) {
           valueInt = OP->min - OP->delta;
-
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
-
-        else{
-          //value already below min
-          fprintf(coverage_file_pointer, "VOR: value already below min\n");
-        }
-
-      }
-
-      else if (opt == 1) {
-
-        if (valueInt <= OP->max){
-
+        else if (opt == 1) {
           valueInt = OP->max + OP->delta;
-
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
         else {
-          //value already above max
-          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+          // FIXME: throw an error
         }
-
       }
-
       else {
-        // FIXME: throw an error
+        fprintf(coverage_file_pointer, "VOR: value already out of range\n");
       }
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
-
-      if (opt == 0) {
-
-        if (valueLong >= OP->min){
-
+      if (valueLong >= OP->min && valueLong <= OP->max ) {
+        if (opt == 0) {
           valueLong = OP->min - OP->delta;
-
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
-
-        else{
-          //value already below min
-          fprintf(coverage_file_pointer, "VOR: value already below min\n");
-        }
-
-      }
-
-      else if (opt == 1) {
-
-        if (valueLong <= OP->max){
-
+        else if (opt == 1) {
           valueLong = OP->max + OP->delta;
-
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
         else {
-          //value already above max
-          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+          // FIXME: throw an error
         }
-
       }
-
       else {
-        // FIXME: throw an error
+        fprintf(coverage_file_pointer, "VOR: value already out of range\n");
       }
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
-
-      if (opt == 0) {
-
-        if (valueDouble >= OP->min){
+      if (valueDouble >= OP->min && valueDouble <= OP->max ) {
+        if (opt == 0) {
           valueDouble = OP->min - OP->delta;
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
-
-        else{
-          //value already below min
-          fprintf(coverage_file_pointer, "VOR: value already below min\n");
-
-        }
-
-      }
-
-      else if (opt == 1) {
-
-        if (valueDouble <= OP->max){
-
+        else if (opt == 1) {
           valueDouble = OP->max + OP->delta;
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
         else {
-          //value already above max
-          fprintf(coverage_file_pointer, "VOR: value already above max\n");
-
+          // FIXME: throw an error
         }
-
       }
-
       else {
-        // FIXME: throw an error
+        fprintf(coverage_file_pointer, "VOR: value already out of range\n");
       }
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
-
-      if (opt == 0) {
-
-        if (valueFloat >= OP->min){
+      if (valueFloat >= OP->min && valueFloat <= OP->max ) {
+        if (opt == 0) {
           valueFloat = OP->min - OP->delta;
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
-
-        else{
-          //value already below min
-          fprintf(coverage_file_pointer, "VOR: value already below min\n");
-
-        }
-
-      }
-
-      else if (opt == 1) {
-
-        if (valueFloat <= OP->max){
-
+        else if (opt == 1) {
           valueFloat = OP->max + OP->delta;
           fprintf(coverage_file_pointer, "VOR: MUTATION APPLIED\n");
-
         }
         else {
-          //value already above max
-          fprintf(coverage_file_pointer, "VOR: value already above max\n");
+          // FIXME: throw an error
         }
-
       }
-
       else {
-        // FIXME: throw an error
+        fprintf(coverage_file_pointer, "VOR: value already out of range\n");
       }
-
       _FAQAS_mutated = 1;
     }
-
-
   }
 
   if (OP->type == VAT) {
 
-    if (fm->items[pos].type == INT) {
-
+    if (fm->items[pos].type == INT){
       if (valueInt <= OP->threshold){
-
         valueInt = OP->threshold + OP->delta;
-
         fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
-
       }
       else {
         //value already above threshold
         fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
-
       }
-
-
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == LONG) {
-
+    if (fm->items[pos].type == LONG){
       if (valueLong <= OP->threshold){
-
         valueLong = OP->threshold + OP->delta;
-
         fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
-
       }
       else {
         //value already above threshold
         fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
-
       }
-
       _FAQAS_mutated = 1;
     }
 
-    if (fm->items[pos].type == DOUBLE) {
-
+    if (fm->items[pos].type == DOUBLE){
       if (valueDouble <= OP->threshold){
-
         valueDouble = (double)OP->threshold + OP->delta;
-
         fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
-
       }
       else {
         //value already above threshold
         fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
-
       }
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
-
       if (valueFloat <= (float)OP->threshold){
-
         valueFloat = (float)OP->threshold + OP->delta;
-
         fprintf(coverage_file_pointer, "VAT: MUTATION APPLIED\n");
-
       }
       else{
         //value already above threshold
         fprintf(coverage_file_pointer, "VAT: value already above threshold\n");
-
       }
-
       _FAQAS_mutated = 1;
     }
   }
 
   if (OP->type == VBT) {
 
-    if (fm->items[pos].type == INT) {
-
+    if (fm->items[pos].type == INT){
       if (valueInt >= OP->threshold){
-
         valueInt = OP->threshold - OP->delta;
-
         fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
-
       }
       else{
         //value already below threshold
         fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
-
       }
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
-
-      valueLong = OP->threshold - OP->delta;
-
+      if (valueLong >= OP->threshold){
+        valueLong = OP->threshold - OP->delta;
+        fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
+      }
+      else{
+        fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
+      }
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
-
       if (valueDouble >= (double)OP->threshold){
-
         valueDouble = (double)OP->threshold - (double)OP->delta;
-
         fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
-
       }
       else {
         //value already below threshold
         fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
-
       }
-
-
       _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
-
       if (valueFloat >= (float)OP->threshold){
-
         valueFloat = (float)OP->threshold - OP->delta;
-
         fprintf(coverage_file_pointer, "VBT: MUTATION APPLIED\n");
-
       }
       else{
         //value already below threshold
         fprintf(coverage_file_pointer, "VBT: value already below threshold\n");
-
       }
-
       _FAQAS_mutated = 1;
     }
   }
