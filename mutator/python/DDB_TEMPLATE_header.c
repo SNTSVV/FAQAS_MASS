@@ -21,12 +21,18 @@ int MUTATION = MUTATIONOPT;
 
 int _FAQAS_COVERAGE_EXIT = 0;
 
+int global_mutation_counter = 0;
+
+//#define FAQAS_MUTATION_PROBABILITY 90
+#ifdef FAQAS_MUTATION_PROBABILITY
+float PROBABILITY = FAQAS_MUTATION_PROBABILITY;
+#endif
+
 FILE* handleCoverage();
 
 const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
 
 FILE *coverage_file_pointer = handleCoverage();
-
 
 void coverage_exit(void) {
 
@@ -84,7 +90,7 @@ enum DataType { INT, FLOAT, DOUBLE, BIN, LONG };
 
 typedef enum DataType DataType;
 
-enum MutationType { BF, IV, VOR, FIXVOR, VAT, FIXVAT, VBT, FIXVBT, INV, SS, ASA, HV };
+enum MutationType { BF, IV, VOR, FVOR, VAT, FVAT, VBT, FVBT, INV, SS, ASA, HV };
 
 typedef enum MutationType MutationType;
 
@@ -165,7 +171,6 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 
   free( dm );
 
-
   #endif
 
 }
@@ -196,7 +201,6 @@ int sample = 1;
 //the elements of the buffer when span!=1
 unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
                                       int sliceStart, int sliceEnd) {
-
   int i = sliceStart;
   unsigned long long slice = 0;
   while (i <= sliceEnd) {
@@ -212,27 +216,9 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
   return (slice);
 }
 
-// this function is useful for checking the binary data during debugging
 
-void _FAQAS_print_binary(unsigned long long n) {
+void _FAQAS_operator_coverage(int operator_id, int counter, int status){
 
-  int steps = 8 * sizeof(n) - 1;
-
-  while (steps >= 0) {
-
-    unsigned long long mask = FAQAS_pow_substitute(2, steps);
-
-    unsigned long long relevant = n & mask;
-
-    if (relevant == mask) {
-
-
-    } else {
-
-    }
-
-    steps = steps - 1;
-  }
-
+  fprintf(coverage_file_pointer, "%d,%d,%d\n", operator_id, counter, status);
 
 }
