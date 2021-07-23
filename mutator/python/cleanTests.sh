@@ -10,6 +10,7 @@ for d in */ ; do
     rm -r -f *.gcda
     rm -r -f *.gcno
     rm -r -f *.results.out
+    rm -f -f faqas_coverage.txt
     popd
 done
 popd
