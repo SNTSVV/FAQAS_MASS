@@ -245,7 +245,7 @@ if [ $phase -le 1 ]; then
     mkdir -p $output_topdir/.srciror
     echo "$compile_command_spec_src:$alllines" > $output_topdir/.srciror/coverage
     test -d $mutants_dir && rm -rf $mutants_dir
-    HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed"
+    HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed (code $?)"
     rm -rf $output_topdir/.srciror
     echo "# Finished mutant generation!"
 fi

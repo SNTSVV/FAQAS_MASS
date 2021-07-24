@@ -73,4 +73,6 @@ jq -c '.[]' compile_commands.json | while read i; do
 	mv $orig_dir/*.mut.*.c $SRC_MUTANTS/$path_wo_root
 	mv $orig_dir/meta-mu.info $SRC_MUTANTS/$path_wo_root
 
+    cd - > /dev/null
+
 done
