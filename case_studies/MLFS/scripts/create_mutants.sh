@@ -49,6 +49,8 @@ jq -c '.[]' compile_commands.json | while read i; do
 	FILE=$(readlink -f $FILE)
 	DIR=$(readlink -f $DIR)
 
+    echo "$FILE" | grep "$ENV_FAQAS_SEMU_SRC_FILE$" > /dev/null || continue
+
 	echo "-----------------------" 2>&1 | tee -a $LOGFILE
 	echo "Mutating "$FILE 2>&1 | tee -a $LOGFILE
 
