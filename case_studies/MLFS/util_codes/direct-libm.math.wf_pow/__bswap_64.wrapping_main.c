@@ -4,9 +4,6 @@
 
 #include <stdio.h>
 
-#include "asn1crt.c"
-#include "asn1crt_encoding.c"
-#include "asn1crt_encoding_uper.c"
 
 #include "klee/klee.h"
 

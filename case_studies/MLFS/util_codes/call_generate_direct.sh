@@ -21,5 +21,9 @@ for src in $cfiles; do
     src_template_folder_suffix="$(echo ${src%.c} | tr '/' '.')"
     $generate_script $repodir/$src direct-$src_template_folder_suffix " -I$repodir/include -I$repodir/libm/common -I$repodir/libm/math -I$repodir/libm/mlfs" \
             || error_exit "generation failed for source file $src" 
+    # patch
+    for f in `ls direct-$src_template_folder_suffix`; do
+        sed -i'' '/#include "asn1crt/d' direct-$src_template_folder_suffix/$f
+    done
 done
 

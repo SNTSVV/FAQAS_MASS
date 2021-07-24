@@ -133,6 +133,7 @@ remove_uncompilable_mutants()
     local failed_compile=0
     local total=$(find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c | wc -l)
     local chunk=$(($total/20))
+    [ $chunk -eq 0 ] && chunk=$total
     local count=0
     for f_path in `find $mutants_dir -maxdepth 1 -type f -name *.mut.*.c`
     do
