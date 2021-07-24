@@ -12,6 +12,8 @@ error_exit()
     exit 1
 }
 
+cd $TOPDIR
+
 [ "${ENV_FAQAS_SEMU_SRC_FILE:-}" != "" ] || error_exit "You must specify the source file using the env var 'ENV_FAQAS_SEMU_SRC_FILE'"
 src_template_folder_suffix="$(echo ${ENV_FAQAS_SEMU_SRC_FILE%.c} | tr '/' '.')"
 echo "# Running fore source file $ENV_FAQAS_SEMU_SRC_FILE..."
@@ -28,8 +30,6 @@ if test -f $TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh; then
 else
     echo "[run.sh] using default faqas_semu_config_file $faqas_semu_config_file."
 fi
-
-cd $TOPDIR
 
 output_topdir=$(readlink -fm $FAQAS_SEMU_OUTPUT_TOPDIR)
 mutants_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_MUTANTS_DIR)
@@ -119,7 +119,7 @@ fi
 echo "[run.sh] Running with: PHASE=$phase, OPTIONAL_MUTANT_LIST='$mutants_list_file', OPTIONAL_OUTDIR='$custom_semu_pre_output'"
 
 # Create output dir
-test -d $output_topdir || mkdir $output_topdir || error_exit "failed to create output dir '$output_topdir'"
+test -d $output_topdir || mkdir -p $output_topdir || error_exit "failed to create output dir '$output_topdir'"
 test -f $original_src_file || error_exit "Original source file not found: $original_src_file"
 
 trap "exit 1" INT
