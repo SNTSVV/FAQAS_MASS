@@ -13,7 +13,7 @@ error_exit()
 }
 
 [ "${ENV_FAQAS_SEMU_SRC_FILE:-}" != "" ] || error_exit "You must specify the source file using the env var 'ENV_FAQAS_SEMU_SRC_FILE'"
-src_template_folder_suffix="$(echo $ENV_FAQAS_SEMU_SRC_FILE | tr '/' '_')"
+src_template_folder_suffix="$(echo ${ENV_FAQAS_SEMU_SRC_FILE%.c} | tr '/' '.')"
 echo "# Running fore source file $ENV_FAQAS_SEMU_SRC_FILE..."
 
 faqas_semu_config_file=$TOPDIR/faqas_semu_config.sh
