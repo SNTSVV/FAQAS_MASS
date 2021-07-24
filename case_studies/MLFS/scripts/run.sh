@@ -12,8 +12,14 @@ error_exit()
     exit 1
 }
 
+[ "${ENV_FAQAS_SEMU_SRC_FILE:-}" != "" ] || error_exit "You must specify the source file using the env var 'ENV_FAQAS_SEMU_SRC_FILE'"
+src_template_folder_suffix="$(echo $ENV_FAQAS_SEMU_SRC_FILE | tr '/' '_')"
+echo "# Running fore source file $ENV_FAQAS_SEMU_SRC_FILE..."
+
 faqas_semu_config_file=$TOPDIR/faqas_semu_config.sh
 source $faqas_semu_config_file
+
+test -f $FAQAS_SEMU_REPO_ROOTDIR/$ENV_FAQAS_SEMU_SRC_FILE || error_exit "The specified source does not exist ($FAQAS_SEMU_REPO_ROOTDIR/$ENV_FAQAS_SEMU_SRC_FILE)"
 
 if test -f $TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh; then
     faqas_semu_config_file=$TOPDIR/$FAQAS_SEMU_CASE_STUDY_WORKSPACE/faqas_semu_config.sh
@@ -273,7 +279,7 @@ if [ $phase -le 3 ]; then
                                                                                                             error_exit "Pre-semu failed"
             
             echo "# generate Templates specific Meta Mu files ..."
-            category="direct"
+            category="direct-$src_template_folder_suffix"
             category_dir=$make_sym_to_append_top_dir/$category
             for func_template in `ls $category_dir`
             do
@@ -311,7 +317,7 @@ if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
         if [ "$mutants_list_file" != "" ]; then
-            category="direct"
+            category="direct-$src_template_folder_suffix"
             category_dir=$custom_meta_mutant_make_sym_top_dir/$category
             for g_func_name in `ls $category_dir`
             do

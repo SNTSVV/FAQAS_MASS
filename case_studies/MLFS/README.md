@@ -22,8 +22,9 @@ The `faqas_semu` Docker image must be build as specified in the header of the [D
 #### Running
 use the script [scripts/docker_run.sh](scripts/docker_run.sh) to run. The help is available by running:
 ```
-scripts/docker_run.sh --help
+ENV_FAQAS_SEMU_SRC_FILE=<src-file-repo-relative-path> scripts/docker_run.sh --help
 ```
+The repo path is `DOWNLOADED/MLFS-QDP_I1_R1/BL-SC/E1356-GTD-BL-01_I1_R2/`. The specified source path is relative to that. Therefore, it should start with `libm/`.
 Note that the [scripts/docker_run.sh](scripts/docker_run.sh) calls the script [scripts/run.sh](scripts/run.sh) within a `faqas_semu` docker container.
 
 ## Running Without Docker image
@@ -34,5 +35,6 @@ Note that the [scripts/docker_run.sh](scripts/docker_run.sh) calls the script [s
 #### Running
 use the script [scripts/run.sh](scripts/run.sh) to run. The help is available by running:
 ```
-scripts/run.sh --help
+ENV_FAQAS_SEMU_SRC_FILE=<src-file-repo-relative-path> scripts/run.sh --help
 ```
+The repo path is `DOWNLOADED/MLFS-QDP_I1_R1/BL-SC/E1356-GTD-BL-01_I1_R2/`. The specified source path is relative to that. Therefore, it should start with `libm/`.

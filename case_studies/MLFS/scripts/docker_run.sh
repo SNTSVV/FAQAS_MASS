@@ -17,6 +17,9 @@ local_workspace_dir="$(readlink -f $topdir/../WORKSPACE)"
 
 args="${@:1}"
 
+more_args=""
+[ "${ENV_FAQAS_SEMU_SRC_FILE:-}" != "" ] && more_args="-e ENV_FAQAS_SEMU_SRC_FILE=$ENV_FAQAS_SEMU_SRC_FILE"
+
 sudo docker run -it --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-    --mount type=bind,src=$local_workspace_dir,dst=$in_docker_workspace_dir \
+    --mount type=bind,src=$local_workspace_dir,dst=$in_docker_workspace_dir $more_args \
     $docker_image bash -c "$in_docker_run_script $args"

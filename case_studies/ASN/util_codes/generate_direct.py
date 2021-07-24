@@ -150,7 +150,7 @@ def get_function_prototypes(source_file, compilation_info):
     if USE_COMP_DB:
         assert False, "Using compilation DB not yet implemented. FIXME"
     else:
-        translation_unit = index.parse(source_file, args=[compilation_info] + ["-I"+v for v in get_standard_includes()])
+        translation_unit = index.parse(source_file, args=[v for v in compilation_info.split() if v.strip()] + ["-I"+v for v in get_standard_includes()])
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
