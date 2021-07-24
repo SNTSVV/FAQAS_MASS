@@ -374,7 +374,7 @@ def find_stmt_after_end(orig_str, post_end_index):
                     post_end_index += 2
                 else:
                     assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
-                                                                    orig_str[start_index:post_end_index+1], post_end_index)
+                                                                    orig_str[post_end_index:post_end_index+1], post_end_index)
                     post_end_index += 1
         post_end_index += 1
     return post_end_index
