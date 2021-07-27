@@ -41,7 +41,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
 #ifdef _FAQAS_MUTATION_PROBABILITY
 
-  float random_check == ((float)rand() * (Max - Min)) / RAND_MAX + Min;
+  float random_check = ((float)rand() * (100)) / RAND_MAX;
 
   if (PROBABILITY < 0 || random_check > PROBABILITY){
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
