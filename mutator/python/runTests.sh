@@ -87,17 +87,19 @@ do
   # bash runTest57.sh
   # bash runTest58.sh
   # bash runTest59.sh
-  bash runTest60.sh
-  bash runTest61.sh
-  bash runTest62.sh
-  bash runTest63.sh
-  bash runTest64.sh
-  bash runTest65.sh
-  bash runTest66.sh
-  bash runTest67.sh
-  bash runTest68.sh
-  bash runTest69.sh
+  # bash runTest60.sh
+  # bash runTest61.sh
+  # bash runTest62.sh
+  # bash runTest63.sh
+  # bash runTest64.sh
+  # bash runTest65.sh
+  # bash runTest66.sh
+  # bash runTest67.sh
+  # bash runTest68.sh
+  # bash runTest69.sh
   bash runTest70.sh
+  bash runTest71.sh
+  bash runTest72.sh
 
   popd
 
