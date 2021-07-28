@@ -142,7 +142,7 @@ class MutantInfo:
                         continue
                 if ci.start_index < stmt_list[stmt_i].end_index:
                     assert ci.end_index <= stmt_list[stmt_i].end_index, \
-                                "mutants spawn multiple stmts. change ends at {} and containing stm ends at {} ({})".format(ci.end_index, \
+                                "mutants spawn multiple stmts. change ends at {} and containing stmt ends at {} ({})".format(ci.end_index, \
                                     stmt_list[stmt_i].end_index, ci.filename)
                     stmt_info = stmt_list[stmt_i]
                     break
@@ -214,6 +214,11 @@ class MutantInfo:
             dot_split = fn.split(".")
             if "SDL" != dot_split[-3]:
                 continue
+
+            # ensure that the statement ends with ';' or '}' or ':'
+            while orig_str[post_end_index] not in (';', '}', ':'):
+                post_end_index += 1
+                post_end_index = get_next_non_comment_index(post_end_index, orig_str)
 
             stmt_list.append(
                 StmtInfo(
