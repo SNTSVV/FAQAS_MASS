@@ -354,7 +354,7 @@ def find_stmt_after_end(orig_str, post_end_index):
         # look for the next ; or } and include it
         in_line_comment = False
         in_multi_line_comment = False
-        while True:
+        while in_line_comment or in_multi_line_comment or orig_str[post_end_index] not in (';', '}'):
             if in_line_comment:
                 if orig_str[post_end_index] == '\n':
                     in_line_comment = False
@@ -376,8 +376,7 @@ def find_stmt_after_end(orig_str, post_end_index):
                     assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
                                                                     orig_str[max(0,post_end_index-50):post_end_index+1], post_end_index)
                     post_end_index += 1
-                    if orig_str[post_end_index] in (';', '}'):
-                        break
+
         post_end_index += 1
     return post_end_index
 
