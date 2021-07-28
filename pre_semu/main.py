@@ -142,7 +142,8 @@ class MutantInfo:
                         continue
                 if ci.start_index < stmt_list[stmt_i].end_index:
                     assert ci.end_index <= stmt_list[stmt_i].end_index, \
-                                                "mutants spawn multiple stmts ({})".format(ci.filename)
+                                "mutants spawn multiple stmts. change ends at {} and containing stm ends at {} ({})".format(ci.end_index, \
+                                    stmt_list[stmt_i].end_index, ci.filename)
                     stmt_info = stmt_list[stmt_i]
                     break
                 stmt_i += 1
