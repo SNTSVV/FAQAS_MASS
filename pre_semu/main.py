@@ -78,6 +78,31 @@ def process_case_mutation(changed_list, original_src_file, sorted_stmt_list):
         new_changed_list.append(ci)
     return new_changed_list
 
+def get_next_non_comment_index(idx, code_str):
+    in_line_comment = False
+    in_multi_line_comment = False
+    while True:
+        if in_line_comment:
+            if code_str[idx] == '\n':
+                in_line_comment = False
+            idx += 1
+        elif in_multi_line_comment:
+            if code_str[idx: idx+2] == "*/":
+                in_multi_line_comment = False
+                idx += 2
+            else:
+                idx += 1
+        else:
+            if code_str[idx: idx+2] == "//":
+                in_line_comment = True
+                idx += 2
+            elif code_str[idx: idx+2] == "/*":
+                in_multi_line_comment = True
+                idx += 2
+            else:
+                break
+    return idx
+
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
         self.raw_id = self._computer_raw_id(changed_info.filename)
@@ -236,6 +261,22 @@ class MutantInfo:
                     suff_ind += 1
                 mut_chunk_str += orig_str[mut_after_end:suff_ind]
                 mut_after_end = suff_ind
+            
+            # function call function deletion
+            if mut_chunk_str == "":
+                non_com_index = get_next_non_comment_index(mut_chunk_end, mutant_str)
+                if (mutant_str[non_com_index]) == '(':
+                    nopen = 1
+                    non_com_index += 1
+                    while nopen > 0:
+                        non_com_index = get_next_non_comment_index(non_com_index, mutant_str)
+                        if mutant_str[non_com_index] == '(':
+                            nopen += 1
+                        elif mutant_str[non_com_index] == ')':
+                            nopen -= 1
+                        non_com_index += 1
+                    mut_chunk_str += orig_str[mut_after_end:non_com_index]
+                    mut_after_end = non_com_index
 
             changed_list.append(
                 ChangedInfo(
@@ -354,28 +395,11 @@ def find_stmt_after_end(orig_str, post_end_index):
         # look for the next ; or } and include it
         in_line_comment = False
         in_multi_line_comment = False
-        while in_line_comment or in_multi_line_comment or orig_str[post_end_index] not in (';', '}'):
-            if in_line_comment:
-                if orig_str[post_end_index] == '\n':
-                    in_line_comment = False
-                post_end_index += 1
-            elif in_multi_line_comment:
-                if orig_str[post_end_index: post_end_index+2] == "*/":
-                    in_multi_line_comment = False
-                    post_end_index += 2
-                else:
-                    post_end_index += 1
-            else:
-                if orig_str[post_end_index: post_end_index+2] == "//":
-                    in_line_comment = True
-                    post_end_index += 2
-                elif orig_str[post_end_index: post_end_index+2] == "/*":
-                    in_multi_line_comment = True
-                    post_end_index += 2
-                else:
-                    assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
-                                                                    orig_str[max(0,post_end_index-50):post_end_index+1], post_end_index)
-                    post_end_index += 1
+        while orig_str[post_end_index] not in (';', '}'):
+            post_end_index = get_next_non_comment_index(post_end_index, orig_str)
+            assert orig_str[post_end_index].isspace(), "invalid statement end for stmt {}. \n at index {}.".format(
+                                                            orig_str[max(0,post_end_index-50):post_end_index+1], post_end_index)
+            post_end_index += 1
 
         post_end_index += 1
     return post_end_index
