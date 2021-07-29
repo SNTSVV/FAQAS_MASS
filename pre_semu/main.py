@@ -271,6 +271,9 @@ class MutantInfo:
             # function call function deletion
             if mut_chunk_str == "":
                 non_com_index = get_next_non_comment_index(mut_after_end, orig_str)
+                while orig_str[non_com_index].isspace():
+                    non_com_index += 1
+                    non_com_index = get_next_non_comment_index(non_com_index, orig_str)
                 if (orig_str[non_com_index]) == '(':
                     nopen = 1
                     non_com_index += 1
