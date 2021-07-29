@@ -11,6 +11,8 @@ int mutate( std::vector<float> *v, FaultModel *fm ){
 
 int main()
 {
+
+  FaultModel *fm = _FAQAS_IfHK_FM();
     // Create a vector containing integers
     std::vector<float> v;
 
@@ -25,7 +27,7 @@ int main()
   //  v.clear();
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_IfHK_FM();
+
     mutate( &v, fm );
     _FAQAS_delete_FM(fm);
     //MANUALLY ADDED PROBE END

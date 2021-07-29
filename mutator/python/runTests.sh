@@ -28,7 +28,7 @@ do
 
   pushd tests
 
-  # # bash runTest_compilation.sh
+  # bash runTest_compilation.sh
   # bash runTest01.sh
   # bash runTest02.sh
   # bash runTest03.sh
@@ -60,11 +60,7 @@ do
   # bash runTest29.sh
   # bash runTest30.sh
   # bash runTest32.sh
-  # bash runTest33.sh
-  # bash runTest34.sh
   # bash runTest35.sh
-  # bash runTest36.sh
-  # bash runTest37.sh
   # bash runTest38.sh
   # bash runTest39.sh
   # bash runTest40.sh
@@ -94,9 +90,9 @@ do
   # bash runTest64.sh
   # bash runTest65.sh
   # bash runTest66.sh
-  # bash runTest67.sh
-  # bash runTest68.sh
-  # bash runTest69.sh
+  bash runTest67.sh
+  bash runTest68.sh
+  bash runTest69.sh
   bash runTest70.sh
   bash runTest71.sh
   bash runTest72.sh

@@ -1,7 +1,0 @@
-Test,FaultModel,Status,Times
-test33,SensorA,not_covered,0
-test33,SensorB,not_covered,0
-test33,SensorC,not_covered,0
-test33,ActuatorA,covered,10
-test33,ActuatorB,covered,10
-test33,ActuatorC,covered,10
