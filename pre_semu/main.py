@@ -274,8 +274,8 @@ class MutantInfo:
                 while re.match("^[A-Za-z0-9_]$", orig_str[mut_idx-1]):
                     mut_chunk_str = orig_str[mut_idx-1] + mut_chunk_str
                     mut_idx -= 1
-                while re.match("^[A-Za-z0-9_]$", orig_str[mut_after_end+1]):
-                    mut_chunk_str += orig_str[mut_after_end+1]
+                while re.match("^[A-Za-z0-9_]$", orig_str[mut_after_end]):
+                    mut_chunk_str += orig_str[mut_after_end]
                     mut_after_end += 1 
 
                 non_com_index = get_next_non_comment_index(mut_after_end, orig_str)
