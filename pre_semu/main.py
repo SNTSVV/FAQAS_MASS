@@ -281,7 +281,7 @@ class MutantInfo:
                         elif mutant_str[non_com_index] == ')':
                             nopen -= 1
                         non_com_index += 1
-                    mut_chunk_str += orig_str[mut_after_end:non_com_index]
+                    mut_chunk_str += mutant_str[mut_after_end:non_com_index]
                     mut_after_end = non_com_index
 
             changed_list.append(
