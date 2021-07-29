@@ -178,14 +178,11 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 
 void _FAQAS_delete_FM(FaultModel *dm) {
 
-
   #ifdef _FAQAS_SINGLETON_FM
   #else
   __FAQAS_delete_FM(dm);
   #endif
 }
-
-
 
 // memory for HV
 int storedValueInt;
@@ -219,6 +216,6 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
 
 void _FAQAS_operator_coverage(int operator_id, int counter, int status){
 
-  fprintf(coverage_file_pointer, "%d,%d,%d\n", operator_id, counter, status);
+  fprintf(coverage_file_pointer, "%d,%d,%d \n", operator_id, counter, status);
 
 }
