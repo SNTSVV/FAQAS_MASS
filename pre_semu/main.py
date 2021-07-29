@@ -268,8 +268,16 @@ class MutantInfo:
                 mut_chunk_str += orig_str[mut_after_end:suff_ind]
                 mut_after_end = suff_ind
             
-            # function call function deletion
-            if mut_chunk_str == "":
+            # variable name replacement and # function call function deletion
+            if re.match("^[A-Za-z0-9_]*$", mut_chunk_str) and mut_chunk_str != orig_str[mut_idx:mut_after_end]:
+                # extend to the left and to the right
+                while re.match("^[A-Za-z0-9_]$", orig_str[mut_idx-1]):
+                    mut_chunk_str = orig_str[mut_idx-1] + mut_chunk_str
+                    mut_idx -= 1
+                while re.match("^[A-Za-z0-9_]$", orig_str[mut_after_end+1]):
+                    mut_chunk_str += orig_str[mut_after_end+1]
+                    mut_after_end += 1 
+
                 non_com_index = get_next_non_comment_index(mut_after_end, orig_str)
                 while orig_str[non_com_index].isspace():
                     non_com_index += 1
