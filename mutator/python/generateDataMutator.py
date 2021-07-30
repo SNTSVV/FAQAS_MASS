@@ -79,7 +79,7 @@ def newVOR(item, _span, _type, _min, _max, _delta):
     operators[elements] = currentOperator
 
 
-def newFVOR(item, _span, _type, _min, _max, _delta):
+def newFVOR(item, _span, _type, _min, _max):
     global operators
     global operations
     global elements
@@ -90,8 +90,6 @@ def newFVOR(item, _span, _type, _min, _max, _delta):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=FVOR;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].delta="+_delta+";\n"
 
     operations[elements] = 0
 
@@ -353,7 +351,7 @@ def processRow(row):
     if FT == 'VOR':
         newVOR(item, _span, _type, _min, _max, _delta)
     if FT == 'FVOR':
-        newFVOR(item, _span, _type, _min, _max, _delta)
+        newFVOR(item, _span, _type, _min, _max)
     if FT == 'VAT':
         newVAT(item, _span, _type, _threshold, _delta)
     if FT == 'FVAT':

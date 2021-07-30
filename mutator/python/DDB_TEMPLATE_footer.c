@@ -342,67 +342,129 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   if (OP->type == FVOR) {
 
+    int fvor_success = 1;
+
     if (fm->items[pos].type == INT) {
-      if (valueInt < OP->min){
-        valueInt = OP->min + OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+      int upper = OP->max;
+      int lower = OP->min;
+
+      if (upper == lower) {
+        valueInt = upper;
       }
-      else if (valueInt > OP->max){
-        valueInt = OP->max - OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+      else if (upper < lower) {
+        fvor_success = 0;
       }
-      else{
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
+
+      else {
+
+        int randomNum = valueInt;
+        int avoidInfinite = 0;
+
+        while (valueInt == randomNum) {
+          randomNum = (rand() % (upper - lower + 1)) + lower;
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == 1000) {
+            fvor_success = 0;
+            break;
+          }
+        }
+        valueInt = randomNum;
       }
-      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
-      if (valueLong < OP->min){
-        valueLong = OP->min + OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-      }
-      else if (valueLong > OP->max){
-        valueLong = OP->max - OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-      }
-      else{
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
-      }
-      _FAQAS_mutated = 1;
-    }
+      long int upper = (long int)OP->max;
+      long int lower = (long int)OP->min;
 
-    if (fm->items[pos].type == FLOAT) {
-      if (valueFloat < OP->min){
-        valueFloat = OP->min + OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+      if (upper == lower) {
+        valueLong = upper;
+        // FIXME: throw a warning
       }
-      else if (valueFloat > OP->max){
-        valueFloat = OP->max - OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+      else if (upper < lower) {
+        fvor_success = 0;
       }
-      else{
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
+      else {
+        long int randomNum = valueLong;
+        int avoidInfinite = 0;
+
+        while (valueLong == randomNum) {
+          randomNum = (rand() % (upper - lower + 1)) + lower;
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == 1000) {
+            fvor_success = 0;
+            break;
+          }
+        }
+        valueLong = randomNum;
       }
-      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
-      if (valueDouble < OP->min){
-        valueDouble = OP->min + OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+
+      double upper = OP->max;
+      double lower = OP->min;
+
+      if (upper == lower) {
+        valueDouble = upper;
+        // FIXME: throw a warning
       }
-      else if (valueInt > OP->max){
-        valueDouble = OP->max - OP->delta;
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+      else if (upper < lower) {
+        // FIXME: throw an error
+        fvor_success = 0;
       }
-      else{
-        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
+      else {
+        double randomNum = valueDouble;
+        int avoidInfinite = 0;
+
+        while (valueDouble == randomNum) {
+          randomNum = ((double)rand() * (upper - lower)) / RAND_MAX + lower;
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == 1000) {
+            fvor_success = 0;
+            break;
+          }
+        }
+        valueDouble = randomNum;
       }
-      _FAQAS_mutated = 1;
     }
 
-  }
+    if (fm->items[pos].type == FLOAT) {
+      float upper = OP->max;
+      float lower = OP->min;
+
+      if (upper == lower) {
+        valueFloat = upper;
+        // FIXME: throw a warning
+      }
+      else if (upper < lower) {
+        // FIXME: throw an error
+        fvor_success = 0;
+      }
+      else {
+        float randomNum = valueFloat;
+        int avoidInfinite = 0;
+
+        while (valueFloat == randomNum) {
+          randomNum = ((float)rand() * (upper - lower)) / RAND_MAX + lower;
+          avoidInfinite = avoidInfinite + 1;
+
+          if (avoidInfinite == 1000) {
+            fvor_success = 0;
+            break;
+          }
+        }
+        valueFloat = randomNum;
+      }
+    }
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, fvor_success);
+    _FAQAS_mutated = 1;
+
+
+
+  }//end
 
   if (OP->type == VAT) {
 
@@ -779,7 +841,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     }
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, inv_success);
     _FAQAS_mutated = 1;
-  }
+  } //end
 
   if (OP->type == ASA) {
 
