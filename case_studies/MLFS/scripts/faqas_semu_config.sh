@@ -38,7 +38,13 @@ FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
 FAQAS_SEMU_TEST_GEN_TIMEOUT=7200
 
 # This may be 'FULL' or 'PARTIAL' (for FULL exploration or partial exploration)
-FAQAS_SEMU_HEURISTICS_CONFIG="FULL"
+FAQAS_SEMU_HEURISTICS_CONFIG='{
+        "PL": "0",
+        "CW": "4294967295",
+        "MPD": "0",
+        "PP": "1.0",
+        "NTPM": "5"
+}'
 
 # max Test Generation memory in MB
 FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000

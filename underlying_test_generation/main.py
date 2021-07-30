@@ -9,6 +9,7 @@ TODO
 import os
 import argparse
 import shutil
+import json
 
 from jinja2 import Template
 
@@ -40,6 +41,19 @@ CONFIGS = {
     }
 }
 
+PARAM_NAME_PREFIX = "template_"
+DEFAULT_CONFIG = json.dumps({k[len(PARAM_NAME_PREFIX):]: v for k,v in CONFIGS["FULL"].items()})
+
+def compute_config_from_str(json_str):
+    obj = json.loads(json_str)
+    obj = {PARAM_NAME_PREFIX+k: v for k, v in obj.items()}
+    missing = [k[len(PARAM_NAME_PREFIX):] for k in set(CONFIGS["FULL"]) - set(obj)]
+    extra = [k[len(PARAM_NAME_PREFIX):] for k in set(obj) - set(CONFIGS["FULL"])]
+    assert len(missing) == 0, "The following semu parameter are missing in semu heuristic config: {}".format(missing)
+    assert len(extra) == 0, "The following specified parameter, in semu heuristic config, are not supported by semu: {}".format(extra)
+    return obj
+
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_metamu_bitcode_file", 
@@ -59,7 +73,7 @@ def get_args():
                         help="optional symbolic args as string (this enables the system tests mode)")
     parser.add_argument("--generation_timeout", default=TEST_GENERATION_TIMEOUT, type=int,
                         help="test generation timeout in seconds ( > 0).")
-    parser.add_argument("--semu_heuristics_config", default="FULL", type=str, choices=list(CONFIGS),
+    parser.add_argument("--semu_heuristics_config", default=DEFAULT_CONFIG, type=str, #choices=list(CONFIGS),
                         help="Configuration for test generation. must be a string of {}.".format(list(CONFIGS)))
 
     parser.add_argument("--max_memory_MB", default=MEMORY_LIMIT, type=int,
@@ -169,7 +183,7 @@ def main():
         "template_stop_on_memory_limit": stop_on_memory_limit,
         "template_max_memory_inhibit": max_memory_inhibit
     }
-    template_data.update(CONFIGS[semu_config])
+    template_data.update(compute_config_from_str(semu_config))
     resolved_conf = Template(template_str).render(template_data)
 
     ## write the resolved config
