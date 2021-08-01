@@ -47,4 +47,4 @@ RUN apt-get -y update \
     && rm -rf /home/FAQAS/faqas_semu/srcirorfaqas \
     && bash /home/FAQAS/faqas_semu/install_requirements.sh
 
-CMD echo "# `faqas_semu` is located in the directory '/home/FAQAS/faqas_semu'. For the ASN case study, make sure to mount the WORKSPACE folder. (use the script /home/FAQAS/faqas_semu/case_studies/ASN/scripts/docker_run.sh)"
+CMD echo "# `faqas_semu` is located in the directory '/home/FAQAS/faqas_semu'. For the ASN or MLFS case study, make sure to mount the WORKSPACE folder. (use the script /home/FAQAS/faqas_semu/case_studies/<ASN or MLFS>/scripts/docker_run.sh)"
