@@ -24,6 +24,7 @@ TEST_GENERATION_TIMEOUT = 7200 #2h
 
 MEMORY_LIMIT = 2000 # MB
 
+# FIXME: add use_MDO
 CONFIGS = {
     "FULL": {
         "template_PL": "0",
@@ -181,7 +182,8 @@ def main():
         "template_meta_mu_bc_file": input_metamu_bitcode_file,
         "template_memory_limit": memory_limit,
         "template_stop_on_memory_limit": stop_on_memory_limit,
-        "template_max_memory_inhibit": max_memory_inhibit
+        "template_max_memory_inhibit": max_memory_inhibit,
+        "template_use_MDO": use_MDO
     }
     template_data.update(compute_config_from_str(semu_config))
     resolved_conf = Template(template_str).render(template_data)

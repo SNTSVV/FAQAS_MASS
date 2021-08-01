@@ -81,6 +81,8 @@ if not {{ template_stop_on_memory_limit }}:
     semu_config_args.append(('--semu-no-error-on-memory-limit',))
 if not {{ template_max_memory_inhibit }}:
     semu_config_args.append(('--max-memory-inhibit',))
+if {{ template_use_MDO }}:
+    semu_config_args.append(('--semu-MDO-propagation-selection-strategy',))
                             
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
