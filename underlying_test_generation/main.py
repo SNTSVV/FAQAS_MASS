@@ -31,14 +31,16 @@ CONFIGS = {
         "template_CW": "4294967295",
         "template_MPD": "0",
         "template_PP": "1.0",
-        "template_NTPM": "5"
+        "template_NTPM": "5",
+        "template_PSS": "RND" # alternative value is 'MDO'
     },
     "PARTIAL": {
         "template_PL": "0",
         "template_CW": "2",
         "template_MPD": "2",
         "template_PP": "0.5",
-        "template_NTPM": "5"
+        "template_NTPM": "5",
+        "template_PSS": "RND" # alternative value is 'MDO'
     }
 }
 
@@ -182,8 +184,7 @@ def main():
         "template_meta_mu_bc_file": input_metamu_bitcode_file,
         "template_memory_limit": memory_limit,
         "template_stop_on_memory_limit": stop_on_memory_limit,
-        "template_max_memory_inhibit": max_memory_inhibit,
-        "template_use_MDO": use_MDO
+        "template_max_memory_inhibit": max_memory_inhibit
     }
     template_data.update(compute_config_from_str(semu_config))
     resolved_conf = Template(template_str).render(template_data)

@@ -81,9 +81,11 @@ if not {{ template_stop_on_memory_limit }}:
     semu_config_args.append(('--semu-no-error-on-memory-limit',))
 if not {{ template_max_memory_inhibit }}:
     semu_config_args.append(('--max-memory-inhibit',))
-if {{ template_use_MDO }}:
+if "{{ template_PSS }}".upper() == "MDO":
     semu_config_args.append(('--semu-MDO-propagation-selection-strategy',))
-                            
+else:
+    assert "{{ template_PSS }}".upper() == "RND", "wxpecting either 'MDO' or 'RND' as value for PSS (check the value of template PSS)"
+
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
                             PRE_TARGET_CMD_ORDERED_FLAGS_LIST=semu_config_args, 

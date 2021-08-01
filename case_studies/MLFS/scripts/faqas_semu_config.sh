@@ -37,13 +37,14 @@ FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
 # timeout in seconds
 FAQAS_SEMU_TEST_GEN_TIMEOUT=7200
 
-# This may be 'FULL' or 'PARTIAL' (for FULL exploration or partial exploration)
+# This is the config for SEMU heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
 FAQAS_SEMU_HEURISTICS_CONFIG='{
         "PL": "0",
         "CW": "4294967295",
         "MPD": "0",
         "PP": "1.0",
-        "NTPM": "5"
+        "NTPM": "5",
+        "PSS": "RND"
 }'
 
 # max Test Generation memory in MB
