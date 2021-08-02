@@ -217,6 +217,7 @@ class MutantInfo:
 
             # ensure that the statement ends with ';' or '}' or ':'
             while orig_str[post_end_index] not in (';', '}', ':'):
+                post_end_index = get_next_non_comment_index(post_end_index, orig_str)
                 post_end_index += 1
                 post_end_index = get_next_non_comment_index(post_end_index, orig_str)
 
