@@ -216,11 +216,16 @@ class MutantInfo:
                 continue
 
             # ensure that the statement ends with ';' or '}' or ':'
-            while orig_str[post_end_index-1] not in (';', '}', ':') and orig_str[post_end_index] not in (';', '}', ':'):
-                post_end_index = get_next_non_comment_index(post_end_index, orig_str)
-                post_end_index += 1
-                post_end_index = get_next_non_comment_index(post_end_index, orig_str)
-
+            find_end = post_end_index
+            found_non_space = False
+            while orig_str[find_end-1] not in (';', '}', ':') and orig_str[find_end] not in (';', '}', ':'):
+                find_end = get_next_non_comment_index(find_end, orig_str)
+                found_non_space = not orig_str[find_end].isspace()
+                find_end += 1
+                find_end = get_next_non_comment_index(find_end, orig_str)
+            if found_non_space:
+                post_end_index = find_end
+                
             stmt_list.append(
                 StmtInfo(
                     start_index=start_index,
