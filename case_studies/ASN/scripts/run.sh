@@ -197,7 +197,7 @@ invoke_semu()
                                                                             --output_top_directory $func_gen_test_dir \
                                                                             --clear_existing \
                                                                             --generation_timeout $gen_timeout \
-                                                                            --semu_heuristics_config $semu_heuristics_config \
+                                                                            --semu_heuristics_config "$semu_heuristics_config" \
                                                                             --max_memory_MB $gen_memory_limit $other_args \
                                                                             2>&1 | tee $func_gen_test_dir/test_gen.log) \
                                                                                                 || error_exit "Test generation failed"
