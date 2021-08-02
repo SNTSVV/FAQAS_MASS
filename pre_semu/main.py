@@ -288,7 +288,7 @@ class MutantInfo:
                 while orig_str[non_com_index].isspace():
                     non_com_index += 1
                     non_com_index = get_next_non_comment_index(non_com_index, orig_str)
-                if (orig_str[non_com_index]) == '(':
+                if re.match("^[A-Za-z0-9_]+$", orig_str[mut_idx:mut_after_end]) and (orig_str[non_com_index]) == '(':
                     nopen = 1
                     non_com_index += 1
                     while nopen > 0:
