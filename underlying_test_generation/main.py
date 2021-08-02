@@ -51,7 +51,7 @@ def compute_config_from_str(json_str):
     try:
         obj = json.loads(json_str)
     except json.decoder.JSONDecodeError as e:
-        print ("semu config value is not a json object: {}".format(json_str))
+        print ("\nError: semu config value is not a json object: {}\n".format(json_str))
         raise
     obj = {PARAM_NAME_PREFIX+k: v for k, v in obj.items()}
     missing = [k[len(PARAM_NAME_PREFIX):] for k in set(CONFIGS["FULL"]) - set(obj)]
