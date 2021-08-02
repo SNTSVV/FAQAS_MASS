@@ -48,7 +48,11 @@ PARAM_NAME_PREFIX = "template_"
 DEFAULT_CONFIG = json.dumps({k[len(PARAM_NAME_PREFIX):]: v for k,v in CONFIGS["FULL"].items()})
 
 def compute_config_from_str(json_str):
-    obj = json.loads(json_str)
+    try:
+        obj = json.loads(json_str)
+    except json.decoder.JSONDecodeError as e:
+        print ("semu config value is not a json object: {}".format(json_str))
+        raise
     obj = {PARAM_NAME_PREFIX+k: v for k, v in obj.items()}
     missing = [k[len(PARAM_NAME_PREFIX):] for k in set(CONFIGS["FULL"]) - set(obj)]
     extra = [k[len(PARAM_NAME_PREFIX):] for k in set(obj) - set(CONFIGS["FULL"])]
