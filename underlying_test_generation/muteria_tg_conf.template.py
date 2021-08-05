@@ -86,6 +86,10 @@ if "{{ template_PSS }}".upper() == "MDO":
 else:
     assert "{{ template_PSS }}".upper() == "RND", "wxpecting either 'MDO' or 'RND' as value for PSS (check the value of template PSS)"
 
+# Do not use posix if no sym args
+if len({{ template_sym_args_list_of_lists }}) == 0:
+    semu_config_args.append(('--posix-runtime', False))
+
 semu_test = TestcaseToolsConfig(tooltype=TestToolType.USE_CODE_AND_TESTS, toolname='semu', \
                         tool_user_custom=ToolUserCustom(
                             PRE_TARGET_CMD_ORDERED_FLAGS_LIST=semu_config_args, 
