@@ -1,0 +1,116 @@
+% !TEX root = MAIN.tex
+
+\chapter{DAMA - Operations Manual}
+
+\section{Set-up and Initialization}
+
+
+\subsection{Dependencies}
+
+%\TODO{should we add the LLVM version?}
+%\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
+
+\begin{itemize}
+	\item Linux packages: \texttt{Python 3.7} or higher
+\end{itemize}
+
+
+\section{Getting started}
+
+\subsection{Initialization of the MASS workspace}
+
+% \DONE{I think "shall" should be simply removed, "\DAMA creates" "are stored".}
+
+\DAMA creates a workspace folder where all the steps from the methodology are stored.
+
+An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{DAMAt_install.sh}
+%Enrico: whwn I finish putting together the pipeline I will insert the correct path
+
+To use the installation script the shell variable \texttt{INSTALL\_DIR} has to be set:
+
+\begin{lstlisting}[language=bash]
+  $ export INSTALL_DIR=/opt/DIRECTORY
+\end{lstlisting}
+
+%\DONE{the meaning of the ollowing is not clear. Add an example.}
+% If the \texttt{INSTALL\_DIR} directory must be binded inside a container. In addition, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
+%
+% For instance, \DAMA has been installed on \texttt{/opt/MASS\_WORKSPACE} (i.e., the \texttt{INSTALL\_DIR}), and \DAMA will be executed inside a container, but on a different directory such as \\\texttt{/home/user/MASS\_WORKSPACE} (i.e., the \texttt{EXECUTION\_DIR}). The use of both environment variables enable this differentiation.
+
+
+After setting the corresponding environment variables, the following commands are necessary to create the \DAMA workspace folder:
+
+/* \begin{lstlisting}[language=bash]
+  $ cd $FAQAS/MASS/FAQAS-Setup
+  $ ./DAMAt_install.sh
+\end{lstlisting} */
+
+Once the installation folder has been created, the folder shall contain the following structure and files:
+
+\begin{itemize}
+
+  \item \texttt{DDB\_TEMPLATE\_header.c}: the template for the header of the automatically generated \DAMA API containing the mutation probes.
+  \item \texttt{DDB\_TEMPLATE\_footer.c}: the template for the footer of the automatically generated \DAMA API containing the mutation probes.
+  \item \texttt{generateDataMutator.py}: a pyhton script that generates the \DAMA API and Mutants Table starting from the \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c} templates and from a fault model expressed in csv format.
+  \item \texttt{fault_model_example.csv}: an example of fault model in csv format with the \DAMA mutation operators and their respective parameters.
+  \item \texttt{DAMAt\_launcher.sh}: \DAMA single launcher; the script executes all the automatic steps of the methodology in one command.
+	\item \texttt{DAMAt\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \DAMA methodology.
+	\begin{itemize}
+		\item \texttt{DAMAt\_STEPS\_LAUNCHERS/DAMAt\_compile\_mutant.sh}: a .sh stump that must be filled by the engineer with the invocations to the commands for compiling the SUT.
+		\item \texttt{DAMAt\_STEPS\_LAUNCHERS/DAMAt\_run\_tests.sh}: a .sh stump that must be filled by the engineer with the invocations to the commands for running the SUT test suite.
+		\item \texttt{MASS\_STEPS\_LAUNCHERS/DAMAt_muutation_score.sh}: launcher for the computation of the mutation score and final reporting.
+  \item \texttt{DAMAt\_DATA\_SCRIPTS/}: folder containing python scripts for the collection and analysis of the results from the \DAMA procedure.
+    \item \texttt{DAMAt\_DATA\_SCRIPTS/beautify\_results.py}: a python script that render the results from the execution of the mutants against the test suite into a readable format.
+    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_FM\_coverage.py}: a python script that collects the data item coverage data from the SUT execution traces.
+    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_operator\_coverage.py}: a python script that collects the operator coverage data from the SUT execution traces.
+    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_stats.py}: a python scripts that computes all the stats relative to the \DAMA procedures and produces readable table for the engineer to inspect.
+
+	\end{itemize}
+
+\end{itemize}
+
+\subsection{MASS Configuration}
+There is one bash script that should be edited by the engineer and there are also two Bash scripts stumps that should be edited by the engineer to allow the execution of \DAMA. These scripts enable \DAMA to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \DAMA itself.
+
+\subsection{Running DAMAt on Single Machines}
+\label{sec:dama_singlelaunch}
+
+%\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
+
+\DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
+
+
+\subsubsection{One Step Launcher}
+
+\subsubsection{Multiple Step Launchers}
+\label{sec:dama_launchers}
+
+\subsection{Running MASS on Shared Resources Facilities}
+\label{sec:dama_shared}
+
+Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \DAMA in one step.
+However, since resources can be requested accordingly, \DAMA can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With an HPC, for example, \DAMA could analyze more mutants than if \DAMA was executed on a single machine.
+
+\subsection{MASS results}
+
+After the execution of \DAMA the results are stored in dedicated folders. Such folders are defined as follows:
+
+
+\section{Normal Termination}
+
+%\DONE{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
+
+Each methodology step of \DAMA is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
+If the engineer decides to interrupt \DAMA execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
+
+\section{Error Conditions}
+
+%\DONE{Can 't we say anything about each program not returning any error message?}
+
+There is no error condition handling in the \FAQAS. If all preconditions are met, there should not be any error.
+
+\section{Recover Runs}
+
+%\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
+
+If for any reason the execution of \DAMA is interrupted, an engineer can restart the process from a specific task if all preconditions are met. This is possible since each \DAMA step work by processing data that is permanently stored by previous steps.

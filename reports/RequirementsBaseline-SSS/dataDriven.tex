@@ -25,11 +25,15 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 \RQ{} The \FAQAS shall derive, from logs generated during the execution of the SUT test suite, the data items exercised by each test case.
 
+\RQ{} The \FAQAS shall provide the engineer with the ability to choose to mutate all the instances of the data item, one instance of the data item, or a percentage of the instances.
+
 \RQ{} The \FAQAS shall compile a version of the SUT with the selected mutation operation instance enabled.
 
 \RQ{} For each mutation operator, the \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
 
-\RQ{} The \FAQAS shall automatically determine if a mutant has been killed. The \FAQAS shall terminate the test suite execution when a mutant is killed.
+\RQ{} For each mutation operator, the \FAQAS shall provide the engineer with information on the number of instances of the data item that have been mutated and not mutated by the selected operator.
+
+\RQ{} The \FAQAS shall automatically determine if a mutant has been killed. The \FAQAS shall provide an option to terminate the test suite execution when a mutant is killed.
 
 \RQ{} The \FAQAS shall execute the test suite until a termination criterion is met. The termination criterion depends on the mutants selection strategy:
 \begin{itemize}
@@ -38,6 +42,8 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 \item \emph{.c) uniform fixed-size sampling}: a number of mutants matching the selected value has been executed
 \item \emph{.d) uniform FSCI sampling}: the confidence interval computed from \emph{mutation results csv} is smaller than 10\%.
 \end{itemize}
+
+% Enrico: we still miss these options fot the moment
 
 \RQ{} The \FAQAS shall compute the mutation score based on the mutation results.
 
