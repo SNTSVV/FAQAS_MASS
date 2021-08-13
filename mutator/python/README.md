@@ -37,4 +37,4 @@ export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "double" "./
 
 for the ESAIL phdu
 
-export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char"
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" 

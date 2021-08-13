@@ -21,7 +21,7 @@ int MUTATION = MUTATIONOPT;
 
 int _FAQAS_COVERAGE_EXIT = 0;
 
-int global_mutation_counter = 0;
+int global_mutation_counter = 1;
 
 //#define FAQAS_MUTATION_PROBABILITY 90
 #ifdef _FAQAS_MUTATION_PROBABILITY
