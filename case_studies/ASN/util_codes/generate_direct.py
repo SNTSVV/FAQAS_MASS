@@ -3,7 +3,7 @@
 # Use libclang
 
 # For example, for ASN case, runn as following
-# >   ./generate_direct.py ../DOWNLOADED/casestudy/test.c direct " -I../DOWNLOADED/casestudy/"
+# >   ./generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct " -I../WORKSPACE/DOWNLOADED/casestudy/"
 
 
 import os
