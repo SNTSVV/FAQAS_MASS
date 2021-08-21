@@ -154,6 +154,9 @@ def get_function_prototypes(source_file, compilation_info):
     func_definitions = []
     for elem in translation_unit.cursor.get_children():
         if elem.kind == clang.cindex.CursorKind.FUNCTION_DECL and elem.is_definition():
+            if elem.location.file.name != source_file:
+                # The function must be in this source file
+                continue
             func_definitions.append(elem)
             if elem.type.is_function_variadic():
                 print("WARNING: The function {} is variadic. manually check for the call statement to pass more arguments".format(elem.spelling))
