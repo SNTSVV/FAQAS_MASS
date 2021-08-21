@@ -35,13 +35,52 @@ def extract_input_from_ktest(path_to_ktest_file):
 
 def apply_input_to_template(result_file_path, template_file_path, path_to_ktest_file):
     hex_array_res, hex_res, int_res, uint_res = extract_input_from_ktest(path_to_ktest_file)
+
     with open(template_file_path) as f:
         template_str = f.read()
 
-    result_str = ""
+    result_lines_list = template_str.splitlines()
     
     #Create result from template, using the data
+    ## 1. Remove <klee.h>
+    klee_h_line = None
+    for pos, line in enumerate(result_lines_list):
+        line = line.strip()
+        if line.startswith('#include "klee/klee.h"'):
+            klee_h_line = pos
+            break
+    assert klee_h_line is not None, "no klee.h include"
+    del result_lines_list[klee_h_line]
+
+    ## 2. locate input vars in klee_make_symbolic
+    klee_make_sym_locs = []
+    for pos, line in enumerate(result_lines_list):
+        line = line.strip()
+        if line.startswith("klee_make_symbolic("):
+            klee_make_sym_locs.append(pos)
+
+    ## data setting decl
+    data_decl = []
+    missing_inputs_pos = []
+    for kms in klee_make_sym_locs:
+        tmp = result_lines_list[kms].split(',')
+        name = tmp[2].split('"')[1]
+        if name not in hex_array_res:
+            missing_inputs_pos.append(kms)
+            continue
+        dat_name = name + "_faqas_semu_test_data"
+        dat_decl.append("    const unsigned char *" + dat_name + " = {" + ", ".join(hex_array_res[name]) + "};")
+        ### replace klee_make_symbolics with memcpy
+        mcpy = tmp[0].replace("klee_make_symbolic(", "memcpy(") + ", " + dat_name + tmp[1] + ");"
+        result_lines_list[kms] = mcpy
+
+    ## 3. Delete missing input klee_make_symbolic and add hex array for existing inputs
+    missing_inputs_pos.sort(reverse=True)
+    klee_make_sym_locs.sort()
+    for pos in missing_inputs_pos:
+        del result_lines_list[pos]
+    result_lines_list[klee_make_sym_locs[0]: klee_make_sym_locs[0]] = data_decl
 
     # Write result
     with open(result_file_path, "w") as f:
-        f.write(result_str)
+        f.write("\n".join(result_lines_list))

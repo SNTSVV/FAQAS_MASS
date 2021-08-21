@@ -19,6 +19,7 @@ USED_TEMPLATE = """
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "asn1crt.c"
 #include "asn1crt_encoding.c"
@@ -39,6 +40,9 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
 {% for arg_ptr_stripped_decl in arg_ptr_stripped_decl_list %}
     {{ arg_ptr_stripped_decl }};
+{% endfor %}
+{% for arg_name in input_arg_name_list %}
+    memset(&{{ arg_name }}, 0, sizeof({{ arg_name }}));
 {% endfor %}
 {% for arg_name in input_arg_name_list %}
     klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}");
