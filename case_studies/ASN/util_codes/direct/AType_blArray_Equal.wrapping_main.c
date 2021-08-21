@@ -1,5 +1,5 @@
 
-/* Wrapping main template for the function AType_blArray_Equal defined in the file ../DOWNLOADED/casestudy/test.c */
+/* Wrapping main template for the function AType_blArray_Equal defined in the file ../WORKSPACE/DOWNLOADED/casestudy/test.c */
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
