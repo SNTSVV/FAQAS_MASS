@@ -89,6 +89,9 @@ if [ $# -eq 1 -o $# -eq 3 ]; then
         "testgeneration"|"semu")
             phase=4
             ;;
+        "extract-unittests"|"unittests")
+            phase=5
+            ;;
         "--help"|"-h")
             echo "$help"
             exit 0
