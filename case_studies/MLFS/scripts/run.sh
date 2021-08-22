@@ -218,10 +218,42 @@ produce_unittest()
     local unittest_outdir=$2
     local func_template_path=$3
     $tool_dir/ktest_to_unittest/main.py $unittest_outdir $ktest_indir $func_template_path || error_exit "Ktest to unittest failed for ktest dir $ktest_indir"
-    # build each test, execute and gather assertion output
-
     # generate test execution script (take a test file and path to repo, execute script and print out diff and ret non zero if fails, nothing if pass and return 0)
-    
+    local exec_script_str="
+    #! /bin/bash
+    topdir=\$(dirname \$(readlink -f \$0))
+    orig_src=$original_src_file
+    gather_output=false
+    [ \"\${FAQAS_SEMU_GATHER_OUTPUT:-OFF}\" = 'on' ] && gather_output=true
+    [ \$# -eq 1 -o \$# -eq 2 ] || { echo 'invlid number of args'; exit 2; }
+    test_file=\$(readlink -f \$1)
+    [ \$# -eq 2 ] && orig_src=\$(readlink -f \$2)
+    test -f \$test_file || { echo 'test file missing'; exit 2; }
+    test -f \$orig_src || { echo 'original src missing'; exit 2; }
+    expected_out=\$test_file.expected
+    got_out=\$test_file.got
+
+    # Execute the test
+    tmp_file=\$test_file.tmp
+    cp \$orig_src \$tmp_file || { echo 'failed to copy orig src' }
+    cat \$test_file >> \$tmp_file
+    ## TODO: build code here
+    build_code \$tmp_file \$tmp_file.exe || { echo 'build faile for code'; exit 2; }
+    \$tmp_file.exe > \$got_out
+    rm -f \$tmp_file.exe
+    if [ \$gather_output = true ]; then
+        mv \$got_out \$expected_out
+    else
+        diff \$got_out \$expected_out
+        exit $?
+    fi
+    "
+    echo $exec_script_str > $unittest_outdir/runtest.sh
+    chmod +x $unittest_outdir/runtest.sh
+    # build each test, execute and gather assertion output
+    for f in `ls $unittest_outdir/*.c`; do
+        FAQAS_SEMU_GATHER_OUTPUT=on $unittest_outdir/runtest.sh $unittest_outdir/$f || error_exit "failed getting expected out for $unittest_outdir/$f"
+    done
 }
 
 has_semu()
