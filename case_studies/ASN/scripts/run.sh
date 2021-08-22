@@ -215,6 +215,8 @@ produce_unittest()
     # generate test execution script (take a test file and path to repo, execute script and print out diff and ret non zero if fails, nothing if pass and return 0)
     local exec_script_str="
     #! /bin/bash
+    set -u
+    
     topdir=\$(dirname \$(readlink -f \$0))
     orig_src=$original_src_file
     gather_output=false
