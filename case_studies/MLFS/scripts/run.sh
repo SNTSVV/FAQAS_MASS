@@ -212,6 +212,14 @@ invoke_semu()
                                                                                                 || error_exit "Test generation failed"
 }
 
+produce_unittest()
+{
+    local ktest_indir=$1
+    local unittest_outdir=$2
+    local func_template_path=$3
+    $tool_dir/ktest_to_unittest/main.py $unittest_outdir $ktest_indir $func_template_path || error_exit "Ktest to unittest failed for ktest dir $ktest_indir"
+}
+
 has_semu()
 {
     if klee-semu --version 2>&1 | grep -i llvm > /dev/null; then
@@ -348,6 +356,48 @@ if [ $phase -le 4 ]; then
         fi
     else
         run_in_docker "testgeneration"
+    fi
+fi
+
+if [ $phase -le 5 ]; then
+    if has_semu; then
+        echo "[$filename] Calling ktest to unittest conversion ..."
+        # produce unittest
+        if [ "$mutants_list_file" != "" ]; then
+            category="direct-$src_template_folder_suffix"
+            category_dir=$make_sym_to_append_top_dir/$category
+            for func_template in `ls $category_dir`
+            do
+                g_func_name=$(echo $func_template | cut -d'.' -f1)
+                check_function_has_mutants $g_func_name || continue
+                echo "[$filename] produce unittests processing function $g_func_name ..."
+                g_func_template_path=$category_dir/$func_template
+                g_func_gen_ktest_dir=$custom_gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/semu/tests_files
+                g_func_gen_unittest_dir=$custom_gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/produced-unittests
+                rm -rf $g_func_gen_unittest_dir || error_exit "Failed to remove existing unittest dir output"
+                mkdir $g_func_gen_unittest_dir || error_exit "Failed to create unittest dir"
+                produce_unittest $g_func_gen_ktest_dir $g_func_gen_unittest_dir $g_func_template_path
+            done
+        else
+            for category in `ls $make_sym_to_append_top_dir`
+            do
+                category_dir=$make_sym_to_append_top_dir/$category
+                test -d $category_dir || continue
+                for func_template in `ls $category_dir`
+                do
+                    g_func_name=$(echo $func_template | cut -d'.' -f1)
+                    echo "[$filename] produce unittests processing function $g_func_name ..."
+                    g_func_template_path=$category_dir/$func_template
+                    g_func_gen_ktest_dir=$gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/semu/tests_files
+                    g_func_gen_unittest_dir=$gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/produced-unittests
+                    rm -rf $g_func_gen_unittest_dir || error_exit "Failed to remove existing unittest dir output"
+                    mkdir $g_func_gen_unittest_dir || error_exit "Failed to create unittest dir"
+                    produce_unittest $g_func_gen_ktest_dir $g_func_gen_unittest_dir $g_func_template_path
+                done
+            done
+        fi
+    else
+        run_in_docker "unittests"
     fi
 fi
 
