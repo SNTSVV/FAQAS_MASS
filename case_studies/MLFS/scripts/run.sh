@@ -218,6 +218,10 @@ produce_unittest()
     local unittest_outdir=$2
     local func_template_path=$3
     $tool_dir/ktest_to_unittest/main.py $unittest_outdir $ktest_indir $func_template_path || error_exit "Ktest to unittest failed for ktest dir $ktest_indir"
+    # build each test, execute and gather assertion output
+
+    # generate test execution script (take a test file and path to repo, execute script and print out diff and ret non zero if fails, nothing if pass and return 0)
+    
 }
 
 has_semu()
