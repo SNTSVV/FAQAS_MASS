@@ -15,22 +15,25 @@ FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE=./test.c
 
 FAQAS_SEMU_GENERATED_MUTANTS_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/test
 
-FAQAS_SEMU_BUILD_CODE()
+FAQAS_SEMU_BUILD_CODE_FUNC_STR='
+FAQAS_SEMU_BUILD_CODE_FUNC()
 {
     local in_file=$1
     local out_file=$2
-    local compiler=$3
-    local flags="$4"
+    local repo_root_dir=$3
+    local compiler=$4
+    local flags="$5"
     # compile
-    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I $FAQAS_SEMU_REPO_ROOTDIR -O0 $in_file -o $out_file
+    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I $repo_root_dir -O0 $in_file -o $out_file
     return $?
 }
+'
 
 FAQAS_SEMU_BUILD_LLVM_BC()
 {
     local in_file=$1
     local out_bc=$2
-    FAQAS_SEMU_BUILD_CODE $in_file $out_bc clang "-c -emit-llvm"
+    eval "$FAQAS_SEMU_BUILD_CODE_FUNC_STR; FAQAS_SEMU_BUILD_CODE_FUNC $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang '-c -emit-llvm'"
     return $?
 }
 

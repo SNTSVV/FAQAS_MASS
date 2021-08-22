@@ -237,8 +237,10 @@ produce_unittest()
     tmp_file=\$test_file.tmp
     cp \$orig_src \$tmp_file || { echo 'failed to copy orig src' }
     cat \$test_file >> \$tmp_file
-    ## TODO: build code here
-    build_code \$tmp_file \$tmp_file.exe || { echo 'build faile for code'; exit 2; }
+    
+    $FAQAS_SEMU_BUILD_CODE_FUNC_STR
+
+    FAQAS_SEMU_BUILD_CODE_FUNC \$tmp_file \$tmp_file.exe \$repo_dir gcc '' || { echo 'build failed for code'; exit 2; }
     \$tmp_file.exe > \$got_out
     rm -f \$tmp_file.exe
     if [ \$gather_output = true ]; then

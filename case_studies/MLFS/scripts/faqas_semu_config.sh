@@ -15,7 +15,8 @@ FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE=./"${ENV_FAQAS_SEMU_SRC_FILE}"
 
 FAQAS_SEMU_GENERATED_MUTANTS_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/"${ENV_FAQAS_SEMU_SRC_FILE%.c}"
 
-FAQAS_SEMU_BUILD_CODE()
+FAQAS_SEMU_BUILD_CODE_FUNC_STR='
+FAQAS_SEMU_BUILD_CODE_FUNC()
 {
     local in_file=$1
     local out_file=$2
@@ -26,12 +27,13 @@ FAQAS_SEMU_BUILD_CODE()
     $compiler $flags -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -I$repo_root_dir/include -I$repo_root_dir/libm/common -I$repo_root_dir/libm/math -I$repo_root_dir/libm/mlfs -o $out_file
     return $?
 }
+'
 
 FAQAS_SEMU_BUILD_LLVM_BC()
 {
     local in_file=$1
     local out_bc=$2
-    FAQAS_SEMU_BUILD_CODE $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang "-c -emit-llvm"
+    eval "$FAQAS_SEMU_BUILD_CODE_FUNC_STR; FAQAS_SEMU_BUILD_CODE_FUNC $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang '-c -emit-llvm'"
     return $?
 }
 
