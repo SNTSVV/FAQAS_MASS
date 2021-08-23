@@ -8,10 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// time.h is  included for seeding the INV random number generator in the footer
 #include <time.h>
-
 
 #define MAX_OPS 200
 #define ITEMS 10
@@ -23,16 +20,20 @@ int _FAQAS_COVERAGE_EXIT = 0;
 
 int global_mutation_counter = 1;
 
-//#define FAQAS_MUTATION_PROBABILITY 90
 #ifdef _FAQAS_MUTATION_PROBABILITY
 float PROBABILITY = _FAQAS_MUTATION_PROBABILITY;
 #endif
+
+
+//this handles coverage without continuosly opening and closing files for g++
+
+#ifdef __cplusplus
 
 FILE* handleCoverage();
 
 const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
 
-FILE *coverage_file_pointer = handleCoverage();
+FILE *coverage_file_pointer = handleCoverage(); // this is the problem
 
 void coverage_exit(void) {
 
@@ -41,10 +42,6 @@ fclose(coverage_file_pointer);
 }
 
 FILE* handleCoverage() {
-
-
-    //if ( MUTATION != -2 )
-      //  return 0;
 
    FILE* ptr = fopen(faqas_coverage_file, "ab+");
 
@@ -58,6 +55,9 @@ FILE* handleCoverage() {
 
     return ptr;
 }
+
+#endif
+
 
 
 double faqas_abs(double a) {
@@ -216,6 +216,16 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
 
 void _FAQAS_operator_coverage(int operator_id, int counter, int status){
 
+  #ifndef __cplusplus
+  char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+  FILE* coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
+  #endif
+
   fprintf(coverage_file_pointer, "%d,%d,%d \n", operator_id, counter, status);
+
+  #ifndef __cplusplus
+  //close the file
+  fclose(coverage_file_pointer);
+  #endif
 
 }

@@ -14,8 +14,19 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
   if (MUTATION == -2) {
    _FAQAS_fmCoverage(fm->ID);
+
+   #ifndef __cplusplus
+   char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+   FILE* coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
+   #endif
+
     fprintf(coverage_file_pointer, "fm.ID: %d\n", fm->ID);
     return 0;
+
+    #ifndef __cplusplus
+    fclose(coverage_file_pointer);
+    #endif
+
   }
 
   if (MUTATION == -3) {

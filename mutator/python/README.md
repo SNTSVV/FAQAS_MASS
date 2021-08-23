@@ -33,8 +33,8 @@ WORK IN PROGRESS:
 
 for the ESAIL gps
 
-export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "double" "./case_studies_fault_models/fault_model_ESAIL_gps.csv"
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "double" "./case_studies_fault_models/fault_model_ESAIL_GPS_fix.csv"
 
 for the ESAIL phdu
 
-export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" 
+export _FAQAS_SINGLETON_FM="TRUE" && python generateDataMutator.py  "unsigned char" "./case_studies_fault_models/fault_model_ESAIL_PDHU_new.csv"

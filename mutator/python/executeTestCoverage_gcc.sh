@@ -1,7 +1,5 @@
 #/bin/bash
 
-
-
 TESTFOLDER=$1
 curTest=$2
 FAULTMODEL=$3
@@ -64,13 +62,11 @@ while [ $x -le $operations ]; do
 
     echo "OPERATION ${x} COMPILING..."
 
-		# gcc -g $extra -DMUTATIONOPT=$x ${curTest}.c -o main_$x -lm >> $compilerOutFile 2>&1
-
-		gcc -g $extra -DMUTATIONOPT=$x ${curTest}.c -o main_$x >> $compilerOutFile 2>&1
+    gcc $extra -DMUTATIONOPT=$x ${curTest}.c -g -o main_$x >> $compilerOutFile 2>&1
 
     echo "OPERATION ${x} RUNNING..."
 
-    valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
+    valgrind --tool=memcheck --leak-check=full --track-origins=yes  --error-exitcode=3 ./main_$x >> $valgrindOutFile 2>&1
 
     if [ $? -eq 3 ]; then
         memoryErrors=$((memoryErrors+1))
