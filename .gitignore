@@ -128,3 +128,4 @@ mutator/python/tests/FaultModels/backup/faultModel_compilation.csv
 mutator/python/tests/FaultModels/backup/NAificator.py
 mutator/python/tests/FaultModels/chiamami_sul_trap_phone.sh
 mutator/python/tests/FaultModels/NAificator.py
+mutator/python/all_resorted.csv

@@ -684,24 +684,37 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   }//FINAL PAR
 
   if (OP->type == IV) {
+    int IVsuccess = 0;
 
     if (fm->items[pos].type == INT) {
-      valueInt = OP->value;
+      if (valueInt != OP->value){
+        valueInt = OP->value;
+        IVsuccess = 1;
+      }
     }
 
     if (fm->items[pos].type == LONG) {
-      valueLong = (long)OP->value;
+      if (valueLong != OP->value){
+        valueLong = (long) OP->value;
+        IVsuccess = 1;
+      }
     }
 
     if (fm->items[pos].type == DOUBLE) {
-      valueDouble = (double)OP->value;
+      if (valueDouble != OP->value){
+        valueDouble = (double)OP->value;
+        IVsuccess = 1;
+      }
     }
 
     if (fm->items[pos].type == FLOAT) {
-      valueFloat = (float)OP->value;
+      if (valueFloat != OP->value){
+        valueFloat = (float)OP->value;
+        IVsuccess = 1;
+      }
     }
 
-    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, IVsuccess);
     _FAQAS_mutated = 1;
   }
 
