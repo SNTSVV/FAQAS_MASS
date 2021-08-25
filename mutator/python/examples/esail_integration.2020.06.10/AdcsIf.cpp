@@ -1,5 +1,3 @@
-#include "FAQAS_dataDrivenMutator.h"
-
 /* Copyright (C) OHB-System AG
  *
  * All Rights Reserved. No part of this software may
@@ -88,10 +86,6 @@ void AdcsIf::ObcSendCb(::Smp::UInt8 sendByte)
 }
 // --CLOSING ELEMENT--AdcsIf::ObcSendCb--
 
-int mutate( std::vector<unsigned char> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
-}
-
 // --OPENING ELEMENT--AdcsIf::ObcRecvBlockCb--
 /// Function that is called when a block of data is received from the data link layer.
 /// @param block The received data block.
@@ -150,31 +144,11 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetIfStatus(newBlock);
-
-                if(cr != CR_Failure){
-
-                  FaultModel *fm = _FAQAS_IfStatus_FM();
-      		        mutate( &newBlock, fm );
-  		            _FAQAS_delete_FM(fm);
-
-                }
-
             }
             break;
             case 1:
             {
                 cr = GetIfHk(newBlock);
-
-                //MANUALLY INSERTED PROBE
-                if(cr != CR_Failure){
-
-                  FaultModel *fm = _FAQAS_IfHK_FM();
-      		        mutate( &newBlock, fm );
-  		            _FAQAS_delete_FM(fm);
-
-                }
-
-
             }
             break;
             case 2:
@@ -188,7 +162,7 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             }
             break;
             case 4:
-           {
+            {
                 cr = SetConfiguration(newBlock);
             }
             break;
@@ -210,7 +184,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetGyroTm(newBlock);
-
             }
             break;
             default:
@@ -226,7 +199,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetMgtmTm(newBlock);
-
             }
             break;
             default:
@@ -242,49 +214,11 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetSsTm(newBlock);
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-
-                  //probe SunSensorTMfailure
-                  FaultModel *fm = _FAQAS_SunSensorTMFailure_FM();
-      		        mutate( &newBlock, fm );
-  		            _FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-
-                  //probe SunSensorTM
-                  FaultModel *fm = _FAQAS_SunSensorTM_FM();
-      		        mutate( &newBlock, fm );
-  		            _FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                //END PROBES
-
             }
             break;
             case 1:
             {
                 cr = GetSsTemp(newBlock);
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-
-                  //probe SSTPFailure
-                  FaultModel *fm = _FAQAS_SSTPFailure_FM();
-                  mutate( &newBlock, fm );
-                  _FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                else{
-                  //probe SSTP
-                  FaultModel *fm = _FAQAS_SSTP_FM();
-                  mutate( &newBlock, fm );
-                  _FAQAS_delete_FM(fm);
-                  //end probe
-                }
-                //END PROBES
-
-
             }
             break;
             default:
@@ -315,19 +249,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = SetMgtqPwm(newBlock);
-
-
-                //MANUALLY INSERTED PROBES
-                if(cr == CR_Failure){
-
-                  FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
-                  mutate( &newBlock, fm );
-                  _FAQAS_delete_FM(fm);
-
-                }
-
-                //END PROBE
-
                 if(cr == CR_Success)
                 {
                     if(newBlock[2] == 0x55)
@@ -335,13 +256,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
                         // Bypass Magnetometer response
                         newBlock.resize(2);
                         cr = GetMgtqTm(newBlock);
-
-                        //MANUALLY INSERTED PROBE
-                        FaultModel *fm = _FAQAS_MagnetorquerSetPWMRSP_FM();
-                        mutate( &newBlock, fm );
-                        _FAQAS_delete_FM(fm);
-                        //END PROBE
-
                     }
                     else
                     {
@@ -364,17 +278,6 @@ void AdcsIf::ObcRecvBlockCb(const std::vector<Smp::UInt8>& block)
             case 0:
             {
                 cr = GetIfScHk(newBlock);
-
-                //MANUALLY INSERTED PROBE
-                if(cr != CR_Failure){
-
-                  FaultModel *fm = _FAQAS_SpaceCraftHK_FM();
-                  mutate( &newBlock, fm );
-                  _FAQAS_delete_FM(fm);
-
-                }
-                //END PROBE
-
             }
             break;
             default:
@@ -587,18 +490,6 @@ void AdcsIf::Configure(::Smp::Services::ILogger* logger)
     // Call base implementation first
     ::Generic::PoweredUnit::Configure(logger);
 
-    _FAQAS_IfStatus_FM();
-    _FAQAS_IfHK_FM();
-    _FAQAS_GYTMFailure_FM();
-    _FAQAS_GYTM_FM();
-    _FAQAS_SunSensorTMFailure_FM();
-    _FAQAS_SunSensorTM_FM();
-    _FAQAS_SSTP_FM();
-    _FAQAS_SSTPFailure_FM();
-    _FAQAS_SpaceCraftHK_FM();
-    _FAQAS_MagnetorquerSetPWMRSPFailure_FM();
-    _FAQAS_MagnetorquerSetPWMRSP_FM();
-
     // MARKER: CONFIGURE BODY: START
     // MARKER: CONFIGURE BODY: END
 }
@@ -677,15 +568,6 @@ void AdcsIf::RequestCompleted(::Smp::UInt8, const ::std::vector<Smp::UInt8>& com
         block.insert(block.end(), command.begin(), command.end());
         block.insert(block.end(), response.begin(), response.end());
 
-//MANUALLY INSERTED PROBE
-
-        FaultModel *fm = _FAQAS_GYTM_FM();
-        mutate( &block, fm );
-        _FAQAS_delete_FM(fm);
-
-//PROBE END
-
-
         SendResponse(block, false);
     }
     else
@@ -701,14 +583,6 @@ void AdcsIf::RequestCompleted(::Smp::UInt8, const ::std::vector<Smp::UInt8>& com
             Log(Smp::Services::LMK_Warning, "Unknown error %u", error);
             block.push_back(error);
         }
-
-//MANUALLY INSERTED PROBE
-
-        FaultModel *fm = _FAQAS_GYTMFailure_FM();
-        mutate( &block, fm );
-        _FAQAS_delete_FM(fm);
-
-//PROBE END
 
         SendResponse(block, true);
     }
