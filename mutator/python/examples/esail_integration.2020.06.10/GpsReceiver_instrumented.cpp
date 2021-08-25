@@ -1732,24 +1732,9 @@ void GpsReceiver::SendF40()
 
     Generic::Utils::GetGpsTime(getCurrentDateTime(), gpsWeek, gpsSecondsOfWeek);
 
-    /*
-    gpsWeek
-    gpsSecondsOfWeek
-    (unsigned)cartNavData.gpsUtc
-    cartNavData.x
-    cartNavData.y
-    cartNavData.z
-    cartNavData.vx
-    cartNavData.vy
-    cartNavData.vz
-    (unsigned)cartNavData.navigationStatus
-    (unsigned)cartNavData.nbOfTrackSats
-    cartNavData.pdop
-    */
-
     //MANUALLY INSERTED PROBE
     std::vector<double> gps_buffer;
-    gps_buffer.push_back((gpsWeek);
+    gps_buffer.push_back(gpsWeek);
     gps_buffer.push_back(gpsSecondsOfWeek);
     gps_buffer.push_back(cartNavData.x);
     gps_buffer.push_back(cartNavData.y);
@@ -1765,8 +1750,8 @@ void GpsReceiver::SendF40()
     mutate( &gps_buffer, fm );
   	_FAQAS_delete_FM(fm);
 
-    gpsWeek = (UInt16) gps_buffer[0];
-    gpsSecondsOfWeek = (Float64) gps_buffer[1];
+    gpsWeek = gps_buffer[0];
+    gpsSecondsOfWeek = gps_buffer[1];
     cartNavData.x = gps_buffer[2];
     cartNavData.y = gps_buffer[3];
     cartNavData.z = gps_buffer[4];
