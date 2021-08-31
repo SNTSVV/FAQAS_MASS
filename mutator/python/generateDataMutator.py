@@ -464,8 +464,8 @@ with open(fileName) as csv_file:
             line_count += 1
 
 closeOperators()
-
 closeFaultModelsDef(True)
+mutateFunctionDef(lastFM)
 
 maxFMO = "//max MUTATIONOPT="+str(elements)
 
