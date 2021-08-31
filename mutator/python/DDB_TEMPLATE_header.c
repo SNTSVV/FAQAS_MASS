@@ -10,6 +10,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef __cplusplus
+#include <vector>
+#endif
+
 #define MAX_OPS 200
 #define ITEMS 10
 

@@ -483,7 +483,6 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (valueInt <= OP->threshold){
         valueInt = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-
       }
       else {
         //value already above threshold

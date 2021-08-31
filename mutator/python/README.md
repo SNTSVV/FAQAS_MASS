@@ -20,7 +20,7 @@ export _FAQAS_INITIAL_PADDING=2  _FAQAS_SINGLETON_FM="TRUE" && python generateDa
 
 LIBPARAM (without the "SINGLETON" option)
 
-python generateDataMutator.py  "unsigned long long int" "./case_studies_fault_models/LibParamFaultModel.csv"
+python generateDataMutator.py  "unsigned long long int" "./case_studies_fault_models/fault_model_LibParam.csv"
 
 LIBPARAM (with the "SINGLETON" option)
 

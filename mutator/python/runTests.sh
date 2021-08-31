@@ -2,7 +2,7 @@
 
 rm all_results.csv
 
-for c in "NORMAL" "SINGLETON";
+for c in "SINGLETON";
 do
 
   if [ $c = "SINGLETON" ]; then
@@ -94,6 +94,7 @@ do
   bash runTest70.sh
   bash runTest71.sh
   bash runTest72.sh
+  bash runTest73.sh
 
   popd
 

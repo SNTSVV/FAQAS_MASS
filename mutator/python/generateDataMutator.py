@@ -230,6 +230,28 @@ def newASA(item, _span, _type, _threshold, _delta, _value):
     operations[elements] = 0
 
 
+def mutateFunctionDef(fm):
+
+    global faultModelsDef
+
+    faultModelsDef += "\n\n#ifdef __cplusplus\n\n"
+
+    faultModelsDef += "void mutate_FM_" + fm + "(std::vector<" \
+        + str(sys.argv[1]) + "> *v){\n"
+    faultModelsDef += "    FaultModel *fm = _FAQAS_" + fm + "_FM();\n"
+    faultModelsDef += "    _FAQAS_mutate(v->data(),fm);\n"
+    faultModelsDef += "    _FAQAS_delete_FM(fm);\n}\n"
+
+    faultModelsDef += "\n#else\n\n"
+
+    faultModelsDef += "void mutate_FM_" + fm + "( "+str(sys.argv[1])+" *v){\n"
+    faultModelsDef += "    FaultModel *fm = _FAQAS_" + fm + "_FM();\n"
+    faultModelsDef += "    _FAQAS_mutate(v,fm);\n"
+    faultModelsDef += "    _FAQAS_delete_FM(fm);\n}\n"
+
+    faultModelsDef += "\n#endif\n\n"
+
+
 def closeFaultModelsDef(last=False):
     global lastItem
     global operatorsCount
@@ -241,9 +263,9 @@ def closeFaultModelsDef(last=False):
     sizeDef += "#define SIZE_"+lastFM+" "+str(size)+"\n"
 
     if ( last == True ):
-         maxOperation = elements+1
+        maxOperation = elements+1
     else:
-         maxOperation = elements
+        maxOperation = elements
 
     faultModelsDef += "fm->maxOperation = "+str(maxOperation)+";\n"
     faultModelsDef += "return fm;\n"
@@ -290,16 +312,22 @@ def processRow(row):
 
     _p = _p+1
     FT = row[_p]
+
     _p = _p+1
     _min = row[_p]
+
     _p = _p+1
     _max = row[_p]
+
     _p = _p+1
     _threshold = row[_p]
+
     _p = _p+1
     _delta = row[_p]
+
     _p = _p+1
     _state = row[_p]
+
     _p = _p+1
     _value = row[_p]
 
@@ -316,6 +344,7 @@ def processRow(row):
         if lastFM != "":
             closeOperators()
             closeFaultModelsDef()
+            mutateFunctionDef(lastFM)
 
         lastItem = -1
 
@@ -339,6 +368,7 @@ def processRow(row):
 
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         faultModelsDef += "fm->minOperation = "+str(elements)+";\n"
+
         fmID += 1
 
     operators[elements] = operatorsCount
@@ -434,6 +464,7 @@ with open(fileName) as csv_file:
             line_count += 1
 
 closeOperators()
+
 closeFaultModelsDef(True)
 
 maxFMO = "//max MUTATIONOPT="+str(elements)
@@ -473,7 +504,6 @@ outfile.write(selectItem)
 outfile.write(selectOperator)
 outfile.write(selectOperations)
 
-# TODO: we need to add an option to specify the number of mutations to apply
 outfile.write("\n\n#define APPLY_ONE_MUTATION 0\n\n")
 
 
