@@ -18,9 +18,12 @@ int main() {
   v.push_back(5);
 
   // MANUALLY ADDED PROBE
-  FaultModel *fm = _FAQAS_IfHK_FM();
-  mutate(&v, fm);
-  _FAQAS_delete_FM(fm);
+  // FaultModel *fm = _FAQAS_IfHK_FM();
+  // mutate(&v, fm);
+  // _FAQAS_delete_FM(fm);
+
+  mutate_FM_IfHK(&v);
+
   // MANUALLY ADDED PROBE END
 
   for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {

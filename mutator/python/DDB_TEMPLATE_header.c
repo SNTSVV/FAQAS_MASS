@@ -233,3 +233,5 @@ void _FAQAS_operator_coverage(int operator_id, int counter, int status){
   #endif
 
 }
+
+int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm);
