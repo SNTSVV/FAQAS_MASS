@@ -28,7 +28,7 @@ printf("...\n");
 
 FaultModel *fm =  _FAQAS_General_FM();
 mutate( v, fm );
-_FAQAS_delete_FM(fm);
+
 
 printf("NEW_VALUE\n");
 

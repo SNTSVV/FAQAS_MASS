@@ -6,11 +6,6 @@
 #include <vector>
 
 // this test will be used for INV operators
-
-int mutate(std::vector<int> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 void print_float(int val) {
   float tmp = 0;
 
@@ -59,9 +54,7 @@ int main() {
   std::cout << "Mutation\n";
 
   // MANUALLY ADDED PROBE
-  FaultModel *fm = _FAQAS_IfHK_FM();
-  mutate(&v, fm);
-  _FAQAS_delete_FM(fm);
+  mutate_FM_IfHK( &v );
   // MANUALLY ADDED PROBE END
 
   for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {

@@ -10,8 +10,6 @@ int mutate(std::vector<float> *v, FaultModel *fm) {
 int main() {
   int i;
 
-  FaultModel *fm = _FAQAS_IfHK_FM();
-
   for (i = 0; i <= 10; i = i + 1) {
     // Create a vector containing floats
     std::vector<float> v;
@@ -25,10 +23,9 @@ int main() {
     printf("*********%f**********\n", v.at(1));
 
     // MANUALLY ADDED PROBE
-
-    mutate(&v, fm);
-
+    mutate_FM_IfHK( &v );
     // MANUALLY ADDED PROBE END
+
     printf("*********%f**********\n", v.at(1));
 
     for (std::vector<float>::iterator it = v.begin(); it != v.end(); ++it) {
@@ -36,7 +33,7 @@ int main() {
     }
   }
 
-  _FAQAS_delete_FM(fm);
+
 
   return 0;
 }

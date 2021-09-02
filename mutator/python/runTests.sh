@@ -5,6 +5,7 @@ rm -f results_NORMAL.csv
 rm -f results_SINGLETON.csv
 
 for c in "NORMAL" "SINGLETON";
+# for c in "SINGLETON";
 do
 
   if [ $c = "SINGLETON" ]; then
@@ -28,7 +29,7 @@ do
 
   pushd tests
 
-  bash runTest_compilation.sh
+  bash -x runTest_compilation.sh
   bash runTest01.sh
   bash runTest02.sh
   bash runTest03.sh
@@ -64,7 +65,6 @@ do
   bash runTest38.sh
   bash runTest39.sh
   bash runTest40.sh
-  bash runTest41.sh
   bash runTest42.sh
   bash runTest43.sh
   bash runTest44.sh
@@ -82,7 +82,6 @@ do
   bash runTest56.sh
   bash runTest57.sh
   bash runTest58.sh
-  bash runTest59.sh
   bash runTest60.sh
   bash runTest61.sh
   bash runTest62.sh

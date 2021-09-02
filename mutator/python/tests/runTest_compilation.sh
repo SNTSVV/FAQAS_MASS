@@ -6,5 +6,5 @@ FAULTMODEL=tests/FaultModels/faultModel_compilation.csv
 TYPE="long long int"
 
 pushd ..
-bash executeTestCoverage_gcc.sh "$TESTFOLDER" "$curTest" "$FAULTMODEL" "$TYPE"
+bash executeTest_gcc.sh "$TESTFOLDER" "$curTest" "$FAULTMODEL" "$TYPE"
 popd

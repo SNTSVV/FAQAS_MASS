@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include "FAQAS_dataDrivenMutator.h"
 
-int mutate( std::vector<int> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
-}
-
 int main(){
 
   // SensorA,1,1,INT,SS,NA,NA,NA,1000,NA,NA
@@ -24,12 +20,12 @@ int main(){
     v.push_back(0);
     v.push_back(0);
 
+    // mutate_FM_IfHK
+
   for (int i = 0; i < 10; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_SensorA_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_SensorA(&v);
     //MANUALLY ADDED PROBE END
 
   }
@@ -37,9 +33,8 @@ int main(){
   for (int i = 0; i < 11; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_SensorB_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_SensorB(&v);
+
     //MANUALLY ADDED PROBE END
 
   }
@@ -47,9 +42,7 @@ int main(){
   for (int i = 0; i < 12; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_SensorC_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_SensorC(&v);
     //MANUALLY ADDED PROBE END
 
   }
@@ -57,9 +50,7 @@ int main(){
   for (int i = 0; i < 13; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_ActuatorA_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_ActuatorA(&v);
     //MANUALLY ADDED PROBE END
 
   }
@@ -67,9 +58,7 @@ int main(){
   for (int i = 0; i < 14; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_ActuatorB_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_ActuatorB(&v);
     //MANUALLY ADDED PROBE END
 
   }
@@ -77,9 +66,7 @@ int main(){
   for (int i = 0; i < 15; i++){
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_ActuatorC_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_ActuatorC(&v);
     //MANUALLY ADDED PROBE END
 
   }

@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include <vector>
 
-int mutate(std::vector<int> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 int main() {
   // Create a vector containing hexadecimal numbers
   std::vector<int> v;
@@ -18,9 +14,7 @@ int main() {
   v.push_back(0x19); // 25
 
   // MANUALLY ADDED PROBE
-  FaultModel *fm = _FAQAS_IfHK_FM();
-  mutate(&v, fm);
-  _FAQAS_delete_FM(fm);
+  mutate_FM_IfHK( &v );
   // MANUALLY ADDED PROBE END
 
   for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {

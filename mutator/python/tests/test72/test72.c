@@ -3,12 +3,6 @@
 #include <stdlib.h>
 #include "FAQAS_dataDrivenMutator.h"
 
-
-int mutate( std::vector<float> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
-}
-
-
 int main()
 {
     // Create a vector containing integers
@@ -25,14 +19,10 @@ int main()
   //  v.clear();
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_IfHK_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_IfHK( &v );
     //MANUALLY ADDED PROBE END
 
   }
-
-
 
     for(std::vector<float>::iterator it = v.begin(); it != v.end(); ++it) {
     	std::cout << *it << '\n';

@@ -7,10 +7,6 @@
 
 // this test will be used for INV operators
 
-int mutate(std::vector<long int> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 void print_double(long int val) {
   double tmp = 0;
 
@@ -60,9 +56,6 @@ int main() {
   std::cout << "Mutation\n";
 
   // MANUALLY ADDED PROBE
-  // FaultModel *fm = _FAQAS_IfHK_FM();
-  // mutate(&v, fm);
-  // _FAQAS_delete_FM(fm);
 
   mutate_FM_IfHK(&v);
 

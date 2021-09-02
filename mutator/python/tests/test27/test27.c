@@ -3,14 +3,8 @@
 #include <stdlib.h>
 #include <vector>
 
-int mutate(std::vector<int> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 int main() {
   int i;
-
-  FaultModel *fm = _FAQAS_IfHK_FM();
 
   for (i = 0; i <= 10; i = i + 1) {
     // Create a vector containing integers
@@ -25,17 +19,16 @@ int main() {
     printf("*********%d**********\n", v.at(1));
 
     // MANUALLY ADDED PROBE
-
-    mutate(&v, fm);
-
+    mutate_FM_IfHK( &v );
     // MANUALLY ADDED PROBE END
+
     printf("*********%d**********\n", v.at(1));
 
     for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
       std::cout << *it << '\n';
     }
   }
-  _FAQAS_delete_FM(fm);
+
 
   return 0;
 }

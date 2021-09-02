@@ -4,10 +4,6 @@
 #include <stdlib.h>
 #include <vector>
 
-int mutate(std::vector<float> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 int main() {
   // Create a vector containing floats
   std::vector<float> v;
@@ -25,9 +21,7 @@ int main() {
   int position = _FAQAS_selectItem();
 
   // MANUALLY ADDED PROBE
-  FaultModel *fm = _FAQAS_IfHK_FM();
-  mutate(&v, fm);
-  _FAQAS_delete_FM(fm);
+  mutate_FM_IfHK( &v );
   // MANUALLY ADDED PROBE END
 
   if (position != -999) {

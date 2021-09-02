@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include <vector>
 
-long int mutate(std::vector<long int> *v, FaultModel *fm) {
-  return _FAQAS_mutate(v->data(), fm);
-}
-
 int main() {
   // Create a vector containing long integers
   std::vector<long int> v;
@@ -18,9 +14,7 @@ int main() {
   v.push_back(5);
 
   // MANUALLY ADDED PROBE
-  FaultModel *fm = _FAQAS_IfHK_FM();
-  mutate(&v, fm);
-  _FAQAS_delete_FM(fm);
+  mutate_FM_IfHK( &v );  
   // MANUALLY ADDED PROBE END
 
   for (std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {

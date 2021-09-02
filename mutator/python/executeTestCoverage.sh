@@ -1,5 +1,6 @@
 #/bin/bash
 
+
 TESTFOLDER=$1
 curTest=$2
 FAULTMODEL=$3

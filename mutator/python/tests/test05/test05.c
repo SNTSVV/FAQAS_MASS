@@ -5,12 +5,6 @@
 #include "FAQAS_dataDrivenMutator.h"
 
 //this test will be used for INV operators
-
-int mutate( std::vector<double> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
-}
-
-
 int main()
 {
     // Create a vector containing doubles
@@ -31,18 +25,8 @@ int main()
 
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_IfHK_FM();
-    mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    mutate_FM_IfHK( &v );
     //MANUALLY ADDED PROBE END
-
-
-
-     // printf("********************************************\n");
-     // printf("this is the position:%i\n", position);
-     // printf("********************************************\n");
-    // printf("this is v(1):%i\n", v.at(1));
-    // printf("********************************************\n");
 
 
     if (position!= -999){
