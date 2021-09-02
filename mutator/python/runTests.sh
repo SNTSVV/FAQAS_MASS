@@ -29,7 +29,10 @@ do
 
   pushd tests
 
+  if [ $c = "SINGLETON" ]; then
   bash -x runTest_compilation.sh
+  fi
+
   bash runTest01.sh
   bash runTest02.sh
   bash runTest03.sh
@@ -66,7 +69,6 @@ do
   bash runTest39.sh
   bash runTest40.sh
   bash runTest42.sh
-  bash runTest43.sh
   bash runTest44.sh
   bash runTest45.sh
   bash runTest46.sh
