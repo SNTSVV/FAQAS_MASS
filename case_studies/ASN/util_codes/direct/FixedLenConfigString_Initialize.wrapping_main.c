@@ -3,6 +3,7 @@
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "asn1crt.c"
 #include "asn1crt_encoding.c"
@@ -17,6 +18,7 @@ int main(int argc, char** argv)
 
     // Declare arguments and make input ones symbolic
     char val[ 6 ];
+    memset(&val, 0, sizeof(val));
     klee_make_symbolic(&val, sizeof(val), "val");
 
     // Call function under test

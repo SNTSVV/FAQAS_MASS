@@ -24,7 +24,7 @@ FAQAS_SEMU_BUILD_CODE_FUNC()
     local compiler=$4
     local flags="$5"
     # compile
-    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I $repo_root_dir -O0 $in_file -o $out_file
+    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I $repo_root_dir -O0 $in_file -o $out_file $in_file
     return $?
 }
 '
@@ -33,7 +33,8 @@ FAQAS_SEMU_BUILD_LLVM_BC()
 {
     local in_file=$1
     local out_bc=$2
-    eval "$FAQAS_SEMU_BUILD_CODE_FUNC_STR; FAQAS_SEMU_BUILD_CODE_FUNC $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang '-c -emit-llvm'"
+    eval "$FAQAS_SEMU_BUILD_CODE_FUNC_STR"
+    FAQAS_SEMU_BUILD_CODE_FUNC $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang '-c -emit-llvm'
     return $?
 }
 

@@ -1,7 +1,11 @@
+#! /usr/bin/env python
+
 import os
 import binascii
 import struct
 import argparse
+
+import pandas as pd
 
 from muteria.drivers.testgeneration.testcase_formats.ktest.utils import ConvertCollectKtestsSeeds
 
@@ -11,6 +15,7 @@ def extract_input_from_ktest(path_to_ktest_file):
     c_obj = ConvertCollectKtestsSeeds()
     _, dat = c_obj._loadAndGetSymArgsFromKleeKTests([ktest_file], path_to, must_have_model_version=False)
 
+    hex_array_res = {}
     hex_res = {}
     int_res = {}
     uint_res = {}
@@ -21,15 +26,15 @@ def extract_input_from_ktest(path_to_ktest_file):
         uintval = None
         for n, m in [(1, 'b'), (2, 'h'), (4, 'i'), (8, 'q')]:
             if len(val) == n:
-                intval = struct.unpack(m, val)[0])
-                uintval = struct.unpack(m.upper(), val)[0])
+                intval = struct.unpack(m, val)[0]
+                uintval = struct.unpack(m.upper(), val)[0]
                 break
         hex_res[name] = hexval
         int_res[name] = intval
         uint_res[name] = uintval
     
-    assert len(hex_res) % 2 == 0, "Error, invalid hex_res (non even len)"
-    hex_array_res = ["0x"+hex_res[i:i+2] for i in range(0, len(hex_res), 2)]
+        assert len(hex_res[name]) % 2 == 0, "Error, invalid hex_res (non even len)"
+        hex_array_res[name] = ["0x"+hex_res[name][i:i+2] for i in range(0, len(hex_res[name]), 2)]
 
     return hex_array_res, hex_res, int_res, uint_res
 
@@ -70,10 +75,12 @@ def apply_input_to_template(result_file_path, template_file_path, path_to_ktest_
             missing_inputs_pos.append(kms)
             continue
         dat_name = name + "_faqas_semu_test_data"
-        dat_decl.append("    const unsigned char *" + dat_name + " = {" + ", ".join(hex_array_res[name]) + "};")
+        data_decl.append("    const unsigned char " + dat_name + "[] = {" + ", ".join(hex_array_res[name]) + "};")
         ### replace klee_make_symbolics with memcpy
-        mcpy = tmp[0].replace("klee_make_symbolic(", "memcpy(") + ", " + dat_name + tmp[1] + ");"
+        mcpy = tmp[0].replace("klee_make_symbolic(", "memcpy(") + ", " + dat_name + ',' + tmp[1] + ");"
         result_lines_list[kms] = mcpy
+        if int_res[name] is not None:
+            result_lines_list[kms] += " // int val is {}; uint val is {}".format(int_res[name], uint_res[name])
 
     ## 3. Delete missing input klee_make_symbolic and add hex array for existing inputs
     missing_inputs_pos.sort(reverse=True)
@@ -119,12 +126,15 @@ def produce_unittests_from_ktest_dir(outdir, indir, template_file_path):
         mut_info_str = "/* The following mutants (IDs) were targeted to generated this test: {} */".format(test_to_mutlist[ktp])
         with open(out_ktp) as f:
             test_str = f.read()
-        test_str.replace(
-            "/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c*/",
+        test_str = test_str.replace(
+            "/* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */",
             mut_info_str
         )
         with open(out_ktp, "w") as f:
             f.write(test_str)
+
+    if len(ktest_list) == 0:
+        print("Warning: No ktest found in ktest dir", indir)
 
 
 def main():

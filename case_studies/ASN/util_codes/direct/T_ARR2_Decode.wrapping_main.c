@@ -3,6 +3,7 @@
 /* Append this to the generate meta-mu source code to create the <name>.MetaMu.MakeSym.c */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "asn1crt.c"
 #include "asn1crt_encoding.c"
@@ -22,6 +23,8 @@ int main(int argc, char** argv)
     T_ARR2 pVal;
     struct BitStream_t pBitStrm;
     int pErrCode;
+    memset(&pVal, 0, sizeof(pVal));
+    memset(&pBitStrm, 0, sizeof(pBitStrm));
     klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
     klee_make_symbolic(&pBitStrm, sizeof(pBitStrm), "pBitStrm");
 

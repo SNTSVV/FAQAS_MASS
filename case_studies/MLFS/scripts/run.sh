@@ -39,6 +39,7 @@ meta_mutant_bc_file=$(readlink -fm $FAQAS_SEMU_GENERATED_META_MU_BC_FILE)
 meta_mutant_make_sym_top_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR)
 gen_test_dir=$(readlink -fm $FAQAS_SEMU_GENERATED_TESTS_TOPDIR)
 build_bc_func=FAQAS_SEMU_BUILD_LLVM_BC
+repo_rootdir=$(readlink -fm $FAQAS_SEMU_REPO_ROOTDIR)
 original_src_file=$(readlink -fm $FAQAS_SEMU_ORIGINAL_SOURCE_FILE)
 compile_command_spec_src=$FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE
 gen_timeout=$FAQAS_SEMU_TEST_GEN_TIMEOUT
@@ -224,39 +225,42 @@ produce_unittest()
     set -u
     
     topdir=\$(dirname \$(readlink -f \$0))
-    orig_src=$original_src_file
+    repo_dir=$repo_rootdir
+    relative_src=$(echo $original_src_file | sed "s|^$repo_rootdir||g")
     gather_output=false
     [ \"\${FAQAS_SEMU_GATHER_OUTPUT:-OFF}\" = 'on' ] && gather_output=true
     [ \$# -eq 1 -o \$# -eq 2 ] || { echo 'invlid number of args'; exit 2; }
     test_file=\$(readlink -f \$1)
-    [ \$# -eq 2 ] && orig_src=\$(readlink -f \$2)
+    [ \$# -eq 2 ] && repo_dir=\$(readlink -f \$2)
     test -f \$test_file || { echo 'test file missing'; exit 2; }
-    test -f \$orig_src || { echo 'original src missing'; exit 2; }
+    test -d \$repo_dir || { echo 'repo rootdir missing'; exit 2; }
+    orig_src=\$repo_dir/\$relative_src
+    test -f \$orig_src || { echo \"original src missing (\$orig_src)\"; exit 2; }
     expected_out=\$test_file.expected
     got_out=\$test_file.got
 
     # Execute the test
     tmp_file=\$test_file.tmp
-    cp \$orig_src \$tmp_file || { echo 'failed to copy orig src' }
-    cat \$test_file >> \$tmp_file
+    cp \$orig_src \$tmp_file || { echo 'failed to copy orig src'; exit 2; }
+    cat \$test_file >> \$tmp_file || { echo 'failed to append test file content'; exit 2; }
     
     $FAQAS_SEMU_BUILD_CODE_FUNC_STR
 
-    FAQAS_SEMU_BUILD_CODE_FUNC \$tmp_file \$tmp_file.exe \$repo_dir gcc '' || { echo 'build failed for code'; exit 2; }
-    \$tmp_file.exe > \$got_out
-    rm -f \$tmp_file.exe
+    FAQAS_SEMU_BUILD_CODE_FUNC \$tmp_file \$tmp_file.exe \$repo_dir gcc '-x c' || { echo 'build failed for code'; exit 2; }
+    \$tmp_file.exe > \$got_out 2>&1
+    rm -f \$tmp_file \$tmp_file.exe
     if [ \$gather_output = true ]; then
         mv \$got_out \$expected_out
     else
         diff \$got_out \$expected_out
-        exit $?
+        exit \$?
     fi
     "
-    echo $exec_script_str > $unittest_outdir/runtest.sh
+    echo "$exec_script_str" > $unittest_outdir/runtest.sh
     chmod +x $unittest_outdir/runtest.sh
     # build each test, execute and gather assertion output
     for f in `ls $unittest_outdir/*.c`; do
-        FAQAS_SEMU_GATHER_OUTPUT=on $unittest_outdir/runtest.sh $unittest_outdir/$f || error_exit "failed getting expected out for $unittest_outdir/$f"
+        FAQAS_SEMU_GATHER_OUTPUT=on $unittest_outdir/runtest.sh $f || error_exit "failed getting expected out for $f"
     done
 }
 
