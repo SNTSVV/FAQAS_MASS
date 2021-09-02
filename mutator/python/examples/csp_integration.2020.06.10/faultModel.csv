@@ -1,5 +1,0 @@
-FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State
-Identifier,0,1,BIN,BF,0,0,-1,-1,-1
-Identifier,1,1,INT,VOR,0,5,-1,1,-1
-Identifier,2,2,BIN,BF,0,63,-1,-1,-1
-Identifier,4,1,BIN,BF,0,0,-1,-1,-1
