@@ -1,7 +1,10 @@
 To generate FAQAS_dataDrivenMutator.h run this command:
+
 python generateDataMutator.py  "<buffer data type>" <fault model>
 
 If you need to enable the "SINGLETON" option you must run the following command before it.
+
+To compile with gcc the "SINGLETON" option is strongly advised in order to avoid memory issues.
 
 export _FAQAS_SINGLETON_FM="TRUE"
 
