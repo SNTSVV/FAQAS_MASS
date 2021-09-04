@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     TypeNested_realArray pVal;
     memset(&pVal, 0, sizeof(pVal));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //TypeNested_realArray
 
     // Call function under test
     TypeNested_realArray_Initialize(&pVal);

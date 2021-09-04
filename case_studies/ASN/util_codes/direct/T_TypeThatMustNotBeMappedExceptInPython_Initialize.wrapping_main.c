@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     T_TypeThatMustNotBeMappedExceptInPython pVal;
     memset(&pVal, 0, sizeof(pVal));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //T_TypeThatMustNotBeMappedExceptInPython
 
     // Call function under test
     T_TypeThatMustNotBeMappedExceptInPython_Initialize(&pVal);

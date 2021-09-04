@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     T_POS_subTypeArray pVal;
     memset(&pVal, 0, sizeof(pVal));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //T_POS_subTypeArray
 
     // Call function under test
     T_POS_subTypeArray_Initialize(&pVal);

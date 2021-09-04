@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     TypeWithOptional pVal;
     memset(&pVal, 0, sizeof(pVal));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //TypeWithOptional
 
     // Call function under test
     SubTypeWithOptional_Initialize(&pVal);

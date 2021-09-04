@@ -24,13 +24,13 @@ int main(int argc, char** argv)
     char val2[ 21 ];
     memset(&val1, 0, sizeof(val1));
     memset(&val2, 0, sizeof(val2));
-    klee_make_symbolic(&val1, sizeof(val1), "val1");
-    klee_make_symbolic(&val2, sizeof(val2), "val2");
+    klee_make_symbolic(&val1, sizeof(val1), "val1"); //char [ 21 ]
+    klee_make_symbolic(&val2, sizeof(val2), "val2"); //char [ 21 ]
 
     // Call function under test
     result_faqas_semu = ConfigString_Equal(val1, val2);
 
     // Make some output
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
     return (int)result_faqas_semu;
 }

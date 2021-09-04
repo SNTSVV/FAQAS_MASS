@@ -41,11 +41,11 @@ int main(int argc, char** argv)
 {% for arg_ptr_stripped_decl in arg_ptr_stripped_decl_list %}
     {{ arg_ptr_stripped_decl }};
 {% endfor %}
-{% for arg_name in input_arg_name_list %}
+{% for arg_name, type_name in input_arg_name_and_type_list %}
     memset(&{{ arg_name }}, 0, sizeof({{ arg_name }}));
 {% endfor %}
-{% for arg_name in input_arg_name_list %}
-    klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}");
+{% for arg_name, type_name in input_arg_name_and_type_list %}
+    klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}"); //{{ type_name }}
 {% endfor %}
 
     // Call function under test
@@ -85,6 +85,9 @@ class Prototype:
 
     def get_argname_list(self, discard=[]):
         return [tup[0] for tup in self.params_name_and_decl if tup[0] not in discard]
+
+    def get_argname_and_type_list(self, discard=[]):
+        return [(tup[0], tup[2]) for tup in self.params_name_and_decl if tup[0] not in discard]
 
 def strip_type_qualifier(in_type_str):
     split = in_type_str.split()
@@ -169,24 +172,47 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
-OUT_ARGS = {"pErrCode": 'printf("FAQAS-SEMU-TEST_OUTPUT: %d\\n", pErrCode);'}
+OUT_ARGS = {"pErrCode": 'printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\\n", pErrCode);'}
 RESULT_TYPE = "flag"
 RESULT_TO_INT = "(int)result_faqas_semu"
-RESULT_OUT = 'printf("%d\\n", result_faqas_semu);'
+RESULT_OUT = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\\n", result_faqas_semu);'
 
 def is_primitive_type_get_fmt(type_name):
-    printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: {}\\n", result_faqas_semu);'
+    printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = {}\\n", result_faqas_semu);'
     type_list = {
         "_Bool": "%d",
+
         "char": "%d", 
         "unsigned char": "%d", 
         "signed char": "%d", 
+
         "int": "%d", 
+        "signed": "%d", 
+        "signed int": "%d", 
+        "unsigned": "%u", 
         "unsigned int": "%u", 
+
         "short": "%hi", 
+        "signed short": "%hi", 
         "unsigned short": "%hu", 
+        "short int": "%hi", 
+        "signed short int": "%hi", 
+        "unsigned short int": "%hu", 
+
         "long": "%ld", 
+        "signed long": "%ld", 
         "unsigned long": "%lu", 
+        "long int": "%ld", 
+        "signed long int": "%ld", 
+        "unsigned long int": "%lu", 
+        
+        "long long": "%lld", 
+        "signed long long": "%lld", 
+        "unsigned long long": "%llu", 
+        "long long int": "%lld", 
+        "signed long long int": "%lld", 
+        "unsigned long long int": "%llu", 
+        
         "float": "%g", 
         "double": "%G", 
         "long double": "%LG"
@@ -254,7 +280,7 @@ def main():
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
-            input_arg_name_list=prototype.get_argname_list(discard=set(used_out_args.keys())),
+            input_arg_name_and_type_list=prototype.get_argname_and_type_list(discard=set(used_out_args.keys())),
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
             output_out_args=list(used_out_args.values()) + print_retval_stmts,

@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     long pVal;
     memset(&pVal, 0, sizeof(pVal));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //long
 
     // Call function under test
     T_SET_data4_Initialize(&pVal);

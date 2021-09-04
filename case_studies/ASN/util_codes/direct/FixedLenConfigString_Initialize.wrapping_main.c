@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     // Declare arguments and make input ones symbolic
     char val[ 6 ];
     memset(&val, 0, sizeof(val));
-    klee_make_symbolic(&val, sizeof(val), "val");
+    klee_make_symbolic(&val, sizeof(val), "val"); //char [ 6 ]
 
     // Call function under test
     FixedLenConfigString_Initialize(val);

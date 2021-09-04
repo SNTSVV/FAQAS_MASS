@@ -24,13 +24,13 @@ int main(int argc, char** argv)
     TypeNested_label pVal2;
     memset(&pVal1, 0, sizeof(pVal1));
     memset(&pVal2, 0, sizeof(pVal2));
-    klee_make_symbolic(&pVal1, sizeof(pVal1), "pVal1");
-    klee_make_symbolic(&pVal2, sizeof(pVal2), "pVal2");
+    klee_make_symbolic(&pVal1, sizeof(pVal1), "pVal1"); //TypeNested_label
+    klee_make_symbolic(&pVal2, sizeof(pVal2), "pVal2"); //TypeNested_label
 
     // Call function under test
     result_faqas_semu = TypeNested_label_Equal(&pVal1, &pVal2);
 
     // Make some output
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
     return (int)result_faqas_semu;
 }

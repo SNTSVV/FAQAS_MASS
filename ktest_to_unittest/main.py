@@ -9,6 +9,25 @@ import pandas as pd
 
 from muteria.drivers.testgeneration.testcase_formats.ktest.utils import ConvertCollectKtestsSeeds
 
+
+def get_type_val(type_name, int_val, uint_val, decimal_val):
+    if int_val is not None and type_name in ("_Bool",):
+        return "Bool val is {}".format(int_val)
+    if int_val is not None and type_name in ("char", "unsigned char", "signed char"):
+        return "Char ASCII val is {}".format(int_val)
+    if int_val is not None and type_name in ("int", "signed", "signed int", 
+                                    "short", "signed short", "short int", "signed short int", 
+                                    "long", "signed long", "long int", "signed long int", 
+                                    "long long", "signed long long", "long long int", "signed long long int"):
+        return "Integer val is {}".format(int_val)
+    if uint_val is not None and type_name in ("unsigned", "unsigned int", "unsigned short", "unsigned short int", 
+                                    "unsigned long", "unsigned long int", "unsigned long long", "unsigned long long int"):
+        return "Unsigned val is {}".format(uint_val)
+    if decimal_val is not None and type_name in ("float", "double", "long double"):
+        return "Decimal val is {}".format(decimal_val)
+    return None
+
+
 def extract_input_from_ktest(path_to_ktest_file):
     path_to, ktest_file = os.path.split(path_to_ktest_file)
 
@@ -19,6 +38,7 @@ def extract_input_from_ktest(path_to_ktest_file):
     hex_res = {}
     int_res = {}
     uint_res = {}
+    decimal_res = {}
     for name, val in dat['KTEST-OBJ'][0].objects:
         name = name.decode('UTF-8', 'backslashreplace')
         hexval = binascii.hexlify(val).decode('ascii')
@@ -32,15 +52,21 @@ def extract_input_from_ktest(path_to_ktest_file):
         hex_res[name] = hexval
         int_res[name] = intval
         uint_res[name] = uintval
+        if len(val) == 4:
+            decimal_res[name] = struct.unpack('f', val)[0]
+        elif len(val) == 8:
+            decimal_res[name] = struct.unpack('d', val)[0]
+        else:
+            decimal_res[name] = None
     
         assert len(hex_res[name]) % 2 == 0, "Error, invalid hex_res (non even len)"
         hex_array_res[name] = ["0x"+hex_res[name][i:i+2] for i in range(0, len(hex_res[name]), 2)]
 
-    return hex_array_res, hex_res, int_res, uint_res
+    return hex_array_res, hex_res, int_res, uint_res, decimal_res
 
 
 def apply_input_to_template(result_file_path, template_file_path, path_to_ktest_file):
-    hex_array_res, hex_res, int_res, uint_res = extract_input_from_ktest(path_to_ktest_file)
+    hex_array_res, hex_res, int_res, uint_res, decimal_res = extract_input_from_ktest(path_to_ktest_file)
 
     with open(template_file_path) as f:
         template_str = f.read()
@@ -79,8 +105,11 @@ def apply_input_to_template(result_file_path, template_file_path, path_to_ktest_
         ### replace klee_make_symbolics with memcpy
         mcpy = tmp[0].replace("klee_make_symbolic(", "memcpy(") + ", " + dat_name + ',' + tmp[1] + ");"
         result_lines_list[kms] = mcpy
-        if int_res[name] is not None:
-            result_lines_list[kms] += " // int val is {}; uint val is {}".format(int_res[name], uint_res[name])
+        if "//" in tmp[-1]:
+            type_name = tmp[-1].split('//')[-1].strip()
+            type_val = get_type_val(type_name, int_res[name], uint_res[name], decimal_res[name])
+            if type_val is not None:
+                result_lines_list[kms] += " // {}".format(type_val)
 
     ## 3. Delete missing input klee_make_symbolic and add hex array for existing inputs
     missing_inputs_pos.sort(reverse=True)

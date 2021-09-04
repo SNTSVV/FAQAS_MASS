@@ -23,13 +23,13 @@ int main(int argc, char** argv)
     char val[ 6 ];
     int pErrCode;
     memset(&val, 0, sizeof(val));
-    klee_make_symbolic(&val, sizeof(val), "val");
+    klee_make_symbolic(&val, sizeof(val), "val"); //char [ 6 ]
 
     // Call function under test
     result_faqas_semu = FixedLenConfigString_IsConstraintValid(val, &pErrCode);
 
     // Make some output
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
     return (int)result_faqas_semu;
 }

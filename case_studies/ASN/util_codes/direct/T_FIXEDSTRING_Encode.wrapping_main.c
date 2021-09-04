@@ -27,15 +27,15 @@ int main(int argc, char** argv)
     memset(&pVal, 0, sizeof(pVal));
     memset(&pBitStrm, 0, sizeof(pBitStrm));
     memset(&bCheckConstraints, 0, sizeof(bCheckConstraints));
-    klee_make_symbolic(&pVal, sizeof(pVal), "pVal");
-    klee_make_symbolic(&pBitStrm, sizeof(pBitStrm), "pBitStrm");
-    klee_make_symbolic(&bCheckConstraints, sizeof(bCheckConstraints), "bCheckConstraints");
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); //T_FIXEDSTRING
+    klee_make_symbolic(&pBitStrm, sizeof(pBitStrm), "pBitStrm"); //struct BitStream_t
+    klee_make_symbolic(&bCheckConstraints, sizeof(bCheckConstraints), "bCheckConstraints"); //_Bool
 
     // Call function under test
     result_faqas_semu = T_FIXEDSTRING_Encode(&pVal, &pBitStrm, &pErrCode, bCheckConstraints);
 
     // Make some output
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
     return (int)result_faqas_semu;
 }

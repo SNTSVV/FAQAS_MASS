@@ -24,13 +24,13 @@ int main(int argc, char** argv)
     unsigned long pVal2;
     memset(&pVal1, 0, sizeof(pVal1));
     memset(&pVal2, 0, sizeof(pVal2));
-    klee_make_symbolic(&pVal1, sizeof(pVal1), "pVal1");
-    klee_make_symbolic(&pVal2, sizeof(pVal2), "pVal2");
+    klee_make_symbolic(&pVal1, sizeof(pVal1), "pVal1"); //unsigned long
+    klee_make_symbolic(&pVal2, sizeof(pVal2), "pVal2"); //unsigned long
 
     // Call function under test
     result_faqas_semu = SuperChoice_second_choice_Equal(&pVal1, &pVal2);
 
     // Make some output
-    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
     return (int)result_faqas_semu;
 }
