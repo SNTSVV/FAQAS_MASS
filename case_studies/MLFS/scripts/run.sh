@@ -326,6 +326,7 @@ fi
 if [ $phase -le 3 ]; then
     if has_semu; then
         echo "[$filename] Calling pre-semu meta-mutant creation ..."
+        used_category="direct-$src_template_folder_suffix"
         # generate meta-mu
         if [ "$mutants_list_file" != "" ]; then
             test -d $(dirname $custom_meta_mutant_src_file) || mkdir -p $(dirname $custom_meta_mutant_src_file) || \
@@ -335,7 +336,7 @@ if [ $phase -le 3 ]; then
                                                                                                             error_exit "Pre-semu failed"
             
             echo "# generate Templates specific Meta Mu files ..."
-            category="direct-$src_template_folder_suffix"
+            category="$used_category"
             category_dir=$make_sym_to_append_top_dir/$category
             for func_template in `ls $category_dir`
             do
@@ -352,6 +353,7 @@ if [ $phase -le 3 ]; then
             echo "# generate Templates specific Meta Mu files ..."
             for category in `ls $make_sym_to_append_top_dir`
             do
+                [ "$category" = "$used_category" ] || continue
                 category_dir=$make_sym_to_append_top_dir/$category
                 test -d $category_dir || continue
                 for func_template in `ls $category_dir`
@@ -372,8 +374,9 @@ fi
 if [ $phase -le 4 ]; then
     if has_semu; then
         echo "[$filename] Calling semu test generation ..."
+        used_category="direct-$src_template_folder_suffix"
         if [ "$mutants_list_file" != "" ]; then
-            category="direct-$src_template_folder_suffix"
+            category="$used_category"
             category_dir=$custom_meta_mutant_make_sym_top_dir/$category
             for g_func_name in `ls $category_dir`
             do
@@ -387,6 +390,7 @@ if [ $phase -le 4 ]; then
         else
             for category in `ls $meta_mutant_make_sym_top_dir`
             do
+                [ "$category" = "$used_category" ] || continue
                 category_dir=$meta_mutant_make_sym_top_dir/$category
                 for g_func_name in `ls $category_dir`
                 do
@@ -406,9 +410,10 @@ fi
 if [ $phase -le 5 ]; then
     if has_semu; then
         echo "[$filename] Calling ktest to unittest conversion ..."
+        used_category="direct-$src_template_folder_suffix"
         # produce unittest
         if [ "$mutants_list_file" != "" ]; then
-            category="direct-$src_template_folder_suffix"
+            category="$used_category"
             category_dir=$make_sym_to_append_top_dir/$category
             for func_template in `ls $category_dir`
             do
@@ -425,6 +430,7 @@ if [ $phase -le 5 ]; then
         else
             for category in `ls $make_sym_to_append_top_dir`
             do
+                [ "$category" = "$used_category" ] || continue
                 category_dir=$make_sym_to_append_top_dir/$category
                 test -d $category_dir || continue
                 for func_template in `ls $category_dir`
