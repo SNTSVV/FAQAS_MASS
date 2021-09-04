@@ -419,10 +419,10 @@ if [ $phase -le 5 ]; then
             do
                 g_func_name=$(echo $func_template | cut -d'.' -f1)
                 check_function_has_mutants $g_func_name || continue
-                echo "[$filename] produce unittests processing function $g_func_name into $g_func_gen_unittest_dir ..."
                 g_func_template_path=$category_dir/$func_template
                 g_func_gen_ktest_dir=$custom_gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/semu/tests_files
                 g_func_gen_unittest_dir=$custom_gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/produced-unittests
+                echo "[$filename] produce unittests processing function $g_func_name into $g_func_gen_unittest_dir ..."
                 rm -rf $g_func_gen_unittest_dir || error_exit "Failed to remove existing unittest dir output"
                 mkdir $g_func_gen_unittest_dir || error_exit "Failed to create unittest dir"
                 produce_unittest $g_func_gen_ktest_dir $g_func_gen_unittest_dir $g_func_template_path
@@ -436,10 +436,10 @@ if [ $phase -le 5 ]; then
                 for func_template in `ls $category_dir`
                 do
                     g_func_name=$(echo $func_template | cut -d'.' -f1)
-                    echo "[$filename] produce unittests processing function $g_func_name into $g_func_gen_unittest_dir ..."
                     g_func_template_path=$category_dir/$func_template
                     g_func_gen_ktest_dir=$gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/semu/tests_files
                     g_func_gen_unittest_dir=$gen_test_dir/$category/$g_func_name/FAQAS_SEMu-out/produced-unittests
+                    echo "[$filename] produce unittests processing function $g_func_name into $g_func_gen_unittest_dir ..."
                     rm -rf $g_func_gen_unittest_dir || error_exit "Failed to remove existing unittest dir output"
                     mkdir $g_func_gen_unittest_dir || error_exit "Failed to create unittest dir"
                     produce_unittest $g_func_gen_ktest_dir $g_func_gen_unittest_dir $g_func_template_path
