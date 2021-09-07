@@ -2,7 +2,7 @@ faqas_coverage.txt
 *.compile.out
 test*.out
 mutator/python/tests/test1/expectedOld.out
-mutator/python/tests/test*/FAQAS_dataDrivenMutator.h
+mutator/python/tests/test*/DAMAt_dataDrivenMutator.h
 mutator/python/tests/test*/main_*
 mutator/python/mainProve.c
 mutator/python/prova
@@ -12,7 +12,7 @@ mutator/python/valuetown
 mutator/python/a.out
 mutator/python/randomfloat
 mutator/python/results.csv
-FAQAS*.h
+DAMAt*.h
 mutator/.DS_Store
 .DS_Store
 mutator/python/spannung
@@ -64,7 +64,7 @@ mutator/python/tests/test_compilation/FMCoverageReport_test_compilation.csv
 mutator/python/tests/test_compilation/hlreport.csv
 mutator/python/operators_map.csv
 mutator/python/tests/test01/logging.txt
-mutator/python/FAQAS_mutants_table.csv
+mutator/python/DAMAt_mutants_table.csv
 mutator/logz.txt
 mutator/python/tests/FaultModels/backup/faultModel03.csv
 .DS_Store

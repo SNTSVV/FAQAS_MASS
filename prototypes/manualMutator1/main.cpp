@@ -19,7 +19,7 @@ enum MutationType{
     VOR    
 };
 
-int _FAQAS_mutated = 0;
+int _DAMAt_mutated = 0;
 
 struct MutationOperator {
     MutationType type;
@@ -41,22 +41,22 @@ struct FaultModel {
 };
 
 
-struct FaultModel* _FAQAS_create_FM(int items){
+struct FaultModel* _DAMAt_create_FM(int items){
     struct FaultModel *dm = (struct FaultModel *) malloc ( sizeof( *dm ) );
     dm->itemsN=items;
     dm->items = (struct DataItem *) malloc( sizeof ( struct DataItem ) * items );
     return dm;
 }
 
-void _FAQAS_delete_FM(FaultModel *dm) {
+void _DAMAt_delete_FM(FaultModel *dm) {
     if ( dm == 0 )
         return;
     free( dm->items );
     free( dm );
 }
 
-struct FaultModel* _FAQAS_GetIfStatus_FM(){
-    FaultModel *fm = _FAQAS_create_FM(3);
+struct FaultModel* _DAMAt_GetIfStatus_FM(){
+    FaultModel *fm = _DAMAt_create_FM(3);
 
     //Following code should be automatically generated
     fm->items[0].type=INT;
@@ -123,7 +123,7 @@ int selectOperation(FaultModel *dm){
 
 
 int _mutate( int *data, FaultModel *fm ){
-    if ( _FAQAS_mutated == 1 )
+    if ( _DAMAt_mutated == 1 )
 	return 0;
 
     if ( MUTATION == -1 )
@@ -149,7 +149,7 @@ int _mutate( int *data, FaultModel *fm ){
 	
 	data[pos]=value;
 	
-	_FAQAS_mutated == 1;
+	_DAMAt_mutated == 1;
 
 	return 1;
     }
@@ -170,7 +170,7 @@ int _mutate( int *data, FaultModel *fm ){
 	
 		data[pos]=value;
 		
-		_FAQAS_mutated == 1;
+		_DAMAt_mutated == 1;
 	}
 	return 1;
     }
@@ -191,7 +191,7 @@ int main()
     v.push_back(2);
     v.push_back(3);
 
-    FaultModel *fm = _FAQAS_GetIfStatus_FM();
+    FaultModel *fm = _DAMAt_GetIfStatus_FM();
     mutate( &v, fm );    
 
     for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {

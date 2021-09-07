@@ -2,7 +2,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <assert.h>     /* assert */
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
 
     n=v;
 
-    int position = _FAQAS_selectItem();
+    int position = _DAMAt_selectItem();
 
 
     //MANUALLY ADDED PROBE

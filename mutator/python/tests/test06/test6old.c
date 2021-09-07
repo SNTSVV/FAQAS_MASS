@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 
 
 int mutate( std::vector<double> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
+    return _DAMAt_mutate(v->data(),fm);
 }
 
 

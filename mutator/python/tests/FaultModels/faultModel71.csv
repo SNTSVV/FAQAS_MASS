@@ -1,2 +1,0 @@
-FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
-IfHK,0,1,FLOAT,SS,NA,NA,NA,1,NA,NA

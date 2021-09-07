@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 
 int main()
 {

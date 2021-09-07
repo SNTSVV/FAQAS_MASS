@@ -1,10 +1,10 @@
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 #include <stdio.h>
 
 
 //mutate function
 int mutate(long long int *v , FaultModel *fm ){
-    return _FAQAS_mutate(v,fm);
+    return _DAMAt_mutate(v,fm);
 }
 //end
 
@@ -26,7 +26,7 @@ printf("...\n");
 
 printf("...\n");
 
-FaultModel *fm =  _FAQAS_General_FM();
+FaultModel *fm =  _DAMAt_General_FM();
 mutate( v, fm );
 
 

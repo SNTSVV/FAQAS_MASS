@@ -1,4 +1,4 @@
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 #include <assert.h> /* assert */
 #include <iostream>
 #include <stdio.h>
@@ -44,7 +44,7 @@ int main() {
 
   n = v;
 
-  int position = _FAQAS_selectItem();
+  int position = _DAMAt_selectItem();
 
   for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
     // std::cout << *it << '\n';

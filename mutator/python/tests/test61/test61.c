@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 
 
 int mutate( std::vector<long int> *v, FaultModel *fm ){
-    return _FAQAS_mutate(v->data(),fm);
+    return _DAMAt_mutate(v->data(),fm);
 }
 
 
@@ -53,21 +53,21 @@ int main()
     p.push_back(100);
 
     //MANUALLY ADDED PROBE
-    FaultModel *fm = _FAQAS_one_FM();
+    FaultModel *fm = _DAMAt_one_FM();
     mutate( &v, fm );
-    _FAQAS_delete_FM(fm);
+    _DAMAt_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
     //MANUALLY ADDED PROBE
-    fm = _FAQAS_two_FM();
+    fm = _DAMAt_two_FM();
     mutate( &b, fm );
-    _FAQAS_delete_FM(fm);
+    _DAMAt_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
     //MANUALLY ADDED PROBE
-    fm = _FAQAS_three_FM();
+    fm = _DAMAt_three_FM();
     mutate( &p, fm );
-    _FAQAS_delete_FM(fm);
+    _DAMAt_delete_FM(fm);
     //MANUALLY ADDED PROBE END
 
 

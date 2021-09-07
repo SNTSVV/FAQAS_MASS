@@ -11,12 +11,12 @@ hloutputFile.truncate(0)
 
 table = []
 
-with open("FAQAS_dataDrivenMutator.h.gcov", "rt") as mutator:
+with open("DAMAt_dataDrivenMutator.h.gcov", "rt") as mutator:
     data = mutator.readlines()
 for line in data:
-    if line.__contains__('void _FAQAS_fmCoverage'):
+    if line.__contains__('void _DAMAt_fmCoverage'):
         start = data.index(line)
-    if line.__contains__('END _FAQAS_fmCoverage'):
+    if line.__contains__('END _DAMAt_fmCoverage'):
         end = data.index(line)
     if line.__contains__('#define SIZE_'):
         definition = re.split('#define SIZE_', line)

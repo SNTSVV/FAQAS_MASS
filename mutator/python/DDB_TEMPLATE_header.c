@@ -20,12 +20,12 @@
 //macros to define at compilation
 int MUTATION = MUTATIONOPT;
 
-int _FAQAS_COVERAGE_EXIT = 0;
+int _DAMAt_COVERAGE_EXIT = 0;
 
 int global_mutation_counter = 1;
 
-#ifdef _FAQAS_MUTATION_PROBABILITY
-float PROBABILITY = _FAQAS_MUTATION_PROBABILITY;
+#ifdef _DAMAt_MUTATION_PROBABILITY
+float PROBABILITY = _DAMAt_MUTATION_PROBABILITY;
 #endif
 
 
@@ -35,7 +35,7 @@ float PROBABILITY = _FAQAS_MUTATION_PROBABILITY;
 
 FILE* handleCoverage();
 
-const char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+const char *faqas_coverage_file = getenv("DAMAt_COVERAGE_FILE");
 
 FILE *coverage_file_pointer = handleCoverage(); // this is the problem
 
@@ -49,8 +49,8 @@ FILE* handleCoverage() {
 
    FILE* ptr = fopen(faqas_coverage_file, "ab+");
 
-    if (_FAQAS_COVERAGE_EXIT == 0) {
-        _FAQAS_COVERAGE_EXIT = 1;
+    if (_DAMAt_COVERAGE_EXIT == 0) {
+        _DAMAt_COVERAGE_EXIT = 1;
         // if there is no support for atexit, or if the system never exit,
         // this line of code should be commented out and "coverage_exit"
         // shall be manually invoked where appropriate
@@ -72,7 +72,7 @@ double faqas_abs(double a) {
 
 int faqas_double_equal(double a, double b) { return faqas_abs(a - b) < 1E-3; }
 
-unsigned long long int FAQAS_pow_substitute(int base, int power){
+unsigned long long int DAMAt_pow_substitute(int base, int power){
   //this function substitutes "pow" so that including math.h is not needed
   if(power < 0){
     return 0;
@@ -98,7 +98,7 @@ enum MutationType { BF, IV, VOR, FVOR, VAT, FVAT, VBT, FVBT, INV, SS, ASA, HV };
 
 typedef enum MutationType MutationType;
 
-int _FAQAS_mutated = 0;
+int _DAMAt_mutated = 0;
 
 struct MutationOperator {
   MutationType type;
@@ -133,7 +133,7 @@ struct FaultModel {
 
 typedef struct FaultModel FaultModel;
 
-struct FaultModel *_FAQAS_create_FM(int items) {
+struct FaultModel *_DAMAt_create_FM(int items) {
 
   #ifdef __cplusplus
 
@@ -154,7 +154,7 @@ struct FaultModel *_FAQAS_create_FM(int items) {
   return dm;
 }
 
-void __FAQAS_delete_FM(FaultModel *dm) {
+void __DAMAt_delete_FM(FaultModel *dm) {
 
 
 
@@ -180,11 +180,11 @@ void __FAQAS_delete_FM(FaultModel *dm) {
 }
 
 
-void _FAQAS_delete_FM(FaultModel *dm) {
+void _DAMAt_delete_FM(FaultModel *dm) {
 
-  #ifdef _FAQAS_SINGLETON_FM
+  #ifdef _DAMAt_SINGLETON_FM
   #else
-  __FAQAS_delete_FM(dm);
+  __DAMAt_delete_FM(dm);
   #endif
 }
 
@@ -198,18 +198,18 @@ long int storedValueLong;
 int repeatCounter;
 int sample = 1;
 
-//_FAQAS_slice_it_up divides long integers in "slices" of binary to be stored in
+//_DAMAt_slice_it_up divides long integers in "slices" of binary to be stored in
 //the elements of the buffer when span!=1
-unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
+unsigned long long _DAMAt_slice_it_up(unsigned long long numberToSlice,
                                       int sliceStart, int sliceEnd) {
   int i = sliceStart;
   unsigned long long slice = 0;
   while (i <= sliceEnd) {
-    unsigned long long mask = FAQAS_pow_substitute(2, i);
+    unsigned long long mask = DAMAt_pow_substitute(2, i);
     unsigned long long relevant = numberToSlice & mask;
 
     if (relevant == mask) {
-      unsigned long long knife = FAQAS_pow_substitute(2, i - sliceStart);
+      unsigned long long knife = DAMAt_pow_substitute(2, i - sliceStart);
       slice = slice | knife;
     }
     i = i + 1;
@@ -218,10 +218,10 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
 }
 
 
-void _FAQAS_operator_coverage(int operator_id, int counter, int status){
+void _DAMAt_operator_coverage(int operator_id, int counter, int status){
 
   #ifndef __cplusplus
-  char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
+  char *faqas_coverage_file = getenv("DAMAt_COVERAGE_FILE");
   FILE* coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
   #endif
 
@@ -234,4 +234,4 @@ void _FAQAS_operator_coverage(int operator_id, int counter, int status){
 
 }
 
-int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm);
+int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm);

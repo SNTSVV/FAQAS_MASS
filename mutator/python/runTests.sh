@@ -9,8 +9,8 @@ for c in "NORMAL" "SINGLETON";
 do
 
   if [ $c = "SINGLETON" ]; then
-  export _FAQAS_SINGLETON_FM="TRUE"
-  export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
+  export _DAMAt_SINGLETON_FM="TRUE"
+  export DAMAt_COVERAGE_FILE="./faqas_coverage.txt"
   fi
 
   bash cleanTests.sh
@@ -95,9 +95,7 @@ do
   bash runTest68.sh
   bash runTest69.sh
   bash runTest70.sh
-  bash runTest71.sh
-  bash runTest72.sh
-  bash runTest73.sh
+  
 
   popd
 

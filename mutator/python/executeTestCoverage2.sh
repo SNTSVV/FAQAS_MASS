@@ -20,13 +20,13 @@ echo ""
 echo "FAULT MODEL:"
 echo ""
 python generateDataMutator.py "$TYPE" "$FAULTMODEL"
-mv FAQAS_dataDrivenMutator.h $TESTFOLDER
+mv DAMAt_dataDrivenMutator.h $TESTFOLDER
 cp FMcoverage2.py $TESTFOLDER
 
 
 pushd $TESTFOLDER
 
-export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
+export DAMAt_COVERAGE_FILE="./faqas_coverage.txt"
 
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
@@ -42,20 +42,20 @@ rm -f $compilerOutFile
 rm -f $valgrindOutFile
 rm -f $instrumentedCompilerOutFile
 rm -f $testResults
-rm -f $FAQAS_COVERAGE_FILE
+rm -f $DAMAt_COVERAGE_FILE
 
 echo "DONE"
 echo ""
 
-operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
+operations=`grep 'MUTATIONOPT=' DAMAt_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
 echo "MAX ID: ${operations}"
 echo ""
 
-if [[ -z $_FAQAS_SINGLETON_FM ]]; then
+if [[ -z $_DAMAt_SINGLETON_FM ]]; then
 	extra=""
 	memorymode="NORMAL"
 else
-	extra="-D_FAQAS_SINGLETON_FM"
+	extra="-D_DAMAt_SINGLETON_FM"
 	memorymode="SINGLETON"
 fi
 
@@ -74,7 +74,7 @@ while [ $x -le $operations ]; do
         memoryErrors=$((memoryErrors+1))
     fi
 
-    rm -f $FAQAS_COVERAGE_FILE
+    rm -f $DAMAt_COVERAGE_FILE
 
     ./main_$x >> $outFile 2>&1
 

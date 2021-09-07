@@ -1,4 +1,4 @@
-#include "FAQAS_dataDrivenMutator.h"
+#include "DAMAt_dataDrivenMutator.h"
 #include <assert.h> /* assert */
 #include <iostream>
 #include <stdlib.h>
@@ -18,7 +18,7 @@ int main() {
 
   n = v;
 
-  int position = _FAQAS_selectItem();
+  int position = _DAMAt_selectItem();
 
   // MANUALLY ADDED PROBE
   mutate_FM_IfHK( &v );
