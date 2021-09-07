@@ -53,6 +53,9 @@ def fsci_sampling():
     sampled_mutants_list = random.sample(all_mutants, sample_size)
     print_sampled_mutants(sampled_mutants_list)
 
+def no_sampling():
+    print_sampled_mutants(all_mutants)
+
 def organise_mutants_per_function(mutants_list):
     mutants_per_function = {}
 
@@ -90,7 +93,9 @@ total_mutants = file_len(all_filtered)
 
 print("Sorting mutants using sampling:", sampling)
 
-if sampling == 'uniform':
+if sampling == 'no':
+    no_sampling()
+elif sampling == 'uniform':
     uniform_sampling()
 elif sampling == 'stratified':
     stratified_sampling()

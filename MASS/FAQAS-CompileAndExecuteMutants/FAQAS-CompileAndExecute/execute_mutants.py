@@ -118,6 +118,26 @@ def execute_mutants_full_ts():
             if mass_sampling.stopping_criterion(count) == 1:
                 break    
 
+def execute_mutants_full_ts_no_sampling():
+    prt_dict = load_test_set(prioritized)
+
+    count = 0 
+
+    with open(sampled_mutants_file) as f:
+        for line in f:
+            mutant = line.strip()
+
+            print(mutant, count)
+
+            prt_match = get_tests_for_mutant(prt_dict, mutant)
+            prt_mutant_test_list = ";".join(prt_match)
+
+            print(mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout)
+            ret = subprocess.call([mutation_script, mut_exec_dir, mutant, compilation_cmd, additional_cmd, additional_cmd_after, prt_mutant_test_list, timeout])
+            log_mutation_result(results_mutants_file, ret)
+
+            count += 1
+
 def execute_mutants_reduced_ts():
     
     fsci = MASSSampling(results_mutants_file, sampling, file_len(sampled_mutants_file), reduced)
@@ -170,6 +190,8 @@ if __name__ == '__main__':
 
     if reduced:
         execute_mutants_reduced_ts()
+    elif sampling == 'no':
+        execute_mutants_full_ts_no_sampling()
     else:
         execute_mutants_full_ts()
 
