@@ -21,8 +21,8 @@ sizeDef = ""
 lastSpan = ""
 fmID = 0
 
-SINGLETON_FM = os.getenv("_DAMAt_SINGLETON_FM", 'False').lower() in ['true', '1']
-INITIAL_PADDING = os.getenv("_DAMAt_INITIAL_PADDING", '0').lower()
+SINGLETON_FM = os.getenv("_FAQAS_SINGLETON_FM", 'False').lower() in ['true', '1']
+INITIAL_PADDING = os.getenv("_FAQAS_INITIAL_PADDING", '0').lower()
 
 
 def newBF(item, _span, _type, _min, _max, _state, _value):
@@ -238,16 +238,16 @@ def mutateFunctionDef(fm):
 
     faultModelsDef += "void mutate_FM_" + fm + "(std::vector<" \
         + str(sys.argv[1]) + "> *v){\n"
-    faultModelsDef += "    FaultModel *fm = _DAMAt_" + fm + "_FM();\n"
-    faultModelsDef += "    _DAMAt_mutate(v->data(),fm);\n"
-    faultModelsDef += "    _DAMAt_delete_FM(fm);\n}\n"
+    faultModelsDef += "    FaultModel *fm = _FAQAS_" + fm + "_FM();\n"
+    faultModelsDef += "    _FAQAS_mutate(v->data(),fm);\n"
+    faultModelsDef += "    _FAQAS_delete_FM(fm);\n}\n"
 
     faultModelsDef += "\n#else\n\n"
 
     faultModelsDef += "void mutate_FM_" + fm + "( "+str(sys.argv[1])+" *v){\n"
-    faultModelsDef += "    FaultModel *fm = _DAMAt_" + fm + "_FM();\n"
-    faultModelsDef += "    _DAMAt_mutate(v,fm);\n"
-    faultModelsDef += "    _DAMAt_delete_FM(fm);\n}\n"
+    faultModelsDef += "    FaultModel *fm = _FAQAS_" + fm + "_FM();\n"
+    faultModelsDef += "    _FAQAS_mutate(v,fm);\n"
+    faultModelsDef += "    _FAQAS_delete_FM(fm);\n}\n"
 
     faultModelsDef += "\n#endif\n\n"
 
@@ -349,22 +349,22 @@ def processRow(row):
         lastItem = -1
 
         if SINGLETON_FM == True:
-            faultModelsDef += "struct FaultModel* _DAMAt_"+FM+"_FM_ptr = 0;\n"
-            faultModelsDef += "\nvoid _DAMAt_delete_"+FM+"_FM(void){\n"
-            faultModelsDef += "__DAMAt_delete_FM(_DAMAt_"+FM+"_FM_ptr);\n"
-            faultModelsDef += "_DAMAt_"+FM+"_FM_ptr = 0;\n"
+            faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM_ptr = 0;\n"
+            faultModelsDef += "\nvoid _FAQAS_delete_"+FM+"_FM(void){\n"
+            faultModelsDef += "__FAQAS_delete_FM(_FAQAS_"+FM+"_FM_ptr);\n"
+            faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = 0;\n"
             faultModelsDef += "}\n"
 
-        faultModelsDef += "struct FaultModel* _DAMAt_"+FM+"_FM(){\n"
+        faultModelsDef += "struct FaultModel* _FAQAS_"+FM+"_FM(){\n"
         if SINGLETON_FM == True:
-            faultModelsDef += "if ( _DAMAt_"+FM+"_FM_ptr != 0 ){ return _DAMAt_"+FM+"_FM_ptr;}\n"
+            faultModelsDef += "if ( _FAQAS_"+FM+"_FM_ptr != 0 ){ return _FAQAS_"+FM+"_FM_ptr;}\n"
         else:
-            faultModelsDef += "FaultModel *fm = _DAMAt_create_FM(SIZE_"+FM+");\n"
+            faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
 
         if SINGLETON_FM == True:
-            faultModelsDef += "atexit(_DAMAt_delete_"+FM+"_FM);\n"
-            faultModelsDef += "FaultModel *fm = _DAMAt_create_FM(SIZE_"+FM+");\n"
-            faultModelsDef += "_DAMAt_"+FM+"_FM_ptr = fm;\n"
+            faultModelsDef += "atexit(_FAQAS_delete_"+FM+"_FM);\n"
+            faultModelsDef += "FaultModel *fm = _FAQAS_create_FM(SIZE_"+FM+");\n"
+            faultModelsDef += "_FAQAS_"+FM+"_FM_ptr = fm;\n"
 
         faultModelsDef += "fm->ID = " + str(fmID) + ";\n"
         faultModelsDef += "fm->minOperation = "+str(elements)+";\n"
@@ -426,7 +426,7 @@ fileName = sys.argv[2]
 
 # this lines produce an output csv files with the numerical ID of every mutant
 
-with open(fileName, 'r') as fault_model, open("DAMAt_mutants_table.csv", 'w') as map:
+with open(fileName, 'r') as fault_model, open("FAQAS_mutants_table.csv", 'w') as map:
     map.truncate(0)
     fault_model_reader = csv.reader(fault_model, delimiter=',')
     map_writer = csv.writer(map, delimiter=',')
@@ -469,23 +469,23 @@ mutateFunctionDef(lastFM)
 
 maxFMO = "//max MUTATIONOPT="+str(elements)
 
-selectItem = "int _DAMAt_selectItem(){\n"
+selectItem = "int _FAQAS_selectItem(){\n"
 selectItem += generateSelectFunctionContent(positions)
 selectItem += "return -999;\n"
 selectItem += "}\n"
-selectItem += "int _DAMAt_INITIAL_PADDING =" + str(INITIAL_PADDING)  + "; \n"
+selectItem += "int _FAQAS_INITIAL_PADDING =" + str(INITIAL_PADDING)  + "; \n"
 
-selectOperator = "int _DAMAt_selectOperator(){\n"
+selectOperator = "int _FAQAS_selectOperator(){\n"
 selectOperator += generateSelectFunctionContent(operators)
 selectOperator += "return -999;\n"
 selectOperator += "}\n"
 
-selectOperations = "int _DAMAt_selectOperation(){\n"
+selectOperations = "int _FAQAS_selectOperation(){\n"
 selectOperations += generateSelectFunctionContent(operations)
 selectOperations += "return -999;\n"
 selectOperations += "}\n"
 
-outfile = open("DAMAt_dataDrivenMutator.h", "wt")
+outfile = open("FAQAS_dataDrivenMutator.h", "wt")
 outfile.write(maxFMO)
 
 
@@ -507,13 +507,13 @@ outfile.write(selectOperations)
 outfile.write("\n\n#define APPLY_ONE_MUTATION 0\n\n")
 
 
-outfile.write("int DAMAt_fmCov;\n")
-outfile.write("void _DAMAt_fmCoverage(int fm){\n")
+outfile.write("int FAQAS_fmCov;\n")
+outfile.write("void _FAQAS_fmCoverage(int fm){\n")
 outfile.write("    switch (fm){\n")
 for x in range(fmID):
     line = "    case {}:\n"
     outfile.write(line.format(x))
-    outfile.write("    DAMAt_fmCov++;\n")
+    outfile.write("    FAQAS_fmCov++;\n")
     outfile.write("    break;\n")
 
 
@@ -521,7 +521,7 @@ outfile.write("    default:\n")
 outfile.write("    break;\n")
 outfile.write("    }\n")
 outfile.write("}\n")
-outfile.write("//END _DAMAt_fmCoverage\n")
+outfile.write("//END _FAQAS_fmCoverage\n")
 
 with open('DDB_TEMPLATE_footer.c', 'r') as tfile:
     data = tfile.read().replace('BUFFER_TYPE', str(bufferType))

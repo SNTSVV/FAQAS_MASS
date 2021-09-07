@@ -2,7 +2,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <assert.h>     /* assert */
-#include "DAMAt_dataDrivenMutator.h"
+#include "FAQAS_dataDrivenMutator.h"
 
 //this test will be used for INV operators
 int main()
@@ -21,7 +21,7 @@ int main()
 
     n=v;
 
-    int position = _DAMAt_selectItem();
+    int position = _FAQAS_selectItem();
 
 
     //MANUALLY ADDED PROBE

@@ -1,10 +1,10 @@
-# DAMAt_DataDrivenMutator: DAta-driven Mutation Analysis (DAMA)
+# FAQAS_DataDrivenMutator: DAta-driven Mutation Analysis (DAMA)
 
-This project concern the DAMAt DataDrivenMutator for systems that work with data buffers.
+This project concern the FAQAS DataDrivenMutator for systems that work with data buffers.
 
 The main executable is python/generateDataMutator.py
-It generates a file named "DAMAt_dataDrivenMutator.h" after processing a fault model (e.g., faultModel.csv).
-The header and footer of "DAMAt_dataDrivenMutator.h" are specified in DDB_TEMPLATE_footer.c and DDB_TEMPLATE_header.c
+It generates a file named "FAQAS_dataDrivenMutator.h" after processing a fault model (e.g., faultModel.csv).
+The header and footer of "FAQAS_dataDrivenMutator.h" are specified in DDB_TEMPLATE_footer.c and DDB_TEMPLATE_header.c
 
 #Dependencies
 

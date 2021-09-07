@@ -5,18 +5,18 @@
 // Modified by Enrico VIGANO', enrico.vigano@uni.lu, SnT, 2021.
 //
 
-int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
-  if (APPLY_ONE_MUTATION && _DAMAt_mutated == 1)
+int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
+  if (APPLY_ONE_MUTATION && _FAQAS_mutated == 1)
     return 0;
 
   if (MUTATION == -1)
     return 0;
 
   if (MUTATION == -2) {
-   _DAMAt_fmCoverage(fm->ID);
+   _FAQAS_fmCoverage(fm->ID);
 
    #ifndef __cplusplus
-   char *faqas_coverage_file = getenv("DAMAt_COVERAGE_FILE");
+   char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
    FILE* coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
    #endif
 
@@ -30,19 +30,19 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   }
 
   if (MUTATION == -3) {
-    _DAMAt_fmCoverage(fm->ID);
+    _FAQAS_fmCoverage(fm->ID);
     return 0;
   }
 
   if (MUTATION < fm->minOperation || MUTATION >= fm->maxOperation) {
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
     return 0;
   }
 
-#ifdef _DAMAt_SINGLE_MUTATION
+#ifdef _FAQAS_SINGLE_MUTATION
 
   if (global_mutation_counter > 0){
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
     global_mutation_counter = global_mutation_counter + 1;
     return 0;
   }
@@ -50,12 +50,12 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 #endif
 
 
-#ifdef _DAMAt_MUTATION_PROBABILITY
+#ifdef _FAQAS_MUTATION_PROBABILITY
 
   float random_check = ((float)rand() * (100)) / RAND_MAX;
 
   if (PROBABILITY < 0 || random_check > PROBABILITY){
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
     global_mutation_counter = global_mutation_counter + 1;
     return 0;
   }
@@ -63,10 +63,10 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 #endif
 
 
-  int pos = _DAMAt_selectItem();
-  int data_pos = _DAMAt_INITIAL_PADDING + pos;
-  int op = _DAMAt_selectOperator();
-  int opt = _DAMAt_selectOperation();
+  int pos = _FAQAS_selectItem();
+  int data_pos = _FAQAS_INITIAL_PADDING + pos;
+  int op = _FAQAS_selectOperator();
+  int opt = _FAQAS_selectOperation();
 
   int valueInt = 0;
   long int valueLong = 0;
@@ -181,8 +181,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       sample = 1;
     }
 
-    _DAMAt_mutated = 1;
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+    _FAQAS_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
   }
 
   if (OP->type == BF) {
@@ -211,7 +211,7 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
         while (flipped == valueBin) {
           randomPosition = (rand() % (Max - Min + 1)) + Min;
-          mask = DAMAt_pow_substitute(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
           flipped = valueBin | mask;
           avoidInfinite = avoidInfinite + 1;
           if (avoidInfinite == numberOfBits * 10){
@@ -230,7 +230,7 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         flipped = valueBin;
         while (flipped == valueBin){
           randomPosition = (rand() % (Max - Min + 1)) + Min;
-          mask = DAMAt_pow_substitute(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
           flipped = valueBin & ~mask;
           avoidInfinite = avoidInfinite + 1;
           if (avoidInfinite == numberOfBits * 10) {
@@ -250,7 +250,7 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
         while (flipped == valueBin){
           randomPosition = (rand() % (Max - Min + 1)) + Min;
-          mask = DAMAt_pow_substitute(2, randomPosition);
+          mask = FAQAS_pow_substitute(2, randomPosition);
           flipped = valueBin & ~mask;
           if (flipped == valueBin){
             flipped = valueBin | mask;
@@ -264,8 +264,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         valueBin = flipped;
       }
     }
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, success);
-    _DAMAt_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, success);
+    _FAQAS_mutated = 1;
   }
 
   if (OP->type == VOR) {
@@ -274,80 +274,80 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (valueInt >= OP->min && valueInt <= OP->max ) {
         if (opt == 0) {
           valueInt = OP->min - OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else if (opt == 1) {
           valueInt = OP->max + OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else {
           // FIXME: throw an error
         }
       }
       else {
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
       if (valueLong >= OP->min && valueLong <= OP->max ) {
         if (opt == 0) {
           valueLong = OP->min - OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else if (opt == 1) {
           valueLong = OP->max + OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else {
           // FIXME: throw an error
         }
       }
       else {
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble >= OP->min && valueDouble <= OP->max ) {
         if (opt == 0) {
           valueDouble = OP->min - OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else if (opt == 1) {
           valueDouble = OP->max + OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else {
           // FIXME: throw an error
         }
       }
       else {
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat >= OP->min && valueFloat <= OP->max ) {
         if (opt == 0) {
           valueFloat = OP->min - OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else if (opt == 1) {
           valueFloat = OP->max + OP->delta;
-          _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+          _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
         }
         else {
           // FIXME: throw an error
         }
       }
       else {
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
   }
 
@@ -470,8 +470,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         valueFloat = randomNum;
       }
     }
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, fvor_success);
-    _DAMAt_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, fvor_success);
+    _FAQAS_mutated = 1;
 
 
 
@@ -482,49 +482,49 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT){
       if (valueInt <= OP->threshold){
         valueInt = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG){
       if (valueLong <= OP->threshold){
         valueLong = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble <= OP->threshold){
         valueDouble = (double)OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat <= (float)OP->threshold){
         valueFloat = (float)OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else{
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
   }
 
@@ -533,49 +533,49 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT){
       if (valueInt > OP->threshold){
         valueInt = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG){
       if (valueLong > OP->threshold){
         valueLong = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble > OP->threshold){
         valueDouble = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT){
       if (valueFloat > OP->threshold){
         valueFloat = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
   }//FINAL PAR
@@ -585,48 +585,48 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT){
       if (valueInt >= OP->threshold){
         valueInt = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else{
         //value already below threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG) {
       if (valueLong >= OP->threshold){
         valueLong = OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else{
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble >= (double)OP->threshold){
         valueDouble = (double)OP->threshold - (double)OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already below threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat >= (float)OP->threshold){
         valueFloat = (float)OP->threshold - OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else{
         //value already below threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
   }
 
@@ -635,49 +635,49 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT){
       if (valueInt < OP->threshold){
         valueInt = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == LONG){
       if (valueLong < OP->threshold){
         valueLong = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble < OP->threshold){
         valueDouble = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT){
       if (valueFloat < OP->threshold){
         valueFloat = OP->threshold + OP->delta;
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
       }
       else {
         //value already above threshold
-        _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 0);
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
   }//FINAL PAR
@@ -713,8 +713,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       }
     }
 
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, IVsuccess);
-    _DAMAt_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, IVsuccess);
+    _FAQAS_mutated = 1;
   }
 
   if (OP->type == SS){
@@ -739,8 +739,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       valueFloat = (float)valueFloat + shift;
     }
 
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
-    _DAMAt_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
+    _FAQAS_mutated = 1;
   }
 
   if (OP->type == INV) {
@@ -862,8 +862,8 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
         valueFloat = randomNum;
       }
     }
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, inv_success);
-    _DAMAt_mutated = 1;
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, inv_success);
+    _FAQAS_mutated = 1;
   } //end
 
   if (OP->type == ASA) {
@@ -880,7 +880,7 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (valueInt < Tr) {
         valueInt = Tr - ((valueInt - Tr) * Va) + De;
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == DOUBLE) {
@@ -895,7 +895,7 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (valueDouble < Tr) {
         valueDouble = Tr - ((valueDouble - Tr) * Va) + De;
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
 
     if (fm->items[pos].type == FLOAT) {
@@ -911,12 +911,12 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       if (valueFloat < Tr) {
         valueFloat = Tr - ((valueFloat - Tr) * Va) + De;
       }
-      _DAMAt_mutated = 1;
+      _FAQAS_mutated = 1;
     }
-    _DAMAt_operator_coverage(MUTATION, global_mutation_counter, 1);
+    _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
   }
 
-  if (_DAMAt_mutated != 1) {
+  if (_FAQAS_mutated != 1) {
     return 0;
   }
 
@@ -955,10 +955,10 @@ int _DAMAt_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     int startSlice = (span - counter - 1) * stepWrite;
     int endSlice = (span - counter) * stepWrite - 1;
     unsigned long long slice =
-        _DAMAt_slice_it_up(fullNumber, startSlice, endSlice);
+        _FAQAS_slice_it_up(fullNumber, startSlice, endSlice);
     memcpy(&data[data_pos + counter], &slice, sizeof(data[data_pos + counter]));
     counter = counter + 1;
   }
   global_mutation_counter = global_mutation_counter + 1;
-  return _DAMAt_mutated;
+  return _FAQAS_mutated;
 }

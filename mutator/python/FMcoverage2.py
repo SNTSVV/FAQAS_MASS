@@ -11,7 +11,7 @@ hloutputFile.truncate(0)
 
 table = []
 
-with open("DAMAt_dataDrivenMutator.h", "rt") as mutator:
+with open("FAQAS_dataDrivenMutator.h", "rt") as mutator:
     data = mutator.readlines()
 for line in data:
     if line.__contains__('#define SIZE_'):

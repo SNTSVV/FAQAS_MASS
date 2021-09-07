@@ -1,10 +1,10 @@
-#include "DAMAt_dataDrivenMutator.h"
+#include "FAQAS_dataDrivenMutator.h"
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
 
 int mutate(std::vector<int> *v, FaultModel *fm) {
-  return _DAMAt_mutate(v->data(), fm);
+  return _FAQAS_mutate(v->data(), fm);
 }
 
 int main()
@@ -39,21 +39,21 @@ int main()
 
   // MANUALLY ADDED PROBE 1
 
-  FaultModel *fm1 = _DAMAt_IfHK_FM();
+  FaultModel *fm1 = _FAQAS_IfHK_FM();
 
   mutate(&v, fm1);
 
-  _DAMAt_delete_FM(fm1);
+  _FAQAS_delete_FM(fm1);
 
   // MANUALLY ADDED PROBE 1 END
 
   // MANUALLY ADDED PROBE 2
 
-  FaultModel *fm69 = _DAMAt_IfTT_FM();
+  FaultModel *fm69 = _FAQAS_IfTT_FM();
 
   mutate(&g, fm69);
 
-  _DAMAt_delete_FM(fm69);
+  _FAQAS_delete_FM(fm69);
 
   // MANUALLY ADDED PROBE 2 END
 

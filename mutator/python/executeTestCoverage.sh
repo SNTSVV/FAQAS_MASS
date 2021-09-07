@@ -19,13 +19,13 @@ echo ""
 echo "FAULT MODEL:"
 echo ""
 python generateDataMutator.py "$TYPE" "$FAULTMODEL"
-mv DAMAt_dataDrivenMutator.h $TESTFOLDER
+mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 cp FMcoverage.py $TESTFOLDER
 
 
 pushd $TESTFOLDER
 
-export DAMAt_COVERAGE_FILE="./faqas_coverage.txt"
+export FAQAS_COVERAGE_FILE="./faqas_coverage.txt"
 
 outFile=${curTest}.out
 compilerOutFile=${curTest}.compile.out
@@ -45,21 +45,21 @@ rm -f $valgrindOutFile
 rm -f $instrumentedCompilerOutFile
 rm -f $testResults
 rm -f $gcovLog
-rm -f $DAMAt_COVERAGE_FILE
+rm -f $FAQAS_COVERAGE_FILE
 
 echo ""
 echo "DONE"
 echo ""
 
-operations=`grep 'MUTATIONOPT=' DAMAt_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
+operations=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
 echo "MAX ID: ${operations}"
 echo ""
 
-if [[ -z $_DAMAt_SINGLETON_FM ]]; then
+if [[ -z $_FAQAS_SINGLETON_FM ]]; then
 	extra=""
 	memorymode="NORMAL"
 else
-	extra="-D_DAMAt_SINGLETON_FM"
+	extra="-D_FAQAS_SINGLETON_FM"
 	memorymode="SINGLETON"
 fi
 
