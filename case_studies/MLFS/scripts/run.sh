@@ -69,6 +69,8 @@ Example 3:  scripts/run.sh pre-semu DOWNLOADED/live_mutants OUTPUT/live_mutants_
 
 "
 
+mutation_remove_unspecified=true
+
 phase=1
 mutants_list_file=""
 custom_semu_pre_output=""
@@ -222,6 +224,14 @@ produce_unittest()
     # generate test execution script (take a test file and path to repo, execute script and print out diff and ret non zero if fails, nothing if pass and return 0)
     local exec_script_str="
     #! /bin/bash
+    
+    # Use this script to execute the unittests.
+    # This accepts one or two arguments:
+    # - test file: must be specified
+    # - path to rootdir: optional, in case the root dir is different than generation phase.
+    # 
+    # Example: ./runtesrt.sh test000001.ktest.c
+
     set -u
     
     topdir=\$(dirname \$(readlink -f \$0))
@@ -303,6 +313,14 @@ if [ $phase -le 1 ]; then
     test -d $mutants_dir && rm -rf $mutants_dir
     HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed (code $?)"
     rm -rf $output_topdir/.srciror
+    if [ "$mutants_list_file" != "" -a $remove_uncompilable_mutants = true ]; then
+        # Remove unspecified mutants
+        for mut_f in `ls $mutants_dir`; do
+            if ! grep "^\\s*$mut_f\\s*$" $mutants_list_file > /dev/null; then
+                rm -f $mutants_dir/$mut_f || error_exit "Failed to remove mutant $mutants_dir/$mut_f"
+            fi
+        done
+    fi
     echo "# Finished mutant generation!"
 fi
 
