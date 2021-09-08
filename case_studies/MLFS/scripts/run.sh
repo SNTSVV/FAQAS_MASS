@@ -313,7 +313,7 @@ if [ $phase -le 1 ]; then
     test -d $mutants_dir && rm -rf $mutants_dir
     HOME=$output_topdir $TOPDIR/create_mutants.sh || error_exit "Mutants creation failed (code $?)"
     rm -rf $output_topdir/.srciror
-    if [ "$mutants_list_file" != "" -a $remove_uncompilable_mutants = true ]; then
+    if [ "$mutants_list_file" != "" -a $mutation_remove_unspecified = true ]; then
         # Remove unspecified mutants
         for mut_f in `ls $mutants_dir`; do
             if ! grep "^\\s*$mut_f\\s*$" $mutants_list_file > /dev/null; then
