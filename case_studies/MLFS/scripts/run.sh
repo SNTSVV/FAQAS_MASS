@@ -246,7 +246,7 @@ produce_unittest()
     
     $FAQAS_SEMU_BUILD_CODE_FUNC_STR
 
-    FAQAS_SEMU_BUILD_CODE_FUNC \$tmp_file \$tmp_file.exe \$repo_dir gcc '-x c' || { echo 'build failed for code'; exit 2; }
+    FAQAS_SEMU_BUILD_CODE_FUNC \$tmp_file \$tmp_file.exe \$repo_dir gcc '-x c -lm' || { echo 'build failed for code'; exit 2; }
     \$tmp_file.exe > \$got_out 2>&1
     rm -f \$tmp_file \$tmp_file.exe
     if [ \$gather_output = true ]; then
