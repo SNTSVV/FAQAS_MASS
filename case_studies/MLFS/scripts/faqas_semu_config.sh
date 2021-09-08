@@ -24,7 +24,7 @@ FAQAS_SEMU_BUILD_CODE_FUNC()
     local compiler=$4
     local flags="$5"
     # compile
-    $compiler $flags -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -I$repo_root_dir/include -I$repo_root_dir/libm/common -I$repo_root_dir/libm/math -I$repo_root_dir/libm/mlfs -o $out_file $in_file
+    $compiler $flags -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O2 -fno-builtin -I$repo_root_dir/include -I$repo_root_dir/libm/common -I$repo_root_dir/libm/math -I$repo_root_dir/libm/mlfs -o $out_file $in_file $flags
     return $?
 }
 '
