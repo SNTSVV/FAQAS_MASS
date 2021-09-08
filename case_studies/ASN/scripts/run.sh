@@ -309,7 +309,8 @@ if [ $phase -le 1 ]; then
     rm -rf $output_topdir/.srciror
     if [ "$mutants_list_file" != "" -a $mutation_remove_unspecified = true ]; then
         # Remove unspecified mutants
-        for mut_f in `ls $mutants_dir`; do
+        for mut_f_path in `ls $mutants_dir/*.mut.*.c`; do
+            mut_f=$(basename $mut_f_path)
             if ! grep "^\\s*$mut_f\\s*$" $mutants_list_file > /dev/null; then
                 rm -f $mutants_dir/$mut_f || error_exit "Failed to remove mutant $mutants_dir/$mut_f"
             fi
