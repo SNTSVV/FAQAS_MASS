@@ -25,7 +25,7 @@ Then, we applied SEMuS to generate test cases for the 2,219 live mutants. As a r
 
 To further analyze SEMuS results, we inspect manually the test inputs generated for the mutant \texttt{test.mut.1298.2\_1\_23.ICR.T\_INT\_IsConstraintValid}. Particularly, through this mutant we discovered one shortcoming of the ASN.1 test suite.
 
-The original code of the mutated function, \texttt{T\_INT\_IsConstraintValid}, is shown in Listing~\ref{original_ans_code}.
+The original code of the mutated function, \texttt{T\_INT\_IsConstraintValid}, is shown in Listing~\ref{original_asn_code}.
 
 \begin{lstlisting}[style=CStyle, caption=Original code., label=original_asn_code]
 flag T_INT_IsConstraintValid(const T_INT* pVal, int* pErrCode) {
