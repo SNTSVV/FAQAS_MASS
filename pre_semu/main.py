@@ -332,6 +332,7 @@ class MutantInfo:
         # log the skipped mutants
         for ci in skip_mut_list:
             print ("@PRE-SEMU: WARNING: Skipping mutant of initialized variable array length: {}".format(ci))
+        assert not(len(changed_list) == 0 and len(skip_mut_list) > 0), "the considered mutants are all skipped"
 
         return changed_list
         
