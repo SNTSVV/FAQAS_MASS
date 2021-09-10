@@ -330,7 +330,7 @@ class MutantInfo:
                         if n_squarre_open == 0:
                             break
                         n_squarre_open -= 1
-                    else if n_squarre_open == 0:
+                    elif n_squarre_open == 0:
                         break
                     non_s_com_index = get_next_non_space_non_comment_index(non_s_com_index + 1, orig_str)
                 # Must see '=' here
