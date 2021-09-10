@@ -103,6 +103,12 @@ def get_next_non_comment_index(idx, code_str):
                 break
     return idx
 
+def get_next_non_space_non_comment_index(idx, code_str):
+    idx = get_next_non_comment_index(idx, code_str)
+    while code_str[idx].isspace():
+        idx = get_next_non_comment_index(idx + 1, code_str)
+    return idx
+
 class MutantInfo:
     def __init__(self, stmt_info, changed_info, int_id):
         self.raw_id = self._computer_raw_id(changed_info.filename)
@@ -133,6 +139,7 @@ class MutantInfo:
                     if no_skip_non_function_mutants:
                         assert False, "mutant not in any stmt ({})".format(ci.filename)
                     else:
+                        print ("@PRE-SEMU: WARNING: mutant not in any statement, skipping (mutant is {})!".format(ci.filename))
                         break
                 if stmt_i + 1 < len(stmt_list):
                     next_stmt = stmt_list[stmt_i + 1]
@@ -247,6 +254,7 @@ class MutantInfo:
         fn_to_start_afterend = MutantInfo.get_change_key_to_start_and_afterend(meta_mu_info_file, orig_lines_idx)
 
         #seq_matcher.set_seq1(orig_str)
+        skip_mut_list = []
         changed_list = []
         for mutant_src_file in mutant_src_file_list:
             mutant_basename = os.path.basename(mutant_src_file)
@@ -301,14 +309,30 @@ class MutantInfo:
                     mut_chunk_str += orig_str[mut_after_end:non_com_index]
                     mut_after_end = non_com_index
 
-            changed_list.append(
-                ChangedInfo(
+            changed_info = ChangedInfo(
                     start_index=mut_idx,
                     end_index=mut_after_end, 
                     filename=mutant_src_file, 
                     mut_str=mut_chunk_str
-                )
             )
+
+            # Discard mutant if it modifies the declaration array size of an initialized array
+            # This would lead to failed compilation of the meta-mu (variable-sized objects may not be initialized)
+            non_com_index = get_next_non_space_non_comment_index(mut_after_end, orig_str)
+            if orig_str[non_com_index] == ']':
+                non_com_index = get_next_non_space_non_comment_index(non_com_index, orig_str)
+                if orig_str[non_com_index] == '=':
+                    non_com_index = get_next_non_space_non_comment_index(non_com_index, orig_str)
+                    if orig_str[non_com_index] == '{':
+                        skip_mut_list.append(changed_info)
+                        continue
+
+            changed_list.append(changed_info)
+
+        # log the skipped mutants
+        for ci in skip_mut_list:
+            print ("@PRE-SEMU: WARNING: Skipping mutant of initialized variable array length: {}".format(ci))
+
         return changed_list
         
 def get_stmt_to_expr_to_mutant(mutant_list):
