@@ -318,12 +318,25 @@ class MutantInfo:
 
             # Discard mutant if it modifies the declaration array size of an initialized array
             # This would lead to failed compilation of the meta-mu (variable-sized objects may not be initialized)
-            non_com_index = get_next_non_space_non_comment_index(mut_after_end, orig_str)
-            if orig_str[non_com_index] == ']':
-                non_com_index = get_next_non_space_non_comment_index(non_com_index, orig_str)
-                if orig_str[non_com_index] == '=':
-                    non_com_index = get_next_non_space_non_comment_index(non_com_index, orig_str)
-                    if orig_str[non_com_index] == '{':
+            non_s_com_index = get_next_non_space_non_comment_index(mut_after_end, orig_str)
+            if orig_str[non_s_com_index] == ']':
+                non_s_com_index = get_next_non_space_non_comment_index(non_s_com_index + 1, orig_str)
+                # Handle multi dimension
+                n_squarre_open = 0
+                while True:
+                    if orig_str[non_s_com_index] == '[':
+                        n_squarre_open += 1
+                    elif orig_str[non_s_com_index] == ']':
+                        if n_squarre_open == 0:
+                            break
+                        n_squarre_open -= 1
+                    else if n_squarre_open == 0:
+                        break
+                    non_s_com_index = get_next_non_space_non_comment_index(non_s_com_index + 1, orig_str)
+                # Must see '=' here
+                if orig_str[non_s_com_index] == '=':
+                    non_s_com_index = get_next_non_space_non_comment_index(non_s_com_index + 1, orig_str)
+                    if orig_str[non_s_com_index] == '{':
                         skip_mut_list.append(changed_info)
                         continue
 
