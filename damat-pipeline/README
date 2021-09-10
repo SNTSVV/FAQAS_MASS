@@ -1,0 +1,167 @@
+
+#
+# Copyright (c) University of Luxembourg 2020.
+# Created by Enrico VIGANO, enrico.vigano@uni.lu, SnT, 2021.
+#
+
+Dependencies:
+This tool has been tested with:
+* Python 3.6.8
+* GNU bash, version 4.2.46
+* g++ (GCC) 4.8.5
+
+The versions are probably the same as the ones inside of your singularity container.
+
+Contents:
+inside the damat-pipeline folder you will find:
+
+* the script DAMAt_configure.sh, which contains variables that have to be set by the user before starting the pipeline
+
+* the script DAMAt_probe_generation.sh which generate the API and the probes to instrument the SUT
+
+* the script DAMAt_mutants_launcher.sh, which generates the mutants and starts the whole DAMAt pipeline.
+
+* generateDataMutator.py. which is the script that generates DAMAt mutation API
+
+* DDB_TEMPLATE_header.c and DDB_TEMPLATE_footer.c, which are templates used by generateDataMutator.py
+
+* DAMAt_compile.sh and DAMAt_run_tests.sh which are two scripts that the final user should modify, but in this case are already configured for the esail case study.
+
+* the "data analysis" folder, which contains python scripts used for the generation of the final results:
+  * beautify_results.py
+  * get_coverage.py
+  * get_operator_coverage.py
+  * get_stats.py
+
+* the "pipeline_scripts" folder, which contains the scripts that make up DAMAt pipeline:
+  * DAMAt_compile_and_run_mutants.sh
+  * DAMAt_data_analysis.sh
+  * DAMAt_obtain_coverage.sh
+  * get_mutant_test_list.py
+
+* fault_model.csv, which contains the esail-adcs fault model.
+
+* tests.csv, a list of all esail tests with the corresponding execution time, which is used to set timeouts.
+
+* the "instrumented_files" folders, containing some instrumented files specific for the esail-adcs test case:
+  * AdcsIf_instr.cpp
+  * OhbConfig_instr.cmake
+
+Set up for the adcs case study:
+
+1) copy the "damat-pipeline" folder inside the singularity container, in the location that you prefer. All DAMAt steps will take place inside this folder.
+
+Usage:
+
+DaMAT works in 6 steps:
+
+Step 1: The engineer prepares a fault model specification tailored to the SUT.
+The fault model present in the fault_model.csv file is the one we wrote for the adcs case study. You can modify it however you want.
+Remember to set the variables in DAMAt_configure.sh accordingly.
+
+Step 2: DaMAT generates a mutation API with the functions that modify the data according to the provided fault
+model.
+
+Run the following command for the adcs test case:
+
+DAMAt_probe_generation.sh
+
+This procedure will produce 3 files:
+
+* FAQAS_dataDrivenMutator.h (the mutation API)
+* FAQAS_mutants_table.csv (a table with the mutationOpt and definition of all the generated mutants)
+* function_calls.out (function templates for the mutation probes to insert in the SUT)
+
+a copy of the first two files must remain in the damat-pipeline folder for the correct execution of the data analysis section of the pipeline.
+
+Step 3: the engineer modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
+
+In the "instrumented_files" folder there are two files already instrumented for the esail-adcs case study.
+
+* AdcsIf_instr.cpp
+* OhbConfig_instr.cmake
+
+for the ADCS case you will have to copy:
+* AdcsIf_instr.cpp at this path inside the singularity container:
+"Svf/Models/ADCS/src/Adcs/AdcsIf.cpp"
+
+* OhbConfig_instr.cmake at this path:
+"/opt/Sim-Platform/cmake/OhbConfig.cmake"
+
+* and FAQAS_dataDrivenMutator.h in this folder:
+Svf/Models/ADCS/src/Adcs/AdcsIf.cpp
+
+
+Step 4: DaMAT generates and compiles mutants.
+Step 5: DaMAT executes the test suite with all the mutants.
+Step 6: DaMAT generates mutation analysis results.
+
+The pipeline can be started by running the "DAMAt_mutants_launcher.sh" script.
+
+Please note that depending on the time requirement of the test suite and the number of mutants, this step could take a large amount of time
+(for the adcs test case, running all the mutants against the test suite could take more than 1000 hours).
+Before running all the mutants, a special mutant (MutationOpt=-2) will be executed to gather coverage information.
+All the subsequent mutants will only be executed against tests that cover them.
+
+The results are stored in the "results" folder mainly in csv format.
+
+Some notable files in the "results folder":
+  * "mutation_sum_up.csv":
+  contains the three most important metrics for data-driven mutation analysis: Fault Model Coverage, Mutation Operation Coverage, and Mutation Score.
+  * "readable_data.csv"
+  contains the raw data from the test suite execution in a readable format
+  * "final_mutants_table.csv"
+  contains an overview of all the generated mutants and their status
+  * "mutation_score_by_*.csv"
+  various files that contain the mutation score for the mutants categorized in various ways.
+
+We have defined three metrics to evaluate test suites with data-driven mutation analysis: fault model coverage, mutation operation coverage, and
+mutation score. These metrics measure the frequency of the following scenarios: (case 1) the message type targeted by a mutant is never exercised, (case 2) the message type is covered by the test suite but it is not possible to perform some of the mutation operations, (case 3) the mutation is performed but the test suite does not fail.
+
+Fault model coverage is the percentage of fault models covered by the test suite.
+Mutation operation coverage is the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
+The mutation score (MS) is the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
+
+APPENDIX:
+
+If you'd rather not use the DAMAt launchers, these are the steps to execute every part of the pipeline manually:
+###############################################################################
+# STEP 1
+
+export the relevant variables
+
+export DAMAt_FOLDER=$(pwd)
+export tests_list=$DAMAt_FOLDER/reduced_tests.csv
+export fault_model=$DAMAt_FOLDER/fault_model.csv
+export buffer_type="unsigned char"
+export PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
+export RESULTS_FOLDER=$DAMAt_FOLDER/results
+export TESTS_FOLDER=$DAMAt_FOLDER/testlistsRESULTS_FOLDER=$DAMAt_FOLDER/results
+
+###############################################################################
+# STEP 2 MUTATION API GENERATION
+
+export _FAQAS_SINGLETON_FM="TRUE" && export _FAQAS_INITIAL_PADDING=2 && python generateDataMutator.py "$buffer_type" "$fault_model"
+
+###############################################################################
+# STEP 4: INSTRUMENT THE SUT
+
+done manually, see the previous section
+
+###############################################################################
+# STEP 4: COMPILE ALL MUTANTS
+# STEP 5: RUN ALL MUTANTS
+
+# OBTAIN COVERAGE DATA
+bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $tests_list $DAMAt_FOLDER
+
+# COMPILE AND RUN ALL MUTANTS
+bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER
+
+###############################################################################
+
+# STEP 6: GENERATE THE RESULTS OF THE MUTATION ANALYSIS
+
+bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER $tests_list
+
+###############################################################################
