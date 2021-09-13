@@ -13,7 +13,7 @@
 
 \subsection{Initialization of the \DAMA workspace}
 
-All the script for the \DAMA pipeline are contained in the \texttt{damat-pipeline} folder.
+All the scripts for the \DAMA pipeline are contained in the \texttt{damat-pipeline} folder.
 All \DAMA steps will take place inside this folder, which shall be placed by the engineer in a path of their choosing.
 
 The folder shall contain the following structure and files:
@@ -48,7 +48,7 @@ The folder shall contain the following structure and files:
 \subsection{Writing a list of all test cases}
 \label{subsec:test_list}
 The user shall provide the list of all the test cases with corresponding nominal time in csv format, using the \texttt{tests.csv } file as an example.
-In the first column of the csv file there shall be an identifier for the test case. The second column shall contain the nominal execution time in ms.
+In the first column of the csv file, there shall be an identifier for the test case. The second column shall contain the nominal execution time in ms.
 
 \begin{lstlisting}
 test_01,11002
@@ -62,7 +62,7 @@ This file will be used by the \DAMA pipeline for two purposes:
 	\item the whole list will be used to generate a list for each mutant containing only the test cases that cover it.
 \end{enumerate}
 
-\subsection{Setting the variables for the \DAMA pipeline}
+\subsection{Setting variables for the \DAMA pipeline}
 
 % The user shall then modify three scripts to configure the \DAMA pipeline:
 % \begin{itemize}
@@ -94,7 +94,7 @@ The variable \texttt{buffer\_type} shall contain the type of the elements of the
 
 The variable \texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
 
-The variable \texttt{padding} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
+The variable \texttt{padding} shall be set to an integer number representing the number of bytes to skip at the beginning of the target buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
 
 \subsection{Setting up the compilation of the mutants}
 
@@ -174,9 +174,9 @@ Once completed, the \texttt{DAMAt\_compile.sh} script shall take as input the va
 The user shall modify \texttt{DAMAt\_run\_tests.sh} stub to include the commands for the execution of the mutants.
 
 Every mutant is identified by an integer called "MutationOpt".
-This script shall take as input the mutationOpt and a list of test in the format described in section~\ref{subsec:test_list}.
+This script shall take as input the mutationOpt and a list of tests in the format described in section~\ref{subsec:test_list}.
 
-The user shall complete the stub by substiting the generic execution function with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
+The user shall complete the stub by substituting the generic execution function with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
 The user shall use the \texttt{timeout} command as shown in the example included in the stub to set a timeout.
 
 The output of the the new function shall be \texttt{0} if the test passes, different from \texttt{0} if it fails and \texttt{124} in case of timeout.
@@ -242,7 +242,7 @@ while IFS="," read -r p || [ -n "$p" ];do
 
 
 ###############################################################################
-#the exec return code should be 0 if the test case passes, 1 if the test case fails and 124 in case of a timeout
+#the exec return code should be 0 if the test case passes, 1 if the test case fails, and 124 in case of a timeout
 EXEC_RET_CODE=$?
 
 
@@ -296,7 +296,7 @@ echo "elapsed time $elapsed [ms]"
 
 %\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
 %
-% \DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
+% \DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single-machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology in one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
 
 \DAMA works in six steps:
 
@@ -305,7 +305,7 @@ echo "elapsed time $elapsed [ms]"
 	\item \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
 	\item The user manually modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
 	\item \DAMA generates and compiles mutants.
-	\item \DAMA executes the test suite againts all the mutants.
+	\item \DAMA executes the test suite against all the mutants.
 	\item \DAMA generates mutation analysis results.
 \end{enumerate}
 
@@ -335,7 +335,7 @@ For details on the available mutation operators and how they can be configured s
 
 \subsubsection{Step 2}
 
-In this step \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
+In this step, \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
 
 The engineer shall run the following command in the terminal inside the \texttt{damat\_pipeline} folder:
 
@@ -372,7 +372,7 @@ mutate_FM_fault_model_01( &v );
 
 \subsubsection{Step 4, Step 5 and Step 6}
 
-The other steps of the \DAMA procedure are carried out automally by the pipeline.
+The other steps of the \DAMA procedure are carried out automatically by the pipeline.
 The pipeline can be started by running the \texttt{DAMAt\_mutants\_launcher.sh} script with the following command, executed inside the \texttt{damat\_pipeline} folder:
 
 \begin{lstlisting}[language=bash]
@@ -412,7 +412,7 @@ bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER $tests_list
 
 \subsection{\DAMA results}
 
-After the execution of \DAMA the results are stored in the \texttt{.../damat-pipeline/results} folder that will be automatically generated.
+After the execution of \DAMA, the results are stored in the \texttt{.../damat-pipeline/results} folder that will be automatically generated.
 For every mutant the pipeline will create a subfolder called \texttt{run\_<mutationOpt>} containing:
 \begin{itemize}
 	\item A \texttt{main.csv} a file with the results of the mutant's execution against the test suite
@@ -421,7 +421,7 @@ For every mutant the pipeline will create a subfolder called \texttt{run\_<mutat
 	\item A \texttt{<mutationOpt>\_exectuion.out} file containing an execution log for the mutant.
 \end{itemize}
 
-In addition to that a \texttt{logs} folder shall be created, containing the full compilation and execution logs for every mutant.
+In addition to that, a \texttt{logs} folder shall be created, containing the full compilation and execution logs for every mutant.
 
 The \texttt{.../damat-pipeline/results} folder contains also files relative to the metrics defined to characterize the results of the full execution of \DAMA:
 
@@ -457,18 +457,18 @@ The file generated by the final steps are:
 
 \section{Normal Termination}
 
-%\DONE{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
+%\DONE{"The SUM shall describe how the user can cease or interrupt the use of the software and how to determine whether normal termination or cessation has occurred."}
 
 If the engineer decides to interrupt \DAMA execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
 
 \section{Error Conditions}
 
-%\DONE{Can 't we say anything about each program not returning any error message?}
+%\DONE{Can't we say anything about each program not returning any error message?}
 
 There is no error condition handling in the \FAQAS. If all preconditions are met, there should not be any error.
 
 \section{Recover Runs}
 
-%\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
+%\DONE{Shall we say that an engineer can restart the process from a task if all the preconditions are met?}
 
 If for any reason the execution of \DAMA is interrupted, an engineer can restart the process from a specific task if all preconditions are met, manually executing the rest of the steps.
