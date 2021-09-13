@@ -1,0 +1,19 @@
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|p{5cm}|p{5cm}|p{2.5cm}|}
+\hline
+\textbf{Fault}&\textbf{Mutation Operator}&\textbf{Stereotype}\\
+\hline
+Duplicate VCDU/Packet& Class Instance Duplication.&InputData\\
+Missing VCDU/Packet& Class Instance Removal.&InputData\\
+Wrong Sequence& Class Instances Swapping.&InputData\\
+Incorrect Identifier& Attribute Replacement with Random.&Identifier\\
+Incorrect Checksum& Attribute Replacement with Random.&Identifier\\
+Incorrect Counter& Attribute Replacement using Boundary Condition.&Measure\\
+Flipped Data Bits& Attribute Bit Flipping.&\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Mapping between Fault Data and Mutation Operators in \cite{di2015generating}.}
+\label{table:mapping}
+\end{table}%

@@ -1,0 +1,47 @@
+% !TEX root =  ../Main.tex
+
+
+
+
+\begin{table}[h]
+\tiny 
+\caption{Case study systems in the mutation testing literature.}
+\label{table:benchmarks} 
+\begin{tabular}{p{2cm}p{2cm}p{1cm}p{3cm}}
+\hline
+\textbf{Case Study (SUT)}	&	\textbf{Size of SUT}	&	\textbf{\# Test cases}&	\textbf{References}	\\
+\hline
+LLVM Framework & 1.3 MLOC & 625 & \cite{denisov2018mull}\\
+OpenSSL & 311 KLOC & 77 & \cite{denisov2018mull}\\
+Codeflaws & 266 KLOC & 122\,261 & \cite{papadakis2018mutant}\\
+RODOS & 125 KLOC & 48 & \cite{denisov2018mull}\\
+Coreutils & 8 - 83 KLOC & 1022 - 18\,719 & \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}\\
+Siemens & 1 - 69 KLOC & 1\,531 - 22\,138 & \cite{phan2018music,wang2017faster,papadakis2016threats,papadakis2014mitigating,yao2014study,clark2013semantic}\\
+Vim & 42 - 39 KLOC & 98 & \cite{wang2017faster,kintis2017detecting,papadakis2015trivial}\\
+Make & 7 - 35 KLOC & 691 & \cite{papadakis2018mutation,chekam2017empirical,kintis2017detecting,papadakis2015trivial,yao2014study}\\
+Memory Benchmark & 32 kLOC & 503 & \cite{wu2017memory}\\
+Findutils & 18 KLOC & 4\,931 &  \cite{papadakis2018mutation,chekam2017empirical}\\
+KmyMoney & 13 kLOC & 248 & \cite{delgado2017assessment}\\
+Curl & 12 KLOC & N/A & \cite{phan2018music}\\
+Grep & 9 KLOC & 5\,899 & \cite{papadakis2018mutation,chekam2017empirical}\\
+Space & 5 - 9 KLOC & 100 - 13\,585 & \cite{tokumoto2016muvm,papadakis2014mitigating,yao2014study,clark2013semantic}\\
+Git & 8 KLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+MSMTP & 6 kLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+Matrix TCL Pro & 3 kLOC & 24 & \cite{delgado2017assessment}\\
+Dolphin & 3 kLOC & 70 &  \cite{delgado2017assessment}\\
+Deletion Benchmark & 2\,853 LOC & 814 & \cite{delamaro2014designing,delamaro2014experimental}\\
+Gzip & 2\,819 LOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+TinyXML2 & 2\,620 LOC & 62 & \cite{delgado2017assessment,delgado2015class}\\
+XmlRPC++ & 2\,194 LOC & 34 & \cite{delgado2017assessment,delgado2015class}\\
+QtDom & 2\,117 LOC & 56 & \cite{delgado2017assessment}\\
+Yao Benchmark & 1\,208 LOC& N/A & \cite{yao2014study}\\
+Flex & 10 - 14 KLOC & 567 LOC& \cite{papadakis2014mitigating,yao2014study}\\
+NuclearIndustrial & 484 LOC & 302 & \cite{delgado2018evaluation}\\
+Nequivack Benchmark & 403 LOC & N/A & \cite{holling2016nequivack}\\
+MuVM Benchmark & 302 LOC & 2\,256 & \cite{tokumoto2016muvm}\\
+\hline                                                         
+\end{tabular}
+\FIXME{We use an asterisk (*) to indcate work that applied mutation testing to a subset of the system.}
+\end{table}
+
+%\normalsize

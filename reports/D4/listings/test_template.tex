@@ -1,0 +1,30 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[style=CStyle, caption=SEMuS test template., label=test_template]
+int main(int argc, char** argv) {
+    // Declare variable to hold function returned value
+    _Bool result_faqas_semu; 
+    // Declare arguments and make input ones symbolic
+    unsigned long pVal;
+    int pErrCode;
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); // Call function under test
+    result_faqas_semu = T_INT_IsConstraintValid(&pVal, &pErrCode); // Make some output
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    return (int)result_faqas_semu;
+}
+
+\end{lstlisting}
+
+
+\begin{lstlisting}[language={}, caption=Klee-test output, label=ktest]
+ktest file : 'test000001.ktest'
+args       : ['/MakeSym-TestGen-Input/direct/T_INT_IsConstraintValid/test.MetaMu.bc']
+num objects: 2
+object    0: name: b'model_version'
+object    0: size: 4
+object    0: data: b'\x01\x00\x00\x00'
+object    1: name: b'pVal'
+object    1: size: 8
+object    1: data: b'\x00\x00\x00\x00\x00\x00\x00\x00'
+\end{lstlisting}

@@ -1,0 +1,29 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=8th warning example., label=srciror_8]
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:235:15: warning: cast to 'unsigned short *' from smaller integer type 'unsigned int' [-Wint-to-pointer-cast]
+	if ((*(unsigned short *)(rp)&0x00ff) == 0x01) 
+				 ^
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:244:36: warning: cast to 'unsigned short *' from smaller integer type 'unsigned int' [-Wint-to-pointer-cast]
+	cnt = grtcprv_scan((unsigned short *)(rp), upper, 0x01, &found); 
+											^			
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:396:46: warning: cast to 'unsigned short *' from smaller integer type 'int' [-Wint-to-pointer-cast]
+	if (grtcprv_check_ending((unsigned short *)(rp), cnt - 2, 1)) 
+														^
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:404:46: warning: cast to 'unsigned short *' from smaller integer type 'int' [-Wint-to-pointer-cast]
+	if (grtcprv_check_ending((unsigned short *)(rp), cnt, 0)) 
+														^
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:514:41: warning: 'unsigned short *' from smaller integer type 'unsigned int' [-Wint-to-pointer-cast]
+	if ((tot = grtcprv_copy((unsigned short *)(rp), buf, cnt)) != cnt) 
+													 ^
+In file included from /home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:50: ././LowLevelDriverLayer/core/Public/coreApi.h:193:12: warning: inline function 'loadmem' is not defined [-Wundefined-inline]
+	inline int loadmem(int addr);
+							^
+/home/svf/Obsw/Source/LowLevelDriverLayer/GRTC/Source/drv_GRTC.c:203:10: note: used here
+	rp = loadmem((int)&grtcDev.regs->rrp); 
+			 ^
+
+6 warnings generated.
+\end{lstlisting}
+\end{minipage}

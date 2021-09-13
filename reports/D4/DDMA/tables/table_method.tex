@@ -1,0 +1,49 @@
+% !TEX root =  ../MAIN-DataDrivenMutationAnalysis.tex
+
+%
+%\setlength\LTleft{0pt}
+%\setlength\LTright{0pt}
+%\begin{longtable}{@{\extracolsep{\fill}}|p{2.5cm}|p{5cm}|p{5cm}|@{}}
+%\toprule
+
+
+\begin{table}[tb]
+\caption{\APPR fault modelling methodology}
+\label{table:method}
+\scriptsize
+\begin{tabular}{|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{13mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{17mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Data} \textbf{nature}&\textbf{Representation} \textbf{type}&\textbf{Dependencies}&\textbf{\# of input} \textbf{partitions}&\textbf{Operators}&\textbf{Comments}\\
+\hline
+numerical&I, L, F, D&stateless/stateful&2&[VAT,FVAT]&Nominal below T\\
+&&&&or [VBT,FVBT]&Nominal above T\\
+\cline{4-6}
+&&&3 or more&[VOR,FVOR]&\\
+\cline{3-6}
+&&stateful&&INV&For valid range\\
+\cline{4-6}
+&& &&[VOR,FVOR]&For out of range\\
+\cline{3-6}
+&&signal&&ASA, SS, HV&\\
+\hline
+categorical&I, H&N/A&N/A&IV&\\
+\cline{2-6}
+%&string&N/A&N/A&BF\\
+%\cline{2-5}
+&B&N/A&N/A&BF&\\
+\hline
+ordinal&I, H&N/A&N/A&ASA&\\
+\hline
+other&B&N/A&N/A&BF&\\
+\hline
+\end{tabular}
+\textbf{Legend:} N/A not applicable.
+\end{table}
+%\normalsize

@@ -1,0 +1,50 @@
+% !TEX root =  ../Main.tex
+
+\begin{table*}[htb]
+\caption{RQ2. Accuracy with uniform fixed-size sampling and uniform FSCI sampling. }
+\label{table:results:accuracy:FSCI:sampling} 
+\scriptsize
+\centering
+\begin{tabular}{|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\multicolumn{3}{|c|}{\textbf{LIBGSCSP}}      & \multicolumn{3}{c|}{\textbf{LIBPARAM}}      & \multicolumn{3}{c|}{\textbf{LIBUTIL}}       & \multicolumn{3}{c|}{\textbf{MLFS}}          & \multicolumn{3}{c|}{\textbf{ESAIL}}       \\
+\hline
+\textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method} \\
+\hline
+100       & 9.88       & FIXED    & 100       & 10.17      & FIXED    & 100       & 7.32       & FIXED    & 100       & 7.80       & FIXED    &  100         &     8.89       &   FIXED     \\
+200       & 5.86       & FIXED    & 200       & 6.12       & FIXED    & 200       & 5.73       & FIXED    & 200       & 5.20       & FIXED    &   200        &      6.14      &   FIXED     \\
+300       & \textbf{4.48}       & FIXED    & 300       & 5.88       & FIXED    & 300       & 5.37       & FIXED    & 248       & \textbf{4.56}       & FSCI 0.1  &    300       &      5.53      &    FIXED    \\
+364       & \textbf{4.42}       & FSCI 0.1  & 346       & \textbf{4.26}       & FSCI 0.1  & 333       & \textbf{4.73}       & FSCI 0.1  & 300       & \textbf{4.04}       & FIXED    &   366        &     \textbf{3.92}       &    FSCI 0.1    \\
+400       & \textbf{5.49}       & FIXED    & 400       & \textbf{4.27}       & FIXED    & 400       & \textbf{4.45}       & FIXED    & 302       & \textbf{4.64}       & FSCI 0.09 &     400      &     \textbf{4.52}       &    FIXED    \\
+447       & \textbf{3.70}       & FSCI 0.09 & 425       & \textbf{3.79}       & FSCI 0.09 & 409       & \textbf{4.08}       & FSCI 0.09 & 379       & \textbf{4.01}       & FSCI 0.08 &   449        &    \textbf{3.66}     &   FSCI 0.09    \\
+500       & \textbf{3.85}       & FIXED    & 500       & \textbf{3.63}       & FIXED    & 500       & \textbf{3.80}       & FIXED    & 400       & \textbf{3.80}       & FIXED    &   500      &      \textbf{4.08}      &   FIXED     \\
+564       & \textbf{3.53}       & FSCI 0.08 & 536       & \textbf{3.75}       & FSCI 0.08 & 514       & \textbf{3.94}       & FSCI 0.08 & 490       & \textbf{3.90}       & FSCI 0.07 &    567       &  \textbf{3.03}   &  FSCI 0.08      \\
+600       & \textbf{3.65}       & FIXED    & 600       & \textbf{3.72}       & FIXED    & 600       & \textbf{3.29}       & FIXED    & 500       & \textbf{3.11}       & FIXED    &     600      &  \textbf{3.73}          &     FIXED   \\
+700       & \textbf{3.00}       & FIXED    & 696       & \textbf{2.89}       & FSCI 0.07 & 668       & \textbf{3.99}       & FSCI 0.07 & 600       & \textbf{2.89}       & FIXED    &     700      &      \textbf{3.01}      &    FIXED    \\
+734       & \textbf{3.62}       & FSCI 0.07 & 700       & \textbf{3.27}       & FIXED    & 700       & \textbf{3.30}       & FIXED    & 667       & \textbf{2.78}       & FSCI 0.06 &     738      &      \textbf{2.77}      &    FSCI 0.07    \\
+800       & \textbf{2.90}       & FIXED    & 800       & \textbf{2.51}       & FIXED    & 800       & \textbf{3.26}       & FIXED    & 700       & \textbf{2.80}       & FIXED    &     800      &  \textbf{2.55}          &    FIXED    \\
+900       & \textbf{3.09}       & FIXED    & 900       & \textbf{2.50}       & FIXED    & 900       & \textbf{3.04}       & FIXED    & 800       & \textbf{2.44}       & FIXED    &     900      &  \textbf{2.37}          &    FIXED    \\
+994       & \textbf{3.00}       & FSCI 0.06 & 945       & \textbf{2.42}       & FSCI 0.06 & 906       & \textbf{3.28}       & FSCI 0.06 & 900       & \textbf{3.02}       & FIXED    &  998         &  \textbf{2.65}         &   FSCI 0.06     \\
+1000      & \textbf{2.41}       & FIXED    & 1000      & \textbf{2.72}       & FIXED    & 1000      & \textbf{2.31}       & FIXED    & 960       & \textbf{2.31}       & FSCI 0.05 & 1000     &  \textbf{2.96}          &   FIXED     \\
+1422      & \textbf{2.44}       & FSCI 0.05 & 1352      & \textbf{1.93}       & FSCI 0.05 & 1298      & \textbf{2.72}       & FSCI 0.05 & 1000      & \textbf{2.35}       & FIXED    &    1429     &    \textbf{1.70}        &  FSCI 0.05 \\
+\hline
+\end{tabular}
+
+Accurate results (i.e., $\delta_{acc} \le 5\%$) are in bold.
+\end{table*}
