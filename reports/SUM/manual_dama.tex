@@ -88,11 +88,11 @@ padding=0
 
 \end{lstlisting}
 
-\texttt{test_list} shall be set to the path of the csv containing the test names and execution times.
-\texttt{fault_model} shall be set to the path of the csv containing the fault model of the SUT that the user shall define for the SUT.
-\texttt{buffer_type} shall contain the type of the elements of the buffer that will be targeted by the mutation.
+\texttt{test\_list} shall be set to the path of the csv containing the test names and execution times.
+\texttt{fault\_model} shall be set to the path of the csv containing the fault model of the SUT that the user shall define for the SUT.
+\texttt{buffer\_type} shall contain the type of the elements of the buffer that will be targeted by the mutation.
 \texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
-\texttt{buffer_type} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
+\texttt{buffer\_type} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
 
 \subsection{Setting up the compilation of the mutants}
 
@@ -100,13 +100,13 @@ The user shall modify \texttt{DAMAt\_compile.sh} to include the commands for the
 
 Every mutant is identified by an integer called "MutationOpt".
 
-To enable the data-driven mutation, the user shall compile the SUT with this macro enabled: \item \texttt{-DMUTATIONOPT=<MutationOpt>}.
+To enable the data-driven mutation, the user shall compile the SUT with this macro enabled: \texttt{-DMUTATIONOPT=<MutationOpt>}.
 
-To use the singleton mode, the user shall compile the SUT with this macro enabled: \item \texttt{ -D_FAQAS_SINGLETON_FM="TRUE"}.
+To use the singleton mode, the user shall compile the SUT with this macro enabled: \texttt{ -D\_FAQAS\_SINGLETON\_FM\="TRUE"}.
 
 A way to do it is to include the following lines in the SUT makefile:
 
-\begin{lstlisting}[label={language=bash]
+\begin{lstlisting}[language=bash]
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMUTATIONOPT=$ENV{MUTATIONOPT}")
 # comment the following line if you do not want to use the singleton option.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FAQAS_SINGLETON_FM=$ENV{_FAQAS_SINGLETON_FM}")
@@ -174,7 +174,7 @@ Every mutant is identified by an integer called "MutationOpt".
 This script shall take as input the mutationOpt and a list of test in the format described in section~\ref{subsec:test_list}.
 The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in Listing~\ref{lst:run_tests}.
 The user shall complete the stub by substiting the generic execution command with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
-The output should be \texttt{0} if the test passes, \texttt{n!=0} if it fails and \texttt{124} in case of timeout.
+The output should be \texttt{0} if the test passes, different from \texttt{0} if it fails and \texttt{124} in case of timeout.
 The user may use the timeout command as shown in the example included in the stub.
 
 \begin{lstlisting}[label={lst:run_tests},language=bash]
@@ -283,15 +283,64 @@ echo "elapsed time $elapsed [ms]"
 
 \end{lstlisting}
 
-% There is one bash script that should be edited by the engineer and there are also two Bash scripts stumps that should be edited by the engineer to allow the execution of \DAMA. These scripts enable \DAMA to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \DAMA itself.
-
-\subsection{Running \DAMA on Single Machines}
+\subsection{Running \DAMA on Single Machine}
 \label{sec:dama_singlelaunch}
 
 %\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
 
 \DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
 
+DaMAT works in 6 steps:
+
+\begin{enumerate}
+	\item The user prepares a fault model specification tailored to the SUT.
+	\item \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
+	\item The user manually modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
+	\item DaMAT generates and compiles mutants.
+	\item DaMAT executes the test suite againts all the mutants.
+	\item DaMAT generates mutation analysis results.
+\end{enumerate}
+%
+% Step 1: The engineer prepares a fault model specification tailored to the SUT.
+% The fault model present in the fault_model.csv file is the one we wrote for the adcs case study. You can modify it however you want.
+% Remember to set the variables in DAMAt_configure.sh accordingly.
+%
+% Step 2: DaMAT generates a mutation API with the functions that modify the data according to the provided fault
+% model.
+%
+% Run the following command for the adcs test case:
+%
+% DAMAt_probe_generation.sh
+%
+% This procedure will produce 3 files:
+%
+% * FAQAS_dataDrivenMutator.h (the mutation API)
+% * FAQAS_mutants_table.csv (a table with the mutationOpt and definition of all the generated mutants)
+% * function_calls.out (function templates for the mutation probes to insert in the SUT)
+%
+% a copy of the first two files must remain in the damat-pipeline folder for the correct execution of the data analysis section of the pipeline.
+%
+% Step 3: the engineer modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
+%
+% In the "instrumented_files" folder there are two files already instrumented for the esail-adcs case study.
+%
+% * AdcsIf_instr.cpp
+% * OhbConfig_instr.cmake
+%
+% for the ADCS case you will have to copy:
+% * AdcsIf_instr.cpp at this path inside the singularity container:
+% "Svf/Models/ADCS/src/Adcs/AdcsIf.cpp"
+%
+% * OhbConfig_instr.cmake at this path:
+% "/opt/Sim-Platform/cmake/OhbConfig.cmake"
+%
+% * and FAQAS_dataDrivenMutator.h in this folder:
+% Svf/Models/ADCS/src/Adcs/AdcsIf.cpp
+%
+%
+% Step 4: DaMAT generates and compiles mutants.
+% Step 5: DaMAT executes the test suite with all the mutants.
+% Step 6: DaMAT generates mutation analysis results.
 
 \subsubsection{One Step Launcher}
 
