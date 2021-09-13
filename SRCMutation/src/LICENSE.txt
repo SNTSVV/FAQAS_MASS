@@ -1,6 +1,5 @@
 European Space Agency - ESA Software Community Licence Permissive – v2.4
 
- 
 
 1 Definitions
     1.1 “Contributor” means (a) the individual or legal entity that originally creates or later modifies the Software and (b) each subsequent individual or legal entity that creates or contributes to the creation of Modifications.
