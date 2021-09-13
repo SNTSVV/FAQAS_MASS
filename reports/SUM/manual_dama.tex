@@ -1,78 +1,231 @@
 % !TEX root = MAIN.tex
 
-\chapter{DAMA - Operations Manual}
+\chapter{\DAMA - Operations Manual}
 
 \section{Set-up and Initialization}
 
-
 \subsection{Dependencies}
 
-%\TODO{should we add the LLVM version?}
-%\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
-
 \begin{itemize}
-	\item Linux packages: \texttt{Python 3.7} or higher
+	\item \texttt{Python 3.6.8} or higher
+	\item \texttt{GNU bash, version 4.2.46} or higher
 \end{itemize}
-
 
 \section{Getting started}
 
-\subsection{Initialization of the MASS workspace}
+\subsection{Initialization of the \DAMA workspace}
 
-% \DONE{I think "shall" should be simply removed, "\DAMA creates" "are stored".}
+All the script for the \DAMA pipeline are contained in the \texttt{damat-pipeline} folder.
+All \DAMA steps will take place inside this folder, which shall be placed by the engineer in a path of their choosing.
 
-\DAMA creates a workspace folder where all the steps from the methodology are stored.
-
-An installation Bash script is provided for the creation of this workspace, the script can be found on \texttt{DAMAt_install.sh}
-%Enrico: whwn I finish putting together the pipeline I will insert the correct path
-
-To use the installation script the shell variable \texttt{INSTALL\_DIR} has to be set:
-
-\begin{lstlisting}[language=bash]
-  $ export INSTALL_DIR=/opt/DIRECTORY
-\end{lstlisting}
-
-%\DONE{the meaning of the ollowing is not clear. Add an example.}
-% If the \texttt{INSTALL\_DIR} directory must be binded inside a container. In addition, also the shell variable \texttt{EXECUTION\_DIR} has to be set. This step is optional.
-%
-% For instance, \DAMA has been installed on \texttt{/opt/MASS\_WORKSPACE} (i.e., the \texttt{INSTALL\_DIR}), and \DAMA will be executed inside a container, but on a different directory such as \\\texttt{/home/user/MASS\_WORKSPACE} (i.e., the \texttt{EXECUTION\_DIR}). The use of both environment variables enable this differentiation.
-
-
-After setting the corresponding environment variables, the following commands are necessary to create the \DAMA workspace folder:
-
-/* \begin{lstlisting}[language=bash]
-  $ cd $FAQAS/MASS/FAQAS-Setup
-  $ ./DAMAt_install.sh
-\end{lstlisting} */
-
-Once the installation folder has been created, the folder shall contain the following structure and files:
+The folder shall contain the following structure and files:
 
 \begin{itemize}
-
-  \item \texttt{DDB\_TEMPLATE\_header.c}: the template for the header of the automatically generated \DAMA API containing the mutation probes.
-  \item \texttt{DDB\_TEMPLATE\_footer.c}: the template for the footer of the automatically generated \DAMA API containing the mutation probes.
-  \item \texttt{generateDataMutator.py}: a pyhton script that generates the \DAMA API and Mutants Table starting from the \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c} templates and from a fault model expressed in csv format.
-  \item \texttt{fault_model_example.csv}: an example of fault model in csv format with the \DAMA mutation operators and their respective parameters.
-  \item \texttt{DAMAt\_launcher.sh}: \DAMA single launcher; the script executes all the automatic steps of the methodology in one command.
-	\item \texttt{DAMAt\_STEPS\_LAUNCHERS/}: folder containing all the single launchers for each step of the \DAMA methodology.
+	\item \texttt{DAMAt\_configure.sh}: this script defines the necessary variables for the execution of \DAMA. They shall be set by the user.
+	\item \texttt{DAMAt\_probe\_generation.sh}: this script set the variables necessary to generate the data mutation API and execute the python script \texttt{generateDataMutator.py} to generate them.
+	\item \texttt{DAMAt\_mutants\_launcher.sh}: this script starts the \DAMA pipeline.
+	\item \texttt{generateDataMutator.py}: this is the script that generates the \DAMA mutation API.
+	\item \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c}: these are templates used to generate the \DAMA API by \texttt{generateDataMutator.py}
+	\item \texttt{DAMAt\_compile.sh}: this is a stub of the script used to compile a mutant, which shall be completed by the user.
+	\item \texttt{DAMAt\_run\_tests.sh}: this is a stub of the script used to run the tests, which shall be completed by the user.
+	\item \texttt{data\_analysis}: a folder containing five python scripts used for the generation of the final results:
 	\begin{itemize}
-		\item \texttt{DAMAt\_STEPS\_LAUNCHERS/DAMAt\_compile\_mutant.sh}: a .sh stump that must be filled by the engineer with the invocations to the commands for compiling the SUT.
-		\item \texttt{DAMAt\_STEPS\_LAUNCHERS/DAMAt\_run\_tests.sh}: a .sh stump that must be filled by the engineer with the invocations to the commands for running the SUT test suite.
-		\item \texttt{MASS\_STEPS\_LAUNCHERS/DAMAt_muutation_score.sh}: launcher for the computation of the mutation score and final reporting.
-  \item \texttt{DAMAt\_DATA\_SCRIPTS/}: folder containing python scripts for the collection and analysis of the results from the \DAMA procedure.
-    \item \texttt{DAMAt\_DATA\_SCRIPTS/beautify\_results.py}: a python script that render the results from the execution of the mutants against the test suite into a readable format.
-    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_FM\_coverage.py}: a python script that collects the data item coverage data from the SUT execution traces.
-    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_operator\_coverage.py}: a python script that collects the operator coverage data from the SUT execution traces.
-    \item \texttt{DAMAt\_DATA\_SCRIPTS/get\_stats.py}: a python scripts that computes all the stats relative to the \DAMA procedures and produces readable table for the engineer to inspect.
-
+	  \item \texttt{beautify\_results.py}: this script renders the raw results from the execution of the tests in a more readable format.
+	  \item \texttt{get\_coverage.py}: this script analizes the results of the fault model coverage.
+	  \item \texttt{get\_operator\_coverage.py}: this script analizes the results of the operator coverage.
+	  \item \texttt{get\_stats.py}: this script produces statistics from the mutants' execution.
+		\item \texttt{get\_final\_results.py}: this script produces a summary of the execution of \DAMA.
 	\end{itemize}
-
+	\item \texttt{pipeline\_scripts}: a folder containing the four scripts that make up the \DAMA pipeline:
+	\begin{itemize}
+		\item \texttt{DAMAt\_obtain\_coverage.sh}: this script obtains fault model coverage data in order to execute only the tests that cover each mutant.
+		\item \texttt{get\_mutant\_test\_list.py}: this script produces the list of test against which avery mutant shall be executed.
+	  \item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: this scripts compile each mutant and run it against the SUT test suite.
+		\item \texttt{DAMAt\_data\_analysis.sh}: this script executes all the data analysis steps at the end of the execution of the \DAMA pipeline
+	\end{itemize}
+	\item \texttt{fault\_model.csv}: an example of a \DAMA fault model in csv format.
+ 	\item \texttt{tests.csv }: an example of list of test cases and nominal times in csv format.
 \end{itemize}
 
-\subsection{MASS Configuration}
-There is one bash script that should be edited by the engineer and there are also two Bash scripts stumps that should be edited by the engineer to allow the execution of \DAMA. These scripts enable \DAMA to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \DAMA itself.
+\subsection{Writing a list of all test cases}
+The user shall provide the list of all the test cases with corresponding nominal time in csv format, using the \texttt{tests.csv } file as an example.
+In the first column of the csv file there shall be an identifier for the test case. The second column shall contain the nominal execution time in ms.
 
-\subsection{Running DAMAt on Single Machines}
+\begin{lstlisting}
+test_01,11002
+test_02,13456
+test_03,58347
+\end{lstlisting}
+
+This file will be used by the \DAMA pipeline for two purposes:
+\begin{enumerate}
+	\item the nominal execution time will be used to set a timeout for each test case.
+	\item the whole list will be used to generate a list for each mutant containing only the test cases that cover it.
+\end{enumerate}
+
+\subsection{Setting the variables for the \DAMA pipeline}
+
+% The user shall then modify three scripts to configure the \DAMA pipeline:
+% \begin{itemize}
+% 	\item \texttt{DAMAt\_configure.sh}
+% 	\item \texttt{DAMAt\_compile.sh}
+% 	\item \texttt{DAMAt\_run\_tests.sh}
+% \end{itemize}
+
+The user must set the following variables inside the \texttt{DAMAt\_configure.sh} script
+\begin{lstlisting}[language=bash]
+
+tests_list=$DAMAt_FOLDER/tests.csv
+
+fault_model=$DAMAt_FOLDER/fault_model.csv
+
+buffer_type="unsigned char"
+
+singleton="TRUE"
+
+padding=0
+
+\end{lstlisting}
+
+\texttt{test_list} shall be set to the path of the csv containing the test names and execution times.
+\texttt{fault_model} shall be set to the path of the csv containing the fault model of the SUT that the user shall define for the SUT.
+\texttt{buffer_type} shall contain the type of the elements of the buffer that will be targeted by the mutation.
+\texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
+\texttt{buffer_type} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
+
+\subsection{Setting up the compilation of the mutants}
+
+The user shall modify \texttt{DAMAt\_compile.sh} to include the commands for the compilation of the mutants.
+
+Every mutant is identified by an integer called "MutationOpt".
+
+To enable the data-driven mutation, the user shall compile the SUT with this macro enabled: \item \texttt{-DMUTATIONOPT=<MutationOpt>}.
+
+To use the singleton mode, the user shall compile the SUT with this macro enabled: \item \texttt{ -D_FAQAS_SINGLETON_FM="TRUE"}.
+
+A way to do it is to include the following lines in the SUT makefile:
+
+\begin{lstlisting}[label={language=bash]
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMUTATIONOPT=$ENV{MUTATIONOPT}")
+# comment the following line if you do not want to use the singleton option.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FAQAS_SINGLETON_FM=$ENV{_FAQAS_SINGLETON_FM}")
+\end{lstlisting}
+
+and then export the corresponding variables in the \texttt{DAMAt\_compile.sh} script as shown in the \texttt{DAMAt\_compile.sh} stub.
+
+The contents of the \texttt{DAMAt\_compile.sh} stub are portrayed in Listing~\ref{lst:compile}
+
+\begin{lstlisting}[label={lst:compile},language=bash]
+
+#!/bin/bash
+
+mutant_id=$1
+singleton=$2
+
+###############################################################################
+#enabling extended pattern matching features:
+shopt -s
+#options for enabling aliases:
+shopt -s expand_aliases
+###############################################################################
+
+
+echo "------------------------------------"
+echo "------------------------------------"
+echo "Mutant opt: "$mutant_id
+echo "------------------------------------"
+echo "------------------------------------"
+
+# The user shall complete the following section:
+###############################################################################
+#exporting the operation counter
+export MUTATIONOPT=$mutant_id
+
+if [$singleton == "TRUE"]; then
+export _FAQAS_SINGLETON_FM=$singleton
+fi
+
+# here the user must invoke the compilation of the SUT, we provided a simple example.
+
+compilation_folder="/home/SUT"
+
+pushd $compilation_folder
+
+make install-debug
+
+    if [ $? -eq 0 ]; then
+        echo $x " compilation OK"
+    else
+        echo $x " compilation FAILED"
+    fi
+
+popd
+
+
+\end{lstlisting}
+
+Once completed, the \texttt{DAMAt\_compile.sh} script shall take as input the value of the MutationOpt that refers to the mutant being currently compiled and of the singleton variable, and then compile the SUT accordingly.
+
+\subsection{Setting up the execution of the test suite against the mutants}
+
+The user shall modify \texttt{DAMAt\_run\_tests.sh} stub to include the commands for the execution of the mutants.
+
+Every mutant is identified by an integer called "MutationOpt".
+
+The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in Listing~\ref{lst:run_tests}.
+
+\begin{lstlisting}[label={lst:run_tests},language=bash]
+
+#!/bin/bash
+
+mutant_id=$1
+singleton=$2
+
+###############################################################################
+#enabling extended pattern matching features:
+shopt -s
+#options for enabling aliases:
+shopt -s expand_aliases
+###############################################################################
+
+
+echo "------------------------------------"
+echo "------------------------------------"
+echo "Mutant opt: "$mutant_id
+echo "------------------------------------"
+echo "------------------------------------"
+
+# The user shall complete the following section:
+###############################################################################
+#exporting the operation counter
+export MUTATIONOPT=$mutant_id
+
+if [$singleton == "TRUE"]; then
+export _FAQAS_SINGLETON_FM=$singleton
+fi
+
+# here the user must invoke the compilation of the SUT, we provided a simple example.
+
+compilation_folder="/home/SUT"
+
+pushd $compilation_folder
+
+make install-debug
+
+    if [ $? -eq 0 ]; then
+        echo $x " compilation OK"
+    else
+        echo $x " compilation FAILED"
+    fi
+
+popd
+
+
+\end{lstlisting}
+
+% There is one bash script that should be edited by the engineer and there are also two Bash scripts stumps that should be edited by the engineer to allow the execution of \DAMA. These scripts enable \DAMA to correctly identify the SUT paths (e.g., source code folder, test suite folder), the SUT compilation commands, the SUT test suite execution commands, and the configuration of \DAMA itself.
+
+\subsection{Running \DAMA on Single Machines}
 \label{sec:dama_singlelaunch}
 
 %\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
