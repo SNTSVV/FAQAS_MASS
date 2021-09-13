@@ -48,6 +48,7 @@ The folder shall contain the following structure and files:
 \end{itemize}
 
 \subsection{Writing a list of all test cases}
+\label{subsec:test_list}
 The user shall provide the list of all the test cases with corresponding nominal time in csv format, using the \texttt{tests.csv } file as an example.
 In the first column of the csv file there shall be an identifier for the test case. The second column shall contain the nominal execution time in ms.
 
@@ -169,56 +170,115 @@ Once completed, the \texttt{DAMAt\_compile.sh} script shall take as input the va
 \subsection{Setting up the execution of the test suite against the mutants}
 
 The user shall modify \texttt{DAMAt\_run\_tests.sh} stub to include the commands for the execution of the mutants.
-
 Every mutant is identified by an integer called "MutationOpt".
-
+This script shall take as input the mutationOpt and a list of test in the format described in section~\ref{subsec:test_list}.
 The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in Listing~\ref{lst:run_tests}.
+The user shall complete the stub by substiting the generic execution command with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
+The output should be \texttt{0} if the test passes, \texttt{n!=0} if it fails and \texttt{124} in case of timeout.
+The user may use the timeout command as shown in the example included in the stub.
 
 \begin{lstlisting}[label={lst:run_tests},language=bash]
 
 #!/bin/bash
 
 mutant_id=$1
-singleton=$2
+tests_list=$2
+DAMAT_FOLDER=$3
+results_dir=$DAMAT_FOLDER/results
+
+mutant_dir=$results_dir/run_"$mutant_id"
+execution_log=$mutant_dir/"$mutant_id"_execution.out
+coverage_file=$mutant_dir/"$mutant_id"_coverage.csv
+results_file=$mutant_dir/main.csv
 
 ###############################################################################
-#enabling extended pattern matching features:
-shopt -s
-#options for enabling aliases:
-shopt -s expand_aliases
+#date in milliseconds
+start_time=$(($(date +%s%N)/1000000))
+
+mkdir $results_dir
+echo "this is the results folder: $results_dir"
+mkdir $mutant_dir
+echo "this is the folder of this mutant $mutant_dir"
+touch $execution_log
+echo "this is the logfile of the tests' execution $execution_log"
+touch $coverage_file
+echo "this is the file with the results $results_file"
+touch $results_file
+echo "this is the coverage file: $coverage_file"
+export FAQAS_COVERAGE_FILE=$coverage_file
+export _FAQAS_SINGLETON_FM
+
 ###############################################################################
 
+while IFS="," read -r p || [ -n "$p" ];do
 
-echo "------------------------------------"
-echo "------------------------------------"
-echo "Mutant opt: "$mutant_id
-echo "------------------------------------"
-echo "------------------------------------"
+    mutant_start_time=$(($(date +%s%N)/1000000))
 
-# The user shall complete the following section:
+    # obtaining test number to be executed
+    read tst <<< $(awk -F',' '{print $1}' <<< "$p")
+
+    # obtaining corresponding timeout for the test case
+    TIMEOUT=$(echo "$p" | awk -F',' '{$2=($2*4)/1000; printf("%.0f\n", $2);}')
+
+    echo "*********************************************************"
+    echo "*********************************************************"
+    echo "Running mutant $mutant_id against test case "$tst
+    echo "*********************************************************"
+    echo "*********************************************************"
+    echo -n "${mutant_id};COMPILED;${tst};" >> $results_file
+
+
 ###############################################################################
-#exporting the operation counter
-export MUTATIONOPT=$mutant_id
+# here the user shall call the execution of the current test case,
+# we provided a simple example
 
-if [$singleton == "TRUE"]; then
-export _FAQAS_SINGLETON_FM=$singleton
-fi
+  timeout $TIMEOUT bash execute_test_case.sh $tst
 
-# here the user must invoke the compilation of the SUT, we provided a simple example.
 
-compilation_folder="/home/SUT"
+###############################################################################
+#the exec return code should be 0 if the test case passes, 1 if the test case fails and 124 in case of a timeout
+EXEC_RET_CODE=$?
 
-pushd $compilation_folder
 
-make install-debug
+  mutant_end_time=$(($(date +%s%N)/1000000))
+  mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
 
-    if [ $? -eq 0 ]; then
-        echo $x " compilation OK"
-    else
-        echo $x " compilation FAILED"
-    fi
 
-popd
+
+  if [ $EXEC_RET_CODE -ge 124 ]; then
+     echo "Test return code: [$EXEC_RET_CODE]"
+     echo "Mutant timeout by $tst"
+     echo -ne "TIMEOUT;KILLED_${EXEC_RET_CODE};${mutant_elapsed}\n" >> $results_file
+
+  else
+      if [ $EXEC_RET_CODE -eq 0 ]; then
+        echo "Test return code: [$EXEC_RET_CODE]"
+        echo -ne "PASSED;LIVE;${mutant_elapsed}\n" >> $results_file
+
+      else
+        echo "Test return code: [$EXEC_RET_CODE]"
+        echo "Mutant killed by $tst"
+        echo -ne "FAILED;KILLED;${mutant_elapsed}\n" >> $results_file
+      fi
+  fi
+
+
+###############################################################################
+
+	#create a different coverage file for every test
+
+	NEW_COVERAGE_FILE=$mutant_dir/coverage_"$tst".csv
+	cp $coverage_file $NEW_COVERAGE_FILE
+	>$FAQAS_COVERAGE_FILE
+
+done < $tests_list
+
+rm -rf ~/Obsw/Test/System/testresults/*
+
+end_time=$(($(date +%s%N)/1000000))
+elapsed="$(($end_time-$start_time))"
+
+echo "elapsed time $elapsed [ms]"
 
 
 \end{lstlisting}
