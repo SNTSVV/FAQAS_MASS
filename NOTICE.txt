@@ -1,0 +1,11 @@
+MASS is © 2019 - 2021 University of Luxembourg
+
+Authors:
+-	Enrico Vigano' - enrico.vigano@uni.lu 
+-	Oscar Cornejo Olivares - oscar.cornejo@uni.lu
+-	Fabrizio Pastore - fabrizio.pastore@uni.lu
+-	Lionel Briand - lionel.briand@uni.lu
+
+Licensed under ESA Software Community Licence Permissive – v2.4 (see LICENCE.txt)
+
+Copyright (C) 2021 University of Luxembourg
