@@ -1,0 +1,35 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[style=CStyle,  caption=Generated test case, label=gen_test_case]
+#include <stdio.h>
+#include <string.h>
+
+#include "asn1crt.c"
+#include "asn1crt_encoding.c"
+#include "asn1crt_encoding_uper.c"
+
+
+int main(int argc, char** argv)
+{
+    (void)argc;
+    (void)argv;
+
+    // Declare variable to hold function returned value
+    _Bool result_faqas_semu;
+
+    // Declare arguments and make input ones symbolic
+    unsigned long pVal;
+    int pErrCode;
+    memset(&pVal, 0, sizeof(pVal));
+    const unsigned char pVal_faqas_semu_test_data[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    memcpy(&pVal, pVal_faqas_semu_test_data, sizeof(pVal)); // Unsigned val is 0
+
+    // Call function under test
+    result_faqas_semu = T_INT_IsConstraintValid(&pVal, &pErrCode);
+
+    // Make some output
+    printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
+    return (int)result_faqas_semu;
+}
+\end{lstlisting}

@@ -1,0 +1,42 @@
+% !TEX root =  ../MAIN-DataDrivenMutationAnalysis.tex
+
+\begin{table}[tb]
+\caption{Mutation Analysis Results.}
+\label{table:mutationresults} 
+\center
+\footnotesize
+\begin{tabular}{|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{13mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject} & 
+\textbf{\# FMs} & 
+\textbf{FMC} & 
+\textbf{\#MOs-CFM} & 
+\textbf{\#CMOs} & 
+\textbf{MOC}  
+&\textbf{Killed}&\textbf{Live}&\textbf{MS}
+\\
+\hline
+
+\ADCS &10 &90.00\%   & 135 & 100 & 74.00\%   &    45&55&45.00\%\\
+\GPS &1 &100.00\%    &  23  &  22 & 95.65\%    &      21&1&95.45\%\\
+\PDHU &3 &100.00\%  &   29 & 24 & 82.76\%   &     24&0&100.00\%\\
+\PARAM &6 &100.00\%  &   80 & 73 & 91.25\%  &        28&45&38.36\%\\
+
+
+\hline
+
+\end{tabular}
+
+CMO=Covered Mutation Operation, MOs-CFM=Mutation Operations in covered FMs.
+
+\end{table}

@@ -1,0 +1,16 @@
+% !TEX root = ../MAIN.tex
+
+\begin{table}[h]
+\small
+\centering
+\caption{Code-driven mutation testing preliminary results for the libutil case study.}
+\label{table:libutil_preliminary}
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+        & \multicolumn{5}{c|}{Mutants}                                                                      & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Mutation Score\\ (K/K+L)\end{tabular}} \\ \cline{1-6}
+        &     &                                                        &      & \multicolumn{2}{c|}{Killed} &                                                                                   \\ \cline{1-6}
+Mutants & All & \begin{tabular}[c]{@{}l@{}}Not\\ Compiled\end{tabular} & Live & Test Failure    & Timeout   &                                                                                   \\ \hline
+Total   &  16\,886   &  2\,561                                                      & 3\,402      & 10\,634                & 289          & 76.25\%                                                                           \\ \hline
+\end{tabular}
+\end{table}    
+             

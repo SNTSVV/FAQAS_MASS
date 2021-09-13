@@ -1,0 +1,16 @@
+% !TEX root = ../MAIN.tex
+
+\begin{table}[h]
+\small
+\centering
+\caption{Code-driven mutation testing preliminary results for the ASN.1 case study.}
+\label{table:asn1_preliminary}
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+        & \multicolumn{5}{c|}{Mutants}                                                                      & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Mutation Score\\ (K/K+L)\end{tabular}} \\ \cline{1-6}
+        &     &                                                        &      & \multicolumn{2}{c|}{Killed} &                                                                                   \\ \cline{1-6}
+Mutants & All & \begin{tabular}[c]{@{}l@{}}Not\\ Compiled\end{tabular} & Live & Test Failure    & Timeout   &                                                                                   \\ \hline
+Total   &  9\,174   &  1\,215   & 4\,263      & 3\,009                & 687          & 53.56\%                                                                           \\ \hline
+\end{tabular}
+\end{table}    
+             

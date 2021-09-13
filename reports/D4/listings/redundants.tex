@@ -1,0 +1,22 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Excerpt from mutant M4 of isPalindrome., label=redudantexample1]
+while (h > l) 
+{ 
+	...
+	//l++;
+	h--;
+}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Excerpt from mutant M5 of isPalindrome., label=redudantexample2]
+while (h > l) 
+{ 
+	...
+	l++;
+	// h--;
+}
+\end{lstlisting}
+\end{minipage}

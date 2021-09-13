@@ -1,0 +1,55 @@
+% !TEX root = MAIN.tex
+\clearpage
+
+\section{MLFS}
+\label{sec:caseStudies:GSL:MLSF}
+
+\subsection{Overview of the case study}
+
+The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. 
+%\DONE{Please rewrite the following sentence}
+MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm}~\cite{libm} and \texttt{newlib}~\cite{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
+The set of functions provided by MLFS are limited to the functions typically needed in flight software. 
+
+%\DONE{What is doc?}
+Detailed information about the MLFS library and the test suite is provided in the following documents shared on Alfresco.
+
+\begin{itemize}
+	\item \emph{E1356-GTD-SUM-01\_I1\_R2.pdf}, installation and execution instructions of the Mathematical Library for Flight Software. 
+	\item \emph{E1356-CS-SUM-01\_I1\_R5.pdf}, installation and execution instructions of the MLFS test suite.
+\end{itemize}
+
+The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
+
+\subsection{Code-driven mutation testing}
+
+\input{tables/mlfs_coverage}
+
+Table~\ref{table:mlfs_coverage} provides the code coverage information of the MLFS unit test suite. The test suite achieves 100\% code coverage (i.e., statement, function and branch coverage).
+
+Given the code coverage, we focus our analysis on all components of the MLFS:
+
+\begin{itemize}
+	\item MLFS: implementation of 4 mathematical functions.
+	\item Machine: dedicated implementation of 2 mathematical functions for the sparc v8 architecture.
+	\item Math: implementation of 66 mathematical functions.
+	\item Common: implementation of 20 mathematical functions.
+\end{itemize}
+
+\subsubsection{Mutation Testing Preliminary Results}
+
+\input{tables/mlfs_preliminary}
+
+In order to analyze the feasibility of the code-driven mutation testing for MLFS, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, and SDL we generated 17\,696 mutants. Preliminary results can be found in Table~\ref{table:mlfs_preliminary}.
+Particularly, we observe that from the 17\,696 generated mutants, we had 2\,153 mutants that were not compiled by the compilation toolset of MLFS, most probably because the mutation introduced a syntactical error that was detected by the toolset.
+Then, we only identified 22 live mutants that were not detected by the test suite. Instead, we had 15\,332 killed mutants detected by the test suite, and 189 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 99.86\%.
+
+The identification of equivalent mutants still needs to be performed.
+
+
+\subsection{Data-driven mutation testing}
+
+We do not plan to apply data drive mutation testing to this case study because is a standalone library; it does not integrate communicating components.
+
+
+
