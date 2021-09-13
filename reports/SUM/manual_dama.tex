@@ -11,8 +11,6 @@
 	\item \texttt{GNU bash, version 4.2.46} or higher
 \end{itemize}
 
-\section{Getting started}
-
 \subsection{Initialization of the \DAMA workspace}
 
 All the script for the \DAMA pipeline are contained in the \texttt{damat-pipeline} folder.
@@ -88,33 +86,37 @@ padding=0
 
 \end{lstlisting}
 
-\texttt{test\_list} shall be set to the path of the csv containing the test names and execution times.
-\texttt{fault\_model} shall be set to the path of the csv containing the fault model of the SUT that the user shall define for the SUT.
-\texttt{buffer\_type} shall contain the type of the elements of the buffer that will be targeted by the mutation.
-\texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
-\texttt{buffer\_type} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
+The variable \texttt{test\_list} shall be set to the path of the csv containing the test names and execution times.
+
+The variable \texttt{fault\_model} shall be set to the path of the csv containing the fault model of the SUT that the user shall define for the SUT.
+
+The variable \texttt{buffer\_type} shall contain the type of the elements of the buffer that will be targeted by the mutation.
+
+The variable \texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
+
+The variable \texttt{padding} shall be set to an integer number representing the number of bytes to skip at the beginning of the tarrget buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
 
 \subsection{Setting up the compilation of the mutants}
 
 The user shall modify \texttt{DAMAt\_compile.sh} to include the commands for the compilation of the mutants.
-
 Every mutant is identified by an integer called "MutationOpt".
+To enable the data-driven mutation, the user shall compile the SUT with this macro enabled:
 
-To enable the data-driven mutation, the user shall compile the SUT with this macro enabled: \texttt{-DMUTATIONOPT=<MutationOpt>}.
+\texttt{-DMUTATIONOPT=<MutationOpt>}.
 
-To use the singleton mode, the user shall compile the SUT with this macro enabled: \texttt{ -D\_FAQAS\_SINGLETON\_FM\="TRUE"}.
+To use the singleton mode, the user shall compile the SUT with this macro enabled:
+
+ \texttt{ -D\_FAQAS\_SINGLETON\_FM\="TRUE"}.
 
 A way to do it is to include the following lines in the SUT makefile:
-
 \begin{lstlisting}[language=bash]
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMUTATIONOPT=$ENV{MUTATIONOPT}")
 # comment the following line if you do not want to use the singleton option.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FAQAS_SINGLETON_FM=$ENV{_FAQAS_SINGLETON_FM}")
 \end{lstlisting}
-
 and then export the corresponding variables in the \texttt{DAMAt\_compile.sh} script as shown in the \texttt{DAMAt\_compile.sh} stub.
 
-The contents of the \texttt{DAMAt\_compile.sh} stub are portrayed in Listing~\ref{lst:compile}
+The contents of the \texttt{DAMAt\_compile.sh} stub are portrayed in the following.
 
 \begin{lstlisting}[label={lst:compile},language=bash]
 
@@ -170,12 +172,16 @@ Once completed, the \texttt{DAMAt\_compile.sh} script shall take as input the va
 \subsection{Setting up the execution of the test suite against the mutants}
 
 The user shall modify \texttt{DAMAt\_run\_tests.sh} stub to include the commands for the execution of the mutants.
+
 Every mutant is identified by an integer called "MutationOpt".
 This script shall take as input the mutationOpt and a list of test in the format described in section~\ref{subsec:test_list}.
-The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in Listing~\ref{lst:run_tests}.
-The user shall complete the stub by substiting the generic execution command with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
-The output should be \texttt{0} if the test passes, different from \texttt{0} if it fails and \texttt{124} in case of timeout.
-The user may use the timeout command as shown in the example included in the stub.
+
+The user shall complete the stub by substiting the generic execution function with a command or a series of commands that execute a specific test case using the test identifier specified in the csv as input.
+The user shall use the \texttt{timeout} command as shown in the example included in the stub to set a timeout.
+
+The output of the the new function shall be \texttt{0} if the test passes, different from \texttt{0} if it fails and \texttt{124} in case of timeout.
+
+The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in the following.
 
 \begin{lstlisting}[label={lst:run_tests},language=bash]
 
@@ -283,86 +289,176 @@ echo "elapsed time $elapsed [ms]"
 
 \end{lstlisting}
 
+\section{Executing \DAMA}
+
 \subsection{Running \DAMA on Single Machine}
 \label{sec:dama_singlelaunch}
 
 %\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}
+%
+% \DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
 
-\DAMA can be executed in two modes, \emph{single machine} and \emph{shared resources mode}. The single machine mode provides the advantage of running \DAMA in an unsupervised mode, executing the methodology on one step. Instead, the shared resources facilities mode gives the possibility of running multiple steps in parallel and executing a higher number of mutants, in a similar time frame, with respect to the single machine mode. In this section we describe the \emph{single machine}, Section \ref{sec:dama_shared} covers the \emph{shared resources mode}.
-
-DaMAT works in 6 steps:
+\DAMA works in six steps:
 
 \begin{enumerate}
 	\item The user prepares a fault model specification tailored to the SUT.
 	\item \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
 	\item The user manually modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
-	\item DaMAT generates and compiles mutants.
-	\item DaMAT executes the test suite againts all the mutants.
-	\item DaMAT generates mutation analysis results.
+	\item \DAMA generates and compiles mutants.
+	\item \DAMA executes the test suite againts all the mutants.
+	\item \DAMA generates mutation analysis results.
 \end{enumerate}
-%
-% Step 1: The engineer prepares a fault model specification tailored to the SUT.
-% The fault model present in the fault_model.csv file is the one we wrote for the adcs case study. You can modify it however you want.
-% Remember to set the variables in DAMAt_configure.sh accordingly.
-%
-% Step 2: DaMAT generates a mutation API with the functions that modify the data according to the provided fault
-% model.
-%
-% Run the following command for the adcs test case:
-%
-% DAMAt_probe_generation.sh
-%
-% This procedure will produce 3 files:
-%
-% * FAQAS_dataDrivenMutator.h (the mutation API)
-% * FAQAS_mutants_table.csv (a table with the mutationOpt and definition of all the generated mutants)
-% * function_calls.out (function templates for the mutation probes to insert in the SUT)
-%
-% a copy of the first two files must remain in the damat-pipeline folder for the correct execution of the data analysis section of the pipeline.
-%
-% Step 3: the engineer modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
-%
-% In the "instrumented_files" folder there are two files already instrumented for the esail-adcs case study.
-%
-% * AdcsIf_instr.cpp
-% * OhbConfig_instr.cmake
-%
-% for the ADCS case you will have to copy:
-% * AdcsIf_instr.cpp at this path inside the singularity container:
-% "Svf/Models/ADCS/src/Adcs/AdcsIf.cpp"
-%
-% * OhbConfig_instr.cmake at this path:
-% "/opt/Sim-Platform/cmake/OhbConfig.cmake"
-%
-% * and FAQAS_dataDrivenMutator.h in this folder:
-% Svf/Models/ADCS/src/Adcs/AdcsIf.cpp
-%
-%
-% Step 4: DaMAT generates and compiles mutants.
-% Step 5: DaMAT executes the test suite with all the mutants.
-% Step 6: DaMAT generates mutation analysis results.
 
-\subsubsection{One Step Launcher}
+\subsubsection{Step 1}
+The engineer is expected to write a fault model in the csv format with the definition of all the mutation operators they want to apply.
+An example of fault model is contained in the \texttt{damat-pipeline} folder and in listing~\ref{lst:fault_model}.
 
-\subsubsection{Multiple Step Launchers}
-\label{sec:dama_launchers}
+\begin{lstlisting}[label={lst:fault_model}]
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+fault_model_01,0,1,BIN,BF,3,3,NA,NA,-1,1
+fault_model_01,0,1,BIN,BF,4,4,NA,NA,-1,1
+fault_model_01,0,1,BIN,BF,5,7,NA,NA,-1,1
+fault_model_02,12,2,DOUBLE,VAT,NA,NA,3.6,0.1,NA,NA
+fault_model_02,12,2,DOUBLE,FVAT,NA,NA,3.6,0.1,NA,NA
+fault_model_02,14,2,DOUBLE,VAT,NA,NA,33.53,0.01,NA,NA
+fault_model_02,14,2,DOUBLE,FVAT,NA,NA,33.53,0.01,NA,NA
+fault_model_02,14,2,DOUBLE,VBT,NA,NA,24,1,NA,NA
+fault_model_02,14,2,DOUBLE,FVBT,NA,NA,24,1,NA,NA
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x51
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x52
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x53
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x54
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x56
+\end{lstlisting}
 
-\subsection{Running MASS on Shared Resources Facilities}
-\label{sec:dama_shared}
+For details on the available mutation operators and how they can be configured see the D2 document.
 
-Given that resources from HPC infrastructures has to be requested for every performed tasks, it is not possible to run all the steps from \DAMA in one step.
-However, since resources can be requested accordingly, \DAMA can perform multiple steps simultaneously, enhancing the capabilities of the toolset. With an HPC, for example, \DAMA could analyze more mutants than if \DAMA was executed on a single machine.
+\subsubsection{Step 2}
 
-\subsection{MASS results}
+In this step \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
 
-After the execution of \DAMA the results are stored in dedicated folders. Such folders are defined as follows:
+The engineer shall run the following command in the terminal inside the \texttt{damat\_pipeline} folder:
 
+\begin{lstlisting}[language=bash]
+bash DAMAt_probe_generation.sh
+\end{lstlisting}
+
+This procedure will produce three files:
+
+\begin{enumerate}
+	\item \texttt{FAQAS\_dataDrivenMutator.h}: the mutation API.
+	\item \texttt{FAQAS\_mutants\_table.csv}: a csv table with the mutationOpt and definition of all the generated mutants.
+	\item \texttt{function\_calls.out} function templates for the mutation probes to insert in the SUT.
+\end{enumerate}
+
+a copy of the first two files must remain in the damat-pipeline folder for the correct execution of the data analysis section of the pipeline.
+
+\subsubsection{Step 3}
+The engineer will manually instrument the SUT by:
+
+\begin{enumerate}
+	\item copying the \texttt{FAQAS\_dataDrivenMutator.h} file in the same folder as the file containing the target function that they chose to instrument.
+	\item including the mutation API inthe chose file by adding
+	\begin{lstlisting}[language=c]
+	#include "FAQAS_dataDrivenMutator.h"
+	\end{lstlisting}
+	\item inserting function calls in the chosen function based on the prototypes contained in \texttt{function\_calls.out}.
+\end{enumerate}
+
+An example of a probe is included below, where \texttt{v} is the vector representing the buffer:
+\begin{lstlisting}[language=c]
+mutate_FM_fault_model_01( &v );
+\end{lstlisting}
+
+\subsubsection{Step 4, Step 5 and Step 6}
+
+The other steps of the \DAMA procedure are carried out automally by the pipeline.
+The pipeline can be started by running the \texttt{DAMAt\_mutants\_launcher.sh} script with the following command, executed inside the \texttt{damat\_pipeline} folder:
+
+\begin{lstlisting}[language=bash]
+bash DAMAt_mutants_launcher.sh
+\end{lstlisting}
+
+Before running all the generated mutants, a special mutant (MutationOpt=-2) will be executed to gather coverage information.
+All the subsequent mutants will only be executed against tests that cover them to save execution time.
+The lists of test cases executed against every mutant can be found in the folder \texttt{.../damat-pipeline/testlists}, which will be automatically generated.
+
+These steps can also be executed separately by manually exporting the relevant variables and then running the pipeline scripts one by one. An example of the necessary commands can be found in the following.
+
+\begin{lstlisting}[label={lst:manual_commands}, language=bash]
+
+# variable to export
+export DAMAt_FOLDER=$(pwd)
+export tests_list=$DAMAt_FOLDER/tests.csv
+export fault_model=$DAMAt_FOLDER/fault_model.csv
+export buffer_type="unsigned char"
+export padding=2
+export singleton="TRUE"
+export PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
+export RESULTS_FOLDER=$DAMAt_FOLDER/results
+export TESTS_FOLDER=$DAMAt_FOLDER/testlistsRESULTS_FOLDER=$DAMAt_FOLDER/results
+export PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
+export RESULTS_FOLDER=$DAMAt_FOLDER/results
+export TESTS_FOLDER=$DAMAt_FOLDER/testlistsRESULTS_FOLDER=$DAMAt_FOLDER/results
+
+# step 4 and step 5
+bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $tests_list $DAMAt_FOLDER $singleton
+bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER $singleton
+# step 6
+bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER $tests_list
+
+\end{lstlisting}
+
+
+\subsection{\DAMA results}
+
+After the execution of \DAMA the results are stored in the \texttt{.../damat-pipeline/results} folder that will be automatically generated.
+For every mutant the pipeline will create a subfolder called \texttt{run\_<mutationOpt>} containing:
+\begin{itemize}
+	\item A \texttt{main.csv} a file with the results of the mutant's execution against the test suite
+	\item A \texttt{coverage\_<test case>.csv} file containing the raw operator coverage data for that mutant-test case couple.
+	\item A \texttt{readable\_coverage\_<test case>.csv} file containing the readable operator coverage data for that mutant-test case couple.
+	\item A \texttt{<mutationOpt>\_exectuion.out} file containing an execution log for the mutant.
+\end{itemize}
+
+In addition to that a \texttt{logs} folder shall be created, containing the full compilation and execution logs for every mutant.
+
+The \texttt{.../damat-pipeline/results} folder contains also files relative to the metrics defined to characterize the results of the full execution of \DAMA:
+
+\begin{enumerate}
+	\item Fault model coverage is the percentage of fault models covered by the test suite.
+	\item Mutation operation coverage is the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
+	\item The mutation score (MS) is the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
+\end{enumerate}
+
+These metrics measure the frequency of the following scenarios:
+\begin{enumerate}
+	\item the message type targeted by a mutant is never exercised.
+	\item the message type is covered by the test suite but it is not possible to perform some of the mutation operations.
+	\item the mutation is performed but the test suite does not fail.
+\end{enumerate}
+
+The file generated by the final steps are:
+
+\begin{itemize}
+	\item \texttt{mutation\_sum\_up.csv}: a file containing the previously described three metrics.
+	\item \texttt{final\_mutants\_table.csv}: a file containing the definition and status of every mutant.
+	\item \texttt{mutation\_score\_by\_data\_item.csv}: a file containing the mutation score by data item.
+	\item \texttt{mutation\_score\_by\_fault\_class.csv}: a file containing the mutation score by fault class.
+	\item \texttt{mutation\_score\_by\_fault\_model.csv}: a file containing the mutation score by fault model.
+	\item \texttt{test\_coverage.csv}: a file containing the mutation score by fault model.
+	\item \texttt{readable\_data.csv}: a file containing a more readable version of the execution data.
+	\item \texttt{raw\_data.csv} and \texttt{raw\_data\_sorted.csv}: these files contain all the execution data.
+	\item \texttt{readable\_operator\_coverage.csv}: a file containing a more readable version of the operator coverage data.
+	\item \texttt{operator\_coverage.csv}: a file containing a raw version of the operator coverage data.
+	\item \texttt{readable\_FM\_coverage.csv}: a file containing a more readable version of the fault model coverage data.
+	\item \texttt{FM\_coverage.csv}: a file containing a raw version of the fault model coverage data.
+\end{itemize}
 
 \section{Normal Termination}
 
 %\DONE{"The SUM shall describe how the user can cease or interrupt use of the software and how to determine whether normal termination or cessation has occurred."}
 
-Each methodology step of \DAMA is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
 If the engineer decides to interrupt \DAMA execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
 
 \section{Error Conditions}
@@ -375,4 +471,4 @@ There is no error condition handling in the \FAQAS. If all preconditions are met
 
 %\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
 
-If for any reason the execution of \DAMA is interrupted, an engineer can restart the process from a specific task if all preconditions are met. This is possible since each \DAMA step work by processing data that is permanently stored by previous steps.
+If for any reason the execution of \DAMA is interrupted, an engineer can restart the process from a specific task if all preconditions are met, manually executing the rest of the steps.
