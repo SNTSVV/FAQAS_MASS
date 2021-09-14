@@ -1,6 +1,7 @@
 % !TEX root = MAIN.tex
 
 \chapter{\DAMA - Operations Manual}
+\label{chapter:dama:operations}
 
 \section{Set-up and Initialization}
 \label{sec:dama_setup}
@@ -20,7 +21,7 @@ The folder shall contain the following structure and files:
 
 \begin{itemize}
 	\item \texttt{DAMAt\_configure.sh}: this script defines the necessary variables for the execution of \DAMA. They shall be set by the engineer.
-	\item \texttt{DAMAt\_probe\_generation.sh}: this script set the variables necessary to generate the data mutation API and execute the python script \texttt{generateDataMutator.py} to generate them.
+	\item \texttt{DAMAt\_probe\_generation.sh}: this script sets the variables that are necessary to generate the data mutation API and execute the python script \texttt{generateDataMutator.py} to generate them.
 	\item \texttt{DAMAt\_mutants\_launcher.sh}: this script starts the \DAMA pipeline.
 	\item \texttt{generateDataMutator.py}: this is the script that generates the \DAMA mutation API.
 	\item \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c}: these are templates used to generate the \DAMA API by \texttt{generateDataMutator.py}
@@ -291,7 +292,7 @@ echo "elapsed time $elapsed [ms]"
 
 \section{Executing \DAMA}
 
-\subsection{Running \DAMA on Single Machine}
+\subsection{Running \DAMA on a Single Machine}
 \label{sec:dama_singlelaunch}
 
 %\DONE{Add a paragraph that explains that you are going to describe two ways of running MASS}

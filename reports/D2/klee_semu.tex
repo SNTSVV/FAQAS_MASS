@@ -7,8 +7,8 @@
 
 SEMu~\cite{chekam2021killing} is a mutant analysis  framework based on dynamic symbolic execution that has been built on top of the KLEE Symbolic Virtual Machine~\cite{cadar2008klee}.
 
-\TODO{Add reference for differential symbolic execution}
-SEMu uses a form of differential symbolic execution~\cite{} to generate test inputs that kill mutants. The approach consists of modeling the mutant killing problem as a symbolic execution search in a scalable and cost-effective way. 
+\DONE{Add reference for differential symbolic execution}
+SEMu uses a form of differential symbolic execution~\cite{person2008differential} to generate test inputs that kill mutants. The approach consists of modeling the mutant killing problem as a symbolic execution search in a scalable and cost-effective way. 
 The SEMu framework is the building block of 
 %act as a baseline for 
 the test generation tool developed in FAQAS (i.e., \emph{SEMuS}, see Section~\ref{sec:semus}).
@@ -20,13 +20,19 @@ To kill a mutant, we need test cases that capture the three killing conditions o
 	\item \textbf{sufficiency}: the final state of the mutated program should differ from the one of the original program
 \end{itemize}
 
-\TODO{the concept of "mutation point is not clear"; you do not clarify that the two versions are compiled in the same executable}
-The technique works by executing both the original program and mutant program through symbolic execution, where the mutant executions fork every time it reaches a mutation point. 
-\TODO{not clear that the forked execution concerns the mutant}
-\TODO{"compares with it" does not have a meaning; also, what is a state here?}
-The forked execution follows the original execution and compares with it at each state. 
-\TODO{what does it mean "differentially compare"?}
-The technique differentially compares the symbolic states of the two executions, forked and original, and generate test inputs. 
+\DONE{the concept of "mutation point is not clear"; you do not clarify that the two versions are compiled in the same executable}
+
+The multiple program versions (i.e., the original and the mutated programs) are compiled within the same executable. 
+Because mutants differ only slightly from the original program (minor syntactic differences), the technique performs one symbolic execution search for the unchanged source code, and then it forks the symbolic execution search every time it reaches a mutated statement.
+
+
+\DONE{not clear that the forked execution concerns the mutant}
+\DONE{"compares with it" does not have a meaning; also, what is a state here?}
+
+The technique follows both the mutated and the original execution and compares the state (i.e., the value of the variables) at each step of the execution.
+
+\DONE{what does it mean "differentially compare"?}
+Every time the execution reaches an after-point mutation (i.e., the statement after the mutation), the technique triggers the generation of test inputs for the forked and original executions by comparing its symbolic states.
 
 \begin{figure}[tb]
 \begin{center}
@@ -49,7 +55,7 @@ Consequently, the only feasible path that targets mutant $M_2$ is the following:
 
 Where the solution to $kill(\pi_{P}^{1}, \pi_{M_2}^{1})$ is $x = -2$.
 
-The symblic execution process introduced above is largely inefficient; indeed,
+The symbolic execution process introduced above is largely inefficient; indeed,
 %However, the problem of this approach is that 
 (1) it requires a complete symbolic execution on $P$ and on each mutant $M$, (2) all path conditions and symbolic outputs have to be stored, and (3) all kill formulas has to be solved for each pair of paths conditions. 
 %This scenario leads to high execution costs making the approach impractical.
@@ -65,12 +71,16 @@ For this reason, SEMu introduces a list of optimizations to reduce execution tim
 \TODO{I have the impression that none of the following heuristics are currently used in FAQAS. I would write that we indicate which heuristics are not feasible and which one may be investigated in follow-up activities.}
 To reduce execution time further, SEMu also introduces a list of parametric heuristics that can be controlled by the user; this set of heuristics help to define which paths to explore and in general, the test generation process:
 
-\TODO{please use "test cases" not "tests"}
+\DONE{please use "test cases" not "tests"}
+
 \begin{itemize}
 	\item \textbf{Controlling for reachability} (seeded symbolic execution): explore paths in seeded  mode up to a given length. 
+	
 	\TODO{You are not explained what t does. "This heuristic consists of executing the original program up to a given path using the same inputs provided by existing test cases; it generates symbolic inputs only for...  For its implementation SEMu relies on a feature provided by KLEE"}
 	This heuristic quickly prunes paths that are infeasible or does not reach the mutant. 
+	
 	\TODO{Please refine what I wrote in the following. You were not explicitly clrifying hat the problem is.}
+	
 	We do not integrated this feature in FAQAS because of two reasons. First, SEMu can deal only with test cases for batch programs (i.e., providing arguments to the main function of the software under test), which is different from our context where we either have unit or integration test cases implemented in a programming language or we have complex system test cases simulating communication from ground to orbit through network and a simulator. Second, in our context, because of the complexity of the SUT we can generate unit test cases but not integration or system level ones. The main difference between such test cases is the entry point, for unit test cases it is the function under test, for integration or system test cases it is a function different than the function under test. Consequently, implementing such solution would require the implementation of additional technology to map the seeds collected for test inputs with different entry points, which is not provided by KLEE.
 
 	\item \textbf{Controlling for propagation}: sometimes an infected program state fails to propagate the infection to the outputs, these states should be quickly discarded. 

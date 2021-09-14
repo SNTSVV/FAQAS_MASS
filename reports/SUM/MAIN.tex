@@ -257,13 +257,17 @@
 \end{tikzpicture}}
 
 
-\newcommand{\CHANGED}[1]{\textcolor{blue}{#1}}
+\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\ENDCHANGEDWPT}{\color{black}}
+
+\newcommand{\CHANGED}[1]{{#1}}
 \newcommand{\prog}{P}
 \newcommand{\prop}{}
 
 \newcommand{\FAQAS}{FAQAS-framework\xspace}
 
-\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+%\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVISION}[2]{{#2}}
 
 \newcommand{\REVTWO}[2]{#2}
 
@@ -289,7 +293,9 @@
 
 \include{manual}
 
+\STARTCHANGEDWPT
 \include{manual_dama}
+\ENDCHANGEDWPT
 
 \include{reference}
 
