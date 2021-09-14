@@ -1,0 +1,299 @@
+% !TEX root =  MAIN-DataDrivenMutationAnalysis.tex
+
+\subsection{Approach}
+
+\begin{figure}[tb]
+	\centering
+		\includegraphics[width=8.4cm]{damat/images/dataMutationExample}
+		\caption{\CHANGED{Data mutation probes integrated into \ESAIL.}}
+		\label{fig:appr:mutateProbesInserted}
+	\end{figure}
+
+\begin{figure}[tb]
+	\centering
+		\includegraphics[width=8cm]{damat/images/dataDrivenBufferProcess}
+		\caption{The \APPR process.}
+		\label{fig:appr:approach}
+	\end{figure}
+
+\subsubsection{Overview}
+
+
+ Data-driven mutation analysis aims to evaluate the effectiveness of a test suite in detecting semantic interoperability \UPDATED{faults}. 
+It is achieved by modifying (i.e., mutating) the data exchanged by CPS components. It generates \emph{mutated data} that is representative of data that might be observed at runtime in the presence of a component that behaves differently than expected in the test case; also, it mutates  data that is not automatically corrected by the software 
+(e.g., through cyclic redundancy check codes)
+%(e.g., through CRC mechanisms, which aim to correct technical interoperability problems) 
+and thus causes software failures (i.e., the mutated data shall have a different semantic than the original data). For these reasons, data mutation is driven by a fault model specified by the engineers based on domain knowledge.
+
+Although different types of fault models might be envisioned,
+%see background
+in this paper we propose a technique (\emph{data-driven mutation analysis with tables}, \APPR),
+which automates data-driven mutation analysis by relying on
+a tabular \CHANGED{block model}, itself tailored to the \UPDATED{SUT} through predefined mutation operators.
+To concretely perform data mutation at runtime, \APPR relies on a set of \emph{mutation probes} that shall be integrated by software engineers into the software layer that handles the communication between components. The runtime behaviour of mutation probes (i.e, what data shall be mutated and how) is driven by the fault model. Thus, \APPR can automatically generate the implementation of mutation probes from the provided fault model.
+Depending on the CPS, probes might be inserted either into the \UPDATED{SUT}, into the simulator infrastructure, or both.
+Figure~\ref{fig:appr:mutateProbesInserted} shows the architecture of the \ESAIL satellite system (one of the subjects considered in our empirical evaluation) with mutation probes integrated into the SVF\footnote{Software Validation Facility~\cite{Isasi2019}; it usually includes one or more simulators, an emulator to run the code compiled for the target hardware, and test harnesses.} functions that handle communication with external components (PDHU, GPS, and ADCS in this case). 
+
+
+
+\APPR works in six steps, which are shown in Figure~\ref{fig:appr:approach}. 
+In Step 1, based on the provided methodology and predefined mutation operators, the engineer prepares a fault model specification tailored to the SUT.
+% capturing the data format and the types of faults that shall be injected for every data item exchanged by the system components.
+In Step 2, \APPR generates a mutation API with the functions that modify the data according to the provided fault model.
+In Step 3, the engineer modifies the \UPDATED{SUT} by introducing mutation probes (i.e., invocations to the mutation API) into it.
+In Step 4, \APPR generates and compiles mutants. 
+Since the \APPR mutation operators may generate mutated data by applying multiple mutation procedures, \APPR may generate several mutants, one for each \UPDATED{mutation operation (i.e., a mutation procedure configured for a data item, according to our terminology, see Section~\ref{sec:mutantsGeneration})}.
+In Step 5, \APPR executes the test suite with all the mutants including a mutant (i.e., the coverage mutant) which does not  modify the data but traces the coverage of the fault model.
+In Step 6, \APPR generates mutation analysis results.
+
+%\UPDATED{
+%In our context, the \emph{software under test (SUT)} is the CPS embedded software that is verified by a test suite, which is the target of data-driven mutation analysis. Therefore, we refer to the software developed by the engineers as the \emph{original SUT}. An \emph{SUT mutant} (simply, a \emph{mutant}) is a version of the SUT that integrates a \emph{mutation probe} and shall make test cases fail. 
+%%A mutation operator simulates one specific interoperability error (a specific type of that automatically alters data by applying one specific \emph{mutation operation}.
+%}
+
+In the following sections we describe the structure of our fault model and each step of \APPR.
+
+
+
+\subsubsection{Fault Model Structure}
+\label{sec:faultModelStructure}
+
+
+
+
+
+The \APPR fault model enables the specification of the format of the data exchanged between components along with the type of faults that may affect such data. 
+In this paper, we refer to the data exchanged by two components as \emph{message}; also, each CPS component may generate or receive different \emph{message types}.
+For a single CPS, more than one fault model can be specified. For example, in the case of \ESAIL{} we have defined one fault model for every message type that could be exchanged by the three components under test (i.e., ADCS, PDHU, and GPS). In total, for \ESAIL, we have 14 fault models, 10 for the communication concerning ADCS (we have 10 different message types), 3 for PDHU, and 1 for GPS.
+
+The \APPR fault model enables the modelling of data that is exchanged through a specific data structure: the data buffer. This was decided because it is a simple and widely adopted data structure for data exchanges between components in CPS. Also, more complex data structures (e.g., hierarchical ones like trees) are often flattened into data buffers in order to be exchanged by different components (e.g., through the network). When the CPS software is implemented in C or C++ (common CPS development languages) data buffers are implemented as arrays. Figure~\ref{fig:appr:bufferStructure} shows three block diagrams representing (part of) the buffer structure used to exchange messages of type InterfaceHouseKeeping and InterfaceStatus in \ESAIL.
+
+A data buffer is characterized by a \emph{unit size} that specifies the dimension, in bytes, of the single cell of the underlying array and a \emph{buffer size}, which specifies the total number of units belonging to the buffer. Each data buffer can contain one or more \emph{data items}; the size of data items may vary as they may span over multiple units. Also, each data item is interpreted by the CPS software according to a specific \emph{representation} (e.g., integer, double, etc.). 
+In \ESAIL, the unit size is one byte and the data items may span over one or two buffer units (see Figure~\ref{fig:appr:bufferStructure}). 
+%Figure~\ref{} provides an example buffer instance for a \emph{Magnetorquer Set PWM RSP message}.
+
+The \APPR fault model enables engineers to specify (1) the \emph{position} of each data item in the buffer, (2) their \emph{span}, and (3) their \emph{representation type}. Our current implementation supports six data representation types: int, long int, float, double, bin (i.e., data that should be treated in its binary form), hex (i.e., data that should be treated as hexadecimal).
+Further, for each data item, \APPR enables engineers to specify one or more data faults using the mutation operator identifiers. For each operator, the engineer 
+shall provide values for the required configuration parameters.
+
+Table~\ref{table:operators} provides the list of mutation operators included in \APPR along with their description. The \APPR mutation operators generate \emph{mutated data item instances} through one or more \emph{mutation procedures}, which are the functions that generate a mutated data item instance given a correct data item instance observed at runtime. For example, the \emph{VAT} operator includes only one mutation procedure (i.e., setting the current value above the threshold) while the \emph{VOR} operator includes two mutation procedures, which are
+(1) replacing the current value with a value above the specified valid range and (2) replacing the current value with a value below the valid range.
+The operators VOR, BF, INV, and SS have been inspired by related work~\cite{di2015generating,PeachFuzzer,Matinnejad19}; the operators VAT, VBT, FVAT, FVBT, FVOR, IV, ASA,  and HV
+are a contribution of this paper and were derived and conceptualised as a result of discussion with domain experts.
+Although other data representation types (e.g., null terminated strings) and operators (e.g., replacement of a random char in a string) might be envisioned, in this paper, we focus on operators that are necessary in the CPS context, based on our experience.
+For example, CPS components are unlikely to exchange strings.
+%are a contribution of this paper, based on discussion with domain experts. 
+
+\begin{figure}
+	\centering
+		\includegraphics[width=8.4cm]{damat/images/BufferStructuresSmall}
+		\caption{Structure of data buffers in \ESAIL.}
+		\label{fig:appr:bufferStructure}
+	\end{figure}
+	
+	\input{damat/tables/table_operators.tex}
+
+\clearpage
+
+%\begin{figure}
+%	\centering
+%		\includegraphics[width=8cm]{damat/images/bufferExample}
+%		\caption{Example of a data buffer. \TODO{UPDATE PICTURE}}
+%		\label{fig:appr:buffer}
+%	\end{figure}
+
+\subsubsection{Fault Modelling Methodology (Step 1)}
+\label{sec:methodology}
+
+\input{damat/tables/table_method.tex}
+
+The fault model shall enable the specification of 
+all possible interoperability problems in the SUT while minimizing equivalent and redundant mutants.
+Equivalent mutants have the same observable output as the original SUT. 
+Instead, redundant mutants have the same observable output as other mutants.
+We use the term \emph{observable output} to refer to any output that can be verified by the test suite.
+The equivalent or redundant nature of a mutant depends
+on the equivalence relation for observable outputs
+(i.e., how to determine if two outputs are the same).
+In a testing context, such equivalence relation depends on the type of testing being performed. For example, system test cases, different than unit test cases,  are unlikely to verify the values of all the state variables of the system and thus mutants that are nonequivalent for unit test suites might be considered equivalent for system test suites. 
+For example, in satellite systems, the correctness of the GPS triangulation algorithm output is verified by unit test cases; system test cases, instead, verify 
+if the software takes appropriate actions when the satellite is out of orbit. Consequently, slight changes in the coordinates communicated by the GPS component may not lead to any change in the observable output verified by the test suite.
+%When defining a fault model, engineers shall thus select and configure mutation operators in such a way that the mutations performed trigger changes in the observable output of the SUT (to avoid equivalent mutants) and (2) distinct mutations do not lead to the same observable outputs (to avoid redundant mutants).
+
+
+We provide a set of guidelines for the definition of fault models that 
+are summarized in Table~\ref{table:method}. 
+For guidance,
+% are based on the characteristics of the data being exchanged by CPS components.
+we account for the nature of the data (i.e., numerical, categorical, ordinal, or binary) and their representation type.
+Also, for numerical data, 
+we consider 
+%the type of measurement, that is, if the data is counted (i.e., it is discrete) or measured (i.e., it is continuous) and
+%For numerical data, mutations shall be defined taking into consideration
+the data dependencies, that is how data values depend on the previously observed values; we identified three categories: stateless (i.e., there are no dependencies between consecutive values), stateful (i.e, values depend on previous ones), and signal (i.e., values derive from a function of independent variables like time).
+\CHANGED{Data dependencies determine the granularity of the mutation (i.e., with data dependencies, small differences shall be noticed); for non numerical data, we do not provide mutation operators with different granularities and data dependencies can be ignored.}
+%on previous values and the time in which they are observed).
+
+ 
+
+For \emph{stateless numerical data}, our guidelines are driven by input space partitioning concepts~\cite{Ammann:Offutt:2008}.
+Indeed, given equivalence relations among outputs, it is unlikely that every change in \emph{stateless numerical data} will result into nonequivalent mutants; however, we can partition the input domain into regions with equivalent values (partitions).
+Precisely, we rely on the  
+\emph{interface-based input domain modeling} approach~\cite{Ammann:Offutt:2008}:
+%Within data-driven mutation analysis, 
+for each data item we identify a number of input partitions (set of values or value ranges) according to the interface specifications of the interacting components.
+%each data item represents an input partition that shall be split into sets of values (or value ranges) identified according to the interface specifications of the interacting components.
+%an input partition corresponds to a single data item and it shall be split into a set of blocks defined according to the interface specifications of the interacting components. 
+In our methodology, the number and type of mutation operators selected for stateless numerical data depend on the number of input partitions identified.
+With \emph{two input partitions} (e.g., nominal and exceptional data values), engineers can rely either on the pair [VBT,FVBT] or the pair [VAT,FVAT]. 
+%Engineers shall select the pair of operators that simplifies the reading of the fault model.
+%FABRIZIO: initially, I have explained what I mean with simplyfiy the reading (see below), however, these are details that may not be that necessary in a 10 pages conference paper.
+%Engineers shall select the pair of operators that simplifies the reading of the data model; precisely, when the two input partitions capture  ranges for nominal and exceptional data values, the selection depends on how exceptional cases are identified (i.e., below or above the threshold). For other cases (i.e., two input partitions not related to exceptional cases), engineers can select any of the two pairs.
+With \emph{three partitions}, engineers must configure one VOR and one FVOR operator. If a different delta (\D) is considered for the upper and lower bounds, engineers may configure two pairs [VBT,FVBT] and [VAT,FVAT], for the lower and upper bound, respectively. In the presence of \emph{more than three} partitions, engineers shall configure one [VOR,FVOR] pair for each extra partition above three (e.g., two pairs in the case of five partitions). The parameter \D{} is used to determine the partition to which the mutated data belongs. 
+%Please note that mutants belonging to each pair shall not lead to redundant mutants.
+%Engineers can configure multiple [VOR,FVOR] pairs in case several combinations needs to be tested.
+
+
+In the presence of \emph{stateful data}, replacement with random values in the valid range (i.e., the INV operator) will lead to nonequivalent mutants (e.g., because it leads to data values that are systematically different than the values expected for the current system state). Alternatively, the valid data range might be partitioned as for stateless data. However, to avoid redundant mutants, engineers should rely either on the INV operator or the partitioning of the valid data range. 
+The effect of data outside the valid data range should instead be verified by means of the [VOR, FVOR] pair.
+
+For \emph{signal values}, depending on the shape of the expected signal, engineers should configure one operator among the ASA, SS, and HV. The configuration of more than one of these operators may lead to redundant mutants (e.g., because each of them triggers the same warning in the SUT).
+
+With \emph{categorical data} represented using \emph{integers and hexadecimals}, engineers must configure one IV operator for each possible value; indeed, a change in the observed category shall trigger a different behaviour in the SUT. 
+%With categorical data represented using labels (e.g., strings), engineers shall configure one BF operator with the MAX parameter set to the minimum number of characters taken by the string; indeed, such a bit flip mutation ensures to alter the transmitted label (e.g., change a characater of the string label) and thus introduce a nonequivalent mutant.
+With categorical data in \emph{binary form}, each bit indicates a specific class (e.g., the unit in error for the DataItem2 in the IFStatus message of Figure~\ref{fig:appr:bufferStructure}).  
+To verify that the test suite can detect any possible category change, engineers must configure two BF operators for every bit (both MIN and MAX must coincide with the bit position), one operator must flip a bit when it is set (i.e., $\mathit{STATE}=1$), and the last one when it is unset (i.e., $\mathit{STATE}=0$). 
+%If only two categories are represented by the data item (i.e., only one bit is used), it is sufficient to configure one BF operator.
+
+For \emph{ordinal data}, which is represented by means of either integers or hexadecimals, we suggest to apply the ASA operator with \emph{T} being set to the middle point of the ordinal scale and \D set to the step distance between consecutive data (usually $1$). For data in binary form (e.g., pictures), engineers must configure a BF operator to flip a number of bits  that is sufficient to alter the semantics of the data (e.g., introduce sufficient noise in images).
+
+%, and values are selected from each region.
+%
+%==> the structure of the input domain in terms of input characteristics. The test engineer creates a partition for each characteristic. The partition is a set of blocks, each of which contains a set of values. From the perspective of that particular characteristic, the values in each block are considered equivalent.
+
+
+
+%observable output difference.
+%For stateless data, changes in the observable output of the SUT shall be expected when a data item value is replaced with a data item value that belongs to a differ
+%
+%For visible output we refer to any (e.g., two mutants causing the same failures in the test suite).
+%
+%We have an equivalent mutant..
+%In system and integration test suites (i.e., the ones exercising components interoperability) it is unlikely that any change in the data exchanged by components result in a test case failure. 
+% 
+%
+%Somehow, to make a system test case fail, the granularity of the error observed the data shall be coarser than the one require to make a unit test case fail. In a mutation analysis context this means that, to avoid equivalent mutants (that is 
+%
+%targeting functional correctness of the results computed after processing
+%
+%and thus make test cases fail.
+
+\input{damat/tables/table_faultModel.tex}
+
+Table~\ref{table:faultModel} provides a specification in tabular form (i.e, the format processed by \APPR) of two fault models configured for the IfKH (i.e., Interface House Keeping) and IfStatus (i.e, Interface Status) messages. In the fault models, each row captures the configuration of a mutation operator for a specific data item. For example, row number 5 indicates that \APPR interprets as double the data inside the two buffer units starting at position 10 (units 10 and 11) and applies the VAT operator. Rows 1 and 2 show that, for a same numerical data item (i.e., the one covering units 8 and 9), we can apply both the VAT and VBT operators, using a different delta for each. 
+Rows 2 and 4 show the FVAT and FVBT operators complementing the VAT and VBT operators in rows 1 and 3. They simulate the case in which data for the nominal cases is observed instead of data for exceptional cases, as visible in Table~\ref{table:operators}.
+Rows 8 to 23 show that different bits of a same data item can be targeted by different BF operators. %Rows 12 to 14 concern binary categorical data with two categories each, which is the reason why we configured one BF with no STATE setting, according to our methodology. 
+\UPDATED{Rows 8 to 13 concern binary categorical data with two categories each, thus we configured two BF each}. 
+Rows 14 to 23 concern binary categorical data with five categories; consequently, they present ten BF operators configured for the five categories.
+%of DataItem 1.
+
+
+
+
+Figure~\ref{fig:dataMutationFMExamples} provides a visual representation of an array of 8 bit unsigned integers (i.e., unsigned chars) that is modelled using the \EMPH{FMExample} fault model in Table~\ref{table:faultModel:example}. It also provides an example of the mutated data generated by the six mutation operation instances derived from the fault model in Table~\ref{table:faultModel:example}.
+
+
+\input{tables/table_faultModelExample.tex}
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=12cm]{images/dataMutationFMExample.pdf}
+      \caption{Example of original data and  data mutated according to the fault model in Table~\ref{table:faultModel:example}.}
+      \label{fig:dataMutationFMExamples}
+\end{figure}
+
+
+
+
+
+
+
+
+\subsubsection{Automated Generation of Mutation API (Step 2) and Probe Insertion (Step 3)}
+\label{sec:generateAPI}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=7cm]{damat/images/ProbesExample}
+\caption{Example of \APPR mutation probes (in bold).}
+\label{fig:appr:ProbesExample}
+\end{figure}
+
+\APPR automatically generates a \emph{mutation API} to perform mutations at runtime. The API implements a set of functions (called \emph{mutate\_FM\_<name>}) that mutate a data buffer according to the given fault model. 
+These functions select the data item to mutate and the mutation procedure to apply based on the mutant under test (see Section~\ref{sec:mutantsGeneration}). 
+
+The \APPR mutation API works with C/C++ code; however it may be extended to deal with other programming languages.
+Since it is not possible to automatically determine which data buffer to mutate, \APPR requires engineers to modify the source code of the CPS under test by introducing a mutation probe which consists of an invocation of the \APPR function that mutates the data buffer according to a specific fault model.
+Note that the effort required by the engineer is minimal; indeed, the exchange of data between components is usually managed in a single location (e.g, the function that serializes the data buffer on the network) and thus it is usually sufficient to introduce one function call for each message type to mutate.
+Figure~\ref{fig:appr:ProbesExample} shows how the implementation of \ESAIL has been modified to add the mutation probes. 
+The SVF function was modified to handle the message requests sent to the ADCS by inserting one mutation probe for each message type to mutate, e.g., IfStatus and IfHouseKeeping in~Figure~\ref{fig:appr:ProbesExample}. 
+Function \emph{mutate\_FM\_IfStatus} is part of the generated mutation API; it loads the fault model \emph{IfStatus} into memory (\UPDATED{our API relies on a tree data structure}) and then invokes the function \emph{mutate}. The function \emph{mutate} performs data-driven mutation according to the provided fault model; the implementation of \emph{mutate} is part of the \APPR toolset.
+
+
+
+% At a high-level,
+%function \emph{mutate} taking into account the size of the data item; it  checks if the 
+
+
+The behavior of function \emph{mutate} depends on the value of a unique identifier (i.e., the \emph{MutantID}) associated at compile time to the mutant; the \emph{Mutant ID} univocally identifies the performed mutation operation (each mutant executes one mutation operation, see Section~\ref{sec:mutantsGeneration}).
+At a high level, \emph{mutate} performs four activities. First, it checks if the mutation should be performed (i.e., if the data buffer is targeted by the mutation operation identified with the \emph{Mutant ID}). Second, it casts the data item instance targeted by the mutant to a support variable of the type specified in the fault model. Third, it mutates the data stored in the support variable; for each mutation operator, we have implemented a distinct set of instructions for each data representation type. Fourth, before terminating, the function \emph{mutate} writes the mutated data back to the data buffer.
+
+
+
+
+
+\subsubsection{Automated Generation of Mutants (Step 4)}
+\label{sec:mutantsGeneration}
+
+
+
+Consistent with code-driven mutation analysis, \APPR generates one mutant for each mutation procedure of the mutation operators configured in the fault model. Each mutant performs exactly one \emph{data mutation operation} (i.e., a data mutation procedure configured for a specific data item). For example, the specification in row 6 of Table~\ref{table:faultModel} makes \APPR generate two mutants: each mutant modifies the value of the data item starting at position 12 but one mutant replaces the current value with the value 51 (i.e., $50+1$) while the other replaces the current value with the value $-21$ (i.e., $-20 -1$).
+
+The mutant generation is invisible to the end-user who does not need to modify the source code further; indeed, we rely on a C macro to specify, at compile time, which mutation operation must be performed by every mutant. Mutants are generated by compiling the \UPDATED{SUT} multiple times, once for each mutation operation. At runtime, the mutate function executes only the mutation operation selected for the mutant under test.
+
+\subsubsection{Mutants Execution (Step 5)}
+\label{sec:mutantsExecution}
+
+As for code-driven mutation analysis, the test suite under analysis is executed iteratively with every data-driven mutant. 
+At runtime, all the data items targeted by a mutant are mutated whenever the mutation preconditions hold (e.g., the STATE of the BF operator); we leave the mutation of a sampled subset of \UPDATED{data item instances to future work~\cite{zhang2013operator,gopinath2015hard}.}
+
+To speed up the mutation analysis process, the test suite under analysis is first executed with a special mutant that, instead of mutating data items, keeps trace of the fault models loaded by each test case; in other words, it traces what are the data types covered by each test case. The collected information enables the execution, for every mutant, of the subset of test cases that cover the 
+message type
+%type of data 
+targeted by the mutant, thus speeding up mutation analysis.
+
+
+\subsubsection{Mutation Analysis Results (Step 6)}
+\label{sec:mutationAnalysisResults}
+
+Inspired by work on abstract mutation analysis~\cite{Offutt2006}, we have defined three metrics to evaluate test suites with data-driven mutation analysis: fault model coverage, mutation operation coverage, and mutation score. 
+%The first two provide information about the quality of test inputs, whereas the latter provides information about the quality of test oracles \CHANGED{and the test process}. Different from code-driven mutation analysis, data-driven mutation analysis thus enables engineers to distinguish between these two distinct problems affecting test suite effectiveness.
+These metrics measure the frequency of the following scenarios: (case 1) the message type targeted by a mutant is never exercised, (case 2) the message type is covered by the test suite but it is not possible to perform some of the mutation operations (e.g., because the test suite does not exercise out-of-range cases), (case 3) the mutation is performed but the test suite does not fail.
+\CHANGED{Different from code-driven mutation analysis, these three metrics enable engineers to distinguish between possible test suite shortcomings, including untested message types, uncovered input partitions, poor oracle quality, 
+%faulty software, 
+and lack of test inputs.}
+
+\emph{Fault model coverage (FMC)} is the percentage of fault models covered by the test suite. Since we define a fault model for every 
+message type exchanged by two components,
+%different data buffer (i.e., type of data exchanged by two components), 
+it provides information about the extent to which the message types actually exchanged by the SUT are exercised and verified by the test suites. 
+%In other words, low fault model coverage indicates that many test scenarios (e.g., a specific sequence of test inputs being sent to the CPS when the environment is in a specific state) are not exercised by a test suite. 
+\CHANGED{Since different component functionalities often require different message types, low fault model coverage may indicate that only a small portion of the integrated functionalities have been tested.}
+
+\emph{Mutation operation coverage (MOC)} is the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite. It provides information about the input partitions covered for each data item; for example, the FVOR operator leads to two mutation operations, which are applied only if the observed value is outside range. Otherwise the two mutation operations will not be covered, thus enabling the engineer to identify such shortcoming in the test suite.
+%TODO: add example
+
+The \emph{mutation score (MS)} is the percentage of mutants killed by the test suite \UPDATED{(i.e., leading to at least one test case failure)} among the mutants that target a fault model and for which at least one mutation operation was successfully performed. It provides information about the quality of test oracles; indeed, a mutant that performs a mutation operation and is not killed (i.e., is \emph{live}) indicates that the test suite cannot detect the effect of the mutation (e.g., the presence of warnings in logs).
+% or an unexpected output from the system). 
+\CHANGED{Also, a low mutation score may indicate missing test input sequences. Indeed, live mutants may be due to either software faults (e.g., the SUT does not provide the correct output for the mutated data item instance) or the software not being in the required state (e.g., input partitions for data items are covered when the software is paused); in such cases, with appropriate input sequences, the  test suite would have discovered the fault or brought the SUT into the required state. Both poor oracles and lack of inputs indicate flaws in the test case definition process (e.g., the stateful nature of the software was ignored).}
+
