@@ -14,7 +14,7 @@
 
 \subsection{Initialization of the \DAMA workspace}
 
-All the scripts for the \DAMA pipeline are contained in the \texttt{damat-pipeline} folder.
+All the scripts for the \DAMA pipeline are contained in the \texttt{DAMAt} folder.
 All \DAMA steps will take place inside this folder, which shall be placed by the engineer in a path of their choosing.
 
 The folder shall contain the following structure and files:
@@ -190,8 +190,8 @@ The contents of the \texttt{DAMAt\_run\_tests.sh} stub are portrayed in the foll
 
 mutant_id=$1
 tests_list=$2
-DAMAT_FOLDER=$3
-results_dir=$DAMAT_FOLDER/results
+DAMAt_FOLDER=$3
+results_dir=$DAMAt_FOLDER/results
 
 mutant_dir=$results_dir/run_"$mutant_id"
 execution_log=$mutant_dir/"$mutant_id"_execution.out
@@ -312,7 +312,7 @@ echo "elapsed time $elapsed [ms]"
 
 \subsubsection{Step 1}
 The engineer is expected to write a fault model in the csv format with the definition of all the mutation operators they want to apply.
-An example of fault model is contained in the \texttt{damat-pipeline} folder and in listing~\ref{lst:fault_model}.
+An example of fault model is contained in the \texttt{DAMAt} folder and in listing~\ref{lst:fault_model}.
 
 \begin{lstlisting}[label={lst:fault_model}]
 FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
@@ -338,7 +338,7 @@ For details on the available mutation operators and how they can be configured s
 
 In this step, \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
 
-The engineer shall run the following command in the terminal inside the \texttt{damat\_pipeline} folder:
+The engineer shall run the following command in the terminal inside the \texttt{DAMAt\_pipeline} folder:
 
 \begin{lstlisting}[language=bash]
 bash DAMAt_probe_generation.sh
@@ -352,7 +352,7 @@ This procedure will produce three files:
 	\item \texttt{function\_calls.out} function templates for the mutation probes to insert in the SUT.
 \end{enumerate}
 
-a copy of the first two files must remain in the damat-pipeline folder for the correct execution of the data analysis section of the pipeline.
+a copy of the first two files must remain in the DAMAt folder for the correct execution of the data analysis section of the pipeline.
 
 \subsubsection{Step 3}
 The engineer will manually instrument the SUT by:
@@ -374,7 +374,7 @@ mutate_FM_fault_model_01( &v );
 \subsubsection{Step 4, Step 5 and Step 6}
 
 The other steps of the \DAMA procedure are carried out automatically by the pipeline.
-The pipeline can be started by running the \texttt{DAMAt\_mutants\_launcher.sh} script with the following command, executed inside the \texttt{damat\_pipeline} folder:
+The pipeline can be started by running the \texttt{DAMAt\_mutants\_launcher.sh} script with the following command, executed inside the \texttt{DAMAt\_pipeline} folder:
 
 \begin{lstlisting}[language=bash]
 bash DAMAt_mutants_launcher.sh
@@ -382,7 +382,7 @@ bash DAMAt_mutants_launcher.sh
 
 Before running all the generated mutants, a special mutant (MutationOpt=-2) will be executed to gather coverage information.
 All the subsequent mutants will only be executed against tests that cover them to save execution time.
-The lists of test cases executed against every mutant can be found in the folder \texttt{.../damat-pipeline/testlists}, which will be automatically generated.
+The lists of test cases executed against every mutant can be found in the folder \texttt{.../DAMAt/testlists}, which will be automatically generated.
 
 These steps can also be executed separately by manually exporting the relevant variables and then running the pipeline scripts one by one. An example of the necessary commands can be found in the following.
 
@@ -413,7 +413,7 @@ bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER $tests_list
 
 \subsection{\DAMA results}
 
-After the execution of \DAMA, the results are stored in the \texttt{.../damat-pipeline/results} folder that will be automatically generated.
+After the execution of \DAMA, the results are stored in the \texttt{.../DAMAt/results} folder that will be automatically generated.
 For every mutant the pipeline will create a subfolder called \texttt{run\_<mutationOpt>} containing:
 \begin{itemize}
 	\item A \texttt{main.csv} a file with the results of the mutant's execution against the test suite
@@ -424,7 +424,7 @@ For every mutant the pipeline will create a subfolder called \texttt{run\_<mutat
 
 In addition to that, a \texttt{logs} folder shall be created, containing the full compilation and execution logs for every mutant.
 
-The \texttt{.../damat-pipeline/results} folder contains also files relative to the metrics defined to characterize the results of the full execution of \DAMA:
+The \texttt{.../DAMAt/results} folder contains also files relative to the metrics defined to characterize the results of the full execution of \DAMA:
 
 \begin{enumerate}
 	\item Fault model coverage is the percentage of fault models covered by the test suite.
