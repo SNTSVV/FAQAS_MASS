@@ -1,0 +1,146 @@
+% !TEX root = MAIN.tex
+
+\chapter{\DAMA - Tutorial}
+
+\section{Introduction}
+
+This tutorial instructs on how to use \DAMA on a typical case using a simple example.
+
+\section{Running \DAMA}
+% !TEX root = MAIN.tex
+\label{sec:dama_single_machine}
+
+Firstly, the user needs to set up the \DAMA pipeline, please refer to Section~\ref{sec:dama_setup}.
+
+The directory chosen for \DAMA in this case will be \texttt{/opt/damat-folder}.
+
+This is a very simple example of SUT.
+
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+
+int main()
+{
+    // Create a vector containing doubles
+    std::vector<double> v;
+
+    v.push_back(1.1);
+    v.push_back(2.2);
+    v.push_back(3.3);
+    v.push_back(4.4);
+    v.push_back(5.5);
+
+    for(std::vector<double>::iterator it = v.begin(); it != v.end(); ++it) {
+    	std::cout << *it << '\n';
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\DAMA works in six steps:
+
+\begin{enumerate}
+	\item The user prepares a fault model specification tailored to the SUT.
+	\item \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
+	\item The user manually modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
+	\item \DAMA generates and compiles mutants.
+	\item \DAMA executes the test suite against all the mutants.
+	\item \DAMA generates mutation analysis results.
+\end{enumerate}
+
+
+\subsection{Step 1}
+
+This is a simple example of a fault model for the SUT.
+Specific details about the operators' configuration can be found in the D2.
+
+\begin{lstlisting}
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+IfHK,1,1,DOUBLE,VAT,NA,NA,10.3,15.2,NA,NA
+IfHK,2,1,DOUBLE,VOR,-5.5,5.5,NA,2,NA,NA
+IfHK,3,1,DOUBLE,IV,NA,NA,NA,NA,NA,69.69
+IfHK,4,1,DOUBLE,VBT,NA,NA,0,15.5,NA,NA
+\end{lstlisting}
+
+
+\subsection{Step 2}
+
+The engineer shall modify the \texttt{DAMAt\_configure.sh} script according to the specifics of the SUT.
+In this case the buffer elements are of type "double", the list of the tests (\texttt{test\_list.csv}) has been copied in the \texttt{/opt/damat-folder} directory along with the fault model (\texttt{fault\_model.csv}).
+The \texttt{singleton} option is activated and there is no need to skip the initial elements, so \texttt{padding} is set to 0.
+
+\begin{lstlisting}[language=bash]
+
+tests_list=$DAMAt_FOLDER/tests.csv
+
+fault_model=$DAMAt_FOLDER/fault_model.csv
+
+buffer_type="double"
+
+singleton="TRUE"
+
+padding=0
+
+\end{lstlisting}
+
+The user shall go to the \texttt{/opt/damat-folder} directory and generate the probes with the following commands.
+
+\begin{lstlisting}[language=bash]
+
+cd /opt/damat-pipeline
+bash DAMAt_probe_generation.sh
+
+\end{lstlisting}
+
+
+\subsection{Step 3}
+
+The user shall manually instrument the SUT as shown below.
+\begin{lstlisting}[language=c++]
+
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+// INCLUDING THE FAQAS API
+#include "FAQAS_dataDrivenMutator.h"
+
+int main()
+{
+    // Create a vector containing doubles
+    std::vector<double> v;
+
+    v.push_back(1.1);
+    v.push_back(2.2);
+    v.push_back(3.3);
+    v.push_back(4.4);
+    v.push_back(5.5);
+
+    //MANUALLY ADDED PROBE
+    mutate_FM_IfHK( &v );
+    //MANUALLY ADDED PROBE END
+
+    for(std::vector<double>::iterator it = v.begin(); it != v.end(); ++it) {
+    	std::cout << *it << '\n';
+    }
+
+    return 0;
+}
+
+\end{lstlisting}
+
+
+\subsection{Step 4, Step 5 and Step 6}
+
+The user shall execute the rest of the pipeline with
+the following command.
+
+\begin{lstlisting}[language=bash]
+
+bash DAMAt_mutants_launcher.sh
+
+\end{lstlisting}
+
+More details on the results of the \DAMA procedure and how to interpret them are available in Section~\ref{sec:dama_singlelaunch}.
