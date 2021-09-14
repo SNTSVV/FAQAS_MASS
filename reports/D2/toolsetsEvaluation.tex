@@ -1,6 +1,6 @@
 % !TEX root = MAIN.tex
 \clearpage
-\section{Evaluation of Code-driven Mutation Testing Toolsets}
+\subsection{Evaluation of State-of-the-art, Code-driven Mutation Testing Toolsets}
 \label{sec:toolsComparison}
 
 This section describes a preliminary evaluation conducted to identify mutation testing tools that are applicable in space context, based on the case study systems of the project. More precisely, for this preliminary evaluation we considered the case study system provided by LuxSpace.
@@ -31,7 +31,7 @@ Section~\ref{subsec:srciror} to Section~\ref{subsec:dextool} describe the result
 
 As detailed in the following Sections, the only mutation testing tool that is applicable to space software is SRCIRor.
 
-\subsection{Experiment Design and Case Studies}
+\subsubsection{Experiment Design and Case Studies}
 \label{subsec:experiment_design}
 
 
@@ -58,7 +58,7 @@ The architecture of the ESAIL System Testing environment is shown in Figure \ref
 
 The objective of this preliminary evaluation is to determine if the mutation testing tools considered in our study can process the case study system and automatically generate mutated versions of the case study system that can be successfully compiled and tested. More precisely, we aim to verify if the mutation testing tools considered in our study can successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
 
-\subsection{Background on Clang/LLVM}
+\subsubsection{Background on Clang/LLVM}
 \label{subsec:background}
 
 In this section we provide background information on the components that are used by most of the tools considered in our evaluation, i.e., Clang/LLVM.
@@ -75,7 +75,7 @@ The LLVM project is a set of compiler and toolchain technologies. LLVM is design
 
 Clang is a front-end for LLVM that processes C-family languages: C, C++, Objective C, Objective C++. Clang converts C/C++ to LLVM IR, LLVM performs optimizations on the IR, and the LLVM x86 backend writes out x86 machine code for execution.
 
-\subsection{Evaluation of SRCIRor}
+\subsubsection{Evaluation of SRCIRor}
 \label{subsec:srciror}
 
 \subsubsection{Overview of the mutation testing tool}
@@ -126,7 +126,7 @@ Listing~\ref{srciror_9} shows a warning due to an inappropriate use of parenthes
 
 To evaluate if the generated mutants can be successfully compiled, we executed the ESAIL compilation process for all the generated 105\,543 mutants. From the total, 103\,747 mutants (98.3\%) were compiled successfully using the original ESAIL settings.
 
-\subsection{Evaluation of Mull}
+\subsubsection{Evaluation of Mull}
 \label{subsec:mull}
 
 \subsubsection{Overview of the mutation testing tool}
@@ -226,7 +226,7 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 
 \MREVISION{C-P-25}{Even though, Mull implement several runtime optimizations, unfortunately for the scope of this project is not possible to consider it, since it forces the use of a specific compiler (i.e., the clang compiler). Therefore, a mutation testing tool that relies on a specific compiler reduces the chances of applying the technique on the context of space software. For example, ESAIL relies on the Sparc RTEMS compiler, so it would out of the scope if we rely on the Mull toolset.}
 
-\subsection{Milu Evaluation Results}
+\subsubsection{Milu Evaluation Results}
 \label{subsec:milu}
 
 \subsubsection{Overview of the mutation testing tool}
@@ -286,7 +286,7 @@ Milu produces 35 mutants belonging to the adcs\_ExecuteReactionwheelDesaturation
 
 \input{listings/miluerror}
 
-\subsection{Dextool Evaluation Results}
+\subsubsection{Dextool Evaluation Results}
 \label{subsec:dextool}
 
 \subsubsection{Overview of the mutation testing tool}
@@ -300,7 +300,7 @@ Since the evaluation for Mull has shown that it is not feasible to compile ESAIL
 
 
 
-\subsection{Accmut Evaluation Results}
+\subsubsection{Accmut Evaluation Results}
 \label{subsec:dextool}
 
 \subsubsection{Overview of the mutation testing tool}

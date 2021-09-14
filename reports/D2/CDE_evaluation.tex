@@ -66,7 +66,7 @@ They are representative of common types of flight software, also typically prese
 \emph{ESAIL} is a microsatellite developed by \LXS{}  in a Public-Private-Partnership with ESA and ExactEarth. The Payload is an AIS Receiver for ship- and vessel-detection from space. 
 %and the satellite weight at launch will be approximately 115kg. 
 For our empirical evaluation, we considered the onboard central control software of ESAIL (hereafter, simply ESAIL-CS), which consists of 924 source files with a total size of 187,116 LOC. Because of the criticality of both timing constraints and functions that process sensor data, most of the testing is performed by a system test suite that requires a dedicated simulation engine to be executed~\cite{Isasi2019}. The simulator engine  simulates both the target hardware and the components (e.g., magnetometer) connected to the Attitude Determination And Control System (ADCS) units.
-The system test suite consists of a total of \FIXME{384} test cases, which take 10 hours to execute.
+The system test suite consists of a total of {384} test cases, which take 10 hours to execute.
 
 \emph{LIBGCSP}, \emph{LIBPARAM}, and \emph{LIBUTIL}  are utility libraries developed by \GSL.
 \emph{LIBGCSP} is an extension of the open source CubeSat Space Protocol (CSP) library~\cite{CSP}; it provides convenience wrapping of CSP functionality,
@@ -594,10 +594,10 @@ Since the quality of results might be affected by both test suite reduction (i.e
 \end{itemize}
 
 For each configuration listed above, for each normalized distance metric, we thus divide all the live mutants into 10 buckets, based on their distance from the original program, in steps of $0.20$.
-We randomly select \FIXME{20} mutants for each bucket and inspect them with the help of engineers to determine if they are equivalent. 
+We randomly select {20} mutants for each bucket and inspect them with the help of engineers to determine if they are equivalent. 
 We aim to select a threshold value below which equivalent mutants are detected with a precision above \FIXME{90\%}. 
 %Note: In case a mutant is shared by multiple configurations we may assume it is resampled
-In total, we manually inspect \FIXME{200} mutants (20 mutants x 5 buckets x 2 configurations).
+In total, we manually inspect {200} mutants (20 mutants x 5 buckets x 2 configurations).
 
 To determine $T_R$, we repeat the same procedure as for $T_E$, except that we consider both killed and live mutants according to the procedure indicated in Section~\ref{sec:algostepSeven}.
 
