@@ -3,7 +3,10 @@
 \section{Test Suite Augmentation Process}
 \label{sec:testGeneration:codeDriven}
 
+This section discusses first the results of a preliminary feasibility study for the automated generation of test cases based on mutation analysis results (Section~\ref{sec:testSuiteAugmentation:feasibility}); then, it presents the solution developed by FAQAS, which is called SEMuS (Section~\ref{sec:semus:all}).
 
+\subsection{Feasibility Study}
+\label{sec:testSuiteAugmentation:feasibility}
 
 \begin{figure}[h]
 \begin{center}
@@ -64,7 +67,7 @@ Mutants for which it is not possible to automatically identify a killing input n
 
 Step 1 is the only step that is automated by existing tools; anyway, it requires the manual specification of which are the inputs and the outputs of the function under test. In the project, two tools will be considered: CBMC, a bounded model checker, and KLEE~\cite{cadar2008klee}. The process to be automated in the two cases is defined in the following subsections.
 
-\subsection{CBMC}
+\subsubsection{CBMC}
 \label{subsec:cbmc}
 
 CBMC is an approach that implements {\em Bounded Model
@@ -182,6 +185,9 @@ Listing~\ref{GSLaugmentationTwo} shows one of the main \INDEX{limitations of CBM
 \input{listings/GSLaugmentation2.tex}
 
 \input{klee}
+
+\subsection{FAQAS Test Suite Augmentation Tool (SEMuS)}
+\label{sec:semus:all}
 
 \input{klee_semu}
 
