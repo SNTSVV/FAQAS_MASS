@@ -12,7 +12,7 @@ This tutorial instructs on how to use \DAMA on a typical case using a simple exa
 
 Firstly, the user needs to set up the \DAMA pipeline, please refer to Section~\ref{sec:dama_setup}.
 
-The directory chosen for \DAMA in this case will be \texttt{/opt/damat-folder}.
+The directory chosen for \DAMA in this case will be \texttt{/opt/DAMAt}.
 
 This is a very simple example of SUT.
 
@@ -69,7 +69,7 @@ IfHK,4,1,DOUBLE,VBT,NA,NA,0,15.5,NA,NA
 \subsection{Step 2}
 
 The engineer shall modify the \texttt{DAMAt\_configure.sh} script according to the specifics of the SUT.
-In this case the buffer elements are of type "double", the list of the tests (\texttt{test\_list.csv}) has been copied in the \texttt{/opt/damat-folder} directory along with the fault model (\texttt{fault\_model.csv}).
+In this case the buffer elements are of type "double", the list of the tests (\texttt{test\_list.csv}) has been copied in the \texttt{/opt/DAMAt} directory along with the fault model (\texttt{fault\_model.csv}).
 The \texttt{singleton} option is activated and there is no need to skip the initial elements, so \texttt{padding} is set to 0.
 
 \begin{lstlisting}[language=bash]
@@ -86,11 +86,11 @@ padding=0
 
 \end{lstlisting}
 
-The user shall go to the \texttt{/opt/damat-folder} directory and generate the probes with the following commands.
+The user shall go to the \texttt{/opt/DAMAt} directory and generate the probes with the following commands.
 
 \begin{lstlisting}[language=bash]
 
-cd /opt/damat-pipeline
+cd /opt/DAMAt
 bash DAMAt_probe_generation.sh
 
 \end{lstlisting}
