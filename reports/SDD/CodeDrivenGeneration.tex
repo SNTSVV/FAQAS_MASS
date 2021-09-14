@@ -45,6 +45,7 @@ SEMuS is delivered as a compressed archive containing a set of source files and 
 \end{itemize}
 
 \subsection{Software components design}
+\label{sec:component:design:semus}
 
 \begin{figure}[tb]
   \centering
@@ -142,9 +143,18 @@ The activity \emph{KTest To Unit Test} indicates that SEMuS collects the \emph{K
 
 \subsection{Internal interface design}
 
+All the programs that automate the different steps of SEMuS communicate only through the files that had been described in Section~\ref{sec:component:design:semus}
+
 \subsection{External interface design}
 
-\subsection{Test harness}
+The external interfaces of the SEMuS are the programs that automate the different steps of SEMuS, which have been described above. They are:
+
+\begin{itemize}
+  \item \texttt{create\_mutants.sh}: launcher for the generation of mutants.
+  \item \texttt{run.sh}: launcher for the generation of test inputs.
+  \item \texttt{docker\_run.sh}: launcher for the generation of test inputs by means of Docker.
+\end{itemize}
+
 
 
 
