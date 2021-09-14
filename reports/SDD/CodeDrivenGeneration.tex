@@ -2,11 +2,40 @@
 
 \section{SEMuS}
 
+\subsection{Software static architecture}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/semus-arch-sdd}
+      \caption{UML Architecture diagram of SEMuS.}
+      \label{fig:architecture_diagram_semus}
+\end{figure}
+
+The architecture of the code-driven test suite augmentation toolset (i.e., SEMuS) is drafted in Figure~\ref{fig:architecture_diagram_semus}. The architecture diagram relies on UML package diagram notation.
+
+As specified in Figure~\ref{fig:architecture_diagram_semus}, the architecture of the toolset is divided 
+
+\subsubsection{Source Code Structure}
+
+SEMuS is delivered as a compressed archive containing a set of source files and an installer. In the following, there is a brief description of the archive's structure once uncompressed:
+
+\begin{itemize}
+  \item \texttt{SEMuS/}
+    \begin{itemize}
+      \item 
+    \end{itemize}
+\end{itemize}
+
+\subsection{Software components design}
+
+\subsection{Software behavior}
+
+
 The activity \emph{Execute FAQAS-CompileAndExecuteMutants} in Figure~\ref{fig:process:codeDriven:augmentation} concerns the execution of the program \emph{FAQAS-GenerateTestGenerationScaffolding}.
 
 \begin{figure}[h]
   \centering
-	\includegraphics[width=\textwidth]{images/png/Activity1!CodeDrivenTestSuiteAugmentation_2.png}
+  \includegraphics[width=\textwidth]{images/png/Activity1!CodeDrivenTestSuiteAugmentation_2.png}
       \caption{Overview of the code-driven test suite augmentation process.}
       \label{fig:process:codeDriven:augmentation}
 \end{figure}
@@ -38,6 +67,15 @@ The activity \emph{Add Test Case to SUT Test Suite} in Figure~\ref{fig:process:c
 The activity \emph{Update mutation results} in Figure~\ref{fig:process:codeDriven:augmentation} is performed when a test case is not generated. This generally happens when the mutant cannot be killed (i.e., is equivalent). The engineer is expected to manually inspect the mutant to be sure that the mutant is equivalent (otherwise the missing test case is due to a limitation of KLEE). If the mutant is equivalent the engineer removes it from the file \emph{mutation results csv}.
 
 The activity \emph{Execute FAQAS-RecomputeMutationScore} in Figure~\ref{fig:process:codeDriven:augmentation}  concerns the execution of the program \emph{FAQAS-RecomputeMutationScore}. It is performed after generating test cases for all the live mutants. Program \emph{FAQAS-RecomputeMutationScore} recomputes the mutation score after ignoring the equivalent mutants detected by KLEE.
+
+\subsection{Internal interface design}
+
+\subsection{External interface design}
+
+\subsection{Test harness}
+
+
+
 
 
 
