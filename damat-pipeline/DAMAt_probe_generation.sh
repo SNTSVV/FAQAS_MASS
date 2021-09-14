@@ -11,9 +11,11 @@ DAMAt_FOLDER=$(pwd)
 . ./DAMAt_configure.sh
 
 # _FAQAS_SINGLETON_FM="TRUE" can be exported to load the fault model in a singleton variable to save memory
-export _FAQAS_SINGLETON_FM="TRUE"
-export _FAQAS_INITIAL_PADDING=$padding
+if [$singleton == "TRUE"]; then
+export _FAQAS_SINGLETON_FM=$singleton
+fi
 
+export _FAQAS_INITIAL_PADDING=$padding
 ###############################################################################
 
 # STEP 2 MUTATION API GENERATION

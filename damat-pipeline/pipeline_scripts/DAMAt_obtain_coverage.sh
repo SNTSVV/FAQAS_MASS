@@ -6,6 +6,8 @@
 
 tests_list=$1
 DAMAt_FOLDER=$2
+singleton=$3
+
 mutator=$DAMAt_FOLDER/FAQAS_dataDrivenMutator.h
 mutants_table=$DAMAt_FOLDER/FAQAS_mutants_table.csv
 
@@ -26,7 +28,7 @@ TESTS_FOLDER=$DAMAt_FOLDER/testlists
 mkdir -p $TESTS_FOLDER
 
 #compile the special mutant
-bash $DAMAt_FOLDER/DAMAt_compile.sh "-2" 2>&1 | tee -a $coverage_log
+bash $DAMAt_FOLDER/DAMAt_compile.sh "-2" $singleton 2>&1 | tee -a $coverage_log
 #execute the test suite
 bash $DAMAt_FOLDER/DAMAt_run_tests.sh "-2" $tests_list $DAMAt_FOLDER 2>&1 | tee -a $coverage_log
 

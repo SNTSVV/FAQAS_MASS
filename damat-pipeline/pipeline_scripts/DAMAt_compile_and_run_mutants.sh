@@ -8,6 +8,8 @@
 
 
 DAMAt_FOLDER=$1
+singleton=$2
+
 PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
 RESULTS_FOLDER=$DAMAt_FOLDER/results
 mkdir -p $RESULTS_FOLDER
@@ -43,7 +45,7 @@ for mutant in 0 18; do
 
   # COMPILE MUTANT
 
-  bash $DAMAt_FOLDER/DAMAt_compile.sh "$mutant"  2>&1 | tee -a $mutant_log
+  bash $DAMAt_FOLDER/DAMAt_compile.sh "$mutant" $singleton  2>&1 | tee -a $mutant_log
 
   # RUN MUTANT
 

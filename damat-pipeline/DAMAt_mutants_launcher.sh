@@ -14,7 +14,10 @@ DAMAt_FOLDER=$(pwd)
 #_FAQAS_INITIAL_PADDING can be exported to skip the first n bit of a buffer
 export _FAQAS_INITIAL_PADDING=$padding
 # _FAQAS_SINGLETON_FM="TRUE" can be exported to load the fault model in a singleton variable to save memory
-export _FAQAS_SINGLETON_FM="TRUE"
+
+if [$singleton == "TRUE"]; then
+export _FAQAS_SINGLETON_FM=$singleton
+fi
 
 ###############################################################################
 # STEP 4: COMPILE ALL MUTANTS
@@ -37,10 +40,10 @@ mkdir $LOGS_FOLDER
 
 # OBTAIN COVERAGE DATA
 mkdir $TESTS_FOLDER
-bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $tests_list $DAMAt_FOLDER
+bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $tests_list $DAMAt_FOLDER $singleton
 
 # COMPILE AND RUN ALL MUTANTS
-bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER
+bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER $singleton
 
 ###############################################################################
 

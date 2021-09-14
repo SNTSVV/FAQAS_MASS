@@ -1,10 +1,8 @@
 #!/bin/sh
-
 #
 # Copyright (c) University of Luxembourg 2020.
 # Created by Enrico VIGANO, enrico.vigano@uni.lu, SnT, 2021.
 #
-
 DAMAt_FOLDER=$(pwd)
 
 # the user must set up the following variables before executing the pipeline:
@@ -16,3 +14,5 @@ fault_model=$DAMAt_FOLDER/fault_model.csv
 buffer_type="unsigned char"
 # padding can be used to skip the first n bit of a buffer, normally set to 0
 padding=2
+
+singleton="TRUE"
