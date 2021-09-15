@@ -57,6 +57,8 @@
 
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{amsmath}
+
 
 \makeatletter
 \global\let\tikz@ensure@dollar@catcode=\relax
@@ -207,6 +209,9 @@
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
 
 \newcommand{\MASS}{\textit{MASS}\xspace}
+\newcommand{\D}{$\Delta$\xspace}
+
+\newcommand{\TRFOUR}[1]{{#1}}
 
 \newcounter{paranum}
 \newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
