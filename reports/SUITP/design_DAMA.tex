@@ -1,19 +1,19 @@
 % !TEX root = MAIN.tex
 
-\chapter{DAMA - Software Unit Test Case Design}
-\label{chap:design_DAMA}
+\chapter{DAMAt - Software Unit Test Case Design}
+\label{chap:design_DAMAt}
 
 
 \section{General}
 
-The DAMA test suite concerns the data-driven mutation API. It address its functional requirements. Three test designs have been identified. Two are based on the category partition method and target the units composing \emph{DDMutation}: \emph{DDMutationData} and \emph{DDMutationFault}.
+The DAMAt test suite concerns the data-driven mutation API. It address its functional requirements. Three test designs have been identified. Two are based on the category partition method and target the units composing \emph{DDMutation}: \emph{DDMutationData} and \emph{DDMutationFault}.
 The other is based on the pairwise combination testing method and it target their integration.
 
-\section{DAMA - Test Design - Data-driven Mutation - DDMutationFault}
+\section{DAMAt - Test Design - Data-driven Mutation - DDMutationFault}
 
 \subsection{Test design identifier}
 
-The test design identifier is \emph{DAMA-TD-DDMutation-1}
+The test design identifier is \emph{DAMAt-TD-DDMutation-1}
 
 With this test design we aim to ensure that \emph{DDMutationFault}, which contains the implementation of the data-driven mutation operators, is implemented according to requirements of the \FAQAS.
 
@@ -22,7 +22,7 @@ With this test design we aim to ensure that \emph{DDMutationFault}, which contai
 \emph{DDMutationFault} implements the data-driven mutation operators.
 
 The set of data-driven mutation operators  is composed of the following fault classes: Value Above Threshold (VAT), Value Below Threshold (VBT), Value Out of Range (VOR), Bit Flip (BF), Invalid Numeric Value (INV), Illegal Value (IV), Anomalous Signal Amplitude (ASA), Signal Shift (SS), Hold Value (HV), Array Swap (AS) and Array Random Swap (ARS).
-Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMA.
+Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMAt.
 
 \input{tables/operators_DAMA}
 
@@ -63,11 +63,11 @@ HV            &           \\ \bottomrule
 \end{tabular}
 \end{table}
 
-\section{DAMA - Test Design - Data-driven Mutation - DDMutationData}
+\section{DAMAt - Test Design - Data-driven Mutation - DDMutationData}
 
 \subsection{Test design identifier}
 %
-The test design identifier is \emph{DAMA-TD-DDMutation-2}
+The test design identifier is \emph{DAMAt-TD-DDMutation-2}
 
 With this test design we aim to ensure that \emph{DDMutationData}, which reads and writes the data targeted by the mutation into the buffer, is implemented according to requirements of the \FAQAS.
 %
@@ -109,11 +109,11 @@ LONG               & unsigned long int      &                 \\
 \end{table}
 
 
-\section{DAMA - Test Design - Data-driven Mutation - Integration}
+\section{DAMAt - Test Design - Data-driven Mutation - Integration}
 
 \subsection{Test design identifier}
 %
-The test design identifier is \emph{DAMA-TD-DDMutation-3}
+The test design identifier is \emph{DAMAt-TD-DDMutation-3}
 %
 With this test design we aim to ensure that the integration betweeen the units composing \emph{DDMutation}, which performs the \emph{Mutate Data} activity, are implemented according to requirements of the \FAQAS.
 %
@@ -129,7 +129,7 @@ They are \emph{Fault Class}, \emph{Data Type}, \emph{Buffer Type} and \emph{Span
 We provide the identified class values in tabular form (Table~\ref{table:classes_DAMA}) and also the applied constraints (Table~\ref{table:constraints_1_DAMA}, Table~\ref{table:constraints_2_DAMA}
  and Table~\ref{table:constraints_3_DAMA}).
 
-The inputs for the \emph{DAMA-TD-DDMutation-3} test cases have beeen automatically generated following the method's guidelines.
+The inputs for the \emph{DAMAt-TD-DDMutation-3} test cases have beeen automatically generated following the method's guidelines.
 
 \input{tables/Pairwise_Classes_DAMA.tex}
 

@@ -1,19 +1,19 @@
 % !TEX root = MAIN.tex
 
-\chapter{DAMA - Software Unit Testing Approach}
-\label{chap:approach_DAMA}
+\chapter{DAMAt - Software Unit Testing Approach}
+\label{chap:approach_DAMAt}
 
 
 \section{Unit Testing Strategy}
 
-% Unit testing aims to verify that the functional requirements of DAMA units are correctly implemented; test inputs are identified through the category-partition method.
-Unit testing aims to verify that the functional requirements of DAMA units are correctly implemented; test inputs are identified through the category partition method.
+% Unit testing aims to verify that the functional requirements of DAMAt units are correctly implemented; test inputs are identified through the category-partition method.
+Unit testing aims to verify that the functional requirements of DAMAt units are correctly implemented; test inputs are identified through the category partition method.
 The pairwise combination testing method was used to test their integration.
 
 
 \section{Tasks and Items under Test}
 
-Testing concerns the data-driven mutation API of DAMA, from now on defined as \emph{DDMutation}, which handles the \emph{Mutate Data} activity.
+Testing concerns the data-driven mutation API of DAMAt, from now on defined as \emph{DDMutation}, which handles the \emph{Mutate Data} activity.
 The API can be divided into two separate units: \emph{DDMutationData} which reads the target data from the buffer and write it back in once is mutated, and \emph{DDMutationFault} which applies the selected mutation operator to the data.
 
 \section{Feature to be tested}
