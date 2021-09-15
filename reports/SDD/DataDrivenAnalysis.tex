@@ -234,3 +234,20 @@ The end-user inspects these metrics to respectively take notice of these kinds o
 	\item the message type is covered by the test suite but it is not possible to perform some of the mutation operations.
 	\item the mutation is performed but the test suite does not fail.
 \end{enumerate}
+\subsection{Internal interface design}
+
+
+
+\REVISION{P-1a}{All the programs that automate the different steps of \MASS communicate only through the files that had been described in Section~\ref{sec:damat_component:design}.
+
+\subsection{External interface design}
+
+The external interfaces of the \MASS are the programs that automate the different steps of \MASS, which have been described above. They are
+
+\begin{itemize}
+  \item \texttt{DAMAt\_probe\_generation.sh}: which generates the mutation API.
+	\item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: which executes the \dama pipeline.
+\subsection{Test harness}
+
+\MASS provide unit test cases for the \texttt{SRCMutation} component that generate mutants from the SUT source code. More information can be found in the \textit{ESA-FAQAS-SUITP} document.
+}
