@@ -73,6 +73,107 @@ The components of \dama are drafted in Figure~\ref{fig:damat_component_diagram}.
 
 As shown in Figure~\ref{fig:damat_component_diagram}, the software is composed by the following components:
 
+\begin{itemize}
+  \item \textit{fault\_model.csv}: this csv file shall be provided by the engineer and contains one row per mutation operator. Every mutation operator shall generate one or more mutants.
+  For details see D2. An example of line is:
+
+  \texttt{fault\_model\_01,0,1,BIN,BF,3,3,NA,NA,-1,1}
+
+  \item \textit{test\_list.csv}: this csv file shall be provided by the engineer and contains one row per test case, containing an identifier for the test and the mean time of execution expressed in ms. An example of line is:
+
+  \texttt{test\_01,34598}
+
+  \item \textit{Probe  Generation}: this component processes the fault model and and generates \textit{FAQAS\_dataDrivenMutator.h}, \textit{FAQAS\_mutants\_table.csv}  and \textit{probes\_function.out}
+  \item \textit{FAQAS\_dataDrivenMutator.h}: this is the API that contains the logic for the data drive mutation.
+  \item \textit{FAQAS\_mutants\_table.csv}: this is a csv file containing the definition and \texttt{MutationOpt} (a mumerical ID) for every generated mutant. Every row represents a generated mutant. This is an example of a row:
+
+  \texttt{0,fault\_model\_01,0,1,BIN,BF,3,3,NA,NA,-1,1}
+
+  \item \textit{probes\_function.out}: this file contains prototypes for the mutation probes, which are calls to functions defined in the mutation API.
+  \item \textit{Mutants Execution}: this component contains subcomponents that handle the test suite reduction, compilation, execution and data gathering relative to the execution of \dama.
+  \begin{itemize}
+    \item \textit{DAMAt\_obtain\_coverage}: this component executes a special mutant against the test suite that collects the \textit{raw\_coverage\_data.csv} file.
+
+    \item \textit{raw\_coverage\_data.csv}: this file is a collection of the coverage data for each test. A row is produced every time a mutation function is called. It contains a numerical ID realtive to the fault model.
+    This is an example of row:
+
+    \texttt{fm.ID: 0}
+
+    \item \textit{get\_coverage}: this component process the \textit{raw\_coverage\_data.csv} file to produce \textit{readable\_coverage\_data.csv}.
+
+    \item \textit{readable\_coverage\_data.csv}: this file is a collection of the coverage data for each couple test-fault model in a more accessible and compact format.
+    This is an example of row:
+
+    \texttt{test\_01,fault\_model\_01,<coverage status>,<nr of calls>}
+
+    \item \textit{get\_mutant\_test\_list}: this component processes \textit{test\_list.csv} and \textit{readable\_coverage\_data.csv} to produce \textit{mutant\_test\_list.csv}.
+
+    \item \textit{mutant\_test\_list.csv} is a csv file containing a reduced version of \textit{test\_list.csv} specific for every mutant with only the tests covering that specific mutant. The structure is the same as \textit{test\_list.csv}.
+
+    \item \textit{DAMAt\_compile\_and\_run\_mutants}: this component contains subcomponents that compile the generated mutants and run them against the test suite of the SUT.
+    \begin{itemize}
+      \item \textit{DaMAT\_compile}: this component processes \textit{FAQAS\_dataDrivenMutator.h} and the \textit{SUT source code} to produce the \textit{mutant binary files}.
+      \item \textit{DAMAt\_run\_tests}: this component processes the \textit{mutant binary files} and the \textit{mutant\_test\_list.csv}, producing \textit{raw\_data.csv} and \textit{operator\_coverage.csv}.
+      \item \textit{raw\_data.csv} is a file in the csv format. Each row contains the result of the execution of a mutant against a test case.
+      This is an example:
+
+      \begin{lstlisting}
+      <mutationOpt>;COMPILED;test_01;PASSED;LIVE;<elapsed time>
+      <mutationOpt>;COMPILED;test_02;FAILED;KILLED;<elapsed time>
+      \end{lstlisting}
+
+      \item \textit{operator\_coverage.csv}: this is a file in the csv format. Every row describes a call to the mutation API. The firs column contains an sequential index that identifies the call and the second row contains \texttt{1} if the mutation operator was successfully applied or \texttt{0} if not.
+      This is an example or a row:
+
+      \texttt{234,0}
+
+    \end{itemize}
+    \item \textit{DAMAt\_data\_analysis}: this component contains subcomponents that analise the data produced from an execution of \dama and produce the final results.
+    \begin{itemize}
+      \item \textit{beautify\_results}: this component processes \textit{raw\_data.csv} and \textit{FAQAS\_mutants\_table.csv} to produce \textit{readable\_data.csv}
+      \item \textit{readable\_data.csv} is a more complete csv. Every row represents a mutant-test case couple and contains the definition of the mutant.
+      An example is provided below:
+
+      \begin{lstlisting}
+      <mutationOpt>,COMPILED,test_01,PASSED,LIVE,36378,fault_model_01,0,1,BIN,BF,3,3,NA,NA,-1,1
+      <mutationOpt>,COMPILED,test_02,PASSED,LIVE,43364,fault_model_02,28,2,DOUBLE,VOR,-20,50,NA,1,NA,NA
+      \end{lstlisting}
+
+      \item \textit{get\_operator\_coverage} this component processes  \textit{operator\_coverage.csv} to produce \textit{readable\_operator\_coverage.csv}
+      \item \textit{readable\_operator\_coverage.csv}: this cvs file is a rendition of /\textit{operator\_coverage.csv} in a more compact and undertandable format.
+      every row represent a mutant-test case couple. the srtucture is provoded below
+
+      \texttt{<MutationOpt>,<testID>,<nr of calls>,<number of successful application>}
+
+      \item \textit{get\_stats} this component processes \textit{readable\_coverage.csv}, \textit{readable\_operator\_coverage.csv} and \textit{readable\_data.csv} to produce \textit{final\_mutants\_table.csv}
+      \item \textit{final\_mutants\_table.csv} is a file in the csv format that contains a row for every mutant. Every row contains informations about the mutant definition and status.
+      An example is provided below:
+
+      \begin{lstlisting}
+      <MutationOpt>,fault_model_01,0,1,BIN,BF,3,3,NA,NA,-1,1,LIVE,APPLIED
+      <MutationOpt>,fault_model_02,0,1,BIN,BF,4,4,NA,NA,-1,1,NOT_COVERED,NOT_APPLIED
+      \end{lstlisting}
+
+      \item \textit{get\_final\_results}: this component processes \textit{final\_mutants\_table.csv} to produce \textit{mutation\_sum\_up.csv}
+      \item \textit{mutation\_sum\_up.csv} is a csv file that contains a summary of the execution of \dama.
+      An example is provided below:
+
+      \begin{lstlisting}
+      all_fault_models,covered_fault_models,fault_model_coverage
+      11,2,0.182
+      covered_mutants,applied_mutants,operator_coverage
+      2,2,1.0
+      applied_mutants,killed_mutants,mutation_score
+      2,0,0.0
+      \end{lstlisting}
+
+    \end{itemize}
+  \end{itemize}
+
+\end{itemize}
+\clearpage
+
+
 % \begin{figure}[h]
 %   \centering
 % 	\includegraphics[width=\textwidth]{images/png/Activity1!DataDrivenTestSuiteEvaluation_3.png}
