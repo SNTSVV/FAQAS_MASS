@@ -195,7 +195,7 @@ File \emph{FAQAS\_dataDrivenMutator.h} contains the FAQAS mutation testing API (
 
 The activity \emph{Integrate probes in SUT} in Figure~\ref{fig:process:dataDriven:evaluation} indicates that the engineer should manually modify the source code of the SUT to integrate mutation probes into it. Examples are provided in \emph{Listing 2.3}, \emph{Listing 3.1}, and \emph{Appendix A - Section 1.1} of D2.
 
-The activity \emph{complete \dama stubs} in Figure~\ref{fig:process:dataDriven: evaluation} indicates that the engineer is expected to manually integrate the compilation and execution stubs provided by \dama with the commands used for compiling the SUT and  executing test cases after the execution of every single test case.
+The activity \emph{complete \dama stubs} in Figure~\ref{fig:process:dataDriven: evaluation} indicates that the engineer is expected to manually integrate the compilation and execution stubs provided by \dama with the commands used for compiling the SUT and executing test cases after the execution of every single test case.
 
 The activity \emph{Execute \dama\_compile\_and\_run\_mutants.sh} in Figure~\ref{fig:process:dataDriven:evaluation} concerns the execution of the program \emph{\dama\_compile\_and\_run\_mutants.sh}
 
@@ -227,7 +227,7 @@ The activity \emph{analyze the data} concerns the computation of the data-driven
 	\item Mutation operation coverage is the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
 	\item The mutation score (MS) is the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
 \end{enumerate}
-More information on these metrics are given in D2.
+More information on these metrics is given in D2.
 The end-user inspects these metrics to respectively take notice of these kinds of problems in the test suite:
 \begin{enumerate}
 	\item the message type targeted by a mutant is never exercised.
