@@ -38,10 +38,37 @@ In order to perform its tasks, \MASS also requires a few external components lis
 \end{itemize}
 }
 
+
+\chapter{SEMuS - Operations Environment}
+\label{chapter:operations:semus}
+
+\section{Hardware Configuration - Single Machine}
+
+The SEMuS toolset uses a host computer with the Linux operating system. SEMuS needs the following hardware requirements to be executed on single machines:
+
+\begin{itemize}
+	\item x86\_64 PC architecture
+	\item 4\,096 MB of RAM
+	\item Intel i3 (or equivalent) processor
+\end{itemize}
+
+
+\section{Software Configuration}
+
+SEMuS integrates SEMu, a symbolic execution-based mutation analysis engine, and thus it is necessary to install it before running SEMuS. SEMuS includes a Dockerfile that provides the necessary commands to install SEMu.
+
+In order to perform its tasks, SEMuS also requires a few external components listed in the following:
+
+\begin{itemize}
+	\item Python-3.4 or higher (packages muteria, libclang, pandas, jinja2)
+	\item jq
+	\item bash 4.4 or higher
+\end{itemize}
+
+
 \chapter{DAMA - Operations Environment}
 \label{chapter:dama:operationsEnv}
 
-\REVISION{P-1}{
 \section{Hardware Configuration - Single Machine}
 
 The \DAMA toolset uses a host computer with the Linux operating system. \DAMA needs the following hardware requirements to be executed on single machines:
@@ -63,10 +90,9 @@ The \DAMA toolset uses a host computer with the Linux operating system. \DAMA ne
 
 \section{Software Configuration}
 
-In order to perform its tasks, \MASS also requires a few external components listed in the following:
+In order to perform its tasks, \DAMA also requires a few external components listed in the following:
 
 \begin{itemize}
 	\item \texttt{Python 3.6.8} or higher
 	\item \texttt{GNU bash, version 4.2.46} or higher
 \end{itemize}
-}
