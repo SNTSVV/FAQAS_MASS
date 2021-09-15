@@ -1,0 +1,298 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[11pt,twoside,openany]{book}
+\usepackage{multirow}
+\usepackage{pdfpages}
+
+\usepackage{xspace}
+
+\usepackage{array}
+\usepackage{lipsum}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+%\usepackage[margin=1cm]{geometry}
+
+
+% \addtolength{\textwidth}{1.75in}
+%
+% \addtolength{\topmargin}{-.875in}
+% \addtolength{\textheight}{1.75in}
+
+\geometry{a4paper,left=20mm,top=20mm,bottom=50mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{amssymb}
+%\usepackage{todonotes}
+\setlength{\marginparwidth}{2cm}
+\usepackage[backgroundcolor=white,bordercolor=blue,linecolor=blue,textwidth=1cm]{todonotes}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{url}
+
+\usepackage[depth=4]{bookmark}
+
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{imakeidx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\makeindex[intoc]
+
+\usepackage[font=normalsize]{caption}
+
+\renewcommand{\theparagraph}{\S\arabic{paragraph}}
+\setcounter{secnumdepth}{4}
+
+
+\usepackage{xcolor}
+\usepackage{listings}
+
+\makeatletter
+\global\let\tikz@ensure@dollar@catcode=\relax
+\makeatother
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\scriptsize\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=C
+}
+
+
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{gray},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  %escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  %extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  %firstnumber=1000,                % start line enumeration with line 1000
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=C,                 % the language of the code
+  %morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{black},     % string literal style
+  tabsize=2,                     % sets default tabsize to 2 spaces
+}
+
+\lstset{
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape,
+  backgroundcolor=\color{backgroundColour},
+  commentstyle=\color{mGreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{mGray},
+  stringstyle=\color{mPurple},
+  basicstyle=\scriptsize\ttfamily,
+  tabsize=2
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+
+% Will Robertson's fontspec.sty can be used to simplify font choices.
+% To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
+% and change "Hoefler Text" to any of these choices.
+
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont[Mapping=tex-text]{Optima}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Optima}
+\setmonofont[Scale=MatchLowercase]{Andale Mono}
+
+%%%% Graphics
+\usepackage{graphicx}
+\usepackage{tikz}
+\definecolor{unilublue}{RGB}{55,149,218}
+\definecolor{sntred}{RGB}{219,46,27}
+\definecolor{sntpurple}{RGB}{86,30,130}
+%\definecolor{sntblue}{RGB}{50,130,207}
+\definecolor{sntblue}{RGB}{55,149,218}
+
+\pgfdeclareimage[width=30mm]{logo-snt}{logos/logo-snt}
+\pgfdeclareimage[width=30mm]{logo-uni-lu}{logos/logo-uni-lu}
+
+%%%% Fancy
+\usepackage{fancyhdr}
+
+%%%% Increase page length
+\addtolength{\textheight}{1in}
+
+%%%% Sections
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+\setlength{\parskip}{1em}
+
+%\renewcommand{\,}{$^{\cdot}$}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+%%%% Title
+\newcommand{\titleone}{\textsf{FAQAS Framework}}
+\newcommand{\titletwo}{\textsf{IRD}}
+\newcommand{\titlethree}{\textsf{Software Interface Requirements Document}}
+
+\newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
+
+\newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
+\newcommand{\OSCAR}[1]{\todo[color=yellow,inline]{ \textbf{OSCAR}: #1 }}
+\newcommand{\DONE}[1]{\todo[color=green,inline]{ \textbf{DONE}: #1 }}
+
+\newcommand{\CHANGEDTWO}[1]{\textcolor{black}{#1}}
+
+\newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
+\newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
+
+\newcommand{\MASS}{\textit{MASS}\xspace}
+
+\newcommand{\DAMA}{\textit{DAMAt}\xspace}
+
+\newcounter{paranum}
+\newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
+
+\newcommand{\remark}{\textbf{Remark:}\xspace}
+
+\begin{document}
+
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
+
+\renewcommand{\headrulewidth}{2pt}% 2pt header rule
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{sntblue}\leaders\hrule height \headrulewidth\hfill}}
+
+\fancyhf{}
+
+%\lhead{\fancyplain{}{\setlength{\unitlength}{1mm}
+%\begin{picture}(0,0)
+%\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
+%\end{picture}}}
+
+\lhead{\fancyplain{}{\textit{}}}
+
+\rhead{\fancyplain{}{\rightmark }}
+
+\fancyfoot[C]{%
+\begin{tikzpicture}[remember picture,overlay]
+\path [fill=sntred]    ([xshift=88pt,yshift=20pt]current page.south west) rectangle
+                       ([xshift=229pt,yshift=50pt] current page.south west);
+\path [fill=sntpurple] ([xshift=229pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=370pt,yshift=50pt] current page.south west);
+\path [fill=sntblue]   ([xshift=370pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=510pt,yshift=50pt] current page.south west);
+\end{tikzpicture}
+}
+
+\fancyfoot[RO]{
+\begin{tikzpicture}[remember picture,overlay]
+\node [circle, ultra thick, fill=white, draw=sntblue] at ([xshift=530pt,yshift=35pt] current page.south west) {\thepage};
+\end{tikzpicture}}
+
+\fancyfoot[LE]{
+\begin{tikzpicture}[remember picture,overlay]
+\node [circle, ultra thick, fill=white, draw=sntblue] at ([xshift=65pt,yshift=35pt] current page.south west) {\thepage};
+\end{tikzpicture}}
+
+
+\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\ENDCHANGEDWPT}{\color{black}}
+
+\newcommand{\CHANGED}[1]{{#1}}
+\newcommand{\prog}{P}
+\newcommand{\prop}{}
+
+\newcommand{\FAQAS}{FAQAS-framework\xspace}
+
+%\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVISION}[2]{{#2}}
+
+\newcommand{\REVTWO}[2]{#2}
+
+\thispagestyle{empty}
+
+\include{titlepage}
+
+\include{revisions}
+
+
+\tableofcontents
+
+
+\input{introduction}
+
+\input{general}
+
+\input{requirements}
+
+
+% \newpage
+% \include{ESA_comments}
+
+\clearpage
+
+\printindex
+
+\end{document}

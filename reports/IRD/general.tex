@@ -1,0 +1,57 @@
+% !TEX root = MAIN.tex
+
+\chapter{General Description}
+
+\section{MASS}
+
+\subsection{Product perspective}
+
+% The IRD shall describe the product external interfaces to other systems
+
+In this section, we provide a brief description of the external interfaces of the Mutation Analysis for Space Software (MASS) toolset.
+
+Given that the objective of MASS is to assess test suites quality through mutation analysis, it means that the toolset mainly interacts with the SUT and its respective test suite. More specifically, MASS shall access the SUT source code, SUT test suite, and be able to run and collect information about test suite execution.
+
+\subsection{Operational environment}
+
+% Context diagrams may support this narrative description to summarize external interfaces and system block diagrams to show how the activity fits within the larger system.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/mass-external.pdf}
+      \caption{System block diagram of MASS' external interfaces.}
+      \label{fig:mass:external}
+\end{figure}
+
+Figure~\ref{fig:mass:external} shows MASS' external interfaces through a system block diagram.
+As shown in Figure~\ref{fig:mass:external}, MASS mainly interacts with the SUT; 
+
+
+
+\subsection{Assumption and dependencies}
+
+\section{SEMuS}
+
+\subsection{Product perspective}
+
+In this section, we provide a brief description of the external interfaces of the Symbolic Execution-based Mutation Analysis Engine for Space Software (SEMuS).
+
+SEMuS is an extension of SEMu, a symbolic execution engine based on KLEE, for this reason the product interacts mainly with the interfaces of KLEE-SEMu, and shall be properly configured for it. Additionally, the software interacts with the SUT, since it needs to parse the source code, and also interacts with MASS, since the software needs the list of mutants for which inputs shall be generated.
+
+
+\subsection{Operational environment}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/semus-external.pdf}
+      \caption{System block diagram of SEMuS' external interfaces.}
+      \label{fig:semus:external}
+\end{figure}
+
+Figure~\ref{fig:semus:external} shows SEMuS' external interfaces through a system block diagram.
+As shown in Figure~\ref{fig:semus:external}, SEMuS interacts with three external systems (1) the SUT, (2) the MASS toolset, and (3) the SEMu.
+
+
+
+
+\subsection{Assumption and dependencies}
