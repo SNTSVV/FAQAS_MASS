@@ -24,11 +24,10 @@ Given that the objective of MASS is to assess test suites quality through mutati
 \end{figure}
 
 Figure~\ref{fig:mass:external} shows MASS' external interfaces through a system block diagram.
-As shown in Figure~\ref{fig:mass:external}, MASS mainly interacts with the SUT; 
+As shown in Figure~\ref{fig:mass:external}, MASS mainly interacts with the SUT through a configuration file, where engineers shall specify a set of Bash variables that enable MASS to correctly identify the SUT paths (e.g., source code folder, test suite folder), SUT compilation commands, the SUT test suite execution commands, and the configuration of MASS itself (e.g., trivial compiler optimizations flags, mutant selection strategy, sampling rate).
 
 
-
-\subsection{Assumption and dependencies}
+% \subsection{Assumption and dependencies}
 
 \section{SEMuS}
 
@@ -36,7 +35,7 @@ As shown in Figure~\ref{fig:mass:external}, MASS mainly interacts with the SUT;
 
 In this section, we provide a brief description of the external interfaces of the Symbolic Execution-based Mutation Analysis Engine for Space Software (SEMuS).
 
-SEMuS is an extension of SEMu, a symbolic execution engine based on KLEE, for this reason the product interacts mainly with the interfaces of KLEE-SEMu, and shall be properly configured for it. Additionally, the software interacts with the SUT, since it needs to parse the source code, and also interacts with MASS, since the software needs the list of mutants for which inputs shall be generated.
+SEMuS is an extension of SEMu, a symbolic execution engine based on KLEE, for this reason the product interacts mainly with the interfaces of KLEE-SEMu, and shall be properly configured for it. Additionally, the software interacts with the SUT, since it needs to parse the source code for test template generation, and also interacts with MASS, since the software needs to process the list of mutants for which inputs shall be generated.
 
 
 \subsection{Operational environment}
@@ -51,7 +50,13 @@ SEMuS is an extension of SEMu, a symbolic execution engine based on KLEE, for th
 Figure~\ref{fig:semus:external} shows SEMuS' external interfaces through a system block diagram.
 As shown in Figure~\ref{fig:semus:external}, SEMuS interacts with three external systems (1) the SUT, (2) the MASS toolset, and (3) the SEMu.
 
+Firstly, SEMuS interacts with the SUT by means of a configuration file, where engineers shall specify a set of Bash variables that enable SEMuS to correctly identify the SUT paths (e.g., source code folder), SUT compilation commands, the configuration of SEMuS (e.g., output folder), and the configuration of SEMu (e.g., configuration of the heuristics, timeouts, maximum memory to be used).
+
+Secondly, SEMuS interacts with MASS by means of the previously generated \emph{MASS report}, which provides information about the live and killed mutants. The information of live mutants is then used by SEMuS in order to generate test inputs only for the selected mutants. 
+The engineers shall setup the SEMuS configuration file to provide the path to the MASS report.
+
+Lastly, SEMuS interacts with SEMu by means of the \emph{SEMu Wrapper}, a Python script that setups the KLEE configuration file and invokes SEMu. If test inputs are generated for the specified mutants, KLEE-SEMu will produce KLEE tests that shall be processed by the \emph{KTest To Unit Test} component.
 
 
 
-\subsection{Assumption and dependencies}
+% \subsection{Assumption and dependencies}
