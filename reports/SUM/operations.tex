@@ -39,12 +39,12 @@ In order to perform its tasks, \MASS also requires a few external components lis
 }
 
 
-\chapter{SEMuS - Operations Environment}
+\chapter{\SEMUS - Operations Environment}
 \label{chapter:operations:semus}
 
 \section{Hardware Configuration - Single Machine}
 
-The SEMuS toolset uses a host computer with the Linux operating system. SEMuS needs the following hardware requirements to be executed on single machines:
+The \SEMUS toolset uses a host computer with the Linux operating system. \SEMUS needs the following hardware requirements to be executed on single machines:
 
 \begin{itemize}
 	\item x86\_64 PC architecture
@@ -55,14 +55,12 @@ The SEMuS toolset uses a host computer with the Linux operating system. SEMuS ne
 
 \section{Software Configuration}
 
-SEMuS integrates SEMu, a symbolic execution-based mutation analysis engine, and thus it is necessary to install it before running SEMuS. SEMuS includes a Dockerfile that provides the necessary commands to install SEMu.
+\SEMUS integrates \SEMU, a symbolic execution-based mutation analysis engine, and thus it is necessary to install it before running \SEMUS. \SEMUS includes a Dockerfile that provides the necessary commands to install \SEMU and \SEMUS.
 
-In order to perform its tasks, SEMuS also requires a few external components listed in the following:
+In order to perform its tasks, \SEMUS requires these components previously installed:
 
 \begin{itemize}
-	\item Python-3.4 or higher (packages muteria, libclang, pandas, jinja2)
-	\item jq
-	\item bash 4.4 or higher
+	\item \texttt{Docker} (\texttt{docker-ce} \texttt{docker-ce-cli} \texttt{containerd.io})
 \end{itemize}
 
 

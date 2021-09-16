@@ -1,0 +1,35 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[t]
+\tiny
+\caption{SEMuS parameters to be configured.}
+\label{table:to_conf_semus}
+\begin{tabular}{lp{8.5cm}}
+\hline
+\textbf{Parameter}  &  \textbf{Description} \\
+\hline
+FAQAS\_SEMU\_CASE\_STUDY\_TOPDIR &  Root folder of the case study \\
+FAQAS\_SEMU\_CASE\_STUDY\_WORKSPACE &  SEMuS workspace for the case study \\
+FAQAS\_SEMU\_OUTPUT\_TOPDIR & SEMuS output folder, to be placed inside the workspace \\
+FAQAS\_SEMU\_GENERATED\_MUTANTS\_TOPDIR & Root folder for storing the generated mutants \\
+FAQAS\_SEMU\_REPO\_ROOTDIR &  Root folder of the case study source code\\
+FAQAS\_SEMU\_ORIGINAL\_SOURCE\_FILE & Path of the source file under analysis \\
+FAQAS\_SEMU\_COMPILE\_COMMAND\_SPECIFIED\_SOURCE\_FILE & Name of the source file under analysis \\
+FAQAS\_SEMU\_GENERATED\_MUTANTS\_DIR & Folder for storing the generated mutants for the specified source file\\
+FAQAS\_SEMU\_BUILD\_CODE\_FUNC\_STR & Bash function for building the source file under analysis, to be specified in string format\\
+FAQAS\_SEMU\_BUILD\_LLVM\_BC & Bash function for building the source file to LLVM bitcode \\
+FAQAS\_SEMU\_META\_MU\_TOPDIR &  Root folder for the meta mutant \\
+FAQAS\_SEMU\_GENERATED\_META\_MU\_SRC\_FILE &  Path of the source file (i.e., C file) of the meta mutant \\
+FAQAS\_SEMU\_GENERATED\_META\_MU\_BC\_FILE &  Path of the source file (i.e., LLVM bitcode file) of the meta mutant \\
+FAQAS\_SEMU\_GENERATED\_META\_MU\_MAKE\_SYM\_TOP\_DIR &  Folder for storing intermediate files for the generated inputs \\
+FAQAS\_SEMU\_GENERATED\_TESTS\_TOPDIR &  Folder for storing the generated inputs \\
+FAQAS\_SEMU\_TEST\_GEN\_TIMEOUT & Timeout in seconds for the test generation process \\
+FAQAS\_SEMU\_HEURISTICS\_CONFIG & Configuration array for SEMu heuristics \\
+FAQAS\_SEMU\_TEST\_GEN\_MAX\_MEMORY & Maximum test generation memory in MB \\
+FAQAS\_SEMU\_STOP\_TG\_ON\_MEMORY\_LIMIT & Parameter to stop test generation when the memory limit is reached \\
+FAQAS\_SEMU\_TG\_MAX\_MEMORY\_INHIBIT & Parameter to stop forking states when the memory limit is reached \\
+\hline
+\end{tabular}
+\end{table}
+
+

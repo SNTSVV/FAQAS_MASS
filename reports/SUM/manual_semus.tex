@@ -1,0 +1,210 @@
+% !TEX root = MAIN.tex
+
+\chapter{\SEMUS - Operations Manual}
+
+\section{Set-up and Initialization}
+\label{sec:install:semus}
+
+\SEMUS depends directly on \SEMU for test inputs generation, and \MASS for mutant generation.
+
+For this reason, we provide a Dockerfile containing all the commands necessary to download, install and prepare a full installation of \SEMU and MASS. The Dockerfile can be found at \texttt{\SEMUS/Dockerfile}. The installation will take place the first time the Docker image is created through the Bash script \texttt{cd\_semu\_docker.sh}, no further installation is required for now.
+
+\subsection{Dependencies}
+
+%\TODO{should we add the LLVM version?}
+%\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
+
+\begin{itemize}
+	\item Linux packages: \texttt{docker-ce} \texttt{docker-ce-cli} \texttt{containerd.io}
+\end{itemize}
+
+
+\section{Getting started}
+
+\subsection{Initialization of the \SEMUS workspace}
+
+\SEMUS needs a dedicated folder structure for running the test generation on a case study. 
+For this reason, the engineer shall create the following directory structure under the folder \texttt{case\_studies}, assuming the name of the case study is stored in the variable \texttt{\$SUT}:
+
+\begin{itemize}
+	\item \texttt{case\_studies/\$SUT/:}
+	\begin{itemize}
+		\item \texttt{scripts/}
+		\item \texttt{util\_codes/}
+		\item \texttt{WORKSPACE/}
+	\end{itemize}
+\end{itemize}
+
+After the creation of the folder structure, the engineer shall copy the scripts for (1) creating the mutants, (2) running the toolset, (3) configuring \SEMUS. The commands for copying these files are provided below:
+
+\begin{lstlisting}[language=bash]
+  $ cd case_studies/MLFS/scripts
+  $ cp create_mutants.sh run.sh docker_run.sh faqas_semus_config.sh ../../$SUT/scripts
+\end{lstlisting}
+
+At this step, the engineer shall also provide a compilation database file of the SUT, to be placed inside \texttt{\$SUT/scripts} with the name \texttt{compile\_commands.json}. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation and the test generation steps of the methodology.
+
+Next, the engineer shall copy the script necessary for generating the test templates for guiding the test generation. This can be done through the following commands:
+
+\begin{lstlisting}[language=bash]
+  $ cd case_studies/MLFS/util_codes
+  $ cp call_generate_direct.sh ../../$SUT/util_codes
+\end{lstlisting}
+
+Last, the engineer shall place inside the folder \texttt{case\_studies/\$SUT/WORKSPACE/DOWNLOADED} (1) the SUT source code, and (2) the list of live mutants (provided by \MASS output).
+
+\subsection{\SEMUS Configuration}
+
+There is one Bash script that should be edited by the engineer to configure \SEMUS. The script enable \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout).
+
+\input{tables/to_conf_semus}
+
+Table~\ref{table:to_conf_semus} provides a summary of \SEMUS configuration files and a brief description. A detailed description of the SEMuS configuration file follows.
+
+
+\subsubsection{Edit faqas\_semus\_config.sh}
+
+Within file \texttt{faqas\_semus\_config.sh} there are multiple environment variables that must be set; they are shown in Listing~\ref{listing:SEMUS:conf}.
+
+\begin{lstlisting}[language=bash,label=listing:SEMUS:conf,caption=faqas\_semus\_conf.sh file.]
+
+# Root folder of the case study
+FAQAS_SEMU_CASE_STUDY_TOPDIR=
+
+# SEMuS workspace for the case study
+FAQAS_SEMU_CASE_STUDY_WORKSPACE=$
+
+# SEMuS output folder, to be placed inside the workspace
+FAQAS_SEMU_OUTPUT_TOPDIR=
+
+# Root folder for storing the generated mutants
+FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR=
+
+# Root folder of the case study source code
+FAQAS_SEMU_REPO_ROOTDIR=
+
+# Full path of the source file under analysis
+FAQAS_SEMU_ORIGINAL_SOURCE_FILE=
+
+# Relative path of the source file under analysis
+FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE=
+
+# Folder for storing the generated mutants for the specified source file
+FAQAS_SEMU_GENERATED_MUTANTS_DIR=
+
+# Bash function for building the source file under analysis, to be specified in string format
+FAQAS_SEMU_BUILD_CODE_FUNC_STR='FAQAS_SEMU_BUILD_CODE_FUNC() { }'
+
+# Bash function for building the source file to LLVM bitcode
+FAQAS_SEMU_BUILD_LLVM_BC() { }
+
+# Root folder for the meta mutant
+FAQAS_SEMU_META_MU_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/meta_mu_topdir
+
+# Path of the source file (i.e., C file) of the meta mutant
+FAQAS_SEMU_GENERATED_META_MU_SRC_FILE=
+
+# Path of the source file (i.e., LLVM bitcode file) of the meta mutant
+FAQAS_SEMU_GENERATED_META_MU_BC_FILE=
+
+# Folder for storing intermediate files for the generated inputs 
+FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=
+
+# Folder for storing the generated inputs 
+FAQAS_SEMU_GENERATED_TESTS_TOPDIR=
+
+# Timeout in seconds for the test generation process
+FAQAS_SEMU_TEST_GEN_TIMEOUT=
+
+# Configuration array for SEMu heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
+FAQAS_SEMU_HEURISTICS_CONFIG='{
+        "PL": 
+        "CW": 
+        "MPD": 
+        "PP": 
+        "NTPM": 
+        "PSS": 
+}'
+
+# Maximum test generation memory in MB
+FAQAS_SEMU_TEST_GEN_MAX_MEMORY=
+
+# Parameter to stop test generation when the memory limit is reached
+FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT=
+
+# Parameter to stop forking states when the memory limit is reached
+FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT=
+
+\end{lstlisting}
+
+
+
+\subsection{Running \SEMUS}
+\label{sec:semuslaunch}
+
+To run \SEMUS is necessary to generate the test templates as first step; there is a dedicated Bash script for doing so:
+
+\begin{lstlisting}[language=bash]
+ $ case_studies/$SUT/util_codes/call_generated_direct.sh
+\end{lstlisting}
+
+The previous command will generate inside the directory \texttt{case\_studies/\$SUT/util\_codes} one folder for each source under analysis, and inside of these folders, one template for each function under test.
+
+The test generation process can be started with the command shown below. Note that the first time the command is invoked Docker will install all the dependencies of \SEMUS (i.e., \SEMU and \MASS).
+
+\begin{lstlisting}[language={}]
+./run.sh [<starting-step>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
+\end{lstlisting}
+
+Where:
+\begin{itemize}
+	\item starting-step: is the step of the pipeline from which to start, possible values are \texttt{\{mutation, compile, presemu, semu,unittests\}}
+	\begin{itemize}
+		\item mutation: the process starts from the mutant generation step
+		\item compile: the process starts from the mutant compilation step
+		\item presemu: the process starts from the preparation of the meta mutant step (i.e., Pre-SEMu)
+		\item semu: the process starts from the test generation step itself
+		\item unittests: the process starts from the conversion of KLEE tests to unit tests step
+	\end{itemize}
+	\item mutants-list-file: is the file containing the list of mutants to use during the phases pre-semu and semu.
+	\item output-dir-for-pre-semu-and-semu: directory to store the output of pre-semu and semu phases, when the mutants list is specified.
+\end{itemize}
+
+An example for launching the test generation from the mutation generation step follows:
+
+\begin{lstlisting}[language=bash]
+ $ scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
+\end{lstlisting}
+
+\subsection{\SEMUS results}
+
+\SEMUS results can be found at the folder \texttt{case\_studies/\$SUT/WORKSPACE/OUTPUT}:
+
+\begin{itemize}
+	\item \texttt{mutants\_generation}: this folder contains the mutant sources generated by \MASS
+	\item \texttt{live\_mutants\_output/mutants\_generation}: this folder stores the source files and the compiled objects of the meta mutant files (e.g., \texttt{*.MetaMu.c} and \texttt{*.MetaMu.bc})
+	\item \texttt{live\_mutants\_output/test\_generation}: this folder contains the outputs of \SEMUS concerning the test generation step, this directory contains one folder for each test template. Furthermore, it also contains the following folders:
+	\begin{itemize}
+		\item \texttt{direct/TEMPLATE/FAQAS\_SEMu-out/semu}: \SEMU output (e.g., KLEE tests files, execution traces)
+		\item \texttt{direct/TEMPLATE/FAQAS\_SEMu-out/produced-unittests}: Unit test cases converted from \SEMU output
+	\end{itemize}
+
+\end{itemize}
+
+
+
+\section{Normal Termination}
+
+
+Each step of \SEMUS is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
+If the engineer decides to interrupt \SEMUS execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
+
+\section{Error Conditions}
+
+There is no error condition handling in the \FAQAS. If all preconditions are met, there should not be any error.
+
+\section{Recover Runs}
+
+%\DONE{Shall we say that an engineer can restart the process form a task if all the precondiions are met?}
+
+If for any reason the execution of \SEMUS is interrupted, an engineer can restart the process from a specific step if all preconditions are met. This is possible since each \SEMUS step work by processing data that is permanently stored by previous steps.

@@ -24,12 +24,20 @@
 
 For more information about how to operate each command, please refer to Section~\ref{sec:launchers}.
 
-\section{Code-driven test generation toolset (SEMuS)}
+\section{Code-driven test generation toolset (\SEMUS)}
+
+\SEMUS supports the following commands:
+	\begin{itemize}
+	\item \texttt{call\_generate\_direct.sh}: command to generate the test templates for guiding the test generation process.
+	\item \texttt{docker\_run.sh}: command to launch the test generation process.
+\end{itemize}
+
+For more information about how to operate each command, please refer to Section~\ref{sec:semuslaunch}.
 
 \section{Data-driven mutation analysis toolset (\DAMA)}
 \begin{itemize}
-\item \texttt{bash DAMAt\_probe\_generation.sh}: command to generate the data mutation probes.
-\item \texttt{bash DAMAt\_mutants\_launcher.sh}: command to execute the mutants against the SUT test suite.
+\item \texttt{DAMAt\_probe\_generation.sh}: command to generate the data mutation probes.
+\item \texttt{DAMAt\_mutants\_launcher.sh}: command to execute the mutants against the SUT test suite.
 \end{itemize}
 
 For more information about how to operate each command, please refer to Section~\ref{sec:dama_singlelaunch}.

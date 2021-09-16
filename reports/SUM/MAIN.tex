@@ -210,6 +210,10 @@
 
 \newcommand{\DAMA}{\textit{DAMAt}\xspace}
 
+\newcommand{\SEMU}{\textit{SEMu}\xspace}
+
+\newcommand{\SEMUS}{\textit{SEMuS}\xspace}
+
 \newcounter{paranum}
 \newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
 
@@ -294,12 +298,15 @@
 \include{manual}
 
 \STARTCHANGEDWPT
+\include{manual_semus}
 \include{manual_dama}
 \ENDCHANGEDWPT
 
 \include{reference}
 
 \include{tutorial}
+
+\include{tutorial_semus}
 
 \include{tutorial_dama}
 
