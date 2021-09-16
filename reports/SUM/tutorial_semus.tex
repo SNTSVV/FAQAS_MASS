@@ -1,0 +1,34 @@
+% !TEX root = MAIN.tex
+
+\chapter{SEMUS - Tutorial}
+\label{chapter:semus:tutorial}
+
+\section{Introduction}
+
+This tutorial instructs on how to use \SEMUS on a typical case using a simple example. 
+
+The example concerns the use of \SEMUS on the ASN.1 case study, provided by ESA.
+
+\section{Running \SEMUS}
+\label{sec:semus_running}
+
+Firstly, the user needs to set up the \SEMUS toolset, please refer to Section~\ref{sec:install:semus}.
+
+The ASN.1 (or ASN1SCC) case study is an open source ASN.1 compiler that generates C/C++ and SPARK/Ada code suitable for low resource environments such as space systems. Moreover, the compiler can produce a test harness that provides full statement coverage in the generated code, and therefore significantly improves its quality.
+
+In the context of FAQAS, we focus our analysis on the auto-generated source code by the ASN.1 compiler. For the definition of the ASN.1 compiler case study, we introduce the example of a simple grammar, more details on ASN1SCC and the grammar used, please refer to Section 3.7 of the deliverable \texttt{ITT-1-9873-ESA-FAQAS-D2}.
+
+For the given grammar, the size of the auto-generated source code is 4\,338 LOC. While the unit test suite consists of 107 auto-generated test cases.
+
+The objective of this tutorial is to generate test inputs that kill the mutants non detected by the ASN.1 test suite. Consequently, we consider a precondition of this tutorial to have applied \MASS to the ASN.1 case study, and thus to have the list of live mutants.
+
+Given that the engineer has already properly setup and initialized the workspace for \SEMUS (see Section~\ref{sec:semus:initialization}). The steps for test generation on the ASN.1 case study consists of:
+
+\begin{enumerate}
+    \item Configure the file faqas\_semus\_config.sh
+    \item Generate the test templates for the SUT functions
+    \item Launch the test generation process for the case study
+\end{enumerate}
+
+
+
