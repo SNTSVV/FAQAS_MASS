@@ -6,15 +6,17 @@
 
 \STARTCHANGEDWPT
 
-\DONE{This is the sentence in which you want to explain what is the solution implemented in FAQAS. You have to wrte something like "To achieve test suite augmentation (i.e., automatically generate test cases that kill mutants), in FAQAS, we have implemented an extension of SEMu that we call..."}
+%\DONE{This is the sentence in which you want to explain what is the solution implemented in FAQAS. You have to wrte something like "To achieve test suite augmentation (i.e., automatically generate test cases that kill mutants), in FAQAS, we have implemented an extension of SEMu that we call..."}
 
 To achieve test suite augmentation (i.e., automatically generate test cases that kill mutants), in FAQAS, we have implemented an extension of SEMu that we call SEMu for Space Software (SEMuS).
 
 %Symbolic Execution-based Mutant analysis for Space software (FAQAS-SEMuS), is an extension of SEMu that implements test generation for space software. 
 
-\DONE{First you need to explain why SEMu cannot be used as in in FAQAS}
+\TODO{I've added a paragraph; please check}
 
-In the FAQAS context, we cannot use SEMu as it is, since it requires the software to be compiled with the LLVM compiler in LLVM-IR format, and as explained previously (1) our case studies relies on compiler pipelines (e.g., RTEMS) that include architecture-specific optimizations that are not supported by LLVM, (2) there is no guarantee that the compiled objects produced by LLVM are equivalent to those produced by the original compiler, and (3) LLVM optimizations are often applied at runtime, which is infeasible when the software under test needs to be executed within a dedicated simulator (e.g., a SVF facility).
+In the FAQAS context, we cannot use SEMu as it is, since it requires mutants to be compiled with the LLVM compiler in LLVM-IR format. As explained previously (1) our case studies relies on compiler pipelines (e.g., RTEMS) that include architecture-specific optimizations that are not supported by LLVM, (2) there is no guarantee that the compiled objects produced by LLVM are equivalent to those produced by the original compiler, and (3) LLVM optimizations are often applied at runtime, which is infeasible when the software under test needs to be executed within a dedicated simulator (e.g., a SVF facility). The practical consequence is that the test suites of our case study systems, and, more in general, integration and system test suites of space software, cannot be used to test LLVM versions of the SUT, therefore, they cannot be used to identify killed and live mutants, in turn, it is not possible to determine which additional test cases need to be generated. The solution to this problem consists of first executing MASS to identify killed and live mutants then compile only the live mutants into LLVM-R format. To minimize the limitations above, instead of compiling the whole software, we compile only the mutated function and its dependencies, which enables the generation of unit test cases, which shall be sufficient to ensure the quality of the system under test in this context (e.g., unit test cases are normally used to ensure high code coverage). To enable the compilation of such mutants, we have extended MASS to generate a meta-mutant processed by SEMu and mutants that can be traced to such meta-mutant processed.
+
+\TODO{I think one of the point we have to make is that the meta-mutant is an important part of our porting. For this reason please ensure that we have introduced the meta-mutant and explain it below, if necessary}.
 
 \begin{figure}[tb]
 \begin{center}
@@ -24,18 +26,10 @@ In the FAQAS context, we cannot use SEMu as it is, since it requires the softwar
 \end{center}
 \end{figure}
 
-Figure~\ref{fig:semus_architecture} shows the architecture of SEMuS and how it interacts with MASS.
-
-%SEMuS receives the following inputs: (a) the list of live mutants (produced by MASS), (b) the SUT, and (c) the SUT functions. 
-
-As shown in Figure~\ref{fig:semus_architecture} SEMus is composed by five components, which are \emph{Test Template Generator},  \emph{Pre-SEMu},  \emph{KLEE-SEMu},  \emph{KTest to Unit Test}, and \emph{LLVM}.
-
-\DONE{Why the following listing appears here? Can't we put it top or bottom?}
 \input{listings/test_template}
 
-\DONE{You need to provide the idea behind SEMus, that is, what it does at a high level. You need to say that the objective is to generate automatically a test template including symbolic variables and ...}
-
-SEMuS provides the necessary components to make SEMu, and more specifically KLEE, compatible with our case studies. In particular, SEMuS (1) automates the generation of a test template including symbolic variables that guides the generation of test inputs, and (2) compiles the test template and the mutant into the format required by SEMu (i.e., LLVM IR). 
+Figure~\ref{fig:semus_architecture} shows the architecture of SEMuS and how it interacts with MASS. SEMus consists of five components, which are \emph{Test Template Generator},  \emph{Pre-SEMu},  \emph{KLEE-SEMu},  \emph{KTest to Unit Test}, and \emph{LLVM}.
+They enable the adoption of SEMu in the space context. In particular, SEMuS (1) automates the generation of a test template including symbolic variables that guides the generation of test inputs, and (2) compiles the test template and the mutant into the format required by SEMu (i.e., LLVM-IR). 
 
 
 The \emph{Test Template Generator} (TTG) component automates the generation of templates for the symbolic execution search. The component receives as inputs the SUT source code and the list of SUT functions. 
