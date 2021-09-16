@@ -13,11 +13,11 @@
 
 The architecture of the code-driven test suite augmentation toolset (i.e., SEMuS) is drafted in Figure~\ref{fig:architecture_diagram_semus}. The architecture diagram relies on UML package diagram notation.
 
-As specified in Figure~\ref{fig:architecture_diagram_semus}, the architecture of the toolset is divided into three packages, that is (1) the \emph{Test Template Generator}, (2) the \emph{SEMu}, and (3) the \emph{KTest to Unit Test}. The diagram also includes the entry point of the toolset, which is the \emph{SEMuS Launcher}.
+As specified in Figure~\ref{fig:architecture_diagram_semus}, the architecture of the toolset is divided into three packages:(1) the \emph{Test Template Generator}, (2) the \emph{SEMu}, and (3) the \emph{KTest to Unit Test}. The diagram also includes the entry point of the toolset, which is the \emph{SEMuS Launcher}.
 
 The package \emph{Test Template Generator} implements the features concerning (1) the parsing of the SUT source code, and (2) the generation of test templates for each SUT function.
 
-The package \emph{SEMu} implements the features regarding (1) the generation of the meta mutant, (2) compilation of the meta mutant, (3) compilation of the test template, and (4) the invocation of the underlying test generation tool (i.e., KLEE).
+The package \emph{SEMu} implements the features regarding (1) the generation of the meta mutant, (2) the compilation of the meta mutant, (3) the compilation of the test template, and (4) the invocation of the underlying test generation tool (i.e., KLEE).
 
 The package \emph{KTest to Unit Test} implements the features concerning (1) the parsing of KLEE's output, and (2) the conversion of KLEE tests to C unit test cases.
 
@@ -89,7 +89,7 @@ As shown in Figure~\ref{fig:component_diagram_semus}, the software is composed b
 
 
 % The activity \emph{Execute FAQAS-CompileAndExecuteMutants} in Figure~\ref{fig:process:codeDriven:augmentation} concerns the execution of the program \emph{FAQAS-GenerateTestGenerationScaffolding}.
-
+\TODO{Control flow arrows are missing on the SEMUs actor side}
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\textwidth]{images/semus-activity.pdf}

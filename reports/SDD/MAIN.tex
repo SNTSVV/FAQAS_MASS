@@ -206,6 +206,8 @@
 \newcommand{\MASS}{\textit{MASS}\xspace}
 \newcommand{\dama}{\textit{DaMAT}\xspace}
 
+\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\ENDCHANGEDWPT}{\color{black}}
 
 \newcounter{paranum}
 \newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
@@ -262,7 +264,7 @@
 \newcommand{\stt}[1]{\begin{footnotesize}\texttt{{#1}}\end{footnotesize}}
 
 
-\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVISION}[2]{{#2}}
 %\newcommand{\REVISION}[2]{#2}
 
 % \newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
@@ -284,23 +286,34 @@
 
 \input{overview}
 
+\clearpage
 \input{CodeDrivenAnalysis}
 
-\input{CodeDrivenGeneration}
 
+\clearpage
+\STARTCHANGEDWPT
+\input{CodeDrivenGeneration}
+\ENDCHANGEDWPT
+
+
+\clearpage
+\STARTCHANGEDWPT
 \input{DataDrivenAnalysis}
+\ENDCHANGEDWPT
 %
+
+\clearpage
 \input{DataDrivenGeneration}
 
 % \input{design}
 
 
 
-\newpage
+\clearpage
 
 %\appendix
 
-\include{ESA_comments}
+%\include{ESA_comments}
 %\clearpage
 
 \printindex

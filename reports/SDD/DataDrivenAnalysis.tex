@@ -28,7 +28,7 @@ The package \textit{Mutants Execution} implements the features regarding the com
 \subsubsection{Source Code Structure}
 
 
-\dama is delivered as a compressed archive consisting of source files.
+\dama is delivered as a compressed archive consisting of source files (i.e., bash scripts, python scripts, and C templates).
 The following bullet points describe the archive's structure once uncompressed:
 
 \begin{itemize}
@@ -83,7 +83,7 @@ As shown in Figure~\ref{fig:damat_component_diagram}, the software is composed b
 
   \texttt{test\_01,34598}
 
-  \item \textit{Probe  Generation}: this component processes the fault model and and generates \textit{FAQAS\_dataDrivenMutator.h}, \textit{FAQAS\_mutants\_table.csv}  and \textit{probes\_function.out}
+  \item \textit{Probe  Generation}: this component processes the fault model and and generates \textit{FAQAS\_data\-DrivenMutator.h}, \textit{FAQAS\_mutants\_table.csv}  and \textit{probes\_function.out}
   \item \textit{FAQAS\_dataDrivenMutator.h}: this is the API that contains the logic for the data drive mutation.
   \item \textit{FAQAS\_mutants\_table.csv}: this is a csv file containing the definition and \texttt{MutationOpt} (a mumerical ID) for every generated mutant. Every row represents a generated mutant. This is an example of a row:
 
@@ -145,7 +145,7 @@ As shown in Figure~\ref{fig:damat_component_diagram}, the software is composed b
 
       \texttt{<MutationOpt>,<testID>,<nr of calls>,<number of successful application>}
 
-      \item \textit{get\_stats} this component processes \textit{readable\_coverage.csv}, \textit{readable\_operator\_coverage.csv} and \textit{readable\_data.csv} to produce \textit{final\_mutants\_table.csv}
+      \item \textit{get\_stats} this component processes \textit{readable\_coverage.csv}, \textit{readable\_operator\_co\-verage.csv} and \textit{readable\_data.csv} to produce \textit{final\_mutants\_table.csv}
       \item \textit{final\_mutants\_table.csv} is a file in the csv format that contains a row for every mutant. Every row contains informations about the mutant definition and status.
       An example is provided below:
 
@@ -238,11 +238,11 @@ The end-user inspects these metrics to respectively take notice of these kinds o
 
 
 
-All the programs that automate the different steps of \MASS communicate only through the files that had been described in Section~\ref{sec:damat_component:design}.
+All the programs that automate the different steps of \dama communicate only through the files that had been described in Section~\ref{sec:damat_component:design}.
 
 \subsection{External interface design}
 
-The external interfaces of the \MASS are the programs that automate the different steps of \MASS, which have been described above. They are
+The external interfaces of the \dama are the programs that automate the different steps of \dama, which have been described above. They are
 
 \begin{itemize}
   \item \texttt{DAMAt\_probe\_generation.sh}: which generates the mutation API.
