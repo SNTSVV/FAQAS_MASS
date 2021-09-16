@@ -21,7 +21,7 @@ With this test design we aim to ensure that \emph{DDMutationFault}, which contai
 \emph{DDMutationFault} implements the data-driven mutation operators.
 
 The set of data-driven mutation operators  is composed of the following fault classes: Value Above Threshold (VAT), Value Below Threshold (VBT), Value Out of Range (VOR), Fix Value Above Threshold (FVAT), Fix Value Below Threshold (FVBT), Fix Value Out of Range (FVOR),  Bit Flip (BF), Invalid Numeric Value (INV), Illegal Value (IV), Anomalous Signal Amplitude (ASA), Signal Shift (SS) and Hold Value (HV).
-Table~\ref{table:operators_DAMA} shows the specifications for the mutation operators implemented by DAMAt.
+Table~\ref{table:damat:operators} shows the specifications for the mutation operators implemented by DAMAt.
 
 \input{tables/operators_DAMA}
 
@@ -38,7 +38,7 @@ Each data mutation operator can be configured with a set of parameters describin
 \subsection{Approach refinements}
 
 From the previous definitions, we derive the input classes to be used for the category partition method.
-These are the input that affects the behaviour of \emph{DDMutationFault} in the most impactful way.
+These are the inputs that affect the behaviour of \emph{DDMutationFault} in the most impactful way.
 Iterating on their combinations provides the best trade-off between extensive coverage and efficiency.
 They are \emph{Fault Class} and \emph{Data Type} and their possible values are represented below in tabular form (Table~\ref{table:ddmutation1_categories}).
 

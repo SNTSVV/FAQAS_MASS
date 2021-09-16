@@ -191,6 +191,8 @@
     urlcolor=black
 }
 
+\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\ENDCHANGEDWPT}{\color{black}}
 
 %%%% Title
 \newcommand{\titleone}{\textsf{FAQAS Framework}}
@@ -260,13 +262,13 @@
 \end{tikzpicture}}
 
 
-\newcommand{\CHANGED}[1]{\textcolor{blue}{#1}}
+\newcommand{\CHANGED}[1]{{#1}}
 \newcommand{\prog}{P}
 \newcommand{\prop}{}
 
 \newcommand{\FAQAS}{FAQAS-framework\xspace}
 
-\newcommand{\REVISION}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVISION}[2]{{#2}}
 
 \newcommand{\REVTWO}[2]{#2}
 
@@ -295,6 +297,8 @@
 
 \include{procedures}
 
+\STARTCHANGEDWPT
+
 \include{approach_DAMA}
 
 \include{design_DAMA}
@@ -302,6 +306,8 @@
 \include{specification_DAMA}
 
 \include{procedures_DAMA}
+
+\ENDCHANGEDWPT
 
 \include{additional}
 
