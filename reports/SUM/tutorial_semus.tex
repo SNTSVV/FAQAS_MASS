@@ -1,0 +1,126 @@
+% !TEX root = MAIN.tex
+
+\chapter{SEMUS - Tutorial}
+\label{chapter:semus:tutorial}
+
+\section{Introduction}
+
+This tutorial instructs on how to use \SEMUS on a typical case using a simple example. The example concerns the use of \SEMUS on the MLFS case study, provided by ESA.
+
+The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. 
+%\DONE{Please rewrite the following sentence}
+MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm} and \texttt{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
+The set of functions provided by MLFS are limited to the functions typically needed in flight software. 
+
+The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
+
+\section{Running \SEMUS}
+\label{sec:semus_running}
+
+Firstly, the user needs to set up the \SEMUS toolset, please refer to Section~\ref{sec:install:semus}.
+
+The objective of this tutorial is to generate test inputs that kill the mutants non detected by the MLFS test suite. Consequently, we consider a precondition of this tutorial to have applied \MASS to the MLFS case study, and thus to have the list of live mutants.
+
+Given that the engineer has already properly setup and initialized the workspace for \SEMUS (see Section~\ref{sec:semus:initialization}). The steps for test generation on the MLFS case study consists of:
+
+\begin{enumerate}
+    \item Configure the file faqas\_semus\_config.sh
+    \item Generate the test templates for the SUT functions
+    \item Launch the test generation process for the case study
+\end{enumerate}
+
+
+\subsection{Step 1: configuring \SEMUS}
+
+The first step consists of configuring \SEMUS; for doing so it is necessary to provide the paths for the SUT paths, the SUT compilation commands, the output folders, and the configuration of \SEMU for guiding the symbolic search. Listing~\ref{listing:MLFS:conf} provides an example of configuration file for the case study: 
+
+\begin{lstlisting}[language=bash,label=listing:MLFS:conf,caption=faqas\_semus\_conf.sh file for MLFS case study.]
+
+FAQAS_SEMU_CASE_STUDY_TOPDIR=../
+
+FAQAS_SEMU_CASE_STUDY_WORKSPACE=$FAQAS_SEMU_CASE_STUDY_TOPDIR/WORKSPACE
+
+FAQAS_SEMU_OUTPUT_TOPDIR=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/OUTPUT/"${ENV_FAQAS_SEMU_SRC_FILE%.c}"
+
+FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/mutants_generation
+
+FAQAS_SEMU_REPO_ROOTDIR=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/DOWNLOADED/MLFS-QDP_I1_R1/BL-SC/E1356-GTD-BL-01_I1_R2/
+
+FAQAS_SEMU_ORIGINAL_SOURCE_FILE=$FAQAS_SEMU_REPO_ROOTDIR/"${ENV_FAQAS_SEMU_SRC_FILE}"
+
+FAQAS_SEMU_COMPILE_COMMAND_SPECIFIED_SOURCE_FILE=./"${ENV_FAQAS_SEMU_SRC_FILE}"
+
+FAQAS_SEMU_GENERATED_MUTANTS_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/"${ENV_FAQAS_SEMU_SRC_FILE%.c}"
+
+FAQAS_SEMU_BUILD_CODE_FUNC_STR='
+FAQAS_SEMU_BUILD_CODE_FUNC()
+{
+    local in_file=$1
+    local out_file=$2
+    local repo_root_dir=$3
+    local compiler=$4
+    local flags="$5"
+    # compile
+    $compiler $flags -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O0 -fno-builtin -I$repo_root_dir/include -I$repo_root_dir/libm/common -I$repo_root_dir/libm/math -I$repo_root_dir/libm/mlfs -o $out_file $in_file $flags
+    return $?
+}
+'
+
+FAQAS_SEMU_BUILD_LLVM_BC()
+{
+    local in_file=$1
+    local out_bc=$2
+    eval "$FAQAS_SEMU_BUILD_CODE_FUNC_STR"
+    FAQAS_SEMU_BUILD_CODE_FUNC $in_file $out_bc $FAQAS_SEMU_REPO_ROOTDIR clang '-c -emit-llvm'
+    return $?
+}
+
+FAQAS_SEMU_META_MU_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/meta_mu_topdir
+
+FAQAS_SEMU_GENERATED_META_MU_SRC_FILE=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/"${ENV_FAQAS_SEMU_SRC_FILE%.c}".MetaMu.c
+
+FAQAS_SEMU_GENERATED_META_MU_BC_FILE=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/"${ENV_FAQAS_SEMU_SRC_FILE%.c}".MetaMu.bc
+
+FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR/"MakeSym-TestGen-Input"
+
+FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
+
+FAQAS_SEMU_TEST_GEN_TIMEOUT=7200
+
+# This is the config for SEMU heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
+FAQAS_SEMU_HEURISTICS_CONFIG='{
+        "PL": "0",
+        "CW": "4294967295",
+        "MPD": "0",
+        "PP": "1.0",
+        "NTPM": "5",
+        "PSS": "RND"
+}'
+
+FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
+
+FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
+
+FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
+
+\end{lstlisting}
+
+Concerning \SEMU configuration, we can see that we have setup the tool to run for a maximum of 2 hours, and to use a maximum of 2000 MB of memory.
+
+\subsection{Step 2: generating test templates}
+
+The engineer shall execute the Bash script \texttt{call\_generate\_direct.sh} for the generation of test templates with the following command.
+
+\begin{lstlisting}[language=bash]
+$ case_studies/MLFS/util_codes/call_generated_direct.sh
+\end{lstlisting}
+
+\subsection{Step 3: launching the test generation process}
+
+Given that the test generation targets the source file \texttt{libm/common/s\_fmax.c}, the corresponding command for starting the test generation follows:
+
+\begin{lstlisting}[language=bash]
+ $ ENV_FAQAS_SEMU_SRC_FILE=libm/common/s_fmax.c scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
+\end{lstlisting}
+
+

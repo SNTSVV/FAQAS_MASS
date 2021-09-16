@@ -192,8 +192,8 @@
 
 %%%% Title
 \newcommand{\titleone}{\textsf{FAQAS Framework}}
-\newcommand{\titletwo}{\textsf{SUM}}
-\newcommand{\titlethree}{\textsf{Software User Manual}}
+\newcommand{\titletwo}{\textsf{SRF}}
+\newcommand{\titlethree}{\textsf{Software Reuse File}}
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
@@ -210,14 +210,11 @@
 
 \newcommand{\DAMA}{\textit{DAMAt}\xspace}
 
-\newcommand{\SEMU}{\textit{SEMu}\xspace}
-
 \newcommand{\SEMUS}{\textit{SEMuS}\xspace}
 
-\newcounter{paranum}
-\newcommand{\RQ}{\vspace{10pt}\noindent\textbf{FAQAS-SSS-REQ-\refstepcounter{paranum}\ifnum\value{paranum}<10 00\else 0\fi\theparanum}\textbf}
 
 \newcommand{\remark}{\textbf{Remark:}\xspace}
+
 
 \begin{document}
 
@@ -287,31 +284,16 @@
 
 \input{introduction}
 
-\include{purpose}
+\input{reused}
 
-\include{general}
+\input{compatibility}
 
-\include{swview}
+\input{conclusion_evaluation}
 
-\include{operations}
+\input{corrective_actions}
 
-\include{manual}
-
-\STARTCHANGEDWPT
-\include{manual_semus}
-\include{manual_dama}
-\ENDCHANGEDWPT
-
-\include{reference}
-
-\include{tutorial}
-\STARTCHANGEDWPT
-\include{tutorial_semus}
-
-\include{tutorial_dama}
-\ENDCHANGEDWPT
-\newpage
-\include{ESA_comments}
+% \newpage
+% \include{ESA_comments}
 
 \clearpage
 
