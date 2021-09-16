@@ -152,10 +152,16 @@ To run \SEMUS is necessary to generate the test templates as first step; there i
 
 The previous command will generate inside the directory \texttt{case\_studies/\$SUT/util\_codes} one folder for each source under analysis, and inside of these folders, one template for each function under test.
 
-The test generation process can be started with the command shown below. Note that the first time the command is invoked Docker will install all the dependencies of \SEMUS (i.e., \SEMU and \MASS).
+The test generation process can be started with the command shown in Listing~\ref{listing:semus_launch}. 
 
-\begin{lstlisting}[language={}]
-./run.sh [<starting-step>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
+Note the following:
+\begin{itemize}
+	\item the first time the command is invoked Docker will install all the dependencies of \SEMUS (i.e., \SEMU and \MASS).
+	\item the environment variable \texttt{ENV\_FAQAS\_SEMU\_SRC\_FILE} has to be set before invoking; this variable indicates the source file for which the test generation will be targeted
+\end{itemize}
+
+\begin{lstlisting}[language={}, label=listing:semus_launch]
+ENV_FAQAS_SEMU_SRC_FILE=source.c ./docker_run.sh [<starting-step>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
 \end{lstlisting}
 
 Where:
@@ -175,7 +181,7 @@ Where:
 An example for launching the test generation from the mutation generation step follows:
 
 \begin{lstlisting}[language=bash]
- $ scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=source.c scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
 \end{lstlisting}
 
 \subsection{\SEMUS results}
