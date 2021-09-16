@@ -31,8 +31,8 @@ Because mutants differ only slightly from the original program (minor syntactic 
 
 The technique follows both the mutated and the original execution and compares the state (i.e., the value of the variables) at each step of the execution.
 
-\TODO{Check if correct what I wrote below}
-Every time the execution reaches the statement after the mutation, the technique triggers the generation of test inputs for the forked and the original programs by comparing their symbolic states.
+% \TODO{Check if correct what I wrote below}
+Every time the execution reaches the statement after the mutation, the technique triggers the generation of test inputs for the forked and the original programs by comparing their symbolic states. To generate test inputs that kill the mutant, the technique encodes the three killings conditions, obtained from the symbolic execution search, into a single formula (the $kill$ formula) to be passed to a solver.
 
 \begin{figure}[tb]
 \begin{center}
@@ -55,7 +55,7 @@ Consequently, the only feasible path that targets mutant $M_2$ is the following:
 
 Where the solution to $kill(\pi_{P}^{1}, \pi_{M_2}^{1})$ is $x = -2$.
 
-\TODO{You need to specify what is a 'kill formula'; in the folowing sentence or in previous paragraph, as appropriate}
+\DONE{You need to specify what is a 'kill formula'; in the folowing sentence or in previous paragraph, as appropriate. OSCAR: I provided a brief definition 3-4 paragraphs above.}
 The symbolic execution process introduced above is largely inefficient; indeed,
 %However, the problem of this approach is that 
 (1) it requires a complete symbolic execution on $P$ and on each mutant $M$, (2) all path conditions and symbolic outputs have to be stored, and (3) all kill formulas has to be solved for each pair of paths conditions. 
