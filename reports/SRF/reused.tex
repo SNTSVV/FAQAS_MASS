@@ -4,10 +4,206 @@
 
 \section{MASS}
 
+The software intended to be reused is SRCIROR, a source (SRC) and intermediate representation (IR) mutator. SRCIROR performs mutations on source code written in C/C++ and on the LLVM IR.
 
+At a source code level SRCIRor performs mutations by using the clang compiler to parse the input files and build the abstract syntax trees (AST). At the IR level SRCIRor finds and directly mutates the instructions of interest, which might be all the instructions of the SUT or a subset of them. 
+
+The main website for SRCIROR can be found here: \begin{scriptsize}\url{https://github.com/TestingResearchIllinois/srciror}\end{scriptsize}. The tool is no longer maintained by its original authors.
+
+This is the only software item intended to be reused on \MASS.
+
+\subsection{General Characteristics of the Software}
+
+\begin{itemize}
+	\item Considered version and list of components:
+	\begin{itemize}
+		\item Version: 1.0
+		\item Components: \texttt{SRCMutation}, \texttt{IRMutation}, \texttt{PythonWrappers}
+	\end{itemize}
+	\item Owners: University of Illinois at Urbana-Champaign.
+	\item Developers: Darko Marinov Group
+	\item Licensing conditions: Open Source License
+	\item Development and execution environment:
+	\begin{itemize}
+		\item Hardware platform: x86-64
+		\item Software environment required: Clang-3.8
+	\end{itemize}
+	\item Size of the software: 1\,283 lines of code (without considering comment or blank lines)
+	\item Commercial software necessary for software execution: Clang-3.8 is necessary for compilation, there is no Commercial off the Shelf (COTS) software dependency for execution.
+\end{itemize}
+
+\subsection{Parts of SRCIROR Intended to be Reused}
+
+
+From SRCIROR, the \texttt{SRCMutation} and \texttt{PythonWrappers} components are intended to be reused. 
+
+In particular, from the component SRCMutation we reuse:
+\begin{itemize}
+	\item src/mutator.cpp
+\end{itemize}
+
+While from PythonWrappers we only reuse:
+
+\begin{itemize}
+	\item mutationClang
+	\item bashUtil.py
+\end{itemize}
+
+\subsection{Copyright and Licensing Conditions}
+
+Regarding the copyright and license information, the files in SRCIROR that are going to be reused bear the following copyright notice and license conditions:
+
+\begin{lstlisting}[language={}]
+University of Illinois/NCSA
+Open Source License
+
+Copyright (c) 2018 University of Illinois at Urbana-Champaign.
+All rights reserved.
+
+Developed by:       Darko Marinov Group
+                    University of Illinois at Urbana-Champaign
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal with the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+ 1. Redistributions of source code must retain the above copyright notice,
+     this list of conditions and the following disclaimers.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimers in the
+    documentation and/or other materials provided with the distribution.
+ 3. Neither the names of NCSA, University of Illinois, nor the names of its
+    contributors may be used to endorse or promote products derived from this
+    Software without specific prior written permission.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+WITH THE SOFTWARE.
+
+Parts of this code has been adapted from the following two repositories:
+https://github.com/eliben
+https://github.com/eschulte/clang-mutate
+\end{lstlisting}
 
 \section{SEMuS}
 
+The software intended to be reused is \SEMU, a mutant analysis framework based on dynamic symbolic execution that has been built on top of the KLEE Symbolic Virtual Machine.
+
+\SEMU uses a form of differential symbolic execution to generate test inputs that kill mutants. The approach consists of modeling the mutant killing problem as a symbolic execution search in a scalable and cost-effective way. 
+
+The main website for \SEMU can be found here: \begin{scriptsize}\url{https://github.com/thierry-tct/KLEE-SEMu}\end{scriptsize}. The tool is maintained by Thierry Titcheu Chekam.
+
+This is the only software item intended to be reused on \SEMUS.
+
+\subsection{General Characteristics of the Software}
+
+\begin{itemize}
+	\item Considered version and list of components:
+	\begin{itemize}
+		\item Version: 1.3.0
+		\item Components: \texttt{ExecutionState\_KS}, \texttt{Executor\_KS}, \texttt{klee-semu}
+	\end{itemize}
+	\item Owners: Stanford University.
+	\item Developers: Thierry Titcheu Chekam
+	\item Licensing conditions: Open Source License
+	\item Development and execution environment:
+	\begin{itemize}
+		\item Hardware platform: x86-64
+		\item Software environment required: (Linux packages) build-essential, curl, bison, flex, bc, libcap-dev, git, cmake, libboost-all-dev, libncurses5-dev, python-minimal, python-pip, unzip, LLVM 3.4. 
+	\end{itemize}
+	\item Size of the software: 76\,352 lines of code (without considering comment or blank lines)
+	\item Commercial software necessary for software execution: there is no Commercial off the Shelf (COTS) software dependency for execution.
+\end{itemize}
+
+\subsection{Parts of SEMu Intended to be Reused}
+
+The main components to be reused in \SEMUS are located in in the code in lib/Mutation (mainly the source code files ExecutionState\_KS.h, ExecutionState\_KS.cpp, Executor\_KS.h, and Executor\_KS.cpp), and tools/klee-semu (mainly the source code file klee-semu.cpp).
+
+\subsection{Copyright and Licensing Conditions}
+
+Regarding the copyright and license information, the files in \SEMU that are going to be reused bear the following copyright notice and license conditions (inherited directly from KLEE):
+
+\begin{lstlisting}[language={}]
+==============================================================================
+KLEE Release License
+==============================================================================
+University of Illinois/NCSA
+Open Source License
+
+http://klee.github.io/
+
+Developed by:
+    KLEE Team
+    Stanford Checking Group
+
+Copyright (c) 2007-2009 Stanford University.
+All rights reserved.
+
+
+Maintained since 2009 by:
+    Software Reliability Group
+    http://srg.doc.ic.ac.uk/
+    Imperial College London
+
+
+Improved and extended since 2009 by many developers.  For a full list
+of contributors, refer to
+         https://github.com/klee/klee/graphs/contributors
+and the Git commit history.
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal with
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimers.
+
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimers in the
+      documentation and/or other materials provided with the distribution.
+
+    * Neither the names of the KLEE Team, Stanford University,
+      Imperial College London, nor the names of its contributors may
+      be used to endorse or promote products derived from this
+      Software without specific prior written permission.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE
+SOFTWARE.
+
+==============================================================================
+The KLEE software contains code written by third parties.  Such software will
+have its own individual LICENSE.TXT file in the directory in which it appears.
+This file will describe the copyrights, license, and restrictions which apply
+to that code.
+
+The disclaimer of warranty in the University of Illinois Open Source
+License applies to all code in the KLEE distribution, and nothing in
+any of the other licenses gives permission to use the names of the
+KLEE team, Stanford University, or the names of its contributors to
+endorse or promote products derived from this Software.
+
+The following pieces of software have additional or alternate copyrights,
+licenses, and/or restrictions:
+
+Program             Directory
+-------             ---------
+klee-libc           runtime/klee-libc
+\end{lstlisting}
 
 
 \section{DAMAt}
