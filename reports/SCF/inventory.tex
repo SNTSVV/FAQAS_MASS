@@ -1,0 +1,722 @@
+% !TEX root = MAIN.tex
+
+\chapter{Inventory of Software Configuration Item}
+
+This chapter contains a detailed description of the inventory of the configuration item. The items consists of source code files and build scripts for the different software of the FAQAS Framework.
+
+\section{Source Code File List}
+\label{sec:code_list}
+
+\subsection{MASS}
+
+In this section, we provide a list of the complete source code concerning \MASS:
+\begin{footnotesize}
+\begin{itemize}
+\item \sourcefile{./SRCMutation/Makefile}
+\item \sourcefile{./SRCMutation/run_unit_tests.sh}
+\item \sourcefile{./SRCMutation/test/uoi/uoi/test.c}
+\item \sourcefile{./SRCMutation/test/uoi/uoi/uoi.sh}
+\item \sourcefile{./SRCMutation/test/uoi/uoi/launcher.sh}
+\item \sourcefile{./SRCMutation/test/uoi/uoi_many/test.c}
+\item \sourcefile{./SRCMutation/test/uoi/uoi_many/uoi_many.sh}
+\item \sourcefile{./SRCMutation/test/uoi/uoi_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_many/test.c}
+\item \sourcefile{./SRCMutation/test/lod/lod_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_many/lod_many.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_or/test.c}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_or/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_or/lod_logic_or.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_and/test.c}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_and/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lod/lod_logic_and/lod_logic_and.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_plus/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_plus/aod_plus.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_plus/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_div/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_div/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_div/aod_div.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_minus/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_minus/aod_minus.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_minus/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_mult/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_mult/aod_mult.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_mult/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_many/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_many/aod_many.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_mod/test.c}
+\item \sourcefile{./SRCMutation/test/aod/aod_mod/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aod/aod_mod/aod_mod.sh}
+\item \sourcefile{./SRCMutation/test/sdl/sdl/test.c}
+\item \sourcefile{./SRCMutation/test/sdl/sdl/sdl.sh}
+\item \sourcefile{./SRCMutation/test/sdl/sdl/launcher.sh}
+\item \sourcefile{./SRCMutation/test/sdl/sdl_many/test.c}
+\item \sourcefile{./SRCMutation/test/sdl/sdl_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/sdl/sdl_many/sdl_many.sh}
+\item \sourcefile{./SRCMutation/test/abs/abs/test.c}
+\item \sourcefile{./SRCMutation/test/abs/abs/launcher.sh}
+\item \sourcefile{./SRCMutation/test/abs/abs/abs_val.sh}
+\item \sourcefile{./SRCMutation/test/abs/abs_many/test.c}
+\item \sourcefile{./SRCMutation/test/abs/abs_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/abs/abs_many/abs_val_many.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_many/test.c}
+\item \sourcefile{./SRCMutation/test/sod/sod_many/sod_many.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_sl/test.c}
+\item \sourcefile{./SRCMutation/test/sod/sod_sl/launcher.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_sl/sod_sl.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_sr/test.c}
+\item \sourcefile{./SRCMutation/test/sod/sod_sr/launcher.sh}
+\item \sourcefile{./SRCMutation/test/sod/sod_sr/sod_sr.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_if/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_if/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_if/ror_if.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_lt/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_lt/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_lt/ror_lt.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_while/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_while/ror_while.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_while/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_gt/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_gt/ror_gt.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_gt/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_neq/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_neq/ror_neq.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_neq/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_eq/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_eq/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_eq/ror_eq.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_many/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_many/ror_many.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_le/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_le/launcher.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_le/ror_le.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_ge/test.c}
+\item \sourcefile{./SRCMutation/test/ror/ror_ge/ror_ge.sh}
+\item \sourcefile{./SRCMutation/test/ror/ror_ge/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_or/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_or/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_or/lcr_logic_or.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or/lcr_or.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_many/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_many/lcr_many.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor_assign/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor_assign/lcr_xor_assign.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and_assign/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and_assign/lcr_and_assign.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor/.lcr_or.sh.swp}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor/lcr_xor.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_xor/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or_assign/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_or_assign/lcr_or_assign.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_and/lcr_and.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_and/test.c}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_and/lcr_logic_and.sh}
+\item \sourcefile{./SRCMutation/test/lcr/lcr_logic_and/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_ge/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_ge/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_ge/rod_ge.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_eq/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_eq/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_eq/rod_eq.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_gt/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_gt/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_gt/rod_gt.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_many/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_many/rod_many.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_le/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_le/rod_le.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_le/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_neq/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_neq/rod_neq.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_neq/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_lt/test.c}
+\item \sourcefile{./SRCMutation/test/rod/rod_lt/launcher.sh}
+\item \sourcefile{./SRCMutation/test/rod/rod_lt/rod_lt.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_true/lvr_true.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_true/test.c}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_true/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_many/test.c}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_many/lvr_many.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_zero/test.c}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_zero/lvr_zero.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_zero/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_false/test.c}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_false/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_false/lvr_false.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_literal/test.c}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_literal/launcher.sh}
+\item \sourcefile{./SRCMutation/test/lvr/lvr_literal/lvr_literal.sh}
+\item \sourcefile{./SRCMutation/test/test.xlsx}
+\item \sourcefile{./SRCMutation/test/icr/icr/icr_val.sh}
+\item \sourcefile{./SRCMutation/test/icr/icr/test.c}
+\item \sourcefile{./SRCMutation/test/icr/icr/launcher.sh}
+\item \sourcefile{./SRCMutation/test/icr/icr_many/icr_many.sh}
+\item \sourcefile{./SRCMutation/test/icr/icr_many/test.c}
+\item \sourcefile{./SRCMutation/test/icr/icr_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/many/test.c}
+\item \sourcefile{./SRCMutation/test/many/many.sh}
+\item \sourcefile{./SRCMutation/test/many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/.gitignore}
+\item \sourcefile{./SRCMutation/test/bod/bod_or/test.c}
+\item \sourcefile{./SRCMutation/test/bod/bod_or/bod_or.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_or/launcher.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_and/test.c}
+\item \sourcefile{./SRCMutation/test/bod/bod_and/bod_and.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_and/launcher.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_many/test.c}
+\item \sourcefile{./SRCMutation/test/bod/bod_many/bod_many.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_xor/test.c}
+\item \sourcefile{./SRCMutation/test/bod/bod_xor/launcher.sh}
+\item \sourcefile{./SRCMutation/test/bod/bod_xor/bod_xor.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult_assign/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult_assign/aor_mult_assign.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus/aor_plus.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus_assign/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus_assign/aor_minus_assign.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod/aor_mod.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mult/aor_mult.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_many/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_many/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_many/aor_many.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus_assign/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_plus_assign/aor_plus_assign.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_div/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_div/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_div/aor_div.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_div_assign/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_div_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_div_assign/aor_div_assign.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod_assign/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod_assign/aor_mod_assign.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_mod_assign/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus/test.c}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus/launcher.sh}
+\item \sourcefile{./SRCMutation/test/aor/aor_minus/aor_minus.sh}
+\item \sourcefile{./SRCMutation/README.md}
+\item \sourcefile{./SRCMutation/src/mutator.cpp}
+\item \sourcefile{./SRCMutation/src/LICENSE.txt}
+\item \sourcefile{./SRCMutation/src/LICENSE.SRCIror.txt}
+\item \sourcefile{./LICENSE.txt}
+\item \sourcefile{./PythonWrappers/irVanillaClang}
+\item \sourcefile{./PythonWrappers/irCoverageClang}
+\item \sourcefile{./PythonWrappers/bashUtil.py}
+\item \sourcefile{./PythonWrappers/irUtil.py}
+\item \sourcefile{./PythonWrappers/mutationClang}
+\item \sourcefile{./PythonWrappers/irMutationClang}
+\item \sourcefile{./README.md}
+\item \sourcefile{./.gitignore}
+\item \sourcefile{./MASS/FAQAS-CompileOptimizedMutants/FAQAS-PostProcessing.sh}
+\item \sourcefile{./MASS/FAQAS-CompileOptimizedMutants/compile_optimized_mutants.sh}
+\item \sourcefile{./MASS/FAQAS-CompileOptimizedMutants/tce_process.py}
+\item \sourcefile{./MASS/FAQAS-CompileOptimizedMutants/FAQAS-CompileOptimizedMutants.sh}
+\item \sourcefile{./MASS/FAQAS-MutationScore/Report.sh}
+\item \sourcefile{./MASS/FAQAS-MutationScore/report_coverage.py}
+\item \sourcefile{./MASS/FAQAS-MutationScore/statement_coverage.sh}
+\item \sourcefile{./MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-UpdateCoverage.sh}
+\item \sourcefile{./MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-CollectCodeCoverage.sh}
+\item \sourcefile{./MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-GenerateCodeCoverageMatrixes.sh}
+\item \sourcefile{./MASS/FAQAS-GenerateCodeCoverageMatrixes/FAQAS-GenerateSRCIRorConf.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/GenerateMutants.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/GeneratePTS.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/OptimizedPostProcessing.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/IdentifyEquivalents.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/mutation_additional_functions.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/mass_conf.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/CompileOptimizedMutants.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/PostMutation_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/Launcher.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/PrepareMutants_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/ExecuteMutants_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/ExecuteMutants.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/PrepareSUT.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/MutationScore.sh}
+\item \sourcefile{./MASS/FAQAS-Setup/install.sh}
+\item \sourcefile{./MASS/FAQAS-GenerateMutants/FAQAS-GenerateMutants.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/FAQAS-GeneratePrioritizedTestSuite.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize_only.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-GeneratePrioritizedTestSuite/prioritize.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/get_corrected_ci.R}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/CompileAndExecute.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/PrepareMutantExecution_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/execute_mutants.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/mutation.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/mutation_waf.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/divide_killed_live.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/execute_mutants_hpc.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/get_ci.R}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/PostMutation_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/sort_mutants.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/fsci_prt_stopping_criterion.R}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/mass_sampling.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/fsci_compute_error.R}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/fsci_stopping_criterion.R}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/FAQAS-CompileAndExecute.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/CompileAndExecute_HPC.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-CompileAndExecute/continue_mutation_hpc.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/filter_equivalent.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/FAQAS-GenerateCodeCoverageMatrixesEqRed.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/original_mutant.sh}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/utilities.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/distance.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/filter_repeated_test_cases.py}
+\item \sourcefile{./MASS/FAQAS-CompileAndExecuteMutants/FAQAS-IdentifyEquivalentAndRedundantMutants/FAQAS-IdentifyEquivalentAndRedundantMutants.sh}
+\item \sourcefile{./llvm-build.sh}
+\item \sourcefile{./NOTICE.txt}
+\end{itemize}
+\end{footnotesize}
+
+
+\subsection{SEMuS}
+
+In this section, we provide a list of the complete source code concerning \SEMUS:
+\begin{footnotesize}
+\begin{itemize}
+\item \sourcefile{./install_requirements.sh}
+\item \sourcefile{./LICENSE}
+\item \sourcefile{./requirements.txt}
+\item \sourcefile{./pre_semu/tests/get_meta_mu.sh}
+\item \sourcefile{./pre_semu/tests/.srciror/coverage}
+\item \sourcefile{./pre_semu/tests/x.c}
+\item \sourcefile{./pre_semu/tests/run_mass.sh}
+\item \sourcefile{./pre_semu/main.py}
+\item \sourcefile{./pre_semu/README.md}
+\item \sourcefile{./pre_semu/.gitignore}
+\item \sourcefile{./pre_semu/.gitkeep}
+\item \sourcefile{./cd_semu_docker.sh}
+\item \sourcefile{./underlying_test_generation/tests/bcmock.bc}
+\item \sourcefile{./underlying_test_generation/tests/main_test.sh}
+\item \sourcefile{./underlying_test_generation/tests/mock_exe/klee-semu}
+\item \sourcefile{./underlying_test_generation/tests/mock_exe/stdbuf}
+\item \sourcefile{./underlying_test_generation/tests/mock_exe/klee-replay}
+\item \sourcefile{./underlying_test_generation/tests/mock_exe/ktest-tool}
+\item \sourcefile{./underlying_test_generation/tests/README.md}
+\item \sourcefile{./underlying_test_generation/main.py}
+\item \sourcefile{./underlying_test_generation/muteria_tg_conf.template.py}
+\item \sourcefile{./underlying_test_generation/.gitignore}
+\item \sourcefile{./case_studies/MLFS/util_codes/call_generate_direct.sh}
+\item \sourcefile{./case_studies/MLFS/WORKSPACE/README.md}
+\item \sourcefile{./case_studies/MLFS/WORKSPACE/.gitignore}
+\item \sourcefile{./case_studies/MLFS/README.md}
+\item \sourcefile{./case_studies/MLFS/.gitignore}
+\item \sourcefile{./case_studies/MLFS/scripts/compile_commands.json}
+\item \sourcefile{./case_studies/MLFS/scripts/create_mutants.sh}
+\item \sourcefile{./case_studies/MLFS/scripts/run.sh}
+\item \sourcefile{./case_studies/MLFS/scripts/faqas_semu_config.sh}
+\item \sourcefile{./case_studies/MLFS/scripts/docker_run.sh}
+\item \sourcefile{./case_studies/ASN/util_codes/generate_direct.py}
+\item \sourcefile{./case_studies/ASN/WORKSPACE/README.md}
+\item \sourcefile{./case_studies/ASN/WORKSPACE/.gitignore}
+\item \sourcefile{./case_studies/ASN/README.md}
+\item \sourcefile{./case_studies/ASN/.gitignore}
+\item \sourcefile{./case_studies/ASN/scripts/compile_commands.json}
+\item \sourcefile{./case_studies/ASN/scripts/create_mutants.sh}
+\item \sourcefile{./case_studies/ASN/scripts/run.sh}
+\item \sourcefile{./case_studies/ASN/scripts/faqas_semu_config.sh}
+\item \sourcefile{./case_studies/ASN/scripts/docker_run.sh}
+\item \sourcefile{./Dockerfile}
+\item \sourcefile{./ktest_to_unittest/main.py}
+\item \sourcefile{./ktest_to_unittest/README.md}
+\item \sourcefile{./README.md}
+\item \sourcefile{./.gitignore}
+
+\end{itemize}
+\end{footnotesize}
+\subsection{DAMAt}
+
+In this section, we provide a list of the complete source code concerning \DAMA:
+\begin{footnotesize}
+	\begin{itemize}
+		\item \sourcefile{./LICENSE.txt}
+		\item \sourcefile{./NOTICE.txt}
+		\item \sourcefile{./README.md}
+		\item \sourcefile{./damat-pipeline/DAMAt\_compile.sh}
+		\item \sourcefile{./damat-pipeline/DAMAt\_configure.sh}
+		\item \sourcefile{./damat-pipeline/DAMAt\_mutants\_launcher.sh}
+		\item \sourcefile{./damat-pipeline/DAMAt\_probe\_generation.sh}
+		\item \sourcefile{./damat-pipeline/DAMAt\_run\_tests\_stub.sh}
+		\item \sourcefile{./damat-pipeline/DDB\_TEMPLATE\_footer.c}
+		\item \sourcefile{./damat-pipeline/DDB\_TEMPLATE\_header.c}
+		\item \sourcefile{./damat-pipeline/LICENSE.txt}
+		\item \sourcefile{./damat-pipeline/README.md}
+		\item \sourcefile{./damat-pipeline/data\_analysis}
+		\item \sourcefile{./damat-pipeline/data\_analysis/beautify\_results.py}
+		\item \sourcefile{./damat-pipeline/data\_analysis/get\_coverage.py}
+		\item \sourcefile{./damat-pipeline/data\_analysis/get\_final\_results.py}
+		\item \sourcefile{./damat-pipeline/data\_analysis/get\_operator\_coverage.py}
+		\item \sourcefile{./damat-pipeline/data\_analysis/get\_stats.py}
+		\item \sourcefile{./damat-pipeline/fault\_model.csv}
+		\item \sourcefile{./damat-pipeline/generateDataMutator.py}
+		\item \sourcefile{./damat-pipeline/instrumented\_files}
+		\item \sourcefile{./damat-pipeline/instrumented\_files/AdcsIf\_instr.cpp}
+		\item \sourcefile{./damat-pipeline/instrumented\_files/OhbConfig\_instr.cmake}
+		\item \sourcefile{./damat-pipeline/pipeline\_scripts}
+		\item \sourcefile{./damat-pipeline/pipeline\_scripts/DAMAt\_compile\_and\_run\_mutants.sh}
+		\item \sourcefile{./damat-pipeline/pipeline\_scripts/DAMAt\_data\_analysis.sh}
+		\item \sourcefile{./damat-pipeline/pipeline\_scripts/DAMAt\_obtain\_coverage.sh}
+		\item \sourcefile{./damat-pipeline/pipeline\_scripts/get\_mutant\_test\_list.py}
+		\item \sourcefile{./damat-pipeline/tests.csv}
+		\item \sourcefile{./mutator/COPYRIGHT}
+		\item \sourcefile{./mutator/LICENSE}
+		\item \sourcefile{./mutator/README.md}
+		\item \sourcefile{./mutator/src/CoverageReportHeader.csv}
+		\item \sourcefile{./mutator/src/DDB\_TEMPLATE\_footer.c}
+		\item \sourcefile{./mutator/src/DDB\_TEMPLATE\_header.c}
+		\item \sourcefile{./mutator/src/FMcoverage.py}
+		\item \sourcefile{./mutator/src/FMcoverage2.py}
+		\item \sourcefile{./mutator/src/README.md}
+		\item \sourcefile{./mutator/src/cleanTests.sh}
+		\item \sourcefile{./mutator/src/executeTest.sh}
+		\item \sourcefile{./mutator/src/executeTestCoverage.sh}
+		\item \sourcefile{./mutator/src/executeTestCoverage2.sh}
+		\item \sourcefile{./mutator/src/executeTestCoverage\_gcc.sh}
+		\item \sourcefile{./mutator/src/executeTestJustOnce.sh}
+		\item \sourcefile{./mutator/src/executeTestProbability.sh}
+		\item \sourcefile{./mutator/src/executeTest\_gcc.sh}
+		\item \sourcefile{./mutator/src/generateDataMutator.py}
+		\item \sourcefile{./mutator/src/getCoverage.sh}
+		\item \sourcefile{./mutator/src/runTests.sh}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel01.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel02.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel03.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel04.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel05.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel06.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel07.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel08.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel09.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel10.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel11.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel12.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel13.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel14.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel15.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel16.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel17.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel18.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel19.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel20.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel21.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel22.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel23.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel24.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel25.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel26.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel27.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel28.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel29.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel30.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel31.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel32.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel38.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel39.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel40.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel42.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel44.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel45.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel46.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel47.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel48.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel49.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel50.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel51.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel52.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel53.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel54.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel55.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel56.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel57.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel58.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel60.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel61.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel62.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel63.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel64.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel65.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel66.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel67.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel68.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel69.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel70.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel71.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel72.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel73.csv}
+		\item \sourcefile{./mutator/src/tests/FaultModels/faultModel\_compilation.csv}
+		\item \sourcefile{./mutator/src/tests/runTest01.sh}
+		\item \sourcefile{./mutator/src/tests/runTest02.sh}
+		\item \sourcefile{./mutator/src/tests/runTest03.sh}
+		\item \sourcefile{./mutator/src/tests/runTest04.sh}
+		\item \sourcefile{./mutator/src/tests/runTest05.sh}
+		\item \sourcefile{./mutator/src/tests/runTest06.sh}
+		\item \sourcefile{./mutator/src/tests/runTest07.sh}
+		\item \sourcefile{./mutator/src/tests/runTest08.sh}
+		\item \sourcefile{./mutator/src/tests/runTest09.sh}
+		\item \sourcefile{./mutator/src/tests/runTest10.sh}
+		\item \sourcefile{./mutator/src/tests/runTest11.sh}
+		\item \sourcefile{./mutator/src/tests/runTest12.sh}
+		\item \sourcefile{./mutator/src/tests/runTest13.sh}
+		\item \sourcefile{./mutator/src/tests/runTest14.sh}
+		\item \sourcefile{./mutator/src/tests/runTest15.sh}
+		\item \sourcefile{./mutator/src/tests/runTest16.sh}
+		\item \sourcefile{./mutator/src/tests/runTest17.sh}
+		\item \sourcefile{./mutator/src/tests/runTest18.sh}
+		\item \sourcefile{./mutator/src/tests/runTest19.sh}
+		\item \sourcefile{./mutator/src/tests/runTest20.sh}
+		\item \sourcefile{./mutator/src/tests/runTest21.sh}
+		\item \sourcefile{./mutator/src/tests/runTest22.sh}
+		\item \sourcefile{./mutator/src/tests/runTest23.sh}
+		\item \sourcefile{./mutator/src/tests/runTest24.sh}
+		\item \sourcefile{./mutator/src/tests/runTest25.sh}
+		\item \sourcefile{./mutator/src/tests/runTest26.sh}
+		\item \sourcefile{./mutator/src/tests/runTest27.sh}
+		\item \sourcefile{./mutator/src/tests/runTest28.sh}
+		\item \sourcefile{./mutator/src/tests/runTest29.sh}
+		\item \sourcefile{./mutator/src/tests/runTest30.sh}
+		\item \sourcefile{./mutator/src/tests/runTest31.sh}
+		\item \sourcefile{./mutator/src/tests/runTest32.sh}
+		\item \sourcefile{./mutator/src/tests/runTest33.sh}
+		\item \sourcefile{./mutator/src/tests/runTest34.sh}
+		\item \sourcefile{./mutator/src/tests/runTest35.sh}
+		\item \sourcefile{./mutator/src/tests/runTest36.sh}
+		\item \sourcefile{./mutator/src/tests/runTest37.sh}
+		\item \sourcefile{./mutator/src/tests/runTest38.sh}
+		\item \sourcefile{./mutator/src/tests/runTest39.sh}
+		\item \sourcefile{./mutator/src/tests/runTest40.sh}
+		\item \sourcefile{./mutator/src/tests/runTest41.sh}
+		\item \sourcefile{./mutator/src/tests/runTest42.sh}
+		\item \sourcefile{./mutator/src/tests/runTest44.sh}
+		\item \sourcefile{./mutator/src/tests/runTest45.sh}
+		\item \sourcefile{./mutator/src/tests/runTest46.sh}
+		\item \sourcefile{./mutator/src/tests/runTest47.sh}
+		\item \sourcefile{./mutator/src/tests/runTest48.sh}
+		\item \sourcefile{./mutator/src/tests/runTest49.sh}
+		\item \sourcefile{./mutator/src/tests/runTest50.sh}
+		\item \sourcefile{./mutator/src/tests/runTest51.sh}
+		\item \sourcefile{./mutator/src/tests/runTest52.sh}
+		\item \sourcefile{./mutator/src/tests/runTest53.sh}
+		\item \sourcefile{./mutator/src/tests/runTest54.sh}
+		\item \sourcefile{./mutator/src/tests/runTest55.sh}
+		\item \sourcefile{./mutator/src/tests/runTest56.sh}
+		\item \sourcefile{./mutator/src/tests/runTest57.sh}
+		\item \sourcefile{./mutator/src/tests/runTest58.sh}
+		\item \sourcefile{./mutator/src/tests/runTest60.sh}
+		\item \sourcefile{./mutator/src/tests/runTest61.sh}
+		\item \sourcefile{./mutator/src/tests/runTest62.sh}
+		\item \sourcefile{./mutator/src/tests/runTest63.sh}
+		\item \sourcefile{./mutator/src/tests/runTest64.sh}
+		\item \sourcefile{./mutator/src/tests/runTest65.sh}
+		\item \sourcefile{./mutator/src/tests/runTest66.sh}
+		\item \sourcefile{./mutator/src/tests/runTest67.sh}
+		\item \sourcefile{./mutator/src/tests/runTest68.sh}
+		\item \sourcefile{./mutator/src/tests/runTest69.sh}
+		\item \sourcefile{./mutator/src/tests/runTest70.sh}
+		\item \sourcefile{./mutator/src/tests/runTest71.sh}
+		\item \sourcefile{./mutator/src/tests/runTest72.sh}
+		\item \sourcefile{./mutator/src/tests/runTest73.sh}
+		\item \sourcefile{./mutator/src/tests/runTest\_compilation.sh}
+		\item \sourcefile{./mutator/src/tests/test01/expected.out}
+		\item \sourcefile{./mutator/src/tests/test01/test01.c}
+		\item \sourcefile{./mutator/src/tests/test02/expected.out}
+		\item \sourcefile{./mutator/src/tests/test02/test02.c}
+		\item \sourcefile{./mutator/src/tests/test03/expected.out}
+		\item \sourcefile{./mutator/src/tests/test03/test03.c}
+		\item \sourcefile{./mutator/src/tests/test04/expected.out}
+		\item \sourcefile{./mutator/src/tests/test04/test04.c}
+		\item \sourcefile{./mutator/src/tests/test05/expected.out}
+		\item \sourcefile{./mutator/src/tests/test05/test05.c}
+		\item \sourcefile{./mutator/src/tests/test06/expected.out}
+		\item \sourcefile{./mutator/src/tests/test06/test06.c}
+		\item \sourcefile{./mutator/src/tests/test07/expected.out}
+		\item \sourcefile{./mutator/src/tests/test07/test07.c}
+		\item \sourcefile{./mutator/src/tests/test08/expected.out}
+		\item \sourcefile{./mutator/src/tests/test08/test08.c}
+		\item \sourcefile{./mutator/src/tests/test09/expected.out}
+		\item \sourcefile{./mutator/src/tests/test09/test09.c}
+		\item \sourcefile{./mutator/src/tests/test10/expected.out}
+		\item \sourcefile{./mutator/src/tests/test10/test10.c}
+		\item \sourcefile{./mutator/src/tests/test11/expected.out}
+		\item \sourcefile{./mutator/src/tests/test11/test11.c}
+		\item \sourcefile{./mutator/src/tests/test12/expected.out}
+		\item \sourcefile{./mutator/src/tests/test12/test12.c}
+		\item \sourcefile{./mutator/src/tests/test13/expected.out}
+		\item \sourcefile{./mutator/src/tests/test13/test13.c}
+		\item \sourcefile{./mutator/src/tests/test14/expected.out}
+		\item \sourcefile{./mutator/src/tests/test14/test14.c}
+		\item \sourcefile{./mutator/src/tests/test15/expected.out}
+		\item \sourcefile{./mutator/src/tests/test15/test15.c}
+		\item \sourcefile{./mutator/src/tests/test15/test15old.c}
+		\item \sourcefile{./mutator/src/tests/test16/expected.out}
+		\item \sourcefile{./mutator/src/tests/test16/test16.c}
+		\item \sourcefile{./mutator/src/tests/test17/expected.out}
+		\item \sourcefile{./mutator/src/tests/test17/test17.c}
+		\item \sourcefile{./mutator/src/tests/test18/expected.out}
+		\item \sourcefile{./mutator/src/tests/test18/test18.c}
+		\item \sourcefile{./mutator/src/tests/test19/expected.out}
+		\item \sourcefile{./mutator/src/tests/test19/test19.c}
+		\item \sourcefile{./mutator/src/tests/test20/expected.out}
+		\item \sourcefile{./mutator/src/tests/test20/test20.c}
+		\item \sourcefile{./mutator/src/tests/test21/expected.out}
+		\item \sourcefile{./mutator/src/tests/test21/test21.c}
+		\item \sourcefile{./mutator/src/tests/test22/expected.out}
+		\item \sourcefile{./mutator/src/tests/test22/test22.c}
+		\item \sourcefile{./mutator/src/tests/test23/expected.out}
+		\item \sourcefile{./mutator/src/tests/test23/test23.c}
+		\item \sourcefile{./mutator/src/tests/test24/expected.out}
+		\item \sourcefile{./mutator/src/tests/test24/test24.c}
+		\item \sourcefile{./mutator/src/tests/test25/expected.out}
+		\item \sourcefile{./mutator/src/tests/test25/test25.c}
+		\item \sourcefile{./mutator/src/tests/test26/expected.out}
+		\item \sourcefile{./mutator/src/tests/test26/test26.c}
+		\item \sourcefile{./mutator/src/tests/test27/expected.out}
+		\item \sourcefile{./mutator/src/tests/test27/test27.c}
+		\item \sourcefile{./mutator/src/tests/test28/expected.out}
+		\item \sourcefile{./mutator/src/tests/test28/test28.c}
+		\item \sourcefile{./mutator/src/tests/test29/expected.out}
+		\item \sourcefile{./mutator/src/tests/test29/test29.c}
+		\item \sourcefile{./mutator/src/tests/test30/expected.out}
+		\item \sourcefile{./mutator/src/tests/test30/test30.c}
+		\item \sourcefile{./mutator/src/tests/test32/expected.out}
+		\item \sourcefile{./mutator/src/tests/test32/expectedCoverage.csv}
+		\item \sourcefile{./mutator/src/tests/test32/test32.c}
+		\item \sourcefile{./mutator/src/tests/test35/expected.out}
+		\item \sourcefile{./mutator/src/tests/test35/expectedCoverage.csv}
+		\item \sourcefile{./mutator/src/tests/test35/test35.c}
+		\item \sourcefile{./mutator/src/tests/test38/FMcoverage2.py}
+		\item \sourcefile{./mutator/src/tests/test38/expected.out}
+		\item \sourcefile{./mutator/src/tests/test38/test38.c}
+		\item \sourcefile{./mutator/src/tests/test39/expected.out}
+		\item \sourcefile{./mutator/src/tests/test39/test39.c}
+		\item \sourcefile{./mutator/src/tests/test40/expected.out}
+		\item \sourcefile{./mutator/src/tests/test40/test40.c}
+		\item \sourcefile{./mutator/src/tests/test42/expected.out}
+		\item \sourcefile{./mutator/src/tests/test42/test42.c}
+		\item \sourcefile{./mutator/src/tests/test44/expected.out}
+		\item \sourcefile{./mutator/src/tests/test44/test44.c}
+		\item \sourcefile{./mutator/src/tests/test45/expected.out}
+		\item \sourcefile{./mutator/src/tests/test45/test45.c}
+		\item \sourcefile{./mutator/src/tests/test46/expected.out}
+		\item \sourcefile{./mutator/src/tests/test46/test46.c}
+		\item \sourcefile{./mutator/src/tests/test47/expected.out}
+		\item \sourcefile{./mutator/src/tests/test47/test47.c}
+		\item \sourcefile{./mutator/src/tests/test48/expected.out}
+		\item \sourcefile{./mutator/src/tests/test48/test48.c}
+		\item \sourcefile{./mutator/src/tests/test49/expected.out}
+		\item \sourcefile{./mutator/src/tests/test49/test49.c}
+		\item \sourcefile{./mutator/src/tests/test50/expected.out}
+		\item \sourcefile{./mutator/src/tests/test50/test50.c}
+		\item \sourcefile{./mutator/src/tests/test51/expected.out}
+		\item \sourcefile{./mutator/src/tests/test51/test51.c}
+		\item \sourcefile{./mutator/src/tests/test52/expected.out}
+		\item \sourcefile{./mutator/src/tests/test52/test52.c}
+		\item \sourcefile{./mutator/src/tests/test53/expected.out}
+		\item \sourcefile{./mutator/src/tests/test53/test53.c}
+		\item \sourcefile{./mutator/src/tests/test54/expected.out}
+		\item \sourcefile{./mutator/src/tests/test54/test54.c}
+		\item \sourcefile{./mutator/src/tests/test55/expected.out}
+		\item \sourcefile{./mutator/src/tests/test55/test55.c}
+		\item \sourcefile{./mutator/src/tests/test56/expected.out}
+		\item \sourcefile{./mutator/src/tests/test56/test56.c}
+		\item \sourcefile{./mutator/src/tests/test57/expected.out}
+		\item \sourcefile{./mutator/src/tests/test57/test57.c}
+		\item \sourcefile{./mutator/src/tests/test58/expected.out}
+		\item \sourcefile{./mutator/src/tests/test58/test58.c}
+		\item \sourcefile{./mutator/src/tests/test60/expected.out}
+		\item \sourcefile{./mutator/src/tests/test60/test60.c}
+		\item \sourcefile{./mutator/src/tests/test61/expected.out}
+		\item \sourcefile{./mutator/src/tests/test61/test61.c}
+		\item \sourcefile{./mutator/src/tests/test62/expected.out}
+		\item \sourcefile{./mutator/src/tests/test62/test62.c}
+		\item \sourcefile{./mutator/src/tests/test63/expected.out}
+		\item \sourcefile{./mutator/src/tests/test63/test63.c}
+		\item \sourcefile{./mutator/src/tests/test64/expected.out}
+		\item \sourcefile{./mutator/src/tests/test64/test64.c}
+		\item \sourcefile{./mutator/src/tests/test65/expected.out}
+		\item \sourcefile{./mutator/src/tests/test65/test65.c}
+		\item \sourcefile{./mutator/src/tests/test66/expected.out}
+		\item \sourcefile{./mutator/src/tests/test66/test66.c}
+		\item \sourcefile{./mutator/src/tests/test67/expected.out}
+		\item \sourcefile{./mutator/src/tests/test67/test67.c}
+		\item \sourcefile{./mutator/src/tests/test68/expected.out}
+		\item \sourcefile{./mutator/src/tests/test68/test68.c}
+		\item \sourcefile{./mutator/src/tests/test69/expected.out}
+		\item \sourcefile{./mutator/src/tests/test69/test69.c}
+		\item \sourcefile{./mutator/src/tests/test70/expected.out}
+		\item \sourcefile{./mutator/src/tests/test70/test70.c}
+		\item \sourcefile{./mutator/src/tests/test71/expected.out}
+		\item \sourcefile{./mutator/src/tests/test71/test71.c}
+		\item \sourcefile{./mutator/src/tests/test72/expected.out}
+		\item \sourcefile{./mutator/src/tests/test72/test72.c}
+		\item \sourcefile{./mutator/src/tests/test73/expected.out}
+		\item \sourcefile{./mutator/src/tests/test73/test73.c}
+		\item \sourcefile{./mutator/src/tests/test\_compilation}
+		\item \sourcefile{./mutator/src/tests/test\_compilation/expected.out}
+		\item \sourcefile{./mutator/src/tests/test\_compilation/test\_compilation.c}
+
+	\end{itemize}
+
+\end{footnotesize}
+
+\DONE{ENRICO: completed}
+
+\section{Binary Code File List}
+
+Not applicable, we do not include binary files in this software configuration item.
+
+\section{Media Labeling References}
+
+The software composing this CI are identified with the following labels:
+
+\begin{itemize}
+	\item \MASS: \texttt{ITT-1-9873-ESA-FAQAS-MASS}
+	\item \SEMUS: \texttt{ITT-1-9873-ESA-FAQAS-SEMuS}
+	\item \DAMA: \texttt{ITT-1-9873-ESA-FAQAS-DAMAt}
+\end{itemize}
+
+\section{Checksum Values}
+
+Table~\ref{table:checksum} contains the MD5 checksum of the software CI.
+
+\TODO{ENRICO: please complete once you produce the last version of the tool}
+
+\begin{table}[h]
+\caption{MD5 checksums for the software's CI.}
+\label{table:checksum}
+\footnotesize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{50mm}@{\hspace{0pt}}|
+@{\hspace{0pt}}p{15mm}@{\hspace{1pt}}|
+@{\hspace{3pt}}p{60mm}@{\hspace{1pt}}|
+p{4mm}|}
+\hline
+\textbf{CI}&\textbf{Issue}&\textbf{MD5 checksum}\\
+\hline
+ITT-1-9873-ESA-FAQAS-MASS.zip & 1.0 & 1231231232131\\
+ITT-1-9873-ESA-FAQAS-SEMuS.zip & 1.0 & 123123123123\\
+ITT-1-9873-ESA-FAQAS-DAMAt.zip & 1.0 & \\
+\hline
+\end{tabular}
+\end{table}
