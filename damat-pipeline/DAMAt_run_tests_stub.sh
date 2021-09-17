@@ -59,10 +59,10 @@ while IFS="," read -r p || [ -n "$p" ];do
 
   timeout $TIMEOUT bash execute_test_case.sh $tst
 
+  EXEC_RET_CODE=$?
 
 ###############################################################################
 #the exec return code should be 0 if the test case passes, 1 if the test case fails and 124 in case of a timeout
-EXEC_RET_CODE=$?
 
 
   mutant_end_time=$(($(date +%s%N)/1000000))

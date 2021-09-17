@@ -13,6 +13,6 @@ fault_model=$DAMAt_FOLDER/fault_model.csv
 # the datatype of the elements of the target buffer
 buffer_type="unsigned char"
 # padding can be used to skip the first n bit of a buffer, normally set to 0
-padding=2
+padding=0
 
 singleton="TRUE"

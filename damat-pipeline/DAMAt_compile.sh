@@ -7,6 +7,7 @@
 #
 
 mutant_id=$1
+singleton=$2
 
 ###############################################################################
 #enabling extended pattern matching features:
@@ -22,16 +23,18 @@ echo "Mutant opt: "$mutant_id
 echo "------------------------------------"
 echo "------------------------------------"
 
+###############################################################################
+
 #exporting the operation counter
 export MUTATIONOPT=$mutant_id
 
-export _FAQAS_SINGLETON_FM="TRUE"
+if [ $singleton == "TRUE" ]; then
+export _FAQAS_SINGLETON_FM=$singleton
+fi
 
+# here the user must invoke the compilation of the SUT, we provided a simple example.
 
-###############################################################################
-# here you must invoke the compilation of the SUT, we provided a simple example
-
-compilation_folder="/home/svf/Svf"
+compilation_folder="/home/SUT"
 
 pushd $compilation_folder
 
