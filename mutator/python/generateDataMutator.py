@@ -188,10 +188,10 @@ def newINV(item, _span, _type, _min, _max, _delta, _value):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=INV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].delta="+_delta+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].value="+_value+";\n"
+    # faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+    #     str(operatorsCount)+"].delta="+_delta+";\n"
+    # faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+    #     str(operatorsCount)+"].value="+_value+";\n"
 
     operations[elements] = 0
 
