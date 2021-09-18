@@ -92,11 +92,43 @@
 \RQ{} SEMuS shall provide the engineer with the ability to configure the environment variables used to tune the test augmentation process.
 
 \subsection{DAMAt}
+\RQ{} DAMAt shall be configured through a fault model written by the engineer in csv format (see D2 and SUM).
 
-\TODO{ENRICO}
+\RQ{} DAMAt shall support the following commands:
+	\begin{itemize}
+		\item \texttt{DAMAt\_probe\_generation.sh}: which generates the mutation API.
+		\item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: which executes the DAMAt pipeline.
+\end{itemize}
 
+\RQ{} DAMAt shall generate the following output files:
+	\begin{itemize}
+		\item \texttt{mutation\_sum\_up.csv}: a file containing a synthetic evaluation of the test suite.
+		\item \texttt{final\_mutants\_table.csv}: a file containing the definition and status of every mutant.
+		\item \texttt{mutation\_score\_by\_data\_item.csv}: a file containing the mutation score by data item.
+		\item \texttt{mutation\_score\_by\_fault\_class.csv}: a file containing the mutation score by fault class.
+		\item \texttt{mutation\_score\_by\_fault\_model.csv}: a file containing the mutation score by fault model.
+		\item \texttt{test\_coverage.csv}: a file containing the tests covering the different fault models.
+		\item \texttt{readable\_data.csv}: a file containing a more readable version of the execution data.
+		\item \texttt{raw\_data.csv} and \texttt{raw\_data\_sorted.csv}: these files contain all the raw execution data.
+		\item \texttt{readable\_operator\_coverage.csv}: a file containing a more readable version of the operator coverage data.
+		\item \texttt{operator\_coverage.csv}: a file containing a raw version of the operator coverage data.
+		\item \texttt{readable\_FM\_coverage.csv}: a file containing a more readable version of the fault model coverage data.
+		\item \texttt{FM\_coverage.csv}: a file containing a raw version of the fault model coverage data.
+
+\RQ{} DAMAt shall be configured through a text file.
+
+\RQ{} DAMAt configuration file shall be set with the following parameters:
+	\begin{itemize}
+		\item \texttt{tests\_list}: the location of the list of available test cases.
+		\item \texttt{fault\_model}: the location of the fault model.
+		\item \texttt{buffer\_type}: the data type of the elements of the buffer targeted by the mutation.
+		\item \texttt{padding}: number of header elements to skip (optional).
+		\item \texttt{singleton}: \texttt{"TRUE"} to initialize the fault model as a singleton variable, \texttt{"FALSE"} to avoid this option.
+	\end{itemize}
+
+\RQ{} DAMAt shall provide the engineer with the ability to configure the environment variables used to tune the mutation testing process.
 
 
 \chapter{Validation requirements}
 
-A complete validation of the \FAQAS requirements is provided in document ITT-1-9873-ESA-FAQAS-D4. Please refer to Chapter 2. 
+A complete validation of the \FAQAS requirements is provided in document ITT-1-9873-ESA-FAQAS-D4. Please refer to Chapter 2.
