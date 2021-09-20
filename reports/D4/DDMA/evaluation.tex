@@ -96,7 +96,7 @@ What is the impact of equivalent and redundant data-driven mutants on the mutati
 %To assess our research questions, we considered five software artifacts, developed by two of our industry partners for different satellites:  Attitude Determination And Control System (\ADCS), \GPS, Payload Data Handling Unit (\PDHU), the three subsystems developed by \LuxSpace for the \ESAIL satellite, and the Parameter system (\PARAM), CSP networking (\CSP) libraries developed by \GomSpace.
 
 To assess our research questions, we consider \PARAM, which is a client-server component to manage configuration parameters in cubesats.
-Also, we examine three \ESAIL software sub-systems (1) the Attitude Determination And Control System (\ADCS), the Global Positioning System (\GPS), and the Payload Data Handling Unit (\PDHU). {These are representative examples of control and utility software, as well as sensor and actuator drivers.} Detailed information about the fault models is provided in Appendix~\ref{appendix:FMS}.
+Also, we examine three \ESAIL software sub-systems (1) the Attitude Determination And Control System (\ADCS), the Global Positioning System (\GPS), and the Payload Data Handling Unit (\PDHU). {These are representative examples of control and utility software, as well as sensor and actuator drivers.} Detailed information about the fault models is provided in Appendix~\ref{appendix:FMS}. Additional experiments considering also LIBGCSP will be performed in WP4.
 
 We rely on \APPR to evaluate the \PARAM integration test suite by  mutating the data exchanged between the client and server components of \PARAM.
 Similarly, \APPR is used to evaluate how well the 
@@ -104,7 +104,7 @@ Similarly, \APPR is used to evaluate how well the
 mutate the data exchanged between \ESAIL CSW and these three components.
 Since each of these sub-systems have a  different purpose (i.e., their data is processed by distinct CSW functions and affect distinct \ESAIL features) we treat them as distinct case study subjects although they are tested using the same test suite. We focus on the \ESAIL test suite that makes use of an SVF to simulate the \ADCS, \PDHU, and \GPS components. 
 The main reason is that these three components can only be executed on the target hardware and thus most of the scenarios involving them are tested in a simulated environment first.
-\CHANGED{We do not mutate messages or data items that are tested only with HIL.}
+We do not mutate messages or data items that are tested only with HIL.
 
 In the case of \PARAM, we inject mutation probes into the \PARAM server to mutate both received and generated messages. For \ESAIL, we insert mutation probes into the SVF that mutate the messages it generates; we avoid mutating the messages received by the SVF because such mutations may lead to input data it does not support. 
 %Table~\ref{table:summary} provides further information about our case study subjects.

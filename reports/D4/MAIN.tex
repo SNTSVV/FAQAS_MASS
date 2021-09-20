@@ -206,13 +206,14 @@
 \newcommand{\ESA}{ESA\xspace{}}
 \newcommand{\ESAIL}{ESAIL\xspace}
 \newcommand{\PARAM}{LIBPARAM\xspace}
+\newcommand{\UTIL}{LIBUTIL\xspace}
 
 \newcommand{\ADCS}{\emph{\ESAIL-ADCS}\xspace}
 \newcommand{\GPS}{\emph{\ESAIL-GPS}\xspace}
 \newcommand{\PDHU}{\emph{\ESAIL-PDHU}\xspace}
 \newcommand{\SVF}{\emph{\ESAIL-SVF}\xspace}
 
-\newcommand{\FIXME}[1]{\textcolor{red}{#1}}
+\newcommand{\FIXME}[1]{#1}
 
 \newcommand{\CHANGED}[1]{\textcolor{black}{#1}}
 \newcommand{\CHANGEDTWO}[1]{\textcolor{black}{#1}}
@@ -282,6 +283,18 @@
 \node [circle, ultra thick, fill=white, draw=sntblue] at ([xshift=65pt,yshift=35pt] current page.south west) {\thepage};
 \end{tikzpicture}}
 
+\newcommand{\JMR}[2]{\textcolor{black}{#2}}
+\newcommand{\NEWFSCI}[1]{\textcolor{black}{#1}}
+
+\newcommand{\JMRCHANGE}[1]{\textcolor{black}{#1}}
+\newcommand{\UPDATE}[1]{\textcolor{black}{#1}}
+
+\newcommand{\SAIL}{\emph{ESAIL}\xspace}
+\newcommand{\MLFS}{\emph{MLFS}\xspace}
+\newcommand{\GCSP}{\emph{LIBGCSP}\xspace}
+
+\newcommand{\MPTS}{\emph{MASS-reduced} test suite\xspace}
+\newcommand{\MPTSs}{\emph{MASS-reduced} test suites\xspace}
 
 
 \newcommand{\prog}{P}
@@ -320,6 +333,8 @@
 \include{dataDrivenMutationAnalysis}
 
 \include{codeDrivenTestSuiteAugmentation}
+
+\include{dataDrivenTestSuiteAugmentation}
 
 \ENDCHANGEDWPT
 
