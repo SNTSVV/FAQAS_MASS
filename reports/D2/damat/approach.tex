@@ -420,6 +420,7 @@ For TestSuite1, \APPR would not help the engineer in detecting the fault because
 For the third running example set, we consider a system that has the same architecture of  Figure~\ref{fig:damat:RunningExampleArch} but can exchange also messages of type \emph{BoardStatus} that indicate the voltage of the board and the sensors. The SUT has an additional output state variable called \emph{voltage\_error}. A voltage error occurs when the voltage is out of the range (10;14). In the presence of a voltage error, the software shall not update the value of the \emph{temperature} state variable.
 
 Below we discuss two possible test suites, TestSuite1 and TestSuite2, which are affected by different type of limitations.
+More precisely, we rely on TestSuite1 to (1) show how \APPR spot a test suite shortcoming difficult to determine manually and (2) demonstrate that \APPR may unlikely lead to equivalent mutants (i.e., by showing that if a mutant is not killed it's because relevant assertions are missing). We rely on TestSuite2 to exemplify the case of lack of coverage of a fault model.
 
 \paragraph{TestSuite1}
 
