@@ -20,8 +20,7 @@ In this project, the verification and validation of the different software that 
 
 At this level, we assess the quality of single, encapsulated components. In other words, components that do not interact with other units, but simply store results in files processed by other units.
 
-\TODO{ENRICO, please complete}
-Given its characteristics, we followed this procedure to assess the component \texttt{SRCMutation} from \MASS, and the component \texttt{} from \DAMA.
+Given its characteristics, we followed this procedure to assess the component \texttt{SRCMutation} from \MASS, and the component \texttt{DDMutation} from \DAMA.
 
 \subsubsection{MASS: SRCMutation}
 
@@ -39,8 +38,21 @@ Figure~\ref{fig:mass} introduces \MASS methodology. The component \texttt{SRCMut
 For more details, please refer to Chapter 7 of the SUITP document.
 
 
-\subsubsection{DAMAt: }
+\subsubsection{DAMAt: DDMutation}
 \TODO{ENRICO, please complete}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/dataDrivenBufferProcess.pdf}
+      \caption{DAMAt methodology.}
+      \label{fig:damat}
+\end{figure}
+
+Figure~\ref{fig:damat} introduces \MASS methodology. The component \texttt{DDMutation} is implemented in step 2 of the methodology under the name of \emph{Generate Mutation API}.
+
+\texttt{DDMutation} is the component with the most complicate implementation logic and thus it requires a detailed unit testing. All the other components either filter or join data, so their implementation is simpler and thus their test automation is performed through system tests.
+
+For more details, please refer to Chapter 11 of the SUITP document.
 
 \subsection{System Testing}
 
@@ -69,6 +81,25 @@ We validated the four steps of the methodology on the MLFS case study, we also v
 
 
 \subsubsection{DAMAt}
-\TODO{ENRICO, please complete}
+
+At a system level, we performed a validation of \DAMA to assure that every functional requirement is compliant with the Software System Specifications document (SSS) document.
+Particularly, we verified that \DAMA was able to:
+\begin{enumerate}
+	\item Parse a fault model prepared by the user.
+	\item Generate a mutation API with the functions that modify the data according to the provided fault model.
+  \item Modify the buffer through calls to the mutation API.
+	\item Generate and compile mutants.
+	\item Execute the test suite against all the mutants and gather the results of the test cases.
+	\item Generate the results of the mutation analysis.
+\end{enumerate}
+
+We validated the six steps of the methodology on the following case studies:
+\begin{itemize}
+  \item LXS System Test Suite for ESAIL
+  \item GSL Integration Test Suite for libgscsp
+  \item GSL System Test Suite for libparam
+\end{itemize}
+
+We also verified that outputs are in line with system specifications. A detailed description of the validation of \DAMA can be found on the D4 document.
 
 \clearpage
