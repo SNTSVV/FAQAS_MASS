@@ -3,27 +3,40 @@
 \chapter{FAQAS case studies}
 \label{chapter:caseStudies}
 
-The FAQAS framework will be applied to \MREVISION{C-P-40}{six} case study systems. Table~\ref{tab:caseStudies} provides the list of case studies along with an indication of the type of mutation testing (i.e., code-driven or data-driven) they will be targeted for. They following sections describe each case study.
+The FAQAS framework will be applied to \MREVISION{C-P-40}{six} case study systems. Table~\ref{tab:caseStudies} provides the list of case studies along with an indication of the type of mutation analysis/testing (i.e., code-driven or data-driven) and the tools they will be targeted for. 
+
+\STARTCHANGEDWPT
+For the validation of each tool, we selected case studies presenting characteristics compatible with the requirements of the tool under test. \emph{Code-driven mutation analysis} (implemented by MASS) does not present any specific requirement except the availability of source code; for this reason, it has been validated with all the available case studies systems.
+\emph{Code-driven mutation testing} (implemented by SEMuS), instead, requires the software under test to be comprised of components communicating through function calls (e.g., not network channels); for this reason, for SEMuS, we selected unit test suites.
+\emph{Data-driven mutation analysis} (implemented by DAMAt) targets components communicating through channels, which are usually tested with integration and system test suites. For this reason we selected systems tested with such types of test suites.
+\emph{Data-driven mutation testing} (implemented by DAMTE) aims to generate test cases that improve data-driven mutation analysis; however, since it is performed with symbolic execution tools, it presents the same limitations of SEMuS, that is, the analyzed part of the software under test should be comprised of components communicating through function calls. For this reason, it can target only libGCSP and libParam.
+
+
+The following sections describe each case study subject.
 
 \begin{table}[htp]
 \caption{Case studies for the FAQAS activity.}
 \label{tab:caseStudies}
 \begin{center}
-\begin{tabular}{|p{1.2cm}|p{6cm}|p{2.5cm}|p{2.5cm}|}
+\begin{tabular}{|p{1.2cm}|p{6cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
 \hline
-\textbf{Partner}&\textbf{Case study}&\textbf{Code-driven}&\textbf{Data-driven}\\
+\textbf{Partner}&\textbf{Case study}&\multicolumn{2}{c}{\textbf{Code-driven}}&\multicolumn{2}{c}{\textbf{Data-driven}}\\
+\textbf{Partner}&\textbf{Case study}&\textbf{MASS}&\textbf{SEMuS}&\textbf{DAMAt}&\textbf{DaMTe}\\
 \hline
-LXS&System Test Suite for ESAIL&Y&Y\\
-LXS&\CHANGEDNOV{Unit Test Suite for ESAIL}&Y&N\\
-GSL&Unit Test Suite for libUtil&Y&N\\
-GSL&Integration Test Suite for libgscsp&Y&Y\\
-GSL&System Test Suite for libparam&Y&Y\\
-ESA&MLSF mathematical library&Y&N\\
-ESA&ASN1 Compiler&Y&\CHANGEDNOV{N}\\
+LXS&System Test Suite for ESAIL&Y&N&Y&N\\
+LXS&Unit Test Suite for ESAIL&Y&N&N&N\\
+GSL&Unit Test Suite for libUtil&Y&Y*&N&N\\
+GSL&Integration Test Suite for libgscsp&Y&N&Y*&Y*\\
+GSL&System Test Suite for libparam&Y&N&Y&Y*\\
+ESA&MLFS mathematical library&Y&Y&N&N\\
+ESA&ASN1 Compiler&Y&Y&N&N\\
 \hline
 \end{tabular}
 \end{center}
-\end{table}%
+An asterisk (*) is used to indicate validation cases that will be finalized in WP4.
+\end{table}
+
+\ENDCHANGEDWPT
 
 \clearpage
 
