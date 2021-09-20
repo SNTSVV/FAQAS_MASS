@@ -18,15 +18,14 @@ mkdir -p $LOGS_FOLDER
 
 TESTS_FOLDER=$DAMAt_FOLDER/testlists
 
-#mutant=0
+mutant=0
 
 pushd $DAMAt_FOLDER
    max_mutant=`grep 'MUTATIONOPT=' FAQAS_dataDrivenMutator.h | tr '/' ' ' | awk -F= '{print $2}'`
    echo "this is the max mutation operator: $max_mutant"
 popd
 
-#while [ "$mutant" -le $max_mutant ]; do
-for mutant in 0 18; do
+while [ "$mutant" -le $max_mutant ]; do
 
    mutant_log=$LOGS_FOLDER/mutant_"$mutant"_log.out
 
