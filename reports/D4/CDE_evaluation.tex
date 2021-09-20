@@ -50,6 +50,9 @@
     
     \item[RQ8] \REVNOV{C-P-5}{Is it possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered)?}
     
+    \item[RQ9] Can mutation analysis results be computed by joining results obtained with different test suites?
+
+
     
 \end{itemize}
 
@@ -578,7 +581,7 @@ When combined with the execution of SDL operators only, the \APPR test suite lea
 
 \paragraph{Design and measurements}
 
-RQ7 investigates if it is possible to identify thresholds that enable the precise identification of equivalent ($T_E$) and redundant ($T_R$) mutants following the procedure described in Section~\ref{sec:algostepSeven}.
+RQ6 investigates if it is possible to identify thresholds that enable the precise identification of equivalent ($T_E$) and redundant ($T_R$) mutants following the procedure described in Section~\ref{sec:algostepSeven}.
 
 To determine $T_E$, 
 we rely on the optimal distance metric identified by RQ4 (i.e., {$D_C$}).
@@ -618,7 +621,7 @@ This part of the evaluation remains to be completed in WP3.
 
 % Describe what it the purpose of the RQ
 
-RQ8 aims to determine if the mutation score estimated by \APPR is an over- or under- approximation of the mutation score computed with a  non-optimized mutation testing process (i.e., no mutants sampling and no test suite reduction/prioritization). 
+RQ7 aims to determine if the mutation score estimated by \APPR is an over- or under- approximation of the mutation score computed with a  non-optimized mutation testing process (i.e., no mutants sampling and no test suite reduction/prioritization). 
 To this end, we apply \APPR to the five case study systems described in Section~\ref{sec:empirical:subjects} and compute the mutation score according to \APPR Step 8 (Section~\ref{sec:appr:score}).
  %considered in previous research questions and to the whole ESAIL. 
  %We report the mutation score obtained without removing equivalent and redundant mutants, and the mutation score obtained after removal of equivalent/redundant mutants. 
@@ -630,7 +633,7 @@ Finally, we discuss our findings in light of the literature on the topic.
 \paragraph{Design and measurements}
 \label{sec:exp:thr}
 
-RQ9 aims to determine if it is possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered).
+RQ8 aims to determine if it is possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered).
 
 
 We may perform an experiment in line with the one performed in reference [78]. The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). 
@@ -658,6 +661,25 @@ If the null hypothesis is rejected in favor of the alternate hypothesis then the
 Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.}
 
 \REVNOV{PTCR-7}{Despite such experiment would be of great value, the required information is not currently available and thus it is not possible at this stage of the project to commit for addressing this research question.}
+
+
+\subsection{RQ9 - joined mutation analysis results}
+
+\paragraph{Design and measurements}
+\label{sec:exp:thr}
+
+RQ9 aims to determine whether is possible to combine results of mutation analysis for different test suites targeting the same system.
+
+In CPSs, it is a common practice to verify and validate a system with different types of test suites. For example, it might be common to have an unit test suite verifying isolated components of a system, and then having a system test suite verifying complex use case scenarios of certain functionalities.
+
+To answer this research question, we verify whether the mutation analysis results of an additional test suite can further improve the existing mutation score. We say that if the additional test suite is able to kill additional mutants, with respect to the existing test suite, then we conclude that mutation results from two test suites can be actually be combined.
+
+In our experiments, in addition to the assessment of the ESAIL$_s$ system test suite, we also analyzed the ESAIL$_s$ unit test suite against the 3\,536 mutants previously generated.
+
+The mutation score of the unit test suite is 26.78\%; there are 947 killed mutants, and 2\,589 live mutants. 
+
+In addition to the set of 2\,311 mutants killed by the system test suite, we observe that the unit test suite kills 184 additional mutants. 
+The result of mutation analysis combined for both test suites produce a mutation score of 70.56\% (an improvement of +4,8\%), which indicates that mutation analysis results can effectively be combined for different test suites (e.g., system and units).
 
 
 \subsection{Discussion}
