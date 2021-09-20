@@ -94,10 +94,6 @@ do
   bash runTest67.sh
   bash runTest68.sh
   bash runTest69.sh
-  bash runTest70.sh
-  bash runTest71.sh
-  bash runTest72.sh
-  bash runTest73.sh
 
   popd
 
