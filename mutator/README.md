@@ -12,5 +12,3 @@ DAMA requires Python 3.
 
 #Testing
 Test cases for the data-driven mutator can be run by executing python/runTests.sh, and singular test cases can be executed by running the corresponding bash script in the "test" directory (i.e runTest1.sh)
-
-Folder python/examples/esail_integration.2020.06.10/ contains an example of how the dataDrivenMutator can be integrated into the ESAIL system.
