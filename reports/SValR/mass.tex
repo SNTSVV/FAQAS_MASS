@@ -1,0 +1,84 @@
+% !TEX root = MAIN.tex
+
+\chapter{MASS - Validation Execution Environment Definition and Results}
+
+To validate \MASS we applied the methodology to the following case studies:
+\begin{itemize}
+  \item LXS System Test Suite for ESAIL
+  \item GSL Integration Test Suite for libgscsp
+  \item GSL System Test Suite for libparam
+  \item MLFS Unit Test Suite
+  \item GSL Unit Test Suite for libutil
+  \item ASN.1 Auto-generated Unit Test Suite
+\end{itemize}
+
+\begin{table}[h]
+\caption{MASS Validation Report.}
+\label{table:mass:results} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{33mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Methodology Step}&\textbf{ESAIL}&\textbf{libgscsp}&\textbf{libparam}&\textbf{libutil}&\textbf{MLFS}&\textbf{ASN.1}\\ 
+\hline
+Collect SUT coverage&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Create Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Compile Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+TCE&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Sample Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Prioritized Test Suite&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Identify Likely Equivalents&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Compute Mutation Score&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+\hline
+\end{tabular}
+
+\end{table}
+
+The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:mass:results}, that shows the success/failure of every \MASS step on the different case studies.
+
+A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+
+\chapter{SEMUS - Validation Execution Environment Definition and Results}
+
+To validate \SEMUS we applied the methodology to the following case studies:
+
+\begin{itemize}
+  \item MLFS Unit Test Suite
+  \item ASN.1 Auto-generated Unit Test Suite
+\end{itemize}
+
+The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:semus:results}, that shows the success/failure of every \SEMUS step on the different case studies.
+
+\begin{table}[h]
+\caption{SEMuS Validation Report.}
+\label{table:semus:results} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{33mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Methodology Step}&\textbf{ASN.1}&\textbf{MLFS}\\ 
+\hline
+Generate Test Templates&PASSED&PASSED\\
+Generate Meta-Mutants&PASSED&PASSED\\
+Invoke SEMu&PASSED&PASSED\\
+Convert Ktest to Unit Test&PASSED&PASSED\\
+\hline
+\end{tabular}
+
+\end{table}
+
+A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+
+\clearpage
