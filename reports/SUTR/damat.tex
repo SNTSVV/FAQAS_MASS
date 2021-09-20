@@ -1,0 +1,56 @@
+% !TEX root = MAIN.tex
+
+\chapter{\DAMA - Unit Test Execution Environment Definition and Results}
+
+Two unit test procedures were identified for \DAMA:
+\begin{itemize}
+  \item {\emph{DAMAt-TD-DDMutation-1}} that targets the unit \emph{DDMutationFault}.
+  \item {\emph{DAMAt-TD-DDMutation-2}} that targets the unit \emph{DDMutationData}.
+\end{itemize}
+
+These unit test procedures are defined in the \emph{SUITP}.
+
+The testing environment is described below:
+
+\begin{center}
+\begin{tabular}{ |c|c| }
+ \hline
+ Platform & Ubuntu 18.04.3 LTS (Bionic Beaver) 4.15.0-58-generic \\
+ \hline
+ Toolchain & GCC 7.5.0 \\
+ \hline
+ Python version & Python 3.6.9 \\
+ \hline
+ Bash version & GNU bash, version 4.4.20(1)-release (x86\_64-pc-linux-gnu) \\
+ \hline
+ Valgrind version & valgrind-3.13.0 \\
+ \hline
+\end{tabular}
+\end{center}
+
+% \chapter{\DAMA -  Test Suite Software Configuration}
+
+\chapter{\DAMA - Result Summary}
+
+A summary of the results of the test suite as of Monday 20/09/2021 in the following in tabular form.
+For every test case the following information are available:
+\begin{itemize}
+  \item{Test ID}: the identifier of the test case.
+  \item{Result}: the result of the test case.
+  \item{Fault Model Coverage}: (optional) for some test cases the Fault Model Coverage is reported (see \emph{D2} for definition).
+  \item{Valgrind Output}: it reports how many mutants present memory errors.
+  \item{Singleton/Normal}: all test cases are executed using the singleton mode or the normal mode (see \emph{SUM} for definition).
+\end{itemize}
+
+The definition and configuration of the test cases are reported in the \emph{SUTP}.
+
+\section{\DAMA - DAMAt-TD-DDMutation-1}
+
+\input{tables/matrixDDMFault.tex}
+
+\section{\DAMA - DAMAt-TD-DDMutation-2}
+
+\input{tables/matrixDDMData.tex}
+% \chapter{Additional Notes}
+
+\clearpage
