@@ -79,9 +79,9 @@ Given that the objective of DAMAt is to assess the quality of test suites throug
 \end{figure}
 
 Figure~\ref{fig:damat:external} shows DAMAt's external interfaces through a system block diagram.
-As shown in Figure~\ref{fig:damat:external}, DAMAt interacts with the SUT through a launcher, that compiles the mutants, runs the test cases, and collects information about the executions and the results.
+As shown in Figure~\ref{fig:damat:external}, DAMAt interacts with the SUT through a launcher that (1) compiles the mutants, (2) runs the test cases, and (3) collects information about the executions and the results.
 
-The correct paths (e.g source code folders ) and configuration variables (e.g. data type of the buffer targeted by the mutation) are set in the DAMAt configuration file by the user as bash variables.
+The correct paths (e.g., source code folders) and configuration variables (e.g., data type of the buffer targeted by the mutation) are set in the DAMAt configuration file by the user as bash variables.
 
 DAMAt also interacts with the source code through calls to a mutation API containing the mutation logic. These calls shall be manually inserted by the user into the source code.
 The mutation API is automatically generated starting from a fault model specified by the user.
