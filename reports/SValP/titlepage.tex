@@ -1,0 +1,37 @@
+\begin{tikzpicture}[remember picture,overlay]
+\path [fill=sntred]    ([xshift=30pt,yshift=20pt]current page.south west) rectangle
+                       ([xshift=210pt,yshift=50pt] current page.south west);
+\path [fill=sntpurple] ([xshift=210pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=390pt,yshift=50pt] current page.south west);
+\path [fill=sntblue]   ([xshift=390pt,yshift=20pt] current page.south west) rectangle
+                       ([xshift=570pt,yshift=51pt] current page.south west);
+\path [fill=unilublue] ([xshift=30pt,yshift= 50pt] current page.south west) --
+                       ([xshift=570pt,yshift= 50pt] current page.south west)
+                       [rounded corners=20pt] --
+                       ([xshift=570pt,yshift=740pt] current page.south west)
+                       [sharp corners] --
+                       ([xshift=30pt,yshift=740pt] current page.south west);
+\node [fill=white,rounded corners=0pt,inner xsep=6pt,inner ysep=3pt]
+      at ([xshift=523pt,yshift=120pt] current page.south west)
+      {\pgfuseimage{logo-uni-lu}};
+
+\node [fill=white,rounded corners=2pt,inner xsep=6pt,inner ysep=3pt]
+      at ([xshift=520pt,yshift=780pt] current page.south west)
+      {\pgfuseimage{logo-snt}};
+
+%\node [circle, fill=white, draw=sntblue] at ([xshift=550pt,yshift=35pt] current page.south west) {a};
+
+\node[draw=none,fill=none,right] at (-1, -7){\color{white}\LARGE\bf\titleone};
+\node[draw=none,fill=none,right] at (-1, -8){\color{white}\LARGE\bf\titletwo};
+\node[draw=none,fill=none,right] at (-1, -9){\color{white}\LARGE\bf\titlethree};
+
+\node[draw=none,fill=none,right] at (-1, -12){\color{white}\Large\textsf{O. Cornejo, F. Pastore, E. Viganò}};
+\node[draw=none,fill=none,right] at (-1, -13){\color{white}\Large\textsf{Interdisciplinary Centre for Security, Reliability and Trust}};
+\node[draw=none,fill=none,right] at (-1, -14){\color{white}\Large\textsf{University of Luxembourg}};
+\node[draw=none,fill=none,right] at (11, -16){\color{white}\textsf{ITT-1-9873-ESA-FAQAS-IRD}};
+\node[draw=none,fill=none,right] at (11, -17){\color{white}\Large\textsf{Issue 1, Rev. 1}};
+\node[draw=none,fill=none,right] at (11, -18){\color{white}\Large\textsf{\today}};
+
+\end{tikzpicture}
+
+\newpage
