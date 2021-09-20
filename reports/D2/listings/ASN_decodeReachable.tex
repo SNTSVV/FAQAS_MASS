@@ -2,13 +2,13 @@
 \begin{lstlisting}[style=CStyle, caption=Example of data-driven mutation probe for ASN.1 that has been added to the encoding function., label=ASN_encodeReachable]
 flag TypeNested_Encode(const TypeNested* pVal, BitStream* pBitStrm, int* pErrCode, flag bCheckConstraints)
 {
-    TypeNested_mutate(pVal);
+    _FAQAS_TypeNested_cover(pVal);
     flag ret = TRUE;
 ...
 }
 
 
-void _FAQAS_TypeNested_mutate(TypeNested *pVal) {
+void _FAQAS_TypeNested_cover(TypeNested *pVal) {
 
 	// ALREADY_MUTATED is a global variable 
 	// that traces if in the current execution we already performed data mutation
