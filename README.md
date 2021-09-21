@@ -29,6 +29,9 @@ The exact command to build the `faqas_semu` Docker image is available in the hea
 ## Running ASN case study
 Instruction to run the ASN case study is available in [ASN README.md](case_studies/ASN/README.md)
 
+## Running MLFS case study
+Instruction to run the MLFS case study is available in [MLFS README.md](case_studies/MLFS/README.md)
+
 ## Installing dependencies
 
 Install dependencies (tested on ubuntu) using the following command:
