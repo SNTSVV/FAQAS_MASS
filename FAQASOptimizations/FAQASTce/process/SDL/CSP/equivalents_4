@@ -1,7 +1,0 @@
-csp_semaphore.mut.104.1_2_56.SDL.csp_bin_sem_wait|./libcsp/src/arch/posix
-csp_semaphore.mut.142.1_2_31.SDL.csp_bin_sem_post|./libcsp/src/arch/posix
-csp_semaphore.mut.84.1_2_41.SDL.csp_bin_sem_create|./libcsp/src/arch/posix
-pthread_queue.mut.108.1_1_2.SDL.pthread_queue_delete|./libcsp/src/arch/posix
-csp_buffer.mut.193.1_2_33.SDL.csp_buffer_free|./libcsp/src
-csp_buffer.mut.128.1_2_35.SDL.csp_buffer_get|./libcsp/src
-csp_buffer.mut.112.1_2_145.SDL.csp_buffer_get|./libcsp/src

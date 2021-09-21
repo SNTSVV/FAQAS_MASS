@@ -1,2 +1,0 @@
-gpio_sysfs.mut.58.1_1_5.SDL.gs_gpio_sysfs_get_nc|./linux/drivers/gpio;5
-console.mut.42.1_1_5.SDL.gs_log_console_append_common|./log/appender;0

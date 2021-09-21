@@ -1,7 +1,0 @@
-ef_rem_pio2.mut.167.1_1_18.ROD.__ieee754_rem_pio2f;5
-kf_rem_pio2.mut.152.2_2_31.ROD.__kernel_rem_pio2f;5
-e_sqrt.mut.140.2_2_17.ROD.__ieee754_sqrt;5
-e_atan2.mut.130.1_1_7.SDL.__ieee754_atan2;4
-e_pow.mut.222.2_2_8.ROD.__ieee754_pow;5
-e_rem_pio2.mut.167.1_1_15.ROD.__ieee754_rem_pio2;5
-ef_atan2.mut.104.1_1_7.SDL.__ieee754_atan2f;4
