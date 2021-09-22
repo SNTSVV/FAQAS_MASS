@@ -1,27 +1,37 @@
 % !TEX root =  Main.tex
+\newpage
 \subsection{Space Software Mutation Testing Pipeline}
 \label{sec:approach}
 
 \begin{figure}[tb]
 \begin{center}
-\includegraphics[width=13cm]{images/MT}
-\caption{Overview of the proposed Mutation Testing Pipeline}
+\includegraphics[width=0.6\textwidth]{images/Approach}
+\caption{Overview of the proposed Mutation Analysis Pipeline}
 \label{fig:approach}
 \end{center}
 \end{figure}
 
-Figure~\ref{fig:approach} provides an overview of the mutation testing process that we propose, 
-\emph{Mutation Analysis for Space Software} (\APPR), based on the discussions and decisions in the previous section. We describe each step in the following paragraphs. 
+Figure~\ref{fig:approach} provides an overview of the mutation analysis process that we propose, \APPR, based on the discussions and decisions in the previous section. Its goal is to propose a comprehensive solution for making mutation analysis applicable to embedded software in industrial cyber-physical systems. \JMR{3.4}{The ultimate goal of \APPR is to assess the effectiveness of test suites with respect to detecting violations of functional requirements.}
+ 
+\JMR{3.3}{Different from the mutation analysis pipeline presented in related work~\cite{papadakis2019mutation}, \APPR enables the integration of all mutation analysis optimization techniques that are feasible in our context to address scalability and pertinence problems (see Section~\ref{sec:back:summary}). 
+\APPR consists of eight steps: (Step 1) Collect SUT Test Suite Data, (Step 2) Create Mutants, (Step 3) Compile Mutants, (Step 4) Remove Equivalent and Duplicate Mutants Based on Compiled Code, (Step 5) Sample Mutants,  (Step 6) Execute Prioritized Subset of Test Cases, 
+(Step 7) Identify Likely Equivalent / Duplicate mutants Based on Coverage, and
+(Step 8) Compute the Mutation Score. Different from related work, \APPR enables FSCI-based sampling by iterating between mutants sampling (Step 5) and test cases execution (Step 6). 
+Also, it integrates test suite prioritization and reduction (Step 6) before the computation of the mutation score.
+Finally, it includes methods to identify likely equivalent and duplicate mutants based on code coverage (Step 7).}
+We describe each step in the following paragraphs. 
 
-\subsubsection{Step 1: Collect coverage data of the SUT test suite}
+\subsection{Step 1: Collect SUT Test Data}
 
-In Step 1, the test suite is executed against the software under test (SUT) and code coverage information is collected. 
+In Step 1, the test suite is executed against the SUT 
+%software under test (SUT) 
+and code coverage information is collected. 
 More precisely, we rely on the combination of gcov~\cite{GCOV}
 and GDB~\cite{GDB}, enabling the collection of coverage information for embedded systems without a file system~\cite{THANASSIS}.
 % and Vector CAST~\cite{VectorCAST} 
 %to record the number of times each line of code of the SUT has been exercised by a test case.
 
-\subsubsection{Step 2: Create Mutants}
+\subsection{Step 2: Create Mutants}
 
 In Step 2, we automatically generate mutants for the SUT by relying on a set of selected mutation operators.
 In \APPR, based on the considerations provided in Section~\ref{sec:related:operators}, we rely on an extended sufficient set of mutation operators, which are listed in Table~\ref{table:operators}.
@@ -30,20 +40,23 @@ In addition, in our experiments, we also evaluate the feasibility of relying onl
 \input{tables/operators.tex}
 
 To automatically generate mutants, we have extended SRCIRor~\cite{hariri2018srciror} to include all the 
-operators in Table~\ref{table:operators}.
-After mutating the original source file, our extension saves the mutated source file and keeps track of the mutation applied. 
+operators in Table~\ref{table:operators}. 
+After mutating the original source file, our extension saves the mutated source file and keeps track of the mutation applied. Our toolset is available under the ESA Software Community Licence Permissive~\cite{ESAlicence} at the following URL \textbf{https://faqas.uni.lu/}.
 
 \subsubsection{Step 3: Compile mutants}
 \label{sec:appr:compile}
 
-In Step 3, we compile mutants by relying on the build system of the SUT. To this end, we have developed a toolset that, for each mutated source file: (1) backs-up the original source file, (2) renames the mutated source file as the original source file, (3) runs the build system (e.g., executes the command \texttt{make}), (4) copies the generated executable mutant in a dedicated folder, (5) restores the original source file. 
+In Step 3, we 
+compile mutants by relying on an optimized compilation procedure that leverages the build system of the SUT. To this end, we have developed a toolset that, for each mutated source file: (1) backs-up the original source file, (2) renames the mutated source file as the original source file, (3) runs the build system (e.g., executes the command \texttt{make}), (4) copies the generated executable mutant in a dedicated folder, (5) restores the original source file. 
 
-Build systems create one object file for each source file to be compiled and then link these object files together into the final executable. 
- {In subsequent builds, they recompile only the modified files and link them to the rest.}
-For this reason, since we modify at most two source files for each mutant (i.e., the mutated file and the file restored to eliminate the previous mutation), we can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our case study systems (Section~\ref{sec:evaluation}) have shown that 
+Build systems \JMR{1.15}{(e.g., GNU make~\cite{MAKE} driving the GCC~\cite{GCC} compiler)} create one object file for each source file to be compiled and then link these object files together into the final executable. 
+\CHANGED{After the first build, in subsequent builds, 
+build systems
+%they 
+recompile only the modified files and link them to the rest.}
+For this reason, our optimized compilation procedure, which modifies at most two source files for each mutant (i.e., the mutated file and the file restored to eliminate the previous mutation), can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our subjects (Section~\ref{sec:evaluation}) have shown that 
 %additional optimizations are not necessary to make the compilation of mutants feasible.
- {our optimization is sufficient to make the compilation of mutants feasible for large projects. Other state-of-the-art solutions introduce additional complexity (e.g., change the structure of the software under test~\cite{untch1993mutation}) that does not appear to be justified by scalability needs.}
- 
+\CHANGED{our optimization is sufficient to make the compilation of mutants feasible for large projects. Other state-of-the-art solutions introduce additional complexity (e.g., change the structure of the software under test~\cite{untch1993mutation}) that does not appear to be justified by scalability needs.}
  
  \REVNOV{C-P-24}{Mutants that lead to compilation errors are discarded. Concerning compilation warnings, we assume the build system of the SUT has been properly configured; more precisely, if the system should compile without warnings, the compiler is expected to be configured to treat warnings as errors otherwise mutants that lead to warning are retained.}
 
@@ -51,57 +64,62 @@ For this reason, since we modify at most two source files for each mutant (i.e.,
 
 In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. 
 \REVNOV{C-P-15}{We compile the original software and every mutant multiple times once for each every available optimization option (i.e., \texttt{-O0}, \texttt{-O1}, \texttt{-O2}, \texttt{-O3}, \texttt{-Os}, \texttt{-Ofast} in GCC) or a subset of them.
-After each execution of the compiler, we compute the SHA-512 hash summary of the generated executable.} Finally, we compare all the generated hash summaries. Hash comparison enables us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash as any of the executables generated for the original program), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and redundant mutants are ignored in the following steps of \APPR. 
-Equivalent and redundant mutants are discarded.
+After each execution of the compiler, we compute the SHA-512 hash summary of the generated executable.}To detect equivalent mutants, \APPR compares the hash summaries of the mutants with that of the original executable. To detect duplicate mutants but avoid combinatorial explosion, \APPR focuses its comparison of hash summaries on pairs of mutants belonging to the same source file (restricting the scope of the comparison is common practice~\cite{kintis2017detecting}).
+Hash comparison allows us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash as the original executable), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and duplicate mutants are ignored in the following steps of \APPR. 
+Equivalent and duplicate mutants are then discarded. We compare hash summaries rather than executable files because it is much faster, an important consideration when dealing with a large number of mutants.
 The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
 
-Should the SUT not be compiled with compiler optimizations enabled, we identify equivalent and redundant mutants by re-executing Step 3 with compiler optimizations enabled and then apply Step 4.
-%The executables generated by this additional run of Step 3 are used only to identify equivalent mutants, not to evaluate the SUT test suite, which is based on executables compiled without optimizations (otherwise test cases may fail).
 
 \subsubsection{Step 5: Sample Mutants}
 \label{sec:codeDriven:samplingStep}
 \STARTCHANGEDNOV
 
-In Step 5, we sample the mutants to be executed to compute the mutation score. 
+
+In Step 5, \APPR samples the mutants to be executed to compute the mutation score. 
+\JMR{1.8 3.3}{\APPR does not selectively generate mutants but samples them from the whole set of successfully compiled, nonequivalent, and nonduplicated mutants (result of Steps 2 to 4). This choice aims to avoid sampling bias which may result from the presence of such mutants; indeed, there is no guarantee that these mutants, if they were discarded after being sampled, would be uniformly distributed across program statements. Our choice does not affect the feasibility of \APPR since Steps 2 to 4 have negligible cost (see Section~\ref{sec:evaluation}).}
+
 Our pipeline supports different sampling strategies: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}. 
 
-The strategies \emph{proportional uniform sampling} and \emph{proportional method-based sampling} are based on the results of Zhang et al.~\cite{zhang2013operator}, who compared eight strategies for sampling mutants. 
-The former is the best performing strategy in \cite{zhang2013operator} and consists of sampling mutants evenly across all functions of the SUT, i.e., sampling $r\%$ mutants from each set of mutants generated inside a same function.
- {The latter consists of randomly selecting $r\%$ mutants from the complete mutants set. This is included in our study because it is simpler to implement and proved to be equivalent to stratified sampling strategies, based on recent work~\cite{gopinath2015hard}.}
+The strategies \emph{proportional uniform sampling} and \emph{proportional method-based sampling} were selected based on the results of Zhang et al.~\cite{zhang2013operator}, who compared eight strategies for sampling mutants. 
+The former was the best performing strategy and consists of sampling mutants evenly across all functions of the SUT, i.e., sampling $r\%$ mutants from each set of mutants generated inside the same function.
+The latter consists of randomly selecting $r\%$ mutants from the complete mutants set. This is included in our study because it is simpler to implement and showed to be equivalent to stratified sampling strategies, based on recent work~\cite{gopinath2015hard}.
 
- {The \emph{uniform fixed-size sampling} strategy stems from the work of Gopinath et al.~\cite{gopinath2015hard} and consists of selecting a fixed number $N_M$ of mutants for the computation of the mutation score. Based on Gopinath et al. work, 1000 mutants guarantee an accurate estimation of the mutation score. In our empirical evaluation, we assess the accuracy obtained for $N_M$ values across the range [100;1000].}
+The \emph{uniform fixed-size sampling} strategy stems from the work of Gopinath et al.~\cite{gopinath2015hard} and consists of selecting a fixed number $N_M$ of mutants for the computation of the mutation score. Based their work, with 1,000 mutants, one can guarantee an accurate estimation of the mutation score.
+% In our empirical evaluation, we assess the accuracy obtained for $N_M$ values across the range [100;1000].}
 
- {In this paper, we introduce the \emph{uniform FSCI sampling} strategy that determines the sample size dynamically, while exercising mutants, based on a fixed-width sequential confidence interval approach.
-With the \emph{uniform FSCI sampling} we introduce a cycle between Step 6 and Step 5 of the approach, such that a new mutant is sampled only if deemed necessary by FSCI analysis.
+In this paper, we introduce the \emph{uniform FSCI sampling} strategy that determines the sample size dynamically, while exercising mutants, based on a fixed-width sequential confidence interval approach.
+With \emph{uniform FSCI sampling}, we introduce a cycle between Step 6 and Step 5, such that a new mutant is sampled only if deemed necessary.
 % of the mutation testing results collected so far. 
- More precisely, \APPR iteratively selects a random mutant from the whole set of unique mutants and exercises it using the SUT test suite. 
+ More precisely, \APPR iteratively selects a random mutant from the set of unique mutants and exercises it using the SUT test suite. 
 % The result of each mutant execution (i.e., killed or live) is treated as a Bernoulli trial that is used to compute the confidence interval according to the FSCI method. 
 Based on related work, we assume that the mutation score computed with a sample of mutants follows a binomial distribution (see Section~\ref{sec:scalability}).
-For this reason, to compute the confidence interval for the FSCI analysis, we rely on the Clopper-Pearson method because it provides the best results (see Section~\ref{sec:scalability}).
-Mutation testing (i.e., sampling and testing a mutant) stops when the confidence interval is below a given threshold $T_{\mathit{CI}}$ (we use $T_{\mathit{CI}}=0.10$ in our experiments). More formally, given a confidence interval 
-$[\mathit{L}_{S};\mathit{U}_{S}]$, with $\mathit{L}_{S}$ and $\mathit{U}_{S}$ indicating the lower and upper bound of the interval, mutation testing stops when the following condition holds:}
+For this reason, to compute the confidence interval for the FSCI analysis, we rely on the Clopper-Pearson method since it is reported to provide the best results (see Section~\ref{sec:scalability}).
+Mutation analysis (i.e., sampling and testing a mutant) stops when the confidence interval is below a given threshold $T_{\mathit{CI}}$ (we use $T_{\mathit{CI}}=0.10$ in our experiments). More formally, given a confidence interval 
+$[\mathit{L}_{S};\mathit{U}_{S}]$, with $\mathit{L}_{S}$ and $\mathit{U}_{S}$ indicating the lower and upper bound of the interval, mutation analysis stops when the following condition holds:
 \begin{equation}
+\label{eq:CI:T}
 (\mathit{U}_{S}-\mathit{L}_{S})<T_{\mathit{CI}}.
 \end{equation}
 
- {Unfortunately, the assumption on the estimated mutation score following a binomial distribution may not hold when a subset of the test suite is executed for every mutant (i.e., what could happen in Step 6). Without going into the details behind the implementation of Step 6, which are described in Section~\ref{sec:step:prioritize}, 
-it is reasonable to expect that a reduced test suite may not be able to kill all the mutants killed by the whole test suite, i.e., the estimated mutation score may be affected by negative bias. Consequently, over multiple runs, the mean of the estimated mutation score may not be close to the \emph{actual mutation score} (i.e., the mutation score computed with the whole test suite exercising all the mutants for the SUT)
+Unfortunately, the assumption about the estimated mutation score following a binomial distribution may not hold when a subset of the test suite is executed for every mutant (which could happen in Step 6). Without going into the details behind the implementation of Step 6, which is described in Section~\ref{sec:step:prioritize}, 
+we can expect that a reduced test suite may not be able to kill all the mutants killed by the entire test suite, i.e., the estimated mutation score may be affected by negative bias. Consequently, over multiple runs, the mean of the estimated mutation score may not be close to the \emph{actual mutation score} (i.e., the mutation score computed with the entire test suite exercising all the mutants for the SUT)
  but may converge to a lower value. 
-To compute a correct confidence interval that includes the actual mutation score of the SUT, we thus need to take into account this negative bias.}
+To compute a correct confidence interval that includes the actual mutation score of the SUT, we thus need to take into account this negative bias.
 
- {To study the effect of negative bias on the confidence interval, we address first the relation between the actual mutation score and the mutation score computed with the reduced test suite when the whole set of mutants for the SUT is executed. 
-A mutant killed by the whole test suite has a probability $P_{\mathit{KErr}}$ of not being killed by the reduced test suite.
+To study the effect of negative bias on the confidence interval, we address first the relation between the actual mutation score and the mutation score computed with the reduced test suite when the entire set of mutants for the SUT is executed. 
+A mutant killed by the entire test suite has a probability $P_{\mathit{KErr}}$ of not being killed by the reduced test suite.
 The probability $P_{\mathit{KErr}}$  can be estimated as the proportion of mutants (erroneously) not killed by the reduced test suite 
 \begin{equation}
 P_{\mathit{KErr}} = \frac{|E_R|}{|M|}
 \end{equation}
 with 
-$E_R$ being the subset of mutants that are killed by the whole test suite but not by the reduced test suite, and $M$ being the full set of mutants for the SUT.}
+$E_R$ being the subset of mutants that are killed by the entire test suite but not by the reduced test suite, and $M$ being the full set of mutants for the SUT.
 
-The mutation score for the reduced test suite (i.e., $\mathit{MS}_R$) can be computed as
+The mutation score for the reduced test suite ($\mathit{MS}_R$) can be computed as
 
 \begin{equation}
-\mathit{MS}_R=\frac{K-E_R}{|M|}=\frac{K}{|M|}-\frac{E_R}{|M|}=\mathit{MS}-\frac{|E_R|}{|M|}=\mathit{MS}-P_{\mathit{KErr}}
+\small
+\mathit{MS}_R=\frac{|K|-|E_R|}{|M|}=\frac{|K|}{|M|}-\frac{|E_R|}{|M|}=\mathit{MS}-\frac{|E_R|}{|M|}=\mathit{MS}-P_{\mathit{KErr}}
 \end{equation}
 
 where $K$ is the set of mutants killed by the whole test suite, $M$ is the set of all the mutants of the SUT,  and $\mathit{MS}$ is the actual mutation score. Consequently, the actual mutation score can be computed as 
@@ -110,40 +128,73 @@ where $K$ is the set of mutants killed by the whole test suite, $M$ is the set o
 \mathit{MS}=\mathit{MS}_R+P_{\mathit{Err}_R}
 \end{equation}
 
- {We now discuss the effect of a reduced test suite on the confidence interval for a mutation score estimated with mutants sampling. When mutants are sampled and tested with the whole test suite, the actual mutation score is expected to lie in the confidence interval $[\mathit{L}_{S};\mathit{U}_{S}]$. 
-However, in the presence of a reduced test suite, we have to take into account the probability of an error in the computation of the mutation score $\mathit{MS}_R$;  $\mathit{MS}_R$ may be lower than $\mathit{MS}$ and, based on Equation~\ref{eq:MS}, we may expect the actual mutation score to lie in the interval}
+We now discuss the effect of a reduced test suite on the confidence interval for a mutation score estimated with mutants sampling. When mutants are sampled and tested with the entire test suite, the actual mutation score is expected to lie in the confidence interval $[\mathit{L}_{S};\mathit{U}_{S}]$. 
+\CHANGED{In the presence of a reduced test suite, we can still rely on the Clopper-Pearson method to compute the confidence interval $\mathit{CI}_R=[\mathit{L}_{R};\mathit{U}_{R}]$.
+However, }
+%in the presence of a reduced test suite,
+we have to take into account the probability of an error in the computation of the mutation score $\mathit{MS}_R$;  $\mathit{MS}_R$ can be lower than $\mathit{MS}$ and, based on Equation~\ref{eq:MS}, we expect the actual mutation score to lie in 
+%the interval.
+\JMR{NEW}{an interval that is shifted with respect to the interval for $\mathit{MS}_R$:}
 
 \begin{equation}
 \label{eq:CI}
-\mathit{CI}=[\mathit{L}_{S};\mathit{U}_{S}+P_{\mathit{KErr}}]
+\mathit{CI}=[\mathit{L}_{R}+P_\mathit{KErr};\mathit{U}_{R}+P_{\mathit{KErr}}]
 \end{equation}
 
- {We can only estimate  $P_{\mathit{KErr}}$ since computing it would require the execution of all the mutants with the complete test suite, thus undermining our objective of reducing test executions. 
-To do so, we can randomly select a set $M_S$ of mutants, on which to execute the whole test suite and identify the mutants killed by the reduced test suite. %\footnote{In our implementation, we record the outcome of each test case of the whole suite and then simulate the execution of the reduced test suite, thus saving time.} 
-The size of the set $M_S$ should be lower than the number of mutants expected to be returned by FSCI sampling (e.g., we use $M_S'=100$ in our experiments\footnote{Though it would be possible to also estimate $P_{\mathit{KErr}}$ with FSCI, we leave it for future work}), otherwise sampling would not provide any cost reduction benefit.
-Since for every mutant in $M_S$ we can determine if it is erroneously reported as not killed by the reduced test suite,
+We can only estimate  $P_{\mathit{KErr}}$ since computing it would require the execution of all the mutants with the complete test suite, thus undermining our objective of reducing test executions. 
+To do so, we can randomly select a subset $M_R$ of mutants, on which to execute the entire test suite and identify the mutants killed by the reduced test suite. %\footnote{In our implementation, we record the outcome of each test case of the whole suite and then simulate the execution of the reduced test suite, thus saving time.} 
+The size of the set $M_R$ should be lower than the number of mutants we expect FSCI sampling to return, 
+%(e.g., we use $M_R=100$ in our experiments\footnote{Though it would be possible to also estimate $P_{\mathit{KErr}}$ with FSCI, we leave it for future work.}), 
+otherwise sampling would not provide any cost reduction benefit.
+Since, for every mutant in $M_R$, we can determine if it is erroneously reported as not killed by the reduced test suite R,
 we can 
 %end up with a vector of boolean evaluations $E=e_1, ..., e_n$ where each evaluation $e_i$ is equal to \emph{true} if the $i^{th}$ mutant has been erroneously indicated as not killed by the reduced test suite.
 %This population of evaluations enable us to 
 estimate the probability $P_{\mathit{KErr}}$ as the percentage of such mutants.
-As for the case of the mutation score, these mutants tend to be positively  correlated\footnote{If a line of code contains a mutant that is not killed by the reduced test suite, it may contain another such mutant.} and, for this reason, the binomial distribution should provide a conservative estimate of the variance for $P_{\mathit{KErr}}$.} 
+As for the case of the mutation score, 
+%these mutants tend to be positively  correlated\footnote{If a line of code contains a mutant that is not killed by the reduced test suite, it may contain another such mutant.} and, for this reason,
+we assume that the binomial distribution provides a conservative estimate of the variance for $P_{\mathit{KErr}}$. 
 
- {We can estimate the confidence interval for $P_{\mathit{KErr}}$ using one of the methods for binomial distributions.
-We rely on the Wilson score method because it is known to perform well with small samples. 
-The value of $P_{\mathit{KErr}}$ will thus lie within $[\mathit{L}_{E};\mathit{U}_{E}]$,  with $\mathit{L}_{E}$ and $\mathit{U}_{E}$ indicating the lower and upper bound of the interval.}
+We can estimate the confidence interval for $P_{\mathit{KErr}}$ using one of the methods for binomial distributions.
+We rely on the Wilson score method because it is known to perform well with small samples~\cite{Newcombe:Wilson:1998}. 
+The value of $P_{\mathit{KErr}}$ will thus lie within $\mathit{CI}_E=[\mathit{L}_{E};\mathit{U}_{E}]$,  with $\mathit{L}_{E}$ and $\mathit{U}_{E}$ indicating the lower and upper bounds of the interval.
 
- {Based on Equation~\ref{eq:CI}, to ensure that the actual mutation score lies in the computed confidence interval, we should assume the worst case, i.e., $P_{\mathit{KErr}}=\mathit{U}_{E}$.
-The confidence interval to be used with FSCI sampling in the presence of a reduced test suite should thus be }
+
+
+\NEWFSCI{Based on Equation~\ref{eq:CI}, 
+%to ensure that the actual mutation score lies in the computed confidence interval, we should assume the worst case, i.e., $P_{\mathit{KErr}}=\mathit{U}_{E}$.
+the confidence interval to be used with FSCI sampling in the presence of a reduced test suite should thus be }
 \begin{equation}
 \label{eq:CI:FSCI}
-\mathit{CI}=[\mathit{L}_{S};\mathit{U}_{S}+\mathit{U}_{E}]
+\mathit{CI}=[\mathit{L}_{R}+\mathit{L}_{E};\mathit{U}_{R}+\mathit{U}_{E}]
 \end{equation}
 
- {From a more practical perspective, the effect of the term $+\mathit{U}_{E}$ is to augment the size of the interval returned by the Clopper-Pearson method; consequently, mutation sampling with a reduced test suite may lead to the execution of a larger set of mutants.}
+\JMRCHANGE{The estimated mutation score is the value lying in the middle of the interval.}
 
- {When $\mathit{U}_{E}>T_{\mathit{CI}}$, the reduced test suite cannot lead to accurate results. In such cases, the test suite can be prioritized but not reduced and the confidence interval should thus be computed using the traditional Clopper-Pearson method, i.e., $[\mathit{L}_{S};\mathit{U}_{S}]$.}
+\UPDATE{Since the width of the confidence interval CI (hereafter, $|CI|$) results from the sum of $|\mathit{CI}_R|$ and $|\mathit{CI}_E|$,
+%Also, from a practical perspective, \JMRCHANGE{the terms $+\mathit{L}_{E}$ and} $+\mathit{U}_{E}$ may augment the size of the interval returned by the Clopper-Pearson method; consequently, 
+mutation sampling with a reduced test suite may lead to the execution of a larger set of mutants.}
 
- {In Section~\ref{sec:evaluation} we discuss the difference in accuracy for the different strategies.}
+\UPDATE{Based on Equations~\ref{eq:CI:T} and~\ref{eq:CI:FSCI}, $|\mathit{CI}_R| \le T_{\mathit{CI}} - |\mathit{CI}_E|$.
+Consequently, when $|\mathit{CI}_E|>T_{\mathit{CI}}$, the reduced test suite cannot lead to sufficiently accurate results. 
+Also, a large $|\mathit{CI}_E|$ may prevent the identification of accurate results with a feasible number of mutants. For example, Clopper-pearson may require up to 1568 samples for a confidence interval below 0.05~\cite{Goncalves2012}}. 
+%the interval is 3.5, you will need a $[\mathit{L}_{R};\mathit{U}_{R}]$ of 7.5, which may require XXXX samples in the worst case).
+%https://select-statistics.co.uk/calculators/sample-size-calculator-population-proportion/
+%Basic Business Statistics, Global Edition, 13th Edition
+\UPDATE{
+We shall thus identify a threshold ($T_{\mathit{CE}}$) for the confidence interval $|\mathit{CI}_E|$ that enables 
+%$|\mathit{CI}_R| \le (T_{\mathit{CI}} - |\mathit{CI}_E|)$ 
+accurate estimates 
+with a small sample size (e.g., in the worst case, with less than 1000 samples, the sample size for related work).
+For this reason, starting from a minimal number of samples to estimate $P_{\mathit{KErr}}$ (150 in our experiments), \APPR keeps estimating $P_{\mathit{KErr}}$ until it yields $|\mathit{CI}_E| \le T_{\mathit{CE}}$. 
+In our experiments we set $T_{\mathit{CE}} = 0.035$.
+To select $T_{\mathit{CE}}$, we have identified a reasonable minimal mutation score to be expected in space software (i.e., 65\%) and identified, based on confidence interval estimation methods with finite population correction factor~\cite{BasicBusinessStatistics}, 
+the minimal value for $|\mathit{CI}_E|$ that requires a number of samples below 850 (i.e., $1000-150$).
+%Indeed, for a binomial proportion with a probability of success above 65\% (the minimal mutation score), a confidence interval width of 0.065 (i.e., $0.1-0.035$) shall be achieved with a sample size of 821.}
+}
+
+When it is not possible to estimate $|\mathit{CI}_E| \le T_{\mathit{CE}}$ \UPDATE{or when the number of samples required to estimate $|\mathit{CI}_E| \le T_{\mathit{CE}}$ is sufficient to accurately estimate the mutation score,} the test suite can be prioritized but not reduced and the confidence interval is computed using the traditional Clopper-Pearson method, i.e., $[\mathit{L}_{S};\mathit{U}_{S}]$.
+
 
 \ENDCHANGEDNOV
 
@@ -154,8 +205,8 @@ In Step 6, we execute a prioritized subset of test cases.
 We select only the test cases that satisfy 
 the reachability condition (i.e., cover the mutated statement) and  execute them in sequence.
 Similarly to the approach of Zhang et al. \cite{zhang2013faster}, we define the order of execution of test cases based on their estimated likelihood of killing a mutant.
- {However, in our work, this likelihood is estimated differently than in the case of Zhang et al. because of the inapplicability of the measurements they propose in the context of system-level testing and complex systems. 
-(see Section~\ref{sec:scalability}).}
+\CHANGED{However, in our work, this likelihood is estimated differently since, as discussed above, the measurements they rely on are not applicable in the context of system-level testing and complex cyber-physical systems 
+(see Section~\ref{sec:scalability}).} \CHANGEDNOV{In contrast, to minimize the impact of measurements on real-time constraints, we only collect code coverage information for a small part of the system.}
 %However, we redefined the criteria for the prioritization and selection of test cases because of the inapplicability of the ones proposed by Zhang et al. (see Section~\ref{sec:scalability}).
 
 %However, we notice that such optimization may not be sufficient when test suites are particularly large; indeed, prioritizing test cases may not be sufficient to reduce execution time. For example, live mutants may lead to the execution of a large number of test cases when almost all the test cases of the test suite exercise the mutated statement. 
@@ -168,16 +219,23 @@ we should first execute the ones that more likely satisfy the necessity conditio
 This might be achieved by executing a test case that exercises the mutated statement with variable values not observed before. 
 Unfortunately, in our context, the size of the SUT and its real-time constraints prevent us from recording all the variable values processed during testing. 
 
-To determine if two test case executions exercise the mutated statement with diverse variable values, we therefore rely on code coverage.
+Therefore, we rely on code coverage to determine if two test case executions exercise the mutated statement with diverse variable values. Such coverage is collected by efficient procedures provided by compilers, thus having lower impact on execution performance than other types of dynamic analysis solutions (e.g., tracing variable values).
 % as a surrogate indicator of  variable values diversity.
 %diversity in values assigned to the variables used in a statement. 
-Indeed, a difference in the set of instructions being covered by two or more test cases that exercise a same statement may depend on the values used in such statement. For example, the definition of a variable may lead to the execution of different branches when different values are assigned across distinct executions.
-However, two test case executions may also present coverage differences 
-because of a diverse set of variable values used by statements other than the mutated one. 
-For this reason, we restrict the scope of code coverage analysis 
-to the functions belonging to a same component (i.e., a same source file).
+Since, because of control- and data-flow dependencies, a different set of input values may lead to differences in code coverage, 
+the latter helps determine if two or more test cases likely exercise a mutated statement with different variable values. %Indeed, a difference in the set of 
+%statements covered by two test cases depends on the values reaching some of the program statements, including the mutated one.
+%Indeed, a difference in the set of 
+%statements covered by two or more test cases that exercise a same mutated statement may depend on the values used in such statement. 
+%For example, the definition of a variable may lead to the execution of different branches when different values are assigned across distinct executions.
+To increase the likelihood that the observed differences in code coverage are due to the use of different variable values to exercise the mutated statement, we restrict the scope of code coverage analysis 
+to the functions belonging to the component (i.e., the source file) that contains the mutated statement.
+%However, two test case executions may also present coverage differences 
+%because of a diverse set of variable values used by statements other than the mutated one. 
+%For this reason, we restrict the scope of code coverage analysis 
+%to the functions belonging to a same component (i.e., a same source file).
 Indeed, such functions typically present several control- and data-flow dependencies, thus 
-augmenting the likelihood that a coverage difference is due to the execution of the mutated statement with a diverse set of values.
+augmenting the likelihood that a coverage difference is due to the execution of the mutated statement with a diverse set of values. Also, collecting code coverage for a small part of the system further reduces the impact of our analysis on system performance.
 
 %to the mutated function, its callers, and its callees.
 %to maximize the chances that a change in the behaviour of the software depends on the values used in a mutated statement, we determine that two executions likely exercise a mutated statement with diverse values by focussing on the coverage of 
@@ -187,9 +245,9 @@ augmenting the likelihood that a coverage difference is due to the execution of 
 %Since related work focuses on either statement coverage or the frequency of execution of a statement, 
 Based on related work, we have identified two possible strategies to characterize test case executions based on code coverage:
 \begin{itemize}
-\item[S1] Compare the sets of source code statements being covered by the test cases~\cite{grun2009impact}.
+\item[S1] Compare the sets of source code statements that have been covered by test cases~\cite{grun2009impact}.
 %\item[C2] Identify the set of unique pairs $\langle\mathit{statement},\mathit{arity}\rangle$, where $\mathit{statement}$ is a unique identifier for the source code statement, and $\mathit{arity}$ is a symbol (i.e., $1$ or $*$) indicating if the statement has been covered one or more times.
-\item[S2] Compare the number of times each statement has been covered by distinct test cases~\cite{schuler2013covering}.
+\item[S2] Compare the number of times each statement has been covered by test cases~\cite{schuler2013covering}.
 \end{itemize}
 
 
@@ -199,63 +257,79 @@ In the case of S1, we rely on the Jaccard and Ochiai index, which are two simila
 it measures similarity between sets, and is defined as the size of the intersection divided by the size of the union.
 The Jaccard distance measures dissimilarity between sample sets and results from subtracting the Jaccard coefficient from 1.
 The Ochiai index calculates cosine similarity with binary data, it is used in molecular biology and software engineering.}
-Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and the Ochiai ($D_O$) distances are computed as follows:
+Given two test cases $T_A$ and $T_B$, the Jaccard  ($D_J$) and Ochiai ($D_O$) distances are computed as follows:
 
 $D_J(T_a,T_b)=1-\frac{|C_a \cap C_b|}{|C_a \cup C_b|}$ \hspace{2mm} $D_O(T_a,T_b)=1-\frac{|C_a \cap C_b|}{\sqrt{|C_a| * |C_b|}}$, 
-where $C_a$ and $C_b$ are the set of coverage items exercised by the test cases $T_a$ and $T_b$, respectively.
+where $C_a$ and $C_b$ are the set of covered statements exercised by $T_a$ and $T_b$, respectively.
 
-In the case of S2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning. 
-\REVNOV{C-P-18}{Euclidean distance is the straight-line distance between two points in Euclidean space; precisely, the Euclidean distance between two points is the length of the line segment connecting them. In our context, the two vectors consist of the number of times teh program statements had been exercised by a test. Cosine similarity measures similarity between two vectors of an inner product space. It results from the inner product of the same vectors normalized to both have length 1, which matches the the cosine of the angle between them. It is widely adopted to measure cohesion within clusters in data mining.}
+In the case of S2, we compute the distance between two test cases by relying on the euclidean distance ($D_E$) and the cosine similarity distance ($D_C$), two popular distance metrics used in machine learning.
+\REVNOV{C-P-18}{Euclidean distance is the straight-line distance between two points in Euclidean space; precisely, the Euclidean distance between two points is the length of the line segment connecting them. In our context, the two vectors consist of the number of times the program statements had been exercised by a test. Cosine similarity measures similarity between two vectors of an inner product space. It results from the inner product of the same vectors normalized to both have length 1, which matches the the cosine of the angle between them. It is widely adopted to measure cohesion within clusters in data mining.}
 Given two vectors $V_A$ and $V_B$, whose elements capture the number of times a statement has been covered by test cases $T_A$ and $T_B$, the distances $D_E$ and $D_C$ can be computed as follows:
 
-$D_E=\sqrt{\sum_{i=1}^{n}(A_i-B_i)^2}$ 
-$D_C= \frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=1}^{n}{B_i}^2}}$,
+$D_E=\sqrt{\sum_{i=1}^{n}(A_i-B_i)^2}$
+
+$D_C= 1-\frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=1}^{n}{B_i}^2}}$,
 %Their main difference is that cosine similarity is used when the magnitude of the vectors should not matter.
-where $A_i$ and $B_i$ refer to the number of times the i-th statement had been covered by test cases $T_A$ and $T_B$, respectively.
+where $A_i$ and $B_i$ refer to the number of times the i-th statement had been covered by $T_A$ and $T_B$, respectively.
 
 Figure~\ref{alg:prioritize} shows the pseudocode of our algorithm for selecting and prioritizing test cases. It generates as output
 a prioritized test suite (\emph{PTS}).
-Based on the findings of Zhang et al. \cite{zhang2013faster}, we first select the test case that exercises the mutated statement the highest number of times (Line~\ref{alg:prioritize:first})  { and add it to the prioritized test suite (Line~\ref{alg:prioritize:add}).}
-Then, the next selected test case is the one with the largest distance from the closest test case belonging to the set of test cases already selected (Lines~\ref{alg:prioritize:selectStart} to~\ref{alg:prioritize:selectEnd}). 
+Based on the findings of Zhang et al. \cite{zhang2013faster}, we first select the test case that exercises the mutated statement the highest number of times (Line~\ref{alg:prioritize:first}) \CHANGED{ and add it to the prioritized test suite (Line~\ref{alg:prioritize:add}).}
+Then, in the next iterations, the test case selected is the one with the largest distance from the closest test case already selected (Lines~\ref{alg:prioritize:selectStart} to~\ref{alg:prioritize:selectEnd}). 
+When two or more test cases have the same distance, we select randomly among the test cases that exercise the mutated statement the most.
 %is most different than any other test case already included in the prioritized test suite.
 
 %Then, since we aim to maximize test cases diversity, the next selected test case should be the one that is most different than any other test case already included in the prioritized test suite.
 %For this reason, for each test case $n$ not selected yet (Line~\ref{alg:prioritize:notSel}), we identify the test case $t$ showing the most similar coverage (i.e., the one with the minimal distance $d$, Line~\ref{alg:prioritize:minD}). We then select the test case $n$ with the highest distance from its closest test case (Lines~\ref{alg:prioritize:selectStart} to~\ref{alg:prioritize:selectEnd}). 
 
-The algorithm iterates as long as it identifies a test case that exercises 
-the program instructions differently than the test cases already selected (Line~\ref{alg:prioritize:until}).
+The algorithm iterates as long as it identifies a test case
+showing a difference in code coverage from the 
+%that exercises 
+%the program statements differently than 
+already selected test cases (Line~\ref{alg:prioritize:until}).
 
 Test cases are then executed in the selected order. During  execution, we collect code coverage information and identify killed and live mutants.
 
+
 \input{algos/selection.tex}
 
-\subsubsection{Step 7: Identify likely equivalent/redundant mutants based on coverage data}
+\subsection{Step 7: Discard Mutants}
 \label{sec:algostepSeven}
 
 
-In Step 7, we identify likely equivalent and likely redundant mutants by relying on code coverage information  {collected in the previous step}.
+In this step, we identify likely nonequivalent and likely nonduplicate mutants by relying on code coverage information \CHANGED{collected in the previous step}.
 
-Different from related work~\cite{schuler2013covering}, since the size of a program may determine the degree of non-determinism in statement coverage, 
-we identify equivalent and redundant mutants based on a threshold, instead of relying on the absolute number of methods/statements presenting differences in code coverage. 
+Similarly to related work~\cite{schuler2013covering}, 
+%since the size of a program may determine the degree of non-determinism in statement coverage, 
+we identify nonequivalent and nonduplicate mutants based on a threshold.
 
-We compute normalized distances based on the distance metrics $D_J$, $D_O$, $D_E$, and $D_C$. A mutant is considered non-equivalent when the distance from the original program is above the threshold $T_E$, for at least one test case.
-Similarly, a mutant is considered non-redundant when the distance from every other mutant is above the threshold $T_R$, for at least one test case. For the identification of equivalent mutants, we consider live mutants only. To identify redundant mutants, we consider both live and killed mutants; however, killed mutants that lead to the failure of different test cases are not redundant, regardless of their distance.
+In our case, consistently with previous steps of \APPR,
+we compute normalized distances based on the distance metrics $D_J$, $D_O$, $D_E$, and $D_C$. A mutant is considered nonequivalent when the distance from the original program is above the threshold $T_E$, for at least one test case.
+Similarly, a mutant is considered nonduplicate when the distance from every other mutant is above the threshold $T_D$, for at least one test case. For the identification of nonequivalent mutants, we consider live mutants only. To identify nonduplicate mutants, we consider both live and killed mutants; however, to avoid combinatorial explosion, we compare only mutants belonging to the same source file (indeed, mutants belonging to different files are unlikely to be redundant). 
+Killed mutants that lead to the failure of different test cases are not duplicate, regardless of their distance.
 
-\REVNOV{C-P-19}{Figure~\ref{alg:nonEquivalent:nonRedeundat} shows the algorithm for detecting non-equivalent and non-redundant mutants.
-It first identify among the list of killed mutants all the non-redundant ones (Line~\ref{alg:equivalent:KNR}).
+Thresholds $T_E$ and $T_D$ should enable the identification of mutants that are guaranteed to be nonequivalent and nonduplicate. In particular, we are interested in the set of \emph{live, nonequivalent, nonduplicate mutants} (hereafter, $\mathit{LNEND}$) and the set of \emph{killed, nonduplicate mutants} (hereafter, $\mathit{KND}$). With such guarantees, the mutation score can be adopted as an adequacy criterion in safety certification processes. For example, certification agencies may require safety-critical software to reach a mutation score of 100\%, which is feasible in the presence of nonequivalent mutants. 
+%This will enable the adoption of mutation score as an adequacy criterion, 
+
+\REVNOV{C-P-19}{Figure~\ref{alg:nonEquivalent:nonRedeundat} shows the algorithm for detecting nonequivalent and nonduplicate mutants.
+It first identify among the list of killed mutants all the non-duplicate ones (Line~\ref{alg:equivalent:KNR}).
 Then it identifies the non-equivalent mutants among the list of live mutants (Line~\ref{alg:equivalent:LNE}).
-Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be non-redundant (Line~\ref{alg:equivalent:LNENR}).}
+Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be nonduplicate (Line~\ref{alg:equivalent:LNENR}).}
 
 \input{algos/equivalentRedundant.tex}
 
-\subsubsection{Step 8: Compute mutation score}
+\subsection{Step 8: Compute Mutation Score}
 \label{sec:appr:score}
 
-The mutation score is computed as the ratio of live, non-equivalent, and non-redundant mutants (hereafter, \emph{LNENR}) over the overall number of non-equivalent, non-redundant mutants identified in Step 7:
 
-$\mathit{mutation}\ \mathit{score} = \frac{\mathit{LNENR}}{\mathit{LNENR}+\mathit{KNR}}$,
-where $\mathit{KNR}$ is the number of killed, non-redundant mutants.
+The mutation score (MS) is computed as the percentage of killed nonduplicate mutants 
+%(hereafter, \emph{KND}) 
+over the number of nonequivalent, nonduplicate mutants identified in Step 7):
 
+\begin{equation}
+\label{equation:ms}
+\mathit{MS} = \frac{|\mathit{KND}|}{|\mathit{LNEND}|+|\mathit{KND}|}
+\end{equation}
 %Similarly,
 %
 %obof at lest one test case with respect
