@@ -43,10 +43,11 @@ pushd $RESULTS_FOLDER
 
 for f in *; do #2
   if [ -d "$f" ]; then #if1
-    pushd $f
-    cat main.csv >> $raw_data
-    popd
-
+    if [ "$f" != "logs" ]; then
+        pushd $f
+        cat main.csv >> $raw_data
+        popd
+    fi
     pushd $RESULTS_FOLDER
     if [ "$f" == "run_-2" ]; then #if2
       while IFS="," read -r p || [ -n "$p" ];do #3
@@ -56,7 +57,7 @@ for f in *; do #2
         python $DATA_ANALYSIS_FOLDER/get_coverage.py "$tstcase" "$mutator" "$RESULTS_FOLDER/$f"
         cat $RESULTS_FOLDER/$f/readable_coverage_"$tstcase".csv >> $FM_coverage
 
-      done < $test_list #3
+      done < $tests_list #3
 
       cat $FM_coverage | sort -n | uniq >> $readable_FM_coverage
 
@@ -69,7 +70,7 @@ for f in *; do #2
         python $DATA_ANALYSIS_FOLDER/get_operator_coverage.py "$tstcase" "$RESULTS_FOLDER/$f"
         cat $RESULTS_FOLDER/$f/readable_coverage_$tstcase.csv >> $operator_coverage
 
-      done < $test_list
+      done < $tests_list
 
       cat $operator_coverage | sort -n | uniq >> $readable_operator_coverage
 

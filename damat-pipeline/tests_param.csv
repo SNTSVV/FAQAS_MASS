@@ -1,0 +1,15 @@
+bindings,4427.200000
+example,4145.400000
+file_store,2954.000000
+i2c,2793.400000
+log,2881.200000
+param3,3007.800000
+param4,3273.600000
+rparam3,5099.400000
+rparam4,8003.200000
+serialize,2656.400000
+spi,2825.800000
+store,2774.400000
+store_load,3182.000000
+vmem_store_checksum_first,3005.800000
+vmem_store_checksum_last,2963.400000
