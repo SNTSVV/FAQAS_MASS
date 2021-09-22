@@ -43,7 +43,7 @@ To automatically generate mutants, we have extended SRCIRor~\cite{hariri2018srci
 operators in Table~\ref{table:operators}. 
 After mutating the original source file, our extension saves the mutated source file and keeps track of the mutation applied. Our toolset is available under the ESA Software Community Licence Permissive~\cite{ESAlicence} at the following URL \textbf{https://faqas.uni.lu/}.
 
-\subsubsection{Step 3: Compile mutants}
+\subsection{Step 3: Compile mutants}
 \label{sec:appr:compile}
 
 In Step 3, we 
@@ -54,13 +54,13 @@ Build systems \JMR{1.15}{(e.g., GNU make~\cite{MAKE} driving the GCC~\cite{GCC} 
 build systems
 %they 
 recompile only the modified files and link them to the rest.}
-For this reason, our optimized compilation procedure, which modifies at most two source files for each mutant (i.e., the mutated file and the file restored to eliminate the previous mutation), can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our subjects (Section~\ref{sec:evaluation}) have shown that 
+For this reason, our optimized compilation procedure, which modifies at most two source files for each mutant (i.e., the mutated file and the file restored to eliminate the previous mutation), can reuse almost all the compiled object files in subsequent compilation runs, thus speeding up the compilation of multiple mutants. The experiments conducted with our subjects have shown that 
 %additional optimizations are not necessary to make the compilation of mutants feasible.
 \CHANGED{our optimization is sufficient to make the compilation of mutants feasible for large projects. Other state-of-the-art solutions introduce additional complexity (e.g., change the structure of the software under test~\cite{untch1993mutation}) that does not appear to be justified by scalability needs.}
  
  \REVNOV{C-P-24}{Mutants that lead to compilation errors are discarded. Concerning compilation warnings, we assume the build system of the SUT has been properly configured; more precisely, if the system should compile without warnings, the compiler is expected to be configured to treat warnings as errors otherwise mutants that lead to warning are retained.}
 
-\subsubsection{Step 4: Remove equivalent and redundant mutants based on compiled code}
+\subsection{Step 4: Remove equivalent and redundant mutants based on compiled code}
 
 In Step 4, we rely on trivial compiler optimizations to identify and remove equivalent and redundant mutants. 
 \REVNOV{C-P-15}{We compile the original software and every mutant multiple times once for each every available optimization option (i.e., \texttt{-O0}, \texttt{-O1}, \texttt{-O2}, \texttt{-O3}, \texttt{-Os}, \texttt{-Ofast} in GCC) or a subset of them.
@@ -70,13 +70,13 @@ Equivalent and duplicate mutants are then discarded. We compare hash summaries r
 The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
 
 
-\subsubsection{Step 5: Sample Mutants}
+\subsection{Step 5: Sample Mutants}
 \label{sec:codeDriven:samplingStep}
 \STARTCHANGEDNOV
 
 
 In Step 5, \APPR samples the mutants to be executed to compute the mutation score. 
-\JMR{1.8 3.3}{\APPR does not selectively generate mutants but samples them from the whole set of successfully compiled, nonequivalent, and nonduplicated mutants (result of Steps 2 to 4). This choice aims to avoid sampling bias which may result from the presence of such mutants; indeed, there is no guarantee that these mutants, if they were discarded after being sampled, would be uniformly distributed across program statements. Our choice does not affect the feasibility of \APPR since Steps 2 to 4 have negligible cost (see Section~\ref{sec:evaluation}).}
+\JMR{1.8 3.3}{\APPR does not selectively generate mutants but samples them from the whole set of successfully compiled, nonequivalent, and nonduplicated mutants (result of Steps 2 to 4). This choice aims to avoid sampling bias which may result from the presence of such mutants; indeed, there is no guarantee that these mutants, if they were discarded after being sampled, would be uniformly distributed across program statements. Our choice does not affect the feasibility of \APPR since Steps 2 to 4 have negligible cost.}
 
 Our pipeline supports different sampling strategies: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}. 
 
@@ -198,7 +198,7 @@ When it is not possible to estimate $|\mathit{CI}_E| \le T_{\mathit{CE}}$ \UPDAT
 
 \ENDCHANGEDNOV
 
-\subsubsection{Step 6: Execute prioritized subset of test cases}
+\subsection{Step 6: Execute prioritized subset of test cases}
 \label{sec:step:prioritize}
 
 In Step 6, we execute a prioritized subset of test cases. 
@@ -312,9 +312,9 @@ Thresholds $T_E$ and $T_D$ should enable the identification of mutants that are 
 %This will enable the adoption of mutation score as an adequacy criterion, 
 
 \REVNOV{C-P-19}{Figure~\ref{alg:nonEquivalent:nonRedeundat} shows the algorithm for detecting nonequivalent and nonduplicate mutants.
-It first identify among the list of killed mutants all the non-duplicate ones (Line~\ref{alg:equivalent:KNR}).
+It first identify among the list of killed mutants all the non-duplicate ones (Line~\ref{alg:equivalent:KND}).
 Then it identifies the non-equivalent mutants among the list of live mutants (Line~\ref{alg:equivalent:LNE}).
-Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be nonduplicate (Line~\ref{alg:equivalent:LNENR}).}
+Finally, it further filters the list of non-equivalent mutants to keep only the ones that appear to be nonduplicate (Line~\ref{alg:equivalent:LNEND}).}
 
 \input{algos/equivalentRedundant.tex}
 

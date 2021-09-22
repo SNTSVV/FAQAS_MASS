@@ -210,7 +210,7 @@ Related studies~\cite{zhang2010operator,zhang2013operator} are performed by rely
 Such test suites are typically automatically generated using static analysis~\cite{papadakis2012mutation}.
 %Since our subject artifacts, as it is common in cyber-physical domains, either require dedicated simulators or include network components, we cannot rely on static analysis to generate mutation adequate test suites. 
 %We thus rely on the original test suites provided with the subjects. 
-\JMR{3.13}{Since we cannot leverage static analysis to generate mutation adequate test suites (see Section 1.2.1.5 from D2), 
+\JMR{3.13}{Since we cannot leverage static analysis to generate mutation adequate test suites (see Section~1.2.1.5 from D2), 
 we rely on the original test suites provided with the subjects.}
 As a result, to perform our study, we mutate only the statements that are covered by the considered test suites.
 
@@ -223,7 +223,7 @@ This proportion is in line with the ones reported in related work, though there 
 %that likely contain complex instructions, 
 have shown lower success rates (e.g., 81.13\% for safety-critical software components~\cite{Baker2013}) than open source, batch utilities (e.g., 96.30\% for Coreutils~\cite{hariri2016evaluating}).} \REVNOV{PTCR-17}{In the case of compiler warnings, we simply follow the policy configured for the case study. More precisely., in the case of ESAIl and MLFS all the warnings from the compiler lead to a compilation failure. In the case of GSL the compilation process proceeds.}
  
-{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3,157 to 151,234 seconds, for an average of 0.96 seconds required to compile a single mutant, across subjects. Because of our selective compilation strategy (see Section 1.2.3.3), the time required by our pipeline to compile a single mutant is significantly lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC %(i.e., 22,827 LOC)  
+{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3,157 to 151,234 seconds, for an average of 0.96 seconds required to compile a single mutant, across subjects. Because of our selective compilation strategy (see Section~1.2.7 from D2), the time required by our pipeline to compile a single mutant is significantly lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC %(i.e., 22,827 LOC)  
 than our subjects~\cite{kintis2017detecting}.}
 
 % {The last three columns of Table~\ref{table:mutants} present the number and percentage of mutants successfully compiled, along with the time required to compile all the mutants using the proposed incremental compilation process (Step 3 of \APPR). 
@@ -292,7 +292,7 @@ To identify the most effective compiler optimization level, we consider the perc
 Last, we compare our results with the ones reported in related work~\cite{papadakis2015trivial}.
 
 \CHANGED{By default, subjects are compiled with  different compiler optimization options, \emph{-Os} for \SAIL{}\emph{-CSW}, \emph{-O2} for \MLFS{}{}, \emph{-O3} for \GCSP{}, \PARAM{}, and \UTIL{}.}
-To estimate the costs entailed by the augmented compilation process, we collect, for every subject, the time required for compiling all their mutants with each of the five optimization levels enabled. To compile mutants, we rely on the optimized compilation process implemented in Step 3 of \APPR (see Section 1.2.3.3).
+To estimate the costs entailed by the augmented compilation process, we collect, for every subject, the time required for compiling all their mutants with each of the five optimization levels enabled. To compile mutants, we rely on the optimized compilation process implemented in Step 3 of \APPR (see Section~1.2.7 from D2).
 
 
 
@@ -398,7 +398,7 @@ we consider the mutation scores to be accurately estimated when they are within 
 In other words, we consider the estimated mutation score to be accurate when 
 %the largest absolute value for the two quantiles is below $\delta_{acc}$.
 the absolute value of the largest difference between quantiles and the actual score is below $\delta_{acc}$.
-Since the range of acceptable mutation score values is small (75\%-100\%, see Section 1.2.1.1), we decided to use a threshold of 5\%, which is more conservative than that reported in related work ~\cite{gopinath2015hard}. 
+Since the range of acceptable mutation score values is small (75\%-100\%, see Section~1.2.1.1 from D2), we decided to use a threshold of 5\%, which is more conservative than that reported in related work ~\cite{gopinath2015hard}. 
 
 Below, we analyze $\delta_{acc}$ for varying sampling rates. To improve readability, we discuss the results concerning the different sampling strategies separately.
 % \emph{proportional uniform sampling} and \emph{proportional method-based sampling}.
@@ -469,7 +469,7 @@ However, to achieve accurate results with all subjects, we need a minimal sampli
 Table~\ref{table:results:accuracy:FSCI:sampling} shows the accuracy results for uniform fixed-size sampling and uniform FSCI sampling. For each subject, we sort results according to the number of mutants. For FSCI sampling, we report the confidence interval threshold $T_\mathit{CI}$. 
 
 The best results (i.e., lowest number of mutants with $\delta_{acc} \le 5\%$) are obtained using  FSCI sampling with $T_\mathit{CI}=0.10$. Predictably, FSCI sampling with $T_\mathit{CI}=0.10$ guarantees $\delta_{acc} \le 5\%$ (half of $T_\mathit{CI}$); indeed, by construction, if our assumptions 
-on the limited correlation between mutants and the mutation score following a  binomial distribution hold (see Section 1.2.1.4),
+on the limited correlation between mutants and the mutation score following a  binomial distribution hold (see Section~1.2.1.4 from D2),
 FSCI sampling with $T_\mathit{CI}=0.10$ is expected to guarantee $\delta_{acc} \le 5\%$ (see Appendix
 B
 %~\ref{appendix:correlation} 
@@ -642,7 +642,7 @@ We conjecture the main reason is their inability to account for the number of ti
 We believe this is an important factor as system test cases that repeatedly exercise mutated statements, with different variable values, are more likely to kill mutants than test cases exercising such statements only once (e.g., because of the uncertainty regarding the 
 \JMR{3.16}{incorrect intermediate state
 %infected program state
-propagating to the state variables verified by test oracles, see Section 1.2.1.1 from D2}). On the other hand, unit and integration test cases, which exercise much simpler scenarios in other subjects, are more likely to kill a mutant when the mutated statement is executed only once (e.g., because the oracle is closer to the mutated statement). This is why $D_J$ and $D_O$ fare similarly to the other distance metrics for these subjects. 
+propagating to the state variables verified by test oracles, see Section~1.2.1.1 from D2}). On the other hand, unit and integration test cases, which exercise much simpler scenarios in other subjects, are more likely to kill a mutant when the mutated statement is executed only once (e.g., because the oracle is closer to the mutated statement). This is why $D_J$ and $D_O$ fare similarly to the other distance metrics for these subjects. 
 %Almost every system test case exercises certain components (e.g., the handler of telecommands, which is the main entry point of the system) but only the ones executing such components repeatedly (e.g., to verify multiple combination of input values for a same telecommand) carefully exercise mutated statements. Regarding the other subjects, each unit and integration test case rather tends to focus on simple test scenarios that exercise mutated statements once or a few times.
 In contrast, $D_C$ and $D_E$ are distance metrics ensuring an accurate estimate of the mutation score and providing the lowest $\delta_{acc}$. The differences between $D_E$ and $D_C$ are always statistically significant, \UPDATE{except for \MLFS{}{}}. However, there are no practically significant differences between them. 
 Since $D_C$ provides a normalized score, which is required by Step 8, we select $D_C$ as the preferred metric to be used in \APPR.
@@ -975,7 +975,7 @@ Moreover, these results also indicate that \textbf{FSCI mutants sampling and \MP
 As for duplicate mutants, based on Table~\ref{table:results:precision:equivalent}, 
 mutants are highly likely to be nonduplicate and thus \textbf{it is not possible to determine a threshold to identify duplicate mutants}. Indeed, among all the considered threshold values, the highest F-value is obtained when all the mutants are considered nonduplicate (i.e., $d\ge0$). These results are in line with related work~\cite{shin2017theoretical} showing that test suites are unlikely to distinguish nonredundant mutants (i.e., many nonduplicate and nonsubsumed mutants yield the same test results). 
 %SHin et al show that 60,043 out of 242,437 mutants are detected as nonredundant.
-With test suites that do not distinguish nonredundant mutants, it is very likely that nonduplicate mutants show the same coverage in addition to showing the same results. This is the reason why in Table~\ref{table:results:ratio:equivalent}, we observe a large percentage of nonduplicate mutants having the same coverage (i.e., $d=0$). For this reason, when no methods are available to automatically generate test cases that distinguish subsumed mutants (see Section 1.2.2 from D2), we suggest that all mutants should be considered as nonduplicate when computing the mutation score:
+With test suites that do not distinguish nonredundant mutants, it is very likely that nonduplicate mutants show the same coverage in addition to showing the same results. This is the reason why in Table~\ref{table:results:ratio:equivalent}, we observe a large percentage of nonduplicate mutants having the same coverage (i.e., $d=0$). For this reason, when no methods are available to automatically generate test cases that distinguish subsumed mutants (see Section~1.2.2 from D2), we suggest that all mutants should be considered as nonduplicate when computing the mutation score:
 
 \begin{equation}
 \label{equation:ms:exp}
@@ -1127,7 +1127,7 @@ The result of mutation analysis combined for both test suites produce a mutation
 
 \JMR{2.3}{Our results show that the \APPR pipeline helps to overcome mutation analysis limitations caused by common  characteristics of embedded software, present in space systems and, more generally, in similar CPS (e.g., avionics, automotive, and industry 4.0).}
 
-\JMRCHANGE{Although the need for dedicated hardware and simulators prevent the applicability of optimizations that make use of multi-threading or other OS functions to minimize mutants compilation time~\cite{untch1993mutation}, we have shown that our selective compilation strategy (see Section 1.2.4.3 from D2) is sufficient to achieve an efficient mutant compilation process (see Section~\ref{experimnt:setup}).}
+\JMRCHANGE{Although the need for dedicated hardware and simulators prevent the applicability of optimizations that make use of multi-threading or other OS functions to minimize mutants compilation time~\cite{untch1993mutation}, we have shown that our selective compilation strategy (see Section~1.2.7 from D2) is sufficient to achieve an efficient mutant compilation process (see Section~\ref{experimnt:setup}).}
 
 \REVNOV{PTCR-PABG-27}{Trivial compiler optimization approaches are useful to eliminate a large proportion of mutants that are equivalent or duplicate. Based on our results, the presence of functions to deal with signals and data transformation does not limit the effectiveness of trivial compiler optimization approaches, which, across our subjects, enable the removal of 33,38\% of the mutants (62,351 out of 184,503). Our results are in line with empirical studies in the literature~\cite{papadakis2015trivial}. However, we show that for pure mathematical software (i.e., \MLFS{}{}), their effectiveness is significantly lower (i.e., 21\%, 6,717 out of 31,526).}
 
