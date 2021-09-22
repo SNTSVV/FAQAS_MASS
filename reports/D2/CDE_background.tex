@@ -269,15 +269,16 @@ An empirical assessment of the portion of non-equivalent mutants that may be dis
 
 %For this reason, the mutation score computed after ignoring mutants that   might be higher than the real mutation score, which might be dangerous if mutation testing is used to assess the quality of test suites for safety critical software.
 
-\subsubsection{Detection of Redundant Mutants}
-
+\subsection{Detection of Redundant Mutants}
+\label{sec:background:redundant}
 Redundant mutants are either \emph{duplicates}, i.e., mutants that are equivalent with each other but not equivalent to the original program, or \emph{subsumed}, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
 
 Duplicate mutants can be detected by relying on the same approaches adopted for equivalent mutants. 
 
-To identify subsumed mutants, Shin et al. augment the test suite with additional test cases that fail with one mutant only~\cite{Shin:TSE:DCriterion:2018}. 
+According to Shin et al., subsumed mutants should not be discarded but analyzed to augment the test suite with additional test cases that fail with one mutant only~\cite{Shin:TSE:DCriterion:2018}. 
 The augmented test suite has a higher
  fault detection rate than a test suite that simply satisfies mutation coverage; however, with large software systems the approach becomes infeasible because of the lack of scalable test input generation approaches.
+
 
 
 \subsubsection{Summary}
