@@ -4,16 +4,35 @@
 # Created by Enrico VIGANO, enrico.vigano@uni.lu, SnT, 2021.
 #
 
-tests_list=$1
-DAMAt_FOLDER=$2
-singleton=$3
+# tests_list=$1
+# DAMAt_FOLDER=$2
+# singleton=$3
 
-mutator=$DAMAt_FOLDER/FAQAS_dataDrivenMutator.h
-mutants_table=$DAMAt_FOLDER/FAQAS_mutants_table.csv
+DAMAt_FOLDER=$1
 
-PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
-DATA_ANALYSIS_FOLDER=$DAMAt_FOLDER/data_analysis
-RESULTS_FOLDER=$DAMAt_FOLDER/results
+. $DAMAt_FOLDER/DAMAt_configure.sh
+
+echo "PIPELINE_FOLDER=$PIPELINE_FOLDER"
+echo "RESULTS_FOLDER=$RESULTS_FOLDER"
+echo "LOGS_FOLDER=$LOGS_FOLDER"
+echo "TESTS_FOLDER=$TESTS_FOLDER"
+echo "DATA_ANALYSIS_FOLDER=$DATA_ANALYSIS_FOLDER"
+echo "mutator=$mutator"
+echo "mutants_table=$mutants_table"
+
+# mutator=$DAMAt_FOLDER/FAQAS_dataDrivenMutator.h
+# mutants_table=$DAMAt_FOLDER/FAQAS_mutants_table.csv
+
+# PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
+# DATA_ANALYSIS_FOLDER=$DAMAt_FOLDER/data_analysis
+# RESULTS_FOLDER=$DAMAt_FOLDER/results
+
+if [ $singleton == "TRUE" ]; then
+export _FAQAS_SINGLETON_FM=$singleton
+echo "******************* SINGLETON MODE ******************"
+fi
+
+
 mkdir -p $RESULTS_FOLDER
 FM_coverage=$RESULTS_FOLDER/FM_coverage.csv
 readable_FM_coverage=$RESULTS_FOLDER/readable_FM_coverage.csv
@@ -24,8 +43,9 @@ mkdir -p $LOGS_FOLDER
 coverage_log=$LOGS_FOLDER/coverage_log.out
 touch coverage_log
 
-TESTS_FOLDER=$DAMAt_FOLDER/testlists
+# TESTS_FOLDER=$DAMAt_FOLDER/testlists
 mkdir -p $TESTS_FOLDER
+
 
 #compile the special mutant
 bash $DAMAt_FOLDER/DAMAt_compile.sh "-2" $singleton 2>&1 | tee -a $coverage_log

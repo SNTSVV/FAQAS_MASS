@@ -6,17 +6,20 @@
 #
 
 
-
 DAMAt_FOLDER=$1
-singleton=$2
 
-PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
-RESULTS_FOLDER=$DAMAt_FOLDER/results
+. $DAMAt_FOLDER/DAMAt_configure.sh
+
+echo "PIPELINE_FOLDER=$PIPELINE_FOLDER"
+echo "RESULTS_FOLDER=$RESULTS_FOLDER"
+echo "LOGS_FOLDER=$LOGS_FOLDER"
+echo "TESTS_FOLDER=$TESTS_FOLDER"
+echo "DATA_ANALYSIS_FOLDER=$DATA_ANALYSIS_FOLDER"
+echo "mutator=$mutator"
+echo "mutants_table=$mutants_table"
+
 mkdir -p $RESULTS_FOLDER
-LOGS_FOLDER=$RESULTS_FOLDER/logs
 mkdir -p $LOGS_FOLDER
-
-TESTS_FOLDER=$DAMAt_FOLDER/testlists
 
 mutant=0
 
@@ -26,6 +29,7 @@ pushd $DAMAt_FOLDER
 popd
 
 while [ "$mutant" -le $max_mutant ]; do
+#for mutant in 0 18; do
 
    mutant_log=$LOGS_FOLDER/mutant_"$mutant"_log.out
 

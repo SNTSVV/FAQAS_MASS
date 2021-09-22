@@ -210,25 +210,21 @@ The lists of test cases executed against every mutant can be found in the folder
 
 These steps can also be executed separately by manually exporting the relevant variables and then running the pipeline scripts one by one. An example of the necessary commands can be found in the following.
 
-# variable to export
-export DAMAt_FOLDER=$(pwd)
-export tests_list=$DAMAt_FOLDER/tests.csv
-export fault_model=$DAMAt_FOLDER/fault_model.csv
-export buffer_type="unsigned char"
-export padding=2
-export singleton="TRUE"
-export PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
-export RESULTS_FOLDER=$DAMAt_FOLDER/results
-export TESTS_FOLDER=$DAMAt_FOLDER/testlistsRESULTS_FOLDER=$DAMAt_FOLDER/results
-export PIPELINE_FOLDER=$DAMAt_FOLDER/pipeline_scripts
-export RESULTS_FOLDER=$DAMAt_FOLDER/results
-export TESTS_FOLDER=$DAMAt_FOLDER/testlistsRESULTS_FOLDER=$DAMAt_FOLDER/results
+#step 2 generating the API
+source DAMAt_configure.sh
+bash DAMAt_probe_generation.sh
 
-# step 4 and step 5
-bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $tests_list $DAMAt_FOLDER $singleton
-bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER $singleton
-# step 6
-bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER $tests_list
+#step 3 manually instrumenting
+cp FAQAS_dataDrivenMutator.h ~/libparam/include/gs/param/FAQAS_dataDrivenMutator.h
+vim ~/libparam/wscript
+vim ~/libparam/src/csp_service_handler.c
+
+# all the following steps are usually performed by DAMAt_mutants_launcher.sh
+#step 4 compile, step 5 execute, step 6 produce the results
+source DAMAt_configure.sh
+bash $PIPELINE_FOLDER/DAMAt_obtain_coverage.sh $DAMAt_FOLDER
+bash $PIPELINE_FOLDER/DAMAt_compile_and_run_mutants.sh $DAMAt_FOLDER
+bash $PIPELINE_FOLDER/DAMAt_data_analysis.sh $DAMAt_FOLDER
 
 
 DAMAt results

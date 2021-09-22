@@ -8,8 +8,8 @@
 
 mutant_id=$1
 tests_list=$2
-DAMAT_FOLDER=$3
-results_dir=$DAMAT_FOLDER/results
+DAMAt_FOLDER=$3
+results_dir=$DAMAt_FOLDER/results
 
 mutant_dir=$results_dir/run_"$mutant_id"
 execution_log=$mutant_dir/"$mutant_id"_execution.out
@@ -31,7 +31,6 @@ echo "this is the file with the results $results_file"
 touch $results_file
 echo "this is the coverage file: $coverage_file"
 export FAQAS_COVERAGE_FILE=$coverage_file
-export _FAQAS_SINGLETON_FM
 
 ###############################################################################
 
@@ -53,13 +52,40 @@ while IFS="," read -r p || [ -n "$p" ];do
     echo -n "${mutant_id};COMPILED;${tst};" >> $results_file
 
 
+
 ###############################################################################
 # here the user shall call the execution of the current test case,
-# we provided a simple example
 
-  timeout $TIMEOUT bash execute_test_case.sh $tst
+    tmp_log="$results_dir"/tmp_log
 
-  EXEC_RET_CODE=$?
+    TEST_FOLDER="/home/csp/libparam/tst"
+
+    pushd $TEST_FOLDER
+
+    pushd $tst
+
+    touch $tmp_log
+
+    timeout $TIMEOUT ./waf --mutation-opt=$mutant_id  --singleton=TRUE 2>&1 | tee $tmp_log
+
+    EXEC_RET_CODE=$?
+
+    mutant_end_time=$(($(date +%s%N)/1000000))
+    mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+
+    if [ $EXEC_RET_CODE -ne 124 ]; then
+        if grep "successfully" $tmp_log
+        then
+            EXEC_RET_CODE=0
+            echo "PASSED"
+        else
+            EXEC_RET_CODE=1
+            echo "FAILED"
+        fi
+    fi
+    popd
+    rm $tmp_log
+    popd
 
 ###############################################################################
 #the exec return code should be 0 if the test case passes, 1 if the test case fails and 124 in case of a timeout

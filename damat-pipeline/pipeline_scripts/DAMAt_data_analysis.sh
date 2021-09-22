@@ -6,14 +6,24 @@
 #
 
 
-DAMAT_FOLDER=$1
-test_list=$2
+DAMAt_FOLDER=$1
 
-RESULTS_FOLDER=$DAMAT_FOLDER/results
-DATA_ANALYSIS_FOLDER=$DAMAT_FOLDER/data_analysis
-mutants_table=$DAMAT_FOLDER/FAQAS_mutants_table.csv
+. $DAMAt_FOLDER/DAMAt_configure.sh
+
+# RESULTS_FOLDER=$DAMAt_FOLDER/results
+# DATA_ANALYSIS_FOLDER=$DAMAt_FOLDER/data_analysis
+# mutants_table=$DAMAt_FOLDER/FAQAS_mutants_table.csv
+
+echo "PIPELINE_FOLDER=$PIPELINE_FOLDER"
+echo "RESULTS_FOLDER=$RESULTS_FOLDER"
+echo "LOGS_FOLDER=$LOGS_FOLDER"
+echo "TESTS_FOLDER=$TESTS_FOLDER"
+echo "DATA_ANALYSIS_FOLDER=$DATA_ANALYSIS_FOLDER"
+echo "mutator=$mutator"
+echo "mutants_table=$mutants_table"
+
 readable_results=$RESULTS_FOLDER/readable_data.csv
-mutator=$DAMAT_FOLDER/FAQAS_dataDrivenMutator.h
+mutator=$DAMAt_FOLDER/FAQAS_dataDrivenMutator.h
 raw_data=$RESULTS_FOLDER/raw_data.csv
 raw_data_sorted=$RESULTS_FOLDER/raw_data_sorted.csv
 operator_coverage=$RESULTS_FOLDER/operator_coverage.csv

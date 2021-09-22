@@ -30,20 +30,37 @@ export MUTATIONOPT=$mutant_id
 
 if [ $singleton == "TRUE" ]; then
 export _FAQAS_SINGLETON_FM=$singleton
+echo "******************* SINGLETON MODE ******************"
 fi
 
 # here the user must invoke the compilation of the SUT, we provided a simple example.
 
-compilation_folder="/home/SUT"
 
-pushd $compilation_folder
+TEST_FOLDER="/home/csp/libparam/tst"
 
-make install-debug
+pushd $TEST_FOLDER
 
-    if [ $? -eq 0 ]; then
-        echo $x " compilation OK"
-    else
-        echo $x " compilation FAILED"
+for f in *; do
+    if [ -d "$f" ] && [ "$f" != "include" ]; then
+
+        pushd $f
+        echo "cleaning..."
+        ./waf clean
+
+        echo "configuring..."
+        if [ $singleton == "TRUE" ]; then
+        ./waf configure --mutation-opt $mutant_id --singleton $singleton
+        else
+        ./waf configure --mutation-opt $mutant_id
+        fi
+
+        if [ $? -eq 0 ]; then
+            echo $x " configuration OK"
+        else
+            echo $x " configuration FAILED"
+        fi
+        popd
     fi
+done
 
 popd

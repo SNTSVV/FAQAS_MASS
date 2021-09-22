@@ -8,8 +8,8 @@
 
 mutant_id=$1
 tests_list=$2
-DAMAT_FOLDER=$3
-results_dir=$DAMAT_FOLDER/results
+DAMAt_FOLDER=$3
+results_dir=$DAMAt_FOLDER/results
 
 mutant_dir=$results_dir/run_"$mutant_id"
 execution_log=$mutant_dir/"$mutant_id"_execution.out
