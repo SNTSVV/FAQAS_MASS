@@ -1,37 +1,37 @@
-% !TEX root = MAIN-DataDrivenMutationAnalysis.tex
+% !TEX root = ../MAIN.tex
 
 \subsection{Background and Related Work}
 \label{sec:background}
 
-Data-driven mutation analysis evaluates the effectiveness of a test suite in detecting \textbf{interoperability faults}. The CPS literature reports on four different interoperability types~\cite{Givehchi:2017}: technical (which concerns communication protocols and  infrastructure), syntactic (which concerns data format), semantic (which concerns the exchanged information, that is, errors in the processing of exchanged data), and cross-domain interoperability (which concerns interaction through business process languages such as BPEL~\cite{BPEL}).
+\INDEX{Data-driven mutation analysis} evaluates the effectiveness of a test suite in detecting \INDEX{interoperability faults}. The CPS literature reports on four different interoperability types~\cite{Givehchi:2017}: technical (which concerns communication protocols and  infrastructure), syntactic (which concerns data format), semantic (which concerns the exchanged information, that is, errors in the processing of exchanged data), and cross-domain interoperability (which concerns interaction through business process languages such as BPEL~\cite{BPEL}).
 Technical and syntactic interoperability are provided by off-the-shelf hardware and libraries
 (not tested by CPS developers) 
- while cross-domain interoperability concerns systems integrated in online services (e.g., energy plants) but is out of scope for the type of CPSs we target in this work, which are safety-critical CPSs like flight systems, robots, and automotive systems. In this paper, we thus focus on \emph{semantic interoperability} faults,
+ while cross-domain interoperability concerns systems integrated in online services (e.g., energy plants) but is out of scope for the type of CPSs we target in this work, which are safety-critical CPSs like flight systems, robots, and automotive systems. In this paper, we thus focus on \INDEX{semantic interoperability} faults,
  that is, faults that affect CPS components integration and are triggered (i.e., lead to failures) in the presence of specific subsets of the data that might be exchanged by CPS components. We thus aim to ensure that a test suite fails when the data exchanged by CPS components is not the one specified by test cases (e.g., through simulator configurations).
 %verifies that all the data exchanged by CPS components are correctly processed, that is, it  
-Related work includes mutation analysis~\cite{jia2010analysis,papadakis2019mutation} and fault injection~\cite{natella2016assessing} techniques.
+Related work includes mutation analysis~\cite{jia2010analysis,papadakis2019mutation} and \INDEX{fault injection}~\cite{natella2016assessing} techniques.
 
 %\subsection{Mutation Analysis}
 
 
 \textbf{Mutation analysis} concerns the automated generation of faulty software versions (i.e., mutants) through automated procedures called mutation operators~\cite{jia2010analysis,papadakis2019mutation}. The effectiveness of a test suite is measured by computing the mutation score, which is the percentage of mutants leading to failures when exercised by the test suite.
 
-Mutation operators introduce syntactical changes into the code of the \UPDATED{SUT}. The  \emph{sufficient set of operators} is implemented by most mutation analysis toolsets~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting,offutt1996experimental}. 
+\INDEX{Mutation operators} introduce syntactical changes into the code of the \UPDATED{SUT}. The  \INDEX{sufficient set of operators} is implemented by most mutation analysis toolsets~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting,offutt1996experimental}. 
 Unfortunately, these operators simulate faults concerning the implementation of algorithms (e.g., a wrong logical connector), which is usually tested in unit test suites that, by definition, do not exercise the communication among components, our target in this paper. 
 Also, as stated in the Introduction, such operators can't be used to generate faulty data with simulated or off-the-shelf components.
-\emph{Higher-order} mutation analysis~\cite{harman2010manifesto}, which simply combines multiple operators, has the same limitations.
+\INDEX{Higher-order} mutation analysis~\cite{harman2010manifesto}, which simply combines multiple operators, has the same limitations.
 
-\UPDATED{Components integration is targeted by interface~\cite{delamaro2001interface}, integration~\cite{Grechanik:16}, contract-based~\cite{Jiang:ICSM:05}, and system-level mutation analysis~\cite{mateo2010mutation}. The former three assess the quality of integration test suites by introducing changes that concern function invocations 
+\UPDATED{\INDEX{Components integration} is targeted by interface~\cite{delamaro2001interface}, integration~\cite{Grechanik:16}, contract-based~\cite{Jiang:ICSM:05}, and system-level mutation analysis~\cite{mateo2010mutation}. The former three assess the quality of integration test suites by introducing changes that concern function invocations 
 (e.g., switch function arguments) and inter-procedural data-flow (e.g., alter assignments to variables returned to other components);
 they can simulate integration faults in units integrated with API invocations but 
 not interoperability problems concerning larger components communicating through channels (e.g., network).
-System-level mutation relies on operators for GUI components, which are out of our scope, and  configuration files, by applying simple mutations, such as deleting a line of text, and are unlikely to lead to interoperability problems.}
+\INDEX{System-level mutation} relies on operators for GUI components, which are out of our scope, and  configuration files, by applying simple mutations, such as deleting a line of text, and are unlikely to lead to interoperability problems.}
 
 
 
 
 
-\textbf{Fault injection techniques} simulate the effect of faults by altering, at runtime, the data processed by the \UPDATED{SUT}~\cite{natella2016assessing}. Faults are introduced according to a fault model that describes the type of fault to inject, the timing of the injection, and the part of the system targeted by the injection. Different from data-driven mutation analysis, fault injection techniques aim to stress the robustness of the software,  
+\INDEX{Fault injection techniques} simulate the effect of faults by altering, at runtime, the data processed by the \UPDATED{SUT}~\cite{natella2016assessing}. Faults are introduced according to a fault model that describes the type of fault to inject, the timing of the injection, and the part of the system targeted by the injection. Different from data-driven mutation analysis, fault injection techniques aim to stress the robustness of the software,  
 %(e.g., determine if out-of-range input values can crash the system) 
 not assess the quality of its test suites.
 %(e.g., determine if in-range input values lead to test failures).
@@ -43,8 +43,8 @@ CPU, or memory can simulated by performing bit flips
 %setting bits to zero and one, 
 %or toggling bits~
 \cite{tsai1999stress,barton1990fault,han1995doctor,dawson1996testing}.
-Communication faults are simulated also by duplicating or deleting packets, altering their sequence, or introducing incorrect identifiers, checksums, or counters~\cite{di2015evolutionary,di2015generating}.
-Faults affecting signals can be simulated by shifting the signal or increasing the number of signal segments~\cite{Matinnejad19}.
+\INDEX{Communication faults} are simulated also by duplicating or deleting packets, altering their sequence, or introducing incorrect identifiers, checksums, or counters~\cite{di2015evolutionary,di2015generating}.
+Faults affecting \INDEX{signals} can be simulated by shifting the signal or increasing the number of signal segments~\cite{Matinnejad19}.
 The largest set of faults affecting data exchanged through files or byte streams is simulated by Peach~\cite{PeachFuzzer}, which includes also protocol-specific fault injection procedures such as replacing host names with randomly generated ones.
 In general, although existing techniques may simulate a large set of faults they do not cover all the CPS interoperability faults (see Section~\ref{sec:faultModelStructure}).
 
@@ -52,7 +52,7 @@ Approaches performing fault injections other than bit flips require a model of t
 The modelling formalisms adopted for this purpose are grammars~\cite{ghosh1998testing,Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, UML class diagrams~\cite{di2015evolutionary,di2015generating}, or block models~\cite{pham2016model,PeachFuzzer}.
 Grammars are used to model textual data (e.g., XML), which is seldom exchanged by CPS components because of parsing cost. 
 Block models enable specifying the representation to be used for consecutive blocks of bytes, which makes them applicable to a large set of systems; however, existing block model formalisms rely on the XML format, which is expensive to process and thus not usable with real-time systems~\cite{pham2016model,PeachFuzzer}.
-The UML class diagram is a formalism that
+The \INDEX{UML class diagram} is a formalism that
 enables the specification of complex data structures and 
 %support the generation of data faults that break complex 
 data dependencies 

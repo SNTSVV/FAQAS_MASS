@@ -5,7 +5,7 @@
 
 \subsection{Overview of the case study}
 
-ESAIL is a microsatellite developed by LXS in a PPP with ESA and ExactEarth. 
+\INDEX{ESAIL} is a microsatellite developed by LXS in a PPP with ESA and ExactEarth. 
 The Payload is an AIS Receiver for ship- and vessel-detection from space, and the satellite weight at launch will be approximately 115kg. The satellite payload also enables advanced raw data handling and RF-Spectrum sampling for Ground processing.
 
 \begin{figure}[h]
@@ -15,7 +15,7 @@ The Payload is an AIS Receiver for ship- and vessel-detection from space, and th
     \label{fig:esail_case_study}
 \end{figure}
  
-The SVF simulator has been used for functional validation of the ESAIL CSW (see Figure~\ref{fig:esail_case_study}). The SVF is indeed one of the main testing tools used in satellite projects. The SVF simulator can be seen as a testing facility that presents also its own dedicated test suite to ensure the correctness of the SVF models and assembly to avoid later misunderstanding of the expected behaviours of the satellite CSW. 
+The \INDEX{SVF simulator} has been used for functional validation of the ESAIL CSW (see Figure~\ref{fig:esail_case_study}). The SVF is indeed one of the main testing tools used in satellite projects. The SVF simulator can be seen as a testing facility that presents also its own dedicated test suite to ensure the correctness of the SVF models and assembly to avoid later misunderstanding of the expected behaviours of the satellite CSW. 
 In the context of the FAQAS project we consider the system test suite for the validation of the CSW, which are implemented using the SVF as the driving tool.
 %Therefore, the SVF Simulator enables the evaluation of the FAQAS framework against two test suites: (1) the Test Suite of the SVF Simulator that validates the Simulator itself, (2) the system tests for the validation of CSW, which are implemented using the SVF as the driving tool.
 
@@ -54,7 +54,7 @@ Detailed information about the ESAIL system is provided in the following documen
 
 %\TODO{Code coverage information: we need Yago to produce a new code coverage report with VCAST.}
 
-\REVNOV{PTCR-34}{The code-driven mutation testing process in ESAIL will be performed in two stages. First we will use a subset of ESAIL ($\mathit{ESAIL}_S$) to evaluate the accuracy of the estimated mutation score (see Section~\ref{sec:evaluation}). Then, in later stages, we will apply the approach (including mutants sampling, which is necessary for scalability purposes) to the whole ESAIL in order to (1) compare the mutation score obtained with the whole system with the mutation score obtained with $\mathit{ESAIL}_S$, (2) evaluate the accuracy of our strategy for removing equivalent/redundant mutants when applied to the whole ESAIL, (3) compare the mutation score obtained for the whole $ESAIL$ and for $\mathit{ESAIL}_S$ after removing likely equivalent and likely redundant mutants.}
+\REVNOV{PTCR-34}{The \INDEX{code-driven mutation testing process} in ESAIL will be performed in two stages. First we will use a subset of ESAIL ($\mathit{ESAIL}_S$) to evaluate the accuracy of the estimated mutation score (see Section~\ref{sec:evaluation}). Then, in later stages, we will apply the approach (including \INDEX{mutants sampling}, which is necessary for scalability purposes) to the whole ESAIL in order to (1) compare the mutation score obtained with the whole system with the mutation score obtained with $\mathit{ESAIL}_S$, (2) evaluate the accuracy of our strategy for removing equivalent/redundant mutants when applied to the whole ESAIL, (3) compare the \INDEX{mutation score} obtained for the whole $ESAIL$ and for $\mathit{ESAIL}_S$ after removing likely equivalent and likely redundant mutants.}
 
 \REVNOV{PTCR-34}{$\mathit{ESAIL}_S$ had been selected by LXS engineers by identifying representative source files that belong to the following categories: (1) source files that are used almost all the time by the test cases (i.e., files implementing service/protocol layer functions), (2) critical functions of the satellite implemented in high-level drivers, (3)  higher level application level functions.}
 

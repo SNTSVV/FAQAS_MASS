@@ -1,21 +1,21 @@
-% !TEX root =  MAIN-DataDrivenMutationAnalysis.tex
+% !TEX root =  ../MAIN.tex
 \subsection{Introduction}
 
-Space systems, similarly to other Cyber Physical Systems (CPSs), are heterogeneous systems that integrate computation, networking, and physical processes that are deeply interlaced~\cite{Khaitan:2015}. 
+Space systems, similarly to other \INDEX{Cyber Physical Systems} (CPSs), are heterogeneous systems that integrate computation, networking, and physical processes that are deeply interlaced~\cite{Khaitan:2015}. 
 %As a result, CPSs development requires the adoption of a wide range of modeling formalisms to deal with discrete events~\cite{Lee1999}, multimodal dynamics \cite{Jha2010}, continuous time \cite{Lee2005}, and process networks \cite{Lee1995}. 
 %CPSs' components are implemented with a wide range of programming languages to address different needs such as hardware requirements, time-based computation, and event-based computation.
 \CHANGED{In CPSs, conformance with requirements is verified 
 through test cases 
 executed at different development stages, based on available development artifacts~\cite{Roehm:2019}. In this paper, we focus on the identification of faults in the executable software to be deployed on the CPS, and thus target  software-in-the-loop (SIL) and hardware-in-the-loop (HIL) testing.}
  
- When software systems are large and integrate a diverse set of components, it is difficult to ensure that the test suite can detect any latent severe fault. To ensure \UPDATED{test suites' quality}, standards for safety-critical software provide methodological guidance, for example through structural coverage adequacy; however, those strategies do not directly measure the fault detection capability of a test suite. A more direct solution to evaluate \UPDATED{test suites' quality} is \emph{mutation analysis}~\cite{jia2010analysis,papadakis2019mutation}. It consists of automatically generating faulty software versions and %measuring the quality of a test suite in terms of 
+ When software systems are large and integrate a diverse set of components, it is difficult to ensure that the test suite can detect any latent severe fault. To ensure \UPDATED{test suites' quality}, standards for safety-critical software provide methodological guidance, for example through structural coverage adequacy; however, those strategies do not directly measure the fault detection capability of a test suite. A more direct solution to evaluate \UPDATED{test suites' quality} is \INDEX{mutation analysis}~\cite{jia2010analysis,papadakis2019mutation}. It consists of automatically generating faulty software versions and %measuring the quality of a test suite in terms of 
  \UPDATED{computing} the mutation score, that is, the percentage of faulty software versions detected (i.e., leading to a test failure).
  Mutation analysis is a good candidate to assess \UPDATED{test suites' quality} because there is a strong association between high mutation scores and high fault revelation capability for test suites~\cite{papadakis2018mutation}. 
  %which is not true for structural coverage measures~\cite{Chekam:17}.
 
 Most mutation analysis techniques rely on the generation of faulty software through mutation operators that modify the software implementation (either the source or the executable code). 
 Unfortunately, such techniques suffer from two major limitations which are critical in the CPS context: (1) they cannot identify problems related to the interoperability of integrated components (integration testing) and (2) they can be applied only to components that can be executed in the development environment.
-In CPSs, major problems may arise because of the lack of  \emph{interoperability of integrated components}~\cite{Givehchi:2017,Jirkovsk:2017}, mainly due to the wide variety and heterogeneity of the technologies and standards adopted.
+In CPSs, major problems may arise because of the lack of  \INDEX{interoperability of integrated components}~\cite{Givehchi:2017,Jirkovsk:2017}, mainly due to the wide variety and heterogeneity of the technologies and standards adopted.
 Also, there is  limited work on integration testing automation~\cite{Abbaspour:2015}, thus forcing companies to largely rely on manual approaches, which are error prone and likely to lead to incomplete test suites. 
 It is thus of fundamental importance to ensure the effectiveness of test suites with respect to detecting interoperability issues, for example by making sure test cases trigger the exchange of all possible data items and report failures when erroneous data is being exchanged by software components. For example, the test suite for the control software of a satellite shall identify failures due to components working with different measurement systems~\cite{MarsClimateOrbiter}.
 Unfortunately, well known, code-driven mutation operators (e.g., the sufficient set~\cite{delamaro2014designing,delamaro2014experimental}) simulate algorithmic faults by introducing small changes into the source code and are thus unlikely to simulate interoperability problems resulting in \UPDATED{exchanges of erroneous data}. 
@@ -41,10 +41,10 @@ Furthermore, model-based test generation may not be cost-effective if detailed m
 %%it is unlikely to achieve model-based test generation for satellite systems when test cases consists of sequences of ground-to-orbit PUS telecommands and simulator configurations. 
 %based on our experience with industry partners in the space business, we observed that model-based test generation is not feasible when the simulators being used do not rely on modelling standards or 
 
-To address the above-mentioned limitations, we propose \emph{data-driven mutation analysis}, 
+To address the above-mentioned limitations, we propose \INDEX{data-driven mutation analysis}, 
 %a new type of model-based mutation analysis 
 a new mutation analysis paradigm
-that alters the data exchanged by software components in a CPS to evaluate the capability of a test suite to detect interoperability faults. Also, we present a technique, \emph{data-driven mutation analysis with tables} (\APPR),
+that alters the data exchanged by software components in a CPS to evaluate the capability of a test suite to detect interoperability faults. Also, we present a technique, \INDEX{data-driven mutation analysis with tables} (\APPR),
 to automate data-driven mutation analysis by relying on
 a fault model that captures, for a specific set of components, both the characteristics of the data to mutate (e.g., the size and structure of the messages generated by the ADCS) and the types of fault that may affect such data (e.g., a  value out of the nominal range). The latter is formalized as a set of parameterizable mutation operators. 
 Based on discussions with practitioners, to simplify adoption, we rely on fault models in tabular form where each row specifies, for a given data item, what mutation operator (along with its corresponding parameter values) to apply to which elements of the data item.
