@@ -22,25 +22,25 @@
 \Require $\mathit{Cov}_M$, coverage information for all the executed test cases, for every mutant
 \Require \emph{TS}, list of test cases
 \Require \emph{TR}, test results, for all the executions
-\Ensure \emph{KNR}, a list of killed, non-duplicate  mutants
-\Ensure \emph{LNENR}, a list of live, non-equivalent, non-duplicate mutants
+\Ensure \emph{KND}, a list of killed, non-duplicate  mutants
+\Ensure \emph{LNEND}, a list of live, non-equivalent, non-duplicate mutants
 % (source inputs, follow-up inputs, output data).
 
 %\State $\mathit{TS}_m \gets$ subset of $\mathit{TS}$ that cover the mutated statement $\mathit{ms}$, based on \emph{Cov} \label{alg:equivalent:select}
 %\State $\mathit{PTS} \gets \mathit{new} \mathit{list}$ \textcolor{darkgray}{//this list is initially empty}
 %\State $\mathit{PTS} \gets$ based on \emph{Cov} select from $\mathit{TS_m}$ the test case $t$ that exercises $\mathit{ms}$ more times \label{alg:equivalent:first}
-\State $\mathit{KNR} \gets \mathit{identifyNonDuplicateMutants(} \mathit{KM}, \mathit{TS}, \mathit{TR}, \mathit{Cov}_M)$ \label{alg:equivalent:KNR}
-\State $\mathit{LNE} \gets \mathit{identifyNonEquivalentMutants(} \mathit{LNR}, \mathit{TS}, \mathit{Cov}_M, \mathit{Cov}_O)$ \label{alg:equivalent:LNE}
-\State $\mathit{LNENR} \gets \mathit{identifyDuplicateMutants(} \mathit{LNE}, \mathit{TS}, \mathit{Cov}_M)$ \label{alg:equivalent:LNENR}
+\State $\mathit{KND} \gets \mathit{identifyNonDuplicateMutants(} \mathit{KM}, \mathit{TS}, \mathit{TR}, \mathit{Cov}_M)$ \label{alg:equivalent:KND}
+\State $\mathit{LNE} \gets \mathit{identifyNonEquivalentMutants(} \mathit{LND}, \mathit{TS}, \mathit{Cov}_M, \mathit{Cov}_O)$ \label{alg:equivalent:LNE}
+\State $\mathit{LNEND} \gets \mathit{identifyDuplicateMutants(} \mathit{LNE}, \mathit{TS}, \mathit{Cov}_M)$ \label{alg:equivalent:LNEND}
 
 
 \Procedure{identifyNonDuplicateMutants}{$\mathit{M},\mathit{TS},\mathit{TR},\mathit{Cov}_M$}\Comment{$M$ is a  list of mutants, $\mathit{TS}$, $\mathit{TR}$, and $\mathit{Cov}_M$ are defined above}
-\State $\mathit{NR} \gets \mathit{empty} \mathit{set}$
+\State $\mathit{ND} \gets \mathit{empty} \mathit{set}$
 \State $\mathit{k1} \gets $ extract and remove first element of M
-\State $\mathit{NR} \gets \mathit{NR} \cup \mathit{k1}$
+\State $\mathit{ND} \gets \mathit{ND} \cup \mathit{k1}$
 \While {$\mathit{M}$ not empty}
 \State $\mathit{k2} \gets $ extract and remove first element of M
-\For {mutant $k1$ in $\mathit{NR}$}
+\For {mutant $k1$ in $\mathit{ND}$}
 \State $\mathit{duplicate}=\mathit{TRUE}$
 \For {test case $t$ in $\mathit{TS}$}
 \If {$t$ has different result in $k1$ and $k2$ }
@@ -60,10 +60,10 @@
 \EndIf
 \EndFor
 \If {$\mathit{duplicate}==\mathit{FALSE}$}
-\State $\mathit{NR} \gets \mathit{NR} \cup \mathit{k2}$
+\State $\mathit{ND} \gets \mathit{ND} \cup \mathit{k2}$
 \EndIf
 \EndWhile
-\State \textbf{return} $\mathit{NR}$
+\State \textbf{return} $\mathit{ND}$
 \EndProcedure
 
 
