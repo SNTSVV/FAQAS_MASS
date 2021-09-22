@@ -9,17 +9,18 @@
 
 \STARTCHANGEDNOV
 
+Our empirical evaluation aims to assess the effectiveness of the techniques integrated into \APPR to address scalability and pertinence problems (i.e., Steps 2, 4, 5, 6, 7, and 8 of \APPR). Our objectives include (RQ1) confirming, in our context, trivial compiler optimization results observed in related work (Step 4), (RQ2) identifying the most effective solution for mutants sampling (Step 5), (RQ3) comparing mutants generation strategies implemented by \APPR (Step 2), evaluating the (RQ4) accuracy and (RQ5) effectiveness of the strategies proposed  for test suite prioritization (Step 6), and (RQ6) evaluating the accuracy of the strategy for the identification of likely equivalent/duplicate mutants (Step 7). Finally, we aim to (RQ7) compare the mutation score computed by \APPR (Step 8) with the mutation score computed without \APPR optimizations.
 \REVNOV{C-P-11}{The project will include continuous empirical evaluation sessions with the case study systems that aim to address the following research questions:}
 
 %Our empirical evaluation aims to address the following research questions, in the context of embedded space software:
 
 \begin{itemize}
 
-    \item[RQ1] What are the cost savings provided by compiler optimization techniques detecting equivalent and redundant mutants?
-    We wish to determine what is the percentage of mutants reported as being equivalent and redundant by compiler optimization techniques. After accounting for the additional compilation time required by such techniques, we want to identify optimal compilation options to be used in Step 4 of \APPR.
+    \item[RQ1] \JMRCHANGE{(Step 4)} What are the cost savings provided by compiler optimization techniques detecting equivalent and duplicate mutants?
+    We wish to determine what is the percentage of mutants reported as being equivalent and duplicate by compiler optimization techniques. After accounting for the additional compilation time entailed by such techniques, we want to identify the optimal subset of compilation options to be used in Step 4 of \APPR.
 
-    \item[RQ2] Can a randomly selected subset of mutants be used to accurately estimate the mutation score obtained from the entire set of mutants? 
-     {We attempt to evaluate the four selected mutants sampling strategies: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}. More precisely, we aim to determine the best configuration for each sampling strategy (i.e., sampling ratio, sample size, and confidence interval). Furthermore we need to determine which strategy minimizes the number of mutants to be tested, for a similar of accuracy.}
+    \item[RQ2] \JMRCHANGE{(Step 5)} Can a randomly selected subset of mutants be used to accurately estimate the mutation score obtained from the entire set of mutants? 
+    \CHANGED{We attempt to evaluate four mutants sampling strategies: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}. More precisely, we aim to determine the best configuration for each sampling strategy (i.e., sampling ratio, sample size, and confidence interval). Furthermore, we need to identify which strategy offers the best trade-off between the number of mutants to be tested and accuracy.}
 %    We attempt to replicate the findings reported by Zhang et al.~\cite{zhang2013operator} and determine the optimal sampling ratio to be used in \APPR Step 5.
 
     %Additionally we may ask, do these results generalize for mutants that are generated with mutation operators that are others than the sufficient set?
@@ -27,26 +28,28 @@
    % \item[RQ3] Can we identify the minimal number of randomly selected mutants enabling the accurate estimation of the mutation score for the entire set of mutants? RQ3 aims to replicate the findings reported in~\cite{gopinath2015hard}. 
 
     \item[RQ3]  {Do mutants generated with deletion operators (i.e., SDL and OODL) lead to a mutation score that accurately estimates the mutation score of the entire set of mutants?  
-\REVNOV{PTCR-P-13}{Recall from Section~\ref{sec:related:operators} that SDL and \emph{OODL operators} present the following advantages (1) the set of SDL and OODL operators is smaller than the sufficient set thus they lead to less mutants, (2) they are simpler to implement, (3) they produce significantly less equivalent mutants, and (4) test suites that kill mutants generated with both the SDL and the \emph{OODL operators} kill a very high percentage of all mutants~\cite{delamaro2014experimental}.}
-    To replicate the findings reported in~\cite{delamaro2014experimental},
-    we aim to compare the mutation score generated with SDL and OODL operators versus the mutation score generated with all the available mutation operators; furthermore, to study the effect of combining deletion operators with mutant sampling,
-    we perform our analysis with and without applying such sampling.}
+    \REVNOV{PTCR-P-13}{Recall from Section 1.2.1.2 from D2 that SDL and \emph{OODL operators} present the following advantages (1) the set of SDL and OODL operators is smaller than the sufficient set thus they lead to less mutants, (2) they are simpler to implement, (3) they produce significantly less equivalent mutants, and (4) test suites that kill mutants generated with both the SDL and the \emph{OODL operators} kill a very high percentage of all mutants~\cite{delamaro2014experimental}.}
+   We want to determine if we can minimize the number of selected mutants by only relying on deletion operators. To do so, we compare the mutation score generated with SDL and OODL operators with the mutation score based on all available mutation operators. }
     %The results from RQ2, RQ3, and RQ4 will help us determine the best sampling strategy to adopt in \APPR Step 5.
     
     
-    \item[RQ4] Can a prioritized subset of test cases that maximizes test suite diversity be used to accurately estimate the mutation score of the whole test suite?
-    We investigate how the various distance metrics used in the PrioritizeAndReduce algorithm implemented by \APPR  (Step 6) differ in terms of accuracy. 
+    \item[RQ4] \JMRCHANGE{(Step 6)} Can a prioritized subset of test cases that maximizes test suite diversity be used to accurately estimate the mutation score of the entire test suite?
+    We investigate how the various distance metrics used in the PrioritizeAndReduce algorithm implemented by \APPR  (Step 6) compare in terms of accuracy. 
     
     %Results from RQ2 and RQ3 will guide the selection of the distance metric to be used with \APPR.
 
-    \item[RQ5] To what extent different test suite prioritization strategies can speed up the mutation testing process? We investigate the execution time reduction achieved with different distance metrics used in the PrioritizeAndReduce algorithm. 
+    \item[RQ5] \JMRCHANGE{(Step 6)} To what extent different test suite prioritization strategies can speed up the mutation analysis process? We investigate the execution time reduction achieved by different distance metrics used in the PrioritizeAndReduce algorithm. 
     
 
-    \item[RQ6] Is it possible to identify thresholds that enable the detection of equivalent and redundant mutants based on code coverage information? We investigate how accurate are the equivalent and redundant mutants detected by means of different threshold values applied to the selected distance metric  (\APPR  Step 7).
+    \item[RQ6] \JMRCHANGE{(Step 7)} Is it possible to identify thresholds, based on code coverage information, that enable the detection of nonequivalent and nonduplicate mutants? We investigate 
+    the accuracy of our strategy 
+    %for identifying nonequivalent and nonduplicate mutants
+    %how accurate are the equivalent and duplicate mutants detected 
+    based on threshold values for the best distance metric  (\APPR  Step 7).
     
     % \item[RQ9] Do mutants generated with operators that modify the control-flow produce less equivalent mutants? This research questions aims to replicate the findings reported in~\cite{schuler2013covering}.
 
-    \item[RQ7] How does the mutation score computed by \APPR relate to the mutation score of the original test suite? We aim to assess if the \APPR mutation score, which excludes likely equivalent and redundant mutants, is an over- or under-approximation of the mutation score obtained with the entire set of mutants. Also, we compare our findings with the existing literature on the topic~\cite{grun2009impact,Kurtz2016}.
+    \item[RQ7] \JMRCHANGE{(Step 8)} How does the mutation score computed by \APPR relate to the mutation score of the original test suite based on the complete set of mutants? In other words, is there any tradeoff between the gains in scalability due to \APPR and  mutation score accuracy? We therefore analyze the difference between the \APPR mutation score, which is obtained with a subset of the test suite and excludes likely equivalent and duplicate mutants, and the mutation score obtained with the entire set of mutants tested with the full test suite.
     
     \item[RQ8] \REVNOV{C-P-5}{Is it possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered)?}
     
