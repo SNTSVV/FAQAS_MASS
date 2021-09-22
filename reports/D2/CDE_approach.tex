@@ -1,5 +1,5 @@
 % !TEX root =  Main.tex
-\newpage
+
 \subsection{Space Software Mutation Testing Pipeline}
 \label{sec:approach}
 
@@ -67,7 +67,7 @@ In Step 4, we rely on trivial compiler optimizations to identify and remove equi
 After each execution of the compiler, we compute the SHA-512 hash summary of the generated executable.}To detect equivalent mutants, \APPR compares the hash summaries of the mutants with that of the original executable. To detect duplicate mutants but avoid combinatorial explosion, \APPR focuses its comparison of hash summaries on pairs of mutants belonging to the same source file (restricting the scope of the comparison is common practice~\cite{kintis2017detecting}).
 Hash comparison allows us to (1) determine the presence of equivalent mutants (i.e., mutants having the same hash as the original executable), and (2) identify duplicate mutants (i.e., mutants with the same hash). %Mutants that are identified as being either equivalent and duplicate mutants are ignored in the following steps of \APPR. 
 Equivalent and duplicate mutants are then discarded. We compare hash summaries rather than executable files because it is much faster, an important consideration when dealing with a large number of mutants.
-The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
+The outcome of Step 4 is a set of \INDEX{unique mutants}, i.e., mutants with compiled code that differs from the original software and any other mutant.
 
 
 \subsection{Step 5: Sample Mutants}
@@ -78,17 +78,17 @@ The outcome of Step 4 is a set of \emph{unique mutants}, i.e., mutants with comp
 In Step 5, \APPR samples the mutants to be executed to compute the mutation score. 
 \JMR{1.8 3.3}{\APPR does not selectively generate mutants but samples them from the whole set of successfully compiled, nonequivalent, and nonduplicated mutants (result of Steps 2 to 4). This choice aims to avoid sampling bias which may result from the presence of such mutants; indeed, there is no guarantee that these mutants, if they were discarded after being sampled, would be uniformly distributed across program statements. Our choice does not affect the feasibility of \APPR since Steps 2 to 4 have negligible cost.}
 
-Our pipeline supports different sampling strategies: \emph{proportional uniform sampling}, \emph{proportional method-based sampling},  \emph{uniform fixed-size sampling}, and \emph{uniform FSCI sampling}. 
+Our pipeline supports different sampling strategies: \INDEX{proportional uniform sampling}, \INDEX{proportional method-based sampling},  \INDEX{uniform fixed-size sampling}, and \INDEX{uniform FSCI sampling}. 
 
-The strategies \emph{proportional uniform sampling} and \emph{proportional method-based sampling} were selected based on the results of Zhang et al.~\cite{zhang2013operator}, who compared eight strategies for sampling mutants. 
+The strategies \INDEX{proportional uniform sampling} and \INDEX{proportional method-based sampling} were selected based on the results of Zhang et al.~\cite{zhang2013operator}, who compared eight strategies for sampling mutants. 
 The former was the best performing strategy and consists of sampling mutants evenly across all functions of the SUT, i.e., sampling $r\%$ mutants from each set of mutants generated inside the same function.
 The latter consists of randomly selecting $r\%$ mutants from the complete mutants set. This is included in our study because it is simpler to implement and showed to be equivalent to stratified sampling strategies, based on recent work~\cite{gopinath2015hard}.
 
-The \emph{uniform fixed-size sampling} strategy stems from the work of Gopinath et al.~\cite{gopinath2015hard} and consists of selecting a fixed number $N_M$ of mutants for the computation of the mutation score. Based their work, with 1,000 mutants, one can guarantee an accurate estimation of the mutation score.
+The \INDEX{uniform fixed-size sampling} strategy stems from the work of Gopinath et al.~\cite{gopinath2015hard} and consists of selecting a fixed number $N_M$ of mutants for the computation of the mutation score. Based their work, with 1,000 mutants, one can guarantee an accurate estimation of the mutation score.
 % In our empirical evaluation, we assess the accuracy obtained for $N_M$ values across the range [100;1000].}
 
-In this paper, we introduce the \emph{uniform FSCI sampling} strategy that determines the sample size dynamically, while exercising mutants, based on a fixed-width sequential confidence interval approach.
-With \emph{uniform FSCI sampling}, we introduce a cycle between Step 6 and Step 5, such that a new mutant is sampled only if deemed necessary.
+In this paper, we introduce the \INDEX{uniform FSCI sampling} strategy that determines the sample size dynamically, while exercising mutants, based on a fixed-width sequential confidence interval approach.
+With \INDEX{uniform FSCI sampling}, we introduce a cycle between Step 6 and Step 5, such that a new mutant is sampled only if deemed necessary.
 % of the mutation testing results collected so far. 
  More precisely, \APPR iteratively selects a random mutant from the set of unique mutants and exercises it using the SUT test suite. 
 % The result of each mutant execution (i.e., killed or live) is treated as a Bernoulli trial that is used to compute the confidence interval according to the FSCI method. 
@@ -102,7 +102,7 @@ $[\mathit{L}_{S};\mathit{U}_{S}]$, with $\mathit{L}_{S}$ and $\mathit{U}_{S}$ in
 \end{equation}
 
 Unfortunately, the assumption about the estimated mutation score following a binomial distribution may not hold when a subset of the test suite is executed for every mutant (which could happen in Step 6). Without going into the details behind the implementation of Step 6, which is described in Section~\ref{sec:step:prioritize}, 
-we can expect that a reduced test suite may not be able to kill all the mutants killed by the entire test suite, i.e., the estimated mutation score may be affected by negative bias. Consequently, over multiple runs, the mean of the estimated mutation score may not be close to the \emph{actual mutation score} (i.e., the mutation score computed with the entire test suite exercising all the mutants for the SUT)
+we can expect that a reduced test suite may not be able to kill all the mutants killed by the entire test suite, i.e., the estimated mutation score may be affected by negative bias. Consequently, over multiple runs, the mean of the estimated mutation score may not be close to the \INDEX{actual mutation score} (i.e., the mutation score computed with the entire test suite exercising all the mutants for the SUT)
  but may converge to a lower value. 
 To compute a correct confidence interval that includes the actual mutation score of the SUT, we thus need to take into account this negative bias.
 
@@ -253,7 +253,7 @@ Based on related work, we have identified two possible strategies to characteriz
 
 To determine how dissimilar two test cases are and, consequently, how likely they exercise the mutated statement with different values, we rely on widely adopted distance metrics. 
 In the case of S1, we rely on the Jaccard and Ochiai index, which are two similarity indices for binary data and have successfully been used to compare program executions based on code coverage~\cite{Zou:Ochiai:2019,Keller:Jaccard:2017,Briand:2019}. 
-\REVNOV{C-P-18}{The Jaccard index is also known as \emph{intersection over union} 
+\REVNOV{C-P-18}{The Jaccard index is also known as \INDEX{intersection over union} 
 it measures similarity between sets, and is defined as the size of the intersection divided by the size of the union.
 The Jaccard distance measures dissimilarity between sample sets and results from subtracting the Jaccard coefficient from 1.
 The Ochiai index calculates cosine similarity with binary data, it is used in molecular biology and software engineering.}
@@ -273,7 +273,7 @@ $D_C= 1-\frac{\sum_{i=1}^{n}A_i*B_i}{\sqrt{\sum_{i=1}^{n}{A_i}^2}*\sqrt{\sum_{i=
 where $A_i$ and $B_i$ refer to the number of times the i-th statement had been covered by $T_A$ and $T_B$, respectively.
 
 Figure~\ref{alg:prioritize} shows the pseudocode of our algorithm for selecting and prioritizing test cases. It generates as output
-a prioritized test suite (\emph{PTS}).
+a prioritized test suite (\INDEX{PTS}).
 Based on the findings of Zhang et al. \cite{zhang2013faster}, we first select the test case that exercises the mutated statement the highest number of times (Line~\ref{alg:prioritize:first}) \CHANGED{ and add it to the prioritized test suite (Line~\ref{alg:prioritize:add}).}
 Then, in the next iterations, the test case selected is the one with the largest distance from the closest test case already selected (Lines~\ref{alg:prioritize:selectStart} to~\ref{alg:prioritize:selectEnd}). 
 When two or more test cases have the same distance, we select randomly among the test cases that exercise the mutated statement the most.
@@ -322,7 +322,7 @@ Finally, it further filters the list of non-equivalent mutants to keep only the 
 \label{sec:appr:score}
 
 
-The mutation score (MS) is computed as the percentage of killed nonduplicate mutants 
+The \INDEX{mutation score} (MS) is computed as the percentage of killed nonduplicate mutants 
 %(hereafter, \emph{KND}) 
 over the number of nonequivalent, nonduplicate mutants identified in Step 7):
 

@@ -9,10 +9,10 @@ In this section, we discuss the applicability of state-of-the-art mutation testi
 \label{background:adequacy}
 A mutant is said to be killed if at least one test case in the test suite fails when executed against the mutant.
 Mutants that do not lead to the failure of any test case are said to be live.
-Three conditions should hold for a test case to kill a mutant: \emph{reachability} (i.e, the test case should execute the mutated statement), \emph{necessity} (i.e., the test case should reach an incorrect intermediate state after executing the mutated statement), and \emph{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}.
+Three conditions should hold for a test case to kill a mutant: \INDEX{reachability} (i.e, the test case should execute the mutated statement), \INDEX{necessity} (i.e., the test case should reach an incorrect intermediate state after executing the mutated statement), and \INDEX{sufficiency} (i.e., the final state of the mutated program should differ from that of the original program)~\cite{offutt1997automatically}.
 
 %The identification of killed and live mutants enables the definition of a mutation adequacy criterion as follow, a test suite is mutation-adequate if all mutants are killed by at least one test case of the test suite. Also, 
-The mutation score, i.e., the percentage of killed mutants, measures the quality of a test suite quantitatively. Recent studies have shown that achieving a high mutation score improves significantly the fault detection capability of a test suite
+The \INDEX{mutation score}, i.e., the percentage of killed mutants, measures the quality of a test suite quantitatively. Recent studies have shown that achieving a high mutation score improves significantly the fault detection capability of a test suite
 ~\cite{papadakis2018mutation}. 
 %However, 
 %to ensure better fault detection than a randomly selected subset of test cases, a test suite should achieve a very high mutation score~\cite{Chekam:17}.
@@ -21,7 +21,7 @@ The mutation score, i.e., the percentage of killed mutants, measures the quality
 %The literature lacks studies on the identification of a mutation score threshold that guarantees achieving a fault detection rate higher than the one achieved by other adequacy criteria. 
 However, a very high mutation score (e.g., above 0.75) is required to achieve a higher fault detection rate than the one obtained with other coverage criteria, such as statement and branch coverage~\cite{Chekam:17}.
 
-The capability of a test case to kill a mutant also depends on the observability of the program state. To overcome the limitations due to observability, different strategies to identify killed mutants can be adopted; they are known as strong, weak, firm, and flexible mutation coverage~\cite{ammann2016introduction}. For space software, we suggest to rely on strong mutation because it is the only criterion that assesses the actual test suite's fault detection capability; indeed, it relies on a mutation score that reflects the percentage of mutants leading to test failures. With the other mutation coverage criteria, a mutant is killed if the state of the mutant after the execution of the mutated statement differs from the one observed with the original code, without any guarantee that either the erroneous values in state variables propagate or the test oracles detect them. 
+The capability of a test case to kill a mutant also depends on the \INDEX{observability} of the program state. To overcome the limitations due to observability, different strategies to identify killed mutants can be adopted; they are known as strong, weak, firm, and flexible mutation coverage~\cite{ammann2016introduction}. For space software, we suggest to rely on \INDEX{strong mutation} because it is the only criterion that assesses the actual test suite's fault detection capability; indeed, it relies on a mutation score that reflects the percentage of mutants leading to test failures. With the other mutation coverage criteria, a mutant is killed if the state of the mutant after the execution of the mutated statement differs from the one observed with the original code, without any guarantee that either the erroneous values in state variables propagate or the test oracles detect them. 
 
 
 
@@ -36,12 +36,12 @@ Mutation testing introduces small syntactical changes into the code (source code
 
 
 
-The  \emph{sufficient set of operators} is widely used for conducting empirical evaluations ~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting}. 
+The  \INDEX{sufficient set of operators} is widely used for conducting empirical evaluations ~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting}. 
 %Initially defined by Offutt et al., the set has been extended to include newly defined operators.
 The original sufficient set, defined by Offutt et al., is composed of the following operators: Absolute Value Insertion (ABS), Arithmetic Operator Replacement (AOR), Integer Constraint Replacement (ICR), Logical Connector Replacement (LCR), Relational Operator Replacement (ROR), and Unary Operator Insertion (UOI)~\cite{offutt1996experimental}.
 % operator and the \INDEX{statement deletion operator} (SDL).
 Andrews et al.~\cite{andrews2005mutation} have also included the 
-\emph{statement deletion operator} (SDL)~\cite{delamaro2014designing}, which ensures that every pointer-manipulation and field-assignment statement is tested. 
+\INDEX{statement deletion operator} (SDL)~\cite{delamaro2014designing}, which ensures that every pointer-manipulation and field-assignment statement is tested. 
 %Table~\ref{table:sufficient_operators} provides an overview of the operators belonging to the sufficient set.
 %, thus targeting faults not simulated by the rest of the sufficient operators. In addition, recent research results show that the SDL operator is the most effective for fault detection~\cite{delamaro2014designing}. 
 
@@ -70,7 +70,7 @@ Literal Value Replacement (LVR), and Arithmetic Operator Deletion (AOD)~\cite{Ki
 %AOD is subsumed by OODL.
 %However, LVR, which replaces constants with 0 and 1, or true and false is subsumed by 
 
-An alternative to the sufficient set of operators is the generation of \emph{higher order mutants}, which result from the application of multiple mutation operators for each mutation~\cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}. However, higher order mutants are \CHANGED{easier to be killed
+An alternative to the sufficient set of operators is the generation of \INDEX{higher order mutants}, which result from the application of multiple mutation operators for each mutation~\cite{jia2009higher,kintis2010evaluating,offutt1992investigations,papadakis2010empirical}. However, higher order mutants are \CHANGED{easier to be killed
 %lower strength 
 than the first order ones (i.e., less effective to assess test suites limitations)}~\cite{papadakis2010mutation,papadakis2019mutation}, and there is 
 \CHANGED{limited empirical evidence regarding which mutation operators should be combined to resemble real faults and minimize the number of redundant mutants~\cite{papadakis2019mutation}.}
@@ -102,7 +102,7 @@ than the first order ones (i.e., less effective to assess test suites limitation
 %The time spent in compiling mutants depends on the number of invocations of the compiler.
 %For this reason, \emph{mutant schemata} include all the mutations into a single executable~\cite{untch1993mutation} thus needing only a single  compiler pass. 
 
-To reduce the number of invocations of the compiler to one, \emph{mutant schemata} include all the mutations into a single executable~\cite{untch1993mutation}. 
+To reduce the number of invocations of the compiler to one, \INDEX{mutant schemata} include all the mutations into a single executable~\cite{untch1993mutation}. 
 With mutant schemata, the mutations to be tested are selected at run-time through configuration parameters. This may lead to a compilation speed-up of 300\% \cite{papadakis2010automatic}. 
 
 
@@ -112,11 +112,11 @@ Java~\cite{ma2006mujava},
 .NET~\cite{derezinska2011object} bytecode) thus avoiding the execution of the compilation process after creating a mutant. 
 %Empirical results show that the generation of mutants for compiled code requires only 50\% of the time required by a traditional mutation testing process applied to source code~\cite{derezinska2011object,becker2012xemu}.
 A common solution consists of mutating the
- LLVM Intermediate Representation (IR) \cite{hariri2016evaluating}, 
-which enables the development of mutants that work with multiple programming languages~\cite{hariri2019comparing} and facilitates the integration of optimizations based on dynamic program analysis~\cite{denisov2018mull}.
+ \INDEX{LLVM Intermediate Representation} (IR) \cite{hariri2016evaluating}, 
+which enables the development of mutants that work with multiple programming languages~\cite{hariri2019comparing} and facilitates the integration of optimizations based on \INDEX{dynamic program analysis}~\cite{denisov2018mull}.
 
 
-Unfortunately, the mutation of machine code 
+Unfortunately, the \INDEX{mutation of machine code}
 may lead to mutants that are not representative of real faults because impossible to generate with the source code~\cite{schuler2009efficient}.
 In the case of IR mutation, a part of these mutants can be automatically identified~\cite{denisov2018mull}; however,
 the number of generated mutants tend to be higher at the IR level than at the source code level, which may reduce scalability~\cite{hariri2019comparing}.
@@ -136,9 +136,9 @@ Second, there is no guarantee that the executables generated by LLVM are equival
 \label{sec:scalability}
 
 A straightforward mutation testing process consists of executing the full test suite against every mutant; however, it may lead to scalability problems in the case of a large SUT with expensive test executions.
-\emph{Simple optimizations} that can be applied to space software consist of (S1) stopping the execution of the test suite when the mutant has been killed, (S2) executing only those test cases that cover the mutated statements~\cite{delamaro1996proteum}, and (S3) rely on timeouts to automatically detect infinite loops introduced by mutation~\cite{papadakis2019mutation}. 
+\INDEX{Simple mutation optimizations} that can be applied to space software consist of (S1) stopping the execution of the test suite when the mutant has been killed, (S2) executing only those test cases that cover the mutated statements~\cite{delamaro1996proteum}, and (S3) rely on timeouts to automatically detect infinite loops introduced by mutation~\cite{papadakis2019mutation}. 
 
-\emph{Split-stream execution} consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{king1991fortran,tokumoto2016muvm}, thus saving time and resources. Unfortunately, it cannot be applied in the case of space software that needs to be run with simulators because, in general, the hosting simulator cannot be forked by the hosted SUT.
+\INDEX{Split-stream execution} consists of generating a modified version of the SUT that creates multiple processes (one for each mutant) only when the mutated code is reached \cite{king1991fortran,tokumoto2016muvm}, thus saving time and resources. Unfortunately, it cannot be applied in the case of space software that needs to be run with simulators because, in general, the hosting simulator cannot be forked by the hosted SUT.
 
 Another feasible solution consists of  \emph{randomly selecting a portion of the generated mutants}~\cite{zhang2010operator,gopinath2015hard,zhang2013operator}. 
 %
@@ -151,12 +151,12 @@ Zhang et al. \cite{zhang2013operator} empirically demonstrated that a random sel
 estimating, with high confidence, the mutation score obtained with the complete mutants set.
 Further,
 they show that sampling mutants uniformly across different program elements (e.g., functions) %i.e., to have a same percentage of mutants selected for every function/methods) 
-leads to a more accurate mutation score prediction than sampling mutants globally in a random fashion. That approach also fares better than uniformly distributing the sampled mutants across different mutation operators. In the presence of large software systems that lead to thousands of mutants, random mutation testing is the only viable solution. However, for very large systems common in industry, randomly selecting 5\% of the mutants might still be too expensive.
+leads to a more accurate mutation score prediction than sampling mutants globally in a random fashion. That approach also fares better than uniformly distributing the sampled mutants across different mutation operators. In the presence of large software systems that lead to thousands of mutants, \INDEX{random mutation testing} is the only viable solution. However, for very large systems common in industry, randomly selecting 5\% of the mutants might still be too expensive.
 
 \CHANGEDOCT{Gopinath et al. estimate the number of mutants required for an accurate mutation score~\cite{gopinath2015hard}.
-They base their idea on the intuition that, under the assumption of independence between mutants,
-the mutation score should follow a binomial distribution because it estimates a probability (i.e., the probability for a mutant to be killed by the test suite).
-They rely on Tchebysheff’s inequality~\cite{Tchebichef1867} to find a theoretical lower bound on the number of mutants required for an accurate mutation score. 
+They base their idea on the intuition that, under the assumption of \INDEX{independence between mutants},
+the mutation score should follow a \INDEX{binomial distribution} because it estimates a probability (i.e., the probability for a mutant to be killed by the test suite).
+They rely on \INDEX{Tchebysheff’s inequality}~\cite{Tchebichef1867} to find a theoretical lower bound on the number of mutants required for an accurate mutation score. 
 Since mutants might not be independent but positively correlated (i.e., the detection of a mutant may imply the detection of another mutant), they argue that the binomial distribution provides a conservative estimation of the population variance.
 They compute a pessimistic lower bound of 1,000 mutants, which enables the computation of a mutation score that approximates the real mutation score with 93\% accuracy (max absolute error 7\%)  for 95\% of the samples.}
 \CHANGEDOCT{Also, they indicate the lack of independence between mutants as the reason why empirical results show that the observed accuracy is above 97\% (absolute error $< 2.7\%$) when 1,000 mutants are selected.
@@ -185,13 +185,13 @@ $\rho = 0.0066$, which is effectively zero. This observation enables us to safel
 \CHANGEDNOV{Related to the work Gopinath et al., the statistics literature provides a number of alternatives for the computation of a sample size (i.e., the number of mutants) that enables the estimation of results with a given degree of precision~\cite{Krejcie,Cochran,Bartlett,Krishnamoorthy07}. For example, the Cochran method is widely adopted when the sample estimates are approximately normally distributed~\cite{Bartlett}. 
 %However, since the mutation score captures the probability for a mutant to be killed by the test suite, it is likely to follow a binomial distribution instead of a normal distribution~\cite{gopinath2015hard}, and consequently, the Cochran method may under-approximate the sample size.
 Concerning sample size estimation for binomial distributions, the most recent work is that of Gonçalves et al.~\cite{Goncalves2012}, who recently studied the sample size problem by relying on different heuristics for the computation of confidence intervals for binomial proportions.  
-A confidence interval indicates that the estimated parameter (e.g., the mutation score) has a probability $p_c$ of lying in it ($p_c$ is referred to as the confidence level). 
+A \INDEX{confidence interval} indicates that the estimated parameter (e.g., the mutation score) has a probability $p_c$ of lying in it ($p_c$ is referred to as the confidence level). 
 Based on their study, the largest number of samples required to compute a 95\% confidence interval is 1568.}
 %with margin error of 0.05
 %Determining the sample size required to achieve a certain confidence interval is recently attracting interest in statistics literature~\cite{Krishnamoorthy07}.}
 
-\CHANGEDNOV{An alternative to computing the sample size in advance is provided by sequential analysis approaches, which determine the sample size while conducting the statistical test~\cite{waldSequential}. For example, the sequential probability ratio test, which can be used to test simple hypotheses, has been used in mutation testing as condition to determine when to stop test case generation (i.e., when the mutation score is above a given threshold)~\cite{Hsu:90}. In our context, we are interested in point estimation, not hypothesis testing; in this case, 
-the sample size can be determined through a fixed-width sequential confidence interval (FSCI), i.e., we compute the confidence interval after every new sample and stop sampling when the interval is within the desired bound~\cite{Frey:FixedWidthSequentialConfidenceIntervals:AmericanStatistician:2010,Chen2013,Yaacoub:OptimalStopping}. 
+\CHANGEDNOV{An alternative to computing the sample size in advance is provided by \INDEX{sequential analysis approaches}, which determine the sample size while conducting the statistical test~\cite{waldSequential}. For example, the sequential probability ratio test, which can be used to test simple hypotheses, has been used in mutation testing as condition to determine when to stop test case generation (i.e., when the mutation score is above a given threshold)~\cite{Hsu:90}. In our context, we are interested in point estimation, not hypothesis testing; in this case, 
+the sample size can be determined through a \INDEX{fixed-width sequential confidence interval} (FSCI), i.e., we compute the confidence interval after every new sample and stop sampling when the interval is within the desired bound~\cite{Frey:FixedWidthSequentialConfidenceIntervals:AmericanStatistician:2010,Chen2013,Yaacoub:OptimalStopping}. 
 %Fabrizio: PLease note that the results in Fry's paper are based on half confidence inteval of 0.10. Not clear what happens for 0.05 (what we want). Not sure we want to run also that simulation.
 Based on Freys' simulations, we observe that the Wald method~\cite{WaldMethodVollset} for estimating confidence intervals minimizes the sample size but requires an appropriate estimation of variance. We therefore rely on the best non-parametric method, which is Clopper-Pearson~\cite{ClopperPearson}.
 FSCI has been successfully adopted to define oracles for non-deterministic systems~\cite{Wang:Uncertainty:TOSEM} but has never been applied to determine the number of mutants to consider for mutation testing.}
@@ -204,7 +204,7 @@ FSCI has been successfully adopted to define oracles for non-deterministic syste
 %%The formula abve gives a sample size of 384,16
 %\FIXME{ For example, }
 
-Other solutions to address \emph{runtime scalability problems} of mutation testing  aim to \emph{prioritize test cases} to maximize the likelihood of executing the ones that kill the mutants first~\cite{just2012using,papadakis2011automatically,zhang2013faster}. Their main goal is to save time by preventing the execution of a large portion of the test suite, for each mutant.
+Other solutions to address \INDEX{runtime scalability problems} of mutation testing  aim to \INDEX{prioritize test cases} to maximize the likelihood of executing the ones that kill the mutants first~\cite{just2012using,papadakis2011automatically,zhang2013faster}. Their main goal is to save time by preventing the execution of a large portion of the test suite, for each mutant.
 Solutions that simply prioritize faster test cases~\cite{just2012using}
  may not be sufficient with system-level test suites whose test cases have similar, long execution times.
 Approaches that rely on data-flow analysis to identify and prioritize the test cases that likely satisfy the killing conditions~\cite{papadakis2011automatically} are prohibitively expensive and may not scale to large systems.
@@ -236,23 +236,23 @@ Unfortunately, only criterion (1) seems applicable for space software; indeed, c
 
 Although identifying equivalent mutants is an undecidable problem~\cite{madeyski2013overcoming,Bugg:Correctness:82}, several heuristics have been developed to alleviate it. 
 
-The simplest solution consists of relying on \emph{trivial compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}, i.e., compile both the mutants and the original program with compiler optimisations enabled and determine that the mutant is equivalent when their executable code match. In C programs, compiler optimisations can reduce the total number of mutants by 28\%~\cite{kintis2017detecting}.
+The simplest solution consists of relying on \INDEX{trivial compiler optimisations}~\cite{papadakis2015trivial, kintis2017detecting,papadakis2019mutation}, i.e., compile both the mutants and the original program with compiler optimisations enabled and determine that the mutant is equivalent when their executable code match. In C programs, compiler optimisations can reduce the total number of mutants by 28\%~\cite{kintis2017detecting}.
 
 
 %Solutions that identify equivalent mutants based on symbolic execution~\cite{holling2016nequivack}, bounded model checking~\cite{riener2011test}, and program slicing ~\cite{harman2001relationship} are unlikely to scale with large systems because of the limitations of static analysis. Also, their implementation often relies on LLVM, which may prevent their applicability to space software (see Section~\ref{sec:compile:time}).
 
-Solutions that identify equivalent mutants based on \emph{static program analysis} (e.g., concolic execution~\cite{holling2016nequivack}, and bounded model checking~\cite{riener2011test}) require the manual identification of the state variables and program outputs that contain the results of the computation performed by the mutated function.
+Solutions that identify equivalent mutants based on \INDEX{static program analysis} (e.g., concolic execution~\cite{holling2016nequivack}, and bounded model checking~\cite{riener2011test}) require the manual identification of the state variables and program outputs that contain the results of the computation performed by the mutated function.
 % and thus should differ after the execution of the original and mutated code. 
 Such manual analysis is infeasible in the presence of a large set of mutants, most particularly for large systems. 
 %Despite some form of automation might be envisioned in the presence of unit test cases, such solution is not applicable when test cases target the whole system. 
-Alternatively, reachability analysis might be employed to determine if two mutants are not equivalent according to weak mutation. 
-However, weak mutation does not guarantee that the sufficiency condition holds; consequently, the generated results still need to be manually inspected to determine if a difference in the final state of the system is observable. In addition, existing static analysis solutions cannot work with system-level test cases that require hardware and environment simulators.
+Alternatively, \INDEX{reachability analysis} might be employed to determine if two mutants are not equivalent according to weak mutation. 
+However, \INDEX{weak mutation} does not guarantee that the sufficiency condition holds; consequently, the generated results still need to be manually inspected to determine if a difference in the final state of the system is observable. In addition, existing static analysis solutions cannot work with system-level test cases that require hardware and environment simulators.
 Indeed, (1) simulation results cannot be predicted by pure static analysis, and (2) concolic execution tools, which rely on LLVM, cannot be run if the SUT executable should be generated with a specific compiler (see Section~\ref{sec:compile:time}).
 %that produce results that cannot be fully predicted by means of static analysis.
 % and program slicing ~\cite{harman2001relationship} are unlikely to scale with large systems because of the limitations of static analysis. Also, 
  %Furthermore, their implementation often relies on LLVM, which may prevent their applicability to space software (see Section~\ref{sec:compile:time}).
 
-Alternative solutions rely on \emph{dynamic analysis}; more precisely, they compare data collected when testing the original software and the mutants~\cite{grun2009impact,schuler2010covering,schuler2013covering,schuler2009efficient}.
+Alternative solutions rely on \INDEX{dynamic analysis}; more precisely, they compare data collected when testing the original software and the mutants~\cite{grun2009impact,schuler2010covering,schuler2013covering,schuler2009efficient}.
 %A large number of program classes presenting different statement coverage in test suites executions with the original and the mutated code is an indicator for  mutants to be non-equivalent~\cite{grun2009impact}.
 The most extensive empirical study on the topic shows that non-equivalent mutants can be detected by counting the number of methods (excluding the mutated method) that, for at least one test case, either (1) have statements that are executed at a different frequency with the mutant, (2) generate at least one different return value, or (3) are invoked at a different frequency~\cite{schuler2013covering}. To determine if a mutant is non-equivalent, it is possible to define a threshold indicating the smallest number of methods with such characteristics. A threshold of one identifies non-equivalent mutants with an average precision above 70\% and an average recall above 60\%. This solution outperforms more sophisticated methods relying on dynamic invariants~\cite{schuler2009efficient}. Also, coverage frequency alone leads to results close to the ones achieved by including all the three criteria~\cite{schuler2013covering}.
 However, the identification of an optimal threshold value remains an open issue; indeed, values above one slightly improve precision but significantly undermine recall (e.g., recall is below 50\% for a threshold of 5). 
@@ -262,7 +262,7 @@ Concerning the applicability of dynamic analysis methods to space software, it i
 The  results reported in the literature concern a small number of mutants (i.e., 140) for Java software; 
 additional empirical evaluations with C/C++ space software are thus needed.
 %In particular, the identification of coverage differences across the whole software might be ineffective when the SUT is exercised with system test cases that may lead to non-deterministic coverage (e.g., because of interrupt handlers). 
-Finally, we notice that although code coverage might be effective to determine that mutants are non-equivalent, it might be inappropriate to identify equivalent mutants. Indeed, 
+Finally, we notice that although \INDEX{code coverage} might be effective to determine that mutants are non-equivalent, it might be inappropriate to identify equivalent mutants. Indeed, 
 %although differences in code coverage correspond to semantic differences, 
 non-equivalent mutants that are exercised with an inappropriate set of inputs may show the same coverage as the original program. For example, the branching condition $(x >= 0)$ has the same coverage as the mutated condition $(x > 0)$ when the value $0$ is never assigned to $x$ in the test cases. 
 An empirical assessment of the portion of non-equivalent mutants that may be discarded by coverage-based approaches is thus necessary.
@@ -271,11 +271,11 @@ An empirical assessment of the portion of non-equivalent mutants that may be dis
 
 \subsection{Detection of Redundant Mutants}
 \label{sec:background:redundant}
-Redundant mutants are either \emph{duplicates}, i.e., mutants that are equivalent with each other but not equivalent to the original program, or \emph{subsumed}, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
+Redundant mutants are either \INDEX{duplicates}, i.e., mutants that are equivalent with each other but not equivalent to the original program, or subsumed, i.e., mutants that are not equivalent with each other but are killed by the same test cases. 
 
 Duplicate mutants can be detected by relying on the same approaches adopted for equivalent mutants. 
 
-According to Shin et al., subsumed mutants should not be discarded but analyzed to augment the test suite with additional test cases that fail with one mutant only~\cite{Shin:TSE:DCriterion:2018}. 
+According to Shin et al., \INDEX{subsumed mutants} should not be discarded but analyzed to augment the test suite with additional test cases that fail with one mutant only~\cite{Shin:TSE:DCriterion:2018}. 
 The augmented test suite has a higher
  fault detection rate than a test suite that simply satisfies mutation coverage; however, with large software systems the approach becomes infeasible because of the lack of scalable test input generation approaches.
 
@@ -295,7 +295,7 @@ Among compile time optimizations, only mutant schemata appear to be feasible wit
 Concerning scalability, simple optimizations (i.e., S1, S2, and S3 in Section~\ref{sec:scalability}) are feasible. Other feasible solutions are the ones relying on mutant sampling and coverage metrics. However, the level of confidence one may expect when mutant sampling rates are below 5\% should be evaluated. 
 %Furthermore, code coverage metrics that are feasible for space software need to be defined.
 
-Equivalent mutants can be identified through trivial compiler optimizations and the analysis of coverage differences; however, it is necessary to define appropriate coverage metrics and thresholds that maximize both precision and recall. The same approach can be adopted to identify duplicate mutants. The generation of test cases that distinguish subsumed mutants is out of the scope of this work.
+\INDEX{Equivalent mutants} can be identified through \INDEX{trivial compiler optimizations} and the analysis of coverage differences; however, it is necessary to define appropriate coverage metrics and thresholds that maximize both precision and recall. The same approach can be adopted to identify duplicate mutants. The generation of test cases that distinguish subsumed mutants is out of the scope of this work.
 \REVNOV{C-P-08}{However, the percentage of subsumed mutants should be reported by the FAQAS framework.}
 
 

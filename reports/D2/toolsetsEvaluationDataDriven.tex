@@ -3,7 +3,7 @@
 \section{Evaluation of Data-driven Mutation Testing Toolsets}
 \label{sec:toolsComparisonDataDriven}
 
-This section describes an evaluation we conducted to identify a data-driven mutation testing tool applicable to space context. In particular, we assessed the Peach Fuzzer toolset.
+This section describes an evaluation we conducted to identify a data-driven mutation testing tool applicable to space context. In particular, we assessed the \INDEX{Peach Fuzzer toolset}.
 
 % description of the toolset
 
@@ -11,7 +11,7 @@ This section describes an evaluation we conducted to identify a data-driven muta
 
 \input{listings/peach}
 
-Peach~\cite{PeachMozilla,PeachFuzzer} is a fuzzing tool that relies on block models~\cite{pham2016model,spike} to perform data mutations. In other words, Peach performs mutations by altering the data of an input 􏰘according to a large, predefi􏰘ned set of rules. For example, Listing~\ref{peach} introduces a portion of a data model describing the properties of the Zip data format~\cite{zipformat}. 
+Peach~\cite{PeachMozilla,PeachFuzzer} is a fuzzing tool that relies on \INDEX{block models}~\cite{pham2016model,spike} to perform data mutations. In other words, Peach performs mutations by altering the data of an input according to a large, predefined set of rules. For example, Listing~\ref{peach} introduces a portion of a data model describing the properties of the Zip data format~\cite{zipformat}. 
 
 Even though Peach is currently a proprietary software~\cite{PeachFuzzer}, the Mozilla Foundation maintains a community edition of the toolset~\cite{PeachMozilla}, the community edition implements basic features such as the fuzzing capabilities. The proprietary version of Peach instead provides features for automatic generation of test cases and detailed reports about the potential security threats of a software~\cite{PeachFuzzer}. The version we evaluated in this activity was the community edition provided by the Mozilla Foundation. We provide an overview of the mutation operators implemented by the Peach community edition in Table~\ref{table:PeachOperators}.
 

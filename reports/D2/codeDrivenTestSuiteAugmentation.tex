@@ -27,7 +27,7 @@ According to our process, each live, non-equivalent mutant identified by the tes
 We leverage the approach proposed by Holling et al.~\cite{holling2016nequivack} and Riener et al.~\cite{riener2011test}, which  relies on the observation that two mutants are equivalent when there are no concrete values making the mutated function produce an output that is different from the one of the original function.
 If a value that makes the two functions generate distinct results can be found, the mutant is non-equivalent.
 To automate the generation of inputs, Holling et al. rely on KLEE~\cite{cadar2008klee}, a symbolic execution tool for programs written in C/C++.
-Riener et al.~\cite{riener2011test}, instead, rely on a bounded model checker (BMC).
+Riener et al.~\cite{riener2011test}, instead, rely on a \INDEX{bounded model checker} (BMC).
 
 We introduce an example in Listing~\ref{function}. The top part of Listing~\ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing~\ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
 To automate the generation of inputs, static analysis tools need to be informed about which parameters correspond to inputs. 
@@ -70,8 +70,7 @@ Step 1 is the only step that is automated by existing tools; anyway, it requires
 \subsubsection{CBMC}
 \label{subsec:cbmc}
 
-CBMC is an approach that implements {\em Bounded Model
-Checking}~\cite{BiereCCZ:TACAS99,SeryFS:ATVA12} (BMC), an approach for purely static software verification.
+\INDEX{CBMC} is an approach that implements \INDEX{Bounded Model Checking}~\cite{BiereCCZ:TACAS99,SeryFS:ATVA12} (BMC), an approach for purely static software verification.
 The idea in BMC is to represent the software together with the
 properties to be verified as an instance of the propositional
 satisfiability problem (SAT).  Such a representation captures the
@@ -110,7 +109,7 @@ than $k$ times.
 
 The approach is naturally a compromise between practicality and
 completeness.
-As the SAT problem is NP-complete, determining whether $\prop{l}$ holds
+As the SAT problem is \INDEX{NP-complete}, determining whether $\prop{l}$ holds
 requires in the worst case exponential time with respect to the size of
 the SAT instance for all known algorithms.
 %
