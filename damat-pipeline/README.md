@@ -7,24 +7,26 @@
 
 # DAMAt
 
-This package implements DaMAT, a data-driven mutation analysis tool for systems that work with data buffers.
-
-Detailed information about DAMAt are provided in the following.
+This package implements DaMAT, a data-driven mutation testing tool.
+Data-driven mutation testing aims to assess test suites by simulating faults that affect the data produced, received, or exchanged by the software and its components.
+The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel). The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate these faults.
+The mutation operators are defined in a fault model.
+The fault model is produced by software engineers based on their domain knowledge and experience.
 
 ## Set-up and Initialization
 
-Dependencies:
+### Dependencies
 
 	* Python 3.6.8 or higher
 	* GNU bash, version 4.2.46 or higher
 
 
-## Initialization of the DAMAt workspace
+### Initialization of the DAMAt workspace
 
 All the scripts for the DAMAt pipeline are contained in the DAMAt folder.
 All DAMAt steps will take place inside this folder, which shall be placed by the engineer in a path of their choosing.
 
-## Writing a list of all test cases
+### Writing a list of all test cases
 
 The user shall provide the list of all the test cases with corresponding nominal time in csv format, using the tests.csv  file as an example.
 In the first column of the csv file, there shall be an identifier for the test case. The second column shall contain the nominal execution time in ms.
@@ -33,7 +35,7 @@ In the first column of the csv file, there shall be an identifier for the test c
 	test_02,13456
 	test_03,58347
 
-## Setting variables for the DAMAt pipeline
+### Setting variables for the DAMAt pipeline
 
 The user must set the following variables inside the DAMAt_configure.sh script
 
@@ -58,7 +60,7 @@ The variable singleton shall be set to TRUE or FALSE. If set to TRUE, the Fault 
 
 The variable padding shall be set to an integer number representing the number of bytes to skip at the beginning of the target buffer. Normally it shall be set to 0, but it can be used to skip the header of the buffer if needed.
 
-## Setting up the compilation of the mutants
+### Setting up the compilation of the mutants
 
 The user shall modify DAMAt_compile.sh to include the commands for the compilation of the mutants.
 Every mutant is identified by an integer called "MutationOpt".
@@ -72,7 +74,7 @@ To use the singleton mode, the engineer shall compile the SUT with this macro en
 
 Once completed, the DAMAt_compile.sh script shall take as input the value of the MutationOpt that refers to the mutant being currently compiled and of the singleton variable, and then compile the SUT accordingly.
 
-## Setting up the execution of the test suite against the mutants
+### Setting up the execution of the test suite against the mutants
 
 The user shall modify DAMAt_run_tests.sh stub to include the commands for the execution of the mutants.
 
