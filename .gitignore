@@ -534,3 +534,4 @@ damat-pipeline/libparam_set_up/DAMAt_run_tests.sh
 damat-pipeline/libparam_set_up/fault_model_param.csv
 damat-pipeline/libparam_set_up/tests_param.csv
 damat-pipeline/libparam_set_up/wscript
+damat-pipeline/libparam_set_up/csp_service_handler.c

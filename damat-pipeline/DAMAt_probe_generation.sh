@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 #
 # Copyright (c) University of Luxembourg 2020.
