@@ -4,29 +4,6 @@
 # Created by Enrico VIGANO, enrico.vigano@uni.lu, SnT, 2021.
 #
 
-###############################################################################
-
-This version of DAMAt comes with the additional folder "libparam_set_up"
-This is how to set up DAMAt to work with libparam:
-
-	1) substitute "damat_pipeline/libparam_set_up/DAMAt_compile.sh" and "damat-pipeline/libparam_set_up/DAMAt_run_tests.sh" in place of the stubs that you find in the "damat-pipeline" folder.
-
-	2) copy the "damat-pipeline/libparam_set_up/fault_model_param.csv" and "damat-pipeline/libparam_set_up/tests_param.csv" in the main folder.
-
-	3) make sure that the variables in DAMAt_configure.sh are correctly defined. They should be:
-		tests_list=$DAMAt_FOLDER/tests_param.csv
-		fault_model=$DAMAt_FOLDER/fault_model_param.csv
-		buffer_type="unsigned long long int"
-		padding=0
-		singleton="TRUE"
-
-	4) copy "damat-pipeline/libparam_set_up/wscript" in the "libparam" folder.
-
-	5) the folder to copy the FAQAS_dataDrivenMutator.h, once generated is "libparam/include/gs/param"
-
-###############################################################################
-
-
 
 DAMAt
 
