@@ -529,3 +529,8 @@ damat-pipeline/bkp/pipeline_scripts/DAMAt_obtain_coverage.sh
 damat-pipeline/bkp/pipeline_scripts/get_mutant_test_list.py
 damat-pipeline/bkp/README.md
 damat-pipeline/bkp/tests.csv
+damat-pipeline/libparam_set_up/DAMAt_compile.sh
+damat-pipeline/libparam_set_up/DAMAt_run_tests.sh
+damat-pipeline/libparam_set_up/fault_model_param.csv
+damat-pipeline/libparam_set_up/tests_param.csv
+damat-pipeline/libparam_set_up/wscript
