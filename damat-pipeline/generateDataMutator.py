@@ -188,10 +188,10 @@ def newINV(item, _span, _type, _min, _max, _delta, _value):
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].type=INV;\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].min="+_min+";\n"
     faultModelsDef += "fm->items["+str(item)+"].operators["+str(operatorsCount)+"].max="+_max+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].delta="+_delta+";\n"
-    faultModelsDef += "fm->items["+str(item)+"].operators[" + \
-        str(operatorsCount)+"].value="+_value+";\n"
+    # faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+    #     str(operatorsCount)+"].delta="+_delta+";\n"
+    # faultModelsDef += "fm->items["+str(item)+"].operators[" + \
+    #     str(operatorsCount)+"].value="+_value+";\n"
 
     operations[elements] = 0
 
@@ -447,17 +447,10 @@ with open(fileName, 'r') as fault_model, open("FAQAS_mutants_table.csv", 'w') as
             map_writer.writerow(new_row)
             mutant_count += 1
 
-fault_models = set()
-with open(fileName, 'r') as definitions, open("function_calls.out", 'a') as funct:
-    def_reader = csv.reader(definitions, delimiter=',')
-    for op_line in def_reader:
-        fault_models.add(op_line[0])
-    funct.write("To mutate insert probes using the following templates:\n")
-    print("To mutate insert probes using the following templates, you can find them in the 'function_calls.out' file:\n")
-    for fmx in fault_models:
-        funct.write("void mutate_FM_" + fmx + "(std::vector<" + str(sys.argv[1]) + "> *v);\n")
-        print("mutate_FM_" + fmx + "(std::vector<" + str(sys.argv[1]) + "> *v);\n")
-  
+
+# fin (it's not elegant but I didn't want to modify Fabrizio's code)
+# Enrico
+
 
 with open(fileName) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
