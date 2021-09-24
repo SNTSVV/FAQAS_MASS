@@ -1,0 +1,556 @@
+% !TEX root = MAIN.tex
+
+\chapter{DAMAt -  libParam Tutorial}
+
+\label{chapter:dama:tutorial_param}
+
+\section{Introduction}
+
+This tutorial instructs on how to use \DAMA on the \emph{\emph{libParam}} case study.
+
+
+\section{Setting up and running \DAMA}
+\label{sec:param_single_machine}
+
+The directory chosen for \DAMA, in this case, will be \texttt{/opt/DAMAt}.
+The content of the DAMAt toolset shall be copied into this folder.
+For more details, please refer to Section~\ref{sec:dama_setup}.
+
+\DAMA works in six steps:
+
+\begin{enumerate}
+	\item The user prepares a fault model specification tailored to the SUT.
+	\item \DAMA generates a mutation API with the functions that modify the data according to the provided fault model.
+	\item The user manually modifies the SUT by introducing mutation probes (i.e., invocations to the mutation API) into its source code.
+	\item \DAMA generates and compiles mutants.
+	\item \DAMA executes the test suite against all the mutants.
+	\item \DAMA generates mutation analysis results.
+\end{enumerate}
+
+
+\subsection{Step 1}
+
+Here is reported the fault model used for the \emph{libParam} test case.
+There are six fault model, each for a different type of exchanged message:
+\begin{itemize}
+  \item General
+  \item GET
+  \item SET
+  \item SAVE
+  \item LOAD
+  \item REPLY
+\end{itemize}
+Specific details about the operators' configuration can be found in the D2.
+
+\begin{lstlisting}
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x00
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x55
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0xff
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x44
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x77
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x88
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x89
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x99
+General,0,1,LONG,IV,NA,NA,NA,NA,NA,0x9a
+General,1,1,LONG,VAT,NA,NA,20,1,NA,NA
+General,1,1,LONG,FVAT,NA,NA,20,1,NA,NA
+General,1,1,LONG,SS,NA,NA,NA,1,NA,NA
+General,1,1,LONG,SS,NA,NA,NA,-1,NA,NA
+General,1,1,LONG,HV,NA,NA,NA,NA,NA,10
+General,2,1,LONG,SS,NA,NA,NA,1,NA,NA
+General,2,1,LONG,SS,NA,NA,NA,-1,NA,NA
+General,2,1,LONG,IV,NA,NA,NA,NA,NA,0
+General,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+General,2,1,LONG,FVAT,NA,NA,180,1,NA,NA
+General,4,1,LONG,SS,NA,NA,NA,1,NA,NA
+General,4,1,LONG,SS,NA,NA,NA,-1,NA,NA
+General,5,1,LONG,SS,NA,NA,NA,1,NA,NA
+General,5,1,LONG,SS,NA,NA,NA,-1,NA,NA
+GET,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+GET,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+SET,6,1,BIN,BF,0,7,NA,NA,-1,1
+SAVE,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+SAVE,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+SAVE,7,1,LONG,SS,NA,NA,NA,1,NA,NA
+SAVE,7,1,LONG,SS,NA,NA,NA,-1,NA,NA
+LOAD,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+LOAD,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+LOAD,7,1,LONG,SS,NA,NA,NA,1,NA,NA
+LOAD,7,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,2,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,2,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,2,1,LONG,IV,NA,NA,NA,NA,NA,0
+REPLY,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+REPLY,2,1,LONG,FVAT,NA,NA,180,1,NA,NA
+REPLY,4,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,4,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,5,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,5,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,6,1,BIN,BF,0,7,NA,NA,-1,1
+\end{lstlisting}
+
+The user shall also provide a list of test cases with the nominal execution time in the csv format.
+
+\begin{lstlisting}
+bindings,4427.200000
+example,4145.400000
+file_store,2954.000000
+i2c,2793.400000
+log,2881.200000
+param3,3007.800000
+param4,3273.600000
+rparam3,5099.400000
+rparam4,8003.200000
+serialize,2656.400000
+spi,2825.800000
+store,2774.400000
+store_load,3182.000000
+vmem_store_checksum_first,3005.800000
+vmem_store_checksum_last,2963.400000
+\end{lstlisting}
+
+\subsection{Step 2}
+
+The engineer shall modify the \texttt{DAMAt\_configure.sh} script according to the specifics of the SUT.
+In this case the buffer elements are of type "unsigned long long int", the list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory along with the fault model (\texttt{fault\_model\_param.csv}).
+The \texttt{singleton} option is activated to avoid memory issues and there is no need to skip the initial elements, so \texttt{padding} is set to 0.
+
+\begin{lstlisting}[language=bash]
+
+# the location of the csv with all the test identifiers and the execution time
+tests_list=$DAMAt_FOLDER/tests_param.csv
+
+# the location of the csv containing the definitions of the mutation operators
+fault_model=$DAMAt_FOLDER/fault_model_param.csv
+
+# the datatype of the elements of the target buffer
+buffer_type="unsigned long long int"
+
+# padding: can be used to skip the first n bit of a buffer, normally set to 0
+padding=0
+
+# singleton: can set to true to load the fault model into a singleton variable, normally set to "TRUE", can also  be set to "FALSE"
+singleton="TRUE"
+
+\end{lstlisting}
+
+The user shall go to the \texttt{/opt/DAMAt} directory and generate the probes with the following commands.
+
+\begin{lstlisting}[language=bash]
+
+cd /opt/DAMAt
+bash DAMAt_probe_generation.sh
+
+\end{lstlisting}
+
+
+\subsection{Step 3}
+
+The user shall manually instrument the SUT as shown below.
+The probes were inserted in the \texttt{gs\_rparam\_process\_packet} function, contained in the \texttt{libparam/src/csp\_service\_handler.c} file.
+\begin{lstlisting}[language=c]
+
+static void gs_rparam_process_packet(csp_conn_t * conn, csp_packet_t * request_packet)
+{
+    csp_packet_t * reply_packet = NULL;
+    gs_rparam_query_t * reply;
+
+
+    /* Handle endian */
+    gs_rparam_query_t * request = (gs_rparam_query_t *) request_packet->data;
+
+
+    request->length = csp_ntoh16(request->length);
+    request->checksum = csp_ntoh16(request->checksum);
+
+//start of the mutation probe
+    unsigned long long int v_General[6];
+
+    v_General[0] = (unsigned long long int) request->action;
+    v_General[1] = (unsigned long long int) request->table_id;
+    v_General[2] = (unsigned long long int) request->length;
+    v_General[3] = (unsigned long long int) request->checksum;
+    v_General[4] = (unsigned long long int) request->seq;
+    v_General[5] = (unsigned long long int) request->total;
+
+
+    mutate_FM_General(v_General);
+
+    request->action = (uint8_t) v_General[0];
+    request->table_id = (uint8_t) v_General[1];
+    request->length = (uint16_t) v_General[2];
+    request->checksum = (uint16_t) v_General[3];
+    request->seq = (uint16_t) v_General[4];
+    request->total = (uint16_t) v_General[5];
+// end of the mutation probe
+
+
+    /* Check valid mem */
+    gs_param_table_instance_t * tinst = gs_param_table_by_id(request->table_id);
+    if (tinst == NULL) {
+        csp_buffer_free(request_packet);
+        return;
+    }
+
+
+    switch(request->action) {
+	case RPARAM_GET: {
+
+    //start of the  mutation probe
+    unsigned long long int v_GET[8];
+
+    v_GET[0] = (unsigned long long int) request->action;
+    v_GET[1] = (unsigned long long int) request->table_id;
+    v_GET[2] = (unsigned long long int) request->length;
+    v_GET[3] = (unsigned long long int) request->checksum;
+    v_GET[4] = (unsigned long long int) request->seq;
+    v_GET[5] = (unsigned long long int) request->total;
+    v_GET[6] = (unsigned long long int)request->payload.addr[0];
+    v_GET[7] = 0;
+
+    mutate_FM_GET(v_GET);
+
+    request->action = (uint8_t) v_GET[0];
+    request->table_id = (uint8_t) v_GET[1];
+    request->length = (uint16_t) v_GET[2];
+    request->checksum = (uint16_t) v_GET[3];
+    request->seq = (uint16_t) v_GET[4];
+    request->total = (uint16_t) v_GET[5];
+    request->payload.addr[0]=(uint16_t)v_GET[6];
+
+    //end of the mutation probe
+
+            if (request->length > GS_RPARAM_QUERY_MAX_PAYLOAD) {
+                log_error("Request too long %u", request->length);
+                goto out_free;
+            }
+
+          										[...]
+
+                /* Set sequence */
+                reply->seq = csp_hton16(param_pos);
+                reply->total = csp_hton16(tinst->row_count);
+
+                /* Set lengths */
+                reply->length = csp_hton16(length);
+                reply_packet->length = length + offsetof(gs_rparam_query_t, payload.packed);
+
+                //start of the  mutation probe
+                unsigned long long int v_REPLY[8];
+
+                v_REPLY[0] = (unsigned long long int) request->action;
+                v_REPLY[1] = (unsigned long long int) request->table_id;
+                v_REPLY[2] = (unsigned long long int) request->length;
+                v_REPLY[3] = (unsigned long long int) request->checksum;
+                v_REPLY[4] = (unsigned long long int) request->seq;
+                v_REPLY[5] = (unsigned long long int) request->total;
+                v_REPLY[6]= (unsigned long long int)request->payload.packed[0];
+                v_REPLY[7] = 0;
+
+                mutate_FM_REPLY(v_REPLY);
+
+                request->action = (uint8_t) v_REPLY[0];
+                request->table_id = (uint8_t) v_REPLY[1];
+                request->length = (uint16_t) v_REPLY[2];
+                request->checksum = (uint16_t) v_REPLY[3];
+                request->seq = (uint16_t) v_REPLY[4];
+                request->total = (uint16_t) v_REPLY[5];
+                request->payload.packed[0]=(uint8_t)v_REPLY[6];
+
+                //end of the mutation probe
+
+                if (!csp_send(conn, reply_packet, 1000)) {
+                    csp_buffer_free(reply_packet);
+                    goto out_free;
+                }
+            }
+
+            goto out_free;
+	}
+	case RPARAM_SET: {
+
+    //start of the  mutation probe
+    unsigned long long int v_SET[8];
+
+    v_SET[0] = (unsigned long long int) request->action;
+    v_SET[1] = (unsigned long long int) request->table_id;
+    v_SET[2] = (unsigned long long int) request->length;
+    v_SET[3] = (unsigned long long int) request->checksum;
+    v_SET[4] = (unsigned long long int) request->seq;
+    v_SET[5] = (unsigned long long int) request->total;
+    v_SET[6] = (unsigned long long int)request->payload.packed[0];
+    v_SET[7] = 0;
+
+    mutate_FM_SET(v_SET);
+
+    request->action = (uint8_t) v_SET[0];
+    request->table_id = (uint8_t) v_SET[1];
+    request->length = (uint16_t) v_SET[2];
+    request->checksum = (uint16_t) v_SET[3];
+    request->seq = (uint16_t) v_SET[4];
+    request->total = (uint16_t) v_SET[5];
+    request->payload.packed[0]=(uint8_t)v_SET[6];
+
+    //end of the mutation probe
+
+            if (!validate_checksum(tinst, request->checksum)) {
+                request_packet->data[0] = RPARAM_ERROR;
+                goto out_send_status;
+            }
+
+
+            if (gs_param_deserialize(tinst, request->payload.packed, request->length, F_FROM_BIG_ENDIAN) == GS_OK) {
+                request_packet->data[0] = RPARAM_SET_OK;
+            } else {
+                request_packet->data[0] = RPARAM_ERROR;
+            }
+            goto out_send_status;
+
+
+														[...]
+
+
+	case RPARAM_LOAD: {
+
+    //start of the  mutation probe
+    unsigned long long int v_LOAD[8];
+
+    v_LOAD[0] = (unsigned long long int) request->action;
+    v_LOAD[1] = (unsigned long long int) request->table_id;
+    v_LOAD[2] = (unsigned long long int) request->length;
+    v_LOAD[3] = (unsigned long long int) request->checksum;
+    v_LOAD[4] = (unsigned long long int) request->seq;
+    v_LOAD[5] = (unsigned long long int) request->total;
+    v_LOAD[6]= (unsigned long long int)request->payload.copy.from;
+    v_LOAD[7]= (unsigned long long int)request->payload.copy.to;
+
+    mutate_FM_LOAD(v_LOAD);
+
+    request->action = (uint8_t) v_LOAD[0];
+    request->table_id = (uint8_t) v_LOAD[1];
+    request->length = (uint16_t) v_LOAD[2];
+    request->checksum = (uint16_t) v_LOAD[3];
+    request->seq = (uint16_t) v_LOAD[4];
+    request->total = (uint16_t) v_LOAD[5];
+    request->payload.copy.from=(uint8_t)v_LOAD[6];
+    request->payload.copy.to=(uint8_t)v_LOAD[7];
+
+    //end of the mutation probe
+
+														[...]
+
+	}
+	case RPARAM_SAVE: {
+
+    //start of the  mutation probe
+
+    unsigned long long int v_SAVE[8];
+
+    v_SAVE[0] = (unsigned long long int) request->action;
+    v_SAVE[1] = (unsigned long long int) request->table_id;
+    v_SAVE[2] = (unsigned long long int) request->length;
+    v_SAVE[3] = (unsigned long long int) request->checksum;
+    v_SAVE[4] = (unsigned long long int) request->seq;
+    v_SAVE[5] = (unsigned long long int) request->total;
+    v_SAVE[6]= (unsigned long long int)request->payload.copy.from;
+    v_SAVE[7]= (unsigned long long int)request->payload.copy.to;
+
+    mutate_FM_SAVE(v_SAVE);
+
+    request->action = (uint8_t) v_SAVE[0];
+    request->table_id = (uint8_t) v_SAVE[1];
+    request->length = (uint16_t) v_SAVE[2];
+    request->checksum = (uint16_t) v_SAVE[3];
+    request->seq = (uint16_t) v_SAVE[4];
+    request->total = (uint16_t) v_SAVE[5];
+    request->payload.copy.from=(uint8_t)v_SAVE[6];
+    request->payload.copy.to=(uint8_t)v_SAVE[7];
+
+    //end of the mutation probe
+
+          												[...]
+
+	}
+
+																	[...]
+
+	default: {
+            request_packet->data[0] = RPARAM_ERROR;
+            goto out_send_status;
+        }
+    }
+
+out_send_status:
+    request_packet->length = 1;
+    if (csp_send(conn, request_packet, 0)) {
+        return;
+    }
+out_free:
+    if (request_packet != NULL) {
+        csp_buffer_free(request_packet);
+    }
+}
+\end{lstlisting}
+
+The user shall also modify the file \texttt{libparam/wscript} as presented below to compile with the correct macros enabled.
+
+\begin{lstlisting}[language=python]
+import gs_gcc
+import gs_doc
+import gs_dist
+from waflib.Build import BuildContext
+
+APPNAME = 'param'
+
+
+def options(ctx):
+    ctx.load('gs_gcc gs_doc')
+    gs_gcc.gs_recurse(ctx)
+
+    gr = ctx.add_option_group('libparam options')
+    gr.add_option('--param-max-tables', action='store', default='20', help='Set max table instances')
+    gr.add_option('--param-disable-lock', action='store_true', help='Disable table locking')
+#####################################################################################################
+    gr.add_option('--mutation-opt', type=str, help='set mutation') #added by FAQAS
+    gr.add_option('--singleton', type=str, help='singleton?') #added by FAQAS
+#####################################################################################################
+
+def configure(ctx):
+    ctx.load('gs_gcc gs_doc')
+
+    ctx.env.append_unique('USE_PARAM', ['param_client', 'gscsp', 'util'])
+
+    ctx.env.append_unique('FILES_PARAM', ['src/**/*.c'])
+#####################################################################################################
+    ctx.env.append_unique('CFLAGS', ["-DMUTATIONOPT=" + ctx.options.mutation_opt]) #added by FAQAS
+
+    ctx.env.append_unique('CFLAGS', ["-D_FAQAS_SINGLETON_FM=" + ctx.options.singleton]) #added by FAQAS
+####################################################################################################
+    ctx.gs_add_doxygen(example=['tst'], exclude=['*/include/deprecated/param/*'])
+
+    # Max number of tables
+    ctx.env.append_unique('DEFINES_PARAM', 'GS_PARAM_MAX_TABLES=' + str(int(ctx.options.param_max_tables)))
+    ctx.env.append_unique('DEFINES_PARAM',
+                          'GS_PARAM_DISABLE_LOCK=' + str(int(1 if ctx.options.param_disable_lock else 0)))
+
+
+														[...]
+
+\end{lstlisting}
+
+
+\subsection{Step 4, Step 5 and Step 6}
+
+Before executing the rest of the step the user shall modify \texttt{DAMAT\_compile.sh} and \texttt{DAMAT\_run\_tests.sh} to include the correct commands in the indicated sections.
+
+This is the setup for \texttt{DAMAT\_compile.sh}:
+
+\begin{lstlisting}[language=bash]
+
+
+									[...]
+
+
+# here the user must invoke the compilation of the SUT, we provided a simple example.
+
+
+TEST_FOLDER="/home/csp/libparam/tst"
+
+pushd $TEST_FOLDER
+
+for f in *; do
+    if [ -d "$f" ] && [ "$f" != "include" ]; then
+
+        pushd $f
+        echo "cleaning..."
+        ./waf clean
+
+        echo "configuring..."
+        if [ $singleton == "TRUE" ]; then
+        ./waf configure --mutation-opt $mutant_id --singleton $singleton
+        else
+        ./waf configure --mutation-opt $mutant_id
+        fi
+
+        if [ $? -eq 0 ]; then
+            echo $x " configuration OK"
+        else
+            echo $x " configuration FAILED"
+        fi
+        popd
+    fi
+done
+
+popd
+
+
+									[...]
+
+
+\end{lstlisting}
+
+And the set up for \texttt{DAMAT\_run\_tests.sh} is reported below:
+
+\begin{lstlisting}[language=bash]
+
+											[...]
+
+# here the user shall call the execution of the current test case,
+
+    tmp_log="$results_dir"/tmp_log
+
+    TEST_FOLDER="/home/csp/libparam/tst"
+
+    pushd $TEST_FOLDER
+
+    pushd $tst
+
+    touch $tmp_log
+
+    timeout $TIMEOUT ./waf --mutation-opt=$mutant_id  --singleton=TRUE 2>&1 | tee $tmp_log
+
+    EXEC_RET_CODE=$?
+
+    mutant_end_time=$(($(date +%s%N)/1000000))
+    mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+
+    if [ $EXEC_RET_CODE -ne 124 ]; then
+        if grep "successfully" $tmp_log
+        then
+            EXEC_RET_CODE=0
+            echo "PASSED"
+        else
+            EXEC_RET_CODE=1
+            echo "FAILED"
+        fi
+    fi
+    popd
+    rm $tmp_log
+    popd
+
+											[...]
+
+\end{lstlisting}
+
+The user shall then execute the rest of the pipeline with the following command.
+
+\begin{lstlisting}[language=bash]
+
+bash DAMAt_mutants_launcher.sh
+
+\end{lstlisting}
+
+The results for \emph{libParam} shall be contained in the \texttt{DAMAt/results} folder.
+A summary of the results can be found in the \texttt{mutation\_sum\_up.csv} file.
+
+\begin{lstlisting}[language=bash]
+all_fault_models,covered_fault_models,fault_model_coverage
+6,6,1.0
+covered_mutants,applied_mutants,operator_coverage
+44,41,0.932
+applied_mutants,killed_mutants,mutation_score
+41,28,0.683
+\end{lstlisting}
+
+More details on the results of the \DAMA procedure and how to interpret them are available in Section~\ref{sec:dama_singlelaunch}.
