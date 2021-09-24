@@ -113,9 +113,16 @@ vmem_store_checksum_last,2963.400000
 \subsection{Step 2}
 
 The engineer shall modify the \texttt{DAMAt\_configure.sh} script according to the specifics of the SUT.
-In this case, the buffer elements are of type "unsigned long long int", the list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory along with the fault model (\texttt{fault\_model\_param.csv}).
-\TODO{please revisit the second part of the following phrase is a bit difficult to understand it}
-The \texttt{singleton} option is activated to avoid memory issues and there is no need to skip the initial elements, so \texttt{padding} is set to 0.
+In this case:
+\begin{enumerate}
+	\item The buffer elements are of type "unsigned long long int"
+	\item The list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory
+	\item The fault model (\texttt{fault\_model\_param.csv} has been copied in the \texttt{/opt/DAMAt} directory
+	\item The \texttt{singleton} option is activated to avoid memory issues.
+	\item The \texttt{padding} represents the number of elements at the head of the buffer to avoid mutating. In this case is zero since the mutation should target all elements of the buffer.
+\end{enumerate}
+
+So these are the corresponding values for the variables defined inside \texttt{DAMAt\_configure.sh}:
 
 \begin{lstlisting}[language=bash]
 
@@ -395,8 +402,11 @@ out_free:
 }
 \end{lstlisting}
 
-\TODO{Explain what these macros do}
-The user shall also modify the file \texttt{libparam/wscript} as presented below to compile with the correct macros enabled.
+The user shall also modify the file \texttt{libparam/wscript} as presented below to compile with the correct macros enabled:
+\begin{itemize}
+	\item \texttt{-DMUTATIONOPT=<Mutation Operation ID>} dictates what mutant shall be compiled.
+	\item \texttt{-D/_FAQAS/_SINGLETON/_FM=<TRUE/FALSE>} determines whether the fault model should be initialized as a singleton variable or not.
+\end{itemize}
 
 \begin{lstlisting}[language=python]
 import gs_gcc
