@@ -90,7 +90,7 @@ REPLY,5,1,LONG,SS,NA,NA,NA,-1,NA,NA
 REPLY,6,1,BIN,BF,0,7,NA,NA,-1,1
 \end{lstlisting}
 
-The user shall also provide a list of test cases with the nominal execution time in the csv format.
+The user shall also provide a list of test cases with the nominal execution time (in milliseconds) in csv format.
 
 \begin{lstlisting}
 bindings,4427.200000
@@ -113,7 +113,8 @@ vmem_store_checksum_last,2963.400000
 \subsection{Step 2}
 
 The engineer shall modify the \texttt{DAMAt\_configure.sh} script according to the specifics of the SUT.
-In this case the buffer elements are of type "unsigned long long int", the list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory along with the fault model (\texttt{fault\_model\_param.csv}).
+In this case, the buffer elements are of type "unsigned long long int", the list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory along with the fault model (\texttt{fault\_model\_param.csv}).
+\TODO{please revisit the second part of the following phrase is a bit difficult to understand it}
 The \texttt{singleton} option is activated to avoid memory issues and there is no need to skip the initial elements, so \texttt{padding} is set to 0.
 
 \begin{lstlisting}[language=bash]
@@ -148,7 +149,8 @@ bash DAMAt_probe_generation.sh
 \subsection{Step 3}
 
 The user shall manually instrument the SUT as shown below.
-The probes were inserted in the \texttt{gs\_rparam\_process\_packet} function, contained in the \texttt{libparam/src/csp\_service\_handler.c} file.
+The probes shall be inserted in the \texttt{gs\_rparam\_process\_packet} function, contained in the \texttt{libparam/src/csp\_service\_handler.c} file. We provide an example on the following listing:
+
 \begin{lstlisting}[language=c]
 
 static void gs_rparam_process_packet(csp_conn_t * conn, csp_packet_t * request_packet)
@@ -393,6 +395,7 @@ out_free:
 }
 \end{lstlisting}
 
+\TODO{Explain what these macros do}
 The user shall also modify the file \texttt{libparam/wscript} as presented below to compile with the correct macros enabled.
 
 \begin{lstlisting}[language=python]
@@ -442,9 +445,9 @@ def configure(ctx):
 
 \subsection{Step 4, Step 5 and Step 6}
 
-Before executing the rest of the step the user shall modify \texttt{DAMAT\_compile.sh} and \texttt{DAMAT\_run\_tests.sh} to include the correct commands in the indicated sections.
+Before executing the rest of the steps, the user shall modify \texttt{DAMAT\_compile.sh} and \texttt{DAMAT\_run\_tests.sh} to include the correct commands in the indicated sections.
 
-This is the setup for \texttt{DAMAT\_compile.sh}:
+In the following, we introduce the setup for \texttt{DAMAT\_compile.sh}:
 
 \begin{lstlisting}[language=bash]
 
@@ -490,7 +493,7 @@ popd
 
 \end{lstlisting}
 
-And the set up for \texttt{DAMAT\_run\_tests.sh} is reported below:
+And the setup for \texttt{DAMAT\_run\_tests.sh} is reported below:
 
 \begin{lstlisting}[language=bash]
 
