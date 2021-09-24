@@ -119,7 +119,7 @@ In this case:
 	\item The list of the tests (\texttt{tests\_param.csv}) has been copied in the \texttt{/opt/DAMAt} directory
 	\item The fault model (\texttt{fault\_model\_param.csv} has been copied in the \texttt{/opt/DAMAt} directory
 	\item The \texttt{singleton} option is activated to avoid memory issues.
-	\item The \texttt{padding} represents the number of elements at the head of the buffer to avoid mutating. In this case is zero since the mutation should target all elements of the buffer.
+	\item The \texttt{padding} variable may contain an integer representing the number of elements at the head of the buffer that shall not be mutated (i.e. headers). In this case is zero since the mutation targets all elements of the buffer.
 \end{enumerate}
 
 So these are the corresponding values for the variables defined inside \texttt{DAMAt\_configure.sh}:
