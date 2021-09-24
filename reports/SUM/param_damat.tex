@@ -521,7 +521,7 @@ And the setup for \texttt{DAMAT\_run\_tests.sh} is reported below:
 
     touch $tmp_log
 
-    timeout $TIMEOUT ./waf --mutation-opt=$mutant_id  --singleton=TRUE 2>&1 | tee $tmp_log
+    timeout $TIMEOUT ./waf --mutation-opt=$mutant_id  --singleton=$singleton 2>&1 | tee $tmp_log
 
     EXEC_RET_CODE=$?
 
