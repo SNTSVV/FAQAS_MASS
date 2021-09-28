@@ -10,6 +10,7 @@ import os
 import re
 import argparse
 import subprocess
+import json
 from jinja2 import Template
 
 import clang.cindex
@@ -172,10 +173,25 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
+# FIXME:Move these configs into a config file
 OUT_ARGS = {"pErrCode": 'printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\\n", pErrCode);'}
 RESULT_TYPE = "flag"
 RESULT_TO_INT = "(int)result_faqas_semu"
 RESULT_OUT = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\\n", result_faqas_semu);'
+
+TYPES_TO_INTCONVERT = "TYPES_TO_INTCONVERT"
+TYPES_TO_PRINTCODE = "TYPES_TO_PRINTCODE"
+OUT_ARGS_NAMES = "OUT_ARGS_NAMES"
+TYPE_TO_INITIALIZATIONCODE = "TYPE_TO_INITIALIZATIONCODE"
+TYPE_TO_SYMBOLIC_FIELDS_ACCESS = "TYPE_TO_SYMBOLIC_FIELDS_ACCESS"
+# FIXME: Use the global config object in code
+globalConfigObject = {
+    TYPES_TO_INTCONVERT: {},
+    TYPES_TO_PRINTCODE: {},
+    OUT_ARGS_NAMES: [],
+    TYPE_TO_INITIALIZATIONCODE: {},
+    TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {}
+}
 
 def is_primitive_type_get_fmt(type_name):
     printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = {}\\n", result_faqas_semu);'
@@ -230,8 +246,17 @@ def main():
         parser.add_argument("compilation_db", metavar="compilation-db", help="Compilation database file")
     else:
         parser.add_argument("compilation_cflags", metavar="compilation-cflags", type=str, help="Compilation cflags (include dir, defines, ...)")
+    parser.add_argument("-c", "--config-file", dest="config_file", help="Configuration file that speifies, in JSON format, the types conversion and printing formatting, as well as output in function arguments")
     args = parser.parse_args()
     
+    global globalConfigObject
+
+    if args.config_file:
+        assert os.path.isfile(args.config_file), "The specified config file does not exist ({})".format(args.config_file)
+        with open(args.config_file) as f:
+            # FIXME: MORE check before update
+            globalConfigObject.update(json.load(f))
+
     if not os.path.isfile(args.source_file):
         assert False, "The specified source file does not exist"
     if USE_COMP_DB:
