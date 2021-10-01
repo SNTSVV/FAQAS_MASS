@@ -11,7 +11,6 @@ For the validation of each tool, we selected case studies presenting characteris
 \emph{Data-driven mutation analysis} (implemented by DAMAt) targets components communicating through channels, which are usually tested with integration and system test suites. For this reason we selected systems tested with such types of test suites.
 \emph{Data-driven mutation testing} (implemented by DAMTE) aims to generate test cases that improve data-driven mutation analysis; however, since it is performed with symbolic execution tools, it presents the same limitations of SEMuS, that is, the analyzed part of the software under test should be comprised of components communicating through function calls. For this reason, it can target only libGCSP and libParam.
 
-
 The following sections describe each case study subject.
 
 \begin{table}[htp]
@@ -20,7 +19,7 @@ The following sections describe each case study subject.
 \begin{center}
 \begin{tabular}{|p{1.2cm}|p{6cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
 \hline
-\textbf{Partner}&\textbf{Case study}&\multicolumn{2}{c}{\textbf{Code-driven}}&\multicolumn{2}{c}{\textbf{Data-driven}}\\
+\textbf{}&\textbf{}&\multicolumn{2}{c}{\textbf{Code-driven}}&\multicolumn{2}{c|}{\textbf{Data-driven}}\\
 \textbf{Partner}&\textbf{Case study}&\textbf{MASS}&\textbf{SEMuS}&\textbf{DAMAt}&\textbf{DaMTe}\\
 \hline
 LXS&System Test Suite for ESAIL&Y&N&Y&N\\
