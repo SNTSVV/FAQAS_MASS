@@ -235,7 +235,7 @@
 \newcommand{\STARTCHANGEDNOV}{\color{black}}
 \newcommand{\ENDCHANGEDNOV}{\color{black}}
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
 
 
@@ -246,6 +246,8 @@
 \newcommand{\REVTWO}[2]{#2}
 
 \newcommand{\REVNOV}[2]{\textcolor{black}{#2}}
+
+\newcommand{\REVOCT}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
 
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
@@ -390,7 +392,7 @@ This appendix provides descriptive specifications of the fault models used in ou
 
    
 \clearpage
-%\include{ESA_comments}
+\include{ESA_comments}
 \clearpage
 
 \printindex

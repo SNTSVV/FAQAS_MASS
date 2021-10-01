@@ -1,239 +1,195 @@
 % !TEX root = MAIN.tex
 
-\section{Responses to ESA comments provided on 03.03.2020}
+\section{Responses to ESA comments provided on 01.10.2021}
 \label{sec:ESA:comments:1}
 
-Comments IDs appear also in the main document next to the text modified to address the comment. To save space in the main text, the prefix \emph{PTCR-PABG-} has been abbreviated as \emph{C-P-}.
+Comments IDs appear also in the main document next to the text modified to address the comment. To save space in the main text, the prefix \emph{TDR-D4-PABG-} has been abbreviated as \emph{C-P-}.
 
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
 \tiny 
-%@{\extracolsep{\fill}}
-\begin{longtable}{|p{1.5cm}|p{12cm}|@{}}
-%\caption{\normalsize .}
-%\label{table:comments:responses} 
+\begin{longtable}{|p{2cm}|p{12cm}|@{}} 
+\hline
+\\
 \textbf{Comment ID}&\textbf{Response}\\
 \\
 \hline
-PTCR-PABG-1&
+TDR-D4-PABG-1&
 \begin{minipage}{12cm}
-\TODO{We will fix it once the additional R/D engineer will join SnT (January 2021).}
+We have updated Chapter~\ref{chapter:caseStudies} based on your comment.
 \end{minipage}\\
 \\
-\hline
-
-
-%To generate the table:
-%x=2;while [ $x -lt 54 ];do echo "PTCR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\\"; echo "\hline"; x=$(($x+1)); done
-%echo "PTCR-PABG-$x&"; echo "\begin{minipage}{12cm}"; echo "\end{minipage}\\"; echo "\hline"
-
-PTCR-PABG-2&
+\hline  
+TDR-D4-PABG-2&
 \begin{minipage}{12cm}
-\TODO{We will fix it once the additional R/D engineer will join SnT (January 2021).}
 \end{minipage}\\
-\hline
-PTCR-PABG-3&
+\\
+\hline  
+TDR-D4-PABG-3&
 \begin{minipage}{12cm}
-After the review meeting, SnT can release the set of programs developed to perform the experiments along with instructions about how to use these programs. The software was not released before because we had to wait for preliminary  results with ESAIL.
-Concerning LXS unit and system test suites, both of them had been released in July (they are part of the provided VM). We added information about their location.
-Concerning GSL case studies, their availability will be discussed during the review meeting.
 \end{minipage}\\
-\hline
-PTCR-PABG-4&
+\\
+\hline  
+TDR-D4-PABG-4&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-5&
+\\
+\hline  
+TDR-D4-PABG-5&
 \begin{minipage}{12cm}
-(a) Threshold reached is a procedural block; we do not aim to automate it but it should be the engineer who decides if he is satisfied with the coverage result.
-(b) Yes it applied when the Test Suite Augmentation process is executed.
 \end{minipage}\\
-\hline
-PTCR-PABG-6&
+\\
+\hline  
+TDR-D4-PABG-6&
 \begin{minipage}{12cm}
-Fixed
 \end{minipage}\\
-\hline
-PTCR-PABG-7&
+\\
+\hline  
+TDR-D4-PABG-7&
 \begin{minipage}{12cm}
-Yes, it might be wort performing research addressing it; however the amount of work to be performed might require an extension of the current project. There are two main difficulties in performing such a study:
-\begin{enumerate}
-\item Such a study should evaluate the fault detection effectiveness of a test suite with a certain mutation score when it is applied to detect real fault. For this reason it should be performed with a set of real faults affecting the case study system; we do not have such a set for now.
-\item Ideally, we should evaluate multiple test suites for a same case study; each test suite having a different mutation score. This can be easily achieved when it is possible to automatically generate test cases. However, for some of our case study systems (e.g., ESAIL) the automated generation of test cases might not be easily achieved since we mainly test the whole system not single units.
-\end{enumerate}
-
-A detailed comment has been added also in Section~\ref{sec:exp:thr}.
 \end{minipage}\\
-\hline
-PTCR-PABG-8&
+\\
+\hline  
+TDR-D4-PABG-8&
 \begin{minipage}{12cm}
-Fixed
 \end{minipage}\\
-\hline
-PTCR-PABG-9&
+\\
+\hline  
+TDR-D4-PABG-9&
 \begin{minipage}{12cm}
-Sorry for that. The reason is that the source of this chapter is shared with an ongoing paper and we overwrote the comments after updating. We have now fixed the document by adding the information that was lost.
 \end{minipage}\\
-\hline
-PTCR-PABG-10&
+\\
+\hline  
+TDR-D4-PABG-10&
 \begin{minipage}{12cm}
-We provide the sources of the latex document which include all the source files for the images.
-However, the pictures of the mutation testing process are special, indeed, to be pretty-looking, they had been produced with www.lucidchart.com. We have exported them in Visio format (MT.vdx and MT2.vdx).
 \end{minipage}\\
-\hline
-PTCR-PABG-11&
+\\
+\hline  
+TDR-D4-PABG-11&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-12&
+\\
+\hline  
+TDR-D4-PABG-12&
 \begin{minipage}{12cm}
-
-Thank you for the interesting comment.
-
-In case someone is interested in evaluating all the mutants it is sufficient to apply the strategy to select all the mutants (it's an option of the toolset, basically it coincides with selecting 100\% of the mutants).
-
-More in general, the combination of mutants sampling with test suite augmentation might deserve some additional evaluation. What we might foresee is that, if the objective is not to reach 100\% mutation score, generating test cases that kill the subset of selected mutants might be sufficient.
-
-For example, if the objective is to reach 75\% mutation score and the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated. In the following mutants evaluation round we may observe an estimated mutation score of 70\% (which is 75\% +/ 5\%) and thus stop the process. 
-
-It might be interesting to evaluate if it is more cost effective to repeatedly sample mutants and generate test cases that kill them or to execute all the mutants and then generate test cases that kill enough mutants to reach 75\% mutation score.
-
 \end{minipage}\\
-\hline
-PTCR-PABG-13&
+\\
+\hline  
+TDR-D4-PABG-13&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-14&
+\\
+\hline  
+TDR-D4-PABG-14&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-15&
+\\
+\hline  
+TDR-D4-PABG-15&
 \begin{minipage}{12cm}
-We believe it is safer to exclude hardware in the loop as indicate in the SSS document. There might be many unexpected drawbacks in applying mutation testing to the real hardware. For example, we cannot predict the consequences of mutation testing altering the value used by an assembly instruction.
 \end{minipage}\\
-\hline
-PTCR-PABG-16&
+\\
+\hline  
+TDR-D4-PABG-16&
 \begin{minipage}{12cm}
-Yes it relates to comment PTCR-PABG-7. It should be worth investigating the proportion of real faults detected by test suites with different mutation scores. Unfortunately, to perform such evaluation, we should have a set of real faults that, in the past, affected the case study systems. It might be interesting to have faults tracked in different moments of the development process (i.e., from the initial development phases to validation and production). I'm not sure if all the companies keep track of every fault.
 \end{minipage}\\
-\hline
-PTCR-PABG-17&
+\\
+\hline  
+TDR-D4-PABG-17&
 \begin{minipage}{12cm}
-(a) Yes, we can provide statement coverage. We compute it anyway.
-(b) By default KLEE aims to maximize statement coverage. However, we may not be able to commit for the use of KLEE as a test suite augmentation tool besides mutants coverage.
 \end{minipage}\\
-\hline
-PTCR-PABG-18&
+\\
+\hline                                    
+TDR-D4-PABG-18&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-19&
+\\
+\hline  
+TDR-D4-PABG-19&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-20&
+\\
+\hline  
+TDR-D4-PABG-20&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-21&
+\\
+\hline  
+TDR-D4-PABG-21&
 \begin{minipage}{12cm}
-The comment should be addressed by RQ5.
 \end{minipage}\\
-\hline
-PTCR-PABG-22&
+\\
+\hline  
+TDR-D4-PABG-22&
 \begin{minipage}{12cm}
-We did not have results for $ESAIL_S$ yet. Concerning ESAIL, which leads to 121848 mutants, it is not feasible to compute the mutation score considering all the mutants.
 \end{minipage}\\
-\hline
-PTCR-PABG-23&
+\\
+\hline  
+TDR-D4-PABG-23&
 \begin{minipage}{12cm}
-Fixed. Thank you.
 \end{minipage}\\
-\hline
-PTCR-PABG-24&
+\\
+\hline  
+TDR-D4-PABG-24&
 \begin{minipage}{12cm}
-No, the reduce part refers to reducing the size of the test suite, which means that we select a subset of the test cases that cover the mutant.
 \end{minipage}\\
-\hline
-PTCR-PABG-25&
+\\
+\hline  
+TDR-D4-PABG-25&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-26&
+\\
+\hline  
+TDR-D4-PABG-26&
 \begin{minipage}{12cm}
-We have added a comment.
 \end{minipage}\\
-\hline
-PTCR-PABG-27&
+\\
+\hline  
+TDR-D4-PABG-27&
 \begin{minipage}{12cm}
-A discussion section has been added (Section~\ref{sec:emp:discussion}) 
 \end{minipage}\\
-\hline
-PTCR-PABG-28&
+\\
+\hline 
+TDR-D4-PABG-28&
 \begin{minipage}{12cm}
-We will be able to provide more details about test suite generation only after developing the approach. This will require few months of work.
 \end{minipage}\\
-\hline
-PTCR-PABG-29&
+\\
+\hline  
+TDR-D4-PABG-29&
 \begin{minipage}{12cm}
-There is a recent project that generates mutants and generate test cases to kill them~\footnote{https://github.com/thierry-tct/muteria}. The main problem of that work is that mutants are injected at the intermediate representation level. The author is an SnT alumni and we are in contact with him to involve him for the test suite augmentation part.
 \end{minipage}\\
-\hline
-PTCR-PABG-30&
+\\
+\hline  
+TDR-D4-PABG-30&
 \begin{minipage}{12cm}
-We can update D2 after defining the data-driven mutation testing process more in detail. As we did for code-driven, what we can do is to integrate the research paper we will write on the topic.
 \end{minipage}\\
-\hline
-PTCR-PABG-31&
+\\
+\hline  
+TDR-D4-PABG-31&
 \begin{minipage}{12cm}
-In WP2, we have analyzed the specifications of the ADCS interfaces and provided a data-model for them, since they were the target mentioned in the proposal. As suggested, the set of targets for data-driven mutation testing can be broader than the ADCS interface alone. More precisely we can target all the components with which the OBC interact, which are GPS, the payload PDD and PDHU components, the EPS component. The interface for PUS commands might be targeted as well; however, the modification of PUS commands characterize a different scenario (basically,  instead of modiying the working conditions under which a command is executed, we change the command sent to the system - which somehow similar to executing a different test). For this reason, changes to PUS commands will be targeted will lower priority. 
 \end{minipage}\\
-\hline
-PTCR-PABG-32&
+\\
+\hline 
+TDR-D4-PABG-32&
 \begin{minipage}{12cm}
-Our problem is that, without a system using the DataTypesSimulink.asn grammar, we cannot evaluate the usefulness of data-driven mutation testing as a test suites evaluation approach.
 \end{minipage}\\
-\hline
-PTCR-PABG-33&
+\\
+\hline  
+TDR-D4-PABG-33&
 \begin{minipage}{12cm}
-Fixed.
 \end{minipage}\\
-\hline
-PTCR-PABG-34&
+\\
+\hline  
+TDR-D4-PABG-34&
 \begin{minipage}{12cm}
-We have addressed the comment in Section~\ref{lxs:esail:system:codeDriven}.
 \end{minipage}\\
-\hline
-PTCR-PABG-35&
+\\
+\hline  
+TDR-D4-PABG-35&
 \begin{minipage}{12cm}
-Yes.
 \end{minipage}\\
-\hline
-PTCR-PABG-36&
-\begin{minipage}{12cm}
-Fixed.
-\end{minipage}\\
-\hline
-PTCR-PABG-37&
-\begin{minipage}{12cm}
-Ok, we agree to discuss later.
-\end{minipage}\\
-\hline
-PTCR-PABG-38&
-\begin{minipage}{12cm}
-We do not have any conclusion that deviates from our initial suggestions.
-\end{minipage}\\
-\hline
-                                                
+\\
+\hline 
 \end{longtable}
 \normalsize
 
