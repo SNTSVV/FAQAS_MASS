@@ -49,12 +49,12 @@ Detailed information about the ESAIL system is provided in the following documen
 \end{itemize}	
 
 
-\subsection{Code-driven mutation testing}
+\subsection{Code-driven mutation analysis}
 \label{lxs:esail:system:codeDriven}
 
 %\TODO{Code coverage information: we need Yago to produce a new code coverage report with VCAST.}
 
-\REVNOV{PTCR-34}{The \INDEX{code-driven mutation testing process} in ESAIL will be performed in two stages. First we will use a subset of ESAIL ($\mathit{ESAIL}_S$) to evaluate the accuracy of the estimated mutation score (see Section~\ref{sec:evaluation}). Then, in later stages, we will apply the approach (including \INDEX{mutants sampling}, which is necessary for scalability purposes) to the whole ESAIL in order to (1) compare the mutation score obtained with the whole system with the mutation score obtained with $\mathit{ESAIL}_S$, (2) evaluate the accuracy of our strategy for removing equivalent/redundant mutants when applied to the whole ESAIL, (3) compare the \INDEX{mutation score} obtained for the whole $ESAIL$ and for $\mathit{ESAIL}_S$ after removing likely equivalent and likely redundant mutants.}
+\REVNOV{PTCR-34}{The \INDEX{code-driven mutation analysis process} in ESAIL will be performed in two stages. First we will use a subset of ESAIL ($\mathit{ESAIL}_S$) to evaluate the accuracy of the estimated mutation score (see Section~\ref{sec:evaluation}). Then, in later stages, we will apply the approach (including \INDEX{mutants sampling}, which is necessary for scalability purposes) to the whole ESAIL in order to (1) compare the mutation score obtained with the whole system with the mutation score obtained with $\mathit{ESAIL}_S$, (2) evaluate the accuracy of our strategy for removing equivalent/redundant mutants when applied to the whole ESAIL, (3) compare the \INDEX{mutation score} obtained for the whole $ESAIL$ and for $\mathit{ESAIL}_S$ after removing likely equivalent and likely redundant mutants.}
 
 \REVNOV{PTCR-34}{$\mathit{ESAIL}_S$ had been selected by LXS engineers by identifying representative source files that belong to the following categories: (1) source files that are used almost all the time by the test cases (i.e., files implementing service/protocol layer functions), (2) critical functions of the satellite implemented in high-level drivers, (3)  higher level application level functions.}
 
@@ -87,12 +87,14 @@ Concerning the experiments conducted on the whole ESAIL, they will target all th
 	\item TMTC
 \end{itemize}
 
-Code coverage information concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}.
+% Code coverage information concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}.
+\TODO{FIX}
+\REVOCT{C-P-6}{Regarding code coverage, the ESAIL system test suite reports 67,022 out of 74,155 lines of code being covered (i.e., 90.38\% statement coverage), instead, the ESAIL unit test suite ... . More details concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}}
 
 
-\subsection{Data-driven mutation testing}
+\subsection{Data-driven mutation analysis}
 
-A detailed description of the application of data-driven mutation testing to ESAIL is provided in APPENDIX~\ref{appendix:FMS}.
+A detailed description of the application of data-driven mutation analysis to ESAIL is provided in APPENDIX~\ref{appendix:FMS}.
 
 \section{LXS - ESAIL Unit Test Suite}
 \label{chapter:caseStudies:LXS:Unit}

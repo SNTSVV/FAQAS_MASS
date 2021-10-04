@@ -183,7 +183,7 @@ We performed our experiments using an HPC cluster with Intel Xeon E5-2680 v4 (2.
 
 We analyzed the extent to which \APPR helps identify limitations in test suites.
 For each subject, we inspected uncovered fault models, uncovered mutation operations, and live mutants. We then analyzed how they could potentially be explained by the types of possible shortcomings:
-untested message types (UMT), uncovered input partitions (UIP), poor oracle quality (POQ), and lack of test inputs (LTI).
+\REVOCT{C-P-14}{untested message types (UMT), uncovered input partitions (i.e., set of values or value ranges) (UIP), poor oracle quality (POQ), and lack of test inputs (LTI).}
 To achieve the above, we proceeded as follows.
 For each uncovered fault model, we discussed with developers if the functionality triggering the exchange of the targeted message was tested by the test suite.
 For uncovered mutation operations, we discussed with engineers if they match an uncovered input partition.
@@ -292,6 +292,7 @@ Our analysis confirms that (1) uncovered fault models (i.e., low \INDEX{FMC}) in
 
 
 \subsection{RQ2 - Equivalent and redundant mutants}
+\label{sec:rq2:damat}
 
 % \subsubsection*{Design and measurements}
 
@@ -337,6 +338,7 @@ We thus select as likely to be redundant all the pairs of killed mutants that (1
 \subsubsection*{Results.} 
 All live mutants (i.e., 55 mutants for \ADCS, 1 mutant for \GPS, and 45 mutants for \PARAM) generate outputs that differ from the original software system and, therefore, we did not detect any equivalent mutant. Though it needed to be confirmed, such result was expected since our methodology, if correctly applied, suggests, for every data item, a set of mutation operators that, by construction, should not lead to mutated data that is equivalent to the original data.
 Live mutants can be killed by introducing oracles that (1) verify additional entries in the log files (39 instances for \ADCS, 1 instance for \GPS), (2) verify additional observable state variables (14 instances for \ADCS, 45 instances for \PARAM), and (3) verify not only the presence of error messages but also their content (2 instances for \ADCS).
+\REVOCT{C-P-18}{Such oracles may consist of additional assertions that verify data values already produced by the software under test.}
 
 
 We did not find redundant mutants either, which was expected since (1) mutations concerning different data items, by definition, are expected to lead to different outputs, (2) the set of operators applied to a same data item, if selected according to our methodology, cannot lead to mutated data that is redundant.
@@ -344,6 +346,7 @@ All the pairs of likely redundant mutants were due to five situations: (1) the t
 (2) the test case does not distinguish errors across different messages (e.g., in \ADCS, the IfHK message reporting a broken sensor or the message sent by a sensor reporting malfunction), (3) the test case does not distinguish between errors in nominal and non-nominal data (e.g., it does not distinguish between VOR and FVOR), (4) the test case does not distinguish between upper and lower bounds (e.g., the mutants for VOR lead to the same assertion failures), and {(5) the test case does not distinguish between different error codes (i.e, it simply verifies that an error code is generated)}. Addressing such shortcomings make test cases more useful for root cause analysis.
 
 \subsection{RQ3 - Feasibility}
+\label{sec:rq3:damat}
 
 % \subsubsection*{Design and measurements}
 The feasibility of data-driven mutation analysis depends on the required manual effort, which includes defining fault model specifications and injecting probes into the SUT source code. Also, the overhead introduced at runtime by the execution of the mutation operations may introduce delays in real-time systems and consequently cause failures. Finally, feasibility also depends on the overall duration of the mutation analysis process. 
@@ -458,7 +461,7 @@ The right part of Table~\ref{table:costs} shows the \APPR analysis time. Althoug
 
 
 \subsection{Threats to validity} 
-
+\label{sec:threats:damat}
 
 %To ensure the same conditions to all mutant executions, we run each test suite in a clean instance of a virtualized environment.}
 
