@@ -205,7 +205,15 @@ globalConfigObject = {
     # e.g. "IN_OUT_ARGS_NAMES": ["inoutArg"],
     IN_OUT_ARGS_NAMES: [],
 
+    # Specify a type as key and the pre 'klee_make_symbolic' statement initialization code as value,
+    # The placeholder for the object to initialize must be specified as the string '{}'
+    # e.g. "TYPE_TO_INITIALIZATIONCODE": {"struct head *": "{}->next = malloc(sizeof(struct head));\n{}->next->next = NULL;"}
     TYPE_TO_INITIALIZATIONCODE: {},
+
+    # Specify how to make an object symbolic (specialy useful for objects that are initialized, like pointers).
+    # The object type is the dict key and the list of field accesses is the dict value.
+    # The placeholder for the object to make symbolic must be specified as the string '{}'
+    # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head *": ["{}->data", "{}->next->data"]}
     TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {}
 }
 
@@ -230,6 +238,8 @@ def load_global_config(filename):
 
     assert len(globalConfigObject[OUT_ARGS_NAMES] & globalConfigObject[IN_OUT_ARGS_NAMES]) == 0, \
                 "Some arguments are both in OUT_ARGS_NAMES and IN_OUT_ARGS_NAMES"
+    for k,v in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS].items():
+        assert type(v) == list, "Expecting a list as values of dict for parameter {}".format(TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
 
 
 def is_primitive_type_get_fmt(type_name, obj_name="result_faqas_semu", obj_value="result_faqas_semu"):
