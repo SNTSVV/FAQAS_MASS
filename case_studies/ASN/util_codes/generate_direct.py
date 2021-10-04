@@ -182,19 +182,58 @@ RESULT_OUT = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\\n", result
 TYPES_TO_INTCONVERT = "TYPES_TO_INTCONVERT"
 TYPES_TO_PRINTCODE = "TYPES_TO_PRINTCODE"
 OUT_ARGS_NAMES = "OUT_ARGS_NAMES"
+IN_OUT_ARGS_NAMES = "IN_OUT_ARGS_NAMES"
 TYPE_TO_INITIALIZATIONCODE = "TYPE_TO_INITIALIZATIONCODE"
 TYPE_TO_SYMBOLIC_FIELDS_ACCESS = "TYPE_TO_SYMBOLIC_FIELDS_ACCESS"
 # FIXME: Use the global config object in code
 globalConfigObject = {
+    # Specify a type as key and the type conversion template as value, 
+    # Where the placeholder for the expression to convert should be specified as the string '{}'
+    # e.g. "TYPES_TO_INTCONVERT": {"flag": "(int){}"},
     TYPES_TO_INTCONVERT: {},
+
+    # Specify a type as key and the object printing code as value.
+    # Where the placeholder for the object to print must be specified as the string '{}'
+    # e.g. "TYPES_TO_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST_OUTPUT: X=%d, Y=%s\\n\", {}->x, {}->y)"}
     TYPES_TO_PRINTCODE: {},
+
+    # Specify the names of function arguments that are used as function output (passed by reference for output only)
+    # e.g. "OUT_ARGS_NAMES": ["pErrCode"],
     OUT_ARGS_NAMES: [],
+
+    # Specify the names of function arguments that are used both as function input and output (passed by reference)
+    # e.g. "IN_OUT_ARGS_NAMES": ["inoutArg"],
+    IN_OUT_ARGS_NAMES: [],
+
     TYPE_TO_INITIALIZATIONCODE: {},
     TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {}
 }
 
-def is_primitive_type_get_fmt(type_name):
-    printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = {}\\n", result_faqas_semu);'
+
+def load_global_config(filename):
+    global globalConfigObject
+    with open(filename) as f:
+        config_obj = json.load(f)
+    
+    expect_dict = (TYPES_TO_INTCONVERT, TYPES_TO_PRINTCODE, \
+                    TYPE_TO_INITIALIZATIONCODE, TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
+    expect_list = (OUT_ARGS_NAMES, IN_OUT_ARGS_NAMES)
+    for k,v in config_obj.items():
+        if k in expect_dict:
+            assert type(v) == dict, "A dict is expected as value for the keys {}".format(expect_dict)
+        elif k in expect_list:
+            assert type(v) == list, "A list is expected as value for the keys {}".format(expect_list)
+        else:
+            raise Exception("Invalid config key: {}".format(k))
+    
+    globalConfigObject.update(config_obj)
+
+    assert len(globalConfigObject[OUT_ARGS_NAMES] & globalConfigObject[IN_OUT_ARGS_NAMES]) == 0, \
+                "Some arguments are both in OUT_ARGS_NAMES and IN_OUT_ARGS_NAMES"
+
+
+def is_primitive_type_get_fmt(type_name, obj_name="result_faqas_semu", obj_value="result_faqas_semu"):
+    printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: %s = {}\\n", %s);' % (obj_name, obj_value)
     type_list = {
         "_Bool": "%d",
 
@@ -250,14 +289,10 @@ def main():
         parser.add_argument("compilation_cflags", metavar="compilation-cflags", type=str, help="Compilation cflags (include dir, defines, ...)")
     parser.add_argument("-c", "--config-file", dest="config_file", help="Configuration file that speifies, in JSON format, the types conversion and printing formatting, as well as output in function arguments")
     args = parser.parse_args()
-    
-    global globalConfigObject
 
     if args.config_file:
         assert os.path.isfile(args.config_file), "The specified config file does not exist ({})".format(args.config_file)
-        with open(args.config_file) as f:
-            # FIXME: MORE check before update
-            globalConfigObject.update(json.load(f))
+        load_global_config(args.config_file)
 
     if not os.path.isfile(args.source_file):
         assert False, "The specified source file does not exist"

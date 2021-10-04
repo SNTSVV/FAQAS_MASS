@@ -1,0 +1,8 @@
+{
+    "TYPES_TO_INTCONVERT": {"flag": "(int){}"},
+    "TYPES_TO_PRINTCODE": {},
+    "OUT_ARGS_NAMES": ["pErrCode"],
+    "IN_OUT_ARGS_NAMES": [],
+    "TYPE_TO_INITIALIZATIONCODE": {},
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {}
+}
