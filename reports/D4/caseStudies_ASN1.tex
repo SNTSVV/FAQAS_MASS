@@ -20,7 +20,7 @@ For the given grammar, the size of the auto-generated source code is 4\,338 LOC.
 
 \input{listings/asn}
 
-\subsection{Code-driven mutation testing}
+\subsection{Code-driven mutation analysis}
 
 \input{tables/asn1grammar_coverage}
 
@@ -28,7 +28,7 @@ For the given grammar, the size of the auto-generated source code is 4\,338 LOC.
 
 The objective of this case study is to provide ASN1SCC engineers tangible evidence on how to improve the auto-generated test cases, by reporting detailed information of live mutants and possible candidates of new test cases. In this manner, the quality of test suites of embedded systems that includes the auto-generated source code from ASN.1, can also be improved.
 
-Table~\ref{table:asn1grammar_coverage} provides the code coverage information of the auto-generated source code of the \emph{test.asn} grammar. Given the code coverage, we focus our code-driven mutation testing analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
+Table~\ref{table:asn1grammar_coverage} provides the code coverage information of the auto-generated source code of the \emph{test.asn} grammar. Given the code coverage, we focus our code-driven mutation analysis analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 
 \begin{itemize}
 	\item asn1crt\_encoding.c: implementation of the ASN.1 constraints encoding/decoding procedures.
@@ -36,21 +36,21 @@ Table~\ref{table:asn1grammar_coverage} provides the code coverage information of
 	\item test\_auto\_tcs.c: wrapper of the grammar data types encoding/decoding procedures used in the test cases.
 \end{itemize}
 
-\subsubsection{Mutation Testing Preliminary Results}
+\subsubsection{Mutation Analysis Preliminary Results}
 
 \input{tables/asn1_preliminary}
 
-In order to analyze the feasibility of the code-driven mutation testing for ASN.1, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 9\,174 mutants. Preliminary results can be found in Table~\ref{table:asn1_preliminary}.
+In order to analyze the feasibility of the code-driven mutation analysis for ASN.1, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 9\,174 mutants. Preliminary results can be found in Table~\ref{table:asn1_preliminary}.
 Particularly, we observe that from the 9\,174 generated mutants, we had 1\,215 mutants that were not compiled by the compilation toolset of ASN.1, most probably because the mutation introduced a syntactical error that was detected by the toolset.
 Then, we identified 4\,263 live mutants that were not detected by the test suite. Instead, we had 3\,009 killed mutants detected by the test suite, and 687 mutants that produced the \CHANGED{auto generated code of the ASN.1} grammar to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 53.56\%.
 
 The identification of equivalent mutants still needs to be performed.
 
 
-\subsection{Data-driven mutation testing}
+\subsection{Data-driven mutation analysis}
 \label{sec:caseStudies:ASN:data}
 
-\CHANGEDNOV{We foresee two scenarios on how to apply the data-driven mutation testing approach to the ASN.1 case study system. However, both do not concern the evaluation of the data-driven mutation testing methodology, as explained n the following, and will not be considered in the project.}
+\CHANGEDNOV{We foresee two scenarios on how to apply the data-driven mutation analysis approach to the ASN.1 case study system. However, both do not concern the evaluation of the data-driven mutation analysis methodology, as explained n the following, and will not be considered in the project.}
 
 \subsubsection{Scenario 1: Testing the ASN.1 Compiler}
 

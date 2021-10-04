@@ -18,6 +18,9 @@ In the case of ASN.1, the test suite is automatically generated with an approach
 The Mathematical Library for Flight Software (MLFS) implements mathematical functions qualified for flight software (it complies with ECSS criticality category B).
 Both test suites considered in this study characterize by high statement coverage as required by space software standards (e.g., category C software requires statement adequacy according to ECSS). MLFS test suite achieves MC/DC coverage (i.e., 100\% coverage), while ASN.1 case study achieves 99\% statement coverage.
 
+\TODO{to be fixed}
+\REVOCT{C-P-19}{We did not considered ESAIL in our empirical evaluation, because of the known incompatibility of clang (i.e., the compiler required by SEMuS) and ESAIL specific compilation libraries (i.e., RTEMS). More details can be found in Section~\ref{}.}
+
 \subsection{Setup}
 
 To address our research questions, we consider mutation analysis a precondition for our subjects; this is necessary since test generation only requires the list of live mutants (i.e., generating test inputs for all possible mutants would be far too expensive). Table~\ref{table:results:semus:ms} reports the mutation analysis results (i.e., MASS output) for the ASN.1 and MLFS subjects.
@@ -114,6 +117,7 @@ $\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
 
 
 \subsubsection{Identifying test suite shortcomings with SEMuS}
+\label{sec:shortcoming:semus}
 
 To further analyze SEMuS results, we inspected manually some of the test inputs generated for the ASN.1 case study.
 In particular, for the mutant \texttt{test.mut.1298.2\_1\_23.ICR.T\_INT\_IsConstraintValid} we discovered one shortcoming of the ASN.1 test suite. We introduce below detailed information about the mutant under analysis.
