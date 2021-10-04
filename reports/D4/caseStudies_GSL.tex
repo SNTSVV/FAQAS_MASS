@@ -31,7 +31,7 @@ while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
 To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libgscsp code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 
-\subsection{Code-driven mutation testing}
+\subsection{Code-driven mutation analysis}
 
 
 
@@ -48,7 +48,7 @@ GomSpace relies on a risk-driven approach to integration testing; for this reaso
 \begin{enumerate}
 	\item \textbf{libgscsp extension}
 
-	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp integration test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
+	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp integration test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation analysis; they correspond to 56\% of the source files. %(10/18)
 	%we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
 	
 	\begin{itemize}
@@ -69,7 +69,7 @@ GomSpace relies on a risk-driven approach to integration testing; for this reaso
 
 	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp integration test suite for the GSL branch of the CSP library. 
 	% Given the code coverage, we focus our mutation analysis on the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 45\% of the source files. %(32/71)
+Below, we report the files covered by the test suite and targeted by mutation analysis; they correspond to 45\% of the source files. %(32/71)
 
 	\begin{itemize}
 		\item src/arch/csp\_time.c
@@ -109,19 +109,19 @@ Below, we report the files covered by the test suite and targeted by mutation te
 
 \end{enumerate}
 
-\subsubsection{Mutation Testing Preliminary Results}
+\subsubsection{Mutation Analysis Preliminary Results}
 
 
 \input{tables/libgscsp_preliminary}
 
-In order to evaluate the feasibility of code-driven mutation testing for libgscsp, we conducted a preliminary experiment using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 6\,196 mutants. For the experimentation we targeted only the libcsp (GSL branch) source code. Preliminary results can be found in Table~\ref{table:libgscsp_preliminary}.
+In order to evaluate the feasibility of code-driven mutation analysis for libgscsp, we conducted a preliminary experiment using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 6\,196 mutants. For the experimentation we targeted only the libcsp (GSL branch) source code. Preliminary results can be found in Table~\ref{table:libgscsp_preliminary}.
 Particularly, we observe that from the 6\,196 generated mutants, we had 1\,700 mutants that were not compiled by the compilation toolset of libgscsp, most probably because the mutation introduced a syntactical error that was detected by the toolset.
 Then, we identified 1\,708 live mutants that were not detected by the test suite. Instead, we had 2\,495 mutants detected by the test suite, and 277 mutants killed by timeout (they led to infinite loop). The final mutation score was of 61.88\%.
 
 The identification of equivalent mutants still needs to be assessed.
 
 
-\subsection{Data-driven mutation testing}
+\subsection{Data-driven mutation analysis}
 \label{subsec:libgscsp_data}
 
 \begin{figure}[h]
@@ -131,7 +131,7 @@ The identification of equivalent mutants still needs to be assessed.
       \label{fig:csp_packet}
 \end{figure}
 
-The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}) and the payload 
+The data-driven mutation analysis process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}) and the payload 
 %the mutations will affect the content itself of the packet 
 (i.e., the data being transferred).
 
@@ -203,7 +203,7 @@ The features of this system include:
 Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 \MREVISION{C-P-49}{The size of libparam is 3\,179 LOC. libparam includes a system test suite, consisting of 170 test cases, assessing functionalities from the library itself, libgscsp, libembed and libutil. The test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation testing. 
+In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation analysis. 
 The libparam code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 
@@ -230,16 +230,16 @@ Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-c
 The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
 To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libutil code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
-\subsection{Code-driven mutation testing}
+\subsection{Code-driven mutation analysis}
 
-The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. 
+The code-driven mutation analysis process in libutil will target all the components covered by the libutil unit test suite. 
 The libutil unit test suite do not cover hardware-specific functions (e.g., drivers), which are covered at the system level.
 
 \input{tables/gslibutil_coverage}
 
 Table~\ref{table:gslibutil_coverage} provides the code coverage information of the unit test suite for the GSL libutil library. 
 %Given the code coverage, we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 82\% of the source files. %(55/67)
+Below, we report the files covered by the test suite and targeted by mutation analysis; they correspond to 82\% of the source files. %(55/67)
 
 \begin{itemize}
 	\item src/base16.c
@@ -299,17 +299,17 @@ Below, we report the files covered by the test suite and targeted by mutation te
 	\item src/zip/miniz/miniz.c
 \end{itemize}
 
-\subsubsection{Mutation Testing Preliminary Results}
+\subsubsection{Mutation Analysis Preliminary Results}
 
 \input{tables/libutil_preliminary}
 
-In order to analyze the feasibility of the code-driven mutation testing, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, and SDL we generated 16\,886 mutants. Preliminary results can be found in Table~\ref{table:libutil_preliminary}.
+In order to analyze the feasibility of the code-driven mutation analysis, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, and SDL we generated 16\,886 mutants. Preliminary results can be found in Table~\ref{table:libutil_preliminary}.
 Particularly, we observe that from the 16\,886 generated mutants, we had 2\,561 mutants that were not compiled by the compilation toolset of libutil, most probably because the mutation introduced a syntactical error that was detected by the toolset.
 Then, we identified 3\,402 live mutants that were not detected by the test suite. Instead, we had 10\,634 killed mutants detected by the test suite, and 289 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 76.25\%.
 
 The identification of equivalent mutants still needs to be performed.
 
 
-\subsection{Data-driven mutation testing}
+\subsection{Data-driven mutation analysis}
 
-We do not plan to apply data drive mutation testing to this case study because is a standalone library; it does not integrate communicating components.
+We do not plan to apply data drive mutation analysis to this case study because is a standalone library; it does not integrate communicating components.
