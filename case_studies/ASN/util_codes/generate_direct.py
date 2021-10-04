@@ -236,6 +236,8 @@ def is_primitive_type_get_fmt(type_name):
     type_name = " ".join(type_name.split())
     if type_name in type_list:
         return printf_fmt.format(type_list[type_name])
+    elif type_name == "enum" or type_name.startswith("enum "):
+        return printf_fmt.format("%d")
     return None
 
 def main():
@@ -269,6 +271,7 @@ def main():
     if not os.path.isdir(args.output_dir):
         os.mkdir(args.output_dir)
 
+    void_returning_functions = []
     for prototype in prototypes:
         code_filepath = os.path.join(args.output_dir, prototype.function_name + '.' + "wrapping_main.c")
         # checks
@@ -287,6 +290,7 @@ def main():
         print_retval_stmts = []
         if prototype.return_type == "void":
             returns_void = True
+            void_returning_functions.append((prototype.function_name, code_filepath)
         elif prototype.return_type != RESULT_TYPE and is_primitive_type_get_fmt(prototype.return_type) is None:
             res_to_int = input("The function return type for function '{}' is not '{}' but is '{}'. {}".format(
                     prototype.function_name,
@@ -316,6 +320,11 @@ def main():
         with open(code_filepath, 'w') as f:
             f.write(code)
     
+    if len(void_returning_functions) > 0:
+        print("Info: The following functions return void:")
+        for fname, ffile in void_returning_functions:
+            print ("@void-returning-function: name={}, template={}".format(fname, ffile))
+
     print("Done writing templates in folder {}".format(args.output_dir))
 
 if __name__ == "__main__":
