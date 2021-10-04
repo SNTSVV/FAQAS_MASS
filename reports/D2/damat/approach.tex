@@ -41,6 +41,7 @@ In Step 1, based on the provided methodology and predefined mutation operators, 
 % capturing the data format and the types of faults that shall be injected for every data item exchanged by the system components.
 In Step 2, \APPR generates a mutation API with the functions that modify the data according to the provided fault model.
 In Step 3, the engineer modifies the \UPDATED{SUT} by introducing mutation probes (i.e., invocations to the mutation API) into it.
+\REVTOOL{P-2}{Instead of modifying the SUT the engineer may modify the test harness (e.g., the SVF simulator); such choice depends on the software under test, if the test cases are executed through a simulator, such choice prevents introducing damaging changes into the SUT (e.g., delay task execution and break strict real-time requirements).}
 In Step 4, \APPR generates and compiles mutants. 
 Since the \APPR mutation operators may generate mutated data by applying multiple mutation procedures, \APPR may generate several mutants, one for each \UPDATED{mutation operation (i.e., a mutation procedure configured for a data item, according to our terminology, see Section~\ref{sec:mutantsGeneration})}.
 In Step 5, \APPR executes the test suite with all the mutants including a mutant (i.e., the coverage mutant) which does not  modify the data but traces the coverage of the fault model.
@@ -216,7 +217,7 @@ Figure~\ref{fig:dataMutationFMExamples} provides a visual representation of an a
 
 
 
-
+\clearpage
 
 
 \subsubsection{Automated Generation of Mutation API (Step 2) and Probe Insertion (Step 3)}
@@ -301,7 +302,9 @@ The \INDEX{mutation score (MS)} is the percentage of mutants killed by the test 
 \subsection{Running Examples}
 \label{sec:dataDriven:example}
 
-In this Section, we provide a set of running examples that show the results achieved by \APPR in the presence of test suites affected by different problems. More precisely we aim to demonstrate, for representative cases, the absence of false alarms due to equivalent mutants and the usefulness of the mutation analysis metrics computed. We consider the following representative scenarios:
+In this Section, we provide a set of running examples that show the results achieved by \APPR in the presence of test suites affected by different problems. More precisely we aim to demonstrate, for representative cases, the absence of false alarms due to equivalent mutants and the usefulness of the mutation analysis metrics computed. 
+\REVTOOL{P-3}{Each running example is an artificial but realistic definition of test suites to illustrate the methodology.}
+We consider the following representative scenarios:
 \begin{enumerate}
 \item The test suite exercises only one message exchange between the ADCS and the SUT; each test case covers a distinct input partition.
 \item The test suite exercises only one message exchange between the ADCS and the SUT; multiple test cases cover a same input partition.
@@ -337,37 +340,42 @@ The test suite is comprised of two test cases. \emph{Test 1} exercises the SUT w
 \end{figure}
 
 
-Figures~\ref{fig:damat:RunningExample1A} to~\ref{fig:damat:RunningExample1C} show our running examples. On the top, we report the fault model. In this case the fault model applies the operators VAT (value above threshold) and FVAT (fix value above threshold). The VAT operator is configured with a threshold of 100 and a delta of 10 (i.e., it replaces values below the threshold with the value 110). The FVAT operator is configured in the same manner (i.e., it replaces values above threshold with the value 90). The operator VAT leads to \emph{MUTANT 1}, the operator FVAT leads to \emph{MUTANT 2}.
+Figures~\ref{fig:damat:RunningExample1A} to~\ref{fig:damat:RunningExample1C} show our running examples. On the top, we report the fault model. In this case the fault model applies the operators VAT (value above threshold) and FVAT (fix value above threshold). The VAT operator is configured with a threshold of 100 and a delta of 10 (i.e., it replaces values below the threshold with the value 110). The FVAT operator is configured in the same manner (i.e., it replaces values above threshold with the value 90). The operator VAT leads to \emph{MUTANT 1}, the operator FVAT leads to \emph{MUTANT 2}; \REVTOOL{P-5}{in practice, in this example we have two mutants, each implements one distinct mutation operator.}
 
 In Figure~\ref{fig:damat:RunningExample1A}, under \emph{Exchanged data}, we report the sequence of data messages exchanged by the test cases of the test suite (one column for each test case).
 In the following rows, we report the oracles. For each oracle we indicate how it verifies if a state variable has been assigned with a correct value; we indicate $"=="$ if it verifies the exact value taken by the state variable (e.g., \emph{temperature == 50)}, "$>=$" if it verifies that the value is above a threshold (e.g., \emph{temperature $>=$ 50}). Please note that, according to standard practice, test cases for non nominal cases verify that state variables contain the expected alarm and anomalous values (i.e., the test case passes only if the SUT report the anomaly). 
 
 For each mutant, we report the value of the data exchanged during the execution and the data of the state variables read by the oracle. In red we indicate data that has been mutated according to the fault model. 
 If an oracle does not read the value of a variable we do not report it.
-For each mutant, for each oracle, we report the test cases that detect the anomalous value (if any); also, we report if the mutant had been killed.
+\REVTOOL{P-5}{Note that for each mutant we report multiple data columns (named \emph{Test 1} and \emph{Test 2}), each provides the data exchanged during the execution of the test case.}
+Finally, for each mutant, for each oracle, we report the test cases that detect the anomalous value (if any); also, we report if the mutant had been killed.
+
 
 Please note that, following the \APPR procedures, MUTANT 1 does not mutate the data exchanged by Test 2 because it is already above the threshold. MUTANT 2 does not mutate the data exchanged by Test 1 because it is already below the threshold.
 
 TestSuite1 is an optimal test suite that verifies the expected value of all the state variables. For MUTANT 1, Test 1 fails because the assertion about temperature fails (expected 50 observed 110).
 For MUTANT 1, Test 2 fails because the assertion about temperature fails (expected 120 observed 90).
+\REVTOOL{P-6}{We have a fault model coverage (\emph{FMC}) of 100\% because we have only one fault model and it is applied (i.e., teh test suite exchanged the data message under analysis). We have a mutation operator coverage (\emph{MOC}) of 100\% because all the mutation operations associated with the configured mutation operators are applied (in other words, all the mutants perform at least one mutation of a data item instance). We have a mutation score (\emph{MS}) of 100\% because, for each mutant, at least one test case fails.}
 
 TestSuite2 verifies the expected value of the temperature for the nominal case and the presence of a temperature error for the non nominal case. For MUTANT 1, Test 1 fails because the assertion on temperature fails (expected 50 observed 110).
 For MUTANT 1, Test 2 fails because the assertion on temperature errors fail (expected 1 observed 0).
+\REVTOOL{P-6}{Concerning FMC, MOC, and MS, the same considerations made for the example above hold.}
 
-TestSuite3 verifies only temperature values while TestSuite4 verifies only temperature errors. They all kill the mutants for the same reasons reported in the cases above.
+TestSuite3 verifies only temperature values while TestSuite4 verifies only temperature errors. They all kill the mutants for the same reasons reported in the cases above. \REVTOOL{P-6}{Concerning FMC, MOC, and MS, the same considerations made for the example above hold.}
+
 
 TestSuite5 is a copy of TestSuite2 having an imprecise oracle (i.e., it verifies that temperature is above 50 instead of equal to 50). Consequently the test suite does not fail for MUTANT 1 and the mutation score is not 100\%; consequently, \APPR enables an engineer to detect the limitation of the test suite.
 
-TestSuite5 is a copy of TestSuite2 without an oracle for Test2 (i.e., it does not verify the presence of temperature errors). Consequently, the test suite does not fail for MUTANT 2 and the mutation score is not 100\%; consequently, \APPR enables an engineer to detect the limitation of the test suite.
+\REVTOOL{P-6}{TestSuite6} is a copy of TestSuite2 without an oracle for Test2 (i.e., it does not verify the presence of temperature errors). Consequently, the test suite does not fail for MUTANT 2 and the mutation score is not 100\%; consequently, \APPR enables an engineer to detect the limitation of the test suite.
 
-TestSuite6 is a copy of TestSuite2 with multiple test cases covering the same input partitions; indeed, Test3 covers the same input partition of Test1 (i.e., it tests the value 0, which is a nominal value like 50), Test4 covers the same input partition of Test2 (i.e., it tests the value 101, which is a non nominal value like 120). All the mutants are killed by the test suite and we do not observe equivalent mutants.
+TestSuite7 is a copy of TestSuite2 with multiple test cases covering the same input partitions; indeed, Test3 covers the same input partition of Test1 (i.e., it tests the value 0, which is a nominal value like 50), Test4 covers the same input partition of Test2 (i.e., it tests the value 101, which is a non nominal value like 120). All the mutants are killed by the test suite and we do not observe equivalent mutants.
 
-TestSuite7 is a copy of TestSuite6 with the same limitations of TestSuite5 (i.e., Test2 does not contain an oracle).
+TestSuite8 is a copy of TestSuite7 with the same limitations of TestSuite6 (i.e., Test2 does not contain an oracle).
 In this case, the mutation score is 100\% because Test 4 contains an appropriate oracle and covers the same input partition not appropriately verified by Test 2. We do not observe equivalent mutants.
 
-TestSuite8 is a copy of TestSuite7 without oracles for both Test2 and Test4; similarly to the case of TestSuite5, since the non-nominal partition is not appropriately verified, the mutation score is not 100\%; consequently, \APPR enables an engineer to detect the limitation of the test suite.
+TestSuite9 is a copy of TestSuite7 without oracles for both Test2 and Test4; similarly to the case of TestSuite6, since the non-nominal partition is not appropriately verified, the mutation score is not 100\%; consequently, \APPR enables an engineer to detect the limitation of the test suite.
 
-TestSuite9 covers the case of a test suite that does not exercise an input partition; precisely, it does not exercise non nominal values. 
+TestSuite10 covers the case of a test suite that does not exercise an input partition; precisely, it does not exercise non nominal values. 
 In this case, \APPR can detect that MUTANT 2 is never applied (to exemplify it, we do not report any red value for MUTANT 2 in Figure~\ref{fig:damat:RunningExample1C}); consequently, the MOC is not 100\% and the engineer can determine what is the limitation of the test suite. Indeed, since the mutant not covered is FVAT, the engineer can know that the test suite does not exercise the value above threshold for the temperature (FVAT applies the mutation only if a value above threshold is observed).
 
 \begin{figure}[tb]

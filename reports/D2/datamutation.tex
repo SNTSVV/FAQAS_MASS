@@ -21,7 +21,7 @@ This Chapter defines a test suite assessment process based on the injection of f
 %The definition of data-driven mutation testing is a unique contribution of this book; it has not been presented in previous literature work.
 
 Data-driven mutation testing aims to assess test suites by simulating faults that affect the data produced, received, or exchanged by the software and its components.
-It is based on a \INDEX{fault model} capturing the type of data faults that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel). The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate the faults in the fault model. For example, the \INDEX{bit flip operator} flips a randomly selected bit of a field of the transmitted data (see Section~\ref{sec:faultModel}). 
+It is based on a \INDEX{fault model} capturing the type of data faults that might affect the system. The fault model is produced by software engineers based on their domain knowledge and experience~\cite{di2015generating}. The considered faults might be due to programming errors, hardware problems, or critical situations in the environment (e.g., noise in the channel). The data is then automatically  mutated (i.e., modified) by a set of operators that aim to replicate the faults in the fault model. For example, the \INDEX{bit flip operator} flips a randomly selected bit of a field of the transmitted data (see Section~\ref{sec:faultModelStructure}). 
 %Mutation operators can be applied multiple times, on different data chunks or over repeated executions of a test case, ti
 
 
@@ -88,7 +88,7 @@ The system works by processing a flat structure stored in  a buffer array, which
 
 
 
-\CHANGEDNOV{We believe that the technology implementing \INDEX{data mutation} should depend on the type of system under test. This is mostly due to the need for (1) implementing mutation operations that are fast and (2) reducing the amount of data-modelling to be manually performed (ideally engineers would like to reuse existing models and artefacts). Based on the case studies shared for WP2, we observe that data-driven mutation testing might be performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. In our vision, these two solutions differ for the strategy used to model the data and for the algorithms implemented to execute mutation. Despite a more general solution (e.g., based on UML models) that glue together these two strategies might be feasible, its implementation might be the target of an ESA activity. Indeed, when data modelling is based on generic high-level models it is necessary to implement a layer that translate high-level representation into low-level data that can be efficiently processed at runtime. The following subsections describe the two distinct cases; however, in FAQAS, we will focus on the implementation of a solution for buffer arrays. The main reasons are two (1) buffer arrays appear to be a common strategy for implementing data communication (2) in FAQAS we lack case studies based on the ASN.1 grammar (see Section~\ref{sec:caseStudies:ASN:data}). In the following, however, we provide the results of a preliminary study concerning the design of a data-driven method for the ASN.1 grammar.}
+\CHANGEDNOV{We believe that the technology implementing \INDEX{data mutation} should depend on the type of system under test. This is mostly due to the need for (1) implementing mutation operations that are fast and (2) reducing the amount of data-modelling to be manually performed (ideally engineers would like to reuse existing models and artefacts). Based on the case studies shared for WP2, we observe that data-driven mutation testing might be performed by modifying either data that is stored in an array or in a data structure defined through the ASN.1 grammar. In our vision, these two solutions differ for the strategy used to model the data and for the algorithms implemented to execute mutation. Despite a more general solution (e.g., based on UML models) that glue together these two strategies might be feasible, its implementation might be the target of an ESA activity. Indeed, when data modelling is based on generic high-level models it is necessary to implement a layer that translate high-level representation into low-level data that can be efficiently processed at runtime. The following subsections describe the two distinct cases; however, in FAQAS, we will focus on the implementation of a solution for buffer arrays. The main reasons are two (1) buffer arrays appear to be a common strategy for implementing data communication (2) in FAQAS we lack case studies based on the ASN.1 grammar (see Deliverable D4). In the following, however, we provide the results of a preliminary study concerning the design of a data-driven method for the ASN.1 grammar.}
 
 \ENDCHANGEDWPT
 
@@ -134,11 +134,11 @@ Figure~\ref{fig:ASN1ProbesGeneration} shows that, finally, the FAQAS toolset gen
 
 
 
-\clearpage
-\subsection{FAQAS Data Mutation API and Probes}
-\label{sec:FAQASDataMutationProbes}
-
-In FAQAS, the data-driven mutation testing API is automatically generated from the fault model provided by engineers. \INDEX{Data mutation probes} are either manually implemented by software engineers (in the case data mutation should target an ad-hoc communication layer that works with data buffers) or automatically generated by the toolset (in the case data mutation should target an ASN.1-based communication layer).
+%\clearpage
+%\subsection{FAQAS Data Mutation API and Probes}
+%\label{sec:FAQASDataMutationProbes}
+%
+%In FAQAS, the data-driven mutation testing API is automatically generated from the fault model provided by engineers. \INDEX{Data mutation probes} are either manually implemented by software engineers (in the case data mutation should target an ad-hoc communication layer that works with data buffers) or automatically generated by the toolset (in the case data mutation should target an ASN.1-based communication layer).
 
 
 
