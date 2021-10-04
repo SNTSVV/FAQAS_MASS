@@ -15,6 +15,8 @@ def get_type_val(type_name, int_val, uint_val, decimal_val):
         return "Bool val is {}".format(int_val)
     if int_val is not None and type_name in ("char", "unsigned char", "signed char"):
         return "Char ASCII val is {}".format(int_val)
+    if int_val is not None and (type_name == "enum" or type_name.startswith("enum "):
+        return "Enum int val is {}".format(int_val)
     if int_val is not None and type_name in ("int", "signed", "signed int", 
                                     "short", "signed short", "short int", "signed short int", 
                                     "long", "signed long", "long int", "signed long int", 
