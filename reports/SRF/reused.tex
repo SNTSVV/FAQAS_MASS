@@ -104,7 +104,7 @@ The software intended to be reused is \SEMU, a mutant analysis framework based o
 
 The main website for \SEMU can be found here: \begin{scriptsize}\url{https://github.com/thierry-tct/KLEE-SEMu}\end{scriptsize}. The tool is maintained by Thierry Titcheu Chekam.
 
-This is the only software item intended to be reused on \SEMUS.
+This is the only software item intended to be reused on \SEMUS. However, \SEMU integrates KLEE; for this reason below we report information about both KLEE and \SEMU.
 
 \subsection{General Characteristics of the Software}
 
@@ -115,26 +115,26 @@ This is the only software item intended to be reused on \SEMUS.
 		\item Release date: 2021-09-08
 		\item Components: \texttt{ExecutionState\_KS}, \texttt{Executor\_KS}, \texttt{klee-semu}
 	\end{itemize}
-	\item \REVTOOL{P-01}{Considered KLEE version:}
+	\item \REVTOOL{P-01}{Version of KLEE integrated into \SEMU:}
 	\begin{itemize}
 		\item Version: 1.3.0
 		\item Release date: 2016-11-30
 	\end{itemize}
-	\item Owners: Stanford University.
-	\item Developers: Thierry Titcheu Chekam
-	\item Licensing conditions: Open Source License
-	\item Development and execution environment:
+	\item Owners: \REVTOOL{P-01}{KLEE is owned by Stanford University (till 2009) and Imperial College London (from 2009). \SEMU code is owned by University of Luxembourg.}
+	\item Developers: \REVTOOL{P-01}{KLEE has been developed by KLEE Team at Stanford Checking Group and Software Reliability Group at Imperial College London.} \SEMU has been developed by Thierry Titcheu Chekam.
+	\item Licensing conditions: Open Source License (University of Illinois/NCSA)
+	\item Development and execution environment (for both KLEE and \SEMU):
 	\begin{itemize}
 		\item Hardware platform: x86-64
 		\item Software environment required: (Linux packages) build-essential, curl, bison, flex, bc, libcap-dev, git, cmake, libboost-all-dev, libncurses5-dev, python-minimal, python-pip, unzip, LLVM 3.4.
 	\end{itemize}
-	\item Size of the software: 76\,352 lines of code (without considering comment or blank lines)
+	\item Size of the software: 76\,352 lines of code (without considering comment or blank lines). It is the size of both KLEE and \SEMU together.
 	\item Commercial software necessary for software execution: there is no Commercial off the Shelf (COTS) software dependency for execution.
 \end{itemize}
 
 \subsection{Parts of SEMu Intended to be Reused}
 
-The main components to be reused in \SEMUS are located in in the code in lib/Mutation (mainly the source code files ExecutionState\_KS.h, ExecutionState\_KS.cpp, Executor\_KS.h, and Executor\_KS.cpp), and tools/klee-semu (mainly the source code file klee-semu.cpp).
+The main components to be reused in \SEMUS are located in the code in lib/Mutation (mainly the source code files ExecutionState\_KS.h, ExecutionState\_KS.cpp, Executor\_KS.h, and Executor\_KS.cpp), and tools/klee-semu (mainly the source code file klee-semu.cpp). \SEMUS relies on all the KLEE code integrated into \SEMU.
 
 \subsection{Copyright and Licensing Conditions}
 
