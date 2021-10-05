@@ -81,7 +81,7 @@ Distribution of test cases exercising each statement&No\\
 \hline  
 TDR-D4-PABG-6&
 \begin{minipage}{12cm}
-\TODO{To be fixed}
+\TODO{FABRIZIO: To be fixed also in Section~\ref{lxs:esail:system:codeDriven}}
 We provide the ESAIL XXX test suite statement coverage, which is the information necessary to perform the different MASS optimizations. We do not provide more detailed coverage information (i.e., function and branch coverage); since its measurement in our testing facilities interferes with the real-time requirements of the test suite, and more importantly, they are not necessary for MASS optimizations.
 \end{minipage}\\
 \\
@@ -170,7 +170,7 @@ As specified in Section~\ref{sec:threats:damat}, our results generalize for syst
 \hline  
 TDR-D4-PABG-17&
 \begin{minipage}{12cm}
-\TODO{To discuss.}
+It does not make sense to mutate the other direction (i.e., OBC towards peripherals); given that the ADCS component is simulated, and thus, it is not robust enough for applying our methodology. It would make sense to mutate the direction OBC towards peripherals, when the system is tested with hardware in the loop.
 \end{minipage}\\
 \\
 \hline                                    
@@ -182,10 +182,12 @@ We meant adding oracles that verify data values already produced by the software
 \hline  
 TDR-D4-PABG-19&
 \begin{minipage}{12cm}
-\TODO{Probably would be a good idea before submitting this revision, to try again with the updated version of SEMuS, and report in Chapter 1, as a feasibility study the problems we found when applying SEMuS to ESAIL.}
-SEMuS relies on the KLEE symbolic execution engine for test generation. KLEE requires that programs passed as input shall be compiled in LLVM bitcode format. In Deliverable D2 section 1.2.3.7, we presented a feasibility study showing that ESAIL cannot be compiled in LLVM bitcode format because of incompatibility of libraries between clang (LLVM compiler) and RTEMS (ESAIL compiler). 
-
-However, we added a phrase explaining the aforementioned problem.
+\TODO{FABRIZIO: to be fixed}
+It is very likely that we fail to apply the methodology to ESAIL use cases since the known incompatibility of libraries between clang (LLVM compiler used in SEMuS) and RTEMS (ESAIL compiler) (see Deliverable D2 section 1.2.3.7 for more details). 
+However, we will carry on a complete assessment during WP4.
+%However, we added a phrase explaining the aforementioned problem.
+%SEMuS relies on the KLEE symbolic execution engine for test generation. KLEE requires that programs passed as input shall be compiled in LLVM bitcode format. In Deliverable D2 section 1.2.3.7, we presented a feasibility study showing that ESAIL cannot be compiled in LLVM bitcode format because of incompatibility of libraries between clang (LLVM compiler) and RTEMS (ESAIL compiler). 
+%However, we added a phrase explaining the aforementioned problem.
 \end{minipage}\\
 \\
 \hline  
