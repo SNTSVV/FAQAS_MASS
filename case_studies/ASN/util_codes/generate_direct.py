@@ -405,7 +405,7 @@ def main():
         all_prints = used_outs_prints + print_retval_stmts
 
         if len(all_prints) == 0 :
-            non_printing_templates.append(prototype.function_name, code_filepath)
+            non_printing_templates.append((prototype.function_name, code_filepath))
 
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
