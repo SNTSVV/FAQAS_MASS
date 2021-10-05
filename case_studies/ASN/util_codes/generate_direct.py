@@ -241,7 +241,7 @@ def load_global_config(filename):
     
     globalConfigObject.update(config_obj)
 
-    assert len(globalConfigObject[OUT_ARGS_NAMES] & globalConfigObject[IN_OUT_ARGS_NAMES]) == 0, \
+    assert len(set(globalConfigObject[OUT_ARGS_NAMES]) & set(globalConfigObject[IN_OUT_ARGS_NAMES])) == 0, \
                 "Some arguments are both in OUT_ARGS_NAMES and IN_OUT_ARGS_NAMES"
     for k,v in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS].items():
         assert type(v) == dict, "Expecting a dict as values of dict for parameter {}".format(TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
