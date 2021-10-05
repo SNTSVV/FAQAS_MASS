@@ -3,10 +3,15 @@
 \chapter{MASS - Tutorial}
 
 \section{Introduction}
+\label{sec:mass:introduction}
 
 This tutorial instructs on how to use \MASS on a typical case. Since \MASS provides two modes of execution (i.e., running \MASS on a single machine and running \MASS on shared resources facilities), we provide an example for both.
 
 Both examples use the Mathematical Library for Flight Software as case study to exemplify the use of \FAQAS.
+
+\REVOCT{P-5}{The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification\footnote{\url{https://essr.esa.int/project/mlfs-mathematical-library-for-flight-software}}. 
+MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm} and \texttt{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
+The set of functions provided by MLFS are limited to the functions typically needed in flight software.}
 
 \section{Running MASS on a Single Machine}
 

@@ -1004,9 +1004,10 @@ the actual mutation score of the system.
 % an over- or under- approximation of the mutation score computed with a  non-optimized mutation testing process (i.e., no mutants sampling and no test suite reduction/prioritization). 
 
 To this end, we apply \APPR to the five subjects  described in Section~\ref{sec:empirical:subjects} and compute the mutation score according to equation~\ref{equation:ms:exp}.
-\REVOCT{C-P-11}{We compare the resulting mutation scores with those obtained with a traditional, non-optimized mutation analysis process that tests all the mutants with the entire test suite and do not discard likely equivalent mutants. Being the non-optimized mutation analysis process our base truth.}
+\REVOCT{C-P-11}{We compare the resulting mutation scores with those obtained with a traditional, non-optimized mutation analysis process that tests all the mutants with the entire test suite and do not discard likely equivalent mutants.}
 Since we have already demonstrated that FSCI, applied to a reduced and prioritized test suite, accurately estimates the mutation score (see RQ4), 
 we discuss the percentage of live mutants that are discarded by means of $T_E$ and the effect it has on the mutation score.
+\REVOCT{C-P-11}{We aim to discuss deviations between the two approaches; in particular, given that \APPR filters out equivalent mutants, we expect the \APPR mutation score to be higher than the one of the traditional approach. Unfortunately, in our context, it is still not feasible to automatically identify equivalent and redundant mutants; for this reason, comparison of the \APPR mutation score with a ground truth mutation score is not possible. A manual investigation of the equivalent and redundant mutants reported by \APPR has been performed to address RQ6.}
 %If the percentage of equivalent mutant discarded matches the one observed for RQ6 (i.e., 65\%), whose correctness was manually verified, we can conclude that \APPR enables the accurate estimation of the mutation score.
 
 
@@ -1096,7 +1097,7 @@ If the null hypothesis is rejected in favor of the alternate hypothesis then the
 Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.}
 
 \REVNOV{PTCR-7}{Despite such experiment would be of great value, the required information is not currently available and thus it is not possible at this stage of the project to commit for addressing this research question.}
-\REVOCT{C-P-12}{Such problematics will be assessed on the FAQAS follow-on activity.}
+\REVOCT{C-P-12}{To address this research question, a dedicated activity, with tasks planned for this purpose, might be needed.}
 
 \clearpage
 \subsection{RQ9 - Combined mutation analysis results}
