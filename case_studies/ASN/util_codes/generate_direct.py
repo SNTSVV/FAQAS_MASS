@@ -3,7 +3,7 @@
 # Use libclang
 
 # For example, for ASN case, runn as following
-# >   ./generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct " -I../WORKSPACE/DOWNLOADED/casestudy/"
+# >   ./generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct " -I../WORKSPACE/DOWNLOADED/casestudy/" -c generate_template_config.json
 
 
 import os
@@ -44,6 +44,9 @@ int main(int argc, char** argv)
 {% endfor %}
 {% for arg_name, type_name in input_arg_name_and_type_list %}
     memset(&{{ arg_name }}, 0, sizeof({{ arg_name }}));
+{% endfor %}
+{% for arg_name, initialization_code in initialized_input_arg_name_and_init_code %}
+    {{ initialization_code }};
 {% endfor %}
 {% for arg_name, type_name in input_arg_name_and_type_list %}
     klee_make_symbolic(&{{ arg_name }}, sizeof({{ arg_name }}), "{{ arg_name }}"); //{{ type_name }}
@@ -209,13 +212,13 @@ globalConfigObject = {
 
     # Specify a type as key and the pre 'klee_make_symbolic' statement initialization code as value,
     # The placeholder for the object to initialize must be specified as the string '{}'
-    # e.g. "TYPE_TO_INITIALIZATIONCODE": {"struct head *": "{}->next = malloc(sizeof(struct head));\n{}->next->next = NULL;"}
+    # e.g. "TYPE_TO_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\n{}.next->next = NULL;"}
     TYPE_TO_INITIALIZATIONCODE: {},
 
     # Specify how to make an object symbolic (specialy useful for objects that are initialized, like pointers).
-    # The object type is the dict key and the list of field accesses is the dict value.
+    # The object type is the dict key and a dict of field accesses and their type is the dict value.
     # The placeholder for the object to make symbolic must be specified as the string '{}'
-    # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head *": ["{}->data", "{}->next->data"]}
+    # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
     TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {}
 }
 
@@ -241,7 +244,7 @@ def load_global_config(filename):
     assert len(globalConfigObject[OUT_ARGS_NAMES] & globalConfigObject[IN_OUT_ARGS_NAMES]) == 0, \
                 "Some arguments are both in OUT_ARGS_NAMES and IN_OUT_ARGS_NAMES"
     for k,v in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS].items():
-        assert type(v) == list, "Expecting a list as values of dict for parameter {}".format(TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
+        assert type(v) == dict, "Expecting a dict as values of dict for parameter {}".format(TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
 
 
 def is_primitive_type_get_fmt(type_name, obj_name=RESULT_VAR_NAME, obj_value=RESULT_VAR_NAME):
@@ -388,16 +391,28 @@ def main():
                     )
                 )
 
+        arg_to_initcode  = {}
+        used_input_arg_name_and_type_list = {}
+        for arg_name, type_name in prototype.get_argname_and_type_list(discard=set(used_out_only_args)):
+            if type_name in globalConfigObject[TYPE_TO_INITIALIZATIONCODE]:
+                arg_to_initcode[arg_name] = repeat_format(globalConfigObject[TYPE_TO_INITIALIZATIONCODE][type_name], arg_name)
+            if type_name in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS]:
+                for field_access, field_type in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS][type_name].items():
+                    used_input_arg_name_and_type_list[repeat_format(field_access, arg_name)] = field_type
+            else:
+                used_input_arg_name_and_type_list[arg_name] = type_name
+
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
-            input_arg_name_and_type_list=prototype.get_argname_and_type_list(discard=set(used_out_only_args)),
+            input_arg_name_and_type_list=used_input_arg_name_and_type_list,
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
             output_out_args=used_outs_prints + print_retval_stmts,
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void,
-            source_file=args.source_file
+            source_file=args.source_file,
+            initialized_input_arg_name_and_init_code=arg_to_initcode,
         )
         with open(code_filepath, 'w') as f:
             f.write(code)
