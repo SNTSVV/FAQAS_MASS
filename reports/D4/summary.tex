@@ -14,31 +14,26 @@ In this section, we report the summary of results for the FAQAS framework. In pa
 \small
 \centering
 \begin{tabular}{|
->{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{46mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+>{\arraybackslash}p{34mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{40mm}@{\hspace{1pt}}|
 }
 \hline
-\textbf{Subject}&\textbf{Predicted Equivalent}&\multicolumn{2}{c|}{\textbf{Mutation Score (\%)}}\\
-&\textbf{Mutants Removed (\%)}&\textbf{Traditional}&\textbf{MASS}\\ 
+\textbf{Subject}&\textbf{MASS Mutation Score (\%)}\\
 \hline
-% 1225-32=1193; 2311/(2311+1193)
-\SAIL{}$_{S}$&2.61&65.36&65.95\\
-%$\mathit{\SAIL{}}$&&\\
-% 4198-2281=1917; 10376/(10376+1917)
 
+\SAIL{}$_{S} (System)$&65.95\\
 
-% 1214-770=444; 2717/(2717+444)
+\SAIL{}$_{S}$ (Unit+System)&70.56\\
 
-% 1712-371=1341; 3270/(3270+1341)
-\GCSP{}&21.67&65.64&70.92\\
-\PARAM{}&63.43&69.12&85.95\\
-% 3981-2699=1282; 17484/(17484+1282)
-\UTIL{}&54.34&71.20&84.41\\
-\MLFS{}{}&69.37&81.80&93.49\\
+\GCSP{}&70.92\\
+\PARAM{}&85.95\\
+
+\UTIL{}&84.41\\
+\MLFS{}{}&93.49\\
+% K: 3104 L: 2219-1480=739 T: 5323-1480=3843
+ASN1SCC&80.77\\
 \hline
-$\textbf{Average}$&42.28&70.62&81.14\\
+$\textbf{Average}$&78.86\\
 \hline
 \end{tabular}
 
