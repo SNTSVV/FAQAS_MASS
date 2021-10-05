@@ -4,3 +4,120 @@
 \section{Summary of FAQAS Validation Results}
 \label{sec:summary:results}
 
+In this section, we report the summary of results for the FAQAS framework. In particular, for each FAQAS approach, we provide a table with the main output of the technique (e.g., mutation score, number of test cases generated).
+
+\subsection{Code-driven mutation analysis}
+
+\begin{table}[htb]
+\caption{Code-driven mutation analysis results: MASS mutation score.}
+\label{table:results:mass} 
+\small
+\centering
+\begin{tabular}{|
+>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{46mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject}&\textbf{Predicted Equivalent}&\multicolumn{2}{c|}{\textbf{Mutation Score (\%)}}\\
+&\textbf{Mutants Removed (\%)}&\textbf{Traditional}&\textbf{MASS}\\ 
+\hline
+% 1225-32=1193; 2311/(2311+1193)
+\SAIL{}$_{S}$&2.61&65.36&65.95\\
+%$\mathit{\SAIL{}}$&&\\
+% 4198-2281=1917; 10376/(10376+1917)
+
+
+% 1214-770=444; 2717/(2717+444)
+
+% 1712-371=1341; 3270/(3270+1341)
+\GCSP{}&21.67&65.64&70.92\\
+\PARAM{}&63.43&69.12&85.95\\
+% 3981-2699=1282; 17484/(17484+1282)
+\UTIL{}&54.34&71.20&84.41\\
+\MLFS{}{}&69.37&81.80&93.49\\
+\hline
+$\textbf{Average}$&42.28&70.62&81.14\\
+\hline
+\end{tabular}
+
+\end{table}
+
+Table~\ref{table:results:mass} introduces the code-driven mutation analysis results, and compares, for each subject, the mutation score of a traditional mutation process with the one obtained with MASS. 
+
+
+\subsection{Code-driven mutation testing (test suite augmentation)}
+
+\begin{table}[htb]
+\caption{Test suite augmentation results.}
+\label{table:results:test-gen} 
+\centering
+\footnotesize
+\begin{tabular}{|
+@{\hspace{1pt}}p{10mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{18mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{35mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject}&\textbf{Live Mutants}&\textbf{Additionally Killed Mutants}&\textbf{Original MS (\%)}&\textbf{Updated MS (\%)}\\ 
+\hline
+$\mathit{MLFS}$&3\,891&697&81.80&85.06\\
+$\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
+\hline
+\end{tabular}
+
+\end{table}
+
+Table~\ref{table:results:test-gen} introduces the code-driven mutation testing results, and in particular the number of additionally killed mutants by SEMuS, and how it impacts on the mutation score of the case study.
+
+
+\subsection{Data-driven mutation analysis}
+
+\begin{table}[htb]
+\caption{Data-driven mutation analysis results.}
+\label{table:results:data-driven} 
+\center
+\footnotesize
+\begin{tabular}{|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{18mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject} & 
+\textbf{\# FMs} & 
+\textbf{FMC} & 
+\textbf{\#MOs-CFM} & 
+\textbf{\#CMOs} & 
+\textbf{MOC}  
+&\textbf{Killed}&\textbf{Live}&\textbf{MS}
+\\
+\hline
+
+\ADCS &10 &90.00\%   & 135 & 100 & 74.00\%   &    45&55&45.00\%\\
+\GPS &1 &100.00\%    &  23  &  22 & 95.65\%    &      21&1&95.45\%\\
+\PDHU &3 &100.00\%  &   29 & 24 & 82.76\%   &     24&0&100.00\%\\
+\PARAM &6 &100.00\%  &   80 & 73 & 91.25\%  &        28&45&38.36\%\\
+
+
+\hline
+
+\end{tabular}
+
+CMO=Covered Mutation Operation, MOs-CFM=Mutation Operations in covered FMs.
+
+\end{table}
+
+
+Table~\ref{table:results:data-driven} shows the mutation analysis results of DAMAT, our data-driven mutation analysis technique. For each subject, we provide information about the fault model coverage, the mutation operation coverage, and the mutation score of the technique.
+
+
