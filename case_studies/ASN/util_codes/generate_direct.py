@@ -190,7 +190,6 @@ IN_OUT_ARGS_NAMES = "IN_OUT_ARGS_NAMES"
 TYPE_TO_INITIALIZATIONCODE = "TYPE_TO_INITIALIZATIONCODE"
 TYPE_TO_SYMBOLIC_FIELDS_ACCESS = "TYPE_TO_SYMBOLIC_FIELDS_ACCESS"
 
-# FIXME: Use the global config object in code
 globalConfigObject = {
     # Specify a type as key and the type conversion template as value, 
     # Where the placeholder for the expression to convert should be specified as the string '{}'
