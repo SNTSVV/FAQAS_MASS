@@ -391,7 +391,7 @@ def main():
                     )
                 )
 
-        arg_to_initcode  = []]
+        arg_to_initcode  = []
         used_input_arg_name_and_type_list = []
         for arg_name, type_name in prototype.get_argname_and_type_list(discard=set(used_out_only_args)):
             if type_name in globalConfigObject[TYPE_TO_INITIALIZATIONCODE]:
