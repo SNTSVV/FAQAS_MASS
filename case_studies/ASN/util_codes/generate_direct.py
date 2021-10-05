@@ -173,11 +173,12 @@ def get_function_prototypes(source_file, compilation_info):
         function_protos.append(get_prototype(cursor))
     return function_protos
 
-# FIXME:Move these configs into a config file
-OUT_ARGS = {"pErrCode": 'printf("FAQAS-SEMU-TEST_OUTPUT: pErrCode = %d\\n", pErrCode);'}
-RESULT_TYPE = "flag"
-RESULT_TO_INT = "(int)result_faqas_semu"
-RESULT_OUT = 'printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\\n", result_faqas_semu);'
+
+def repeat_format(fmt_str, single_val):
+    return fmt_str.format(*([single_val]*len(fmt_str)))
+
+
+RESULT_VAR_NAME = "result_faqas_semu"
 
 TYPES_TO_INTCONVERT = "TYPES_TO_INTCONVERT"
 TYPES_TO_PRINTCODE = "TYPES_TO_PRINTCODE"
@@ -185,6 +186,7 @@ OUT_ARGS_NAMES = "OUT_ARGS_NAMES"
 IN_OUT_ARGS_NAMES = "IN_OUT_ARGS_NAMES"
 TYPE_TO_INITIALIZATIONCODE = "TYPE_TO_INITIALIZATIONCODE"
 TYPE_TO_SYMBOLIC_FIELDS_ACCESS = "TYPE_TO_SYMBOLIC_FIELDS_ACCESS"
+
 # FIXME: Use the global config object in code
 globalConfigObject = {
     # Specify a type as key and the type conversion template as value, 
@@ -242,7 +244,7 @@ def load_global_config(filename):
         assert type(v) == list, "Expecting a list as values of dict for parameter {}".format(TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
 
 
-def is_primitive_type_get_fmt(type_name, obj_name="result_faqas_semu", obj_value="result_faqas_semu"):
+def is_primitive_type_get_fmt(type_name, obj_name=RESULT_VAR_NAME, obj_value=RESULT_VAR_NAME):
     printf_fmt = 'printf("FAQAS-SEMU-TEST_OUTPUT: %s = {}\\n", %s);' % (obj_name, obj_value)
     type_list = {
         "_Bool": "%d",
@@ -314,50 +316,85 @@ def main():
         prototypes = get_function_prototypes(args.source_file, args.compilation_cflags)
 
     if not os.path.isdir(args.output_dir):
-        os.mkdir(args.output_dir)
+        os.mkdir(args.output_dir)        
 
     void_returning_functions = []
     for prototype in prototypes:
         code_filepath = os.path.join(args.output_dir, prototype.function_name + '.' + "wrapping_main.c")
         # checks
         ## check 1
-        ooa_left = set(OUT_ARGS.keys()) - set(prototype.get_argname_list())
-        if len(ooa_left) > 0:
-            used_out_args = {k:v for k,v in OUT_ARGS.items() if k not in ooa_left}
-            print("warning: specified output args are not all used.",
-                    "function name is {}.".format(prototype.function_name),
-                    "function argument names are: {}.".format(prototype.get_argname_list()),
-                    "These are not used: {}\n".format(ooa_left))
-        else:
-            used_out_args = dict(OUT_ARGS)
+        tmp = [None, None]
+        for x_tmp_pos, (x_args_names, x_info) in enumerate([(globalConfigObject[OUT_ARGS_NAMES], ""), (globalConfigObject[IN_OUT_ARGS_NAMES], "input/")]):
+            ooa_left = set(x_args_names) - set(prototype.get_argname_list())
+            if len(ooa_left) > 0:
+                tmp[x_tmp_pos] = {oa for oa in x_args_names if oa not in ooa_left}
+                print("Warning: specified {}output args are not all used.".format(x_info),
+                        "function name is {}.".format(prototype.function_name),
+                        "function argument names are: {}.".format(prototype.get_argname_list()),
+                        "These are not used: {}\n".format(ooa_left))
+            else:
+                tmp[x_tmp_pos] = set(x_args_names)
+        used_out_only_args, used_inout_args = tmp
+        used_outs_prints = []
+        used_outs_args = used_out_only_args | used_inout_args
+        for arg_name, type_name in prototype.get_argname_and_type_list():
+            if arg_name in used_outs_args:
+                # get print code
+                prim_print_fmt = is_primitive_type_get_fmt(type_name, obj_name=arg_name, obj_value=arg_name)
+                if type_name in globalConfigObject[TYPES_TO_PRINTCODE]:
+                    used_outs_prints.append(repeat_format(globalConfigObject[TYPES_TO_PRINTCODE][prototype.return_type], arg_name))
+                elif prim_print_fmt is not None:
+                    used_outs_prints.append(prim_print_fmt)
+                else:
+                    raise Exception("The argument '{}' of type '{}' of function '{}' {}. {}".format(
+                            arg_name,
+                            type_name,
+                            prototype.function_name,
+                            "is not directly printable with printf",
+                            "Add the print template of the type to the configuration."
+                        )
+                    )
         ## check2
         returns_void = False
         print_retval_stmts = []
+        res_to_int = None
         if prototype.return_type == "void":
             returns_void = True
             void_returning_functions.append((prototype.function_name, code_filepath)
-        elif prototype.return_type != RESULT_TYPE and is_primitive_type_get_fmt(prototype.return_type) is None:
-            res_to_int = input("The function return type for function '{}' is not '{}' but is '{}'. {}".format(
-                    prototype.function_name,
-                    RESULT_TYPE,
-                    prototype.return_type,
-                    "Input the conversion to int for variable 'result_faqas_semu': "
-                )
-            )
         else:
-            res_to_int = RESULT_TO_INT
-            if prototype.return_type == RESULT_TYPE:
-                print_retval_stmts.append(RESULT_OUT)
+            prim_print_fmt = is_primitive_type_get_fmt(prototype.return_type, obj_name=RESULT_VAR_NAME, obj_value=RESULT_VAR_NAME)
+            if prototype.return_type in globalConfigObject[TYPES_TO_INTCONVERT]:
+                res_to_int = globalConfigObject[TYPES_TO_INTCONVERT][prototype.return_type].format(RESULT_VAR_NAME)
+            elif prim_print_fmt is not None:
+                res_to_int = "(int){}".format(RESULT_VAR_NAME)
             else:
-                print_retval_stmts.append(is_primitive_type_get_fmt(prototype.return_type))
+                raise Exception("The function return type for function '{}' is '{}' {}. {}".format(
+                        prototype.function_name,
+                        prototype.return_type,
+                        "which is not directly convertible to int",
+                        "Add the conversion template to the configuration."
+                    )
+                )
+            if prototype.return_type in globalConfigObject[TYPES_TO_PRINTCODE]:
+                print_retval_stmts.append(repeat_format(globalConfigObject[TYPES_TO_PRINTCODE][prototype.return_type], RESULT_VAR_NAME))
+            elif prim_print_fmt is not None:
+                print_retval_stmts.append(prim_print_fmt)
+            else:
+                raise Exception("The function return type for function '{}' is '{}' {}. {}".format(
+                        prototype.function_name,
+                        prototype.return_type,
+                        "which is not directly printable with printf",
+                        "Add the print template to the configuration."
+                    )
+                )
 
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
-            input_arg_name_and_type_list=prototype.get_argname_and_type_list(discard=set(used_out_args.keys())),
+            input_arg_name_and_type_list=prototype.get_argname_and_type_list(discard=set(used_out_only_args)),
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
-            output_out_args=list(used_out_args.values()) + print_retval_stmts,
+            output_out_args=used_outs_prints + print_retval_stmts,
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void,
             source_file=args.source_file
