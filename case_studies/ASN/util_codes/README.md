@@ -4,12 +4,13 @@
 ## usage example
 
 ```
-./generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct " -I../WORKSPACE/DOWNLOADED/casestudy/" -c generate_template_config.json
+./generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct \
+                    " -I../WORKSPACE/DOWNLOADED/casestudy/" -c generate_template_config.json
 ```
 
 ## Configuration format
 
-```json
+```yaml
 {
     # Specify a type as key and the type conversion template as value, 
     # Where the placeholder for the expression to convert should be specified as the string '{}'
