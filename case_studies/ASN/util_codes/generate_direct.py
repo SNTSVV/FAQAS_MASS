@@ -321,7 +321,7 @@ def main():
     if not os.path.isdir(args.output_dir):
         os.mkdir(args.output_dir)        
 
-    void_returning_functions = []
+    non_printing_templates = []
     for prototype in prototypes:
         code_filepath = os.path.join(args.output_dir, prototype.function_name + '.' + "wrapping_main.c")
         # checks
@@ -363,7 +363,7 @@ def main():
         res_to_int = None
         if prototype.return_type == "void":
             returns_void = True
-            void_returning_functions.append((prototype.function_name, code_filepath)
+            print ("@void-returning-function: name={}, template={}".format(prototype.function_name, code_filepath))
         else:
             prim_print_fmt = is_primitive_type_get_fmt(prototype.return_type, obj_name=RESULT_VAR_NAME, obj_value=RESULT_VAR_NAME)
             if prototype.return_type in globalConfigObject[TYPES_TO_INTCONVERT]:
@@ -402,13 +402,18 @@ def main():
             else:
                 used_input_arg_name_and_type_list[arg_name] = type_name
 
+        all_prints = used_outs_prints + print_retval_stmts
+
+        if len(all_prints) == 0 :
+            non_printing_templates.append(prototype.function_name, code_filepath)
+
         code = Template(USED_TEMPLATE, trim_blocks=True, lstrip_blocks=True).render(
             function_return_type=prototype.return_type,
             arg_ptr_stripped_decl_list=prototype.get_arg_ptr_stripped_decl_list(),
             input_arg_name_and_type_list=used_input_arg_name_and_type_list,
             function_name=prototype.function_name,
             call_args_list=prototype.get_call_args_list(),
-            output_out_args=used_outs_prints + print_retval_stmts,
+            output_out_args=all_prints,
             result_faqas_semu_to_int=res_to_int,
             returns_void=returns_void,
             source_file=args.source_file,
@@ -417,10 +422,10 @@ def main():
         with open(code_filepath, 'w') as f:
             f.write(code)
     
-    if len(void_returning_functions) > 0:
-        print("Info: The following functions return void:")
-        for fname, ffile in void_returning_functions:
-            print ("@void-returning-function: name={}, template={}".format(fname, ffile))
+    if len(non_printing_templates) > 0:
+        print("Info: The following functions templates do not print:")
+        for fname, ffile in non_printing_templates:
+            print ("@non-printing-templates: functionName={}, template={}".format(fname, ffile))
 
     print("Done writing templates in folder {}".format(args.output_dir))
 
