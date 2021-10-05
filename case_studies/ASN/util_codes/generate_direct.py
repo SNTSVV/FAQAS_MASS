@@ -391,16 +391,16 @@ def main():
                     )
                 )
 
-        arg_to_initcode  = {}
-        used_input_arg_name_and_type_list = {}
+        arg_to_initcode  = []]
+        used_input_arg_name_and_type_list = []
         for arg_name, type_name in prototype.get_argname_and_type_list(discard=set(used_out_only_args)):
             if type_name in globalConfigObject[TYPE_TO_INITIALIZATIONCODE]:
-                arg_to_initcode[arg_name] = repeat_format(globalConfigObject[TYPE_TO_INITIALIZATIONCODE][type_name], arg_name)
+                arg_to_initcode.append((arg_name, repeat_format(globalConfigObject[TYPE_TO_INITIALIZATIONCODE][type_name], arg_name)))
             if type_name in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS]:
                 for field_access, field_type in globalConfigObject[TYPE_TO_SYMBOLIC_FIELDS_ACCESS][type_name].items():
-                    used_input_arg_name_and_type_list[repeat_format(field_access, arg_name)] = field_type
+                    used_input_arg_name_and_type_list.append((repeat_format(field_access, arg_name), field_type))
             else:
-                used_input_arg_name_and_type_list[arg_name] = type_name
+                used_input_arg_name_and_type_list.append((arg_name, type_name))
 
         all_prints = used_outs_prints + print_retval_stmts
 
