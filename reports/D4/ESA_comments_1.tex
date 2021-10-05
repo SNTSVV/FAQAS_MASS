@@ -16,9 +16,13 @@ Comments IDs appear also in the main document next to the text modified to addre
 \hline
 TDR-D4-PABG-1&
 \begin{minipage}{12cm}
-The purpose of the Chapter~\ref{chapter:caseStudies} is to present an overview of the case study systems of the FAQAS activity, and furthermore to introduce some preliminary results. More importantly, the different approaches presented in FAQAS cannot be evaluated in the same way, and thus, we need dedicated chapters were we present in details the empirical evaluation that we carried on code-driven mutation analysis (see Chapter~\ref{sec:testSuiteEvaluation:codeDriven}), code-driven mutation test suite augmentation (see Chapter~\ref{sec:testGeneration:codeDriven}), and data-driven mutation analysis (see Chapter~\ref{sec:testSuiteEvaluation:dataDriven}).
+The purpose of the Chapter~\ref{chapter:caseStudies} is to present an overview of the case study systems used in the FAQAS activity. Such overview includes structural (lines of code) and test suite metrics (code overage). In the updated document, we removed the sub-sections about preliminary mutation analysis results because no longer make sense because we now have the final results presented in the following chapters.
 
-However, we added Section~\ref{sec:summary:results} that reports a summary of the output of the multiple FAQAS approaches (e.g., mutation scores, number of test cases generated).
+Since the approaches developed within FAQAS are different form each other (i.e., produce different results), we believe to be necessary first to present a detailed description of the empirical evaluation. This is why first we present  the results for code-driven mutation analysis (see Chapter~\ref{sec:testSuiteEvaluation:codeDriven}), code-driven mutation test suite augmentation (see Chapter~\ref{sec:testGeneration:codeDriven}), and data-driven mutation analysis (see Chapter~\ref{sec:testSuiteEvaluation:dataDriven}) separately.
+
+To provide a short overview of the project outcome, we have added Section~\ref{sec:summary:results} that reports a summary of the output of the multiple FAQAS approaches (e.g., mutation scores, number of test cases generated).
+
+\TODO{Oscar, in Table 2.26 add ESAIL System+Unit, ASN1CC. Honestly, I would simply leave only the MASS MS not the other columns.}
 \end{minipage}\\
 \\
 \hline
@@ -73,9 +77,14 @@ Statement coverage&Yes\\
 Minimum lines covered per source file&Yes\\
 Maximum lines covered per source file&Yes\\
 Distribution of test cases exercising each statement&No\\
+
+
+
 \hline
 \end{tabular}
 
+
+\TODO{Test cases execution time: didn't we generate a file with the time? The file you use for timeouts?}
 \end{minipage}\\
 \\
 \hline
@@ -112,27 +121,48 @@ See answer to comment \texttt{TDR-D4-PABG-1}.
 \hline
 TDR-D4-PABG-11&
 \begin{minipage}{12cm}
-Actually, with the exception of \SAIL{}, we are comparing MASS to the truth, i.e., a mutation analysis process were all the mutants are considered and executed against the complete test suite. In the case of \SAIL, we defined \SAIL{}$_S$ to be our complete set (i.e., 3,535 mutants), since the actual complete set (i.e., 78\,203 mutants) would not be possible to analyze in the time frame of the FAQAS project.
-
-However, we added a phrase to the design paragraph of the research question to avoid wrong interpretations.
+%Actually, with the exception of \SAIL{}, we are comparing MASS to the truth, i.e., a mutation analysis process were all the mutants are considered and executed against the complete test suite. In the case of \SAIL, we defined \SAIL{}$_S$ to be our complete set (i.e., 3,535 mutants), since the actual complete set (i.e., 78\,203 mutants) would not be possible to analyze in the time frame of the FAQAS project.
+We added a sentence to the design paragraph of the research question to clarify our objective, which is simply to present the final results and discuss deviations from a traditional approach. Indeed, comparison with ground truth would be useful but that would entail, at least, automated generation of test cases; precisely, if SEMuS cannot generate a test case, we may assume it is equivalent. Unfortunately, (1) automated generation of test cases is feasible only for a subset of our case study subjects (see results for SEMUs), (2) a test case may not be generated because of a limitation of the tool (timeout) and thus manual inspection remains required, (3) automated detection of redundant mutants may need further customization of SEMuS. We may discuss how to plan such comparison, for a subset of case study subjects,  during the review meeting.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-12&
 \begin{minipage}{12cm}
-Yes, it is something to be addressed in the FAQAS follow-on activity. We added a phrase in Section~\ref{sec:exp:thr}.
+Yes, it is something to be addressed in a follow-on activity. We added a sentence in Section~\ref{sec:exp:thr}.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-13&
 \begin{minipage}{12cm}
-We will keep the research questions for the FAQAS follow-on activity.
+In general yes but some considerations need to be done. Below, we report the original text of the RQs and some comments.
+
+\emph{RQ1: Are data driven mutation cost affordable in space context?}\\Current RQ3.\\
+\emph{RQ2: Does data driven mutation scale in space context?}\\Current RQ3.
+\emph{RQ3. How does data-driven mutation compare to code-driven mutation?} This research question aims to compare the results obtained with code-driven and data-driven test suite assessment. We are interested in answering the following subquestions: (RQ4.a) Do test cases that kill code-driven mutants tend kill also data-driven mutants? (RQ4.b) What type of mutants generated by data-driven mutation are not detected by means of code-driven mutants? (RQ4.c) Is it possible to find a relation between the mutation scored computed with data-driven and code-driven mutation?\\
+This is a little complicate. The first problem is that data-driven and code-driven target different types of problems (algorithmic VS interoperability). Ideally, we shall compare with code-driven mutation operators simulating integration problems. The second problem concerns the nature of the comparison. Of course we may simply study if the two measures correlate but it would have little value. More useful might be to determine which approach more likely detect realistic limitations of the test suites (e.g., limitations that did not spot real bugs); however, even in this case the answer to this question may simply relate to the nature of real bugs (interoperability are detected by data-driven algorithmic by code-driven). To conclude, it might be worth investigating but the answers may be simplistic.-\emph{RQ4: To what extent equivalent and redundant mutants affect data driven mutation?}\\
+Current RQ2.\\\emph{RQ5. Does mutants sampling lead to accurate results in the case of data-driven mutation testing?} This research question investigates if mutants sampling is accurate also in the case of data-driven mutation testing.\\
+It would be worth consideration; however, given the limited number of mutants (~120 for ESAIL) it's very likely that results will not be accurate for data-driven (we need ~350 for accurate estimation). In the data-driven context it would be more useful to sample the execution of the mutation (e.g., only 50\% of the exchanged messages are mutated to not impact over execution time).\\\emph{RQ6. How do mutants sampling approaches compare in terms of performance?} We aim to determine which mutants sampling strategy reduces most the data-driven mutation testing execution time.\\
+It is worth consideration but, related to RQ5 above, the strategy would be about which data items to mutate (E.g., the first message exchanged, random ones, the last one).\\\emph{RQ7. Is it feasible to apply reachability analysis to automatically generate inputs that kill data-driven mutants?} This research question aims to evaluate, on a subset of the case study systems, if static analysis is a viable solution to generating test cases that kill data-driven mutants. We aim to address the following subquestions: (RQ7.a) Can static analysis generate inputs that trigger the mutants? (RQ7.b) Are the generated inputs valid (i.e., do they lead to valid executions or are discarded by the software)?\\
+This RQ concerns DAMTE.\\
+
+%\REVOCT{C-P-13}{Instead, we keep the following research questions for the FAQAS follow-on activity:}
+%
+%    \REVOCT{C-P-13}{\emph{RQ4. How does data-driven mutation compare to code-driven mutation?} This research question aims to compare the results obtained with code-driven and data-driven test suite assessment. We are interested in answering the following subquestions: (RQ4.a) Do test cases that kill code-driven mutants tend kill also data-driven mutants? (RQ4.b) What type of mutants generated by data-driven mutation are not detected by means of code-driven mutants? (RQ4.c) Is it possible to find a relation between the mutation scored computed with data-driven and code-driven mutation?}
+%
+%    \REVOCT{C-P-13}{
+%
+%    \REVOCT{C-P-13}{}                                    
+%
+%     
+
+
+
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-14&
 \begin{minipage}{12cm}
-Done.
+We added a footnote.
 \end{minipage}\\
 \\
 \hline
@@ -164,27 +194,30 @@ Mutation score by data item&Yes\\
 \hline
 TDR-D4-PABG-16&
 \begin{minipage}{12cm}
-As specified in Section~\ref{sec:threats:damat}, our results generalize for systems with architectures similar to \SAIL, which is a state-of-the-art system in terms of CPS software.
+As specified in Section~\ref{sec:threats:damat}, our results shall generalize for systems with architectures similar to \SAIL  and libParam, they both have a client/server architecture, which is standard practice. For \SAIL the ADCS, GPS, and PDHU act as distinct servers and the control software is the client that requests information; libParam has a standard client/server structure.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-17&
 \begin{minipage}{12cm}
-It does not make sense to mutate the other direction (i.e., OBC towards peripherals); given that the ADCS component is simulated, and thus, it is not robust enough for applying our methodology. It would make sense to mutate the direction OBC towards peripherals, when the system is tested with hardware in the loop.
+
+For \ESAIL it is not possible to mutate the other direction (i.e., OBC towards peripherals). The problem is that, when ESAIL is executed by the SVF test suite, the ADCS and the other components component are simulated; since the simulator is not a twin of the simulated hardware generating mutated inputs may simply lead to simulator errors. 
+For ESAIL, it makes sense to mutate the direction OBC towards peripherals when the system is tested with hardware in the loop (but there might be safety risks).
+
+For libParam we mutated in both directions; indeed most of the mutations concern messages that are received as input by the server (and do not lead to any output message), only one mutated message is a response (server output).
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-18&
 \begin{minipage}{12cm}
-We meant adding oracles that verify data values already produced by the software under test. We added an additional phrase in Section~\ref{sec:rq2:damat} to clarify it.
+We meant adding oracles that verify data values already produced by the software under test. We added a sentence in Section~\ref{sec:rq2:damat} to clarify it.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-19&
 \begin{minipage}{12cm}
-\TODO{FABRIZIO: to be fixed}
-It is very likely that we fail to apply the methodology to ESAIL use cases since the known incompatibility of libraries between clang (LLVM compiler used in SEMuS) and RTEMS (ESAIL compiler) (see Deliverable D2 section 1.2.3.7 for more details).
-However, we will carry on a complete assessment during WP4.
+Applicability limitations are due to the need of compiling the software with LLVM - for test generation. A preliminary execution of the method on the ESAIL source code lead to compilation problems, which may depend on the already reported incompatibility between clang (LLVM compiler used in SEMuS) and RTEMS (ESAIL compiler) (see Deliverable D2 section 1.2.3.7 for more details).
+However, we will reiterate this issue during WP4 to study workarounds.
 %However, we added a phrase explaining the aforementioned problem.
 %SEMuS relies on the KLEE symbolic execution engine for test generation. KLEE requires that programs passed as input shall be compiled in LLVM bitcode format. In Deliverable D2 section 1.2.3.7, we presented a feasibility study showing that ESAIL cannot be compiled in LLVM bitcode format because of incompatibility of libraries between clang (LLVM compiler) and RTEMS (ESAIL compiler).
 %However, we added a phrase explaining the aforementioned problem.
@@ -193,37 +226,38 @@ However, we will carry on a complete assessment during WP4.
 \hline
 TDR-D4-PABG-20&
 \begin{minipage}{12cm}
-The quality of the test cases generated by the technique is high. SEMuS enable us to generate test inputs that kill mutants not previously detected by existing test suites. The test cases generated by SEMuS increases the overall quality of a test suite because (1) cover input partitions not previously considered, (2) evidence the lack of oracles in the test suite, and (3) in some cases, it might spot defects in the code (as already presented in Section~\ref{sec:shortcoming:semus}).
+By definition the quality of the test cases generated by SEMuS shall be high because they kill mutants not killed by the test suite. However, such quality might be diminished by two factors (1) SEMuS erroneously determine that a mutant is killed (this shall be a sort of implementation errors that we never encountered), (2) the mutants are not representative of realistic problems. Concerning (2) we can only refer to literature indicating that (A) achieving a high mutation score improves significantly the fault detection capability of a test suite~\cite{papadakis2018mutation}, and (B) a very high mutation score (i.e., above 0.75) ensures a higher fault detection rate than the one obtained with other coverage criteria, such as statement and branch coverage~\cite{Chekam:17}.
+Based on our observations (including the ones for LibUtil not appearing yet in the deliverable), we can claim that the generated test cases are of high quality because they (1) cover input partitions not covered by the test suite of the SUT (last ASN1-related e-mail), (2) enables us to determine  the lack of oracles in the test suite, and (3) enabled the detection of defects (ASN1 case).
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-21&
 \begin{minipage}{12cm}
-Done.
+We have added an explanatory subsection.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-22&
 \begin{minipage}{12cm}
-Done.
+We have added an explanatory subsection.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-23&
 \begin{minipage}{12cm}
-In the results of research question 2 (see Section~\ref{sec:rq3:damat}), we already report the average time taken to manually configure a single operator of the fault model (i.e., between five and ten minutes).
+In the results of research question 2 (see Section~\ref{sec:rq3:damat}), we report the average time taken to manually configure a single operator of the fault model (i.e., between five and ten minutes).
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-24&
 \begin{minipage}{12cm}
-Done.
+We added the missing title.
 \end{minipage}\\
 \\
 \hline
 TDR-D4-PABG-25&
 \begin{minipage}{12cm}
-Done.
+We have added an introductory part.
 \end{minipage}\\
 \\
 \hline
