@@ -16,8 +16,7 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 \RQ{} The engineer shall manually modify the source code of the SUT to integrate mutation probes into it.
 
-\RQ{} The \FAQAS shall support C-coded software and C++-coded software.
-
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall support C-coded software and C++-coded software.}
 
 %\RQ{} The \FAQAS shall require the engineer to manually modify the scripts used to execute test cases so they include an invocation to \FAQAS after the execution of every single test case.
 %
@@ -27,15 +26,15 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 % \RQ{} The \FAQAS shall mutate the target data item by applying a set of mutation operations derived by a set of mutation operators that shall be specified by the engineer in the Fault Model.
 
-\RQ{} The \FAQAS shall implement the set of operators listed in Table~\ref{table:damat:operators}.
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall implement the set of operators listed in Table~\ref{table:damat:operators}.}
 
 \input{tables/operators_DAMA.tex}
 
-\RQ{} For every mutation operator, the \FAQAS shall generate one or more mutants performing a mutation operation.
+\REVTOOL{P-11}{\RQ{} For every mutation operator defined in the Fault Model, the \FAQAS shall generate one or more mutants performing a mutation operation.}
 
-\RQ{} The \FAQAS shall identify each mutant with a unique numerical identifier.
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall identify each mutant with a unique numerical identifier.}
 
-\RQ{} The \FAQAS will automatically generate a table containing the definition of all the generated mutants and their identifiers.
+\REVTOOL{P-11}{\RQ{} The \FAQAS will automatically generate a table containing the definition of all the generated mutants and their identifiers.}
 
 \RQ{} The \FAQAS shall work with compilation scripts that are modified by the engineer according to rules specific for the \FAQAS.
 
@@ -43,50 +42,48 @@ The following requirements regard the Test Suite Evaluation Based on the Data-dr
 
 \RQ{} The \FAQAS shall derive, from logs generated during the execution of the SUT test suite, the data items exercised by each test case.
 
-\RQ{} The \FAQAS shall provide, for each mutant, a list of all test cases covering the data item targeted by the mutant.
-
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall provide, for each mutant, a list of all test cases covering the data item targeted by the mutant.
+}
 \RQ{} The \FAQAS shall compile a version of the SUT for every generated mutant.
 
 \RQ{} For each mutation operator, the \FAQAS shall execute only the test cases exercising the data item targeted by the mutation operator.
 
-\RQ{} The \FAQAS shall execute every mutant against all the test cases exercising the data item targeted by the mutation operator.
-
-\RQ{} The \FAQAS shall support test case execution following the practice for the SUT (e.g., running the command \texttt{make test}).
-
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall execute every mutant against all the test cases exercising the data item targeted by the mutation operator.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall support test case execution following the practice for the SUT (e.g., running the command \texttt{make test}).
+}
 \RQ{} For each mutation operation, the \FAQAS shall provide the engineer with information on the number of instances of the data item that have been mutated and not mutated by the selected mutation operation.
 
 \RQ{} The \FAQAS shall automatically determine if the mutation operation has been performed at least once.
 
 \RQ{} The \FAQAS shall automatically determine if a mutant has been killed.
 
-\RQ{} The \FAQAS shall execute the test suite until all mutants targeting at least one covered data item have been executed.
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall compute the fault model coverage (see D2) on the mutation results.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall compute the mutation operation coverage (see D2) on the mutation results.
+}
+\RQ{} The \FAQAS shall compute the mutation score (see D2) based on the mutation results.
 
-\RQ{} The \FAQAS shall compute the fault model coverage (see D2) on the mutation results.
-
-\RQ{} The \FAQAS shall compute the mutation operation coverage (see D2) on the mutation results.
-
-\RQ{} The \FAQAS shall compute the mutation score based on the mutation results.
-
-\RQ{} The \FAQAS shall produce a list of all the mutants and their status.
-
-\RQ{} The \FAQAS shall describe the status of a mutant relative to the Fault Model Coverage as \texttt{COVERED}, if the or \texttt{NOT\_COVERED}.
-
-\RQ{} The \FAQAS shall mark all mutants targeting a data item exercised by the test suite as \texttt{COVERED}.
-
-\RQ{} The \FAQAS shall mark all mutants targeting a data item not exercised by the test suite as \texttt{NOT\_COVERED}
-
-\RQ{} The \FAQAS shall describe the status of a mutant relative to the Mutation Operation Coverage as \texttt{APPLIED} or \texttt{NOT\_APPLIED}.
-
-\RQ{} The \FAQAS shall mark all mutants that performed the corresponding mutation operation at least once as \texttt{APPLIED}
-
-\RQ{} The \FAQAS shall mark all mutants that did not perform the corresponding mutation operation at least once as \texttt{NOT\_APPLIED}.
-
-\RQ{} The \FAQAS shall describe the status of a mutant relative to the Mutation Score as \texttt{KILLED} or \texttt{LIVE}.
-
-\RQ{} The \FAQAS shall mark all mutants that caused at least a test case failure as \texttt{KILLED}.
-
-\RQ{} The \FAQAS shall mark all mutants that did not cause at least a test case failure as \texttt{LIVE}.
-
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall produce a list of all the mutants and their status.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall describe the status of a mutant relative to the Fault Model Coverage as \texttt{COVERED}, if the or \texttt{NOT\_COVERED}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants targeting a data item exercised by the test suite as \texttt{COVERED}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants targeting a data item not exercised by the test suite as \texttt{NOT\_COVERED}
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall describe the status of a mutant relative to the Mutation Operation Coverage as \texttt{APPLIED} or \texttt{NOT\_APPLIED}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants that performed the corresponding mutation operation at least once as \texttt{APPLIED}
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants that did not perform the corresponding mutation operation at least once as \texttt{NOT\_APPLIED}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall describe the status of a mutant relative to the Mutation Score as \texttt{KILLED} or \texttt{LIVE}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants that caused at least a test case failure as \texttt{KILLED}.
+}
+\REVTOOL{P-11}{\RQ{} The \FAQAS shall mark all mutants that did not cause at least a test case failure as \texttt{LIVE}.
+}
 \RQ{} The \FAQAS shall provide the engineer with the means to inspect the mutation results. The \FAQAS data-driven mutation results shall include the list of data types not covered by any test case, the list of data types exercised by each test case, the list of live and killed mutants, and the result of every executed test case.
 
 %\RQ{} The data-driven mutation testing component from \FAQAS shall not implement any feature to automatically generate test cases.
