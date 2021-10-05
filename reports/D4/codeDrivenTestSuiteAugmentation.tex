@@ -50,10 +50,21 @@ As shown in Table~\ref{table:results:semus:ms}, we apply test generation for the
 For every subject, we applied the SEMuS toolset on Linux OS running on the HPC cluster of the University of Luxembourg. The HPC cluster consists of Intel Xeon E5-2680 v4 (2.4 GHz) nodes. To make our experiments feasible we executed 14 SEMuS parallel instances running on a dedicated node.
 
 \subsection{RQ1 - Approach scalability}
+\label{sec:rq1:semus}
 
 To assess \INDEX{SEMuS} scalability we measure the execution time of each SEMuS instance. Table~\ref{table:results:semus:times} shows statistics about execution times for MLFS and the ASN.1 subjects.
 Firstly, we notice is that median time taken by SEMuS to generate test inputs is the same for both case studies (i.e., 0.4 minutes). While, the mean differs for both case studies, 8.5 minutes for MLFS, and 33.4 for ASN.1 case study. Secondly, we notice that the maximum execution time is limited by the configuration we imposed in SEMuS for the symbolic search, that is, two hours.
 Lastly, we notice that the total execution time of MLFS is approximately 556 hours, which can be executed on only 5.5 hours if executed with 100 HPC nodes. Similarly, the ASN.1 subject can be executed in approximately 1\,161 hours, or 11.6 hours if executed with 100 HPC nodes. In this context, even paying for the computational power of 100 HPC nodes for making test generation feasible in half a day is economically justifiable in the space software context.
+
+    \begin{figure}[tb]
+    \centering
+        \includegraphics[width=0.7\textwidth]{images/execution_time}
+        \caption{SEMuS execution time histogram.}
+        \label{fig:semus:histogram_time}
+    \end{figure}
+
+\REVOCT{TDR-SUM-PABG-01}{Furthermore, we report in Figure~\ref{fig:semus:histogram_time} the histogram of the execution time of all test cases generated for both ASN.1 and MLFS. Particularly, we can see that for 5\,068 mutants (89.11\%) the test case generation time was approximately 5 minutes, and that only 545 mutants took 2 hours approximately (the maximum time imposed by our technique). In line with this results, we conclude that test generation with SEMuS is fast.}
+
 
 \begin{table}[htb]
 \caption{SEMuS execution times.}
