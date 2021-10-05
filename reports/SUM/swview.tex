@@ -29,8 +29,10 @@ The following bulletpoints provide a description of the archive's structure once
 		\end{itemize}
 	\end{itemize}
 
-\REVOCT{indentation fixed}{	\item \texttt{DAMAt/}
-	\begin{itemize}
+\REVOCT{P-02}{	\item \texttt{DAMAt/}
+\begin{itemize}%1
+	\item \texttt{damat\_pipeline}
+	\begin{itemize}%2
 		\item \texttt{DAMAt\_configure.sh}: this script defines the necessary variables for the execution of \DAMA. They shall be set by the engineer.
 		\item \texttt{DAMAt\_probe\_generation.sh}: this script set the variables necessary to generate the data mutation API and execute the python script \texttt{generateDataMutator.py} to generate them.
 		\item \texttt{DAMAt\_mutants\_launcher.sh}: this script starts the \DAMA pipeline.
@@ -39,23 +41,43 @@ The following bulletpoints provide a description of the archive's structure once
 		\item \texttt{DAMAt\_compile.sh}: this is a stub of the script used to compile a mutant, which shall be completed by the engineer.
 		\item \texttt{DAMAt\_run\_tests.sh}: this is a stub of the script used to run the tests, which shall be completed by the engineer.
 		\item \texttt{data\_analysis}: a folder containing five python scripts used for the generation of the final results:
-		\begin{itemize}
+		\begin{itemize}%3
 			\item \texttt{beautify\_results.py}: this script renders the raw results from the execution of the tests in a more readable format.
 			\item \texttt{get\_coverage.py}: this script analizes the results of the fault model coverage.
 			\item \texttt{get\_operator\_coverage.py}: this script analizes the results of the operator coverage.
 			\item \texttt{get\_stats.py}: this script produces statistics from the mutants' execution.
 			\item \texttt{get\_final\_results.py}: this script produces a summary of the execution of \DAMA.
-		\end{itemize}
+		\end{itemize}%3 end
 		\item \texttt{pipeline\_scripts}: a folder containing the four scripts that make up the \DAMA pipeline:
-		\begin{itemize}
+		\begin{itemize}%3
 			\item \texttt{DAMAt\_obtain\_coverage.sh}: this script obtains fault model coverage data in order to execute only the tests that cover each mutant.
 			\item \texttt{get\_mutant\_test\_list.py}: this script produces the list of test against which avery mutant shall be executed.
 			\item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: this scripts compile each mutant and run it against the SUT test suite.
 			\item \texttt{DAMAt\_data\_analysis.sh}: this script executes all the data analysis steps at the end of the execution of the \DAMA pipeline
-		\end{itemize}
+		\end{itemize}%3 end
 		\item \texttt{fault\_model.csv}: an example of a \DAMA fault model in csv format.
 		\item \texttt{tests.csv }: an example of list of test cases and nominal times in csv format.
-	\end{itemize}}
+	\end{itemize}%2 end
+	\item \texttt{mutator}: contains the testing environment for the \DAMA API.
+	\begin{itemize}% 2
+		\item \texttt{src}: contains the source code of the unit tests for \DAMA and the script for launching them.
+		\begin{itemize}% 3
+			\item \texttt{runTests.sh}: this script execute all the unit test cases.
+			\item \texttt{cleanTests.sh}: this script clean the results of previous tests.
+			\item \texttt{tests}: this folder contains the source code for the unit test cases.
+			\item \texttt{generateDataMutator.py}: this is the script that generates the \DAMA mutation API.
+			\item \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c}: these are templates used to generate the \DAMA API by \texttt{generateDataMutator.py}.
+			\item \texttt{CoverageReportHeader.csv}: contains a template used by \texttt{FMcoverage.py} and \texttt{FMcoverage2.py}.
+			\item \texttt{getCoverage.sh}, \texttt{FMcoverage.py} and \texttt{FMcoverage2.py}: these scripts evaluate the coverage when requested by a unit test.
+			\item \texttt{executeTest.sh}, \texttt{executeTest\_gcc.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute the unit tests.
+			\item \texttt{executeTestCoverage.sh}, \texttt{executeTestCoverage2.sh} and  \texttt{execute}\texttt{Test}
+			\texttt{Coverage}\texttt{\_gcc.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute the unit tests and evaluate the Fault Model coverage.
+			\item \texttt{executeTestJustOnce.sh} and \texttt{executeTestProbability.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute unit tests that need particular compilation macros enabled.
+		\end{itemize}% end 3
+	\end{itemize}% end 2
+\end{itemize}% end 1
+}
+
 
   \item \texttt{SEMuS/}
   \begin{itemize}
