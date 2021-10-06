@@ -1,0 +1,73 @@
+\chapter{Software validation testing specification design}
+
+\section{General}
+
+In the following the specification testing for every requirement will be detailed, following the structure underlined by the chapters of the SSS.
+Every requirement is univocally identified.
+
+\section{Software Overview}
+The requirement in this section describe the general capabilities of the software, the general constraints and the software architecture.
+They are available in the SSS (Chapter 3).
+The testing procedures are detailed in Table~\ref{tables:overview}.
+
+\input{tables/sw_overview}
+
+\section{Requirements}
+
+The requirements in this section comprise the following categories, one for every section of chapter 4 of the SSS.
+
+\begin{itemize}
+  \item Functional requirements
+  \item System interface requirements
+  \item Adaptation and missionization requirements
+  \item Computer resource requirements
+  \item Security requirements
+  \item Safety requirements
+  \item Reliability and availability requirements
+  \item Quality requirements
+  \item Design requirements and constraints
+  \item Adaptation and installation requirements
+  \item Software operations requirements
+  \item Software maintenance requirements
+  \item System and software observability requirements
+\end{itemize}
+
+ Every category will be detailed in the following in tabular form.
+
+\subsection{Functional Requirements}
+
+The functional requirements are relative to four procedures belonging to the FAQAS framework:
+\begin{itemize}
+  \item \emph{Test Suite Evaluation Based on Code-driven Mutation} here reported for readablity as \emph{Code-driven Evaluation}
+  \item \emph{Test Suite Augmentation Based on Code-driven Mutation} here reported for readablity as \emph{Code-driven Augmentation}
+  \item \emph{Test Suite Evaluation Based on Data-driven Mutation} here reported for readablity as \emph{Data-driven Evaluation}
+  \item \emph{Test Suite Augmentation Based on Code-driven Mutation} here reported for readablity as \emph{Data-driven Augmentation}
+\end{itemize}
+
+The test for \emph{Code-driven Evaluation} and \emph{Code-driven Augmentation} are detailed in Table~\ref{tables:code}.
+
+\input{tables/requirements_code}
+
+The test for \emph{Data-driven Evaluation} and \emph{Data-driven Augmentation} are detailed in Table~\ref{tables:data}.
+
+\input{tables/requirements_data}
+
+\subsection{System Interface requirements}
+
+Table~\ref{tables:interface} details the validation testing procedures for System interface requirements.
+
+\input{tables/requirements_interface}
+
+\subsection{Others}
+
+Table~\ref{tables:others} details the validation testing procedures for all the others categories of this section of  requirements.
+
+\input{tables/requirements_other}
+
+\section{Verification, validation and system integration}
+
+This section covers the validation testing procedures for the requirement contained in Chapter 5 of the SSS.
+
+They are reported in Table~\ref{tables:verification}.
+
+\input{tables/verification_validation}

@@ -1,0 +1,110 @@
+% !TEX root = MAIN.tex
+
+\chapter{Introduction}
+
+The purpose of this the Software Validation Specification is to describe the testing, analysis, inspection and
+review of design specifications, and is used to document the software validation specification concerning the requirements baseline.
+
+\chapter{Applicable and reference documents}
+
+\begin{itemize}
+\item{D1 - Mutation testing survey}
+\item{D2 - Study of mutation testing applicability to space software}
+\item{D4 - Validation of the toolset}
+\item{SSS - Software System Specification}
+\item{SUM - Software User Manual}
+\item{SUTP - Software Unit Test Plan}
+
+\end{itemize}
+
+\chapter{Terms, definitions, and abbreviated terms}
+
+\begin{itemize}
+\item{FAQAS}: activity ITT-1-9873-ESA
+\item{FAQAS-framework}: software system to be released at the end of WP4 of FAQAS
+\item{D2}: Deliverable D2 of FAQAS, \emph{Study of mutation testing applicability to space software}
+\item{D4}: Deliverable D4 of FAQAS, \emph{Validation of the toolset}
+\item{SSS}: Software System Specification.
+\item{KLEE}: Third-party test generation tool, details are provided in D2.
+\item{MLFS}: Mathematical Library for Flight Software.
+\item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+\item{SUM}: Software User Manual.
+\item{SUTP}: Software Unit Test Plan
+\item{WP}: Work package.
+
+\end{itemize}
+
+\chapter{Software Overview}
+
+This documents concern the components of the FAQAS framework:
+\begin{itemize}
+  \item MASS
+  \item DAMAt
+  \item SEMUs
+  \item DAMtE
+\end{itemize}
+
+For detailed information on their structure and usage see D2 and SUM.
+
+\chapter{Software validation specification task identification}
+
+\section{Task and criteria}
+
+The validation tasks are meant to ensure that the requirement expressed in the SSS are met.
+They are accomplished by following three kinds of validation approaches:
+\begin{itemize}
+  \item veryfing the requirements for the most critical and complex software components througt \emph{unit testing} as detailed in the SUTP.
+  \emph{unit testing} is composed of three tasks:
+  \begin{itemize}
+    \item performing \emph{DAMAt-TD-DDMutation-1}
+    \item performing \emph{DAMAt-TD-DDMutation-2}
+    \item performing \emph{MASS-TD-SRCMutation-1}
+  \end{itemize}
+  \item verifying the requirements for the rest of the components through \emph{application to the case studies} as detailed in the D4 and the SUM.
+  Application to the case studies is composed of the following tasks:
+  \begin{itemize}
+    \item \emph{instrumenting the source code}
+    \item \emph{configuring and running} a given component, for example \texttt{DAMAt\_compile.sh}.
+  \end{itemize}
+  \item verifying general requirements through \emph{requirement validation}.
+\end{itemize}
+
+\section{Features to be tested}
+The scope of the SVS includes all baseline requirements expressed in the SSS.
+
+% \section{Features not to be tested}
+% The SVS w.r.t. TS or RB shall describe all the features and significant
+% combinations not to be tested.
+
+\section{Test pass and fail criteria}
+The pass-fail criteria for the tasks belonging to the \emph{unit testing} validation approach are detailed in the SUTP.
+
+Regarding the tasks belonging to the \emph{application to the case studies} validation approach, the pass criteria are the compliance of the behavior of the component to the expressed requirement before, during, and after the execution of the task (i.e. the component shall accept the required inputs, produce the required outputs and function under the required conditions in a consistent way).
+
+
+% \section{Items that cannot be validated by test}
+% a. The SVS w.r.t. TS or RB shall list the tasks and items under tests that
+% cannot be validated by a test.
+% b. Each of them shall be properly justified
+% c. For each of them, an analysis, inspection, or review of design shall be
+% proposed.
+%
+% % \section{Manually and automatically generated code}
+% % a. The SVS shall address separately the activities to be performed for
+% % manually and automatically generated code, although they have the
+% % same objective (ECSS‐Q‐ST‐80 clause 6.2.8.2 and 6.2.8.7).
+%
+% \chapter{Software validation testing specification design}
+%
+% \section{General}
+% a. The SVS w.r.t. TS or RB shall define software
+% validation testing specification design, giving the design grouping
+% criteria such as function, component, or equipment management.
+% b. For each identified test design, the SVS w.r.t. TS or RB shall provide the
+% information given in <6.2>.
+%
+% \section{Organization of each identified test design}
+%
+% NOTE The SVS w.r.t. TS or RB defines each validation
+
+\clearpage
