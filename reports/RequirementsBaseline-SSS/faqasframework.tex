@@ -134,22 +134,32 @@ The requirements defined in this chapter are univocally identified by the paragr
 
 
 \REVISION{P-15c}{\RQ{} The \FAQAS shall support the following commands:
+\begin{itemize}
+	\item \texttt{MASS}:
 	\begin{itemize}
-	\item \texttt{PrepareSUT}: command to prepare the SUT and collect information about the SUT test suite.
-	\item \texttt{GenerateMutants}: command to generate mutants from the SUT source code.
-	\item \texttt{CompileOptimizedMutants}: command to compile the mutants with the multiple optimisation levels.
-	\item \texttt{OptimizedPostProcessing}: command to disregard equivalent and redundant mutants based on compiler optimisations.
-	\item \texttt{GeneratePTS}: command to generate the prioritized and reduced test suites.
-	\item \texttt{ExecuteMutants}: command to execute mutants against the SUT test suite.
-	\item \texttt{IdentifyEquivalents}: command to identify equivalent mutants based on code coverage.
-	\item \texttt{MutationScore}: command to compute the mutation score and final reporting.
-	\item \texttt{PrepareMutants\_HPC}: command to prepare the mutants workspace for the execution on HPCs.
-	\item \texttt{ExecuteMutants\_HPC}: command to execute mutants on HPCs.
-	\item \texttt{PostMutation\_HPC}: command to assess past mutant executions, and to decide whether more mutant executions are needed.
+		\item \texttt{PrepareSUT}: command to prepare the SUT and collect information about the SUT test suite.
+		\item \texttt{GenerateMutants}: command to generate mutants from the SUT source code.
+		\item \texttt{CompileOptimizedMutants}: command to compile the mutants with the multiple optimisation levels.
+		\item \texttt{OptimizedPostProcessing}: command to disregard equivalent and redundant mutants based on compiler optimisations.
+		\item \texttt{GeneratePTS}: command to generate the prioritized and reduced test suites.
+		\item \texttt{ExecuteMutants}: command to execute mutants against the SUT test suite.
+		\item \texttt{IdentifyEquivalents}: command to identify equivalent mutants based on code coverage.
+		\item \texttt{MutationScore}: command to compute the mutation score and final reporting.
+		\item \texttt{PrepareMutants\_HPC}: command to prepare the mutants workspace for the execution on HPCs.
+		\item \texttt{ExecuteMutants\_HPC}: command to execute mutants on HPCs.
+		\item \texttt{PostMutation\_HPC}: command to assess past mutant executions, and to decide whether more mutant executions are needed.
+	\end{itemize}
+\REVTOOL{P-11}{	\item \texttt{DAMAt}:
+	\begin{itemize}
+		\item \texttt{DAMAt\_probe\_generation}: command to generate the data mutation probes.
+		\item \texttt{DAMAt\_mutants\_launcher}: command to execute the mutants against the SUT. test suite.
+	\end{itemize}}
 \end{itemize}
 }
 
 \REVISION{P-15b}{\RQ{} The \FAQAS shall generate the following log files:
+\begin{itemize}
+	\item \texttt{MASS}
 	\begin{itemize}
 		\item output concerning SUT compilation process
 		\item output concerning execution of SUT test cases
@@ -163,10 +173,17 @@ The requirements defined in this chapter are univocally identified by the paragr
 		\item output concerning the execution of the \texttt{ExecuteMutants\_HPC} command
 		\item output concerning the execution of the \texttt{PostMutation\_HPC} command
 	\end{itemize}
+\REVTOOL{P-11}{	\item \texttt{DAMAt}
+	\begin{itemize}
+		\item output concerning the execution of the \texttt{DAMAt\_probe\_generation} command
+		\item output concerning the execution of the \texttt{DAMAt\_mutants\_launcher} command
+	\end{itemize}}
+\end{itemize}
+
 }
 
 \REVISION{P-15d}{
-\RQ{} The \FAQAS shall be configured through a text file.
+\RQ{} The \FAQAS shall be configured through texts files.
 %named \texttt{mass\_conf.sh
 }
 
@@ -190,8 +207,6 @@ The requirements defined in this chapter are univocally identified by the paragr
 \REVISION{P-16}{\RQ{} The \FAQAS shall provide means to configure its execution with any test harness infrastructure for C/C++ software.}
 
 \RQ{} The \FAQAS shall provide the engineer with the ability to configure the environment variables used to tune the mutation testing process.
-
-
 
 \section{Adaptation and missionization requirements}
 
