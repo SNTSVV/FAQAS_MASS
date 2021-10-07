@@ -88,8 +88,12 @@ Concerning the experiments conducted on the whole ESAIL, they will target all th
 \end{itemize}
 
 % Code coverage information concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}.
-\TODO{FIX}
-\REVOCT{C-P-6}{Regarding code coverage, the ESAIL system test suite reports 67,022 out of 74,155 lines of code being covered (i.e., 90.38\% statement coverage), instead, the ESAIL unit test suite ... . More details concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}}
+%\TODO{FIX}
+\REVOCT{C-P-6}{Regarding code coverage, the ESAIL system test suite reports 67,022 out of 74,155 lines of code being covered (i.e., 90.38\% statement coverage). 
+In our empirical evaluation, we rely on the ESAIL unit test suite to evaluate if mutation analysis results can be combined (see Section~\ref{sec:exp:thr}). 
+In the ESAIL development context, the unit test suite is used to exercise critical functions hard to exercise with the system test suites. For this reason, the unit test suite covers only a portion of the code. 
+MASS applies mutation analysis only to code that is covered by the test suite, for this reason, since we rely on the unit test suite only to evaluate the combination of multiple test suites, only the code coverage of the system test suite is relevant (i.e., we do not mutate lines exercised by the unit test suite only).
+More details concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}}
 
 
 \subsection{Data-driven mutation analysis}
