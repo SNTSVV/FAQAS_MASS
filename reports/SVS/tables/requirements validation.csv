@@ -1,0 +1,136 @@
+﻿Chapter,Section,Requirement,Validation Approach,Case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-001,approach,case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-002,approach,case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-003,approach,case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-004,approach,case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-005,approach,case
+Software Overview,General Capabilities,FAQAS-SSS-REQ-006,approach,case
+Software Overview,General Constraints,FAQAS-SSS-REQ-007,approach,case
+Software Overview,General Constraints,FAQAS-SSS-REQ-008,approach,case
+Software Overview,General Constraints,FAQAS-SSS-REQ-009,approach,case
+Software Overview,Software Architecture,FAQAS-SSS-REQ-010,approach,case
+Software Overview,Software Architecture,FAQAS-SSS-REQ-011,approach,case
+Software Overview,Operational Environment,FAQAS-SSS-REQ-012,approach,case
+Software Overview,Operational Environment,FAQAS-SSS-REQ-013,approach,case
+Software Overview,Operational Environment,FAQAS-SSS-REQ-014,approach,case
+Software Overview,Operational Environment,FAQAS-SSS-REQ-015,approach,case
+Software Overview,Assumptions and dependencies,FAQAS-SSS-REQ-016,approach,case
+Software Overview,Assumptions and dependencies,FAQAS-SSS-REQ-017,approach,case
+Software Overview,Assumptions and dependencies,FAQAS-SSS-REQ-018,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-019,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-020,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-021,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-022,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-023,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-024,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-025,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-026,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-027,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-028,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-029,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-030,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-031,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-032,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-033,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-034,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-035,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-036,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-037,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-038,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-039,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-040,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-041,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-042,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-043,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-044,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-045,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-046,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-047,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-048,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-049,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-050,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-051,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-052,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-053,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-054,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-055,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Code-driven Mutation,FAQAS-SSS-REQ-056,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Code-driven Mutation,FAQAS-SSS-REQ-057,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Code-driven Mutation,FAQAS-SSS-REQ-058,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Code-driven Mutation,FAQAS-SSS-REQ-059,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Code-driven Mutation,FAQAS-SSS-REQ-060,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Code-driven Mutation,FAQAS-SSS-REQ-061,approach,case
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-062,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-063,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-064,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-065,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-066,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-067,unit test suite,DAMAt-TD-DDMutation-2
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-068,unit test suite,DAMAt-TD-DDMutation-2
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-069,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-070,unit test suite,DAMAt-TD-DDMutation-1
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-071,unit test suite,DAMAt-TD-DDMutation-1
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-072,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-073,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-074,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-075,unit test suite,DAMAt-TD-DDMutation-1
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-076,unit test suite,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-077,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-078,unit test suite,all
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-079,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-080,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-081,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-082,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-083,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-084,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-085,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-086,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-087,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-088,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-089,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-090,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-091,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-092,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-093,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-094,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-095,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-096,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-097,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Evaluation Based on Data-driven Mutation,FAQAS-SSS-REQ-098,application to case studies ,"ESAIL, LibParam"
+Requirements,Functional requirements - Test Suite Augmentation Based on Data-driven Mutation,FAQAS-SSS-REQ-099,approach,case
+Requirements,Functional requirements - Test Suite Augmentation Based on Data-driven Mutation,FAQAS-SSS-REQ-100,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-101,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-102,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-103,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-104,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-105,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-106,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-107,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-108,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-109,approach,case
+Requirements,System Interface requirements,FAQAS-SSS-REQ-110,approach,case
+Requirements,Adaptation and missionization requirements,FAQAS-SSS-REQ-111,approach,case
+Requirements,Adaptation and missionization requirements,FAQAS-SSS-REQ-112,approach,case
+Requirements,Computer resource requirements,FAQAS-SSS-REQ-113,approach,case
+Requirements,Security Requirements,FAQAS-SSS-REQ-114,approach,case
+Requirements,Safety Requirements,FAQAS-SSS-REQ-115,approach,case
+Requirements,Reliability and availability requirements,FAQAS-SSS-REQ-116,approach,case
+Requirements,Reliability and availability requirements,FAQAS-SSS-REQ-117,approach,case
+Requirements,Quality,FAQAS-SSS-REQ-118,approach,case
+Requirements,Quality,FAQAS-SSS-REQ-119,approach,case
+Requirements,Quality,FAQAS-SSS-REQ-120,approach,case
+Requirements,Design requirements and constraints,FAQAS-SSS-REQ-121,approach,case
+Requirements,Design requirements and constraints,FAQAS-SSS-REQ-122,approach,case
+Requirements,Design requirements and constraints,FAQAS-SSS-REQ-123,approach,case
+Requirements,Adaptation and installation requirements,FAQAS-SSS-REQ-124,approach,case
+Requirements,Software operations requirements,FAQAS-SSS-REQ-125,approach,case
+Requirements,Software maintenance requirements,FAQAS-SSS-REQ-126,approach,case
+Requirements,System and software observability requirements,FAQAS-SSS-REQ-127,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-128,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-129,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-130,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-131,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-132,approach,case
+"Verification, validation and system integration",Verification and validation process requirements,FAQAS-SSS-REQ-133,approach,case
+"Verification, validation and system integration",Validation approach,FAQAS-SSS-REQ-134,approach,case
+"Verification, validation and system integration",Validation approach,FAQAS-SSS-REQ-135,approach,case
