@@ -42,7 +42,7 @@ Every time the execution reaches the statement after the mutation, the technique
 \end{center}
 \end{figure}
 
-Figure~\ref{fig:semu-example} introduces an example of \INDEX{dynamic symbolic execution}INDEX, sub-figure (a) shows the symbolic execution for the original program, while (b) shows the symbolic execution process for the mutant version. In order to generate test inputs that kill a mutant, the technique applies symbolic execution to a program $P$ and to its respective mutant $M_2$, to produce their respective symbolic paths. In a second step, the technique solves the formula $kill(\pi_P, \pi_{M_2})$ to generate the test inputs that kills $M_2$ and goes through $\pi_P$ in $P$ and through $\pi_{M_2}$ in $M_2$. 
+Figure~\ref{fig:semu-example} introduces an example of \INDEX{dynamic symbolic execution}, sub-figure (a) shows the symbolic execution for the original program, while (b) shows the symbolic execution process for the mutant version. In order to generate test inputs that kill a mutant, the technique applies symbolic execution to a program $P$ and to its respective mutant $M_2$, to produce their respective symbolic paths. In a second step, the technique solves the formula $kill(\pi_P, \pi_{M_2})$ to generate the test inputs that kills $M_2$ and goes through $\pi_P$ in $P$ and through $\pi_{M_2}$ in $M_2$. 
 
 As shown in Figure~\ref{fig:semu-example}, symbolic execution on the original program leads to the paths $x < 0$ and $False$, with the respective outputs $x + 1$ and $x$.
 Instead, the symbolic execution on the mutant leads to paths $x < -1$ and $x = -1$, with outputs $x + 2$ and $x + 1$.

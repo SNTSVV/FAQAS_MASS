@@ -1,20 +1,22 @@
+% !TEX root =  MAIN.tex
 \chapter{Software validation testing specification design}
 
 \section{General}
 
-In the following the specification testing for every requirement will be detailed, following the structure underlined by the chapters of the SSS.
-Every requirement is univocally identified.
+In the following, we specify the validation procedures adopted for every requirement. Each of the following Sections have a name that matches the name of a Chapter in the SSS. In each Section we thus specify how the requirements described in the SSS Chapter had been validated.
+Every requirement is univocally identified. In general, we provide tables with the list of validation procedures adopted. 
+The entries written inside columns \emph{validation approach} and \emph{task} match the ones described in Section~\ref{sec:taskCrit}.
 
 \section{Software Overview}
-The requirement in this section describes the general capabilities of the software, the general constraints, and the software architecture.
-They are available in the SSS (Chapter 3).
+The Chapter \emph{Software Overview} in SSS (Chapter 3) describes requirements concerning the general capabilities of the software, the general constraints, and the software architecture.
 The testing procedures are detailed in Table~\ref{tables:overview}.
 
 \input{tables/sw_overview}
 
+\clearpage 
 \section{Requirements}
 
-The requirements in this section comprise the following categories, one for every section of chapter 4 of the SSS.
+The requirements in the SSS Chapter \emph{Requirements} comprise the following categories, one for every section of Chapter 4 of the SSS.
 
 \begin{itemize}
   \item Functional requirements
@@ -32,7 +34,7 @@ The requirements in this section comprise the following categories, one for ever
   \item System and software observability requirements
 \end{itemize}
 
- Every category will be detailed in the following tabulars.
+Below, we discuss each of them. 
 
 \subsection{Functional Requirements}
 
@@ -41,16 +43,20 @@ The functional requirements are relative to four procedures belonging to the FAQ
   \item \emph{Test Suite Evaluation Based on Code-driven Mutation} here reported for readablity as \emph{Code-driven Evaluation}
   \item \emph{Test Suite Augmentation Based on Code-driven Mutation} here reported for readablity as \emph{Code-driven Augmentation}
   \item \emph{Test Suite Evaluation Based on Data-driven Mutation} here reported for readablity as \emph{Data-driven Evaluation}
-  \item \emph{Test Suite Augmentation Based on Code-driven Mutation} here reported for readablity as \emph{Data-driven Augmentation}
+  \item \emph{Test Suite Augmentation Based on Data-driven Mutation} here reported for readablity as \emph{Data-driven Augmentation}
 \end{itemize}
 
-The test for \emph{Code-driven Evaluation} and \emph{Code-driven Augmentation} are detailed in Table~\ref{tables:code}.
+The validation procedures adopted for \emph{Code-driven Evaluation} and \emph{Code-driven Augmentation} are detailed in Table~\ref{tables:code}.
 
 \input{tables/requirements_code}
 
-The test for \emph{Data-driven Evaluation} and \emph{Data-driven Augmentation} are detailed in Table~\ref{tables:data}.
+The validation procedures adopted for \emph{Data-driven Evaluation} and \emph{Data-driven Augmentation} are detailed in Table~\ref{tables:data}.
 
 \input{tables/requirements_data}
+
+\TODO{In this preliminary report, inside the tables, we use the keywords \emph{approach} and \emph{case} to indicate that the approach and task remains to be listed in the next version of the deliverable. For now, only DAMAt has been detailed.}
+
+\clearpage
 
 \subsection{System Interface requirements}
 
@@ -60,9 +66,13 @@ Table~\ref{tables:interface} details the validation testing procedures for Syste
 
 \subsection{Others}
 
-Table~\ref{tables:others} details the validation testing procedures for all the other categories of this section of requirements.
+Table~\ref{tables:others} details the validation testing procedures for all the other categories of requirements, which are:
+Adaptation and missionization requirements, Computer resource requirements, Security requirements, Safety requirements, Reliability and availability requirements, Quality requirements, Design requirements and constraints, Adaptation and installation requirements, Software operations requirements, Software maintenance requirements, System and software observability requirements.
+
 
 \input{tables/requirements_other}
+
+\clearpage
 
 \section{Verification, validation and system integration}
 

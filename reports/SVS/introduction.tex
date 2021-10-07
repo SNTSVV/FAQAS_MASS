@@ -40,8 +40,8 @@ This documents concern the components of the FAQAS framework:
 \begin{itemize}
   \item MASS
   \item DAMAt
-  \item SEMUs
-  \item DAMtE
+  \item SEMuS
+%  \item DAMTE
 \end{itemize}
 
 For detailed information on their structure and usage see D2 and SUM.
@@ -49,24 +49,25 @@ For detailed information on their structure and usage see D2 and SUM.
 \chapter{Software validation specification task identification}
 
 \section{Task and criteria}
+\label{sec:taskCrit}
 
 The validation tasks are meant to ensure that the requirement expressed in the SSS are met.
-They are accomplished by following three kinds of validation approaches:
+They are accomplished by following validation approaches:
 \begin{itemize}
-  \item veryfing the requirements for the most critical and complex software components througt \emph{unit testing} as detailed in the SUTP.
+  \item veryfing the requirements for the most critical and complex software components througt \EMPH{unit testing} as detailed in the SUTP.
   \emph{unit testing} is composed of three tasks:
   \begin{itemize}
     \item performing \emph{DAMAt-TD-DDMutation-1}
     \item performing \emph{DAMAt-TD-DDMutation-2}
     \item performing \emph{MASS-TD-SRCMutation-1}
   \end{itemize}
-  \item verifying the requirements for the rest of the components through \emph{application to the case studies} as detailed in the D4 and the SUM.
+  \item verifying the requirements for the rest of the components through \EMPH{application to the case studies} as detailed in the D4 and the SUM.
   Application to the case studies is composed of the following tasks:
   \begin{itemize}
     \item \emph{instrumenting the source code}
     \item \emph{configuring and running} a given component, for example \texttt{DAMAt\_compile.sh}.
   \end{itemize}
-  \item verifying general requirements through \emph{requirement validation}.
+  \item verifying general requirements through \EMPH{manual inspection}. For this approach no further specific task can be identified.
 \end{itemize}
 
 \section{Features to be tested}
