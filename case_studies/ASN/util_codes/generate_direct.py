@@ -344,7 +344,7 @@ def main():
                 # get print code
                 prim_print_fmt = is_primitive_type_get_fmt(type_name, obj_name=arg_name, obj_value=arg_name)
                 if type_name in globalConfigObject[TYPES_TO_PRINTCODE]:
-                    used_outs_prints.append(repeat_format(globalConfigObject[TYPES_TO_PRINTCODE][prototype.return_type], arg_name))
+                    used_outs_prints.append(repeat_format(globalConfigObject[TYPES_TO_PRINTCODE][type_name], arg_name))
                 elif prim_print_fmt is not None:
                     used_outs_prints.append(prim_print_fmt)
                 else:
