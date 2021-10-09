@@ -110,7 +110,9 @@ def strip_type_qualifier(in_type_str):
 def strip_one_ptr(in_type):
     tmp = in_type.get_pointee()
     if tmp.spelling:
-        return True, tmp
+        // void type cannot be instantiated, keep pointer
+        if tmp.spelling != "void":
+            return True, tmp
     return False, in_type
 
 def get_decl(name, type_str):
