@@ -110,9 +110,7 @@ def strip_type_qualifier(in_type_str):
 def strip_one_ptr(in_type):
     tmp = in_type.get_pointee()
     if tmp.spelling:
-        // void type cannot be instantiated, keep pointer
-        if tmp.spelling != "void":
-            return True, tmp
+        return True, tmp
     return False, in_type
 
 def get_decl(name, type_str):
@@ -130,8 +128,28 @@ def get_prototype(func_decl):
         c_type_str = strip_type_qualifier(can_type.spelling)
         has_ptr, ptr_stripped = strip_one_ptr(can_type)
         un_ptr_type = strip_type_qualifier(ptr_stripped.spelling)
+        if un_ptr_type == "void":
+            if globalConfigObject[VOID_ARG_SUBSTITUTE_TYPE] == "":
+                un_ptr_type = input(">>> Please enter the type substitute of `void` for argument"
+                                    " `{}` of function `{}`".format(child.spelling, func_name))
+            elif globalConfigObject[VOID_ARG_SUBSTITUTE_TYPE] is None:
+                print("@RECHECK: `void *` function argument for function {}. Check & change template".format(func_name))
+            else:
+                un_ptr_type = globalConfigObject[VOID_ARG_SUBSTITUTE_TYPE]
+                assert type(un_ptr_type) == str, "invalid type substitute for void: {}".format(un_ptr_type) 
+        do_arg_addr = False
+        if has_ptr:
+            if un_ptr_type in globalConfigObject[ARG_TYPE_TO_ITS_POINTER_ELEM_NUM]:
+                e_num = globalConfigObject[ARG_TYPE_TO_ITS_POINTER_ELEM_NUM][un_ptr_type]
+                assert tyep(e_num) == int and e_num >= 1, "pointer elem num for {} expect a positive integer".format(un_ptr_type)
+                if e_num > 1:
+                    un_ptr_type = un_ptr_type + " [{}]".format(e_num)
+                else:
+                    do_arg_addr = True
+            else:
+                do_arg_addr = True
         un_ptr_decl = get_decl(child.spelling, un_ptr_type)
-        call_arg = "&" + child.spelling if has_ptr else child.spelling
+        call_arg = "&" + child.spelling if do_arg_addr else child.spelling
         params_name_decl.append((child.spelling, c_type_str, un_ptr_type, un_ptr_decl, call_arg))
     return Prototype(ret_type, func_name, params_name_decl)
 
@@ -191,6 +209,8 @@ OUT_ARGS_NAMES = "OUT_ARGS_NAMES"
 IN_OUT_ARGS_NAMES = "IN_OUT_ARGS_NAMES"
 TYPE_TO_INITIALIZATIONCODE = "TYPE_TO_INITIALIZATIONCODE"
 TYPE_TO_SYMBOLIC_FIELDS_ACCESS = "TYPE_TO_SYMBOLIC_FIELDS_ACCESS"
+VOID_ARG_SUBSTITUTE_TYPE = "VOID_ARG_SUBSTITUTE_TYPE"
+ARG_TYPE_TO_ITS_POINTER_ELEM_NUM = "ARG_TYPE_TO_ITS_POINTER_ELEM_NUM"
 
 globalConfigObject = {
     # Specify a type as key and the type conversion template as value, 
@@ -220,7 +240,24 @@ globalConfigObject = {
     # The object type is the dict key and a dict of field accesses and their type is the dict value.
     # The placeholder for the object to make symbolic must be specified as the string '{}'
     # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
-    TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {}
+    TYPE_TO_SYMBOLIC_FIELDS_ACCESS: {},
+
+    # Specify the underlying type for a void pointer (the data type pointed by the void pointer).
+    # for instance, if the function is to be called with an `int` array for a void pointer parameter,
+    # set `VOID_ARG_SUBSTITUTE_TYPE` to "int".
+    # Set the value to the empty string ("") to let the user specify at runtime on case by case
+    # Set the value to `null` (JSON equivalent to None) to let the user change the types `void` 
+    # directly in the generated templates
+    # e.g. VOID_ARG_SUBSTITUTE_TYPE: "char"
+    VOID_ARG_SUBSTITUTE_TYPE: "",
+
+    # Specify, for pointer parameters, the number of elements it points to (must be > 0)
+    # This will give the flexibility to set the number of elements the pointer points to.
+    # The default value is `1`, for non specified types.
+    # e.g. ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {"int *": 2, "char *": 6}
+    # This let and array of 2 for int pointer and array of 6 for char pointer, 
+    # and an array of 1 for unsigned pointer
+    ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {}
 }
 
 

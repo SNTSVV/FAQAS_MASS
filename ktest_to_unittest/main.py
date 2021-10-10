@@ -4,6 +4,7 @@ import os
 import binascii
 import struct
 import argparse
+import re
 
 import pandas as pd
 
@@ -102,7 +103,7 @@ def apply_input_to_template(result_file_path, template_file_path, path_to_ktest_
         if name not in hex_array_res:
             missing_inputs_pos.append(kms)
             continue
-        dat_name = name + "_faqas_semu_test_data"
+        dat_name = re.sub('\W|^(?=\d)','_', name) + "_faqas_semu_test_data"
         data_decl.append("    const unsigned char " + dat_name + "[] = {" + ", ".join(hex_array_res[name]) + "};")
         ### replace klee_make_symbolics with memcpy
         mcpy = tmp[0].replace("klee_make_symbolic(", "memcpy(") + ", " + dat_name + ',' + tmp[1] + ");"

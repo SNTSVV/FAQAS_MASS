@@ -40,7 +40,24 @@
     # The object type is the dict key and a dict of field accesses and their type is the dict value.
     # The placeholder for the object to make symbolic must be specified as the string '{}'
     # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
-    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {}
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
+
+    # Specify the underlying type for a void pointer (the data type pointed by the void pointer).
+    # for instance, if the function is to be called with an `int` array for a void pointer parameter,
+    # set `VOID_ARG_SUBSTITUTE_TYPE` to "int".
+    # Set the value to the empty string ("") to let the user specify at runtime on case by case
+    # Set the value to `null` (JSON equivalent to None) to let the user change the types `void` 
+    # directly in the generated templates
+    # e.g. VOID_ARG_SUBSTITUTE_TYPE: "char"
+    VOID_ARG_SUBSTITUTE_TYPE: "",
+
+    # Specify, for pointer parameters, the number of elements it points to (must be > 0)
+    # This will give the flexibility to set the number of elements the pointer points to.
+    # The default value is `1`, for non specified types.
+    # e.g. ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {"int *": 2, "char *": 6}
+    # This let and array of 2 for int pointer and array of 6 for char pointer, 
+    # and an array of 1 for unsigned pointer
+    ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {}
 }
 ```
 
