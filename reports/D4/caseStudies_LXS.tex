@@ -89,10 +89,7 @@ Concerning the experiments conducted on the whole ESAIL, they will target all th
 
 % Code coverage information concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}.
 %\TODO{FIX}
-\REVOCT{C-P-6}{Regarding code coverage, the ESAIL system test suite reports 67,022 out of 74,155 lines of code being covered (i.e., 90.38\% statement coverage). 
-In our empirical evaluation, we rely on the ESAIL unit test suite to evaluate if mutation analysis results can be combined (see Section~\ref{sec:exp:thr}). 
-In the ESAIL development context, the unit test suite is used to exercise critical functions hard to exercise with the system test suites. For this reason, the unit test suite covers only a portion of the code. 
-MASS applies mutation analysis only to code that is covered by the test suite, for this reason, since we rely on the unit test suite only to evaluate the combination of multiple test suites, only the code coverage of the system test suite is relevant (i.e., we do not mutate lines exercised by the unit test suite only).
+\REVOCT{C-P-6}{Regarding code coverage, the ESAIL system test suite covers 67,022 out of 74,155 lines of code (i.e., 90.38\% statement coverage). 
 More details concerning the system-level test suite used for FAQAS is reported in \emph{FAQAS-LXS-MAN-001\_1- SVF Software Installation and User Manual.pdf}}
 
 
@@ -111,4 +108,15 @@ The unit test suite of ESAIL will be considered for the evaluation of the final 
 %For example, it is a possible case to be used for an independent use of the FAQAS framework by LXS engineers. The ESAIL unit test suite is used mainly to test critical functionalities of ESAIL components. The ESAIL unit test suite has been provided to ESA; however, the mutation testing activity might concern a subset of them. Indeed, evaluating with mutation testing a set of test cases that are known for covering only a subset of the features of the system might be of little usefulness. 
 %%The set of test cases and functions to be tested will be provided along with the description of the achieved results at the end of WP3.
 To assess the quality of the ESAIL unit test suite we will analyze the same ESAIL sub-system defined in Section~\ref{lxs:esail:system:codeDriven}, and thus, we will target the same set of mutants. Since the ESAIL Unit Test Suite has been implemented by LXS to cover scenarios hard to cover with a full simulation (consequently, it cover a limited portion of the code), we will use the ESAIL Unit Test Suite to provide a complementary analysis to the one given by the system test suite.
+Precisely, we rely on the ESAIL unit test suite to evaluate if mutation analysis results can be combined (see Section~\ref{sec:exp:thr}). 
 
+
+%Regarding code coverage, the ESAIL system test suite reports 67,022 out of 74,155 lines of code being covered (i.e., 90.38% statement coverage). 
+
+
+
+\REVOCT{C-P-6}{In the ESAIL development context, the unit test suite is used to exercise critical functions hard to exercise with the system test suites. For this reason, the unit test suite covers only a portion of the code (i.e., 46.5\% statement coverage). MASS applies mutation analysis only to code that is covered by the test suite, for this reason, since we rely on the unit test suite only to evaluate the combination of multiple test suites, only the code coverage of the system test suite is relevant (i.e., we do not mutate lines exercised by the unit test suite only).} 
+
+%In our empirical evaluation, we rely on the ESAIL unit test suite to evaluate if mutation analysis results can be combined (see Section~\ref{sec:exp:thr}). 
+%In the ESAIL development context, the unit test suite is used to exercise critical functions hard to exercise with the system test suites. For this reason, the unit test suite covers only a portion of the code (i.e., 46.5\% statement coverage). 
+%MASS applies mutation analysis only to code that is covered by the test suite, for this reason, since we rely on the unit test suite only to evaluate the combination of multiple test suites, only the code coverage of the system test suite is relevant (i.e., we do not mutate lines exercised by the unit test suite only).
