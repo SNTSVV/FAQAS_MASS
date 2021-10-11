@@ -267,13 +267,16 @@ def load_global_config(filename):
         config_obj = json.load(f)
     
     expect_dict = (TYPES_TO_INTCONVERT, TYPES_TO_PRINTCODE, \
-                    TYPE_TO_INITIALIZATIONCODE, TYPE_TO_SYMBOLIC_FIELDS_ACCESS)
+                    TYPE_TO_INITIALIZATIONCODE, TYPE_TO_SYMBOLIC_FIELDS_ACCESS, \
+                    ARG_TYPE_TO_ITS_POINTER_ELEM_NUM)
     expect_list = (OUT_ARGS_NAMES, IN_OUT_ARGS_NAMES)
     for k,v in config_obj.items():
         if k in expect_dict:
             assert type(v) == dict, "A dict is expected as value for the keys {}".format(expect_dict)
         elif k in expect_list:
             assert type(v) == list, "A list is expected as value for the keys {}".format(expect_list)
+        elif k == VOID_ARG_SUBSTITUTE_TYPE:
+            assert type(v) == str or v is None, "A string or `None` is expected for key {}".format(VOID_ARG_SUBSTITUTE_TYPE)
         else:
             raise Exception("Invalid config key: {}".format(k))
     
