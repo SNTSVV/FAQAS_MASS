@@ -1,0 +1,194 @@
+% !TEX root = MAIN.tex
+\clearpage
+\section{Test Suite Augmentation Process}
+\label{sec:testGeneration:codeDriven}
+
+This section discusses first the results of a preliminary feasibility study for the automated generation of test cases based on mutation analysis results (Section~\ref{sec:testSuiteAugmentation:feasibility}); then, it presents the solution developed by FAQAS, which is called SEMuS (Section~\ref{sec:semus:all}).
+
+\subsection{Feasibility Study}
+\label{sec:testSuiteAugmentation:feasibility}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/MT2}
+\caption{Overview of the proposed Test Suite Augmentation Process}
+\label{fig:codeDrivenTestSuiteAugmentationProcess}
+\end{center}
+\end{figure}
+
+
+
+%\TODO{This section still needs to be filled}
+Figure~\ref{fig:codeDrivenTestSuiteAugmentationProcess} shows the test suite augmentation process for code-driven mutation testing. 
+It aims to automatically generate unit tests for the functions with live mutants.
+
+According to our process, each live, non-equivalent mutant identified by the test suite assessment process is analyzed by means of static analysis tools based on constraint-solving (Step 1). 
+
+We leverage the approach proposed by Holling et al.~\cite{holling2016nequivack} and Riener et al.~\cite{riener2011test}, which  relies on the observation that two mutants are equivalent when there are no concrete values making the mutated function produce an output that is different from the one of the original function.
+If a value that makes the two functions generate distinct results can be found, the mutant is non-equivalent.
+To automate the generation of inputs, Holling et al. rely on KLEE~\cite{cadar2008klee}, a symbolic execution tool for programs written in C/C++.
+Riener et al.~\cite{riener2011test}, instead, rely on a \INDEX{bounded model checker} (BMC).
+
+We introduce an example in Listing~\ref{function}. The top part of Listing~\ref{function} shows the function \texttt{isPositive}, which checks if an integer number is positive or not. The bottom part of Listing~\ref{function} presents the mutated version of \texttt{isPositive}, where the relational operator $\geq$ has been replaced by the operator $>$.
+To automate the generation of inputs, static analysis tools need to be informed about which parameters correspond to inputs. 
+In Listing~\ref{example}, this is achieved by function \texttt{make\_symbolic} which converts concrete variables to symbolic ones by considering their memory address and size (Line 3). 
+%In Listing~\ref{example}, the parameter \texttt{numSymbolic} is made symbolic in Line 3. 
+Then, the original and mutated functions are called using the same arguments (Lines 5 and 6).
+Finally, we need an assertion indicating that the return values of the two functions the same (see Line 8).
+Since the objective of static analysis tools is to look for inputs that falsify a given assertion, the provided assertion
+will make the static analysis tools \EMPH{look for inputs that make the output of the two functions different}. 
+%Despite being counter-intuitive, this approach is effective because symbolic execution engines aim to identify inputs that falsify the assertions in the program. 
+When the equality is falsified, then the two functions can produce a different output for a same input.
+The input that falsifies the equality can thus be used to improve the test suite enabling it to kill the mutant.
+% make the original an mutate function geenrate distinct results
+% of identifying inputs that lead to different output falsifying the assertion.
+
+
+%In the concrete, if we consider the implementation of \texttt{isPositive} and \texttt{MUT\_isPositive}, 
+In the example of Listing~\ref{example}, the static analysis tool will indicate that the return values of the original and mutated function differ when \texttt{num} is equal to zero.
+A new test case exercising function \texttt{isPositive} with \texttt{num=0} should thus be added to the test suite in order to kill the mutant.
+
+Some static analysis tools (e.g., KLEE) can be configured to generate inputs that satisfy the assertions; in this case the assertion used for input generation can simply reflect the desired behaviour, which is \texttt{assert( original\_ret != transformed\_ret)} in the case of Listing~\ref{example}. An example is provided in Listing~\ref{exampleAssume}.
+
+\input{listings/holling_approach}
+
+
+
+Static analysis tools enable the identification of inputs that lead to different outputs for the original and the mutated program.
+%Consequently, they can also be used to determine the output expected for the original software.
+Also, they can determine if such inputs do not exist, which happens when two mutants are equivalent.
+In some cases, static analysis tools may not be able to provide a result.
+Mutants for which it is not possible to automatically identify a killing input needs to be manually inspected (Step 3).
+ %(i.e., the outputs that distinguish the original software from the mutant). 
+ 
+ The generated inputs and the identified outputs are used by the engineers to manually implement a test case by reusing such inputs and outputs to define the inputs and the assertions for a test case that kills the mutant (Step 2).  The outputs simply reflect the behaviour of the program implementation, which might be faulty. For this reason, when writing oracles (E.g., assert statements) based on the provided outputs, engineers should very that the provided output is correct, based on the specifications of the software.
+ 
+
+
+Step 1 is the only step that is automated by existing tools; anyway, it requires the manual specification of which are the inputs and the outputs of the function under test. In the project, two tools will be considered: CBMC, a bounded model checker, and KLEE~\cite{cadar2008klee}. The process to be automated in the two cases is defined in the following subsections.
+
+\subsubsection{CBMC}
+\label{subsec:cbmc}
+
+\INDEX{CBMC} is an approach that implements \INDEX{Bounded Model Checking}~\cite{BiereCCZ:TACAS99,SeryFS:ATVA12} (BMC), an approach for purely static software verification.
+The idea in BMC is to represent the software together with the
+properties to be verified as an instance of the propositional
+satisfiability problem (SAT).  Such a representation captures the
+software behavior exactly, assuming that all the loop bodies in the
+software are repeated at most a fixed number of times.
+%
+This approach has several advantages: the logical formulation is usually
+very compact compared to traditional model checking, where verification
+is reduced to a reachability problem in a graph representing the program
+state space;
+%
+there are several high-performance SAT
+solvers~\cite{MarquesSilva:IEEETRAN99,EenS:SAT2003} that can be used for
+solving the instances;
+%
+and the satisfying assignments of an instance can be directly translated
+to meaningful counterexamples for correctness in the form of
+fault-inducing executions.
+%
+Furthermore, it is widely recognized that BMC based approaches are particularly good
+at quickly finding short counterexamples when they exist.
+
+A {\em bounded model checker} takes as input a program $\prog$, a bound $k$
+for loop unrolling, and a set $S$ of properties to be verified against
+$\prog$, and returns for each property ${l}$ in $S$, expressed as a propositional statement over variables of $\prog$ at a location $l$, either \vspace{-0.2cm}
+\begin{itemize}
+    \item \emph{verified}, if the executions of $\prog$  satisfy $\prop{l}$;\vspace{-0.25cm}
+    \item \emph{unreachable}, if no execution of $\prog$ reaches $l$;\vspace{-0.25cm}
+    \item \emph{false}, if there is an execution of $\prog$
+    where the property $l$ is broken; and\vspace{-0.25cm}
+    \item \emph{unknown}, if the checker is unable, due to
+    memory or time limits, to determine whether ${l}$ holds,\vspace{-0.2cm}
+\end{itemize}
+under the assumption that no loop body in the program is repeated more
+than $k$ times.
+
+The approach is naturally a compromise between practicality and
+completeness.
+As the SAT problem is \INDEX{NP-complete}, determining whether $\prop{l}$ holds
+requires in the worst case exponential time with respect to the size of
+the SAT instance for all known algorithms.
+%
+Furthermore, the instances can in some cases grow very large since many
+operations, such as multiplication, have quadratic encodings in SAT and,
+for example, the instance grows exponentially in number of nested loops.
+%
+
+Due to numerous optimizations BMC can nevertheless solve many practical
+problems in reasonable time and memory limits.
+%
+For example, the size of the resulting SAT instance can be dramatically
+reduced by slicing off parts of the program that do not affect the
+validity of the property being checked, and
+%
+extremely efficient SAT solver implementations which learn the instance
+structure and use adaptive heuristics~\cite{MahajanFM:SAT04} rarely
+suffer from the exponential worst-case behavior in problems emerging
+from applications.
+%
+The fact that bounded model checkers only prove correctness of
+properties for executions not exceeding the bound $k$ is also beneficial
+in many ways for detecting regressions.  In addition to obvious
+performance benefits our experiments show that in most cases even a single
+loop iteration is sufficient to indicate a regression between two
+versions, and a small bound guarantees in a natural way that the
+reported counterexamples are short.
+
+In the context of FAQAS, we aim to rely on BMC to automatically identify the inputs that make the mutated function generate an output different than the original function. This happens when the outcome of the verification is \emph{false}, i.e., the assertion indicating that the output of the original and mutate program are the same does not hold. In this case the BMC tool returns also a trace with the values of inputs and outputs for the two functions along with the assignment of all the program variables defined within a simulated program execution.
+
+When the outcome of the verification is \emph{true}, the assertion indicating that the output of the original and mutate program are the same holds. This means that the the mutant is equivalent and thus can be ignored. In this case we suggest engineers to double heck the results because the mutant might be equivalent because of  the bound $k$.
+
+When the outcome of the verification is \emph{unknown}, the engineer needs to manually inspect the source code to determine if the mutant is equivalent.
+
+We do not envision cases where the outcome of the verification is \emph{unreachable}; indeed, since the assertion is manually introduced it should be reached.
+
+
+
+\input{listings/GSLaugmentation.tex}
+
+Listing~\ref{GSLaugmentation} shows an input file for CBMC that enables the automated identification of inputs to kill one mutant (\emph{MUT\_gs\_bswap\_16}) for function \emph{gs\_bswap\_16} belonging to GSL case study libUtils. The mutant 
+is not killed by GSL test suite. Function \emph{cbmc\_main} is used to declare all the variables and assertions to be processed by CBMC to generate the required inputs for testing.
+
+The command used to execute CBMC for this example is
+\begin{verbatim}
+cbmc -I include/ --property cbmc_main.assertion.1 --trace --function cbmc_main 
+--no-unwinding-assertions --unwind 5 src/byteorder.c\end{verbatim}
+
+Although CBMC can be integrated into build systems to process large code bases; to minimize the risk of encountering difficulties in parsing large projects, we believe the simplest solution consists of executing CBMC against the source file containing the mutated function. With such configuration, CBMC will ignore dependencies (i.e., functions invoked by the function under test) and threat them as generating random values. This will speed-up execution but may lead to wrong results due to randomness. One solution to minimize such wrong results is to first execute CBMC to prove that the function can deterministically return the same value, if it is the case, dependencies can be ignored. Otherwise these dependencies need to be included or assumptions about their output values (e.g., always positive) need to be specified using the functions provided by CBMC. Evaluation of the best configuration for CBMC should be an outcome of the project.
+
+Engineers need to declare all the variables that correspond to inputs for the mutated function as \emph{nondet\_<type>}. Function \emph{\_\_CPROVER\_output} is used to print the values identified by the execution of CBMC.
+
+Figure~\ref{fig:cbmcOutput} shows the output generated by CBMC when processing the function. It indicates that for the input \emph{v=2048}, the result obtained with the original program is the value \emph{8}, while for the mutated program it is the value \emph{0}. Listing~\ref{GSLaugmentationTest} shows a test case manually written based on the output produced by CBMC.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=8cm]{images/CBMCoutput}
+\caption{CBMC output}
+\label{fig:cbmcOutput}
+\end{center}
+\end{figure}
+
+\input{listings/GSLaugmentationTest.tex}
+
+\clearpage
+
+
+
+Listing~\ref{GSLaugmentationTwo} shows another example of a source file to be parsed by CBMC to automatically derive inputs for a test case. Function \emph{cbmc\_main} provide the setup for CBMC. Function \emph{main} is the test case manually implemented after observing CBMC output. 
+Listing~\ref{GSLaugmentationTwo} shows one of the main \INDEX{limitations of CBMC}, i.e., the fact that it requires some standard library functions to be redefined. Indeed, although CBMC includes a few definitions for standard library functions, some of them are generalizations (i.e., CBMC does not aim to replicate the actual behaviour but just to preserve high-level post-conditions) and the original source code of the implementation may need to be provided in order to obtain correct results.
+
+\input{listings/GSLaugmentation2.tex}
+
+\input{klee}
+
+\subsection{FAQAS Test Suite Augmentation Tool (SEMuS)}
+\label{sec:semus:all}
+
+\input{klee_semu}
+
+\input{semus}
+

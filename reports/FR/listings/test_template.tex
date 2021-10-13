@@ -1,0 +1,17 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{lstlisting}[float=t, style=CStyle, caption=SEMuS test template., label=test_template]
+int main(int argc, char** argv) {
+    // Declare variable to hold function returned value
+    _Bool result_faqas_semu; 
+    // Declare arguments and make input ones symbolic
+    unsigned long pVal;
+    int pErrCode;
+    klee_make_symbolic(&pVal, sizeof(pVal), "pVal"); // Call function under test
+    result_faqas_semu = T_INT_IsConstraintValid(&pVal, &pErrCode); // Make some output
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", pErrCode);
+    printf("FAQAS-SEMU-TEST_OUTPUT: %d\n", result_faqas_semu);
+    return (int)result_faqas_semu;
+}
+
+\end{lstlisting}

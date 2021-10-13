@@ -1,0 +1,798 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+
+\clearpage
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\small 
+\begin{longtable}{@{\extracolsep{\fill}}|p{4.3cm}|p{1.8cm}|p{2.5cm}|p{3.5cm}|p{0.8cm}|@{}}
+\caption{\normalsize Summary of Code-Driven Mutation Testing Benchmarks present in the literature.}
+\label{table:benchmarks} \\
+
+\hline
+
+\textbf{Case Study (SUT)}	&	\textbf{Size of SUT}	&	\textbf{\begin{tabular}[c]{@{}l@{}}Size of Test Suite\\(test cases)\end{tabular}}	&	\textbf{Goal of Evaluation}	&	\textbf{Paper}	\\
+\hline
+
+Coreutils 6.11 (chmod, cut, dd, expr, factor, head, readlink, seq, stat, sum, tac, tail, touch, unexpand, wc) & 8\,430 LOC & 1\,022 & Compare the mutation testing process between source code and intermediate representation level. & \cite{hariri2019comparing} \\
+\hline
+\begin{minipage}[t]{2.5cm}
+RODOS\\ 
+OpenSSL\\
+LLVM\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+125 KLOC\\
+311 KLOC\\
+1.3 MLOC\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+48\\
+77\\
+625\\
+\end{minipage}& Evaluate ease of integration, performance and practical applicability of Mull mutation testing tool. & \cite{denisov2018mull} \\
+\hline
+NuclearIndustrial & 484 LOC & 302 & Applicability of mutation testing to a safety-critical system. & \cite{delgado2018evaluation}\\ 
+\hline
+\begin{minipage}[t]{2.5cm}
+Coreutils\\ 
+Findutils\\ 
+Grep \\ 
+Make \\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+83 KLOC\\ 
+18 KLOC\\ 
+9 KLOC\\
+35 KLOC\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+18\,719\\
+4\,931\\
+5\,899\\
+691\\
+\end{minipage}
+& Assessment of the mutation score and fault detection. & \cite{papadakis2018mutation} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+Coreutils\\ 
+Findutils\\ 
+Grep \\ 
+Make \\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+83 KLOC\\ 
+18 KLOC\\ 
+9 KLOC\\
+35 KLOC\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+18\,719\\
+4\,931\\
+5\,899\\
+691\\ 
+\end{minipage}
+& Determine fault revelation capabilities of strong mutation, weak mutation, branch coverage and statement coverage. & \cite{chekam2017empirical} \\
+\hline
+\begin{minipage}[t]{2.5cm}
+Siemens\\
+Curl\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+2\,188\\
+12\,753 LOC\\
+\end{minipage}
+ & Test suite evaluation was out of the scope. & Assess applicability and efficiency of the MUSIC mutation testing tool. & \cite{phan2018music} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+Gzip-1.6\\
+MSMTP-1.4.32\\
+Make 4.0\\
+Git-2.1\\
+GSL-1.16\\ 
+Vim-7.2\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+2\,819 LOC\\
+6\,010 LOC\\
+7\,057 LOC\\
+8\,750 LOC\\
+4\,306 LOC\\ 
+39\,008 LOC\\
+\end{minipage} &
+Test suite evaluation was out of the scope. & Evaluation of a technique for identification of equivalent mutants through trivial compiler optimizations. & \cite{kintis2017detecting} \\
+\hline
+
+Codeflaws & 266\,099 LOC & 122\,261 & Assessment of the ability of mutants to reveal faults. & \cite{papadakis2018mutant} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+Matrix TCL PRO\\
+XmlRPC++\\
+Dolphin\\
+Tinyxml2\\
+KmyMoney\\
+QtDom\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+3\,228 LOC\\
+2\,194 LOC\\
+3\,667 LOC\\
+2\,620 LOC\\
+13\,709 LOC\\
+2\,117 LOC\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+24\\
+34\\
+70\\
+62\\
+248\\
+56\\ 
+\end{minipage}
+& Evaluation and ranking of mutation operators according to their redundancy degree. & \cite{delgado2017assessment} \\
+\hline
+
+\textbf{WuMemoryBenchmark}
+\begin{minipage}[t]{2.5cm}
+PeerWireProtocol\\
+Craft\\
+CfixedArraylist\\
+ChashMapViaLinkedList\\
+CAVLTree\\
+CpseudoLRU\\
+CHashMap\\
+CtextureAtlas\\
+Csplaytree\\
+CstreamingBencodeReader\\
+CSparseCounter\\
+Cheap\\
+CcircularBuffer\\
+ClinkedListQueue\\
+CbipBuffer\\
+Cbitfield\\
+libdssl\\
+libksi\\
+\end{minipage}
+ & 
+ \begin{minipage}[t]{2.5cm}
+ \hfill\\
+ 1\,547 LOC\\
+731 LOC\\
+497 LOC\\
+488 LOC\\
+405 LOC\\
+384 LOC\\
+391 LOC\\
+301 LOC\\
+319 LOC\\
+371 LOC\\
+328 LOC\\
+207 LOC\\
+118 LOC\\
+200 LOC\\
+118 LOC\\
+87 LOC\\
+6\,600 LOC\\
+19\,445 LOC\\
+\end{minipage}
+ & 
+ \begin{minipage}[t]{2.5cm}
+ \hfill\\
+54\\
+71\\
+1\\
+21\\
+9\\
+16\\
+21\\
+7\\
+14\\
+30\\
+30\\
+16\\
+12\\
+7\\
+12\\
+4\\
+48\\
+130\\
+\end{minipage}
+  & Evaluation of nine memory mutation operators. & \cite{wu2017memory} \\
+\hline
+
+ \begin{minipage}[t]{2.5cm}
+ \textbf{Siemens}\\
+ flex\\
+ gzip\\
+ grep\\
+ printtokens\\
+ printtokens2\\
+ replace\\
+ schedule\\
+ schedule2\\
+ tcas\\
+ totinfo\\
+ Vim 7.4\\
+ \end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+10\,334 LOC\\
+4\,331 LOC\\
+10\,102 LOC\\
+475 LOC\\
+401 LOC\\
+512 LOC\\
+292 LOC\\
+297 LOC\\
+135 LOC\\
+346 LOC\\
+42\,073 LOC\\
+\end{minipage}
+  & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+42\\
+214\\
+75\\
+4\,130\\
+4\,115\\
+5\,542\\
+2650\\
+2\,710\\
+1\,608\\
+1\,052\\
+98\\
+\end{minipage}
+
+   & Technique for the detection of equivalent mutants. & \cite{wang2017faster} \\
+\hline
+
+ \begin{minipage}[t]{2.5cm}
+ \textbf{Siemens}\\
+  Grep\\
+  Sed\\
+  Flex\\
+  Make\\
+  Gzip\\
+\end{minipage}
+
+ & 
+  \begin{minipage}[t]{2.5cm}
+ \hfill\\
+12\,826 LOC\\
+18\,687 LOC\\
+12\,249 LOC\\
+20\,461 LOC\\
+5\,048 LOC\\
+\end{minipage}
+  & 
+    \begin{minipage}[t]{2.5cm}
+ \hfill\\
+440\\
+324\\
+500\\
+111\\
+156\\
+\end{minipage} & Assessment of subsumed and subsuming mutants. & \cite{papadakis2016threats} \\
+\hline
+
+\textbf{MuVMBenchmark}
+ \begin{minipage}[t]{2.5cm}
+ abs\\
+rand\_r\\
+ascii\_to\_bin\\
+cal\\
+tcas\\
+strtol\\
+Space\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+6 LOC\\
+23 LOC\\
+16 LOC\\
+27 LOC\\
+137 LOC\\
+93 LOC\\
+5\,905 LOC\\
+\end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+2\\
+1\\
+7\\
+10\\
+1\,608\\
+628\\
+100\\
+\end{minipage}
+ & Evaluation of a higher order mutation testing tool. & \cite{tokumoto2016muvm} \\
+\hline
+\begin{minipage}[t]{2.5cm}
+\textbf{NequivackBenchmark}\\
+branching\\
+looping\\
+msb\\
+msb1\\
+factorial\\
+fibonacci\\
+gcd\\
+primepalindrome\\
+simplemath\\
+bubble\\
+insertion\\
+merge\\
+quick\\
+selection\\
+\end{minipage}
+ & 
+ \begin{minipage}[t]{2.5cm}
+ \hfill\\
+75\\
+48\\
+17\\
+18\\
+11\\
+12\\
+12\\
+65\\
+32\\
+16\\
+16\\
+31\\
+29\\
+21\\
+\end{minipage}
+  & Test suite evaluation was out of the scope. & Detection of non-equivalent mutants. & \cite{holling2016nequivack} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+Gzip-1.6\\
+MSMTP-1.4.32\\
+Make 4.0\\
+Git-2.1\\
+GSL-1.16\\ 
+Vim-7.2\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+2\,819 LOC\\
+6\,010 LOC\\
+7\,057 LOC\\
+8\,750 LOC\\
+4\,306 LOC\\ 
+39\,008 LOC\\
+\end{minipage}
+& Test suite evaluation was out of the scope. & Technique for detection of equivalent mutants & \cite{papadakis2015trivial} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+TinyXml2\\
+XmlRpc++\\
+\end{minipage}
+
+ & 
+ \begin{minipage}[t]{2.5cm}
+ 2\,620 LOC\\
+ 2\,194 LOC
+ \end{minipage}
+ & 
+ \begin{minipage}[t]{2.5cm}
+ 62\\
+ 34\\
+ \end{minipage}
+  & Assessment of class mutation operators for C++. & \cite{delgado2015class} \\
+\hline
+
+
+\begin{minipage}[t]{2.5cm}
+\textbf{DelamaroDeletionBenchmark}\\
+boundedQueue\\
+cal\\
+Calculation\\
+checkIt\\
+CheckPalindrome\\
+countPositive\\
+date-plus\\
+DigitReverser\\
+findLast\\
+findVal\\
+Gaussian\\
+Heap\\
+InversePermutation\\
+jday-jdate\\
+lastZero\\
+LRS\\
+MergeSort\\
+LRS\\
+oddOrPos\\
+pcal\\
+power\\
+print\_tokens\\
+print\_tokens2\\
+printPrimes\\
+Queue\\
+quicksort\\
+RecursiveSort\\
+replace\\
+schedule\\
+schedule2\\
+Stack\\
+stats\\
+sum\\
+tcas\\
+testPad\\
+totInfo\\
+trashAndTakeOut\\
+twoPred\\
+UnixCal\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+49 LOC\\
+18 LOC\\
+46 LOC\\
+9 LOC\\
+10 LOC\\
+9 LOC\\
+132 LOC\\
+17 LOC\\
+10 LOC\\
+7 LOC\\
+23 LOC\\
+41 LOC\\
+15 LOC\\
+49 LOC\\
+9 LOC\\
+51 LOC\\
+32 LOC\\
+10 LOC\\
+9 LOC\\
+204 LOC\\
+11 LOC\\
+349 LOC\\
+275 LOC\\
+35 LOC\\
+64 LOC\\
+23 LOC\\
+17 LOC\\
+390 LOC\\
+213 LOC\\
+195 LOC\\
+56 LOC\\
+19 LOC\\
+7 LOC\\
+63 LOC\\
+24 LOC\\
+214 LOC\\
+19 LOC\\
+10 LOC\\
+119 LOC\\
+\end{minipage}
+&
+
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+13\\
+8\\
+13\\
+9\\
+8\\
+5\\
+44\\
+5\\
+6\\
+7\\
+21\\
+8\\
+12\\
+27\\
+5\\
+8\\
+18\\
+5\\
+7\\
+49\\
+9\\
+34\\
+27\\
+7\\
+12\\
+13\\
+8\\
+142\\
+45\\
+41\\
+11\\
+7\\
+6\\
+62\\
+14\\
+49\\
+12\\
+10\\
+27\\
+\end{minipage}
+  & Experimentation with mutants that involve deleting variables, operators and constants.  & \cite{delamaro2014designing} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+\textbf{Siemens}\\
+Schedule\\
+Schedule2\\
+Tcas\\
+Totinfo\\
+Replace\\
+Printtokens\\
+Printtokens2\\
+Space\\
+Flex\\
+ \end{minipage}
+
+& 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+296 LOC\\
+263 LOC\\
+137 LOC\\
+281 LOC\\
+513 LOC\\
+343 LOC\\
+355 LOC\\
+9\,564 LOC\\
+14\,120 LOC\\
+ \end{minipage}
+ &  
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+2\,650\\
+2\,710\\
+1\,608\\
+1\,052\\
+5\,542\\
+4\,130\\
+4\,115\\
+13\,585\\
+567\\
+ \end{minipage}
+ & Technique for detection of equivalent mutants. & \cite{papadakis2014mitigating} \\
+\hline
+\begin{minipage}[t]{2.5cm}
+\textbf{Siemens}\\
+Tcas\\
+Schedule\\
+Replace\\
+\textbf{YaoBenchmark}\\
+Min\\
+Bubble Sort\\
+Profit\\
+Mid\\
+Prime\_num\\
+Triangle\\
+Insert\\
+Day\\
+Calendar\\
+Carsim\\
+Defroster\\
+Hashmap\\
+Space\\
+Flex\\
+Make\\
+ \end{minipage}
+
+& 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+173 LOC\\
+412 LOC\\
+564 LOC\\
+\hfill\\
+10 LOC\\
+16 LOC\\
+24 LOC\\
+26 LOC\\
+27 LOC\\
+35 LOC\\
+35 LOC\\
+42 LOC\\
+137 LOC\\
+171 LOC\\
+230 LOC\\
+455 LOC\\
+9\,564 LOC\\
+10\,459 LOC\\
+35\,545 LOC\\
+ \end{minipage}
+ & Test suite information not provided & Relation between operators and equivalent and stubborn mutants. & \cite{yao2014study} \\
+\hline
+
+\begin{minipage}[t]{2.5cm}
+\textbf{DelamaroDeletionBenchmark}\\
+boundedQueue\\
+cal\\
+Calculation\\
+checkIt\\
+CheckPalindrome\\
+countPositive\\
+date-plus\\
+DigitReverser\\
+findLast\\
+findVal\\
+Gaussian\\
+Heap\\
+InversePermutation\\
+jday-jdate\\
+lastZero\\
+LRS\\
+MergeSort\\
+LRS\\
+oddOrPos\\
+pcal\\
+power\\
+print\_tokens\\
+print\_tokens2\\
+printPrimes\\
+Queue\\
+quicksort\\
+RecursiveSort\\
+replace\\
+schedule\\
+schedule2\\
+Stack\\
+stats\\
+sum\\
+tcas\\
+testPad\\
+totInfo\\
+trashAndTakeOut\\
+twoPred\\
+UnixCal\\
+\end{minipage}
+ & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+49 LOC\\
+18 LOC\\
+46 LOC\\
+9 LOC\\
+10 LOC\\
+9 LOC\\
+132 LOC\\
+17 LOC\\
+10 LOC\\
+7 LOC\\
+23 LOC\\
+41 LOC\\
+15 LOC\\
+49 LOC\\
+9 LOC\\
+51 LOC\\
+32 LOC\\
+10 LOC\\
+9 LOC\\
+204 LOC\\
+11 LOC\\
+349 LOC\\
+275 LOC\\
+35 LOC\\
+64 LOC\\
+23 LOC\\
+17 LOC\\
+390 LOC\\
+213 LOC\\
+195 LOC\\
+56 LOC\\
+19 LOC\\
+7 LOC\\
+63 LOC\\
+24 LOC\\
+214 LOC\\
+19 LOC\\
+10 LOC\\
+119 LOC\\
+\end{minipage}
+&
+
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+13\\
+8\\
+13\\
+9\\
+8\\
+5\\
+44\\
+5\\
+6\\
+7\\
+21\\
+8\\
+12\\
+27\\
+5\\
+8\\
+18\\
+5\\
+7\\
+49\\
+9\\
+34\\
+27\\
+7\\
+12\\
+13\\
+8\\
+142\\
+45\\
+41\\
+11\\
+7\\
+6\\
+62\\
+14\\
+49\\
+12\\
+10\\
+27\\
+\end{minipage} & Experimentation with mutants that involve deletion operations (delete statements). & \cite{delamaro2014experimental} \\
+\hline
+\textbf{Siemens}\\
+\begin{minipage}[t]{2.5cm}
+Printtokens\\
+Printtokens2\\
+Replace\\
+Schedule\\
+Schedule2\\
+Space\\
+Tcas\\
+Totinfo\\
+ \end{minipage}
+
+ & 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+343 LOC\\
+355 LOC\\
+513 LOC\\
+296 LOC\\
+263 LOC\\
+5\,905 LOC\\
+137 LOC\\
+281 LOC\\
+ \end{minipage}
+& 
+\begin{minipage}[t]{2.5cm}
+\hfill\\
+4\,130\\
+4\,115\\
+5\,542\\
+2\,650\\
+2\,710\\
+13\,585\\
+1\,608\\
+1\,052\\
+ \end{minipage}
+  & Semantic mutation testing approach. & \cite{clark2013semantic} \\
+
+\bottomrule                                                             
+\end{longtable}
+
+\normalsize

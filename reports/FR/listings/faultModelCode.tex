@@ -1,0 +1,59 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{minipage}{15cm}
+\begin{lstlisting}[style=CStyle, caption=Example of generated fault models in C., label=faultModelExample, mathescape=true]
+#define SIZE_IfHK 4
+#define SIZE_IfStatus 1
+
+
+struct FaultModel* _FAQAS_IfHK_FM(){
+FaultModel *fm = _FAQAS_create_FM(SIZE_IfHK);
+
+fm->items[0].operators[0].type=BF;
+fm->items[0].operators[0].min=0;
+fm->items[0].operators[0].max=0;
+fm->items[0].operators[0].state=-1;
+fm->items[0].operatorsN=1;
+fm->items[0].span=1;
+fm->items[0].type=BIN;
+
+fm->items[1].operators[0].type=VOR;
+fm->items[1].operators[0].min=0;
+fm->items[1].operators[0].max=5;
+fm->items[1].operators[0].delta=1;
+fm->items[1].operatorsN=1;
+fm->items[1].span=1;
+fm->items[1].type=INT;
+
+fm->items[2].operators[0].type=BF;
+fm->items[2].operators[0].min=0;
+fm->items[2].operators[0].max=0;
+fm->items[2].operators[0].state=-1;
+fm->items[2].operatorsN=1;
+fm->items[2].span=2;
+fm->items[2].type=BIN;
+
+fm->items[4].operators[0].type=BF;
+fm->items[4].operators[0].min=0;
+fm->items[4].operators[0].max=0;
+fm->items[4].operators[0].state=-1;
+fm->items[4].operatorsN=1;
+fm->items[4].span=1;
+fm->items[4].type=BIN;
+return fm;
+}
+struct FaultModel* _FAQAS_IfStatus_FM(){
+FaultModel *fm = _FAQAS_create_FM(SIZE_IfStatus);
+
+fm->items[0].operators[0].type=BF;
+fm->items[0].operators[0].min=0;
+fm->items[0].operators[0].max=0;
+fm->items[0].operators[0].state=-1;
+fm->items[0].operatorsN=1;
+fm->items[0].span=1;
+fm->items[0].type=BIN;
+return fm;
+}
+\end{lstlisting}
+\end{minipage}
+

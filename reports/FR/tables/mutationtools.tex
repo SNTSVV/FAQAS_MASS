@@ -1,0 +1,92 @@
+% !TEX root =  ../MAIN.tex
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\scriptsize 
+\begin{longtable}{@{\extracolsep{\fill}}|p{3.4cm}|p{2.7cm}|p{7cm}|@{}}
+\caption{\normalsize Summary of Data-Driven Mutation Testing Benchmarks.}
+\label{table:mutationtools} \\
+\hline
+\textbf{Reference}                   & \textbf{Approach/Tool Name}      & \textbf{Evaluation} \\
+\hline
+Hariri \& Shi 2018          & SRCIRor                 &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/TestingResearchIllinois/srciror.\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} Yes, released under NCSA, https://opensource.org/licenses/NCSA, which allows redistribution and relicensing.\\
+\textbf{Age.} Aged, last update in September 2018.\\
+\textbf{Outcome. The tool is applicable in space context.} 
+\end{minipage}\\
+\hline
+Wang et al. 2017            & Accmut                  &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/wangbo15/accmut/\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} Yes, released under NCSA, https://opensource.org/licenses/NCSA, which allows redistribution and relicensing.\\
+\textbf{Age.} Aged, last update in January 2018.\\
+\textbf{Outcome. Depends on CLANG/LLVM, which prevents compilations for some sysems.} 
+\end{minipage}\\
+\hline
+Phan et al. 2018            & MUSIC                   &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/swtv-kaist/MUSIC/\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} No. The software is licensed with proprietary licence. In private communication via e-mail, authors have shown to be available to relicensing, however this might not fit the budget of the project.\\
+\textbf{Age.} Recent, last update in July 2019.\\
+\end{minipage}\\
+\hline
+Denisov \& Pankevich 2018   & Mull                    &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/mull-project/Mull\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} Yes. Apache Licence 2.0, https://opensource.org/licenses/Apache-2.0.\\
+\textbf{Age.} Ongoing, last update in June 2020.\\
+\textbf{Outcome. The tool requires compilation with CLANG/LLVM, which leads to compilation errors with systems depending on RTEMS. Also, natively, Mull performs mutations on the fly through just-in-time compilation features, which is inapplicable if the SUT is executed within a simulator.} 
+\end{minipage}\\
+\hline
+Delgado et al. 2018         & MuCPP                   &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} No, only executables are available https://ucase.uca.es/mucpp/\\
+\end{minipage}\\
+\hline
+Jia \& Harman 2008          & Milu                    &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/yuejia/Milu/\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} Yes, released under NCSA licence, https://opensource.org/licenses/NCSA.\\
+\textbf{Age.} Aged, last update in April 2018.\\
+\textbf{Outcome. The tool generates a preprocessed source code that does not compile.} 
+\end{minipage}\\
+\hline
+Brannstrom et al. 2015      & Dextool                 &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/joakim- brannstrom/dextool\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{ESA SCLP Compatible.} Yes, released under Mozilla public Licence 2.0, https://opensource.org/licenses/MPL-2.0.\\
+\textbf{Age.} Ongoing, last update in June 2020.\\
+\textbf{Outcome. Depends on CLANG/LLVM, which prevents compilations for some sysems.} 
+\end{minipage}\\
+\hline
+Delamaro et al. 2001        & Proteum                 &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} Yes, https://github.com/magsilva/proteum.\\
+\textbf{Applicability to C/C++ code.} Yes.\\
+\textbf{Age.} Aged, last update December 2015.\\
+\end{minipage}\\
+\hline
+Shariar and Zulkernine 2008 & Function Calls Mutation &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} No.\\
+\end{minipage}\\
+\hline
+Dans \& Hierons 2001        & Floating-point Mutation &
+\begin{minipage}[t]{6.5cm}
+\textbf{Source code availability.} No.\\
+\end{minipage}\\  
+
+\hline                                                           
+\end{longtable}
+
+
+\normalsize

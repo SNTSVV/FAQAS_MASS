@@ -1,0 +1,25 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=4th warning example., label=srciror_4]
+In file included from /home/svf/Obsw/Source/ApplicationLayer/PDHU_Handler/Source/PDHU_handler.c:40:
+In file included from ././ApplicationLayer/PDHU_Handler/Private/PDHU_handler.h:31:
+In file included from ././ApplicationLayer/PDHU_Handler/Public/PDHU_handler_Api.h:34: ././HighLevelDriverLayer/EPS_Handler/Public/epshdl_Api.h:125:104: warning: duplicate 'const' declaration specifier [-Wduplicate-decl-specifier]
+epshdlr_status_code_t epshdl_MemoryWrite(const uint16_t memAddr, const uint16_t memLen, const uint16_t const *memDataPtr);
+														^
+/home/svf/Obsw/Source/ApplicationLayer/PDHU_Handler/Source/PDHU_handler.c:1302:8: warning: variable 'received_size' is used uninitialized whenever 'if' condition is false [-Wsometimes- uninitialized]
+	if(is_PDHU_on() == true) 
+			^~~~~~~~~~~~~~~~~~~~
+/home/svf/Obsw/Source/ApplicationLayer/PDHU_Handler/Source/PDHU_handler.c:1316:8: note: uninitialized use occurs here
+	if(received_size != PDHU_EVENT_LOG_SIZE) 
+			^~~~~~~~~~~~~
+/home/svf/Obsw/Source/ApplicationLayer/PDHU_Handler/Source/PDHU_handler.c:1302:5: note: remove the 'if' if its condition is always true
+	if(is_PDHU_on() == true)
+			^~~~~~~~~~~~~~~~~~~~~~~~ 
+/home/svf/Obsw/Source/ApplicationLayer/PDHU_Handler/Source/PDHU_handler.c:1300:27: note: initialize the variable 'received_size' to silence this warning
+	uint32_t received_size; 
+											  ^
+										  	= 0
+2 warnings generated.
+\end{lstlisting}
+\end{minipage}
