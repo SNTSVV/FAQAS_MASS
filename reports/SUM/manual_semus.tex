@@ -16,7 +16,12 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 %\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
 
 \begin{itemize}
-	\item Linux packages: \texttt{docker-ce} \texttt{docker-ce-cli} \texttt{containerd.io}
+	\item Linux packages: 
+\begin{itemize}	
+	\item \texttt{docker-ce} 
+	\item \texttt{docker-ce-cli} 
+	\item \texttt{containerd.io}
+	\end{itemize}
 \end{itemize}
 
 
@@ -24,6 +29,8 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 
 \subsection{Initialization of the \SEMUS workspace}
 \label{sec:semus:initialization}
+
+\TODO{Following is not clear. It seems that the end-user has a folder case\_studies/ASN to copy stuff from; however, you do not explain how to retrieve that folder. I would call it TEMPLATES rather than ASN, no?}
 
 \SEMUS needs a dedicated folder structure for running the test generation on a case study. 
 For this reason, the engineer shall create the following directory structure under the folder \texttt{case\_studies}, assuming the name of the case study is stored in the variable \texttt{\$SUT}:
@@ -40,31 +47,36 @@ For this reason, the engineer shall create the following directory structure und
 After the creation of the folder structure, the engineer shall copy the scripts for (1) creating the mutants, (2) running the toolset, (3) configuring \SEMUS. The commands for copying these files are provided below:
 
 \begin{lstlisting}[language=bash]
-  $ cd case_studies/MLFS/scripts
+  $ cd case_studies/ASN/scripts
   $ cp create_mutants.sh run.sh docker_run.sh faqas_semus_config.sh ../../$SUT/scripts
 \end{lstlisting}
 
 At this step, the engineer shall also provide a compilation database file of the SUT, to be placed inside \texttt{\$SUT/scripts} with the name \texttt{compile\_commands.json}. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation and the test generation steps of the methodology.
 
-Next, the engineer shall copy the script necessary for generating the test templates for guiding the test generation. This can be done through the following commands:
+Next, the engineer shall copy the scripts necessary for generating the test templates for guiding the test generation. This can be done through the following commands:
 
 \begin{lstlisting}[language=bash]
-  $ cd case_studies/MLFS/util_codes
-  $ cp call_generate_direct.sh ../../$SUT/util_codes
+  $ cd case_studies/ASN/util_codes
+  $ cp generate_direct.py generate_template_config.json ../../$SUT/util_codes
 \end{lstlisting}
 
 Last, the engineer shall place inside the folder \texttt{case\_studies/\$SUT/WORKSPACE/DOWNLOADED} (1) the SUT source code, and (2) the list of live mutants (provided by \MASS output).
 
 \subsection{\SEMUS Configuration}
 
-There is one Bash script that should be edited by the engineer to configure \SEMUS. The script enable \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout).
+There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). Instead, the JSON file indicates for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
 
 \input{tables/to_conf_semus}
 
-Table~\ref{table:to_conf_semus} provides a summary of \SEMUS configuration files and a brief description. A detailed description of the SEMuS configuration file follows.
+Table~\ref{table:to_conf_semus} provides a summary of the Bash \SEMUS configuration file and a brief description. A detailed description of the SEMuS configuration file follows in Section~\ref{sec:semus_config}.
+
+\input{tables/ttg_semus}
+
+Table~\ref{table:ttg_semus} provides a summary of the JSON \SEMUS configuration file and a brief description. A detailed description of the JSON configuration file follows in Section~\ref{sec:json_config}.
 
 
 \subsubsection{Edit faqas\_semus\_config.sh}
+\label{sec:semus_config}
 
 Within file \texttt{faqas\_semus\_config.sh} there are multiple environment variables that must be set; they are shown in Listing~\ref{listing:SEMUS:conf}.
 
@@ -138,8 +150,6 @@ FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT=
 FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT=
 
 \end{lstlisting}
-
-%\DONE{Add the listing configured for MLFS or ASN and comment it with a sentence here.}
 
 Listing~\ref{listing:ASN:conf} provides an example of faqas\_semus\_conf.sh file configured for the ASN case study.
 
@@ -217,13 +227,88 @@ FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
 FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
 \end{lstlisting}
 
+
+\subsubsection{Edit generate\_template\_config.json}
+\label{sec:json_config}
+
+Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}.
+
+\begin{lstlisting}[language=bash,label=listing:json:conf,caption=generate\_template\_config.json file.]
+{
+    # Specify a type as key and the type conversion template as value, 
+    # Where the placeholder for the expression to convert should be specified as the string '{}'
+    # e.g. "TYPES_TO_INTCONVERT": {"flag": "(int){}"},
+    "TYPES_TO_INTCONVERT": {},
+
+    # Specify a type as key and the object printing code as value.
+    # Where the placeholder for the object to print must be specified as the string '{}'
+    # Do not forget to escape the backslashes and double quoted in printf fmt.
+    # e.g. "TYPES_TO_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST_OUTPUT: X=%d, Y=%s\\n\", {}->x, {}->y)"}
+    "TYPES_TO_PRINTCODE": {},
+
+    # Specify the names of function arguments that are used as function output (passed by reference for output only)
+    # e.g. "OUT_ARGS_NAMES": ["pErrCode"],
+    "OUT_ARGS_NAMES": [],
+
+    # Specify the names of function arguments that are used both as function input and output (passed by reference)
+    # e.g. "IN_OUT_ARGS_NAMES": ["inoutArg"],
+    "IN_OUT_ARGS_NAMES": [],
+
+    # Specify a type as key and the pre 'klee_make_symbolic' statement initialization code as value,
+    # The placeholder for the object to initialize must be specified as the string '{}'
+    # e.g. "TYPE_TO_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\n{}.next->next = NULL;"}
+    "TYPE_TO_INITIALIZATIONCODE": {},
+
+    # Specify how to make an object symbolic (specialy useful for objects that are initialized, like pointers).
+    # The object type is the dict key and a dict of field accesses and their type is the dict value.
+    # The placeholder for the object to make symbolic must be specified as the string '{}'
+    # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
+
+    # Specify the underlying type for a void pointer (the data type pointed by the void pointer).
+    # for instance, if the function is to be called with an `int` array for a void pointer parameter,
+    # set `VOID_ARG_SUBSTITUTE_TYPE` to "int".
+    # Set the value to the empty string ("") to let the user specify at runtime on case by case
+    # Set the value to `null` (JSON equivalent to None) to let the user change the types `void` 
+    # directly in the generated templates
+    # e.g. VOID_ARG_SUBSTITUTE_TYPE: "char"
+    VOID_ARG_SUBSTITUTE_TYPE: "",
+
+    # Specify, for pointer parameters, the number of elements it points to (must be > 0)
+    # This will give the flexibility to set the number of elements the pointer points to.
+    # The default value is `1`, for non specified types.
+    # e.g. ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {"int *": 2, "char *": 6}
+    # This let and array of 2 for int pointer and array of 6 for char pointer, 
+    # and an array of 1 for unsigned pointer
+    ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {}
+}
+\end{lstlisting}
+
+Listing~\ref{listing:ASN:jsonconf} provides an example of generate\_template\_config.json file configured for the ASN case study.
+
+\begin{lstlisting}[language=bash,label=listing:ASN:jsonconf,caption=generate\_template\_config.json file for ASN case study.]
+{
+    "TYPES_TO_INTCONVERT": {"flag": "(int){}"},
+    "TYPES_TO_PRINTCODE": {},
+    "OUT_ARGS_NAMES": ["pErrCode"],
+    "IN_OUT_ARGS_NAMES": [],
+    "TYPE_TO_INITIALIZATIONCODE": {},
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
+    "VOID_ARG_SUBSTITUTE_TYPE": "",
+    "ARG_TYPE_TO_ITS_POINTER_ELEM_NUM": {}
+}
+\end{lstlisting}
+
 \subsection{Running \SEMUS}
 \label{sec:semuslaunch}
 
-To run \SEMUS is necessary to generate the test templates as first step; there is a dedicated Bash script for doing so:
+To run \SEMUS, it is necessary to generate the test templates as first step; this can be achieved through the following command:
+%there is a dedicated Bash script for doing so:
 
 \begin{lstlisting}[language=bash]
- $ case_studies/$SUT/util_codes/call_generated_direct.sh
+ $ case_studies/$SUT/util_codes/generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct \
+                    " -I../WORKSPACE/DOWNLOADED/casestudy/" -c generate_template_config.json
+
 \end{lstlisting}
 
 The previous command will generate inside the directory \texttt{case\_studies/\$SUT/util\_codes} one folder for each source under analysis, and inside of these folders, one template for each function under test.
@@ -237,12 +322,12 @@ Note the following:
 \end{itemize}
 
 \begin{lstlisting}[language={}, label=listing:semus_launch]
-ENV_FAQAS_SEMU_SRC_FILE=source.c ./docker_run.sh [<starting-step>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
+ENV_FAQAS_SEMU_SRC_FILE=test.c ./docker_run.sh [<starting-step>] [<mutants-list-file> <output-dir-for-pre-semu-and-semu>]
 \end{lstlisting}
 
 Where:
 \begin{itemize}
-	\item starting-step: is the step of the pipeline from which to start, possible values are \texttt{\{mutation, compile, presemu, semu,unittests\}}
+	\item starting-step: is the step of the pipeline from which to start, possible values are \texttt{\{mutation, compile, presemu, semu, unittests\}}
 	\begin{itemize}
 		\item mutation: the process starts from the mutant generation step
 		\item compile: the process starts from the mutant compilation step
@@ -257,7 +342,7 @@ Where:
 An example for launching the test generation from the mutation generation step follows:
 
 \begin{lstlisting}[language=bash]
- $ ENV_FAQAS_SEMU_SRC_FILE=source.c scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=test.c scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
 \end{lstlisting}
 
 \subsection{\SEMUS results}
@@ -280,7 +365,7 @@ An example for launching the test generation from the mutation generation step f
 \section{Normal Termination}
 
 
-Each step of \SEMUS is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
+Each step of \SEMUS is executed when invoked and a result is generated. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
 If the engineer decides to interrupt \SEMUS execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
 
 \section{Error Conditions}

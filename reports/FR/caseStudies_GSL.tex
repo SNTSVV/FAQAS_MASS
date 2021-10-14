@@ -7,7 +7,7 @@
 
 \subsection{Overview of the case study}
 
-The GomSpace CSP library (libgscsp) is a GomSpace extension to the open source CubeSat Space Protocol library.
+The GomSpace \INDEX{CSP library} (libgscsp) is a GomSpace extension to the open source \INDEX{CubeSat Space Protocol library}.
 The GomSpace CSP library provides:
 \begin{itemize}
 \item convenience wrapping of CSP functionality, primarily initialization.
@@ -16,176 +16,29 @@ The GomSpace CSP library provides:
 \item generic CSP service dispatcher, forwards incoming connections to service handlers.
 \end{itemize}
 
-The libgscsp contains a GomSpace branch (https://github.com/GomSpace/libcsp) of the open source libcsp (https://github.com/libcsp/libcsp), located in the subfolder lib/libcsp, and an extension of the CSP library. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp. The extension of the CSP library provides utility functions for GSL-specific products.
+The libgscsp contains a GomSpace branch (\url{https://github.com/GomSpace/libcsp}) of the open source libcsp (\url{https://github.com/libcsp/libcsp}), located in the subfolder lib/libcsp, and an extension of the CSP library. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp. The extension of the CSP library provides utility functions for GSL-specific products.
 \MREVISION{C-P-47}{In the context of FAQAS, we consider both the libcsp (GSL branch), the extension of the CSP library but not the opensource libcsp CSP library.}
 
-Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+%Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 
 The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
 while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
 
-\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an integration test suite. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition because every test case exercises multiple files. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
+\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an \INDEX{integration test suite}. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition because every test case exercises multiple files. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
 
-\MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libgscsp code is executed on the native machine, it does not require to be run by an hardware simulator.}
+\MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \INDEX{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libgscsp code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
-
-\subsection{Code-driven mutation testing}
-
-
-
-In FAQAS, under the assumption that test suites are of high quality standards, we mutate only the statements covered by the test suite. This is also due to the fact that a mutant can be killed only if it is covered by at least one test case. 
-
-In the case of libgscsp, the integration test suite covers basic algorithms such as error handling and routing while hardware specific functions such as the handling of CAN protocol is verified by means of a test suite for hardware in the loop. 
-
-GomSpace relies on a risk-driven approach to integration testing; for this reason GSL code does not reach 100\% code coverage in the integration tests. The code that has not been covered is judged to be low risk, but is covered by other techniques like code inspection and manual testing. The integration tests run are covering the normal use cases for our satellites. libCSP is not specific to GomSpace, although GSL uses it heavily, and not all features are used in GomSpace satellites.
-
-%For this reason, the code-driven mutation testing process in libgscsp will target all the components covered by the libgscsp unit test suite.
-
-\input{tables/gscsp_coverage}	
-
-\begin{enumerate}
-	\item \textbf{libgscsp extension}
-
-	Table~\ref{table:libgscsp_coverage} provides code coverage information of the libgscsp integration test suite for the GSL extension to the CSP library. Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 56\% of the source files. %(10/18)
-	%we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
-	
-	\begin{itemize}
-	 	\item src/clock.c
-	 	\item src/commands.c
-	 	\item src/conn.c
-	 	\item src/csp.c
-	 	\item src/error.c
-	 	\item src/log.c
-	 	\item src/router.c
-	 	\item src/service\_dispatcher.c
-	 	\item src/service\_handler.c
-	 	\item src/linux/command\_line.c
-
-	 \end{itemize} 
-
-	\item \textbf{libcsp (GSL branch)}
-
-	Table~\ref{table:libcsp_coverage} presents the code coverage of the libgscsp integration test suite for the GSL branch of the CSP library. 
-	% Given the code coverage, we focus our mutation analysis on the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 45\% of the source files. %(32/71)
-
-	\begin{itemize}
-		\item src/arch/csp\_time.c
-		\item src/arch/csp\_system.c
-		\item src/arch/posix/csp\_thread.c
-		\item src/arch/posix/csp\_semaphore.c
-		\item src/arch/posix/csp\_malloc.c
-		\item src/arch/posix/csp\_queue.c
-		\item src/arch/posix/csp\_time.c
-		\item src/arch/posix/pthread\_queue.c
-		\item src/arch/posix/csp\_system.c
-		\item src/crypto/csp\_sha1.c
-		\item src/crypto/csp\_hmac.c
-		\item src/crypto/csp\_xtea.c
-		\item src/interfaces/csp\_if\_lo.c
-		\item src/rtable/csp\_rtable.c
-		\item src/rtable/csp\_rtable\_cidr.c
-		\item src/rtable/csp\_rtable\_static.c
-		\item src/transport/csp\_rdp.c
-		\item src/transport/csp\_udp.c
-		\item src/csp\_sfp.c
-		\item src/csp\_debug.c
-		\item src/csp\_service\_handler.c
-		\item src/csp\_crc32.c
-		\item src/csp\_io.c
-		\item src/csp\_qfifo.c
-		\item src/csp\_iflist.c
-		\item src/csp\_endian.c
-		\item src/csp\_route.c
-		\item src/csp\_buffer.c
-		\item src/csp\_port.c
-		\item src/csp\_conn.c
-		\item src/csp\_init.c
-		\item src/csp\_services.c
-	\end{itemize}
-
-
-\end{enumerate}
-
-\subsubsection{Mutation Testing Preliminary Results}
-
-
-\input{tables/libgscsp_preliminary}
-
-In order to evaluate the feasibility of code-driven mutation testing for libgscsp, we conducted a preliminary experiment using the mutation operators AOR, ROR, ICR, LCR, ABS, UOI and SDL we generated 6\,196 mutants. For the experimentation we targeted only the libcsp (GSL branch) source code. Preliminary results can be found in Table~\ref{table:libgscsp_preliminary}.
-Particularly, we observe that from the 6\,196 generated mutants, we had 1\,700 mutants that were not compiled by the compilation toolset of libgscsp, most probably because the mutation introduced a syntactical error that was detected by the toolset.
-Then, we identified 1\,708 live mutants that were not detected by the test suite. Instead, we had 2\,495 mutants detected by the test suite, and 277 mutants killed by timeout (they led to infinite loop). The final mutation score was of 61.88\%.
-
-The identification of equivalent mutants still needs to be assessed.
-
-
-\subsection{Data-driven mutation testing}
-\label{subsec:libgscsp_data}
-
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=0.9\textwidth]{images/csp_packet}
-      \caption{CSP protocol header.}
-      \label{fig:csp_packet}
-\end{figure}
-
-The data-driven mutation testing process in libgscsp will target the data packet transferred between the server and the client using the CSP protocol. Specifically, the mutations will affect the header of the packet, which contains routing information (see Figure~\ref{fig:csp_packet}) and the payload 
-%the mutations will affect the content itself of the packet 
-(i.e., the data being transferred).
-
-%\DONE{Does the header contains any infor about the payload? Because the only mutation we can perform on the payload is to cut it.}
-
-%\DONE{No, it seems not. The six fields in the packet header regards: pri (Priority), src (Source address), dst (Destination address)
-%dport (Destination port), sport (Source port) and flags (specifies specific byte instructions such as use of fragmentation, HMAC verification, etc)}
-
-
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=0.9\textwidth]{images/FaultModelCSP_temp}
-      \caption{CSP fault model.}
-      \label{fig:csp_faultmodel}
-\end{figure}
-
-Figure~\ref{fig:csp_faultmodel} introduces an example of the possible fault models to be applied to the  header of the packet.
-% and \emph{Payload} targets the data of the packet.
-The \emph{Header} fault model include mutation operators such as bit-flips (BF), insertion of invalid values (INV), insertion of values out of range (VOR), and insertion of values above threshold (VAT).
-%Instead, the \emph{Payload} fault model consists of applying a bit-flip to the data packet; it is used to verify that the test suite has at least one test case that controls the correct transmission of the content of the packet.
-
-Concerning the flags data item, it has a size of 8 bits, i.e., 8 flags are available. Only 4 flags are currently used:
-\begin{itemize}
-\item 00000001              CRC32
-\item 00000010             RDP
-\item 00000100             XTEA
-\item 00001000             HMAC
-\end{itemize}
-We force each flag to be set to zero by defining a different BF mutation operator with \emph{State=1} for each of the four bits.
-
-\input{listings/csp_integration}
-
-
-\MREVISION{C-P-48}{
-%On the other hand, the mutations to the payload of the packet will consist of applying the bit-flip (BF) operator to any of the bits of the payload data structure. 
-The mutations to the payload is expected to be performed within the the components that uses libcsp (e.g., libparam); at that level it would be feasible to understand the data format.}
-
-Both mutations (i.e, header and payload) will be performed before the message is serialized. 
-For example, the mutations to the header will affect the \emph{csp\_send\_direct} function of the \emph{csp\_io component}. 
-Listing~\ref{csp_integration} shows an example of our data-driven mutator prototype within the \emph{csp\_io component}. 
-Particularly, in Line 1 the packet header is translated into an unsigned int vector. 
-Then, in Line 4 an instance of the packet identifier fault model is created, 
-the instance of the fault model and the unsigned int vector is then passed to the FAQAS mutate function in line 5.
-%In this case, the fault model can target all six items of the header (i.e., Flags, Source Port, Destination Port, Destination Address, Source Address, and Priority). 
-After the mutation has been applied, from Line 8 to Line 13, the vector is then translated back to the original representation.
  
 
-
+\clearpage
 \section{GSL - libparam}
 \label{sec:caseStudies:GSL:libparam}
 
 \subsection{Overview of the case study}
 
-The Parameter System (i.e., libparam) is a light-weight parameter system designed for GomSpace satellite subsystems. It is based around a logical memory architecture, where every parameter is referenced directly by its logical address. A backend system takes care of translating addresses into physical addresses.
+The \INDEX{Parameter System} (i.e., libparam) is a light-weight parameter system designed for GomSpace satellite subsystems. It is based around a logical memory architecture, where every parameter is referenced directly by its logical address. A backend system takes care of translating addresses into physical addresses.
 The features of this system include:
 \begin{itemize}
 \item Direct memory access for quick parameter reads.
@@ -203,7 +56,7 @@ The features of this system include:
 Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 \MREVISION{C-P-49}{The size of libparam is 3\,179 LOC. libparam includes a system test suite, consisting of 170 test cases, assessing functionalities from the library itself, libgscsp, libembed and libutil. The test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation testing. 
+In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation analysis. 
 The libparam code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
 
@@ -217,99 +70,16 @@ The libparam code is executed on the native machine, it does not require to be r
 %
 %\TODO{To populate this section we need the following from GSL: Action 3. (deadline: end of this week is better) GSL should provide a description of the structure of the data exchanged by libparam along with a name of the function that loads the data received from the libcsp layer. GSL suggested looking for documentation inside the libparam folder, but we did not find such doc folder, actually, there is only one doc folder and it concerns the documentation for libcsp not libparam.}
 
-
+\clearpage
 \section{GSL - libutil}
 \label{sec:caseStudies:GSL:libutil}
 
 \subsection{Overview of the case study}
 
-The Utility library provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
+The \INDEX{Utility Library} provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
 
 Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
 
 The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
-To perform the experiments in the \INDEX{UL HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libutil code is executed on the native machine, it does not require to be run by an hardware simulator.}
+To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libutil code is executed on the native machine, it does not require to be run by an hardware simulator.}
 
-\subsection{Code-driven mutation testing}
-
-The code-driven mutation testing process in libutil will target all the components covered by the libutil unit test suite. 
-The libutil unit test suite do not cover hardware-specific functions (e.g., drivers), which are covered at the system level.
-
-\input{tables/gslibutil_coverage}
-
-Table~\ref{table:gslibutil_coverage} provides the code coverage information of the unit test suite for the GSL libutil library. 
-%Given the code coverage, we focus our analysis to the following subset of components (i.e., components with code coverage greater than 0\%):
-Below, we report the files covered by the test suite and targeted by mutation testing; they correspond to 82\% of the source files. %(55/67)
-
-\begin{itemize}
-	\item src/base16.c
-	\item src/bytebuffer.c
-	\item src/byteorder.c
-	\item src/clock.c
-	\item src/crc32.c
-	\item src/crc8.c
-	\item src/error.c
-	\item src/fletcher.c
-	\item src/function\_scheduler.c
-	\item src/hexdump.c
-	\item src/lock.c
-	\item src/rtc.c
-	\item src/string.c
-	\item src/strtoint.c
-	\item src/time.c
-	\item src/timestamp.c
-	\item src/cmd/command.c
-	\item src/cmd/log.c
-	\item src/cmd/vmem.c
-	\item src/drivers/sys/memory.c
-	\item src/gosh/command.c
-	\item src/gosh/console.c
-	\item src/gosh/default\_commands.c
-	\item src/linux/clock.c
-	\item src/linux/command\_line.c
-	\item src/linux/cwd.c
-	\item src/linux/delay.c
-	\item src/linux/function.c
-	\item src/linux/mutex.c
-	\item src/linux/queue.c
-	\item src/linux/rtc.c
-	\item src/linux/sem.c
-	\item src/linux/signal.c
-	\item src/linux/stdio.c
-	\item src/linux/thread.c
-	\item src/linux/time.c
-	\item src/linux/drivers/gpio/gpio.c
-	\item src/linux/drivers/gpio/gpio\_sysfs.c
-	\item src/linux/drivers/gpio/gpio\_virtual.c
-	\item src/linux/drivers/i2c/i2c.c
-	\item src/linux/drivers/spi/spi.c
-	\item src/linux/drivers/sys/memory.c
-	\item src/log/commands.c
-	\item src/log/log.c
-	\item src/log/appender/console.c
-	\item src/log/appender/simple\_file.c
-	\item src/test/cmocka.c
-	\item src/test/command.c
-	\item src/test/log.c
-	\item src/vmem/commands.c
-	\item src/vmem/vmem.c
-	\item src/watchdog/monitor\_task.c
-	\item src/watchdog/watchdog.c
-	\item src/zip/zip.c
-	\item src/zip/miniz/miniz.c
-\end{itemize}
-
-\subsubsection{Mutation Testing Preliminary Results}
-
-\input{tables/libutil_preliminary}
-
-In order to analyze the feasibility of the code-driven mutation testing, we conducted a preliminary experimentation using the mutation operators AOR, ROR, ICR, LCR, and SDL we generated 16\,886 mutants. Preliminary results can be found in Table~\ref{table:libutil_preliminary}.
-Particularly, we observe that from the 16\,886 generated mutants, we had 2\,561 mutants that were not compiled by the compilation toolset of libutil, most probably because the mutation introduced a syntactical error that was detected by the toolset.
-Then, we identified 3\,402 live mutants that were not detected by the test suite. Instead, we had 10\,634 killed mutants detected by the test suite, and 289 mutants that produced libutil to go into an infinite loop, and thus were killed by timeout. The final mutation score was of 76.25\%.
-
-The identification of equivalent mutants still needs to be performed.
-
-
-\subsection{Data-driven mutation testing}
-
-We do not plan to apply data drive mutation testing to this case study because is a standalone library; it does not integrate communicating components.

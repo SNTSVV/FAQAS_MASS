@@ -1,43 +1,287 @@
 % !TEX root =  ../Main.tex
 
-\begin{table}[h]
-\caption{RQ7. Precision of Coverage-Based Detection of Equivalent Mutants.}
-\label{table:results:precision:equivalent} 
-\tiny
-\begin{tabular}{|
-p{10mm}|p{10mm}|p{10mm}|
-p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|
-p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|
-|}
-\hline
-\textbf{Case Study}&\textbf{Operators}&\textbf{Sampling}&\multicolumn{9}{c|}{\textbf{Precision of equivalent mutants detection when distance $< T_E$.}}&\multicolumn{9}{c|}{\textbf{Precision of redundant mutants detection when distance $< T_R$.}}\\ 
-&&
-&\textbf{0.10}&\textbf{020}&\textbf{0.30}&\textbf{0.40}&\textbf{0.50}&\textbf{0.60}&\textbf{0.70}&\textbf{0.80}&\textbf{0.90}
-&\textbf{0.10}&\textbf{020}&\textbf{0.30}&\textbf{0.40}&\textbf{0.50}&\textbf{0.60}&\textbf{0.70}&\textbf{0.80}&\textbf{0.90}\\
-\hline
-\\
-$\mathit{ESAIL}_{S}$
-&All
-&None
-&0.01
-\\
-..
-\\
-$\mathit{ESAIL}_{S}$
-&All
-&\FIXME{Random 1\%}
-&0.01
-\\
-..
-\\
-$\mathit{ESAIL}_{S}$
-&SDL
-&\FIXME{Random 1\%}
-&0.01
-\\
-..
-\\
+% \begin{table}[h]
+% \caption{RQ7. Precision of Coverage-Based Detection of Equivalent Mutants.}
+% \label{table:results:precision:equivalent} 
+% \tiny
+% \begin{tabular}{|
+% p{10mm}|p{10mm}|p{10mm}|
+% p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|
+% p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|
+% |}
+% \hline
+% \textbf{Case Study}&\textbf{Operators}&\textbf{Sampling}&\multicolumn{9}{c|}{\textbf{Precision of equivalent mutants detection when distance $< T_E$.}}&\multicolumn{9}{c|}{\textbf{Precision of redundant mutants detection when distance $< T_R$.}}\\ 
+% &&
+% &\textbf{0.0}&\textbf{0.0}&\textbf{0.30}&\textbf{0.40}&\textbf{0.50}&\textbf{0.60}&\textbf{0.70}&\textbf{0.80}&\textbf{0.90}
+% &\textbf{0.10}&\textbf{020}&\textbf{0.30}&\textbf{0.40}&\textbf{0.50}&\textbf{0.60}&\textbf{0.70}&\textbf{0.80}&\textbf{0.90}\\
+% \hline
+% \\
+% $\mathit{\SAIL{}}_{S}$
+% &All
+% &None
+% &0.01
+% \\
+% ..
+% \\
+% $\mathit{\SAIL{}}_{S}$
+% &All
+% &\FIXME{Random 1\%}
+% &0.01
+% \\
+% ..
+% \\
+% $\mathit{\SAIL{}}_{S}$
+% &SDL
+% &\FIXME{Random 1\%}
+% &0.01
+% \\
+% ..
+% \\
 
+% \end{tabular}
+
+% \end{table}
+% $(0-0.40]$,  $(0.40-0.80]$, and $(0.80-1.0]$
+
+\begin{table}[tb]
+\caption{RQ6. Ratio ($r_R$) of Nonequivalent/Nonduplicate Mutants per Distance Range.}
+\label{table:results:ratio:equivalent} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{10mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{4mm}@{\hspace{1pt}}|
+}
+\hline
+& \multicolumn{6}{c|}{\textbf{Distance range (nonequivalent)}}  & \multicolumn{6}{c|}{\textbf{Distance range (nonduplicate)}}  \\
+\textbf{}& (0.00 & (0.00 & (0.01& (0.05 & (0.4 & (0.8
+& (0.00 & (0.00 & (0.01& (0.05 & (0.4 & (0.8\\
+\textbf{Config.}& 0.00] & 0.01] & 0.05]& 0.40] & 0.8] & 1.0] 
+& 0.00] & 0.01] & 0.05]& 0.40] & 0.8] & 1.0] \\
+\hline
+ALL   
+& 0.35  & 0.85  & 1.00 & 1.00  & 1.00  & 1.00  
+& 0.95  & 1.00  & 1.00 & 1.00  & 1.00  & 1.00  
+\\
+& (20)  & (20)  & (20) & (20)  & (18)  & (12)  
+& (20)  & (20)  & (20) & (20)  & (20)  & (20)  
+\\
+\APPR  
+& 0.35  & 0.95  & 1.00  & 1.00 & 1.00  & N/A
+& 1.00  & 1.00 & 1.00 & 1.00  & 1.00  & 1.00
+\\
+& (20)  & (20)  & (20) & (10)  & (6)  & (0)  
+& (20)  & (20)  & (20) & (20)  & (18)  & (16)  
+\\
+\hline
 \end{tabular}
 
+\textbf{Note}: We report the number of observations in parenthesis.
 \end{table}
+
+
+\begin{table}[tb]
+\caption{RQ6. Precision (P), Recall (R), and their harmonic mean (F) obtained for the Coverage-Based Detection of Nonequivalent/Nonduplicate Mutants.}
+\label{table:results:precision:equivalent} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}p{2mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+}
+\hline
+&& \multicolumn{6}{c|}{\textbf{Threshold (nonequivalent)}}  & 
+\multicolumn{6}{c|}{\textbf{Threshold (nonduplicate)}}  \\
+\cline{3-14}
+\textbf{Conf.}&&\tiny{d $\ge$ 0}& \tiny{d\textgreater0} &\tiny{d\textgreater0.01}& \tiny{d\textgreater0.05}& \tiny{d\textgreater0.4} & \tiny{d\textgreater0.8}
+&\tiny{d $\ge$ 0}& \tiny{d\textgreater0} &\tiny{d\textgreater0.01}& \tiny{d\textgreater0.05}& \tiny{d\textgreater0.4} & \tiny{d\textgreater0.8}
+\\
+
+\hline
+\multirow{2}{*}{ALL}&P   
+& 0.62  & 0.90  & 1.00 & 1.00  & 1.00  & 1.00  
+& 0.98  & 1.00  & 1.00 & 1.00  & 1.00  & 1.00  \\
+&R   
+& 1.00  & 0.71  & 0.28 & 0.10  & 0.01  & 0.01
+& 1.00  & 0.62  & 0.21 & 0.13  & 0.05  & 0.03  
+\\
+&F   
+& 0.77  & \underline{0.80}  & 0.44 & 0.19  & 0.03  & 0.01
+& \underline{0.99}  & 0.77  & 0.34 & 0.23  & 0.10  & 0.05  
+\\
+\hline
+\multirow{1}{*}{\emph{MA}}&P 
+& 0.81  & 0.97  & 1.00  & 1.00 & 1.00 & N/A 
+& 1.00  & 1.00 & 1.00 & 1.00  & 1.00  & 1.00
+\\
+\multirow{1}{*}{\emph{SS}}&R
+& 1.00  & 0.89  & 0.33  & 0.11 & 0.01  & N/A
+& 1.00  & 0.63 & 0.22 & 0.16  & 0.06  & 0.02
+\\
+&F   
+& 0.90  & \underline{0.93}  & 0.50 & 0.20  & 0.02  & N/A
+& \underline{1.00}  & 0.77  & 0.37 & 0.27  & 0.11  & 0.05  
+\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+%
+%
+%
+%
+%
+%
+%\begin{table}[h]
+%\caption{RQ6. Precision (P) and Recall (R) of Coverage-Based Detection of Nonequivalent/Nonduplicate Mutants.}
+%\label{table:results:precision:equivalent} 
+%\scriptsize
+%\centering
+%\begin{tabular}{|
+%@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}p{10mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%}
+%\hline
+%&& \multicolumn{6}{c|}{\textbf{Nonequivalent mutants ratio}}  & \multicolumn{6}{c|}{\textbf{Nonduplicate mutants ratio}}  \\
+%\cline{2-14}
+%&\textbf{Distance}& 0.00 & 0.00 & 0.01& 0.05 & 0.4 & 0.8
+%& 0.00 & 0.00 & 0.01& 0.05 & 0.4 & 0.8\\
+%&\textbf{range}& 0.00 & 0.01 & 0.05& 0.40 & 0.8 & 1.0 
+%& 0.00 & 0.01 & 0.05& 0.40 & 0.8 & 1.0 \\
+%\hline
+%\multirow{2}{*}{$r_R$}&ALL   
+%& 0.35  & ?  & ? & 1  & 1  & 1  
+%& 0.95  & ?  & ? & 1  & 1  & 1  
+%\\
+%&SMTS  
+%& 0.35  & ?  & ?  & 0.95 & 1  & 1
+%& 0.35  & ? & ? & 1  & 1  & 1
+%\\
+%\hline
+%\multirow{2}{*}{P}&ALL   
+%& 0.35  & ?  & ? & 1  & 1  & 1  
+%& 0.95  & ?  & ? & 1  & 1  & 1  
+%\\
+%&SMTS  
+%& 0.35  & ?  & ?  & 0.95 & 1  & 1
+%& 0.35  & ? & ? & 1  & 1  & 1
+%\\
+%\hline
+%\multirow{2}{*}{R}&ALL   
+%& 0.35  & ?  & ? & 1  & 1  & 1  
+%& 0.95  & ?  & ? & 1  & 1  & 1  
+%\\
+%&SMTS  
+%& 0.35  & ?  & ?  & 0.95 & 1  & 1
+%& 0.35  & ? & ? & 1  & 1  & 1
+%\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+
+%\begin{table}[h]
+%\caption{RQ7. Precision of Coverage-Based Detection of Nonequivalent/Nonduplicate Mutants (all mutants tested with the whole test suite).}
+%\label{table:results:precision:equivalent} 
+%\scriptsize
+%\centering
+%\begin{tabular}{|
+%@{\hspace{1pt}}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{9mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{9mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%}
+%\hline
+%& \multicolumn{4}{c|}{\textbf{Nonequivalent mutants ratio}}  & \multicolumn{4}{c|}{\textbf{Nonduplicate mutants ratio}}  \\
+%\textbf{Distance} & 0.0 & 0-0.4 & 0.4-0.8 & 0.8-1.0 & 0.0 & 0-0.4 & 0.4-0.8 & 0.8-1.0 \\
+%  \cline{0-0}
+%  \textbf{Subject} &&&&&&&&\\
+%\hline
+%\PARAM{}   & 0.75 & 1& 1 & 1& 0.75& 1 & 1 & 1\\
+%\GCSP{}   & 0.25 & 1& 1 & 1& 1   & 1& 1 & 1\\
+%\UTIL{}    & 0.25 & 1& 1 & 1& 1   & 1& 1 & 1\\
+%\MLFS{}{}	   & 0.25 & 1& 1 & -& 1   & 1& 1 & 1\\
+%\SAIL{}$_S$  & 0.5  & 1& 1 & -& 1   & 1& 1 & 1\\
+%\hline
+%\textbf{Overall}      & 0.4 & 1& 1 & 1& 0.95& 1& 1 & 1 \\
+%\hline
+%\end{tabular}
+%\end{table}
+%
+%\begin{table}[h]
+%\caption{RQ7. RQ7. Precision of Coverage-Based Detection of Nonequivalent/Nonduplicate Mutants (mutants sampled with FSCI, tested with \APPR test suite).}
+%\label{table:results:precision:equivalent:reduced} 
+%\scriptsize
+%\centering
+%\begin{tabular}{|
+%@{\hspace{1pt}}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{9mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{9mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+%}
+%\hline
+%& \multicolumn{4}{c|}{\textbf{Nonequivalent mutants ratio}}  & \multicolumn{4}{c|}{\textbf{Nonduplicate mutants ratio}}  \\
+%\textbf{Distance} & 0.0 & 0-0.4 & 0.4-0.8 & 0.8-1.0 & 0.0 & 0-0.4 & 0.4-0.8 & 0.8-1.0 \\
+%  \cline{0-0}
+%  \textbf{Subject} &&&&&&&&\\
+%\hline
+%\PARAM{}   & 0.5  & 1   & 1 & -& 1   & 1 & 1 & 1\\
+%\GCSP{}   & 0.0  & 0.75& - & -& 1   & 1& 1 & 1\\
+%\UTIL{}    & 0.5   & 1   & 1 & -& 1   & 1& 1 & 1\\
+%\MLFS{}{}	   & 0.0   & 1   & - & -& 1   & 1& 1 & -\\
+%\SAIL{}$_S$  & 0.75     & 1   & 1 & -& 1   & 1& 1 & 1\\
+%\hline
+%Total      & 0.35   & 0.95& 1 & -& 1   & 1& 1 & 1 \\
+%\hline
+%\end{tabular}
+%\end{table}
+%
+

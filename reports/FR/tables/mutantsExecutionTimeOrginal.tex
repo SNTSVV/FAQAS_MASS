@@ -1,35 +1,36 @@
 % !TEX root =  ../Main.tex
 
 \begin{table}[tb]
-\caption{Execution time and number of test cases executed when mutation testing is based on the original test suite.}
-\label{table:time:original} 
-\scriptsize
 \centering
+\caption{Execution time and number of test cases executed when mutation analysis is based on the original test suite.}
+\label{table:time:original} 
+\small
 \begin{tabular}{|
-p{12mm}@{\hspace{2pt}}|
->{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+p{14mm}@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{44mm}@{\hspace{1pt}}
+>{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
 >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
 }
 \hline
-\textbf{Component}&\multicolumn{1}{c|}{\textbf{Execution time (seconds)}}&\multicolumn{1}{c|}{\textbf{\# Test cases}}\\
+\textbf{Subject}&\multicolumn{2}{c|}{\textbf{Execution time, seconds (hours)}}&\multicolumn{1}{c|}{\textbf{\# Test cases}}\\
 \hline
-\multirow{1}{*}{ESAIL$_S$}& 39\,604\,457 (~11\,000 hours) & 155\,751 \\
+\multirow{1}{*}{\SAIL{}$_S$}& 39,604,457  &(11,001) & 155,751 \\
 %& SDL& & \\
 \hline
-\multirow{1}{*}{LIBGSCSP}&  252\,776 (~70 hours) & 10\,250\\
+\multirow{1}{*}{\GCSP{}}&  252,776 &(70) & 10,250\\
 %& SDL& 53074& 2103\\
 \hline
-\multirow{1}{*}{LIBPARAM}&  47\,949 (~13 hours)& 6\,629\\
+\multirow{1}{*}{\PARAM{}}&  47,949 &(13) & 6,629\\
 %& SDL& 7321& 1269\\
 \hline
-\multirow{1}{*}{LIBUTIL}&  214\,016 (~59 hours) & 17\,672\\
+\multirow{1}{*}{\UTIL{}}&  214,016 &(59) & 17,672\\
 %& SDL& 37603& 3030\\
 \hline
-\multirow{1}{*}{MLFS}&  171\,790 (~48 hours)& 28\,159\\
+\multirow{1}{*}{\MLFS{}}&  171,790 &(47)& 28,159\\
 %& SDL& 13492& 2220\\
-%MLFS$_V$& 31526 &T &28069&89.03\% &X\\
+%\MLFS{}{}$_V$& 31526 &T &28069&89.03\% &X\\
 \hline
-\textbf{Total}& 40\,290\,988  & 218\,461\\ 
+\textbf{Total}& 40,290,988 &(11,191) & 218,461\\ 
 \hline
 \end{tabular}
 \end{table}
