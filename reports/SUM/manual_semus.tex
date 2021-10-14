@@ -16,7 +16,12 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 %\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
 
 \begin{itemize}
-	\item Linux packages: \texttt{docker-ce} \texttt{docker-ce-cli} \texttt{containerd.io}
+	\item Linux packages: 
+\begin{itemize}	
+	\item \texttt{docker-ce} 
+	\item \texttt{docker-ce-cli} 
+	\item \texttt{containerd.io}
+	\end{itemize}
 \end{itemize}
 
 
@@ -24,6 +29,8 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 
 \subsection{Initialization of the \SEMUS workspace}
 \label{sec:semus:initialization}
+
+\TODO{Following is not clear. It seems that the end-user has a folder case\_studies/ASN to copy stuff from; however, you do not explain how to retrieve that folder. I would call it TEMPLATES rather than ASN, no?}
 
 \SEMUS needs a dedicated folder structure for running the test generation on a case study. 
 For this reason, the engineer shall create the following directory structure under the folder \texttt{case\_studies}, assuming the name of the case study is stored in the variable \texttt{\$SUT}:
@@ -57,7 +64,7 @@ Last, the engineer shall place inside the folder \texttt{case\_studies/\$SUT/WOR
 
 \subsection{\SEMUS Configuration}
 
-There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. The Bash script enable \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). Instead, the JSON file indicates for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
+There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). Instead, the JSON file indicates for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
 
 \input{tables/to_conf_semus}
 
@@ -295,7 +302,7 @@ Listing~\ref{listing:ASN:jsonconf} provides an example of generate\_template\_co
 \subsection{Running \SEMUS}
 \label{sec:semuslaunch}
 
-To run \SEMUS is necessary to generate the test templates as first step; this can be achieved through the following command:
+To run \SEMUS, it is necessary to generate the test templates as first step; this can be achieved through the following command:
 %there is a dedicated Bash script for doing so:
 
 \begin{lstlisting}[language=bash]
@@ -358,7 +365,7 @@ An example for launching the test generation from the mutation generation step f
 \section{Normal Termination}
 
 
-Each step of \SEMUS is executed when invoked and computes a result. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
+Each step of \SEMUS is executed when invoked and a result is generated. There is no software interruption foreseen during the computation and the procedure terminates by returning the result.
 If the engineer decides to interrupt \SEMUS execution, it can be done by sending a signal interrupt \texttt{SIGINT} to the running process.
 
 \section{Error Conditions}
