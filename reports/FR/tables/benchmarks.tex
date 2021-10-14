@@ -1,47 +1,60 @@
 % !TEX root =  ../Main.tex
 
-
-
-
 \begin{table}[h]
 \tiny 
-\caption{Case study systems in the mutation testing literature.}
+\caption{Subject systems in the mutation testing literature.}
 \label{table:benchmarks} 
-\begin{tabular}{p{2cm}p{2cm}p{1cm}p{3cm}}
+\UPDATE{
+\begin{tabular}{|p{1.6cm}p{1.1cm}p{1cm}p{1cm}p{2.3cm}|}
 \hline
-\textbf{Case Study (SUT)}	&	\textbf{Size of SUT}	&	\textbf{\# Test cases}&	\textbf{References}	\\
+\textbf{Case Study (SUT)}	& \textbf{SUT category}&	\textbf{Size of SUT}	&	\textbf{\# Test cases}&	\textbf{References}	\\
 \hline
-LLVM Framework & 1.3 MLOC & 625 & \cite{denisov2018mull}\\
-OpenSSL & 311 KLOC & 77 & \cite{denisov2018mull}\\
-Codeflaws & 266 KLOC & 122\,261 & \cite{papadakis2018mutant}\\
-RODOS & 125 KLOC & 48 & \cite{denisov2018mull}\\
-Coreutils & 8 - 83 KLOC & 1022 - 18\,719 & \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}\\
-Siemens & 1 - 69 KLOC & 1\,531 - 22\,138 & \cite{phan2018music,wang2017faster,papadakis2016threats,papadakis2014mitigating,yao2014study,clark2013semantic}\\
-Vim & 42 - 39 KLOC & 98 & \cite{wang2017faster,kintis2017detecting,papadakis2015trivial}\\
-Make & 7 - 35 KLOC & 691 & \cite{papadakis2018mutation,chekam2017empirical,kintis2017detecting,papadakis2015trivial,yao2014study}\\
-Memory Benchmark & 32 kLOC & 503 & \cite{wu2017memory}\\
-Findutils & 18 KLOC & 4\,931 &  \cite{papadakis2018mutation,chekam2017empirical}\\
-KmyMoney & 13 kLOC & 248 & \cite{delgado2017assessment}\\
-Curl & 12 KLOC & N/A & \cite{phan2018music}\\
-Grep & 9 KLOC & 5\,899 & \cite{papadakis2018mutation,chekam2017empirical}\\
-Space & 5 - 9 KLOC & 100 - 13\,585 & \cite{tokumoto2016muvm,papadakis2014mitigating,yao2014study,clark2013semantic}\\
-Git & 8 KLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
-MSMTP & 6 kLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
-Matrix TCL Pro & 3 kLOC & 24 & \cite{delgado2017assessment}\\
-Dolphin & 3 kLOC & 70 &  \cite{delgado2017assessment}\\
-Deletion Benchmark & 2\,853 LOC & 814 & \cite{delamaro2014designing,delamaro2014experimental}\\
-Gzip & 2\,819 LOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
-TinyXML2 & 2\,620 LOC & 62 & \cite{delgado2017assessment,delgado2015class}\\
-XmlRPC++ & 2\,194 LOC & 34 & \cite{delgado2017assessment,delgado2015class}\\
-QtDom & 2\,117 LOC & 56 & \cite{delgado2017assessment}\\
-Yao Benchmark & 1\,208 LOC& N/A & \cite{yao2014study}\\
-Flex & 10 - 14 KLOC & 567 LOC& \cite{papadakis2014mitigating,yao2014study}\\
-NuclearIndustrial & 484 LOC & 302 & \cite{delgado2018evaluation}\\
-Nequivack Benchmark & 403 LOC & N/A & \cite{holling2016nequivack}\\
-MuVM Benchmark & 302 LOC & 2\,256 & \cite{tokumoto2016muvm}\\
-\hline                                                         
+% LLVM Framework*  			  & C & 1.3 MLOC & 625 & \cite{denisov2018mull}\\
+LLVM Framework*  			  & C & 18 kLOC & 625 & \cite{denisov2018mull}\\
+OpenSSL*  		 			  & GL & 20 kLOC & 77 & \cite{denisov2018mull}\\
+Codeflaws  	     			  & B & 68 LOC & 31 & \cite{papadakis2018mutant}\\
+% Codeflaws  	     			  & B & 266 kLOC & 122,261 & \cite{papadakis2018mutant}\\
+RODOS* 			 			  & OS & 3,510 & 48 & \cite{denisov2018mull}\\
+Coreutils* 		 			  & CLT & 8-83 kLOC & 1,022-18,719 & \cite{hariri2019comparing,papadakis2018mutation,chekam2017empirical}\\
+\textbf{\SAIL{}\emph{-CSW}}*  & FS & 74 kLOC & 384 & This paper.\\
+Siemens* 					  & RPS & 1-69 kLOC & 1,531-22,138 & \cite{phan2018music,wang2017faster,papadakis2014mitigating,yao2014study,clark2013semantic}\\
+Vim* 						  & SUI & 39-42 kLOC & 98 & \cite{wang2017faster,kintis2017detecting,papadakis2015trivial}\\
+Make* 						  & CLT & 7-35 kLOC & 691 & \cite{papadakis2018mutation,chekam2017empirical,kintis2017detecting,papadakis2015trivial,yao2014study}\\
+Memory Benchmark 			  & B & 32 kLOC & 503 & \cite{wu2017memory}\\
+Findutils  					  & CLT & 18 kLOC & 4,931 &  \cite{papadakis2018mutation,chekam2017empirical}\\
+KmyMoney 					  & SUI & 13 kLOC & 248 & \cite{delgado2017assessment}\\
+Curl 						  & CLT & 12 kLOC & N/A & \cite{phan2018music}\\
+\textbf{\UTIL{}} 			  & FS & 10 kLOC & 201& This paper.\\
+\textbf{\GCSP{}} 			  & FS & 9 kLOC & 89 & This paper.\\
+Grep 						  & CLT & 9 kLOC & 5,899 & \cite{papadakis2018mutation,chekam2017empirical}\\
+Space* 						  & SDU & 9 kLOC & 13,585 & \cite{tokumoto2016muvm,papadakis2014mitigating,yao2014study,clark2013semantic}\\
+Git* 						  & CLT & 8 kLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+MSMTP* 						  & CLT & 6 kLOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+\textbf{\MLFS{}} 			  & FS & 5 kLOC & 4,042 & This paper.\\
+Matrix TCL Pro 				  & GL &  3 kLOC & 24 & \cite{delgado2017assessment}\\
+\textbf{\PARAM{}}  			  & FS & 3 kLOC & 170& This paper.\\
+Dolphin 					  & SUI & 3 kLOC & 70 &  \cite{delgado2017assessment}\\
+Deletion Bench.  		  & B   & 2,853 LOC & 814 & \cite{delamaro2014designing,delamaro2014experimental}\\
+Gzip* 						  & CLT & 2,819 LOC & N/A & \cite{kintis2017detecting,papadakis2015trivial}\\
+TinyXML2 					  & GL  & 2,620 LOC & 62 & \cite{delgado2017assessment,delgado2015class}\\
+XmlRPC++ 					  & GL  & 2,194 LOC & 34 & \cite{delgado2017assessment,delgado2015class}\\
+QtDom 						  & GL  & 2,117 LOC & 56 & \cite{delgado2017assessment}\\
+Yao Benchmark  				  & B   & 1,208 LOC & N/A & \cite{yao2014study}\\
+Flex* 						  & CLT &  10-14 kLOC & 567 & \cite{papadakis2014mitigating,yao2014study}\\
+NuclearIndustrial  			  & ES & 484 LOC & 302 & \cite{delgado2018evaluation}\\
+SafetyCritical				  & ES & 60 kLOC & N/A & \cite{Ramler2017}\\ 
+Nequivack Bench.  		  & B & 403 LOC & N/A & \cite{holling2016nequivack}\\
+MuVM Bench.  			  & B & 302 LOC & 2,256 & \cite{tokumoto2016muvm}\\
+\hline                                                    
 \end{tabular}
-\FIXME{We use an asterisk (*) to indcate work that applied mutation testing to a subset of the system.}
+}
+
+We use an asterisk (*) to indicate work that applied mutation analysis to a subset of the system.
+
+\textbf{SUT category Legend:} C=Compiler, 
+FS=Flight software (library or whole system running on components on-orbit), 
+GL=Generic library, RPS=Research prototype software, SUI=Software with UI, CLT=Command line tool, OS=Operating system, B=Benchmark, ES=Embedded software, SDU=Space software development utility.
+
 \end{table}
 
 %\normalsize
