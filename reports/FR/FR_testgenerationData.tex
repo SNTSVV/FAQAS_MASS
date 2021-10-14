@@ -12,7 +12,7 @@ Concerning the generation of test inputs, we group the applicable approaches acc
 Automated test inputs generation aims to automatically generate data that can be altered through a mutation operator. 
 In the context of system and integration testing, which is the target of data-driven mutation testing, test input data is provided through input interfaces. However, since data-driven mutation is applied to data exchanged different communication layers, including input interfaces and interfaces used for the communication among internal components, we may observe two possible situations. First, the data targeted by mutation testing coincide with the input data (i.e., it was not transformed internally). Second, the data targeted by data mutation is the result of a transformation of the input data. We thus need to consider both the two cases when discussing related work.
 
-\subsubsection{UML models}
+\subsection{UML models}
 %model-based fuzzying and 
 
 %In the case of modelling based on UML models, a data mutation operator may not be applied during mutation testing when the type of data that it is supposed to alter is not observed during the execution of the test cases. 
@@ -64,7 +64,7 @@ When the data exchanged on the communication layer targeted by mutation is the r
 
 %Despite this approach enables efficient generation of test inputs from scratch, it may still require dedicated parsers for the con
 
-\subsubsection{Grammars}
+\subsection{Grammars}
 
 When grammars are used to model the input, \INDEX{grammar-based test input generation} approaches relying on the expansion of the production rules of the grammar can be adopted~\cite{fuzzingbook2019:GrammarFuzzer}. 
 Available tools are shown in Table~\ref{table:grammarGeneration}.
@@ -83,13 +83,13 @@ Similarly to the case of UML-based test case generation approaches that generate
 
 %\cite{grammar:survey}
 
-\subsubsection{Block-models}
+\subsection{Block-models}
 
 Among the existing toolsets based on block-models, \INDEX{Peach} is the only one which supports the automated generation of test data. However, it's implementation simply generates random data, the process is referred to as 
 \INDEX{blind fuzzing}\footnote{https://wiki.mozilla.org/Security/Fuzzing/Peach$\#$Creating\_a\_Data\_Model}.
 
 
-\subsubsection{No models}
+\subsection{No models}
 
 
 The generation of test inputs without the need of data model is typically driven by code coverage. A representative solution is given by AFL, which has been introduced in Section~\ref{sec:data_operators}. 
@@ -97,7 +97,7 @@ The generation of test inputs without the need of data model is typically driven
 More in general, approaches that address the problem of automatically testing programs that process structured data can be adopted for this purpose~\cite{Kiran:2008,Braione:2017,Braione:2018}. For example, SUSHI~\cite{Braione:2018} is a tool that aims to cover test objectives that depend on non-trivial data structure instances. 
 It relies on symbolic execution to generate path conditions that capture the relationship between program paths and input data structures. The path conditions are then translated into fitness functions to enable testing based on meta-heuristic search. A solution for the search problem is a sequence of method invocations that instantiates the structured inputs to exercise the program paths identified by the path condition. 
 
-\REVTWO{C37}{\subsection{Automated Generation of Test Oracles}}
+\subsection{Automated Generation of Test Oracles}
 \label{sec:oracles:dataMutation}
 
 In the case of data-driven mutation testing, solutions for the \INDEX{automated generation of oracles} that consist of assertions verifying the output of the software under test (see Section~\ref{sec:oraclesGeneration:codeDriven}) might still be applied. However, considering that data-driven mutation testing is more likely adopted in the context of system-level testing, where inputs consist of complex, structured data, the generation of test oracles using techniques built for unit testing is likely infeasible in this context. 
