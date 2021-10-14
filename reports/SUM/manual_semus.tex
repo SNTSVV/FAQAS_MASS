@@ -30,7 +30,8 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 \subsection{Initialization of the \SEMUS workspace}
 \label{sec:semus:initialization}
 
-\TODO{Following is not clear. It seems that the end-user has a folder case\_studies/ASN to copy stuff from; however, you do not explain how to retrieve that folder. I would call it TEMPLATES rather than ASN, no?}
+\DONE{Following is not clear. It seems that the end-user has a folder case\_studies/ASN to copy stuff from; however, you do not explain how to retrieve that folder. I would call it TEMPLATES rather than ASN, no?}
+\TODO{I added a text explaining that we provide ASN and MLFS along SEMuS, and that scripts shall be copied from ASN. However, I agree with you that we should add a templates folder inside the repository.}
 
 \SEMUS needs a dedicated folder structure for running the test generation on a case study. 
 For this reason, the engineer shall create the following directory structure under the folder \texttt{case\_studies}, assuming the name of the case study is stored in the variable \texttt{\$SUT}:
@@ -44,7 +45,8 @@ For this reason, the engineer shall create the following directory structure und
 	\end{itemize}
 \end{itemize}
 
-After the creation of the folder structure, the engineer shall copy the scripts for (1) creating the mutants, (2) running the toolset, (3) configuring \SEMUS. The commands for copying these files are provided below:
+The \SEMUS repository we provide, contains already the configured files and the source code of two open-source case studies, the ASN.1 and MLFS.
+After the creation of the folder structure, the engineer shall copy the scripts for (1) creating the mutants, (2) running the toolset, (3) configuring \SEMUS. The scripts shall be copied from the ASN case study folder. The commands for copying these files are provided below:
 
 \begin{lstlisting}[language=bash]
   $ cd case_studies/ASN/scripts
