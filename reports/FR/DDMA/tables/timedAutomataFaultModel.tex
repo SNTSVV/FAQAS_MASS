@@ -1,0 +1,21 @@
+\begin{table}[h!]
+\begin{center}
+\footnotesize
+\begin{tabular}{|p{5cm}|p{10cm}|}
+\hline
+\textbf{Fault}&\textbf{Description}\\
+\hline
+Change Name of Actions (CN) & Replaces the name of an action with the name of other actions in the model. Thus, the expected sequence of the inputs to the implementation will be different..\\
+Change Target of Actions (CT) & Changes the target location of an action to another location in the model. This operator breaks the flow of test inputs and violates the state of the model. Both input and output actions can be mutated by this operator.\\
+Change Source of Actions (CS)& Changes the source location of an action to another location. Similar to CT, this operator mutates the sequence of input/outputs. \\
+Remove Actions (RA)& randomly deletes one action at a time and creates a mutant. Omitting an action will manipulate the sequence of input/output actions.\\
+Duplicate Actions (DA)& randomly copies an action in different parts of a model, thus alternates the sequence of inputs and outputs by repeating actions in unexpected states of the model.\\
+Remove Guards (RG)& randomly selects an action and removes its guard. Actions that are mutated by RG will be always enabled.\\
+Change Guards Logical Operators (CGL)& changes logical operators (i.e., ==, <=, >=, !=, < and >) in guards.\\
+Change Guards Variables (CGV) & alters values of the variables that are used in guards and creates additional mutants that cannot be defined by other mutation operators\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Fault Model from \cite{Siavashi2018}}
+\label{table:faultModel:Siavashi}
+\end{table}%
