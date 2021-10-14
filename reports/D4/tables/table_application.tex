@@ -1,0 +1,20 @@
+% !TEX root = ../MutationTestingSurvey.tex
+\begin{table}[]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Mutation Operation} & \textbf{If APPLIED} & \textbf{If NOT\_APPLIED} \\ \hline
+\textbf{VAT} & The value of the targeted data item was below the Threshold at least once & The value of the targeted data item was never below the Threshold \\ \hline
+\textbf{VBT} & The value of the targeted data item was above the Threshold at least once & The value of the targeted data item was never above the Threshold \\ \hline
+\textbf{VOR 1} & The value of the targeted data item was inside the range defined by Min and Max at least once & The value of the targeted data item was never inside the range defined by Min and Max \\ \hline
+\textbf{VOR 2} & The value of the targeted data item was inside the range defined by Min and Max at least on & The value of the targeted data item was never inside the range defined by Min and Max \\ \hline
+\textbf{BF} & At least a bit was flipped. If State was set to 1 this means that between Min and Max position at least a bit contained a 1. The same goes if State was set to 0. & No bits were flipped \\ \hline
+\textbf{INV} & It is always applied & It is always applied \\ \hline
+\textbf{IV} & The value of the targeted data item was != from Value at least once & The value of the targeted data item was always = to Value \\ \hline
+\textbf{ASA} & It is always applied & It is always applied \\ \hline
+\textbf{SS} & It is always applied & It is always applied \\ \hline
+\textbf{HV} & It is always applied & It is always applied \\ \hline
+\textbf{FVAT} & The value of the targeted data item was above the Threshold at least once & The value of the targeted data item was never above the Threshold \\ \hline
+\textbf{FVBT} & The value of the targeted data item was below the Threshold at least once & The value of the targeted data item was never below the Threshold \\ \hline
+\textbf{FVOR} & The value of the targeted data item was outside the range defined by Min and Max at least once & The value of the targeted data item was never outside the range defined by Min and Max \\ \hline
+\end{tabular}
+\end{table}
