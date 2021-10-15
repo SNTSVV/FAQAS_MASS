@@ -197,9 +197,9 @@
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
-\newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
+%\newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 \newcommand{\OSCAR}[1]{\todo[color=yellow,inline]{ \textbf{OSCAR}: #1 }}
-\newcommand{\DONE}[1]{\todo[color=green,inline]{ \textbf{DONE}: #1 }}
+%\newcommand{\DONE}[1]{\todo[color=green,inline]{ \textbf{DONE}: #1 }}
 
 \newcommand{\CHANGEDTWO}[1]{\textcolor{black}{#1}}
 
@@ -261,8 +261,11 @@
 \end{tikzpicture}}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
-\newcommand{\ENDCHANGEDWPT}{\color{black}}
+\newcommand{\STARTCHANGEDWPT}{}
+\newcommand{\ENDCHANGEDWPT}{}
+
+\newcommand{\STARTCHANGEDFR}{\color{blue}}
+\newcommand{\ENDCHANGEDFR}{\color{black}}
 
 \newcommand{\CHANGED}[1]{{#1}}
 \newcommand{\prog}{P}
@@ -300,19 +303,22 @@
 
 \include{manual}
 
-\STARTCHANGEDWPT
+\STARTCHANGEDFR
 \include{manual_semus}
+\ENDCHANGEDFR
+
 \include{manual_dama}
-\ENDCHANGEDWPT
+
 
 \include{reference}
 
 \include{tutorial}
-\STARTCHANGEDWPT
+\STARTCHANGEDFR
 % \include{tutorial_semus}
 \include{tutorial_semus_libutil}
+\ENDCHANGEDFR
 \include{tutorial_dama}
-\ENDCHANGEDWPT
+
 \newpage
 \include{ESA_comments}
 
