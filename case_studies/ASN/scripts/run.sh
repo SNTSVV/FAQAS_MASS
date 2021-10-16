@@ -224,7 +224,7 @@ produce_unittest()
     # - test file: must be specified
     # - path to rootdir: optional, in case the root dir is different than generation phase.
     # 
-    # Example: ./runtesrt.sh test000001.ktest.c
+    # Example: ./runtest.sh test000001.ktest.c
 
     set -u
     
