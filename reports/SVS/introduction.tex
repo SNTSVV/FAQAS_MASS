@@ -2,7 +2,7 @@
 
 \chapter{Introduction}
 
-The purpose of this the Software Validation Specification is to describe the testing, analysis, inspection and
+The purpose of this  Software Validation Specification is to describe the testing, analysis, inspection and
 review of design specifications, and is used to document the software validation specification concerning the requirements baseline.
 
 \chapter{Applicable and reference documents}
@@ -27,7 +27,7 @@ review of design specifications, and is used to document the software validation
 \item{SSS}: Software System Specification.
 \item{KLEE}: Third-party test generation tool, details are provided in D2.
 \item{MLFS}: Mathematical Library for Flight Software.
-\item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+\item{SUT}: Software under test, i.e, the software that should be mutated employing mutation testing.
 \item{SUM}: Software User Manual.
 \item{SUTP}: Software Unit Test Plan
 \item{WP}: Work package.
@@ -77,7 +77,7 @@ They are accomplished by following validation approaches:
 %
 % \subsubsection{ESAIL}
 %
-% The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM.
+% The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of these variables is described in the SUM.
 %
 %   \begin{lstlisting}[language=bash, label={lst:configure_esail}]
 %
@@ -143,8 +143,6 @@ Then the commands represented in Listing~\ref{lst:compile_esail_cmds} must be ru
 
   \end{lstlisting}
 
-The compilation log shall report the diciture \texttt{compilation OK}.
-
 \subsubsection{LibParam}
 
 The commands for configuring the LibParam test suite, reported in Listing~\ref{lst:compile_param} must be included in the \emph{DAMAt\_compile.sh} script in the appropriate section as described in the SUM (Chapter 13
@@ -191,7 +189,10 @@ Then the commands represented in Listing~\ref{lst:compile_param_cmds} must be ru
 
   \end{lstlisting}
 
-The compilation output shall report the diciture \texttt{configuration OK}.
+\subsubsection{Pass-Fail criteria}
+
+The compilation log shall report no error.
+The compilation log shall report the phrase \texttt{compilation OK}.
 
 \subsection{Configuring and running \emph{DAMAt\_run\_test.sh}}
 
@@ -353,8 +354,6 @@ The file \texttt{test\_list.csv} must contain the list of all test cases, as exp
 
   \end{lstlisting}
 
-All test cases listed in Listing~\ref{lst:test_esail} shall pass.
-
 \subsubsection{LibParam}
 
 The commands for running the LibParam test suite, reported in Listing~\ref{lst:run_param} must be included in the \emph{DAMAt\_run\_test.sh} script in the appropriate section as described in the SUM (Chapter 13).
@@ -429,13 +428,16 @@ The file \texttt{test\_list.csv} must contain the list of all test cases, as exp
 
   \end{lstlisting}
 
-All test cases listed in Listing~\ref{lst:test_param} shall pass.
+  \subsubsection{Pass-Fail criteria}
+
+  All test cases in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} shall be executed.
+  All test cases listed in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} (for ESAIL) shall pass.
 
 \subsection{Configuring and running \emph{DAMAt\_obtain\_coverage.sh}}
 
 \subsubsection{ESAIL}
 
-The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM (Chapter 13).
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of these variables is described in the SUM (Chapter 13).
 
   \begin{lstlisting}[language=bash, label={lst:configure_esail}]
 
@@ -464,14 +466,9 @@ Then the commands represented in Listing~\ref{lst:coverage_esail_cmds} must be r
 
   \end{lstlisting}
 
-The compilation log shall report the diciture \texttt{compilation OK}.
-No test cases shall fail.
-A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
-Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_esail}.
-
 \subsubsection{LibParam}
 
-The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of this variables is described in the SUM (Chapter 13).
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of these variables is described in the SUM (Chapter 13).
 
   \begin{lstlisting}[language=bash, label={lst:configure_param}]
 
@@ -500,16 +497,19 @@ Then the commands represented in Listing~\ref{lst:coverage_param_cmds} must be r
 
   \end{lstlisting}
 
-The compilation log shall report the diciture \texttt{compilation OK}.
+\subsubsection{Pass-Fail criteria}
+
+The compilation lof shall show no error.
+The compilation log shall report the phrase \texttt{compilation OK}.
 No test cases shall fail.
 A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
-Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_param}.
+Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_param} (for LibParam) or in Listing~\ref{lst:test_esail} (for ESAIL).
 
 \subsection{Configuring and running \emph{DAMAt\_mutants\_launcher.sh}}
 
 \subsubsection{ESAIL}
 
-The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM (Chapter 13).
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of these variables is described in the SUM (Chapter 13).
 
 Then the commands represented in Listing~\ref{lst:launcher_esail_cmds} must be run.
 
@@ -519,13 +519,13 @@ Then the commands represented in Listing~\ref{lst:launcher_esail_cmds} must be r
 
   \end{lstlisting}
 
-  The compilation logs shall report the diciture \texttt{compilation OK}.
+  The compilation logs shall report the phrase \texttt{compilation OK}.
   A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_esail}.
   A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
 
 \subsubsection{LibParam}
 
-The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of this variables is described in the SUM (Chapter 13).
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of these variables is described in the SUM (Chapter 13).
 
 Then the commands represented in Listing~\ref{lst:launcher_param_cmds} must be run.
 
@@ -535,8 +535,10 @@ Then the commands represented in Listing~\ref{lst:launcher_param_cmds} must be r
 
   \end{lstlisting}
 
-The compilation logs shall report the diciture \texttt{configuration OK}.
-A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_param}.
+\subsubsection{Pass-Fail criteria}
+
+The compilation logs shall report the phrase \texttt{configuration OK}.
+A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_param} for LibParam or in in Listing~\ref{lst:test_esail} for ESAIL.
 A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
 
 \section{Features to be tested}
@@ -549,7 +551,7 @@ The scope of the SVS includes all baseline requirements expressed in the SSS.
 \section{Test pass and fail criteria}
 The pass-fail criteria for the tasks belonging to the \emph{unit testing} validation approach are detailed in the SUTP.
 
-Regarding the tasks belonging to the \emph{application to the case studies} validation approach, the pass criteria are the compliance of the behavior of the component to the expressed requirement before, during, and after the execution of the task (i.e. the component shall accept the required inputs, produce the required outputs and function under the required conditions in a consistent way).
+Regarding the tasks belonging to the \emph{application to the case studies} validation approach, the pass criteria are described in Section~\ref{sec:case_studies}.
 
 
 % \section{Items that cannot be validated by test}
