@@ -191,8 +191,12 @@ Then the commands represented in Listing~\ref{lst:compile_param_cmds} must be ru
 
 \subsubsection{Pass-Fail criteria}
 
-The compilation log shall report no error.
-The compilation log shall report the phrase \texttt{compilation OK}.
+The following criteria must be respected in order to declare this task a pass:
+\begin{itemize}
+  \item The compilation log shall report no error.
+  \item The compilation log shall report the phrase \texttt{compilation OK}.
+\end{itemize}
+
 
 \subsection{Configuring and running \emph{DAMAt\_run\_test.sh}}
 
@@ -430,8 +434,12 @@ The file \texttt{test\_list.csv} must contain the list of all test cases, as exp
 
   \subsubsection{Pass-Fail criteria}
 
-  All test cases in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} shall be executed.
-  All test cases listed in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} (for ESAIL) shall pass.
+  The following criteria must be respected in order to declare this task a pass:
+
+  \begin{itemize}
+    \item All test cases in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} shall be executed.
+    \item All test cases listed in Listing~\ref{lst:test_param} (for LibParam) and Listing~\ref{lst:test_esail} (for ESAIL) shall pass.
+  \end{itemize}
 
 \subsection{Configuring and running \emph{DAMAt\_obtain\_coverage.sh}}
 
@@ -499,11 +507,17 @@ Then the commands represented in Listing~\ref{lst:coverage_param_cmds} must be r
 
 \subsubsection{Pass-Fail criteria}
 
-The compilation lof shall show no error.
-The compilation log shall report the phrase \texttt{compilation OK}.
-No test cases shall fail.
-A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
-Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_param} (for LibParam) or in Listing~\ref{lst:test_esail} (for ESAIL).
+These criteria must be respected to consider this task a pass:
+\begin{itemize}
+  \item The compilation lof shall show no error.
+  \item The compilation log shall report the phrase \texttt{compilation OK}.
+  \item No test cases shall fail.
+  \item A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
+  \item Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_param} (for LibParam) or in Listing~\ref{lst:test_esail} (for ESAIL).
+\end{itemize}
+
+
+
 
 \subsection{Configuring and running \emph{DAMAt\_mutants\_launcher.sh}}
 
@@ -537,9 +551,14 @@ Then the commands represented in Listing~\ref{lst:launcher_param_cmds} must be r
 
 \subsubsection{Pass-Fail criteria}
 
-The compilation logs shall report the phrase \texttt{configuration OK}.
-A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_param} for LibParam or in in Listing~\ref{lst:test_esail} for ESAIL.
-A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
+The following criteria shall be respected in order to consider this task a pass:
+
+\begin{itemize}
+  \item The compilation logs shall report the phrase \texttt{configuration OK}.
+  \item A \texttt{testlist} folder shall be generated.
+  \item Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_param} for LibParam or in in Listing~\ref{lst:test_esail} for ESAIL.
+  \item A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
+\end{itemize}
 
 \section{Features to be tested}
 The scope of the SVS includes all baseline requirements expressed in the SSS.
