@@ -62,13 +62,482 @@ They are accomplished by following validation approaches:
     \item performing \emph{MASS-TD-SRCMutation-1}
   \end{itemize}
   \item verifying the requirements for the rest of the components through \EMPH{application to the case studies} as detailed in the D4 and the SUM.
-  Application to the case studies is composed of the following tasks:
+  Application to the case studies is composed of the following tasks, detailed in \ref{sec:case_studies}
   \begin{itemize}
     \item \emph{instrumenting the source code}
     \item \emph{configuring and running} a given component, for example \texttt{DAMAt\_compile.sh}.
   \end{itemize}
   \item verifying general requirements through \EMPH{manual inspection}. For this approach no further specific task can be identified.
 \end{itemize}
+
+\section{Application to the case studies}
+\label{sec:case_studies}
+
+% \subsection{Instrumenting the source code - DAMAt}
+%
+% \subsubsection{ESAIL}
+%
+% The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM.
+%
+%   \begin{lstlisting}[language=bash, label={lst:configure_esail}]
+%
+%   # the location of the csv with all the test identifiers and the execution time
+%   tests_list=$DAMAt_FOLDER/tests.csv
+%
+%   # the location of the csv containing the definitions of the mutation operators
+%   fault_model=$DAMAt_FOLDER/fault_model.csv
+%
+%   # the datatype of the elements of the target buffer
+%   buffer_type="unsigned long long int"
+%
+%   # padding: can be used to skip the first n bit of a buffer, normally set to 0
+%   padding=0
+%
+%   # singleton: can set to true to load the fault model into a singleton variable, normally set to "TRUE", can also  be set to "FALSE"
+%   singleton="TRUE"
+%
+%   \end{lstlisting}
+%
+% Then the commands represented in Listing~\ref{lst:instrument_esail_cmds} must be run to generate the mutation probes.
+%
+%   \begin{lstlisting}[language=bash, label={lst:compile_esail_cmds}]
+%
+%   bash DAMAt_probe_generation.sh
+%
+%   \end{lstlisting}
+%
+%
+%
+% \subsubsection{LibParam}
+
+\subsection{Configuring and running \emph{DAMAt\_compile.sh}}
+
+\subsubsection{ESAIL}
+
+The commands for compiling the SVF, reported in Listing~\ref{lst:instrument_esail_cmds} must be included in the \emph{DAMAt\_compile.sh} script in the appropriate section as described in the SUM (Chapter 13).
+
+
+  \begin{lstlisting}[language=bash, label={lst:compile_esail}]
+
+  compilation_folder="/home/svf/Svf"
+
+  pushd $compilation_folder
+
+  make install-debug
+
+      if [ $? -eq 0 ]; then
+          echo $x " compilation OK"
+      else
+          echo $x " compilation FAILED"
+      fi
+
+  popd
+
+  \end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:compile_esail_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:compile_esail_cmds}]
+
+  bash DAMAt_compile.sh "0" "TRUE"
+
+  \end{lstlisting}
+
+The compilation log shall report the diciture \texttt{compilation OK}.
+
+\subsubsection{LibParam}
+
+The commands for configuring the LibParam test suite, reported in Listing~\ref{lst:compile_param} must be included in the \emph{DAMAt\_compile.sh} script in the appropriate section as described in the SUM (Chapter 13
+
+
+\begin{lstlisting}[language=bash, label={lst:compile_param}]
+
+TEST_FOLDER="/home/csp/libparam/tst"
+
+pushd $TEST_FOLDER
+
+for f in *; do
+    if [ -d "$f" ] && [ "$f" != "include" ]; then
+
+        pushd $f
+        echo "cleaning..."
+        ./waf clean
+
+        echo "configuring..."
+        if [ $singleton == "TRUE" ]; then
+        ./waf configure --mutation-opt $mutant_id --singleton $singleton
+        else
+        ./waf configure --mutation-opt $mutant_id
+        fi
+
+        if [ $? -eq 0 ]; then
+            echo $x " configuration OK"
+        else
+            echo $x " configuration FAILED"
+        fi
+        popd
+    fi
+done
+
+popd
+
+\end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:compile_param_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:compile_param_cmds}]
+
+  bash DAMAt_compile.sh "0" "TRUE"
+
+  \end{lstlisting}
+
+The compilation output shall report the diciture \texttt{configuration OK}.
+
+\subsection{Configuring and running \emph{DAMAt\_run\_test.sh}}
+
+\subsubsection{ESAIL}
+
+The commands for running ESAIL's test suite, reported in Listing~\ref{lst:run_esail} must be included in the \emph{DAMAt\_run\_test.sh} script in the appropriate section as described in the SUM (Chapter 13).
+
+
+  \begin{lstlisting}[language=bash, label={lst:run_esail}]
+
+  ESAIL=/home/svf/Obsw/Test/lib/esail.sh
+  PARSE_RESULTS=/home/svf/Obsw/Test/lib/parse_results.sh
+  echo -n "${mutant_id};COMPILED;${tst};" >> $results_file
+
+  timeout $TIMEOUT $ESAIL --obsw /home/svf/Obsw/Source/_binaries/OBSW.exe --fast -n -c --source /home/svf/Obsw/Source --version 04010000 -t $tst &
+  ESAIL_PID=$!
+
+  wait $ESAIL_PID
+  EXEC_RET_CODE=$?
+
+  mutant_end_time=$(($(date +%s%N)/1000000))
+  mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+
+  \end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:run_esail_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:run_esail_cmds}]
+
+  bash DAMAt_compile.sh "-1" "TRUE" && bash DAMAt_run_tests.sh "-1" "./test_list.csv" "./"
+
+  \end{lstlisting}
+
+The file \texttt{test\_list.csv} must contain the list of all test cases, as exposed in Listings~\ref{lst:test_esail}.
+
+  \begin{lstlisting}[label={lst:test_esail}]
+
+  731;46287
+  6343;6161251
+  6000;535195
+  612;50098
+  791;27125
+  767;67364
+  743;71586
+  683;66213
+  1841;102287
+  3045;60261
+  2561;164595
+  719;74033
+  5702;280961
+  2819;203036
+  695;62058
+  707;44825
+  1222;94890
+  2435;134397
+  755;53084
+  779;156284
+  543;71224
+  6616;35423
+  524;32621
+  561;27344
+  497;31588
+  943;25435
+  3394;63879
+  5176;30804
+  5656;34471
+  5218;38539
+  4361;63238
+  2733;127361
+  6161;562902
+  6262;100839
+  3077;83077
+  6117;61088
+  2848;421200
+  4497;156531
+  3590;190508
+  2985;265498
+  5917;127059
+  3004;101740
+  3917;200336
+  2890;522174
+  3034;507824
+  5374;276736
+  2867;441252
+  2753;187527
+  2928;311267
+  3023;79797
+  3610;1283052
+  2947;995408
+  2909;290593
+  2966;133739
+  3651;293401
+  3853;132605
+  6138;760249
+  3621;46376
+  6600;51881
+  5190;196980
+  4294;46522
+  4270;35237
+  6583;144017
+  6275;143658
+  5393;47192
+  2604;45503
+  2411;83456
+  3950;39675
+  146;26984
+  140;23420
+  3969;39893
+  113;28140
+  74;26170
+  154;22556
+  126;24476
+  1465;68582
+  1377;633878
+  1364;47647
+  2327;254152
+  2339;83202
+  2395;284150
+  6630;228215
+  2254;36753
+  6362;102271
+  2277;53371
+  5570;32536
+  160;27916
+  659;98164
+  6315;25372
+  1242;645102
+  647;27085
+  225;27339
+  6401;58932
+  1807;56712
+  4931;46262
+  6038;63676
+  1505;2975291
+  671;84703
+  990;34764
+  2007;38421
+  1702;86591
+  5791;90984
+  3996;28060
+  3358;113929
+  5606;31639
+  1545;28645
+  1572;135209
+  1742;26743
+  3340;136863
+  197;98851
+  2375;50526
+  4815;74190
+  1293;27614
+  3313;66150
+  5645;26901
+  3376;1068552
+  3291;584423
+  2093;189396
+  953;63629
+  6330;25552
+  6736;2446525
+
+  \end{lstlisting}
+
+All test cases listed in Listing~\ref{lst:test_esail} shall pass.
+
+\subsubsection{LibParam}
+
+The commands for running the LibParam test suite, reported in Listing~\ref{lst:run_param} must be included in the \emph{DAMAt\_run\_test.sh} script in the appropriate section as described in the SUM (Chapter 13).
+
+
+  \begin{lstlisting}[language=bash, label={lst:run_param}]
+
+  tmp_log="$results_dir"/tmp_log
+
+    TEST_FOLDER="/home/csp/libparam/tst"
+
+    pushd $TEST_FOLDER
+
+    pushd $tst
+
+    touch $tmp_log
+
+    timeout $TIMEOUT ./waf --mutation-opt=$mutant_id  --singleton=TRUE 2>&1 | tee $tmp_log
+
+    EXEC_RET_CODE=$?
+
+    mutant_end_time=$(($(date +%s%N)/1000000))
+    mutant_elapsed="$(($mutant_end_time-$mutant_start_time))"
+
+    if [ $EXEC_RET_CODE -ne 124 ]; then
+        if grep "successfully" $tmp_log
+        then
+            EXEC_RET_CODE=0
+            echo "PASSED"
+        else
+            EXEC_RET_CODE=1
+            echo "FAILED"
+        fi
+    fi
+    popd
+    rm $tmp_log
+    popd
+
+  \end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:run_param_cmds} must be run.
+
+% mutant_id=$1
+% tests_list=$2
+% DAMAt_FOLDER=$3
+
+  \begin{lstlisting}[language=bash, label={lst:run_param_cmds}]
+
+  bash DAMAt_compile.sh "-1" "TRUE" && bash DAMAt_run_tests.sh "-1" "./test_list.csv" "./"
+
+  \end{lstlisting}
+
+The file \texttt{test\_list.csv} must contain the list of all test cases, as exposed in Listings~\ref{lst:test_param}.
+
+  \begin{lstlisting}[label={lst:test_param}]
+
+  bindings,4427.200000
+  example,4145.400000
+  file_store,2954.000000
+  i2c,2793.400000
+  log,2881.200000
+  param3,3007.800000
+  param4,3273.600000
+  rparam3,5099.400000
+  rparam4,8003.200000
+  serialize,2656.400000
+  spi,2825.800000
+  store,2774.400000
+  store_load,3182.000000
+  vmem_store_checksum_first,3005.800000
+  vmem_store_checksum_last,2963.400000
+
+  \end{lstlisting}
+
+All test cases listed in Listing~\ref{lst:test_param} shall pass.
+
+\subsection{Configuring and running \emph{DAMAt\_obtain\_coverage.sh}}
+
+\subsubsection{ESAIL}
+
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM (Chapter 13).
+
+  \begin{lstlisting}[language=bash, label={lst:configure_esail}]
+
+  # the location of the csv with all the test identifiers and the execution time
+  tests_list=$DAMAt_FOLDER/tests.csv
+
+  # the location of the csv containing the definitions of the mutation operators
+  fault_model=$DAMAt_FOLDER/fault_model.csv
+
+  # the datatype of the elements of the target buffer
+  buffer_type="unsigned long long int"
+
+  # padding: can be used to skip the first n bit of a buffer, normally set to 0
+  padding=0
+
+  # singleton: can set to true to load the fault model into a singleton   variable, normally set to "TRUE", can also  be set to "FALSE"
+  singleton="TRUE"
+
+  \end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:coverage_esail_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:coverage_esail_cmds}]
+
+  bash DAMAt_obtain_coverage.sh
+
+  \end{lstlisting}
+
+The compilation log shall report the diciture \texttt{compilation OK}.
+No test cases shall fail.
+A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
+Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_esail}.
+
+\subsubsection{LibParam}
+
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of this variables is described in the SUM (Chapter 13).
+
+  \begin{lstlisting}[language=bash, label={lst:configure_param}]
+
+  # the location of the csv with all the test identifiers and the execution time
+  tests_list=$DAMAt_FOLDER/tests_param.csv
+
+  # the location of the csv containing the definitions of the mutation operators
+  fault_model=$DAMAt_FOLDER/LIBP-FM.csv
+
+  # the datatype of the elements of the target buffer
+  buffer_type="unsigned long long int"
+
+  # padding: can be used to skip the first n bit of a buffer, normally set to 0
+  padding=0
+
+  # singleton: can set to true to load the fault model into a singleton variable, normally set to "TRUE", can also  be set to "FALSE"
+  singleton="TRUE"
+
+  \end{lstlisting}
+
+Then the commands represented in Listing~\ref{lst:coverage_param_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:coverage_param_cmds}]
+
+  bash pipeline_scripts/DAMAt_obtain_coverage.sh ./
+
+  \end{lstlisting}
+
+The compilation log shall report the diciture \texttt{compilation OK}.
+No test cases shall fail.
+A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutant>} for every mutant.
+Every file shall contain a subset of the tests listed in Listing~\ref{lst:test_param}.
+
+\subsection{Configuring and running \emph{DAMAt\_mutants\_launcher.sh}}
+
+\subsubsection{ESAIL}
+
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_esail}. The significance of this variables is described in the SUM (Chapter 13).
+
+Then the commands represented in Listing~\ref{lst:launcher_esail_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:launcher_esail_cmds}]
+
+  bash DAMAt_mutants_launcher.sh ./
+
+  \end{lstlisting}
+
+  The compilation logs shall report the diciture \texttt{compilation OK}.
+  A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_esail}.
+  A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
+
+\subsubsection{LibParam}
+
+The variables for running the DAMAt-pipeline on ESAIL must be set in the \emph{DAMAt\_configure.sh} file, as reported in Listing~\ref{lst:configure_param}. The significance of this variables is described in the SUM (Chapter 13).
+
+Then the commands represented in Listing~\ref{lst:launcher_param_cmds} must be run.
+
+  \begin{lstlisting}[language=bash, label={lst:launcher_param_cmds}]
+
+  bash DAMAt_mutants_launcher.sh ./
+
+  \end{lstlisting}
+
+The compilation logs shall report the diciture \texttt{configuration OK}.
+A \texttt{testlist} folder shall be generated. Inside this folder there shall be a file called \texttt{test\_<mutationID>} for every mutant containing a subset of the tests listed in Listing~\ref{lst:test_param}.
+A \texttt{results} folder shall be generated and it shall contain the files described in the SUM (Section 9.2).
 
 \section{Features to be tested}
 The scope of the SVS includes all baseline requirements expressed in the SSS.
