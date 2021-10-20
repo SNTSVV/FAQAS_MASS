@@ -1,41 +1,45 @@
 % !TEX root = MAIN.tex
 
-\chapter{SEMUS - Tutorial}
+\chapter{SEMUS - ASN.1 Tutorial}
 \label{chapter:semus:tutorial}
 
 \section{Introduction}
 
-This tutorial instructs on how to use \SEMUS on a typical case using a simple example. The example concerns the use of \SEMUS on the MLFS case study, provided by ESA.
-
-The Mathematical Library for Flight Software (MLFS) implements mathematical functions ready for qualification. 
-%\DONE{Please rewrite the following sentence}
-MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm} and \texttt{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
-The set of functions provided by MLFS are limited to the functions typically needed in flight software. 
-
-The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
+This tutorial instructs on how to use \SEMUS on the ASN.1 case study provided by ESA.
 
 \section{Running \SEMUS}
 \label{sec:semus_running}
 
-Firstly, the user needs to set up the \SEMUS toolset, please refer to Section~\ref{sec:install:semus}.
+Firstly, the user needs to set up the \SEMUS toolset, please refer to Section~\ref{sec:install:semus}. For this tutorial, we have distributed to GomSpace Luxembourg a Singularity container with \SEMUS already configured and installed on it, the toolset can be found at \texttt{/opt/faqas\_semu}, being the case study installed at the relative path \texttt{faqas\_semu/case\_studies/LIBUTIL}.
 
-The objective of this tutorial is to generate test inputs that kill the mutants non detected by the MLFS test suite. Consequently, we consider a precondition of this tutorial to have applied \MASS to the MLFS case study, and thus to have the list of live mutants.
+The objective of this tutorial is to generate test inputs that kill the mutants non detected by the Libutil test suite. Consequently, we consider a precondition of this tutorial to have applied \MASS to the Libutil case study, and thus to have the list of live mutants---provided by SnT at the relative path \texttt{case\_studies/LIBUTIL/WORKSPACE/DOWNLOADED/} for this tutorial.
 
-Given that the engineer has already properly setup and initialized the workspace for \SEMUS (see Section~\ref{sec:semus:initialization}). The steps for test generation on the MLFS case study consists of:
+For the sake of this tutorial, we consider a reduced set of sources of the library. This set is composed of the following files:
+
+\begin{itemize}
+    \item src/byteorder.c
+    \item src/clock.c
+    \item src/drivers/sys/memory.c
+    \item src/error.c
+    \item src/timestamp.c
+\end{itemize}
+
+We assume that the engineer has already properly setup and initialized the workspace for \SEMUS (see Section~\ref{sec:semus:initialization}). The steps for test generation on the Libutil case study are:
 
 \begin{enumerate}
-    \item Configure the file faqas\_semus\_config.sh
+    \item Configure the file \texttt{faqas\_semus\_config.sh}
+    \item Configure the \texttt{generate\_template\_config.json} files
     \item Generate the test templates for the SUT functions
     \item Launch the test generation process for the case study
+    \item Verifying the generated unit test cases
 \end{enumerate}
 
 
 \subsection{Step 1: configuring \SEMUS}
 
-The first step consists of configuring \SEMUS; for doing so it is necessary to provide the paths for the SUT paths, the SUT compilation commands, the output folders, and the configuration of \SEMU for guiding the symbolic search. Listing~\ref{listing:MLFS:conf} provides an example of configuration file for the case study: 
+The first step consists of configuring \SEMUS; for doing so it is necessary to provide the paths for the SUT paths, the SUT compilation commands, the output folders, and the configuration of \SEMU for guiding the symbolic search. Listing~\ref{listing:LIBUTIL:conf} provides an example of configuration file for the case study, the file can be found at \begin{footnotesize}\texttt{/opt/faqas\_semu/case\_studies/LIBUTIL/scripts/faqas\_semus\_conf.sh}\end{footnotesize}: 
 
-\begin{lstlisting}[language=bash,label=listing:MLFS:conf,caption=faqas\_semus\_conf.sh file for MLFS case study.]
-
+\begin{lstlisting}[language=bash,label=listing:LIBUTIL:conf,caption=faqas\_semus\_conf.sh file for LIBUTIL case study.]
 FAQAS_SEMU_CASE_STUDY_TOPDIR=../
 
 FAQAS_SEMU_CASE_STUDY_WORKSPACE=$FAQAS_SEMU_CASE_STUDY_TOPDIR/WORKSPACE
@@ -44,7 +48,7 @@ FAQAS_SEMU_OUTPUT_TOPDIR=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/OUTPUT/"${ENV_FAQAS_SE
 
 FAQAS_SEMU_GENERATED_MUTANTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/mutants_generation
 
-FAQAS_SEMU_REPO_ROOTDIR=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/DOWNLOADED/MLFS-QDP_I1_R1/BL-SC/E1356-GTD-BL-01_I1_R2/
+FAQAS_SEMU_REPO_ROOTDIR=$FAQAS_SEMU_CASE_STUDY_WORKSPACE/DOWNLOADED/libutil
 
 FAQAS_SEMU_ORIGINAL_SOURCE_FILE=$FAQAS_SEMU_REPO_ROOTDIR/"${ENV_FAQAS_SEMU_SRC_FILE}"
 
@@ -61,7 +65,7 @@ FAQAS_SEMU_BUILD_CODE_FUNC()
     local compiler=$4
     local flags="$5"
     # compile
-    $compiler $flags -Wall -std=gnu99 -pedantic -Wextra -frounding-math -fsignaling-nans -g -O0 -fno-builtin -I$repo_root_dir/include -I$repo_root_dir/libm/common -I$repo_root_dir/libm/math -I$repo_root_dir/libm/mlfs -o $out_file $in_file $flags
+    $compiler $flags -g -std=gnu99 -m64 -O0 -Wall -Wextra -Wshadow -Wcast-align -Wwrite-strings -Wno-unused-parameter -I$repo_root_dir/src -I$repo_root_dir/src/gosh -I$repo_root_dir/src/zip -I$repo_root_dir/src/watchdog  -I$repo_root_dir/build/src/watchdog -I$repo_root_dir/build/src -I$repo_root_dir/include -I$repo_root_dir/build/include -I$repo_root_dir/include/gs -I$repo_root_dir/build/include/gs -I$repo_root_dir/include/deprecated -I$repo_root_dir/build/include/deprecated -I$repo_root_dir/include/deprecated/gs/gosh -I$repo_root_dir/build/include/deprecated/gs/gosh -I$repo_root_dir/include -o $out_file $in_file $flags
     return $?
 }
 '
@@ -85,7 +89,8 @@ FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPD
 
 FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
 
-FAQAS_SEMU_TEST_GEN_TIMEOUT=7200
+# timeout in seconds
+FAQAS_SEMU_TEST_GEN_TIMEOUT=300
 
 # This is the config for SEMU heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
 FAQAS_SEMU_HEURISTICS_CONFIG='{
@@ -97,30 +102,93 @@ FAQAS_SEMU_HEURISTICS_CONFIG='{
         "PSS": "RND"
 }'
 
+# max Test Generation memory in MB
 FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
 
+# Set to 'ON' to stop test generation when the memory limit is reached
 FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
 
+# Set this to 'ON' so that the states the sate fork is disabled when the memory limit is reached, to avoid going much over it
 FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
-
 \end{lstlisting}
 
-Concerning \SEMU configuration, we can see that we have setup the tool to run for a maximum of 2 hours, and to use a maximum of 2000 MB of memory.
+Concerning \SEMU configuration, we can see that we have setup the tool to run for a maximum of 5 minutes, and to use a maximum of 2000 MB of memory.
 
-\subsection{Step 2: generating test templates}
+\subsection{Step 2 and 3: configuring the \texttt{generate\_template\_config.json} files and generating test templates}
+
+For the generation of test templates we provide a Bash script that automates the invocation of the script \texttt{generate\_direct.py} for a specific source. This script is called \texttt{call\_generate\_direct.sh}, and receives the relative path to the source under test. 
+Please note that a different configuration for \texttt{generate\_template\_config.json} is required for each source file to test.
+
+%\DONE{Shall we add "Please note that a different configuration for texttt{generate\_template\_config.json} is required for each source file to test." ?}
+
+Furthermore, as a demonstration we provide examples of \texttt{generate\_template\_config.json} files for the five sources considered in this tutorial. Such examples can be found at the path \begin{small}\texttt{case\_studies/LIBUTIL/util\_codes/template\_configs}\end{small}.
+
+Listing~\ref{listing:LIBUTIL:timestamp} shows an example of configuration JSON file for the source file \emph{timestamp.c}. It indicates that the parameter \emph{base} acts as both an input and an output parameter (see \emph{IN\_OUT\_ARG\_NAMES}). Also, it provides customized instructions to specify which fields of the output variables shall be printed; in turn, this indicates which fields shall be used to consider a mutant killed. Indeed, within \emph{TYPES\_TO\_PRINTCODE} we specify that for the type \emph{gs\_timestamp\_t} the tool shall print the fields \emph{tv\_sec} and \emph{tv\_nsec} as \emph{unsigned integers}.
+
+\begin{lstlisting}[language=bash,label=listing:LIBUTIL:timestamp,caption=JSON configuration file for timestamp.c.]
+{
+    "TYPES_TO_INTCONVERT": {},
+     "TYPES_TO_PRINTCODE": {"gs_timestamp_t": "printf(\"FAQAS-SEMU-TEST-OUTPUT: result_faqas_semu = tv_sec: %u, tv_nsec: %u\\n\", {}.tv_sec, {}.tv_nsec);"},
+    "OUT_ARGS_NAMES": [],
+    "IN_OUT_ARGS_NAMES": ["base"],
+    "TYPE_TO_INITIALIZATIONCODE": {},
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
+    "VOID_ARG_SUBSTITUTE_TYPE": "",
+    "ARG_TYPE_TO_ITS_POINTER_ELEM_NUM": {}
+}
+\end{lstlisting}
 
 The engineer shall execute the Bash script \texttt{call\_generate\_direct.sh} for the generation of test templates with the following command.
 
 \begin{lstlisting}[language=bash]
-$ case_studies/MLFS/util_codes/call_generated_direct.sh
+$ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/timestamp.c
+$ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/byteorder.c
+$ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/error.c
+$ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/clock.c
+$ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/drivers/sys/memory.c
 \end{lstlisting}
 
-\subsection{Step 3: launching the test generation process}
+\subsection{Step 4: launching the test generation process}
 
-Given that the test generation targets the source file \texttt{libm/common/s\_fmax.c}, the corresponding command for starting the test generation follows:
+Since the test generation targets the source files \begin{small}\texttt{byteorder.c, clock.c, memory.c, error.c, timestamp.c}\end{small}, we provide in folder \texttt{case\_studies/LIBUTIL/WORKSPACE/DOWNLOADED/} the list of live mutants for each of these source files. 
+Since we are executing the example in a Singularity container, we execute the test generation through the \texttt{run.sh} script, and not through the wrapper \texttt{docker\_run.sh}, as explained in Chapter~\ref{chapter:semus:operations}.
+
+The engineer shall execute one test generation command (i.e., invoke the script \emph{run.sh}) for each source file to generate test cases for. The five commands to execute in order to starting the test generation follow:
 
 \begin{lstlisting}[language=bash]
- $ ENV_FAQAS_SEMU_SRC_FILE=libm/common/s_fmax.c scripts/docker_run.sh mutation WORKSPACE/DOWNLOADED/live_mutants WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=src/timestamp.c scripts/run.sh mutation WORKSPACE/DOWNLOADED/live-src.timestamp WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=src/error.c scripts/run.sh mutation WORKSPACE/DOWNLOADED/live-src.error WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=src/byteorder.c scripts/run.sh mutation WORKSPACE/DOWNLOADED/live-src.byteorder WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=src/clock.c scripts/run.sh mutation WORKSPACE/DOWNLOADED/live-src.clock WORKSPACE/OUTPUT/live_mutants_output
+ $ ENV_FAQAS_SEMU_SRC_FILE=src/drivers/sys/memory.c scripts/run.sh mutation WORKSPACE/DOWNLOADED/live-src.drivers.sys.memory WORKSPACE/OUTPUT/live_mutants_output
 \end{lstlisting}
 
+\subsection{Step 5: verifying the generated test cases}
 
+\SEMUS' output is stored in the directory \texttt{WORKSPACE/OUTPUT/live\_mutants\_output}. The generated unit test cases are stored in the directory \begin{small}\texttt{live\_mutants\_output/test\_generation/<test template name>/<function under test>/FAQAS\_SEMU-out/produced-unittests}\end{small}.
+
+For example, after test generation, in the folder \texttt{produced-unittests} that has been created by \SEMUS when testing the function \texttt{timestamp\_ge}  of the source file \texttt{timestamp.c}, we will find the following files:
+
+\begin{itemize}
+\item runtest.sh
+\item test000001.ktest.c
+\item test000001.ktest.c.expected
+\item test000003.ktest.c
+\item test000003.ktest.c.expected
+\item test000006.ktest.c
+\item test000006.ktest.c.expected
+\end{itemize}
+
+The Bash script \texttt{runtest.sh} provides the necessary commands to execute the generated test case, the files with suffix \texttt{.ktest.c}  are the test cases generated by \SEMUS, while the files with extension \emph{.expected} contain the output that is observed when executing the test case with the current version of the SUT.
+
+The generated test case can be executed using the following command:
+
+\begin{lstlisting}[language=bash]
+ $ ./runtest.sh test000001.ktest.c
+\end{lstlisting}
+
+The command above will generate the text file \texttt{test000001.ktest.c.got}, which stores the system outputs generated during the execution of the test case. The script will also compare the observed output (i.e., the file with extension \emph{.got}) with the output generated during test generation (i.e., the file with extension \emph{.expected}) through a \emph{diff} command. If the function under test was not modified, the \texttt{runtest.sh} script should not output any difference. 
+
+%\DONE{I've added teh following, please check. OSCAR: it's fine for me.}
+
+The command \texttt{runtest.sh} becomes handy in a CI/CD context; indeed, the test cases generated by \SEMUS can be reused as is to determine regression fault. When a new version of the SUT is available, the engineers can simply replace the content of FAQAS\_SEMU\_REPO\_ROOTDIR (i.e., the folder with the SUT) with the newer SUT version. The execution of command \texttt{runtest.sh} will thus show the presence of differences with respect to a previous version. If the function under test has not been updated in the new version, the presence of changes may indicate a regression.
