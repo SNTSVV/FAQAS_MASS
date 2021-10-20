@@ -107,11 +107,12 @@ What is the impact of equivalent and redundant data-driven mutants on the mutati
 
 %To assess our research questions, we considered five software artifacts, developed by two of our industry partners for different satellites:  Attitude Determination And Control System (\ADCS), \GPS, Payload Data Handling Unit (\PDHU), the three subsystems developed by \LuxSpace for the \ESAIL satellite, and the Parameter system (\PARAM), CSP networking (\CSP) libraries developed by \GomSpace.
 
-To assess our research questions, we consider \PARAM, which is a client-server component to manage configuration parameters in cubesats.
+To assess our research questions, we consider \PARAM, which is a client-server component to manage configuration parameters in cubesats. \REVFINAL{Update}{Also, we consider \GCSP, which is component to manage networking communication on cubesats.}
 Also, we examine three \ESAIL software sub-systems (1) the Attitude Determination And Control System (\ADCS), the Global Positioning System (\GPS), and the Payload Data Handling Unit (\PDHU). {These are representative examples of control and utility software, as well as sensor and actuator drivers.} Detailed information about the fault models is provided in Appendix~\ref{appendix:FMS}. Additional experiments considering also LIBGCSP will be performed in WP4.
 
-We rely on \APPR to evaluate the \PARAM integration test suite by  mutating the data exchanged between the client and server components of \PARAM.
-Similarly, \APPR is used to evaluate how well the 
+We rely on \APPR to evaluate the \PARAM integration test suite by  mutating the data exchanged between the client and server components of \PARAM. 
+\REVFINAL{Update}{For \GCSP, we mutate the data sent by a client application on the network.}
+Finally, \APPR is used to evaluate how well the 
 \ESAIL test suite covers interoperability problems affecting the integration between the control software of \ESAIL (hereafter, CSW) and the \ADCS, \PDHU, and \GPS components. We thus
 mutate the data exchanged between \ESAIL CSW and these three components.
 Since each of these sub-systems have a  different purpose (i.e., their data is processed by distinct CSW functions and affect distinct \ESAIL features) we treat them as distinct case study subjects although they are tested using the same test suite. We focus on the \ESAIL test suite that makes use of an SVF to simulate the \ADCS, \PDHU, and \GPS components. 
@@ -156,8 +157,9 @@ The fault models (FMs) for the \ADCS include multiple configurations (\INDEX{Con
 The \PDHU fault models include four operators: BF, IV, VAT and FVAT.
 Even though the \GPS fault model concerns only one data type, it makes use of six operators: ASA, HV, IV, SS, VAT, and FVAT.
 For \PARAM, we relied on the operators BF, HV, IV, SS, VAT, and FVAT.
+\REVFINAL{Update}{For \GCSP, we relied on the operators INV, VAT, FVAT, BF, VOR, FVOR, and SS.}
 All the mutation operators provided by \APPR have been used in at least one fault model, which shows their usefulness.
-{They have led to 172 mutation operations for \ADCS, 23 for \GPS, 29 for \PDHU, and 80 for \PARAM; the number of configured operators and mutation operations match except when we rely on VOR and FVOR.}
+{They have led to 172 mutation operations for \ADCS, 23 for \GPS, 29 for \PDHU, 44 for \PARAM, and 33 for \GCSP; the number of configured operators and mutation operations match except when we rely on VOR and FVOR.}
 
 %Table~\ref{table:summary} provides information about the different fault models that were specified, which consist of 119 mutation operations for \ADCS, 26 for \GPS, 59 for \PDHU, and 35 for  \PARAM.
 %, and \TODO{ZZ} for the \CSP.
@@ -236,19 +238,21 @@ To get an idea of observable trends, we compute the Spearman's correlation coeff
 Table~\ref{table:mutationresults} reports the mutation analysis results according to our metrics (see D2).
 In Table~\ref{table:shortcomings}, we report how uncovered fault models, uncovered mutation operations, and live mutants are distributed with respect to the different shortcomings we noticed on each subject.
 
-Concerning \INDEX{fault model coverage}, \ADCS reached a coverage of 90.00\%, while \GPS, \PDHU, and \PARAM all achieved 100\%.  
+\REVFINAL{Update}{Concerning \INDEX{fault model coverage}, \ADCS reached a coverage of 90.00\%, while \GPS, \PDHU, \PARAM, and \GCSP all achieved 100\%.} 
 %$\rho_{FM}$ = -0.90, 
 %$\rho_{FM}$ = -0.77, 
 %we see that, 
 As expected, the much higher number of messages to test for \ADCS leads to incomplete testing. 
 
-\ADCS reached 74\% \INDEX{mutation operation coverage}. \GPS, \PDHU, and \PARAM  achieved even higher coverage with 95.65\%, 82.76\%, and 91.25\%,  respectively. Since 
+\ADCS reached 74\% \INDEX{mutation operation coverage}. \REVFINAL{Update}{\GCSP achieved 63.64\%.} \GPS, \PDHU, and \PARAM  achieved even higher coverage with 95.65\%, 82.76\%, and 93.20\%,  respectively. Since 
 %$\rho_{FM}$ = -0.97 and $\rho_{MO}$ = -0.98, 
 %$\rho_{FM}$ = -1 and 
 $\rho_{MO}$ = -0.8, results suggest that lower mutation operation coverage is more likely when systems are more complex (i.e., there are many mutation operations, whose numbers depend on the number of input partitions). 
 
 Regarding \INDEX{mutation scores}, we report 45.00\% for \ADCS,  95.45\% for \GPS,  and 100.00\% for \PDHU. These results indicate a varying performance of the \SVF test suite across sub-systems.
-\PARAM obtained a mutation score of 38.36\%, indicating that only slightly more than a third of mutants are killed by the test suite.
+\REVFINAL{Update}{\PARAM obtained a mutation score of 90.24\%.
+For \GCSP, we could not compute the mutation score because after mutation, the test suite has shown non-deterministic outcomes probably due to delays introduce by the mutation itself --- \GCSP is tested with stringent time requirements.}
+% indicating that only slightly more than a third of mutants are killed by the test suite.
 Given that 
 %$\rho_{FM}$ = -0.80, $\rho_{MO}$ = -0.80, and $\rho_{CMO}$ = -0.86, 
 %$\rho_{FM}$ = -0.6, $\rho_{MO}$ = -0.6, and 
@@ -336,8 +340,8 @@ We thus select as likely to be redundant all the pairs of killed mutants that (1
 %Table~\ref{table:eq_red} provides the results. 
 
 \subsubsection*{Results.} 
-All live mutants (i.e., 55 mutants for \ADCS, 1 mutant for \GPS, and 45 mutants for \PARAM) generate outputs that differ from the original software system and, therefore, we did not detect any equivalent mutant. Though it needed to be confirmed, such result was expected since our methodology, if correctly applied, suggests, for every data item, a set of mutation operators that, by construction, should not lead to mutated data that is equivalent to the original data.
-Live mutants can be killed by introducing oracles that (1) verify additional entries in the log files (39 instances for \ADCS, 1 instance for \GPS), (2) verify additional observable state variables (14 instances for \ADCS, 45 instances for \PARAM), and (3) verify not only the presence of error messages but also their content (2 instances for \ADCS).
+All live mutants (i.e., 55 mutants for \ADCS, 1 mutant for \GPS, and 4 mutants for \PARAM) generate outputs that differ from the original software system and, therefore, we did not detect any equivalent mutant. Though it needed to be confirmed, such result was expected since our methodology, if correctly applied, suggests, for every data item, a set of mutation operators that, by construction, should not lead to mutated data that is equivalent to the original data.
+Live mutants can be killed by introducing oracles that (1) verify additional entries in the log files (39 instances for \ADCS, 1 instance for \GPS), (2) verify additional observable state variables (14 instances for \ADCS, 4 instances for \PARAM), and (3) verify not only the presence of error messages but also their content (2 instances for \ADCS).
 \REVOCT{C-P-18}{Such oracles may consist of additional assertions that verify data values already produced by the software under test (i.e., no modification of the SUT is needed).}
 
 
