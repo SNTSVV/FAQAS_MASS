@@ -115,7 +115,7 @@ KTU cannot generate test assertions because only engineers can know, based on sp
 However, the generated printf invocations still play the role of an oracle for regression testing, as explained in the next sections.
 
 \subsection{Test suite augmentation} 
-
+\label{sec:Semus:augment}
 The procedure for testing with SEMuS is shown in Figure~\ref{fig:semus:test:example}.
 In Step 1, the engineer executes SEMuS, which generates an output folder for every live mutant that is killed by the generated test cases.
 Every folder contains: a script (i.e., \emph{runTest.sh}) that can be used to execute the generated test case, (2) the test case itself (i.e., test1.c), and (3) a text file with extension \emph{.expected} that contains the output that is observed when executing the test case with the SUT.
