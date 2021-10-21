@@ -13,6 +13,8 @@ We address the following research questions:
 
 \subsection{Subjects of the Study}
 
+\TODO{add subjects of the study: Libutil + ESAIL Unit TS}
+
 To perform our experiments, we considered two software artifacts, both of them provided by the European Space Agency (ESA): ASN1SCC (or ASN.1) and MLFS.
 In the case of ASN.1, the test suite is automatically generated with an approach that aims to maximize the boundary conditions of the input domain being covered. 
 The Mathematical Library for Flight Software (MLFS) implements mathematical functions qualified for flight software (it complies with ECSS criticality category B).
@@ -22,6 +24,9 @@ Both test suites considered in this study characterize by high statement coverag
 % \REVOCT{C-P-19}{We did not considered ESAIL in our empirical evaluation, because of the known incompatibility of clang (i.e., the compiler required by SEMuS) and ESAIL specific compilation libraries (i.e., RTEMS). More details can be found in Section~\ref{}.}
 
 \subsection{Setup}
+
+\TODO{Libutil: we considered four sources (clock.c, memory.c, error.c, and timestamp.c), these files make part of the set of sources that are interesting for GSL. They were also the only files for which we were capable of generating tests, the rest of sources had FILES dependencies, and functions requiring I/O operations. We considered a total of 79 mutants for clock, 22 for memory, 4 for error, and 8 timestamp. Then, we generated 2 tests for clock, 55 for memory, 16 for error, and 9 for timestamp.}
+\TODO{ESAIL: we considered one source(TMFrameBuilder.c). This source was the only one with little dependencies from other components, from the set of sources selected by Yago at the beginning of the project. We used 5 mutants from two functions, already killed by both test suites. We generated a total of 9 tests for the source under test.}
 
 To address our research questions, we consider mutation analysis a precondition for our subjects; this is necessary since test generation only requires the list of live mutants (i.e., generating test inputs for all possible mutants would be far too expensive). Table~\ref{table:results:semus:ms} reports the mutation analysis results (i.e., MASS output) for the ASN.1 and MLFS subjects.
 
@@ -41,6 +46,8 @@ To address our research questions, we consider mutation analysis a precondition 
 \hline
 $\mathit{MLFS}$&21\,375&17\,484&3\,891&81.80 \\
 $\mathit{ASN.1}$&5\,323&3\,104&2\,219&58.31 \\
+$\mathit{ESAIL_S}$ (S+U)&3\,536&2\,495&1\,041&70.56 \\
+$\mathit{Libutil}$&21\,375&17\,484&4\,198&81.80 \\ %35
 \hline
 \end{tabular}
 
@@ -85,6 +92,8 @@ Lastly, we notice that the total execution time of MLFS is approximately 556 hou
 \hline
 $\mathit{MLFS}$&0.2&122.5&0.4&8.5&30.2&33\,348.4\\
 $\mathit{ASN.1}$&0.2&121.3&0.4&33.4&54.6&69\,696.2\\
+$\mathit{ESAIL_S}$&0.3&0.5&0.4&0.4&0.1&2.0\\
+$\mathit{Libutil}$&0.3&0.6&0.4&0.4&0.1&41.8\\
 \hline
 \end{tabular}
 
@@ -127,6 +136,9 @@ For the reasons discussed above, we consider SEMuS an effective solution for tes
 \hline
 $\mathit{MLFS}$&3\,891&697&81.80&85.06\\
 $\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
+$\mathit{ESAIL_S}$&1\,041&NA&70.56&NA\\
+% additionally killed: clock 2 error 4 timestamp 6 memory 21
+$\mathit{Libutil}$&4\,198&35&81.80&81.96\\
 \hline
 \end{tabular}
 
