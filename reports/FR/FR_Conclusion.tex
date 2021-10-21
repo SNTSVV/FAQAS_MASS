@@ -1,0 +1,11 @@
+% !TEX root = MAIN.tex
+
+\chapter*{Conclusion}
+\label{sec:conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+The FAQAS activity had been motivated by the need for high-quality software in space systems; indeed, the success of space missions depends on the quality of the system hardware as much on the dependability of its software. Before FAQAS there was no work on identifying and assessing feasible and effective mutation analysis and testing approaches for space software. Space software is different from other types of software (e.g., Java graphical libraries or Unix utility programs); its characteristics prevent the adoption of well-known solutions to enhance mutation analysis scalability, identify mutants that are semantically equivalent to the original software or redundant, and automatically generate test cases. First, space software normally contains many functions to deal with signals and data transformation, which may diminish the effectiveness of both compiler-based and coverage-based approaches to identify equivalent and redundant mutants. Second, space software is thoroughly tested with large test suites thus exacerbating scalability problems. Third, it requires dedicated hardware, software emulators, or simulators, which affect the applicability of scalability optimizations that use multi-threading or other OS functions. The reliance on dedicated hardware, emulators, and simulators also prevents the use of static program analysis to detect equivalent mutants and automatically generate test cases. 
+
+The main output of the FAQAS activity had been a toolset 
+
+The empirical evaluation conducted with the aid of industrial case study providers have highlighted the practical usefulness of the FAQAS toolset, which lead to the identification of relevant test suite shortcomings (test input partitions not exercised and missing test oracles) and bugs in the case study subjects.
