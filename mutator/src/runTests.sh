@@ -5,7 +5,7 @@ rm -f results_NORMAL.csv
 rm -f results_SINGLETON.csv
 
 for c in "NORMAL" "SINGLETON";
-# for c in "SINGLETON";
+# for c in "NORMAL";
 do
 
   if [ $c = "SINGLETON" ]; then
