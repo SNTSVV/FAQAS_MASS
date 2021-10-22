@@ -230,6 +230,8 @@
 \newcommand{\CHANGEDOCT}[1]{\textcolor{black}{#1}}
 \newcommand{\CHANGEDNOV}[1]{\textcolor{black}{#1}}
 
+
+
 \newcommand{\TRFOUR}[1]{\textcolor{green}{#1}}
 
 \newcommand{\STARTCHANGEDNOV}{\color{black}}
@@ -237,6 +239,8 @@
 
 \newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
+
+
 
 
 %\newcommand{\MREVISION}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
@@ -247,8 +251,12 @@
 
 \newcommand{\REVNOV}[2]{\textcolor{black}{#2}}
 
-\newcommand{\REVOCT}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
-\newcommand{\REVTOOL}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+%\newcommand{\REVOCT}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+%\newcommand{\REVTOOL}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
+\newcommand{\REVOCT}[2]{{#2}}
+\newcommand{\REVTOOL}[2]{{#2}}
+
+\newcommand{\REVFINAL}[2]{\todo{\tiny{#1}}\textcolor{blue}{#2}}
 
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
@@ -271,8 +279,8 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}} 
 
-\lhead{\fancyplain{}{\textit{}}}
-
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-D4}
+\lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
 
 \fancyfoot[C]{%
@@ -318,7 +326,7 @@
 
 
 %You may put: \REVFINAL{A1}{text} where the action item is listed in https://uniluxembourg.sharepoint.com/:w:/s/msteams_efbe46/EXEVBn7iskxNtZhlxvYWEVoBeCW6sZtEsgBxxwL2V9uN2A?e=KRgpUt 
-\newcommand{\REVFINAL}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+
 %When you modify a big section
 \newcommand{\STARTCHANGEDFINAL}{\color{blue}}
 \newcommand{\ENDCHANGEDFINAL}{\color{black}}

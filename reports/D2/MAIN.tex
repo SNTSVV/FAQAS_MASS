@@ -217,8 +217,11 @@
 \newcommand{\ENDCHANGEDNOV}{\color{black}}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
-\newcommand{\ENDCHANGEDWPT}{\color{black}}
+\newcommand{\STARTCHANGEDWPT}{}
+\newcommand{\ENDCHANGEDWPT}{}
+
+\newcommand{\STARTCHANGEDFINAL}{\color{blue}}
+\newcommand{\ENDCHANGEDFINAL}{\color{black}}
 
 \newcommand{\UPDATED}[1]{#1}
 
@@ -231,9 +234,9 @@
 %\newcommand{\REVTWO}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
 \newcommand{\REVTWO}[2]{#2}
 
-\newcommand{\REVNOV}[2]{\textcolor{black}{#2}}
+\newcommand{\REVNOV}[2]{{#2}}
 
-\newcommand{\REVTOOL}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
+\newcommand{\REVTOOL}[2]{{#2}}
 
 \newcommand{\JMR}[2]{\textcolor{black}{#2}}
 \newcommand{\NEWFSCI}[1]{\textcolor{black}{#1}}
@@ -267,9 +270,10 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}} 
 
-\lhead{\fancyplain{}{\textit{}}}
-
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-D2}
+\lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
+
 
 \fancyfoot[C]{%
 \begin{tikzpicture}[remember picture,overlay]
@@ -306,7 +310,7 @@
 
 \include{revisions}
 
-\include{deliverables}
+%\include{deliverables}
 
 
 
@@ -332,15 +336,15 @@
 \appendix
 
 
-\chapter{ESAIL Fault Model}
-\label{appendix:esailFM}
-\includepdf[pages=-,scale=0.9,offset=0mm -75]{faultModels/ESAIL_ADCS.pdf}
-
-\textbf{End of Appendix~\ref{appendix:esailFM}}
+%\chapter{ESAIL Fault Model}
+%\label{appendix:esailFM}
+%\includepdf[pages=-,scale=0.9,offset=0mm -75]{faultModels/ESAIL_ADCS.pdf}
+%
+%\textbf{End of Appendix~\ref{appendix:esailFM}}
 
    
-\clearpage
-\include{ESA_comments}
+%\clearpage
+%\include{ESA_comments}
 \clearpage
 
 \printindex

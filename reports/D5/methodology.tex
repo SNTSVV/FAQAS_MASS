@@ -8,7 +8,6 @@ FAQAS led to the development of a toolset that includes the following components
 \item MASS (Mutation Analysis for Space Software), a tool that automatically executes code-driven mutation analysis. Code-driven mutation analysis consists of automatically generating mutants by altering the source code of the software under test. MASS implements a pipeline that makes it feasible in the context of space software. 
 \item DAMAt (DAta-driven Mutation Analysis with Tables), a tool that automatically executes data-driven mutation analysis. Data-driven mutation analysis is an approach newly defined within FAQAS, which, instead of mutating the implementation of the software under test, alters the data exchanged by software components. Data-driven mutation analysis enables the injection of faults that affect simulated components (e.g., sensors), which is not feasible with traditional, code-driven mutation analysis.
 \item SEMuS (Symbolic Execution-based MUtant analysis for Space software), a tool that automatically generates test inputs based on code-driven mutation analysis results. 
-\item DAMTE, a methodology supported by the KLEE symbolic execution engine, for the generation of test inputs based on data-driven mutation analysis results.
 \end{itemize}
 
 \begin{figure}[tb]
@@ -18,6 +17,8 @@ FAQAS led to the development of a toolset that includes the following components
 \label{fig:FAQAS:toolset}
 \end{center}
 \end{figure}
+
+The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine, for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible, with the current state-of-the-art test generation toolsets.
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files. 
 MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that do not lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
@@ -173,6 +174,6 @@ Last, by looking at what mutants remain LIVE after the execution of DAMAt, the u
 The simplest cause of such lack of failures is the absence of an oracle (or a poor oracle); for example, the test case assertions do not verify the output state of the SUT. 
 Another possibility is that the software reacts to the invalid data only when in a specific state; this means that the test suite lacks a test case in such a specific state.
 
-
+For DAMAt, \EMPH{test suite augmentation} shall thus be performed manually, by an engineer who shall define additional test cases based on the strategy reported above.
 
 \input{tables/table_application}

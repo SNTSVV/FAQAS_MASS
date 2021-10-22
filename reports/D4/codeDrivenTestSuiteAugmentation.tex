@@ -13,22 +13,19 @@ We address the following research questions:
 
 \subsection{Subjects of the Study}
 
-\TODO{add subjects of the study: Libutil + ESAIL Unit TS}
-
-To perform our experiments, we considered two software artifacts, both of them provided by the European Space Agency (ESA): ASN1SCC (or ASN.1) and MLFS.
+\REVFINAL{A8/A9}{To perform our experiments, we considered the project case study subjects having unit test suites: ASN1SCC (or ASN.1),  MLFS, \ESAIL, and \UTIL.}
 In the case of ASN.1, the test suite is automatically generated with an approach that aims to maximize the boundary conditions of the input domain being covered. 
 The Mathematical Library for Flight Software (MLFS) implements mathematical functions qualified for flight software (it complies with ECSS criticality category B).
-Both test suites considered in this study characterize by high statement coverage as required by space software standards (e.g., category C software requires statement adequacy according to ECSS). MLFS test suite achieves MC/DC coverage (i.e., 100\% coverage), while ASN.1 case study achieves 99\% statement coverage.
+The ASN.1 and MLFS test suites are characterized by high statement coverage as required by space software standards (e.g., category C software requires statement adequacy according to ECSS). MLFS test suite achieves MC/DC coverage (i.e., 100\% coverage), while ASN.1 case study achieves 99\% statement coverage. \REVFINAL{A9}{The \ESAIL and \UTIL test suites are instead characterized by lower statements coverage, 46.5\% and 83.2\%, respectively.}
 
 % \TODO{to be fixed}
 % \REVOCT{C-P-19}{We did not considered ESAIL in our empirical evaluation, because of the known incompatibility of clang (i.e., the compiler required by SEMuS) and ESAIL specific compilation libraries (i.e., RTEMS). More details can be found in Section~\ref{}.}
 
 \subsection{Setup}
 
-\TODO{Libutil: we considered four sources (clock.c, memory.c, error.c, and timestamp.c), these files make part of the set of sources that are interesting for GSL. They were also the only files for which we were capable of generating tests, the rest of sources had FILES dependencies, and functions requiring I/O operations. We considered a total of 79 mutants for clock, 22 for memory, 4 for error, and 8 timestamp. Then, we generated 2 tests for clock, 55 for memory, 16 for error, and 9 for timestamp.}
-\TODO{ESAIL: we considered one source(TMFrameBuilder.c). This source was the only one with little dependencies from other components, from the set of sources selected by Yago at the beginning of the project. We used 5 mutants from two functions, already killed by both test suites. We generated a total of 9 tests for the source under test.}
 
-To address our research questions, we consider mutation analysis a precondition for our subjects; this is necessary since test generation only requires the list of live mutants (i.e., generating test inputs for all possible mutants would be far too expensive). Table~\ref{table:results:semus:ms} reports the mutation analysis results (i.e., MASS output) for the ASN.1 and MLFS subjects.
+
+To address our research questions, we consider mutation analysis a precondition for our subjects; this is necessary since test generation only requires the list of live mutants (i.e., generating test inputs for all possible mutants would be far too expensive). Table~\ref{table:results:semus:ms} reports the mutation analysis results (i.e., MASS output); for \ESAIL, we consider the results obtained when combining the unit and system test suite.
 
 \begin{table}[htb]
 \caption{Mutation scores for artifacts.}
@@ -53,7 +50,15 @@ $\mathit{Libutil}$&21\,375&17\,484&4\,198&81.80 \\ %35
 
 \end{table}
 
-As shown in Table~\ref{table:results:semus:ms}, we apply test generation for the 3\,891 live mutants of MLFS, and for the 2\,219 live mutants of the ASN.1 subject.
+
+We applied SEMuS to generate test cases for the 3\,891 live mutants of MLFS, and for the 2\,219 live mutants of the ASN.1 subject.
+\REVFINAL{A8/A9}{For \UTIL and \ESAIL, instead, we could not apply test generation to all the mutants. 
+For \UTIL, we excluded source files with functions performing input/output operations. The reason is that the version of KLEE integrated into SEMuS does not support test generation for functions performing input/output operations (handling I/O with symbolic execution is an open problem). Also, we excluded   source files presenting dependencies from other source files. Indeed, to minimize the likelihood of incurring into LLVM compilation problems, SEMuS compiles only the source file including the mutant under test instead of the whole project. However, the consequence is that in case the mutated function (i.e., the function under test) uses functions defined in other source files instead of standard library functions, SEMuS cannot perform test generation. In practice, SEMuS can perform only the generation of test cases for single units.
+For \UTIL, we considered four source files (i.e., clock.c, memory.c, error.c, and timestamp.c); these files includes 79 live mutants for clock, 22 for memory, 4 for error, and 8 for timestamp.
+%Then, we generated 2 tests for clock, 55 for memory, 16 for error, and 9 for timestamp.
+For \ESAIL we considered only one source file (i.e., \emph{TMFrameBuilder.c}). Within \emph{ESAIL}$_S$, this source file was the one with the least number of dependencies from other components. We considered 5 mutants from two functions. However, the selected mutants were already killed by the test suites, thus, for \ESAIL, we could simply evaluate the feasibility of applying SEMuS, not its actual usefulness.} 
+%We generated a total of 9 test cases for the source under test.}
+
 For every subject, we applied the SEMuS toolset on Linux OS running on the HPC cluster of the University of Luxembourg. The HPC cluster consists of Intel Xeon E5-2680 v4 (2.4 GHz) nodes. To make our experiments feasible we executed 14 SEMuS parallel instances running on a dedicated node.
 
 \subsection{RQ1 - Approach scalability}
@@ -63,12 +68,7 @@ To assess \INDEX{SEMuS} scalability we measure the execution time of each SEMuS 
 Firstly, we notice is that median time taken by SEMuS to generate test inputs is the same for both case studies (i.e., 0.4 minutes). While, the mean differs for both case studies, 8.5 minutes for MLFS, and 33.4 for ASN.1 case study. Secondly, we notice that the maximum execution time is limited by the configuration we imposed in SEMuS for the symbolic search, that is, two hours.
 Lastly, we notice that the total execution time of MLFS is approximately 556 hours, which can be executed on only 5.5 hours if executed with 100 HPC nodes. Similarly, the ASN.1 subject can be executed in approximately 1\,161 hours, or 11.6 hours if executed with 100 HPC nodes. In this context, even paying for the computational power of 100 HPC nodes for making test generation feasible in half a day is economically justifiable in the space software context.
 
-    \begin{figure}[tb]
-    \centering
-        \includegraphics[width=0.7\textwidth]{images/execution_time}
-        \caption{SEMuS execution time histogram.}
-        \label{fig:semus:histogram_time}
-    \end{figure}
+
 
 \REVOCT{TDR-SUM-PABG-01}{Furthermore, we report in Figure~\ref{fig:semus:histogram_time} the histogram of the execution time of all test cases generated for both ASN.1 and MLFS. Particularly, we can see that for 5\,068 mutants (89.11\%) the test case generation time was approximately 5 minutes, and that only 545 mutants took 2 hours approximately (the maximum time configured for our experiments, which leads to test cases not being generated). In line with these results, we conclude that test generation with SEMuS scale.}
 
@@ -99,6 +99,12 @@ $\mathit{Libutil}$&0.3&0.6&0.4&0.4&0.1&41.8\\
 
 \end{table}
 
+    \begin{figure}[h]
+    \centering
+        \includegraphics[width=0.7\textwidth]{images/execution_time}
+        \caption{SEMuS execution time histogram.}
+        \label{fig:semus:histogram_time}
+    \end{figure}
 
 \subsection{RQ2 - Approach effectiveness}
 
@@ -106,18 +112,25 @@ $\mathit{Libutil}$&0.3&0.6&0.4&0.4&0.1&41.8\\
 To assess the approach effectiveness, we verify whether SEMuS succeeds to generate test inputs that kills non detected mutants from our subjects. We consider SEMuS effective, if the approach improves the subject mutation score.
 
 Table~\ref{table:results:semus:testgen} shows the variations we observed in the subjects' mutation scores, the table presents the number of live mutants, the additionally killed mutants by SEMuS, the original mutation score, and the updated mutation score.
-Particularly, we observe that SEMuS kills additional 1\,729 mutants for the ASN.1 subject, increasing the mutation score from 58.31\% to 90.79\%, an impressive improvement of 32,48\%.
-Instead, we observe that SEMuS kills additional 697 mutants for the MLFS subject, increasing the mutation score from 81.80\% to 85.06\%, an improvement of 3,26\%.
+Particularly, we observe that SEMuS kills  1\,729 additional mutants for the ASN.1 subject, increasing the mutation score from 58.31\% to 90.79\%, an impressive improvement of 32,48\%.
+Instead, we observe that SEMuS kills  697 additional mutants for the MLFS subject, increasing the mutation score from 81.80\% to 85.06\%, an improvement of 3,26\%.
+\REVFINAL{A9}{For \UTIL, SEMuS kills  35 additional mutants, increasing the mutation score from 81.80\% to 81.96\%. For \ESAIL, we simply demonstrated that SEMuS can generate test cases that kill mutants (the considered mutants were already killed by the SUT test suite).}
 
-The lower improvement observed on the MLFS could be explained by the following reasons: (1) possible presence of many equivalent mutants, (2) bugs in SEMuS fixed recently, and (3) known limitations of KLEE (i.e., the underlying test generation tool) concerning floating-point analysis. These limitations can be assessed in a follow up project.
+
+\REVFINAL{A9}{The lower increase in mutation score is observed with \UTIL; the main reason is that we selected only a subset of the source files for our analysis. Concerning, MLFS the lower increase in mutation score with respect to ASN.1 could be explained by the fact that the mutation score of MLFS was higher (i.e., it is more complicate to find inputs that kills mutants)} and by the following reasons: (1) possible presence of many equivalent mutants, (2) bugs in SEMuS fixed recently, and (3) known limitations of KLEE (i.e., the underlying test generation tool) concerning floating-point analysis. These limitations can be assessed in a follow-up project.
 
 \REVTOOL{C-P-20}{Concering ASN.1CC, SEMuS enabled us to identify a fault in the software; precisely, the ASN.1 test cases did not verify the value of the variable \emph{pErrCode} for functions \emph{\_IsConstraintValid}. The bug was fixed in commit 0917424187be2288c59ac04c804e991aed11a3fe\footnote{{https://github.com/ttsiodras/asn1scc/commit/0917424187be2288c59ac04c804e991aed11a3fe}} ). We also identified another limitation in the test suite; more precisely, the test cases for the function\emph{\_Encode} did not verify that, for the higher-level structure, the return code is zero when the parameter  \emph{bCheckConstraints} is set \emph{false} (basically, an input partition was not covered).}
 
 
-\REVTOOL{C-P-20}{By definition the quality of the test cases generated by SEMuS shall be high because they kill mutants not killed by the test suite. However, such quality might be diminished by two factors (1) SEMuS erroneously determine that a mutant is killed (this shall be a sort of implementation errors that we never encountered), (2) the mutants are not representative of realistic problems. Concerning (2) we refer the reader to literature indicating that (A) achieving a high mutation score improves significantly the fault detection capability of a test suite~\cite{papadakis2018mutation}, and (B) a very high mutation score (i.e., above 0.75) ensures a higher fault detection rate than the one obtained with other coverage criteria, such as statement and branch coverage~\cite{Chekam:17}.
+
+\REVFINAL{A9}{Also in the case of \UTIL, SEMuS enabled us to identify a fault in the software (buffer underflow); therefore, despite the low increase in the mutation score, SEMuS has demonstrated to be useful in practice.}
+
+\REVTOOL{C-P-20}{The quality of the test cases generated by SEMuS shall be high, by definition, because they kill mutants not killed by the test suite. However, such quality might be diminished by two factors (1) SEMuS erroneously determine that a mutant is killed (this shall be a sort of implementation errors that we never encountered), (2) the mutants are not representative of realistic problems. Concerning (2) we refer the reader to literature indicating that (A) achieving a high mutation score improves significantly the fault detection capability of a test suite~\cite{papadakis2018mutation}, and (B) a very high mutation score (i.e., above 0.75) ensures a higher fault detection rate than the one obtained with other coverage criteria, such as statement and branch coverage~\cite{Chekam:17}.
 Based on our observations, we can claim that the generated test cases are of high quality because they (1) cover input partitions not covered by the test suite of the SUT (i.e., the second ASN.1CC case above), (2) enables us to determine  the lack of oracles in the test suite, and (3) enabled the detection of defects (i.e., the ASN.1CC bug reported above).}
 
 For the reasons discussed above, we consider SEMuS an effective solution for test suite improvement in the context of space software.
+
+
 
 \begin{table}[htb]
 \caption{Subjects' mutation scores after test generation.}
@@ -145,15 +158,18 @@ $\mathit{Libutil}$&4\,198&35&81.80&81.96\\
 \end{table}
 
 
-\subsubsection{Identifying test suite shortcomings with SEMuS}
+\subsection{Identifying test suite shortcomings with SEMuS}
 \label{sec:shortcoming:semus}
 
-To further analyze SEMuS results, we inspected manually some of the test inputs generated for the ASN.1 case study.
-In particular, for the mutant \texttt{test.mut.1298.2\_1\_23.ICR.T\_INT\_IsConstraintValid} we discovered one shortcoming of the ASN.1 test suite. We introduce below detailed information about the mutant under analysis.
+\REVFINAL{A9}{To further analyze SEMuS results for RQ2, we inspected manually some of the test inputs generated for the ASN.1 and the \UTIL case study. This activity enabled us to identify two faults, which are described below.}
+
+\subsection{ASN.1}
+
+For the case of ASN.1, when analying the mutant \texttt{test.mut.1298.2\_1\_23.ICR.T\_INT\_IsConstraintValid}, we discovered one shortcoming of the ASN.1 test suite. We introduce below detailed information about the mutant under analysis.
 
 The original code of the mutated function, \texttt{T\_INT\_IsConstraintValid}, is shown in Listing~\ref{original_asn_code}.
 
-\begin{lstlisting}[style=CStyle, float=t, caption=Original code., label=original_asn_code]
+\begin{lstlisting}[style=CStyle, float=t, caption=Original code for T\_INT\_IsConstraintValid., label=original_asn_code]
 flag T_INT_IsConstraintValid(const T_INT* pVal, int* pErrCode) {
     flag ret = TRUE;
     (void)pVal;
@@ -167,7 +183,7 @@ flag T_INT_IsConstraintValid(const T_INT* pVal, int* pErrCode) {
 
 Listing~\ref{mutant_asn_code} shows the mutated version of the function \texttt{T\_INT\_IsConstraintValid}. Particularly, the mutation operator ICR has replaced the $0$ value on line 6 with a $-1$ value.
 
-\begin{lstlisting}[style=CStyle, float=t, caption=Mutant code., label=mutant_asn_code]
+\begin{lstlisting}[style=CStyle, float=t, caption=Mutant code for T\_INT\_IsConstraintValid., label=mutant_asn_code]
 flag T_INT_IsConstraintValid(const T_INT* pVal, int* pErrCode) {
     flag ret = TRUE;
     (void)pVal;
@@ -224,3 +240,67 @@ flag T_INT_enc_dec(const T_INT* pVal, int* pErrCode, const char* filename)
 \end{lstlisting}
 
 We confirmed this shortcoming with ASN.1 engineers, who provided a solution to fix this issue.
+
+\subsection{LibUtil}
+
+
+
+\REVFINAL{A9}{Listing~\ref{semus:testUtil}, shows the test case generated for a mutant of function \emph{timestamp\_diff} in \UTIL.
+This function receives as input two parameters, \emph{base} and \emph{diff}; it subtracts \emph{diff} from \emph{base} and updates the value of \emph{base}. Both \emph{base} and \emph{diff} are of type \emph{struct gs\_timestamp\_t}, which is shown in Figure~\ref{semus:testUtil:struct}.}
+
+\STARTCHANGEDFINAL
+
+The test case initializes \emph{base} and \emph{diff} as follows:
+\begin{verbatim}
+base = {tv_sec = 0, tv_nsec = 0};
+diff = {tv_sec = 0, tv_nsec = 1} 
+\end{verbatim}
+
+The output generated by the SUT (i.e., the output stored by SEMuS in the file \emph{.expected}) is the following:
+\begin{verbatim}
+result_faqas_semu = 0
+base->tv_sec = 4294967295
+base->tv_nsec = 999999999
+\end{verbatim}
+
+The output above, which simply reflects the actual behavior of the implementation, show that the difference between zero (i.e, \emph{base = {tv\_sec = 0, tv\_nsec = 0};}) and one nanosecond  (i.e., \emph{diff = {tv\_sec = 0, tv\_nsec = 1}}) leads to a big integer (i.e., we observe an \EMPH{integer underflow}); instead, according to specifications, it should make the function return an error code (i.e., a value different than zero shall be assigned to \emph{result\_faqas\_semu} in the output above).
+
+
+\begin{lstlisting}[style=CStyle, caption=Test case generated for \UTIL., label=semus:testUtil]
+int main(int argc, char** argv)
+{
+    (void)argc;
+    (void)argv;
+
+    // Declare variable to hold function returned value
+    int result_faqas_semu;
+
+    // Declare arguments and make input ones symbolic
+    gs_timestamp_t base;
+    gs_timestamp_t diff;
+    memset(&base, 0, sizeof(base));
+    memset(&diff, 0, sizeof(diff));
+    const unsigned char base_faqas_semu_test_data[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    const unsigned char diff_faqas_semu_test_data[] = {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
+    memcpy(&base, base_faqas_semu_test_data, sizeof(base));
+    memcpy(&diff, diff_faqas_semu_test_data, sizeof(diff));
+
+    // Call function under test
+    result_faqas_semu = timestamp_diff(&base, &diff);
+
+    // Make some output
+    printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
+    printf("FAQAS-SEMU-TEST_OUTPUT: base->tv_sec = %d\n", base->tv_sec);
+    printf("FAQAS-SEMU-TEST_OUTPUT: base->tv_nsec = %d\n", base->tv_nsec);
+    return (int)result_faqas_semu;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=CStyle, caption=Definition of \emph{gs\_timestamp\_t} in \UTIL., label=semus:testUtil:struct]
+struct gs_timestamp_t {
+    uint_32t  tv_sec;
+    uint_32t  tv_nsec;
+}
+\end{lstlisting}
+
+\ENDCHANGEDFINAL
