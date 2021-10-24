@@ -378,7 +378,7 @@ The left part of Table~\ref{table:costs} reports the measures related to manual 
 Given that the definition of test cases for safety-critical components, such our case study subjects, takes days to complete, our industry partners found the required effort acceptable.
 \REVFINAL{A11}{The same considerations hold for the number of LoC per fault model, whose average across subjects varied between 2.72 and 14} \footnote{The exit handler includes one call for each fault model and thus subjects with less fault models show a lower average. For \PARAM the larger number of lines of code is due to the need for recomputing a message checksum after the invocation of function \emph{mutate}.}
 
-\REVFINAL{A11}{For \GCSP, it was necessary to add invocations to specific functions in order to read the variables from the targeted buffer.}
+\REVFINAL{A11}{For \GCSP, it was necessary to add invocations to specific functions in order to read the variables from the targeted buffer. However, for engineers experienced with SUT, such implementation effort would require a limited amount of time (e.g., it cost us less than one hour).}
 
 % components which is considered feasible by our industry partners.
 %For \PARAM the larger number of lines of code is due to the necessity of adding invocations to a checksum function, for every fault model is due to the need for copying the content of the custom data structure used by \PARAM into a buffer, which is however simple to implement (i.e., assign a struct item to a buffer item).
