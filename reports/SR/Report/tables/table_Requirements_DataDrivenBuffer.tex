@@ -1,0 +1,41 @@
+% !TEX root = ../MAIN.tex
+\begin{table}[h]
+\begin{center}
+\small
+\begin{tabular}{|p{2cm}|p{12cm}|}
+\hline
+\textbf{Requirement ID}&\textbf{Description}\\
+\hline
+R.DDB.1&
+The data to mutate is stored in a buffer (i.e., an array of type T).
+\\
+\hline
+R.DDB.2&
+The engineer may specify multiple fault models. One for each data buffer to mutate.
+\\
+\hline
+R.DDB.3&
+In a data-driven mutation testing session, the mutations to be performed may be driven by multiple fault models.
+\\
+\hline
+R.DDB.4&
+\begin{minipage}{12cm}
+The type T of the buffer to mutate should be the same for a same data driven mutation testing session. Buffers of different types T should be tested in different sessions.
+\end{minipage}
+\\
+\hline
+R.DDB.5&
+The data to mutate may span over multiple items of the buffer.
+\\
+
+
+%Incorrect Identifier& Several transmission data fields have fixed values, for example fields identifying the transmitting satellite. Hardware/software errors may assign incorrect identifiers.\\
+%%Incorrect Checksum& Hardware/software errors may result in an incorrect checksum for a Packet or VCDU.\\
+%Incorrect Counter& Counters are used to track Packet or VCDU ordering. Hardware/software errors may assign incorrect counter values.\\
+%Flipped Data Bits& Physical channel noise may flip one or more bits in the data transmission.\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Requirements to mutate data stored in buffers}
+\label{table:faultModel:FAQAS}
+\end{table}%

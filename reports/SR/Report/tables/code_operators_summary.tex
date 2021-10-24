@@ -1,0 +1,39 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\small 
+\begin{longtable}{@{\extracolsep{\fill}}|l|l|l|l|@{}}
+\caption{\normalsize Summary of the code-driven mutation operators applicable to space-context software. On the last column \emph{Relevance for FAQAS} the symbols mean: ** \textit{relevant}, * \textit{potentially relevant}, * \textit{NA} Not Applicable to FAQAS case studies.}
+\label{table:codeoperatorssummary} \\
+\hline
+
+	\textbf{\begin{tabular}[c]{@{}l@{}}Operator\\Category\end{tabular}}	&	\textbf{\begin{tabular}[c]{@{}l@{}}Number of\\Operators\end{tabular}}	&	\textbf{Context}	&	\textbf{Relevance for FAQAS}\\
+
+\hline
+	Arithmetic			&	14	&	C/C++; LLVM-IR; OO; SQL; Simulink	& **\\
+	Bitwise				&	15	&	C/C++; LLVM-IR; OO; SQL 			& **\\
+	Casts				&	1	&	C/C++ 								& *\\
+	Constants			&	8	&	C/C++; LLVM-IR; OO; Simulink 		& **\\
+	Control-flow		&	11	&	C/C++ & *\\
+	Coverage			&	6	&	C/C++; ADA & *\\
+	Deletion			&	5	&	C/C++; LLVM-IR; OO & **\\
+	Logical				&	10	&	C/C++; LLVM-IR; OO; Simulink & **\\
+	Relational			&	5	&	C/C++; LLVM-IR; OO; SQL; Simulink & **\\
+	Variable References	&	12	&	C/C++; LLVM-IR; OO; SQL; Simulink & **\\
+	Shift				&	10	&	C/C++; OO & *\\
+	Statements			&	21	&	C/C++; ADA; Simulink & *\\
+	Structures			&	3	&	C/C++ & *\\
+	Strings				&	7	&	C/C++ & *\\
+	Function Calls		&	38	&	C/C++; LLVM-IR; SQL & *\\
+	Floating Points		&	6	&	C/C++ & *\\
+	Memory Operations	&	9	&	C/C++ & *\\
+	System-level		&	14	&	OO & *\\
+	Object-Oriented		&	36	&	C/C++; OO & *\\
+	SQL					&	27	&	SQL & NA\\
+	ADA					&	47	&	ADA & NA\\
+\bottomrule                                                             
+\end{longtable}
+\normalsize

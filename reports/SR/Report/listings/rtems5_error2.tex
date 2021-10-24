@@ -1,0 +1,10 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}]
+ld: warning: cannot find entry symbol start; defaulting to 40000000
+
+/opt/rcc-1.3-rc6-gcc/sparc-gaisler-rtems5/leon3/lib/librtemsbsp.a(bspgetworkarea.o): In function `bsp_work_area_initialize’:
+/opt/rcc-1.3-rc6-gcc/src/rcc-1.3- rc6/c/src/lib/libbsp/sparc/leon3/../../../../../../bsps/sparc/shared/start/bspgetworkarea.c:32: undefined reference to `rdb_start'
+\end{lstlisting}
+\end{minipage}

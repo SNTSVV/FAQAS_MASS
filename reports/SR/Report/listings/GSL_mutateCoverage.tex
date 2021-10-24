@@ -1,0 +1,105 @@
+% !TEX root =  ../MAIN.tex
+\begin{lstlisting}[style=CStyle, caption=Example of extended data-driven mutation probe for libParam, label=GSLcover]
+
+/**
+   Get string.
+   @note If the returned string is max length, the value buffer will not be 0 terminated.
+   @param[in] node CSP address
+   @param[in] table_id remote table id.
+   @param[in] addr parameter address (remote table).
+   @param[in] checksum checksum
+   @param[in] timeout_ms timeout
+   @param[out] value returned value (user allocated)
+   @param[in] value_size size of \a value, i.e. size of parameter type in bytes.
+   @return_gs_error_t
+*/
+static inline gs_error_t gs_rparam_get_string(uint8_t node, gs_param_table_id_t table_id, uint16_t addr,
+                                              uint16_t checksum, uint32_t timeout_ms, char * value, size_t value_size)
+{
+    return gs_rparam_get(node, table_id, addr, GS_PARAM_STRING, checksum, timeout_ms, value, value_size);
+}
+
+
+gs_error_t gs_rparam_get(uint8_t node,
+                         gs_param_table_id_t table_id,
+                         uint16_t addr,
+                         gs_param_type_t type,
+                         uint16_t checksum,
+                         uint32_t timeout_ms,
+                         void * value,
+                         size_t value_element_size)
+{
+    return gs_rparam_get_array(node, table_id, addr, type, checksum, timeout_ms, value, value_element_size, 1);
+}
+
+
+gs_error_t gs_rparam_get_array(uint8_t node,
+                               gs_param_table_id_t table_id,
+                               uint16_t addr,
+                               gs_param_type_t type,
+                               uint16_t checksum,
+                               uint32_t timeout_ms,
+                               void * value,
+                               size_t value_element_size,
+                               size_t array_size)
+{
+    /* Calculate length */
+    gs_rparam_query_t * query;
+    const size_t query_payload_size = sizeof(query->payload.addr[0]) * array_size;
+    const size_t query_size = RPARAM_QUERY_LENGTH(query, query_payload_size);
+    const size_t reply_payload_element_size = value_element_size + sizeof(query->payload.addr[0]);
+    const size_t reply_payload_size = reply_payload_element_size * array_size;
+    const size_t reply_size = RPARAM_QUERY_LENGTH(query, reply_payload_size);
+
+    query = alloca(reply_size);
+    query->action = RPARAM_GET;
+    query->table_id = table_id;
+    query->checksum = csp_hton16(checksum);
+    query->seq = 0;
+    query->total = 0;
+    for(unsigned int i = 0; i < array_size; i++) {
+        query->payload.addr[i] = csp_hton16(addr + (value_element_size * i));
+    }
+    query->length = csp_hton16(query_payload_size);
+
+    FaultModel *fm_General = _FAQAS_General_FM();
+    unsigned long long int v_General[6];
+
+    v_General[0] = (unsigned long long int) query->action;
+    v_General[1] = (unsigned long long int) query->table_id;
+    v_General[2] = (unsigned long long int) query->length;
+    v_General[3] = (unsigned long long int) query->checksum;
+    v_General[4] = (unsigned long long int) query->seq;
+    v_General[5] = (unsigned long long int) query->total;
+
+
+    _FAQAS_cover(v_General,fm_General);
+
+
+    /* Run single packet transaction */
+    if (csp_transaction2(CSP_PRIO_HIGH, node, GS_CSP_PORT_RPARAM, timeout_ms, query, query_size, query, reply_size, CSP_O_CRC32) <= 0) {
+        return GS_ERROR_IO;
+    }
+ ... 
+ 
+ }
+
+\end{lstlisting}
+
+
+
+%flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+%{
+%    flag ret = TRUE;
+%    *pErrCode = 0;
+%    (void)pVal;
+%    (void)pBitStrm;
+%
+%
+%    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+%
+%    // Manually added probe 
+%    E_mutate(pVal);
+%    // Manually added probe END
+%    return ret  && E_IsConstraintValid(pVal, pErrCode);
+%}

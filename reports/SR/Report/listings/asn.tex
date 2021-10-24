@@ -1,0 +1,34 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{minipage}{15cm}
+\begin{lstlisting}[style=CStyle, caption=Excerpt of the tested ASN1 grammar., label=asn_excerpt, mathescape=true]
+MyInt ::= INTEGER (0 .. 20)
+
+My2ndInt ::= MyInt ( 1 .. 18)
+
+AType ::= SEQUENCE {
+    blArray SEQUENCE (SIZE(10)) OF BOOLEAN
+}
+
+My2ndAType ::= AType
+
+TypeNested ::= SEQUENCE {
+    intVal  INTEGER(0..10),
+    int2Val INTEGER(-10..10),
+    int3Val MyInt (10..12),
+    intArray    SEQUENCE (SIZE (10)) OF INTEGER (0..3),
+    realArray   SEQUENCE (SIZE (10)) OF REAL (0.1 .. 3.14),
+    octStrArray SEQUENCE (SIZE (10)) OF OCTET STRING (SIZE(1..10)),
+    boolArray   SEQUENCE (SIZE (10)) OF T-BOOL,
+    label   OCTET STRING (SIZE(10..40)),
+    bAlpha  T-BOOL,
+    bBeta   BOOLEAN,
+    sString T-STRING,
+    arr     T-ARR,
+    arr2    T-ARR2
+}
+
+E ::= INTEGER (0..255|1299)(5)
+\end{lstlisting}
+\end{minipage}
+

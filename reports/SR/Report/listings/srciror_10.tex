@@ -1,0 +1,16 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=10th warning example., label=srciror_10]
+In file included from /home/svf/Obsw/Source/Utilities/Misc/Source/mini_rtl.c:31: ././Utilities/Misc/Public/mini_rtl.h:14:10: warning: incompatible redeclaration of library function 'strlen' [-Wincompatible-library-redeclaration]
+	unsigned strlen(const char *q);
+					  ^
+././Utilities/Misc/Public/mini_rtl.h:14:10: note: 'strlen' is a builtin with type 'unsigned long (constchar *)'
+././Utilities/Misc/Public/mini_rtl.h:17:5: warning: incompatible redeclaration of library function 'memcmp' [-Wincompatible-library-redeclaration]
+	int memcmp(const char *s1, const char *s2, size_t n);
+			^
+././Utilities/Misc/Public/mini_rtl.h:17:5: note: 'memcmp' is a builtin with type 'int (const void *, const void *, unsigned long)'
+
+2 warnings generated.
+\end{lstlisting}
+\end{minipage}

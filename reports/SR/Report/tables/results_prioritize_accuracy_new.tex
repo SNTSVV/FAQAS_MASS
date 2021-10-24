@@ -1,0 +1,132 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[]
+\centering
+\scriptsize
+\caption{RQ4. Mutation score accuracy for the different strategies implemented by \emph{PrioritizeAndReduce}}
+\label{table:results:PriritizeAndReduce} 
+\begin{tabular}{|
+p{14mm}@{\hspace{1pt}}|
+p{15mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+}
+\hline
+           &          &\multicolumn{5}{c|}{$\delta_{acc}$ for different prioritization strategies}\\
+\hline
+\textbf{Subject} & \textbf{Mutants set} & Random & $D_J$ & $D_O$ & $D_E$ & $D_C$ \\
+\hline
+\multirow{2}{*}{\GCSP{}}    
+    & ALL & 7.2055& 1.3455& 1.3100& 0.7300& 0.7300 \\
+    &  FSCI 0.10  &  $>$5\% & 3.87& 3.80& 4.14& 4.14 \\
+    % & FSCI 0.10  &  $>$5\% & 3.55& 3.55& 3.75& 3.75 \\
+\hline
+\multirow{2}{*}{\PARAM{}}    
+    & ALL & 7.7927& 0  & 0& 0    & 0  \\
+    & FSCI 0.10  & $>$5\% &3.22&3.22&3.22&3.22 \\
+    % & FSCI 0.10  & $>$5\% &3.62&3.62&3.62&3.62 \\
+\hline
+\multirow{2}{*}{\UTIL{}}    
+    & ALL & 3.1400 &  0.0300 & 0.0300 & 0.0199 & 0.0199\\
+    & FSCI 0.10  & $>$5\%  & 1.95 & 1.95   & 1.95 & 1.95 \\
+    %& FSCI 0.10  & 5.87  & 2.54 & 2.54   & 2.51 & 2.57\\
+\hline
+\multirow{2}{*}{\MLFS{}}    
+    & ALL &  6.721  &   0.3299  &   0.3299 &   0.0199 &    0.0300  \\
+    & FSCI 0.10  & $>$5\%  & 2.97 & 2.97 & 2.85 & 2.85 \\
+    % & FSCI 0.10  & $>$5\%  & 4.07 & 4.07& 4.33& 4.27 \\
+\hline
+\multirow{2}{*}{\SAIL{}$_S$}    
+    & ALL  & 38.8885  & 24.1688& 24.3650  &  4.0800   &  3.9833   \\
+    % & FSCI 0.10   &   $>$5\%   &   $>$5\%  &  $>$5\%  &  2.38 &   2.03\\
+    & FSCI 0.10   &   $>$5\%   &   2.87  &  2.87  &  2.67 &   2.49\\
+\hline
+\end{tabular}
+\end{table} 
+
+% \begin{table}[h]
+% \centering
+% \tiny
+% \caption{RQ6. MS Comparison with respect to Random approach.}
+% \label{table:results:msReducedRandomPVals} 
+% \begin{tabular}{|llll|}
+% \hline
+% \textbf{Case Study}                & \textbf{\begin{tabular}[c]{@{}l@{}}MS Comparison\\w.r.t. Random\end{tabular}} & \textbf{ALL P-value} & \textbf{SDL P-value} \\
+% \hline
+% \multirow{4}{*}{\GCSP{}} & $D_J$    & 1.47E-04     & 1.37E-04 \\
+%                           & $D_O$    & 1.40E-04     & 1.19E-04  \\
+%                           & $D_E$    & 5.18E-05     & 5.30E-05  \\
+%                           & $D_C$    & 1.17E-04     & 1.08E-04  \\
+% \hline
+% \multirow{4}{*}{\UTIL{}}  & $D_J$    & 1.27E-04      & 1.23E-04 \\
+%                           & $D_O$    & 1.20E-04      & 1.15E-04 \\
+%                           & $D_E$    & 1.20E-04      & 1.15E-04  \\
+%                           & $D_C$    & 1.31E-04      & 1.26E-04 \\
+% \hline
+% \multirow{4}{*}{\PARAM{}} & $D_J$    & 5.38E-05      & 4.96E-05 \\
+%                           & $D_O$    & 5.38E-05      & 4.96E-05 \\
+%                           & $D_E$    & 5.38E-05      & 4.96E-05 \\
+%                           & $D_C$    & 5.38E-05      & 4.96E-05 \\
+% \hline
+% \multirow{4}{*}{\MLFS{}{}}     & $D_J$    &  1.40E-04    &  5.30E-05\\
+%                           & $D_O$    &  1.40E-04      & 5.30E-05 \\
+%                           & $D_E$    &  1.36E-04      &5.30E-05 \\
+%                           & $D_C$    &  1.48E-04      & 5.30E-05 \\
+% \hline
+% \multirow{4}{*}{\SAIL{}}    & $D_J$    &                \\
+%                           & $D_O$    &                \\
+%                           & $D_E$    &                \\
+%                           & $D_C$    &               \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+
+
+%\begin{table*}
+%\tiny
+%\centering
+%\caption{RQ6. P-value comparison between test suite reduction approaches.}
+%\label{table:results:pValComparisonTSredPrior} 
+%\begin{tabular}{|l|l|lllll|l|lllll|}
+%\hline
+%           &          & ALL      &                       &                       &          &      &          & SDL      &                       &                       &                       &       \\
+%\hline           
+%Case Study &          & Random & $D_J$                  & $D_O$                  & $D_E$     & $D_C$ &          & Random & $D_J$                  & $D_O$                  & $D_E$                  & $D_C$  \\
+%\hline
+%\GCSP{}   & Random &          &                       &                       &          &      & Random &          &                       &                       &                       &       \\
+%           & $D_J$     & 1.47E-04 &                       &                       &          &      & $D_J$     & 1.37E-04 &                       &                       &                       &       \\
+%           & $D_O$     & 1.40E-04 & 2.50E-01              &                       &          &      & $D_O$     & 1.18E-04 & 7.88E-02              &                       &                       &       \\
+%           & $D_E$     & 5.18E-05 & 5.15E-05              & 4.81E-05              &          &      & $D_E$     & 5.30E-04 & 4.56E-04              & 3.80E-05              &                       &       \\
+%           & $D_C$     & 1.17E-04 & 1.16E-04              & 1.10E-04              & 2.93E-02 &      & $D_C$     & 1.08E-04 & 9.55E-05              & 8.21E-05              & 6.71E-02              &       \\
+%\hline
+%\UTIL{}    & Random &          &                       &                       &          &      & Random &          &                       &                       &                       &       \\
+%           & $D_J$     & 1.27E-04 &                       &                       &          &      & $D_J$     & 1.23E-04 &                       &                       &                       &       \\
+%           & $D_O$     & 1.20E-04 & 8.31E-01              &                       &          &      & $D_O$     & 1.15E-04 & 8.31E-01              &                       &                       &       \\
+%           & $D_E$     & 1.20E-04 & 8.38E-03              & 2.05E-03              &          &      & $D_E$     & 1.15E-04 & 8.31E-01              & \multicolumn{1}{r}{1} &                       &       \\
+%           & $D_C$     & 1.31E-04 & 6.40E-03              & 2.20E-03              & 5.34E-01 &      & $D_C$     & 1.26E-04 & 6.80E-01              & 5.34E-01              & 5.34E-01              &       \\
+%\hline
+%\PARAM{}   & Random &          &                       &                       &          &      & Random &          &                       &                       &                       &       \\
+%           & $D_J$     & 5.38E-05 &                       &                       &          &      & $D_J$     & 4.96E-05 &                       &                       &                       &       \\
+%           & $D_O$     & 5.38E-05 & \multicolumn{1}{r}{1} &                       &          &      & $D_O$     & 4.96E-05 & \multicolumn{1}{r}{1} &                       &                       &       \\
+%           & $D_E$     & 5.38E-05 & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1} &          &      & $D_E$     & 4.96E-05 & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1} &                       &       \\
+%           & $D_C$     & 5.38E-05 & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1} &    \multicolumn{1}{r}{1}   &      & $D_C$     & 4.96E-05 & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1} &       \\
+%\hline
+%\MLFS{}{}       & Random &          &                       &                       &          &      & Random &          &                       &                       &                       &       \\
+%           & $D_J$     & 1.40E-04 &                       &                       &          &      & $D_J$     & 5.30E-05 &                       &                       &                       &       \\
+%           & $D_O$     & 1.40E-04 & \multicolumn{1}{r}{1} &                       &          &      & $D_O$     & 5.30E-05 & \multicolumn{1}{r}{1} &                       &                       &       \\
+%           & $D_E$     & 1.36E-04 & 1.20E-04              & 1.20E-04              &          &      & $D_E$     & 5.30E-05 & 1.31E-05              & 1.31E-05              &                       &       \\
+%           & $D_C$     & 1.48E-04 & 1.31E-04              & 1.31E-04              & 1.61E-02 &      & $D_C$     & 5.30E-05 & 1.31E-05              & 1.31E-05              & \multicolumn{1}{r}{1} &       \\
+%\hline
+%\SAIL{}      & Random &          &                       &                       &          &      & Random &          &                       &                       &                       &       \\
+%           & $D_J$     &          &                       &                       &          &      & $D_J$     &          &                       &                       &                       &       \\
+%           & $D_O$     &          &                       &                       &          &      & $D_O$     &          &                       &                       &                       &       \\
+%           & $D_E$     &          &                       &                       &          &      & $D_E$     &          &                       &                       &                       &       \\
+%           & $D_C$     &          &                       &                       &          &      & $D_C$     &          &                       &                       &                       &      \\
+%\hline           
+%\end{tabular}
+%\end{table*}
+

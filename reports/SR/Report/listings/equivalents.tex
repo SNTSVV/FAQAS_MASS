@@ -1,0 +1,20 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Nested if conditions., label=equivalentexample]
+if (x > 0) {
+	if (y > x) {
+		...
+	}
+}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Mutated nested if conditions., label=equivalentmutantexample]
+if (x > 0) {
+	if (y > abs(x)) {
+		...
+	}
+}
+\end{lstlisting}
+\end{minipage}

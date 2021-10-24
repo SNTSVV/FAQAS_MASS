@@ -1,0 +1,34 @@
+% !TEX root = MAIN.tex
+
+\subsection{Benchmark of State-of-the-art, Code-driven Mutation Testing Toolsets}
+\label{sec:toolsComparison}
+
+This section summarizes the outcome of an experiment performed to evaluate the applicability of state-of-the-art mutation testing tools in the space context, based on the case study systems of the project. 
+
+To carry out this preliminary evaluation of mutation testing tools, we selected a set of tools presented in the literature based on the following criteria:
+
+\begin{itemize}
+	\item \textbf{Availability of source code.} To enable optimizations, the tool under analysis should be provided along with source code.
+	\item \textbf{Applicability to C/C++ code.} The tool under analysis should be able to process C and C++ code.
+	\item \textbf{Licence compatible with ESA Software Community Licence Permissive (ESA SCLP).} The licence of the tool under analysis, should enable redistributing the tool itself within the FAQAS framework, which is released under ESA SCLP.
+	\item \textbf{Age.} To avoid problems due to support for recent libraries, we should prioritize tools that are recent and actively developed.
+\end{itemize}
+
+
+The first three criteria mentioned above constitute mandatory requirements. 
+Tools not meeting these requirements are not selected for evaluation in our context because they cannot be integrated into the FAQAS framework.
+
+\input{tables/mutationtools}
+
+Table~\ref{table:mutationtools} provides the list of selected tools along with the evaluation results. We do not evaluate all the criteria when one of the mandatory requirements is not met.
+For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible. 
+Indeed, both the two licences allow for redistribution of the software, a condition that is sufficient to release a mutation testing tool as component of the FAQAS framework.
+
+For our evaluation we then selected the five most recent tools that fulfill our mandatory requirements: SRCIRor, Mull, Dextool, Accmut, and Milu. Proteum has been discarded because its latest stable version dates back to December 2015; on May 2020 a few changes had been made on Proteum GitHub repository, however, the up to date version is indicated by its developer as not usable.
+
+To evaluate the applicability of existing mutation testing tools to space software, we evaluated each mutation testing tool considered in our study against the same case study system of the project, i.e., the System Test Suite for ESAIL provided by LXS. We selected this case study system, because (1) it is the largest case study system of FAQAS in terms of lines of code, (2) the ESAIL system test suite requires that the full software is compiled and all the required libraries linked (this may complicate the use of tools that cannot parse all the source code), (3) the software under test (SUT) is executed within a system emulator (SVF) that requires the SUT to respect its real-time constraints. ESAIL consists of 924 source files (719 files with extension ``.c'' and 205 with extension ``.h''). In total, it consists of 74,161 LOC. ESAIL is compiled with sparc-rtems4.8-gcc, a tailored version of the gcc compiler for sparc systems, the compiler is provided by Cobham Gaisler\footnote{https://www.gaisler.com/index.php/products/operating-systems/rtems}.
+
+To draw a final outcome for or evaluation (see Table~\ref{table:mutationtools}), we applied each selected tool to ESAIL and verified if the mutation testing tool could successfully create mutated version of ESAIL that can be compiled and executed within the SVF.
+Out of all the selected tools, only SRCIRor had been successfully applied to ESAIL.
+
+
