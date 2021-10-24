@@ -193,6 +193,8 @@
 \newcommand{\TODO}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 \newcommand{\DONE}[1]{\todo[color=green,inline]{ \textbf{DONE}: #1 }}
 
+\newcommand{\REVFINAL}[2]{{#2}}
+
 
 \usepackage{amsmath}
 \usepackage{array}
@@ -243,12 +245,15 @@
 
 \newcommand{\TRFOUR}[1]{{#1}}
 
-\newcommand{\STARTCHANGEDNOV}{\color{black}}
-\newcommand{\ENDCHANGEDNOV}{\color{black}}
+\newcommand{\STARTCHANGEDNOV}{}
+\newcommand{\ENDCHANGEDNOV}{}
+
+\newcommand{\STARTCHANGEDFINAL}{}
+\newcommand{\ENDCHANGEDFINAL}{}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
-\newcommand{\ENDCHANGEDWPT}{\color{black}}
+\newcommand{\STARTCHANGEDWPT}{}
+\newcommand{\ENDCHANGEDWPT}{}
 
 \newcommand{\UPDATED}[1]{#1}
 
@@ -263,7 +268,7 @@
 
 \newcommand{\REVNOV}[2]{\textcolor{black}{#2}}
 
-\newcommand{\REVTOOL}[2]{\todo[color=red]{\tiny{#1}}\textcolor{red}{#2}}
+\newcommand{\REVTOOL}[2]{{#2}}
 
 \newcommand{\JMR}[2]{\textcolor{black}{#2}}
 \newcommand{\REVOCT}[2]{#2}
