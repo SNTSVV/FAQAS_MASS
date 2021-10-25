@@ -86,6 +86,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   unsigned long long row = 0;
   unsigned long long intermediate = 0;
 
+#ifdef TEST_ASSESMENT
   for (kk = 0; kk < (span); kk = kk + 1) {
     stepRead = 8 * sizeof(data[data_pos + kk]);
     intermediate = intermediate << stepRead;
@@ -93,6 +94,9 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     memcpy(&row, &data[data_pos + kk], sizeof(data[data_pos + kk]));
     intermediate = (intermediate | row);
   }
+#else
+  intermediate = data[data_pos];
+#endif
 
   if (fm->items[pos].type == BIN) {
     unsigned long long fitToSize = (unsigned long long)intermediate;
