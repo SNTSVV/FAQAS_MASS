@@ -415,14 +415,16 @@ def generateSelectFunctionContent(array):
 
 if __name__ == "__main__":
     argv = len(sys.argv)
-    if (argv != 3):
-        print("Usage: generateDataMutator.py <BufferType> <FaultModel.csv>")
+    if (argv != 4):
+        print("Usage: generateDataMutator.py <BufferType> <FaultModel.csv> <TestAssessment>")
 
 bufferType = sys.argv[1]
 
 print(str(bufferType))
 
 fileName = sys.argv[2]
+
+defineTestAssessment = sys.argv[3]
 
 # this lines produce an output csv files with the numerical ID of every mutant
 
@@ -497,7 +499,7 @@ outfile.write(maxFMO)
 
 
 with open('DDB_TEMPLATE_header.c', 'r') as tfile:
-    data = tfile.read().replace('BUFFER_TYPE', str(bufferType))
+    data = tfile.read().replace('BUFFER_TYPE', str(bufferType)).replace('T_A_PLACEHOLDER', str(defineTestAssessment))
     outfile.write(data)
     tfile.close()
 

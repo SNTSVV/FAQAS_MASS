@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #ifdef __cplusplus
 #include <vector>
@@ -16,6 +17,8 @@
 
 #define MAX_OPS 200
 #define ITEMS 10
+
+#define TEST_ASSESSMENT T_A_PLACEHOLDER
 
 //macros to define at compilation
 int MUTATION = MUTATIONOPT;
