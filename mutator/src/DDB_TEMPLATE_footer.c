@@ -86,9 +86,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   unsigned long long row = 0;
   unsigned long long intermediate = 0;
 
-#ifdef MUTATION_TESTING
-  intermediate = data[data_pos];
-#else
+#ifdef TEST_ASSESMENT
   for (kk = 0; kk < (span); kk = kk + 1) {
     stepRead = 8 * sizeof(data[data_pos + kk]);
     intermediate = intermediate << stepRead;
@@ -96,6 +94,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     memcpy(&row, &data[data_pos + kk], sizeof(data[data_pos + kk]));
     intermediate = (intermediate | row);
   }
+#else
+  intermediate = data[data_pos];
 #endif
 
   if (fm->items[pos].type == BIN) {
@@ -159,44 +159,23 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (repeatCounter > 0) {
 
       if (fm->items[pos].type == INT) {
-        #ifdef MUTATION_TESTING
         valueInt = storedValueInt;
-        #else
-        assert(false);
-        #endif
       }
 
       if (fm->items[pos].type == DOUBLE) {
-        #ifdef MUTATION_TESTING
         valueDouble = storedValueDouble;
-        #else
-        assert(false);
-        #endif
       }
 
       if (fm->items[pos].type == FLOAT) {
-        #ifdef MUTATION_TESTING
         valueFloat = storedValueFloat;
-        #else
-        assert(false);
-        #endif
       }
 
       if (fm->items[pos].type == BIN) {
-        #ifdef MUTATION_TESTING
         valueBin = storedValueBin;
-        #else
-        assert(false);
-        #endif
       }
 
       if (fm->items[pos].type == LONG) {
-        #ifdef MUTATION_TESTING
         valueLong = storedValueLong;
-        #else
-        assert(false);
-        #endif
-
       }
 
       repeatCounter = repeatCounter - 1;
@@ -244,11 +223,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueBin = flipped;
-        #else
-        assert(false);
-        #endif
       }
     }
     else if (State == 1) {
@@ -267,11 +242,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueBin = flipped;
-        #else
-        assert(false);
-        #endif
       }
     }
     else {
@@ -294,11 +265,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueBin = flipped;
-        #else
-        assert(false);
-        #endif
       }
     }
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, success);
@@ -310,20 +277,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == INT) {
       if (valueInt >= OP->min && valueInt <= OP->max ) {
         if (opt == 0) {
-          #ifdef MUTATION_TESTING
           valueInt = OP->min - OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else if (opt == 1) {
-          #ifdef MUTATION_TESTING
           valueInt = OP->max + OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else {
           // FIXME: throw an error
@@ -338,20 +297,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == LONG) {
       if (valueLong >= OP->min && valueLong <= OP->max ) {
         if (opt == 0) {
-          #ifdef MUTATION_TESTING
           valueLong = OP->min - OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else if (opt == 1) {
-          #ifdef MUTATION_TESTING
-           valueLong = OP->max + OP->delta;
+          valueLong = OP->max + OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else {
           // FIXME: throw an error
@@ -366,20 +317,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble >= OP->min && valueDouble <= OP->max ) {
         if (opt == 0) {
-          #ifdef MUTATION_TESTING
           valueDouble = OP->min - OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else if (opt == 1) {
-          #ifdef MUTATION_TESTING
           valueDouble = OP->max + OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else {
           // FIXME: throw an error
@@ -394,20 +337,12 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat >= OP->min && valueFloat <= OP->max ) {
         if (opt == 0) {
-          #ifdef MUTATION_TESTING
           valueFloat = OP->min - OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else if (opt == 1) {
-          #ifdef MUTATION_TESTING
           valueFloat = OP->max + OP->delta;
           _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-          #else
-          assert(false);
-          #endif
         }
         else {
           // FIXME: throw an error
@@ -429,11 +364,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       int lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueInt = upper;
-        #else
-        assert(false);
-        #endif
       }
       else if (upper < lower) {
         fvor_success = 0;
@@ -453,11 +384,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueInt = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -466,11 +393,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       long int lower = (long int)OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueLong = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -489,11 +412,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueLong = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -503,11 +422,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       double lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueDouble = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -527,11 +442,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueDouble = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -540,11 +451,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       float lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueFloat = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -564,11 +471,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueFloat = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, fvor_success);
@@ -582,12 +485,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT){
       if (valueInt <= OP->threshold){
-        #ifdef MUTATION_TESTING
         valueInt = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -598,12 +497,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == LONG){
       if (valueLong <= OP->threshold){
-        #ifdef MUTATION_TESTING
         valueLong = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -614,12 +509,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble <= OP->threshold){
-        #ifdef MUTATION_TESTING
         valueDouble = (double)OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -630,12 +521,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat <= (float)OP->threshold){
-        #ifdef MUTATION_TESTING
         valueFloat = (float)OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else{
         //value already above threshold
@@ -649,12 +536,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT){
       if (valueInt > OP->threshold){
-        #ifdef MUTATION_TESTING
         valueInt = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -665,12 +548,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == LONG){
       if (valueLong > OP->threshold){
-        #ifdef MUTATION_TESTING
         valueLong = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -681,12 +560,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble > OP->threshold){
-        #ifdef MUTATION_TESTING
         valueDouble = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -697,12 +572,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT){
       if (valueFloat > OP->threshold){
-        #ifdef MUTATION_TESTING
         valueFloat = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -717,12 +588,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT){
       if (valueInt >= OP->threshold){
-        #ifdef MUTATION_TESTING
         valueInt = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else{
         //value already below threshold
@@ -733,12 +600,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == LONG) {
       if (valueLong >= OP->threshold){
-        #ifdef MUTATION_TESTING
         valueLong = OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else{
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 0);
@@ -748,12 +611,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble >= (double)OP->threshold){
-        #ifdef MUTATION_TESTING
         valueDouble = (double)OP->threshold - (double)OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already below threshold
@@ -764,12 +623,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat >= (float)OP->threshold){
-        #ifdef MUTATION_TESTING
         valueFloat = (float)OP->threshold - OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else{
         //value already below threshold
@@ -783,12 +638,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT){
       if (valueInt < OP->threshold){
-        #ifdef MUTATION_TESTING
         valueInt = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -799,12 +650,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == LONG){
       if (valueLong < OP->threshold){
-        #ifdef MUTATION_TESTING
         valueLong = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -815,12 +662,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == DOUBLE){
       if (valueDouble < OP->threshold){
-        #ifdef MUTATION_TESTING
         valueDouble = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -831,12 +674,8 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == FLOAT){
       if (valueFloat < OP->threshold){
-        #ifdef MUTATION_TESTING
         valueFloat = OP->threshold + OP->delta;
         _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
-        #else
-        assert(false);
-        #endif
       }
       else {
         //value already above threshold
@@ -852,44 +691,28 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
 
     if (fm->items[pos].type == INT) {
       if (valueInt != OP->value){
-        #ifdef MUTATION_TESTING
         valueInt = OP->value;
-        #else
-        assert(false);
-        #endif
         IVsuccess = 1;
       }
     }
 
     if (fm->items[pos].type == LONG) {
       if (valueLong != OP->value){
-        #ifdef MUTATION_TESTING
         valueLong = (long) OP->value;
-        #else
-        assert(false);
-        #endif
         IVsuccess = 1;
       }
     }
 
     if (fm->items[pos].type == DOUBLE) {
       if (valueDouble != OP->value){
-        #ifdef MUTATION_TESTING
         valueDouble = (double)OP->value;
-        #else
-        assert(false);
-        #endif
         IVsuccess = 1;
       }
     }
 
     if (fm->items[pos].type == FLOAT) {
       if (valueFloat != OP->value){
-        #ifdef MUTATION_TESTING
         valueFloat = (float)OP->value;
-        #else
-        assert(false);
-        #endif
         IVsuccess = 1;
       }
     }
@@ -901,39 +724,23 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
   if (OP->type == SS){
 
     if (fm->items[pos].type == INT){
-      #ifdef MUTATION_TESTING
       int shift = (int)OP->delta;
       valueInt = (int)valueInt + shift;
-      #else
-      assert(false);
-      #endif
     }
 
     if (fm->items[pos].type == LONG){
-      #ifdef MUTATION_TESTING
       long int shift = (long int)OP->delta;
       valueLong = (long int)valueLong + shift;
-      #else
-      assert(false);
-      #endif
     }
 
     if (fm->items[pos].type == DOUBLE){
-      #ifdef MUTATION_TESTING
       double shift = (double)OP->delta;
       valueDouble = (double)valueDouble + shift;
-      #else
-      assert(false);
-      #endif
     }
 
     if (fm->items[pos].type == FLOAT){
-      #ifdef MUTATION_TESTING
       float shift = (float)OP->delta;
       valueFloat = (float)valueFloat + shift;
-      #else
-      assert(false);
-      #endif
     }
 
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1);
@@ -949,11 +756,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       int lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueInt = upper;
-        #else
-        assert(false);
-        #endif
       }
       else if (upper < lower) {
         inv_success = 0;
@@ -973,11 +776,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueInt = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -986,11 +785,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       long int lower = (long int)OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueLong = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -1009,11 +804,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueLong = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -1023,11 +814,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       double lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueDouble = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -1047,11 +834,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueDouble = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
 
@@ -1060,11 +843,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       float lower = OP->min;
 
       if (upper == lower) {
-        #ifdef MUTATION_TESTING
         valueFloat = upper;
-        #else
-        assert(false);
-        #endif
         // FIXME: throw a warning
       }
       else if (upper < lower) {
@@ -1084,11 +863,7 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
             break;
           }
         }
-        #ifdef MUTATION_TESTING
         valueFloat = randomNum;
-        #else
-        assert(false);
-        #endif
       }
     }
     _FAQAS_operator_coverage(MUTATION, global_mutation_counter, inv_success);
@@ -1103,19 +878,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       int Va = OP->value;
 
       if (valueInt >= Tr) {
-        #ifdef MUTATION_TESTING
         valueInt = Tr + ((valueInt - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
 
       if (valueInt < Tr) {
-        #ifdef MUTATION_TESTING
         valueInt = Tr - ((valueInt - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
       _FAQAS_mutated = 1;
     }
@@ -1126,19 +893,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       double Va = OP->value;
 
       if (valueDouble >= Tr) {
-        #ifdef MUTATION_TESTING
         valueDouble = Tr + ((valueDouble - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
 
       if (valueDouble < Tr) {
-        #ifdef MUTATION_TESTING
         valueDouble = Tr - ((valueDouble - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
       _FAQAS_mutated = 1;
     }
@@ -1150,19 +909,11 @@ int _FAQAS_mutate(BUFFER_TYPE *data, FaultModel *fm) {
       float Va = OP->value;
 
       if (valueFloat >= Tr) {
-        #ifdef MUTATION_TESTING
         valueFloat = Tr + ((valueFloat - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
 
       if (valueFloat < Tr) {
-        #ifdef MUTATION_TESTING
         valueFloat = Tr - ((valueFloat - Tr) * Va) + De;
-        #else
-        assert(false);
-        #endif
       }
       _FAQAS_mutated = 1;
     }
