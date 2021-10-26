@@ -66,7 +66,13 @@ Last, the engineer shall place inside the folder \texttt{case\_studies/\$SUT/WOR
 
 \subsection{\SEMUS Configuration}
 
-There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). Instead, the JSON file indicates for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
+\SEMUS configuration comes in two parts, that is, (1) configuring the Bash script \texttt{faqas\_semus\_config.sh}, and (2) configuring the JSON test templates.
+
+%There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. 
+
+The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). 
+
+The different JSON files indicate for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
 
 \input{tables/to_conf_semus}
 
@@ -225,7 +231,7 @@ FAQAS_SEMU_TEST_GEN_MAX_MEMORY=2000
 # Set to 'ON' to stop test generation when the memory limit is reached
 FAQAS_SEMU_STOP_TG_ON_MEMORY_LIMIT='OFF'
 
-# Set this to 'ON' so thae the states the sate fork is disabled when the memory limit is reached, to avoid going much over it
+# Set this to 'ON' so the the states the sate fork is disabled when the memory limit is reached, to avoid going much over it
 FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
 \end{lstlisting}
 
@@ -233,56 +239,38 @@ FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
 \subsubsection{Edit generate\_template\_config.json}
 \label{sec:json_config}
 
-Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}.
+Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}. These JSON variables are \texttt{TYPES\_TO\_INTCONVERT, TYPES\_TO\_PRINTCODE, OUT\_ARGS\_NAMES, IN\_OUT\_ARGS\_NAMES, TYPE\_TO\_INITIALIZATIONCODE}, \\ 
+\texttt{TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS, VOID\_ARG\_SUBSTITUTE\_TYPE},\\ 
+\texttt{ARG\_TYPE\_TO\_ITS\_POINTER\_ELEM\_NUM}.
+
+The option TYPES\_TO\_INTCONVERT specifies a type as key and the type conversion template as value, where the placeholder for the expression to convert should be specified as the string \texttt{'{}'}, an example would be \texttt{"TYPES\_TO\_INTCONVERT": {"flag": "(int){}"}}.
+
+The option TYPES\_TO\_PRINTCODE specifies a type as key and the object printing code as value, where the placeholder for the object to print must be specified as the string \texttt{'{}'}. Do not forget to escape the backslashes and double quoted in printf format, an example would be \texttt{"TYPES\_TO\_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST\_OUTPUT: X=\%d, Y=\%s\\n\", {}->x, {}->y)"}}.
+
+The option OUT\_ARGS\_NAMES specifies the names of function arguments that are used as function output (passed by reference for output only) e.g. \texttt{"OUT\_ARGS\_NAMES": ["pErrCode"]}.
+
+The option IN\_OUT\_ARGS\_NAMES Specify the names of function arguments that are used both as function input and output (passed by reference) e.g. \texttt{"IN\_OUT\_ARGS\_NAMES": ["inoutArg"]}.
+
+The option TYPE\_TO\_INITIALIZATIONCODE specifies a type as key and the pre \texttt{klee\_make\_symbolic} statement initialization code as value, the placeholder for the object to initialize must be specified as the string \texttt{'{}'}\\ 
+e.g. \texttt{"TYPE\_TO\_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\\n{}.next->next = NULL;"}}.
+
+The option TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS specifies how to make an object symbolic (specially useful for objects that are initialized, like pointers). The object type is the dict key and a dict of field accesses and their type is the dict value. The placeholder for the object to make symbolic must be specified as the string \texttt{'{}'} e.g. \texttt{"TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}}.
+
+The option VOID\_ARG\_SUBSTITUTE\_TYPE specifies the underlying type for a void pointer (the data type pointed by the void pointer). For instance, if the function is to be called with an \texttt{int} array for a void pointer parameter, then set \texttt{VOID\_ARG\_SUBSTITUTE\_TYPE} to \texttt{int}. Set the value to the empty string \texttt{("")} to let the user specify at runtime on case by case. Set the value to \texttt{null} (JSON equivalent to None) to let the user change the types \texttt{void} directly in the generated templates, e.g. \texttt{VOID\_ARG\_SUBSTITUTE\_TYPE: "char"}.
+
+The option ARG\_TYPE\_TO\_ITS\_POINTER\_ELEM\_NUM specifies, for pointer parameters, the number of elements it points to (must be > 0). This will give the flexibility to set the number of elements the pointer points to. The default value is \texttt{1}, for non specified types, \\
+e.g. \texttt{ARG\_TYPE\_TO\_ITS\_POINTER\_ELEM\_NUM: {"int *": 2, "char *": 6}}, this let and array of 2 for int pointer and array of 6 for char pointer, and an array of 1 for unsigned pointer.
 
 \begin{lstlisting}[language=bash,label=listing:json:conf,caption=generate\_template\_config.json file.]
 {
-    # Specify a type as key and the type conversion template as value, 
-    # Where the placeholder for the expression to convert should be specified as the string '{}'
-    # e.g. "TYPES_TO_INTCONVERT": {"flag": "(int){}"},
     "TYPES_TO_INTCONVERT": {},
-
-    # Specify a type as key and the object printing code as value.
-    # Where the placeholder for the object to print must be specified as the string '{}'
-    # Do not forget to escape the backslashes and double quoted in printf fmt.
-    # e.g. "TYPES_TO_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST_OUTPUT: X=%d, Y=%s\\n\", {}->x, {}->y)"}
     "TYPES_TO_PRINTCODE": {},
-
-    # Specify the names of function arguments that are used as function output (passed by reference for output only)
-    # e.g. "OUT_ARGS_NAMES": ["pErrCode"],
     "OUT_ARGS_NAMES": [],
-
-    # Specify the names of function arguments that are used both as function input and output (passed by reference)
-    # e.g. "IN_OUT_ARGS_NAMES": ["inoutArg"],
     "IN_OUT_ARGS_NAMES": [],
-
-    # Specify a type as key and the pre 'klee_make_symbolic' statement initialization code as value,
-    # The placeholder for the object to initialize must be specified as the string '{}'
-    # e.g. "TYPE_TO_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\n{}.next->next = NULL;"}
     "TYPE_TO_INITIALIZATIONCODE": {},
-
-    # Specify how to make an object symbolic (specialy useful for objects that are initialized, like pointers).
-    # The object type is the dict key and a dict of field accesses and their type is the dict value.
-    # The placeholder for the object to make symbolic must be specified as the string '{}'
-    # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
     "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
-
-    # Specify the underlying type for a void pointer (the data type pointed by the void pointer).
-    # for instance, if the function is to be called with an `int` array for a void pointer parameter,
-    # set `VOID_ARG_SUBSTITUTE_TYPE` to "int".
-    # Set the value to the empty string ("") to let the user specify at runtime on case by case
-    # Set the value to `null` (JSON equivalent to None) to let the user change the types `void` 
-    # directly in the generated templates
-    # e.g. VOID_ARG_SUBSTITUTE_TYPE: "char"
-    VOID_ARG_SUBSTITUTE_TYPE: "",
-
-    # Specify, for pointer parameters, the number of elements it points to (must be > 0)
-    # This will give the flexibility to set the number of elements the pointer points to.
-    # The default value is `1`, for non specified types.
-    # e.g. ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {"int *": 2, "char *": 6}
-    # This let and array of 2 for int pointer and array of 6 for char pointer, 
-    # and an array of 1 for unsigned pointer
-    ARG_TYPE_TO_ITS_POINTER_ELEM_NUM: {}
+    "VOID_ARG_SUBSTITUTE_TYPE": "",
+    "ARG_TYPE_TO_ITS_POINTER_ELEM_NUM": {}
 }
 \end{lstlisting}
 

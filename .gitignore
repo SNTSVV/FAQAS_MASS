@@ -10,7 +10,6 @@ reports/D2/MAIN.pdf
 *.log
 *.lot
 *.fls
-*.out
 *.toc
 *.fmt
 *.fot

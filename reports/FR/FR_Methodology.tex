@@ -19,7 +19,7 @@ FAQAS led to the development of a toolset that includes the following components
 \end{center}
 \end{figure}
 
-The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine, for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolsets.
+The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolsets.
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files. 
 MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that do not lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
@@ -175,6 +175,6 @@ Last, by looking at what mutants remain LIVE after the execution of DAMAt, the u
 The simplest cause of such lack of failures is the absence of an oracle (or a poor oracle); for example, the test case assertions do not verify the output state of the SUT. 
 Another possibility is that the software reacts to the invalid data only when in a specific state; this means that the test suite lacks a test case in such a specific state.
 
-For DAMAt, \EMPH{test suite augmentation} shall thus be performed manually, by an engineer who shall define additional test cases based on the strategy reported above.
+For DAMAt, \EMPH{test suite augmentation} shall thus be performed manually by an engineer who shall define additional test cases based on the strategy reported above.
 
 \input{tables/table_application}

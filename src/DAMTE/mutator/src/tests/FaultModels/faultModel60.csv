@@ -1,0 +1,7 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+one,0,1,LONG,SS,NA,NA,NA,99,NA,NA
+one,0,1,LONG,SS,NA,NA,NA,99,NA,NA
+one,0,1,LONG,SS,NA,NA,NA,99,NA,NA
+two,0,1,LONG,SS,NA,NA,NA,66,NA,NA
+two,0,1,LONG,SS,NA,NA,NA,66,NA,NA
+two,0,1,LONG,SS,NA,NA,NA,66,NA,NA

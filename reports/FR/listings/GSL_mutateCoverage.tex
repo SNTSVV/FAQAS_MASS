@@ -73,7 +73,7 @@ gs_error_t gs_rparam_get_array(uint8_t node,
     v_General[5] = (unsigned long long int) query->total;
 
 
-    _FAQAS_cover(v_General,fm_General);
+    _FAQAS_mutate(v_General,fm_General);
 
 
     /* Run single packet transaction */

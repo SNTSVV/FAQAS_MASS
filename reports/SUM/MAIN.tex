@@ -235,9 +235,10 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}}
 
-\lhead{\fancyplain{}{\textit{}}}
-
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-SUM}
+\lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
+
 
 \fancyfoot[C]{%
 \begin{tikzpicture}[remember picture,overlay]
@@ -278,7 +279,9 @@
 
 \newcommand{\REVTWO}[2]{#2}
 
-\newcommand{\REVOCT}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVOCT}[2]{{#2}}
+\newcommand{\REVFR}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+
 %Example: \REVOCT{P-1}{yeydhd}
 
 \thispagestyle{empty}
