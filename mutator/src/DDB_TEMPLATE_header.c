@@ -24,6 +24,8 @@ int _FAQAS_COVERAGE_EXIT = 0;
 
 int global_mutation_counter = 1;
 
+int operator_flag = 0;
+
 #ifdef _FAQAS_MUTATION_PROBABILITY
 float PROBABILITY = _FAQAS_MUTATION_PROBABILITY;
 #endif
@@ -217,20 +219,28 @@ unsigned long long _FAQAS_slice_it_up(unsigned long long numberToSlice,
   return (slice);
 }
 
-
-void _FAQAS_operator_coverage(int operator_id, int counter, int status){
+void _FAQAS_operator_coverage_print(){
 
   #ifndef __cplusplus
   char *faqas_coverage_file = getenv("FAQAS_COVERAGE_FILE");
   FILE* coverage_file_pointer = fopen(faqas_coverage_file, "ab+");
   #endif
 
-  fprintf(coverage_file_pointer, "%d,%d,%d \n", operator_id, counter, status);
+  fprintf(coverage_file_pointer, "%d,%d,%d \n", MUTATION, global_mutation_counter, operator_flag);
 
   #ifndef __cplusplus
   //close the file
   fclose(coverage_file_pointer);
   #endif
+
+}
+
+void _FAQAS_operator_coverage(int status){
+
+if (status == 1 && operator_flag == 0) {
+  operator_flag = 1;
+  _FAQAS_operator_coverage_print();
+}
 
 }
 
