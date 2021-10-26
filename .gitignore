@@ -536,3 +536,5 @@ damat-pipeline/libparam_set_up/tests_param.csv
 damat-pipeline/libparam_set_up/wscript
 damat-pipeline/libparam_set_up/csp_service_handler.c
 mutator/src/function_calls.out
+mutator/src/tests/test31/main_-1
+mutator/src/tests/test31/main_0
