@@ -20,13 +20,13 @@ int main() {
     v.push_back((long int)i + 3);
     v.push_back((long int)i + 4);
 
-    printf("*********%f**********\n", v.at(1));
+    printf("*********%ld**********\n", v.at(1));
 
     // MANUALLY ADDED PROBE
     mutate_FM_IfHK( &v );
     // MANUALLY ADDED PROBE END
 
-    printf("*********%f**********\n", v.at(1));
+    printf("*********%ld**********\n", v.at(1));
 
     for (std::vector<long int>::iterator it = v.begin(); it != v.end(); ++it) {
       std::cout << *it << '\n';

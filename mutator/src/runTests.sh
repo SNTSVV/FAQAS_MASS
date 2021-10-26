@@ -63,6 +63,7 @@ do
   bash runTest28.sh
   bash runTest29.sh
   bash runTest30.sh
+  bash runTest31.sh
   bash runTest32.sh
   bash runTest35.sh
   bash runTest38.sh
