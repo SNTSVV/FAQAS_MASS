@@ -14,7 +14,7 @@ DaMAT requires Python 3.
 
 For the generation of the mutator, run the following command:
 
-`python generateDataMutator.py  "<buffer data type>" <fault model>`
+`python generateDataMutator.py  "<buffer data type>" <fault model> <test assessment>`
 
 If you need to enable the "SINGLETON" option you must run the following command before generating the mutator:
 

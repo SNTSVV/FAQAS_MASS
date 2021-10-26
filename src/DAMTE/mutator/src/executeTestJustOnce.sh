@@ -18,7 +18,7 @@ echo ""
 echo "FAULT MODEL:"
 echo ""
 
-python generateDataMutator.py "$TYPE" "$FAULTMODEL"
+python generateDataMutator.py "$TYPE" "$FAULTMODEL" "$TEST_ASSESSMENT"
 
 mv FAQAS_dataDrivenMutator.h $TESTFOLDER
 
