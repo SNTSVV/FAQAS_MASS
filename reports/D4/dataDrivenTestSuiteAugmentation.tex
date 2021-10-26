@@ -3,4 +3,275 @@
 \section{Data-driven Mutation Testing (Test Suite Augmentation)}
 \label{sec:testGeneration:dataDriven}
 
-Empirical evaluation concerning an approach for data-driven test suite augmentation has not performed because of the lack of an automated solution (see D2). In WP4, however, we will perform an empirical evaluation of the feasibility of the proposed manual approach.
+\STARTCHANGEDFINAL
+% Empirical evaluation concerning an approach for data-driven test suite augmentation has not performed because of the lack of an automated solution (see D2). In WP4, however, we will perform an empirical evaluation of the feasibility of the proposed manual approach.
+
+\subsection{Overview}
+
+We address the following research question:
+
+\emph{RQ1. Is DAMTE feasible in the context of space software?}
+
+\subsection{Subject of the study}
+
+To perform our empirical evaluation, we considered LibParam which is a client-server component to manage configuration parameters in cubesats. 
+
+We rely on DAMTE to generate test inputs for the LibParam test suite and in particular for the uncovered mutation operations from DAMAt empirical evaluation (see Section~\ref{sec:testSuiteEvaluation:dataDriven}).
+
+\subsection{Experimental Setup}
+
+To address our research question, we consider mutation analysis a precondition for our subject; this is necessary since test generation only requires the list of the mutation operations uncovered by the test suite. Table~\ref{table:mutationresults:damat} reports the current mutation analysis results (i.e., DAMAt output) for \PARAM.
+Particularly, it can be seen that \PARAM reach a Mutation Operation Coverage of 93.20\%, which means that only 3 operations out of 44 were not covered by the test suite.
+
+\begin{table}[tb]
+\caption{Mutation Analysis Results.}
+\label{table:mutationresults:damat} 
+\center
+\footnotesize
+\begin{tabular}{|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{17mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject} & 
+\textbf{\# FMs} & 
+\textbf{FMC} & 
+\textbf{\#MOs-CFM} & 
+\textbf{\#CMOs} & 
+\textbf{MOC}  
+&\textbf{Killed}&\textbf{Live}&\textbf{MS}
+\\
+\hline
+\PARAM &6 &100.00\%  &   44 & 41 & 93.20\%  &        37&4&90.24\%\\
+\hline
+\end{tabular}
+
+CMO=Covered Mutation Operation, MOs-CFM=Mutation Operations in covered FMs.
+
+\end{table}
+
+We applied DAMTE to the uncovered mutants of the \emph{General} fault model, which models the baseline message of \PARAM. Table~\ref{table:partial_fm} shows the specification of each analyzed mutant. More specifically, the \PARAM test suite does not include input partitions covering non-nominal cases for the \emph{table ID} field (i.e., values above 20), and for the \emph{length} field (i.e., values above 180).
+
+\begin{table}[tb]
+\caption{Uncovered mutants from the General Fault Model.}
+\label{table:partial_fm} 
+\center
+\footnotesize
+\begin{tabular}{|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{28mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{16mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{11mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{14mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{14mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{20mm}@{\hspace{1pt}}|
+@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{16mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{MutationOperationID} & 
+\textbf{FaultModel} & 
+\textbf{DataItem} & 
+\textbf{Type} & 
+\textbf{FaultClass} & 
+\textbf{Threshold} & 
+\textbf{Status} & 
+\textbf{Application} & 
+\textbf{Description}  
+\\
+\hline
+10&General&1&LONG&FVAT&20&LIVE&NOT\_APPLIED&table ID\\
+18&General&2&LONG&FVAT&180&LIVE&NOT\_APPLIED&length\\
+\hline
+\end{tabular}
+
+\end{table}
+
+In our experiment, we applied DAMTE, an extension of DAMAt that allows the generation of missing inputs for data-driven mutants. For the generation of missing inputs we used KLEE 2.3 with LLVM 9.0.1. We performed our experiment on a MacBook Pro with 2,3 GHz 8-Core Intel Core i9.
+
+Given that KLEE requires the SUT to be compiled with clang to produce the bitcode files (i.e., KLEE input), and also to avoid incompatibilities with the original compiler (i.e., gcc). We tried two different approaches for compiling \PARAM. First, we tried compiling the full library into one bitcode file, to minimize the risk of imprecise results (i.e., KLEE might simulate the output of a function if the implementation of it is not provided), and second, we tried isolating the function under test in a different source file, so that only the required functions are compiled with clang.
+
+\subsection{RQ1 - Feasibility}
+
+We analyzed the extent to which DAMTE can be applied on the space software context. More specifically, for each uncovered mutation operation we generate an input that covers the corresponding input partition. To do so, we drive the test generation process with KLEE through a test template that enables the correct and invocation initialization of the function under test. Then, we include calls to the DAMTE API call \texttt{\_FAQAS\_mutate} that instead of mutating the data, forces the coverage of a specific data instance (i.e., the uncovered input partition for a specific data item).
+
+In the following, we detail the procedure we follow to apply DAMTE to LibParam.
+
+\subsubsection{Full compilation of \PARAM}
+
+We modified the WAF compilation configuration file, and enabled clang as the main compiler of the library. This was done by replacing \texttt{conf.load('gcc')} by \texttt{conf.load('clang')} in the \url{tools/buildtools/waftool/gs_gcc.py} script.
+Then, we proceeded to add the following compiler arguments to the configuration file \url{tools/buildtools/gs/buildtools/compiler_settings.json}:
+
+
+\begin{lstlisting}[style=CStyle]
+"CFLAGS": ["-c", "-std=gnu99", "-m64", "-g", "-Xclang" , "-disable-O0-optnone", "-save-temps"],
+\end{lstlisting}
+
+Note that \texttt{-save-temps} forces clang to produce \texttt{bc} files along the object files.
+
+After generating all the \texttt{bc} files, we linked together into one bitcode file with the following command:
+
+\begin{lstlisting}[style=CStyle]
+$ llvm-link-9 *.bc -o libparam.exe
+\end{lstlisting}
+
+We processed then \texttt{libparam.exe} with KLEE with the following command:
+
+\begin{lstlisting}[style=CStyle]
+$ klee --libc=uclibc --posix-runtime --external-calls=all libparam.exe
+\end{lstlisting}
+
+However, by using this approach, KLEE throws several errors regarding missing function implementations. This error occurs since the WAF clang module, outputs all the bitcode files into the same folder, and does not respect the original compiler organization (i.e., the object files are stored in the same structure of the source code); since \PARAM contains multiple implementations for a same function, the LLVM linker does not know which implementation to include and remains empty, and thus producing an error during KLEE execution.
+
+
+\subsubsection{Isolating the function under test}
+
+In this setup, we isolated the function under test along its dependencies. Particularly, when generating inputs for \texttt{tableID}, we have included the implementations of \texttt{gs\_rparam\_get\_array}, \texttt{gs\_rparam\_get}, and \texttt{csp\_hton16}, which are necessary for correctly running \texttt{gs\_rparam\_get\_string}.
+Listing~\ref{get_array} introduces the instrumented code for the function \texttt{gs\_rparam\_get\_array}, and particularly how we added an extended mutation probe that enables the reachability analysis, so that KLEE can generate an input for the uncovered mutation operations (e.g., FVAT for table ID).
+
+\begin{lstlisting}[style=CStyle,float=t, caption=Instrumented code for function gs\_rparam\_get\_array., label=get_array]
+gs_error_t gs_rparam_get_array(uint8_t node,
+                               gs_param_table_id_t table_id,
+                               uint16_t addr,
+                               gs_param_type_t type,
+                               uint16_t checksum,
+                               uint32_t timeout_ms,
+                               void * value,
+                               size_t value_element_size,
+                               size_t array_size)
+{
+    /* Calculate length */
+    gs_rparam_query_t * query;
+    const size_t query_payload_size = sizeof(query->payload.addr[0]) * array_size;
+    const size_t query_size = RPARAM_QUERY_LENGTH(query, query_payload_size);
+    const size_t reply_payload_element_size = value_element_size + sizeof(query->payload.addr[0]);
+    const size_t reply_payload_size = reply_payload_element_size * array_size;
+    const size_t reply_size = RPARAM_QUERY_LENGTH(query, reply_payload_size);
+
+    query = alloca(reply_size);
+    query->action = RPARAM_GET;
+    query->table_id = table_id;
+    query->checksum = csp_hton16(checksum);
+    query->seq = 0;
+    query->total = 0;
+    for(unsigned int i = 0; i < array_size; i++) {
+        query->payload.addr[i] = csp_hton16(addr + (value_element_size * i));
+    }
+    query->length = csp_hton16(query_payload_size);
+
+    FaultModel *fm_General = _FAQAS_General_FM();
+    unsigned long long int v_General[6];
+
+    v_General[0] = (unsigned long long int) query->action;
+    v_General[1] = (unsigned long long int) query->table_id;
+    v_General[2] = (unsigned long long int) query->length;
+    v_General[3] = (unsigned long long int) query->checksum;
+    v_General[4] = (unsigned long long int) query->seq;
+    v_General[5] = (unsigned long long int) query->total;
+
+    _FAQAS_mutate(v_General,fm_General);
+
+    return GS_OK;
+}
+\end{lstlisting}
+
+Listing~\ref{get_array} shows an invocation to \texttt{\_FAQAS\_mutate}, the extended version of this function, originally implemented in DAMAt, can implement two behaviors (1) mutation analysis by applying the original DAMAt code, and (2) mutation testing by replacing the mutation code by an \texttt{assert(false)} statement. 
+By making a call to \texttt{assert(false)} statement it enforces KLEE to cover that branch and, (1) to terminate the current execution, and (2) to solve the saved path condition and look for test inputs. An example follows in Listing~\ref{assert}.
+
+\begin{lstlisting}[style=CStyle, float=t, caption=\_FAQAS\_mutate excerpt., label=assert]
+if (fm->items[pos].type == LONG){
+      if (valueLong > OP->threshold){
+      	# ifdef TEST_ASSESSMENT
+        valueLong = OP->threshold - OP->delta;
+        _FAQAS_operator_coverage(MUTATION, global_mutation_counter, 1); 
+        # elif MUTATION_TESTING
+        assert(false);
+        # endif
+      }
+\end{lstlisting}
+
+Listing~\ref{get_string} shows the implementation of the test template for driving the test generation for the function \texttt{gs\_rparam\_get\_string}. Particularly, it can be seen how \texttt{tableID} is made symbolic by the KLEE API function \texttt{klee\_make\_symbolic}. Then, the function under test is called with concrete parameters and the symbolic one.
+
+Note that \texttt{gs\_rparam\_get\_string} calls \texttt{gs\_rparam\_get}, which instead invokes the instrumented \\
+\texttt{gs\_rparam\_get\_array} function.
+
+\begin{lstlisting}[style=CStyle,float=t, caption=Test template for function gs\_rparam\_get\_string., label=get_string]
+int main(void) {
+    // a little hack - this is next element, we use it check for overwrite and missing 0 termination
+    memset(alltypes_mem.string_A, 'Z', sizeof(alltypes_mem.string_A));
+    alltypes_mem.string_A[0][1] = 0;
+
+    char buf[GS_TEST_ALLTYPES_STRING_LENGTH + 10];
+
+    // get max size - no 0 termination
+    memset(alltypes_mem.string, 'B', sizeof(alltypes_mem.string));
+    memset(buf, 'A', sizeof(buf));
+    buf[GS_TEST_ALLTYPES_STRING_LENGTH + 1] = 0;
+
+    uint8_t tableID;
+    klee_make_symbolic(&tableID, sizeof(tableID), "tableID");
+    gs_rparam_get_string(CSP_NODE, tableID, GS_TEST_ALLTYPES_STRING, GS_RPARAM_MAGIC_CHECKSUM, 1000, buf, GS_TEST_ALLTYPES_STRING_LENGTH);
+
+    return 0;
+}
+\end{lstlisting}
+
+To compile the isolated functions along the test template, we use the KLEE compilation arguments (i.e., \texttt{-g -Xclang -disable-O0-optnone -c -emit-llvm}) through the following command:
+
+\begin{lstlisting}[style=CStyle]
+$ /usr/bin/clang -std=gnu99 -m64 -g -Xclang -disable-O0-optnone -c -emit-llvm -Wall -Wextra -Wshadow -Wcast-align -Wwrite-strings -Wno-unused-parameter -Wall -Wextra -Wshadow -Wcast-align -Wwrite-strings -Wno-unused-parameter -Wno-unused-parameter -Iinclude -I../include -I__root__/opt/libparam/lib/libgscsp/lib/libcsp/include -I../../../lib/libgscsp/lib/libcsp/include -I__root__/opt/libparam/lib/libgscsp/lib/libutil/include -I../../../lib/libgscsp/lib/libutil/include -I__root__/opt/libparam/lib/libgscsp/lib/libutil/include/gs -I../../../lib/libgscsp/lib/libutil/include/gs -I__root__/opt/libparam/lib/libgscsp/lib/libutil/include/deprecated -I../../../lib/libgscsp/lib/libutil/include/deprecated -I__root__/opt/libparam/lib/libgscsp/lib/libutil/include/deprecated/gs/gosh -I../../../lib/libgscsp/lib/libutil/include/deprecated/gs/gosh -I__root__/opt/libparam/lib/libgscsp/include -I../../../lib/libgscsp/include -I__root__/opt/libparam/lib/libparam_client/include -I../../../lib/libparam_client/include -I__root__/opt/libparam/lib/libparam_client/include/deprecated -I../../../lib/libparam_client/include/deprecated -I__root__/opt/libparam/lib/libparam_client/include/deprecated/param -I../../../lib/libparam_client/include/deprecated/param -I__root__/opt/libparam/include -I../../../include -I__root__/opt/libparam/include/deprecated -I../../../include/deprecated -Iinclude -DSTRING_1="string 1" -DFALSE=false -DELEVEN=11 -DZERO_POINT_ZERO=0.0 -DMUTATIONOPT=10 ../main_table_id.c
+\end{lstlisting}
+
+Listing~\ref{klee_damte} shows the corresponding KLEE output for the variable \texttt{tableID}. In particular, it shows that the input value that covers the FVAT mutation operation is the \texttt{tableID = 21}. In this case, we can see that DAMTE works correctly for simple variables that are directly processed by the function.
+
+\begin{lstlisting}[style=CStyle,float=t, caption=KLEE output for the variable tableID., label=klee_damte]
+object 1: name: 'tableID'
+object 1: size: 1
+object 1: data: b'\x15'
+object 1: hex : 0x15
+object 1: int : 21
+object 1: uint: 21
+object 1: text: .
+\end{lstlisting}
+
+Then, we tried the approach for the \texttt{length} mutation operation, we introduce the test template used in Listing~\ref{get_string}. The listing shows that now we are making a direct invocation of the \texttt{gs\_rparam\_get\_array} function, and with \texttt{value\_size} as a symbolic value.
+
+\begin{lstlisting}[style=CStyle,float=t, caption=Test template for function gs\_rparam\_get\_array., label=get_string]
+int main(void) {
+    uint8_t buf[1000];
+    memset(buf, 0, sizeof(buf));
+    size_t value_size;
+    klee_make_symbolic(&value_size, sizeof(value_size), "value_size");
+    gs_rparam_get_array(CSP_NODE, GS_TEST_ALLTYPES_TABLE_ID, GS_TEST_ALLTYPES_UINT8_A(0), PARAM_UINT8, GS_RPARAM_MAGIC_CHECKSUM, 1000,
+                                              &buf, sizeof(uint8_t), value_size);
+    return 0;
+}
+\end{lstlisting}
+
+However, when we execute KLEE against this test template we observe an error, stating that line 19 of Listing~\ref{get_array} produces a memory error, most probably because the tool has concretized a huge value for the \texttt{alloca} function. In this case, we can see that DAMTE does not work properly when the variable to be tested represents the length of an array.
+
+\begin{lstlisting}[style=CStyle,float=t, caption=KLEE error output, label=klee_error]
+KLEE: NOTE: Using POSIX model: /tmp/klee_build90stp_z3/runtime/lib/libkleeRuntimePOSIX64_Debug+Asserts.bca
+KLEE: NOTE: Using klee-uclibc : /tmp/klee_build90stp_z3/runtime/lib/klee-uclibc.bca
+KLEE: output directory is "/opt/libparam/tst/rparam4_llvm/build/klee-out-1"
+KLEE: Using STP solver backend
+KLEE: WARNING: executable has module level assembly (ignoring)
+KLEE: WARNING ONCE: calling external: syscall(16, 0, 21505, 94391800950288) at klee_src/runtime/POSIX/fd.c:1007 10
+KLEE: WARNING ONCE: Alignment of memory from call "malloc" is not modelled. Using alignment of 8.
+KLEE: WARNING ONCE: calling __klee_posix_wrapped_main with extra arguments.
+KLEE: NOTE: found huge malloc, returning 0
+KLEE: ERROR: ../main_length.c:250: concretized symbolic size
+KLEE: NOTE: now ignoring this error at this location
+KLEE: ERROR: ../main_length.c:251: memory error: out of bound pointer
+KLEE: NOTE: now ignoring this error at this location
+KLEE: WARNING ONCE: Alignment of memory from call "realloc" is not modelled. Using alignment of 8.
+\end{lstlisting}
+
+\ENDCHANGEDFINAL
