@@ -1,0 +1,109 @@
+#! /bin/bash
+
+TOPDIR=$(dirname $(readlink -f $0))
+
+data_dir=$TOPDIR/data
+
+script_data_location=$TOPDIR/../MLFS/scripts
+generate_template_script=$TOPDIR/../ASN/util_codes/generate_direct.sh
+
+workdir_top=$TOPDIR
+workspace_dir=$workdir_top/"WORKSPACE"
+downloaded_dir=$workspace_dir/"DOWNLOADED"
+scripts_dir=$workdir_top/"scripts"
+util_codes_dir=$workdir_top/"util_codes"
+
+workdir_list="$workspace_dir $scripts_dir $util_codes_dir"
+
+system_failure() {
+    echo "@SYSTEM-FAILURE: $1"
+    exit 2
+}
+
+test_failure() {
+    printf "@test-failure: $1\n"
+    exit 1
+}
+
+cleanup() {
+    for wdir in $workdir_list; 
+    do
+        if [ -d $wdir ]; then
+            rm -rf $wdir || sudo rm -rf $dir || system_failure "failed to remove workdir $wdir"
+        fi
+    done
+}
+
+setup() {
+    # create workspace dir
+    cleanup
+    for wdir in $workdir_list; 
+    do
+        mkdir $workdir || system_failure "failed to create workdir $wdir"
+    done
+    # setup the scenario
+    ## create dirs
+    mkdir $workspace_dir || system_failure "Failed to create WORKSPACE dir"
+    mkdir $downloaded_dir || system_failure "Failed to create DOWNLOADED dir"
+    mkdir $scripts_dir || system_failure "failed to create scripts dir"
+    mkdir $util_codes_dir || system_failure "failed to create util_codes dir"
+    ## copy files
+    cp $data_dir/*.c $downloaded_dir || system_failure "failed to copy source files"
+    cp $data_dir/compile_commands.json $scripts_dir || system_failure "failed to copy compile_commands file"
+    cp $data_dir/faqas_semu_config.sh $scripts_dir || system_failure "failed to copy config file"
+    cp $script_data_location/run.sh $scripts || system_failure "failed to copy the run.sh script"
+    cp $script_data_location/docker_run.sh $scripts || system_failure "failed to copy the docker_run.sh script"
+    sed -i'' 's|MLFS|tests|g' $scripts/docker_run.sh || system_failure "failed to sed docker_run.sh file"
+    cp $script_data_location/create_mutants.sh $scripts || system_failure "failed to copy the create_mutants.sh script"
+}
+
+get_env_args() {
+    if [ "${USE_FAQAS_SEMU_DOCKER_IMAGE:-}" = "ON" ]; then
+        use_faqas_semu_docker=true
+    else
+        use_faqas_semu_docker=false
+    fi
+}
+
+gen_templates() {
+    local repodir=$downloaded_dir
+    cd $repodir || error_exit "faile to cd into repodir $repodir"
+    local cfiles=$(find -type f -name '*.c' | sed 's|^./||g')
+    cd $topdir
+
+    for src in $cfiles; do
+        src_template_folder_suffix="$(echo ${src%.c} | tr '/' '.')"
+        $generate_template_script $repodir/$src direct-$src_template_folder_suffix " -I$repodir" \
+                || test_failure "template generation failed for source file $src\n#1 TEMPLATE GENERATION test failed :( #" 
+        # patch
+        for f in `ls direct-$src_template_folder_suffix`; do
+            sed -i'' '/#include "asn1crt/d' direct-$src_template_folder_suffix/$f
+        done
+    done
+}
+
+call_generation_script() {
+    if [ ]
+}
+
+check_results() {
+
+}
+
+test_generation_pipeline() {
+
+}
+
+##############################
+
+use_faqas_semu_docker=false
+
+echo "#1 TESTING TEMPLATE GENERATION ... #"
+gen_templates
+echo "#1 TEMPLATE GENERATION test passed :) #"
+
+echo "#2 TESTING TEST GENERATIOn PIPELINE ... #"
+test_generation_pipeline
+echo "#2 TEST GENERATION PIPELINE test passed :) #"
+
+
