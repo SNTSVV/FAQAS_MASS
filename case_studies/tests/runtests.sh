@@ -34,7 +34,7 @@ cleanup() {
     for wdir in $workdir_list; 
     do
         if [ -d $wdir ]; then
-            rm -rf $wdir || sudo rm -rf $dir || system_failure "failed to remove workdir $wdir"
+            rm -rf $wdir || sudo rm -rf $wdir || system_failure "failed to remove workdir $wdir"
         fi
     done
 }
