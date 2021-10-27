@@ -100,7 +100,12 @@ call_generation_script() {
 
 check_results() {
     local src=$1
-    diff -r $expected_testgen_out $output_dir/$src || test_failure "test generation pipeline output files difference\n#2 TEST GENERATION PIPELINE test failed :( #"
+    local exp_path=$expected_testgen_out/${src%.c}
+    local got_path=$output_dir/${src%.c}
+    for efp in `find $exp_path -type f`; do
+        local gfp=$(echo $efp | sed "s|^$exp_path|$got_path|g")
+        diff  $efp $gfp || test_failure "test generation pipeline output files difference between $efp and $gfp\n#2 TEST GENERATION PIPELINE test failed :( #"
+    done
 }
 
 test_generation_pipeline() {
