@@ -134,5 +134,7 @@ test_generation_pipeline
 echo "#2 TEST GENERATION PIPELINE test passed :) #"
 echo
 
+echo "ALL Tests passed"
+echo
 echo "#* Test CLEANUP #"
 cleanup
