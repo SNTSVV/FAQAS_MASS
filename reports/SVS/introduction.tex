@@ -86,6 +86,194 @@ They are accomplished by following validation approaches:
 
 In the following sections the validation task that fall under the \EMPH{application to the case studies} category are described, along with their pass-fail criteria.
 
+
+\subsection{Configuring \MASS and running Launcher.sh - \MASS}
+\label{sec:configuring:mass}
+
+The objective of this task is to validate that \MASS can properly prepare the SUT, collect code coverage information, and correctly apply the eight steps of the methodology for assessing the quality of the SUT test suite.
+
+\input{tables/to_configure}
+
+The files and variables to be configured for \MASS are specified in Table~\ref{table:to_configure}. As detailed in the SUM document, these files (i.e., mass\_conf.sh, PrepareSUT.sh, mutation\_additional\_functions.sh) support \MASS to correctly process the paths of the SUT, SUT compilation commands, SUT test suite execution commands, and enable the mutation analysis process.
+
+After configuring the three files, the following command shall be executed for launching the mutation analysis process. 
+
+\begin{lstlisting}[language=bash]
+  $ ./Launcher.sh
+\end{lstlisting}
+
+Note that this command (1) shall be executed from \MASS workspace, (2) shall automatically perform the following eight steps:
+
+\begin{enumerate}
+  \item PrepareSUT
+  \item GenerateMutants
+  \item CompileOptimizedMutants
+  \item OptimizedPostProcessing
+  \item GeneratePTS
+  \item ExecuteMutants
+  \item IdentifyEquivalents
+  \item MutationScore
+\end{enumerate}
+
+A typical \MASS output is presented in Listing~\ref{mass:output}.
+
+\begin{lstlisting}[language=bash, label=mass:output, caption=\MASS output.]
+##### MASS Output #####
+## Total mutants generated: 28071
+## Total mutants filtered by TCE: 6918
+## Sampling type: fsci
+## Total mutants analyzed: 461
+## Total killed mutants: 369
+## Total live mutants: 92
+## Total likely equivalent mutants: 53
+## MASS mutation score (%): 90.44
+## List A of useful undetected mutants: /opt/MLFS/RESULTS/useful_list_a
+## List B of useful undetected mutants: /opt/MLFS/RESULTS/useful_list_b
+## Number of statements covered: 1973
+## Statement coverage (%): 100
+## Minimum lines covered per source file: 2
+## Maximum lines covered per source file: 138
+\end{lstlisting}
+
+\subsubsection{Pass-Fail criteria}
+
+The following criteria must be respected in order to declare this task a pass:
+
+\begin{itemize}
+  \item The eight steps of the methodology shall be performed. In turn, the following shall be produced for each steps:
+    \begin{itemize}
+      \item PrepareSUT: this step shall produce code coverage files, and list of test cases to be executed at \texttt{COV\_FILES} folder.
+      \item GenerateMutants: this step shall produce mutant files at \texttt{src-mutants} folder.
+      \item CompileOptimizedMutants: inside \texttt{COMPILED} there should be one folder for each optimization level containing (1) list of SHA512 hashes for every compiled mutant, (2) list of non-compiled mutants.
+      \item OptimizedPostProcessing: inside \texttt{COMPILED} there should be (1) list of equivalent mutants, (2) list of redundant mutants, (3) list of unique mutants.
+      \item GeneratePTS: this step shall produce reduced and prioritized test suites for the SUT at folder \texttt{PRIORITIZED}.
+      \item ExecuteMutants: inside \texttt{MUTATION} folder there should be: (1) code coverage for each mutant, (2) traces of killed and live mutants, (3) list of executed mutants.
+      \item IdentifyEquivalents: inside folder \texttt{DETECTION} there should be: (1) list of equivalent mutants, (2) mutation traces without equivalent mutants.
+      \item MutationScore: inside folder \texttt{RESULTS} there should be: (1) final MASS report, (2) list of killed and live mutants, (3) code coverage report, (4) list of useful mutants. 
+    \end{itemize}
+  \item A final report shall be reported at the end of the mutation analysis process.
+  \item The MASS log shall report no error.
+\end{itemize}
+
+\subsection{Configuring \MASS and running PrepareSUT.sh - \MASS}
+
+This validation task consists of configuring \MASS, as specified in the Section~\ref{sec:configuring:mass}, and then executing the PrepareSUT.sh command of \MASS, this command prepare the SUT and collect information about the SUT test suite. Note that this script shall be prepared by the SUT engineer. 
+The objective of this task is to validate that \MASS can properly prepare the SUT and collect code coverage information about the SUT test suite, which is necessary for enabling \MASS optimizations.
+
+\begin{lstlisting}[language=bash]
+  $ ./PrepareSUT.sh
+\end{lstlisting}
+
+The command shall create a \texttt{COV\_FILES} folder inside the \MASS workspace; such folder will contain GCOV files for each test case, and a list of test cases to be executed.
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The execution of PrepareSUT shall be successful, that is, the script shall terminate with a 0 error code.
+  \item The required output shall be observed inside \texttt{COV\_FILES} folder.
+\end{itemize}
+
+\subsection{Configuring \MASS and running GenerateMutants.sh - \MASS}
+
+This validation task consists of configuring \MASS, as specified in the Section~\ref{sec:configuring:mass}, and then executing the GenerateMutants.sh command of \MASS, this command generates the code coverage matrices and launches the generation of mutants. A prerequisite to this task is to have executed the PrepareSUT command.
+The objective of this task is to validate that \MASS can properly process code coverage information and generate code-driven mutants of the SUT.
+
+\begin{lstlisting}[language=bash]
+  $ ./GenerateMutants.sh
+\end{lstlisting}
+
+The command shall create a \texttt{src-mutants} folder inside the \MASS workspace; such folder will contain one folder for each source under test, and each of this folder shall contain a set of mutants for the source code.
+
+A typical mutant source file will be named using (1) the name of the source file, (2) the mutated line, (3) the instance of the mutation (e.g., the AOR operator can replace a $+$ operator into four instances (a) $-$, (b) $*$, (c) $/$, and (d) $\%$) and the position in the source file, (4) the operator being used, (5) the affected function. An example of mutant would be \url{source.mut.126.1_6_19.ICR.function_1.c}
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The execution of GenerateMutants shall be successful, that is, the script shall terminate with a 0 error code.
+  \item The required output shall be observed inside \texttt{src-mutants} folder.
+\end{itemize}
+
+\subsection{Configuring \MASS and running CompileOptimizedMutants.sh - \MASS}
+
+This validation task consists of configuring \MASS, as specified in the Section~\ref{sec:configuring:mass}, and then executing the CompileOptimizedMutants.sh command of \MASS, this command compiles the mutants with multiple optimisation levels and generate intermediate files to be processed then by OptimizedPostProcessing. A prerequisite to this task is to have executed the GenerateMutants command.
+The objective of this task is to validate that \MASS can properly compile the mutants and generate a list of SHA512 hashes for each mutant, in order to properly identify equivalent and redundant mutants during the OptimizedPostProcessing step.
+
+\begin{lstlisting}[language=bash]
+  $ ./CompileOptimizedMutants.sh
+\end{lstlisting}
+
+The command shall create a \texttt{COMPILED} folder inside the \MASS workspace; such folder will contain one folder for each optimization level containing (1) list of SHA512 hashes for every compiled mutant, (2) list of non-compiled mutants.
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The execution of CompileOptimizedMutants shall be successful, that is, the script shall terminate with a 0 error code.
+  \item The required output shall be observed inside \texttt{COMPILED} folder.
+\end{itemize}
+
+\subsection{Configuring \MASS and running OptimizedPostProcessing.sh - \MASS}
+
+This validation task consists of configuring \MASS, as specified in the Section~\ref{sec:configuring:mass}, and then executing the CompileOptimizedMutants.sh command of \MASS, this command iterates over the SHA512 hashes generated by the CompileOptimizedMutants command, and produce a list of unique mutants. A prerequisite to this task is to have executed the CompileOptimizedMutants command.
+The objective of this task is to validate that \MASS can properly identify equivalent and redundant mutants to be then analyzed during ExecuteMutants.
+
+\begin{lstlisting}[language=bash]
+  $ ./OptimizedPostProcessing.sh
+\end{lstlisting}
+
+The command shall create (1) a list of equivalent mutants, (2) a list of redundant mutants, and (3) a list of unique mutants inside the \texttt{COMPILED} folder within the \MASS workspace.
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The execution of OptimizedPostProcessing shall be successful, that is, the script shall terminate with a 0 error code.
+  \item The required output shall be observed inside \texttt{COMPILED} folder.
+\end{itemize}
+
+\subsection{Configuring \MASS and running GeneratePTS.sh - \MASS}
+
+This validation task consists of configuring \MASS, as specified in the Section~\ref{sec:configuring:mass}, and then executing the CompileOptimizedMutants.sh command of \MASS, this command generates a reduced and prioritized test suite for the SUT. A prerequisite to this task is to have executed the OptimizedPostProcessing command.
+The objective of this task is to validate that \MASS can properly generate a reduced and prioritized set of test cases to be used during the ExecuteMutants step.
+
+\begin{lstlisting}[language=bash]
+  $ ./GeneratePTS.sh
+\end{lstlisting}
+
+The command shall create two files, (1) a reduced, and (2) prioritized test suite for the SUT, at folder \texttt{PRIORITIZED}.
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The execution of GeneratePTS shall be successful, that is, the script shall terminate with a 0 error code.
+  \item The required output shall be observed inside \texttt{PRIORITIZED} folder.
+\end{itemize}
+
+
+
+\subsection{Configuring generate\_template\_config.json and running generate\_direct.py - SEMuS}
+
+\input{tables/to_conf_semus}
+\input{tables/ttg_semus}
+
+The objective of this task is to validate that \SEMUS can properly generate test templates that can be processed by the underlying test generation tool (i.e., KLEE).
+
+The files and variables to be configured for \SEMUS are specified in Tables~\ref{table:to_conf_semus} and~\ref{table:ttg_semus}. As detailed in the SUM document, these files (i.e., generate\_template\_config.json and running generate\_direct.py) support \SEMUS to correctly process the paths of the SUT, SUT compilation commands, the configuration of \SEMUS itself, and how to print the values of the functions under test, so \SEMUS can determine if a mutant has been killed.
+
+After configuring the two files, the following command shall be executed for launching the test template generation. 
+
+\begin{lstlisting}[language=bash]
+ $ case_studies/$SUT/util_codes/generate_direct.py ../WORKSPACE/DOWNLOADED/casestudy/test.c direct \
+                    " -I../WORKSPACE/DOWNLOADED/casestudy/" -c generate_template_config.json
+\end{lstlisting}
+
+Note that this command shall generate inside the directory \texttt{case\_studies/\$SUT/util\_codes} one folder for each source under analysis, and inside of these folders, one template for each function under test.
+
+\subsubsection{Pass-Fail criteria}
+
+\begin{itemize}
+  \item The test templates shall be generated.
+  \item The generate\_direct.py shall terminate with a 0 error code.
+\end{itemize}
+
 \subsection{Instrumenting the source code - \DAMA}
 \label{subsec:instrumenting}
 
@@ -93,11 +281,9 @@ The variables for running the \DAMA pipeline on ESAIL must be set in the \emph{\
 
 Then the commands represented in Listing~\ref{lst:instrument_esail_cmds} must be run to generate the mutation probes.
 
-  \begin{lstlisting}[language=bash, label={lst:instrument_esail_cmds}]
-
-  bash \DAMA_probe_generation.sh
-
-  \end{lstlisting}
+\begin{lstlisting}[language=bash, label={lst:instrument_esail_cmds}]
+bash DAMA_probe_generation.sh
+\end{lstlisting}
 
 The generated probes must be inserted in the target function, as reported in the SUM (Chapter 13).
 The Software Under Test (LibParam or ESAIL) shall be compiled with the macro \texttt{-DMUTATIONOPT=-1} enabled.
@@ -106,7 +292,7 @@ The Software Under Test (LibParam or ESAIL) shall be compiled with the macro \te
 
 The following criteria must be respected in order to declare this task a pass:
 \begin{itemize}
-  \item The compilatiion shall be successful.
+  \item The compilation shall be successful.
   \item The compilation log shall report no error.
 \end{itemize}
 
