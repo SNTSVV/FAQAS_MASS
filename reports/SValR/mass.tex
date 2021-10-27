@@ -2,7 +2,9 @@
 
 \chapter{MASS - Validation Execution Environment Definition and Results}
 
-To validate \MASS we applied the methodology to the following case studies:
+\STARTCHANGEDFINAL
+
+To validate \MASS we applied the methodology to the case studies listed in the \emph{SPAP} document (chapter 8):
 \begin{itemize}
   \item LXS System Test Suite for ESAIL
   \item GSL Integration Test Suite for libgscsp
@@ -12,39 +14,93 @@ To validate \MASS we applied the methodology to the following case studies:
   \item ASN.1 Auto-generated Unit Test Suite
 \end{itemize}
 
+% \begin{table}[h]
+% \caption{MASS Validation Report.}
+% \label{table:mass:results} 
+% \scriptsize
+% \centering
+% \begin{tabular}{|
+% @{\hspace{1pt}}p{33mm}|
+% @{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%  >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% }
+% \hline
+% \textbf{Methodology Step}&\textbf{ESAIL}&\textbf{libgscsp}&\textbf{libparam}&\textbf{libutil}&\textbf{MLFS}&\textbf{ASN.1}\\ 
+% \hline
+% Collect SUT coverage&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Create Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Compile Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% TCE&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Sample Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Prioritized Test Suite&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Identify Likely Equivalents&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% Compute Mutation Score&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+% \hline
+% \end{tabular}
+
+% \end{table}
+
+Particularly, we verified that \MASS complied with the requirements expressed in the \emph{Software System Specification} (\emph{SSS}), section 4.1.1.
+To this purpose, two validation approaches were devised:
+
+\begin{itemize}
+  \item Unit Testing
+  \item Application to Case Studies
+\end{itemize}
+
+These approaches are composed of validation tasks as shown in Table~\ref{table:mass:results} (Application to Case Studies), and Table~\ref{table:mass:unit_results}
+
+% The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:mass:results}, that shows the success/failure of every \MASS step on the different case studies.
+
+% A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+
+The results provided in these tables correspond to Monday 20/09/2021.
+
+The validation tasks are described in details in the \emph{Software Validation Specification} (SVS) document, chapter 5.
+
+A detailed description of \MASS unit testing is available in the \emph{Software Unit Test Plan} (\emph{SUTP}) (Chapters 7-10) and a detailed report in the \emph{Software Unit Test Report} (Chapters 4 and 5).
+
 \begin{table}[h]
-\caption{MASS Validation Report.}
-\label{table:mass:results} 
+\caption{\MASS Validation Report, Unit Testing.}
+\label{table:mass:unit_results}
 \scriptsize
 \centering
-\begin{tabular}{|
-@{\hspace{1pt}}p{33mm}|
-@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
- >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
-}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\textbf{Methodology Step}&\textbf{ESAIL}&\textbf{libgscsp}&\textbf{libparam}&\textbf{libutil}&\textbf{MLFS}&\textbf{ASN.1}\\ 
+\textbf{Validation Approach}&\textbf{Task}&\textbf{Result}\\
 \hline
-Collect SUT coverage&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Create Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Compile Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-TCE&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Sample Mutants&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Prioritized Test Suite&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Identify Likely Equivalents&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
-Compute Mutation Score&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+Unit Testing&Performing \emph{MASS-TD-SRCMutation-1}&PASSED\\
 \hline
 \end{tabular}
 
 \end{table}
 
-The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:mass:results}, that shows the success/failure of every \MASS step on the different case studies.
 
-A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+\begin{table}[h]
+\caption{\MASS Validation Report, Application to Case Studies}
+\label{table:mass:results}
+\scriptsize
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\textbf{Task}&\textbf{ESAIL}&\textbf{libparam} &\textbf{libgscsp}&\textbf{libutil}&\textbf{ASN.1}&\textbf{MLFS}\\
+\hline
+configuring MASS and running Launcher.sh&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+configuring MASS and running PrepareSUT.sh&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+configuring MASS and running GenerateMutants.sh&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+configuring MASS and running CompileOptimizedMutants.sh&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+configuring MASS and running OptimizedPostProcessing.sh&PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+configuring MASS and running GeneratePTS.sh &PASSED&PASSED&PASSED&PASSED&PASSED&PASSED\\
+\hline
+\end{tabular}
+
+\end{table}
+
+
 
 \chapter{SEMUS - Validation Execution Environment Definition and Results}
 
@@ -81,4 +137,7 @@ Convert Ktest to Unit Test&PASSED&PASSED\\
 
 A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
 
+
+
+\ENDCHANGEDFINAL
 \clearpage
