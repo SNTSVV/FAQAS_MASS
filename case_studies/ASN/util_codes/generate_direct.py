@@ -220,7 +220,7 @@ globalConfigObject = {
 
     # Specify a type as key and the object printing code as value.
     # Where the placeholder for the object to print must be specified as the string '{}'
-    # e.g. "TYPES_TO_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST_OUTPUT: X=%d, Y=%s\\n\", {}->x, {}->y)"}
+    # e.g. "TYPES_TO_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST_OUTPUT: X=%d, Y=%s\\n\", {}->x, {}->y);"}
     TYPES_TO_PRINTCODE: {},
 
     # Specify the names of function arguments that are used as function output (passed by reference for output only)

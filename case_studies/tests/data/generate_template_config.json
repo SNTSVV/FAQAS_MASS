@@ -1,6 +1,6 @@
 {
     "TYPES_TO_INTCONVERT": {},
-    "TYPES_TO_PRINTCODE": {"MyType": "printf(\"FAQAS-SEMU-TEST_OUTPUT: x=%d, y=%d, z=%s\\n\", {}->x, {}->y, {}->z)"},
+    "TYPES_TO_PRINTCODE": {"MyType": "printf(\"FAQAS-SEMU-TEST_OUTPUT: x=%d, y=%d, z=%s\\n\", {}->x, {}->y, {}->z);"},
     "OUT_ARGS_NAMES": [],
     "IN_OUT_ARGS_NAMES": ["mytype_var"],
     "TYPE_TO_INITIALIZATIONCODE": {},
