@@ -79,8 +79,8 @@ gen_templates() {
         $generate_template_script $repodir/$src $util_codes_dir/direct-$src_template_folder_suffix " -I$repodir" -c $data_dir/generate_template_config.json \
                 || test_failure "template generation failed for source file $src\n#1 TEMPLATE GENERATION test failed :( #" 
         # patch
-        for f in `ls direct-$src_template_folder_suffix`; do
-            sed -i'' '/#include "asn1crt/d' direct-$src_template_folder_suffix/$f
+        for f in `ls $util_codes_dir/direct-$src_template_folder_suffix`; do
+            sed -i'' '/#include "asn1crt/d' $util_codes_dir/direct-$src_template_folder_suffix/$f
         done
 
         diff $expected_templates/direct-$src_template_folder_suffix $util_codes_dir/direct-$src_template_folder_suffix \
