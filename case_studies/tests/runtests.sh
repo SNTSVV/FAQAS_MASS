@@ -121,13 +121,13 @@ check_results() {
         found=0
         for g_utf in `ls $got_unit/*.ktest.c`
         do
-            if diff $exp_unit/$e_utf $got_unit/$g_utf > /dev/null
+            if diff $e_utf $g_utf > /dev/null 2>&1
             then
                 found=1
                 break
             fi 
         done
-        [ $found -eq 0 ] && test_failure "No matching obtained test for expected test $exp_unit/$e_utf\n#2 TEST GENERATION PIPELINE test failed :( #"
+        [ $found -eq 0 ] && test_failure "No matching obtained test for expected test $e_utf\n#2 TEST GENERATION PIPELINE test failed :( #"
     done 
 }
 
