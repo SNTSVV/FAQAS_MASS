@@ -28,4 +28,4 @@ else
 fi
 
 ## install requirements
-pip install -r $TOPDIR/requirements.txt
+pip install -U -r $TOPDIR/requirements.txt

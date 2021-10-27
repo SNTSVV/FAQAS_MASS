@@ -28,7 +28,7 @@ workspace_dir=$(readlink -f $workspace_dir)
 indocker_topdir=/home/FAQAS/faqas_semu
 indocker_workspace_dir=/home/FAQAS/workspace
 
-prepare_cmd="pip install -U -r $indocker_topdir/requirements.txt && mkdir -p /home/FAQAS && cd /home/FAQAS"
+prepare_cmd="$indocker_topdir/install_requirements.sh && mkdir -p /home/FAQAS && cd /home/FAQAS"
 
 more_args=""
 [ "${ENV_FAQAS_SEMU_SRC_FILE:-}" != "" ] && more_args="-e ENV_FAQAS_SEMU_SRC_FILE=$ENV_FAQAS_SEMU_SRC_FILE"
