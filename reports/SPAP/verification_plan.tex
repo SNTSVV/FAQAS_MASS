@@ -52,61 +52,51 @@ The FAQAS Framework is comprised by category D classified SW so the verification
 
 The product assurance activities will be performed following the team organization defined in Chapter~\ref{chapter:organization}.
 
+\subsection{Master Schedule}
+
+The master schedule of the software develpment was outlined in Chapter~\ref{chapter:software_development}.
 
 \subsection{Resource summary}
 
-% a. The SVerP shall summarize the resources to be used to perform the
-% verification activities such as staff, hardware and software tools.
+The resources used for the verifiication activities are reported in Section~\ref{sec:resources}.
 
 \subsection{Responsibilities}
 
 The roles and responsabilities linked to the activities described in this document are outlined in Section~\ref{sec:resp}.
 
-% \subsection{Identification of risks and level of independence.}
+% \subsection{Tools, techniques and methods}
 %
-% % a. The SVerP shall state (or refer to the SDP) the risks and level of
-% % independence.
+% The software tools to be used for the verification activities are reported in Table~\ref{table:verification_tools}.
+%
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{||c|c|c|c||}
+%  \hline
+%  \textbf{Tool} \\
+%  \hline
+%  Git version 2.30.1 \\
+%  \hline
+%  MS Office \\
+%  \hline
+%  LaTeX  \\
+%  \hline
+%  GNU GCC \\
+%  \hline
+%  Python 3.7 \\
+%  \hline
+%
+% \end{tabular}
+% \caption{Software resources for project assurance activities}
+% \label{table:verification_tools}
+% \end{table}
 
-\subsection{Tools, techniques and methods}
-
-The software tools to be used for the verification activities are reported in Table~\ref{table:verification_tools}.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{||c|c|c|c||}
- \hline
- \textbf{Tool} \\
- \hline
- Git version 2.30.1 \\
- \hline
- MS Office \\
- \hline
- LaTeX  \\
- \hline
- GNU GCC \\
- \hline
- Python 3.7 \\
- \hline
-
-\end{tabular}
-\caption{Software resources for project assurance activities}
-\label{table:verification_tools}
-\end{table}
-
-\subsection{Control procedures for verification process}
-
-% a. The SVerP shall contain information (or reference to) about applicable
-% management procedures concerning the following aspects:
-% 1. problem reporting and resolution;
-% 2. deviation and waiver policy;
+% \subsection{Control procedures for verification process}
 
 \section{Verification activities}
 
 \subsection{General}
 
-% a. The SVerP shall address the verification activities of each software item.
-% b. The SVerP shall address separately the activities to be performed for
-% manually and automatically generated code.
+This plan defines the verification activities to be performed on the FAQAS framework and its corresponding documentation.
 
 \subsection{Software process verification}
 
@@ -148,7 +138,23 @@ The software tools to be used for the verification activities are reported in Ta
 % • output: software validation testing
 % specifications
 
-\subsection{Software quality requirements verification (as per ECSS‐QST‐80 clause 6.2.6.1)}
+\subsubsection{Software Requirements Engineering}
+The SSS was reviewed with the ESA Project Officer.
+
+\subsubsection{Software Design and Implementation Engineering}
+The SDD, SUM and SUTP were reviewed with the ESA Project Office.
+The source code was verified throught unit and system testing.
+Since the faqas tool is not supposed to be run on spacecrafts and it is realized with different programming languages (Python3, C, C++, Shell) code coverage measurments are considered impractical.
+Verification of conformance with requirementes is based only on functional test cases which have bee derived systematically for the critical components of the system.
+
+\subsubsection{Software Delivery and Acceptance}
+The SRelD and SCF were reviewed with the ESA Project Officer.
+
+\subsubsection{Software Validation}
+The SVS and SValR were reviewed with the ESA Project Officer.
+
+% \subsection{Software Quality Requirements Verification}
+
 
 % <6.3.1> Activities
 % a. The SVerP shall list the verification activities to be performed and how
