@@ -46,6 +46,8 @@ For detailed information on their structure and usage see D2 and SUM.
 
 \chapter{Software validation specification task identification}
 
+\STARTCHANGEDFINAL
+
 \section{Task and criteria}
 \label{sec:taskCrit}
 
@@ -57,18 +59,27 @@ They are accomplished by following validation approaches:
   \begin{itemize}
     \item performing \emph{\DAMA-TD-DDMutation-1}
     \item performing \emph{\DAMA-TD-DDMutation-2}
-    \item performing \emph{MASS-TD-SRCMutation-1}
+    \item performing \emph{\MASS-TD-SRCMutation-1}
+    \item performing \emph{SEMuS-TD-TGMutation-1}
   \end{itemize}
   \item verifying the requirements for the rest of the components through \EMPH{application to the case studies} as detailed in the D4 and the SUM.
   Application to the case studies is composed of the following tasks, detailed in \ref{sec:case_studies}
   \begin{itemize}
+    \item \emph{configuring \MASS and running Launcher.sh - \MASS}
+    \item \emph{configuring \MASS and running PrepareSUT.sh - \MASS}
+    \item \emph{configuring \MASS and running GenerateMutants.sh - \MASS}
+    \item \emph{configuring \MASS and running CompileOptimizedMutants.sh - \MASS}
+    \item \emph{configuring \MASS and running OptimizedPostProcessing.sh - \MASS}
+    \item \emph{configuring \MASS and running GeneratePTS.sh - \MASS}
+    \item \emph{configuring generate\_template\_config.json and running generate\_direct.py - SEMuS}
+    \item \emph{manually editing of the generated test templates - SEMuS} 
     \item \emph{instrumenting the source code - \DAMA}
     \item \emph{configuring and running} a given component, for example \texttt{\DAMA\_compile.sh}.
   \end{itemize}
   \item verifying general requirements through \EMPH{manual inspection}. For this approach no further specific task can be identified.
 \end{itemize}
 
-\STARTCHANGEDFINAL
+
 
 \section{Application to the case studies}
 \label{sec:case_studies}
