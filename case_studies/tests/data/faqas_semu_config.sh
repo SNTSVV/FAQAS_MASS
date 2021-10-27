@@ -24,7 +24,7 @@ FAQAS_SEMU_BUILD_CODE_FUNC()
     local compiler=$4
     local flags="$5"
     # compile
-    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I . -O0 -fprofile-arcs -ftest-coverage -I$repo_root_dir -o $out_file $in_file $flags
+    $compiler $flags -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I . -O0 -I$repo_root_dir -o $out_file $in_file $flags
     return $?
 }
 '
