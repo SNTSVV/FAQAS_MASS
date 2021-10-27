@@ -10,8 +10,13 @@ generate_template_script=$TOPDIR/../ASN/util_codes/generate_direct.sh
 workdir_top=$TOPDIR
 workspace_dir=$workdir_top/"WORKSPACE"
 downloaded_dir=$workspace_dir/"DOWNLOADED"
+output_dir=$workspace_dir/"OUTPUT"
 scripts_dir=$workdir_top/"scripts"
 util_codes_dir=$workdir_top/"util_codes"
+
+expected_dir=$TOPDIR/"expected"
+expected_templates=$expected_dir/"templates"
+expected_testgen_out=$expected_dir/"OUTPUT"
 
 workdir_list="$workspace_dir $scripts_dir $util_codes_dir"
 
@@ -69,17 +74,21 @@ gen_templates() {
     local repodir=$downloaded_dir
     cd $repodir || system_failure "faile to cd into repodir $repodir"
     local cfiles=$(find -type f -name '*.c' | sed 's|^./||g')
-    cd $topdir
+    cd - > /dev/null
 
     for src in $cfiles; do
         src_template_folder_suffix="$(echo ${src%.c} | tr '/' '.')"
-        $generate_template_script $repodir/$src direct-$src_template_folder_suffix " -I$repodir" \
+        $generate_template_script $repodir/$src $util_codes_dir/direct-$src_template_folder_suffix " -I$repodir" -c $data_dir/generate_template_config.json \
                 || test_failure "template generation failed for source file $src\n#1 TEMPLATE GENERATION test failed :( #" 
         # patch
         for f in `ls direct-$src_template_folder_suffix`; do
             sed -i'' '/#include "asn1crt/d' direct-$src_template_folder_suffix/$f
         done
+
+        diff $expected_templates/direct-$src_template_folder_suffix $util_codes_dir/direct-$src_template_folder_suffix \
+            || test_failure "generated template mismatch for $src\n#1 TEMPLATE GENERATION test failed :( #"
     done
+
 }
 
 call_generation_script() {
@@ -92,14 +101,15 @@ call_generation_script() {
 }
 
 check_results() {
-
+    local src=$1
+    diff -r $expected_testgen_out $output_dir/$src || test_failure "test generation pipeline output files difference\n#2 TEST GENERATION PIPELINE test failed :( #"
 }
 
 test_generation_pipeline() {
     local repodir=$downloaded_dir
     cd $repodir || system_failure "faile to cd into repodir $repodir"
     local cfiles=$(find -type f -name '*.c' | sed 's|^./||g')
-    cd $topdir
+    cd - > /dev/null
 
     for src in $cfiles; do
         call_generation_script $src
