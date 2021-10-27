@@ -67,7 +67,7 @@ get_env_args() {
 
 gen_templates() {
     local repodir=$downloaded_dir
-    cd $repodir || error_exit "faile to cd into repodir $repodir"
+    cd $repodir || system_failure "faile to cd into repodir $repodir"
     local cfiles=$(find -type f -name '*.c' | sed 's|^./||g')
     cd $topdir
 
@@ -83,7 +83,12 @@ gen_templates() {
 }
 
 call_generation_script() {
-    if [ ]
+    local src=$1
+    if [ $use_faqas_semu_docker = true ]; then
+        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts/docker_run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
+    else
+        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts/run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
+    fi
 }
 
 check_results() {
@@ -91,12 +96,24 @@ check_results() {
 }
 
 test_generation_pipeline() {
+    local repodir=$downloaded_dir
+    cd $repodir || system_failure "faile to cd into repodir $repodir"
+    local cfiles=$(find -type f -name '*.c' | sed 's|^./||g')
+    cd $topdir
 
+    for src in $cfiles; do
+        call_generation_script $src
+        check_results $src
+    done
 }
 
 ##############################
 
 use_faqas_semu_docker=false
+get_env_args
+
+echo "#* Test SETUP"
+setup
 
 echo "#1 TESTING TEMPLATE GENERATION ... #"
 gen_templates
@@ -106,4 +123,5 @@ echo "#2 TESTING TEST GENERATIOn PIPELINE ... #"
 test_generation_pipeline
 echo "#2 TEST GENERATION PIPELINE test passed :) #"
 
-
+echo "#* Test CLEANUP"
+cleanup
