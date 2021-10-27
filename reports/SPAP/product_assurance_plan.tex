@@ -1,6 +1,73 @@
 % !TEX root = MAIN.tex
 \chapter{Software Product Assurance Plan}
 
+% The supplier shall develop a software product assurance plan in response to the software product assurance requirements in conformance with DRD in annex B.
+% b. The software product assurance plan shall be either a standalone document or a section of the supplier overall product assurance plan.
+
+% a. Testing shall be performed in accordance with a strategy for each testing level (i.e. unit, integration, validation against the technical specification, validation against the requirements baseline, acceptance), which includes:
+% 1. the types of tests to be performed;
+% NOTE For example: functional, boundary, performance, and usability tests.
+% 2. the tests to be performed in accordance with the plans and procedures;
+% 3. the means and organizations to perform assurance function for testing and validation.
+% EXPECTED OUTPUT: Software product assurance plan [PAF, SPAP; PDR, CDR].
+
+% 6.3.5.2
+% a. Based on the criticality of the software, test coverage goals for each testing level shall be agreed between the customer and the supplier and their achievement monitored by metrics:
+% 1. for unit level testing;
+% 2. for integration level testing;
+% 3. for validation against the technical specification and validation against the requirements baseline.
+% EXPECTED OUTPUT: Software product assurance plan [PAF, SPAP; PDR, CDR].
+% 6.3.5.3
+% a. The supplier shall ensure through internal review that the test procedures and data are adequate, feasible and traceable and that they satisfy the requirements.
+% EXPECTED OUTPUT: Software product assurance reports [PAF, -; -].
+% 6.3.5.4
+% a. Test readiness reviews shall be held before the commencement of test activities, as defined in the software development plan.
+% EXPECTED OUTPUT: Test readiness review reports [DJF, -; TRR].
+
+% 6.3.5.5
+% a. Test coverage shall be checked with respect to the stated goals.
+% EXPECTED OUTPUT: Software product assurance reports [PAF, -; -].
+% b. Feedback from the results of test coverage evaluation shall be continuously provided to the software developers.
+% 6.3.5.6
+% a. The supplier shall ensure that nonconformances and software problem reports detected during testing are properly documented and reported to those concerned.
+% EXPECTED OUTPUT: Nonconformance reports and software problem reports [DJF, -; CDR, QR, AR, ORR].
+% 6.3.5.7
+% a. The test coverage of configurable code shall be checked to ensure that the stated requirements are met in each tested configuration.
+% EXPECTED OUTPUT: Statement of compliance with test plans and procedures [PAF, -; CDR, QR, AR, ORR].
+% 6.3.5.8
+% a. The completion of actions related to software problem reports generated during testing and validation shall be verified and recorded.
+% EXPECTED OUTPUT: Software problem reports [DJF,
+
+% 6.3.5.12
+% a. The supplier shall ensure that tests are repeatable by verifying the storage and recording of tested software, support software, test environment, supporting documents and problems found.
+% EXPECTED OUTPUT: Software product assurance reports [PAF, -; -].
+% 6.3.5.13
+% a. The supplier shall confirm in writing that the tests are successfully completed.
+% EXPECTED OUTPUT: Testing and validation reports [DJF, -; CDR, QR, AR, ORR].
+%
+% 6.3.5.11
+% a. The supplier shall ensure that:
+% 1. tests are conducted in accordance with approved test procedures and data,
+% 2. the configuration under test is correct,
+% 3. the tests are properly documented, and
+% 4. the test reports are up to date and valid.
+% EXPECTED OUTPUT: Statement of compliance with test plans and procedures [PAF, -; CDR, QR, AR, ORR].
+
+% 6.3.5.15
+% a. Areas affected by any modification shall be identified and re‐tested (regression testing).
+% 6.3.5.16
+% a. In case of re‐testing, all test related documentation (test procedures, data and reports) shall be updated accordingly.
+% EXPECTED OUTPUT: Updated test documentation [DJF, -; CDR, QR, AR, ORR].
+
+% 6.3.5.18
+% a. The need for regression testing and additional verification of the software shall be analysed after a change or update of any tool used to generate it.
+% NOTE For example: source code or object code.
+% EXPECTED OUTPUT: Updated test documentation
+
+% 7.1.3 Assurance activities for product quality requirements
+% a. The supplier shall define assurance activities to ensure that the product meets the quality requirements as specified in the technical specification.
+% EXPECTED OUTPUT: Software product assurance plan [PAF, SPAP; SRR, PDR].
+
 \section{Software product assurance programme implementation}
 
 \subsection{Organization}
@@ -44,14 +111,7 @@ SnT shall report on a regular basis on the status of the software product assura
 
 \subsection{Quality models}
 % a. The SPAP shall describe the quality models applicable to the project and how they are used to specify the quality requirements.
-
-\subsection{Risk management}
-% a. The SPAP shall describe the contribution of the software product assurance function to the project risk management.
-<Nome Cognome>, the <Qualifica>, is responsible for maintaining the projects risks.
-
-
-% \subsection{Supplier selection and control}
-% a. The SPAP shall describe the contribution of the software product assurance function to the next level suppliers selection and control.
+% Quality models shall be used to specify the software quality requirements.
 
 \subsection{Methods and tools}
 % a. The SPAP shall describe the methods and tools used for all the activities of the development cycle, and their level of maturity.
@@ -69,3 +129,24 @@ The PA Manager ensures that:
 \subsection{Operation and Maintenance}
 For the maintenance phase a software maintenance plan shall be prepared.
 The outline shall be described in Chapter~\ref{chapter:maintenance}.
+
+\subsection{Software problems}
+
+% The supplier shall define and implement procedures for the logging, analysis and correction of all software problems encountered during software development.
+% EXPECTED OUTPUT: Software problem
+% NO, you need to put here as Yes and ndicate in the SPAP that software problms shall be indicated in the ISSUE section of https://gitlab.uni.lu/fpastore/FAQAS
+
+% 5.2.5.2
+% a. The software problem report shall contain the following information:
+% 1. identification of the software item;
+% 2. description of the problem;
+% 3. recommended solution;
+% 4. final disposition;
+% 5. modifications implemented (e.g. documents, code, and tools);
+% 6. tests re‐executed.
+% EXPECTED OUTPUT: Software problem reporting procedures [PAF, -; PDR].
+% 5.2.5.3
+% a. The procedures for software problems shall define the interface with the nonconformance system (i.e. the circumstances under which a problem qualifies as a nonconformance).
+% EXPECTED OUTPUT: Software problem reporting procedures [PAF, -; PDR].
+% 5.2.5.4
+% a. The supplier
