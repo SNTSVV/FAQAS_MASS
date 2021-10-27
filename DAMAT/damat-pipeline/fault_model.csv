@@ -1,0 +1,15 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+fault_model_01,0,1,BIN,BF,3,3,NA,NA,-1,1
+fault_model_01,0,1,BIN,BF,4,4,NA,NA,-1,1
+fault_model_01,0,1,BIN,BF,5,7,NA,NA,-1,1
+fault_model_02,12,2,DOUBLE,VAT,NA,NA,3.6,0.1,NA,NA
+fault_model_02,12,2,DOUBLE,FVAT,NA,NA,3.6,0.1,NA,NA
+fault_model_02,14,2,DOUBLE,VAT,NA,NA,33.53,0.01,NA,NA
+fault_model_02,14,2,DOUBLE,FVAT,NA,NA,33.53,0.01,NA,NA
+fault_model_02,14,2,DOUBLE,VBT,NA,NA,24,1,NA,NA
+fault_model_02,14,2,DOUBLE,FVBT,NA,NA,24,1,NA,NA
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x51
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x52
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x53
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x54
+fault_model_03,0,1,HEX,IV,NA,NA,NA,NA,NA,0x56

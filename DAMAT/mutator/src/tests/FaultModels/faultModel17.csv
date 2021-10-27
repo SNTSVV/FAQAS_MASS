@@ -1,0 +1,6 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+IfHK,1,1,BIN,BF,1,1,NA,NA,1,1
+IfHK,1,1,BIN,BF,2,2,NA,NA,0,1
+IfHK,2,1,BIN,BF,3,3,NA,NA,0,1
+IfHK,0,1,BIN,BF,3,3,NA,NA,0,1
+IfHK,4,1,BIN,BF,3,3,NA,NA,0,1
