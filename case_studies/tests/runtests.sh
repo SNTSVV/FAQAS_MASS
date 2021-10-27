@@ -122,14 +122,17 @@ get_env_args
 
 echo "#* Test SETUP #"
 setup
+echo
 
 echo "#1 TESTING TEMPLATE GENERATION ... #"
 gen_templates
 echo "#1 TEMPLATE GENERATION test passed :) #"
+echo
 
 echo "#2 TESTING TEST GENERATIOn PIPELINE ... #"
 test_generation_pipeline
 echo "#2 TEST GENERATION PIPELINE test passed :) #"
+echo
 
 echo "#* Test CLEANUP #"
 cleanup
