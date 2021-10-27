@@ -5,7 +5,7 @@ TOPDIR=$(dirname $(readlink -f $0))
 data_dir=$TOPDIR/data
 
 script_data_location=$TOPDIR/../MLFS/scripts
-generate_template_script=$TOPDIR/../ASN/util_codes/generate_direct.sh
+generate_template_script=$TOPDIR/../ASN/util_codes/generate_direct.py
 
 workdir_top=$TOPDIR
 workspace_dir=$workdir_top/"WORKSPACE"
