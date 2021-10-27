@@ -92,3 +92,9 @@ SEMuS takes as input the list of live mutants detected by MASS and aims to gener
  DAMAt generates as output a set of killed mutants (i.e., mutants that, during testing, successfully alter the data, and lead to test case failures), a set of live mutants (i.e., mutants that, during testing, successfully alter the data, but do not lead to test case failures), and a set of not executed mutants (i.e., mutants that, during testing, could not alter any data because the data they target is never exercised by the SUT); also, it provides information useful to draft a verification report, which includes the fault model coverage, the mutation operation coverage, and the mutation score.
  DAMTE is a manual procedure supported by the KLEE toolset that enables an engineer to automatically derive inputs that increase the fault model coverage and the mutation operation coverage.
 %FAQAS.drawio.pdf
+
+Sections~\ref{ch:mass:approach} to~\ref{sec:data:test_suite_augmentation} provide an overview of the FAQAS tools: MASS, SEMuS, DAMAt, and DAMTE.
+Section~\ref{chapter:caseStudies} introduces the case study subjects considered for empirical evaluation.
+Section~\ref{sec:summary:results} provides an overview of the empirical results obtained.
+Section~\ref{sec:conclusion} concludes this report.
+

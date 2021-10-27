@@ -88,7 +88,7 @@ For this study, we could not consider all the available test suites because of h
 The SVF test suite already takes 10 hours to execute.
 
 
-\GCSP{}, \PARAM{}, and \UTIL{}  are utility libraries developed by \ONE\footnote{We use anonymized acronyms according to \ONE policy.}.
+\GCSP{}, \PARAM{}, and \UTIL{}  are utility libraries developed by \ONE.
 \emph{\GCSP{}} is a network protocol library including low-level drivers (e.g., CAN, I2C).
 %an extension of \OPENCSP{}; it provides convenience wrapping of \CSP functionality,
 %definition of standard \CSP ports, and low-level drivers (e.g., CAN, I2C).
@@ -202,11 +202,12 @@ It is important to note that the technical and test suite characteristics descri
 \label{experimnt:setup}
 
 %We should describe the operators used. Potentially could be the superset that is the union of all the operators used in the papers indicated above.
-To perform the empirical evaluation, we have implemented the \APPR pipeline in a toolset that is available under the ESA Software Community Licence Permissive~\cite{ESAlicence} at the following URL \textbf{https://faqas.uni.lu/}.
-%\footnote{Prior to acceptance, files are shared at {https://dropit.uni.lu/invitations?share=18629a285f6aceacd026}}.
-For the implementation of mutation operators, we extended the SRCiror toolset~\cite{hariri2018srciror}.
-In our analysis, we consider all the operators reported in Table 1.2 from D2.
-
+To perform the empirical evaluation, 
+%we have implemented the \APPR pipeline in a toolset that is available under the ESA Software Community Licence Permissive~\cite{ESAlicence} at the following URL \textbf{https://faqas.uni.lu/}.
+%%\footnote{Prior to acceptance, files are shared at {https://dropit.uni.lu/invitations?share=18629a285f6aceacd026}}.
+%For the implementation of mutation operators, we extended the SRCiror toolset~\cite{hariri2018srciror}.
+%In our analysis, 
+we consider all the operators reported in Table 1.2 from D2.
 Related studies~\cite{zhang2010operator,zhang2013operator} are performed by relying on mutation adequate test suites (i.e., test suites that kill all non-equivalent mutants). 
 Such test suites are typically automatically generated using static analysis~\cite{papadakis2012mutation}.
 %Since our subject artifacts, as it is common in cyber-physical domains, either require dedicated simulators or include network components, we cannot rely on static analysis to generate mutation adequate test suites. 
@@ -1149,7 +1150,7 @@ The result of mutation analysis combined for both test suites produce a mutation
 in the presence of optimizations (i.e., test suite reduction) that may affect the code coverage achieved by mutants. 
 Coverage-based approaches, instead, are not effective in detecting likely duplicate mutants.}
 
-\JMR{3.1}{This evaluation focused on investigating and identifying practical solutions to address the scalability of mutation analysis and the pertinence of mutation scores as an adequacy criterion in the context of embedded software for CPS. Important work remains concerning specific subjects in embedded software. For example, our work does not aim to assess if test suites can detect faults concerning the communication between heterogeneous components or the interoperability of different technologies and tools, two typical CPS problems. To address such issues, our future work includes the definition of mutation operators that alter the data exchanged by software components instead of their implementation.}
+%\JMR{3.1}{This evaluation focused on investigating and identifying practical solutions to address the scalability of mutation analysis and the pertinence of mutation scores as an adequacy criterion in the context of embedded software for CPS. Important work remains concerning specific subjects in embedded software. For example, our work does not aim to assess if test suites can detect faults concerning the communication between heterogeneous components or the interoperability of different technologies and tools, two typical CPS problems. To address such issues, our future work includes the definition of mutation operators that alter the data exchanged by software components instead of their implementation.}
 %Table~\ref{table:results:mutationScore} provides the results...
 %
 %\input{tables/results_MutationScore.tex}

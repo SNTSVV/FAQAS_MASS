@@ -7,34 +7,15 @@ In this section, we summarize the benefits and limitations observed when applyin
 
 \subsection*{MASS}
 
-The mutation score computed by \MASS for the case study subjects considered in our experiments was in line with the expectations of engineers. Both GSL and LXS have manually inspected a subset of the live mutants identified by \MASS (18 for \UTIL, 7 for \GCSP, 9 for \PARAM, 19 for \ESAIL). The inspection enabled industry partner to identify relevant shortcomings in their test suites: 
-\begin{itemize}
-\item 30 live mutants were due to missing inputs (7 for \UTIL, 3 for \GCSP, 9 for \PARAM, 11 for \ESAIL). In this cases engineers need to implement additional test cases that exercise the SUT with inputs not considered in the test suite. Of particular relevance are exceptional cases not being coverage (e.g., test suite was exercising the case of an error overflow 
-caused by the parameter ‘value’ for a hash table but was not exercising the case of an error overflow caused by the parameter ‘key’).
-\item 12 live mutants were due to missing oracles (2 for \UTIL, 4 for \GCSP, 6 for \ESAIL). In one case there was a missing oracle to verifies the correct encryption of all blocks encrypted by a certain function. In other cases the test suite was not verifying the output of the commands sent to the ADCS because verified when testing with hardware in the loop.
-\item one fault was detected.
-\item only two live mutants had ben reported (for \ESAIL) and only eight mutants not relevant because concerning third party software (for \UTIL).
-\end{itemize}
 
-In addition, based on an independent evaluation performed on a case study subject not shared with the FAQAS team, LXS has reported that 36\% of the 34 live mutants detected by \MASS spot major limitations of the test suite.
-
-In their independent evaluation with libraries, industry partners did not negatively comment about the scalability of the process. However, they reported the need for a strategy to further prioritize the generated mutants for inspection.
 
 \subsection*{SEMuS}
 
-The empirical evaluation demonstrated the scalability of \SEMUS for the case study subjects in which it can be successfully applied (i.e., ASN1CC, MLFS, and \UTIL). However, it is currently limited by the choice of compiling with LLVM only the source file under test (to limit the probability of compilation errors).
 
-Our results also demonstrated the usefulness of \SEMUS. Indeed, \SEMUS enabled the identification of two fault in our case studies. Also, the generated test cases concerned inputs that are relevant (according to specifications) but not tested by the test suites.
 
 
 \subsection*{DAMAt}
 
-The empirical evaluation with \ESAIL has demonstrated the effectiveness of the approach. Indeed, LXS has indicated that 57\% out of the overall amount of 102 testsuite problems detected by DAMAt were spotting major limitations of the test suite.
 
-\TODO{Add LXS results}
 
-\subsection*{Summary}
 
-The developed toolset has thus demonstrated to be useful in industrial contexts. The common limitation cross the different tools is the usability; indeed, all the tools require relevant effort to be set-up (however, LXS has reported that if at least 6\% of the reported problems spot major limitations the benefits surmount costs). The need for manual effort mostly depends on the lack of a common development environment for different case study subjects. The identification of a reference platform for software development in industry context may facilitate the adoption of the FAQAS toolset.
-
-Other limitations that need further research effort to simplify the adoption of the FAQAS toolset are the prioritization of mutants to be inspected, the need for a solution to compile whole SUTs with LLVM, the need for a solution to enable test generation in the presence of floating point variables, the need for a working solution to enable test generation based on data-driven mutation analysis results. Such limitations are further discussed in Chapter~\ref{sec:limitations}.

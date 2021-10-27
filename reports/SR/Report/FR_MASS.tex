@@ -14,13 +14,12 @@
 \end{figure}
 
 Figure~\ref{fig:approach} provides an overview of the mutation analysis process that we propose, \emph{Mutation Analysis for Space Software (\APPR)}. Its goal is to propose a comprehensive solution for making mutation analysis applicable to embedded software in industrial cyber-physical systems. \JMR{3.4}{The ultimate goal of \APPR is to assess the effectiveness of test suites with respect to detecting violations of functional requirements.}
- 
-\JMR{3.3}{Different from the mutation analysis pipeline presented in related work~\cite{papadakis2019mutation}, \APPR enables the integration of all mutation analysis optimization techniques that are feasible in our context to address scalability and pertinence problems (see Section~\ref{sec:back:summary}). 
+  
 \APPR consists of eight steps: (Step 1) Collect SUT Test Suite Data, (Step 2) Create Mutants, (Step 3) Compile Mutants, (Step 4) Remove Equivalent and Duplicate Mutants Based on Compiled Code, (Step 5) Sample Mutants,  (Step 6) Execute Prioritized Subset of Test Cases, 
 (Step 7) Identify Likely Equivalent / Duplicate mutants Based on Coverage, and
 (Step 8) Compute the Mutation Score. Different from related work, \APPR enables FSCI-based sampling by iterating between mutants sampling (Step 5) and test cases execution (Step 6). 
 Also, it integrates test suite prioritization and reduction (Step 6) before the computation of the mutation score.
-Finally, it includes methods to identify likely equivalent and duplicate mutants based on code coverage (Step 7).}
+Finally, it includes methods to identify likely equivalent and duplicate mutants based on code coverage (Step 7).
 We describe each step in the following paragraphs. 
 
 \clearpage
