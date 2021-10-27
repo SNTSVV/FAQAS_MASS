@@ -127,7 +127,7 @@ check_results() {
                 break
             fi 
         done
-        [ $found -eq 0 ] && || test_failure "No matching obtained test for expected test $exp_unit/$e_utf\n#2 TEST GENERATION PIPELINE test failed :( #"
+        [ $found -eq 0 ] && test_failure "No matching obtained test for expected test $exp_unit/$e_utf\n#2 TEST GENERATION PIPELINE test failed :( #"
     done 
 }
 
