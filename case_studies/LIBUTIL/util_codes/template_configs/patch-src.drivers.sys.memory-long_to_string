@@ -1,0 +1,20 @@
+--- long_to_string.wrapping_main.c	2021-10-01 06:52:34.768000000 +0000
++++ long_to_string.wrapping_main.c.fix	2021-10-01 06:55:39.076000000 +0000
+@@ -4,7 +4,7 @@
+ 
+ #include <stdio.h>
+ #include <string.h>
+-
++#include <stdlib.h>
+ 
+ #include "klee/klee.h"
+ 
+@@ -14,7 +14,7 @@
+     (void)argv;
+ 
+     // Declare variable to hold function returned value
+-    char * result_faqas_semu;
++    const char * result_faqas_semu;
+ 
+     // Declare arguments and make input ones symbolic
+     char buf;
