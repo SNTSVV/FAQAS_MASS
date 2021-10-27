@@ -40,6 +40,8 @@
     # The object type is the dict key and a dict of field accesses and their type is the dict value.
     # The placeholder for the object to make symbolic must be specified as the string '{}'
     # e.g. "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}
+    # If you want an object not to be made symbolic (for example when completely initialized), 
+    # specify the type here as key and with an empty dict as value
     "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
 
     # Specify the underlying type for a void pointer (the data type pointed by the void pointer).
