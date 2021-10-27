@@ -44,7 +44,7 @@ setup() {
     cleanup
     for wdir in $workdir_list; 
     do
-        mkdir $workdir || system_failure "failed to create workdir $wdir"
+        mkdir $wdir || system_failure "failed to create workdir $wdir"
     done
     # setup the scenario
     ## create dirs
@@ -122,7 +122,7 @@ test_generation_pipeline() {
 use_faqas_semu_docker=false
 get_env_args
 
-echo "#* Test SETUP"
+echo "#* Test SETUP #"
 setup
 
 echo "#1 TESTING TEMPLATE GENERATION ... #"
@@ -133,5 +133,5 @@ echo "#2 TESTING TEST GENERATIOn PIPELINE ... #"
 test_generation_pipeline
 echo "#2 TEST GENERATION PIPELINE test passed :) #"
 
-echo "#* Test CLEANUP"
+echo "#* Test CLEANUP #"
 cleanup
