@@ -1,0 +1,18 @@
+--- gs_clock_from_string.wrapping_main.c	2021-10-12 12:14:46.024000000 +0000
++++ gs_clock_from_string.wrapping_main.c.fix	2021-10-12 12:14:28.652000000 +0000
+@@ -17,13 +17,13 @@
+     enum gs_error_t result_faqas_semu;
+ 
+     // Declare arguments and make input ones symbolic
+-    char str;
++    char str[GS_CLOCK_ISO8601_BUFFER_LENGTH];
+     gs_timestamp_t ts;
+     memset(&str, 0, sizeof(str));
+     klee_make_symbolic(&str, sizeof(str), "str"); //char
+ 
+     // Call function under test
+-    result_faqas_semu = gs_clock_from_string(&str, &ts);
++    result_faqas_semu = gs_clock_from_string(str, &ts);
+ 
+     // Make some output
+     printf("FAQAS-SEMU-TEST-OUTPUT: result_faqas_semu = tv_sec: %u, tv_nsec: %u\n", ts.tv_sec, ts.tv_nsec);

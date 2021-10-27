@@ -1,0 +1,10 @@
+{
+    "TYPES_TO_INTCONVERT": {},
+    "TYPES_TO_PRINTCODE": {"unsigned short []": "printf(\"FAQAS-SEMU-TEST_OUTPUT: headerValues = %hu\\n\", headerValues);", "unsigned char []": "printf(\"FAQAS-SEMU-TEST_OUTPUT: destination = %hc\\n\", {});", "struct TmByteField_s": "printf(\"FAQAS-SEMU-TEST_OUTPUT: item.size = %u, item.data = %s\\n\", {}.size, {}.data);"},
+    "OUT_ARGS_NAMES": ["headerValues", "destination", "item"],
+    "IN_OUT_ARGS_NAMES": [],
+    "TYPE_TO_INITIALIZATIONCODE": {},
+    "TYPE_TO_SYMBOLIC_FIELDS_ACCESS": {},
+    "VOID_ARG_SUBSTITUTE_TYPE": "",
+    "ARG_TYPE_TO_ITS_POINTER_ELEM_NUM": {}
+}
