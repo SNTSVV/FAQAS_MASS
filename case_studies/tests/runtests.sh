@@ -121,7 +121,7 @@ check_results() {
         found=0
         for g_utf in `ls $got_unit/*.ktest.c`
         do
-            if diff $e_utf $g_utf > /dev/null 2>&1
+            if diff <(sed '/\/* The following mutants (IDs) were targeted to generated this test/d' $e_utf) <(sed '/\/* The following mutants (IDs) were targeted to generated this test/d' $g_utf) > /dev/null 2>&1
             then
                 found=1
                 break
