@@ -203,6 +203,9 @@
 
 \newcommand{\CHANGEDTWO}[1]{\textcolor{black}{#1}}
 
+\newcommand{\REVFINAL}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+
+
 \newcommand{\EMPH}[1]{\textbf{\emph{#1}}}
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
 
@@ -292,16 +295,13 @@
 
 \input{tailoring}
 
+\STARTCHANGEDFINAL
 \clearpage
 \input{organization}
 
 \clearpage
-\STARTCHANGEDFINAL
-\input{development_plan}
+\input{development_plan} %done (apart from the work packages'tables)
 \ENDCHANGEDFINAL
-
-\clearpage
-\input{quality_assurance}
 
 \clearpage
 \input{validation_plan}
