@@ -18,7 +18,7 @@ FAQAS led to the development of a toolset that includes the following components
 \end{center}
 \end{figure}
 
-The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine, for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible, with the current state-of-the-art test generation toolsets.
+The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine, for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to be partially automatable and DAMTE cannot be considered a fully automated tool but an approach for test generation. The benefits of DAMTE may be limited because of the limitations of the current state-of-the-art test generation toolsets (see D4).
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files. 
 MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that do not lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
