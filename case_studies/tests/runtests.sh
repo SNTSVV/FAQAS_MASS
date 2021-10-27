@@ -102,10 +102,33 @@ check_results() {
     local src=$1
     local exp_path=$expected_testgen_out/${src%.c}
     local got_path=$output_dir/${src%.c}
-    for efp in `find $exp_path -type f`; do
-        local gfp=$(echo $efp | sed "s|^$exp_path|$got_path|g")
+    local exp_mut=$exp_path/mutants_generation
+    local got_mut=$got_path/mutants_generation
+    local exp_tg=$exp_path/test_generation
+    local got_tg=$got_path/test_generation
+    # Check mutant related files
+    for efp in `find $exp_mut -type f`; do
+        local gfp=$(echo $efp | sed "s|^$exp_mut|$got_mut|g")
         diff  $efp $gfp || test_failure "test generation pipeline output files difference between $efp and $gfp\n#2 TEST GENERATION PIPELINE test failed :( #"
     done
+    # check test related files
+    exp_unit=$(find $exp_tg -type d -name produced-unittests)
+    got_unit=$(find $got_tg -type d -name produced-unittests)
+    [ $(ls $exp_unit | wc -l) -eq $(ls $got_unit | wc -l) ] || test_failure "mismatch number of files in unittest folder ($exp_unit and $got_unit)\n#2 TEST GENERATION PIPELINE test failed :( #"
+    [ $(ls $exp_unit/*.ktest.c | wc -l) -eq $(ls $got_unit/*.ktest.c | wc -l) ] || test_failure "mismatch number of unittest files ($exp_unit and $got_unit)\n#2 TEST GENERATION PIPELINE test failed :( #"
+    for e_utf in `ls $exp_unit/*.ktest.c`
+    do
+        found=0
+        for g_utf in `ls $got_unit/*.ktest.c`
+        do
+            if diff $exp_unit/$e_utf $got_unit/$g_utf > /dev/null
+            then
+                found=1
+                break
+            fi 
+        done
+        [ $found -eq 0 ] && || test_failure "No matching obtained test for expected test $exp_unit/$e_utf\n#2 TEST GENERATION PIPELINE test failed :( #"
+    done 
 }
 
 test_generation_pipeline() {
