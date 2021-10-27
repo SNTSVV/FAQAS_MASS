@@ -48,10 +48,8 @@ setup() {
     done
     # setup the scenario
     ## create dirs
-    mkdir $workspace_dir || system_failure "Failed to create WORKSPACE dir"
     mkdir $downloaded_dir || system_failure "Failed to create DOWNLOADED dir"
-    mkdir $scripts_dir || system_failure "failed to create scripts dir"
-    mkdir $util_codes_dir || system_failure "failed to create util_codes dir"
+
     ## copy files
     cp $data_dir/*.c $downloaded_dir || system_failure "failed to copy source files"
     cp $data_dir/compile_commands.json $scripts_dir || system_failure "failed to copy compile_commands file"
