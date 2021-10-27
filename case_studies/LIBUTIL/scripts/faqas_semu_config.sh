@@ -49,7 +49,7 @@ FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=$FAQAS_SEMU_GENERATED_MUTANTS_TOPD
 FAQAS_SEMU_GENERATED_TESTS_TOPDIR=$FAQAS_SEMU_OUTPUT_TOPDIR/test_generation
 
 # timeout in seconds
-FAQAS_SEMU_TEST_GEN_TIMEOUT=120
+FAQAS_SEMU_TEST_GEN_TIMEOUT=300
 
 # This is the config for SEMU heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
 FAQAS_SEMU_HEURISTICS_CONFIG='{
