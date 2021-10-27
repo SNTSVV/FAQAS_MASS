@@ -54,10 +54,10 @@ setup() {
     cp $data_dir/*.c $downloaded_dir || system_failure "failed to copy source files"
     cp $data_dir/compile_commands.json $scripts_dir || system_failure "failed to copy compile_commands file"
     cp $data_dir/faqas_semu_config.sh $scripts_dir || system_failure "failed to copy config file"
-    cp $script_data_location/run.sh $scripts || system_failure "failed to copy the run.sh script"
-    cp $script_data_location/docker_run.sh $scripts || system_failure "failed to copy the docker_run.sh script"
-    sed -i'' 's|MLFS|tests|g' $scripts/docker_run.sh || system_failure "failed to sed docker_run.sh file"
-    cp $script_data_location/create_mutants.sh $scripts || system_failure "failed to copy the create_mutants.sh script"
+    cp $script_data_location/run.sh $scripts_dir || system_failure "failed to copy the run.sh script"
+    cp $script_data_location/docker_run.sh $scripts_dir || system_failure "failed to copy the docker_run.sh script"
+    sed -i'' 's|MLFS|tests|g' $scripts_dir/docker_run.sh || system_failure "failed to sed docker_run.sh file"
+    cp $script_data_location/create_mutants.sh $scripts_dir || system_failure "failed to copy the create_mutants.sh script"
 }
 
 get_env_args() {
@@ -92,9 +92,9 @@ gen_templates() {
 call_generation_script() {
     local src=$1
     if [ $use_faqas_semu_docker = true ]; then
-        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts/docker_run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
+        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts_dir/docker_run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
     else
-        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts/run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
+        ENV_FAQAS_SEMU_SRC_FILE=$src $scripts_dir/run.sh || test_failure "test generation pipeline crash\n#2 TEST GENERATION PIPELINE test failed :( #"
     fi
 }
 
