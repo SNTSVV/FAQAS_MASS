@@ -61,7 +61,7 @@ At this level, we test the system as a whole. In particular, we verify and valid
 
 At a system level, we validate that \MASS is able to process the SUT, SUT test suite, and perform correctly the following steps (1) collect SUT test suite data (e.g., code coverage information), (2) create mutants, (3) compile mutants, (4) disregard equivalent and duplicate mutants based on compiler optimizations, (5) sample mutants, (6) execute a prioritized subset of test case, (7) identify likely equivalent based on code coverage, and (8) compute the mutation score.
 
-We validated the eight steps of \MASS on the MLFS case study, and verified that outputs complied with the system specifications. A full description of the validation of \MASS can be found on the SUM document on Chapter 11.
+We validated the eight steps of \MASS on the LXS System Test Suite for ESAIL, the GSL Integration Test Suite for libgscsp, the GSL System Test Suite for libparam, the MLFS Unit Test Suite, the GSL Unit Test Suite for libutil, and the ASN.1 Auto-generated Unit Test Suite. We also verified that outputs complied with the system specifications. A full description of the validation of \MASS on the MLFS case study can be found on the SUM document on Chapter 11.
 
 \subsubsection{SEMuS}
 
@@ -76,7 +76,7 @@ Figure~\ref{fig:semus} introduces the \SEMUS architecture, and in particular the
 
 At a system level, we performed a validation of \SEMUS to assure that every functional requirement is compliant with the Software System Specifications document (SSS) document. Particularly, we verified that \SEMUS was able to parse the SUT source code, and perform correctly the following steps (as shown in Figure~\ref{fig:semus}) (1) generate test templates from SUT functions, (2) generate the meta-mutants containing all the live mutants of SUT test suite, (3) compile the meta-mutant and to invoke KLEE-SEMu to trigger the test generation step, and (4) to process the KLEE tests and to convert them to C readable unit test cases.
 
-We validated the four steps of the methodology on the MLFS case study, we also verified that outputs are in line with system specifications. A detailed description of the validation of \SEMUS can be found on the SUM document on Chapter 12.
+We validated the four steps of the methodology on the MLFS and the ASN.1 case studies, we also verified that outputs are in line with system specifications. A detailed description of the validation of \SEMUS on the ASN.1 case study can be found on the SUM document on Chapter 12.
 
 
 \subsubsection{DAMAt}
