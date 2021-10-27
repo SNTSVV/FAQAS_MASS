@@ -1,4 +1,4 @@
-# FAQAS_SEMu
+# FAQAS_SEMu 
 
 This project implements the test generation to kill mutants in the context of the project [FAQAS](https://faqas.uni.lu/).
 
