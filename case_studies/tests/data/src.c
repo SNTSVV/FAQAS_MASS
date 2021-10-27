@@ -20,7 +20,7 @@ int func1(int v, MyType *mytype_var)
             ret = 2;
     }
 
-    for (int i=0; i<y+z && i<20; ++i) 
+    for (int i=0; /*i<y+z &&*/ i<5; ++i) 
     {
         // do stuffz
         ret =3;
