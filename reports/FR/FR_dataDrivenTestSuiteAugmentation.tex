@@ -210,12 +210,12 @@ gs_error_t gs_rparam_get_array(uint8_t node,
 
 
 
-Listing~\ref{get_string} shows the implementation of the test template for driving the test generation for the function \texttt{gs\_rparam\_get\_string}. Particularly, it can be seen how \texttt{tableID} is made symbolic by the KLEE API function \texttt{klee\_make\_symbolic}. Then, the function under test is called with concrete parameters and the symbolic one; concrete parameters match the one in other test cases of the \PARAM test suite.
+Listing~\ref{get_string_1} shows the implementation of the test template for driving the test generation for the function \texttt{gs\_rparam\_get\_string}. Particularly, it can be seen how \texttt{tableID} is made symbolic by the KLEE API function \texttt{klee\_make\_symbolic}. Then, the function under test is called with concrete parameters and the symbolic one; concrete parameters match the one in other test cases of the \PARAM test suite.
 
 Note that the function \texttt{gs\_rparam\_get\_string} calls \texttt{gs\_rparam\_get}, which, in turn, invokes the instrumented \\
 function \texttt{gs\_rparam\_get\_array}.
 
-\begin{lstlisting}[style=CStyle,float=t, caption=Test template for function gs\_rparam\_get\_string., label=get_string]
+\begin{lstlisting}[style=CStyle,float=t, caption=Test template for function gs\_rparam\_get\_string., label=get_string_1]
 int main(void) {
     // a little hack - this is next element, we use it check for overwrite and missing 0 termination
     memset(alltypes_mem.string_A, 'Z', sizeof(alltypes_mem.string_A));
