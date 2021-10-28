@@ -7,11 +7,11 @@ Comments IDs appear also in the main document next to the text modified to addre
 
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
-\tiny 
+\tiny
 %@{\extracolsep{\fill}}
 \begin{longtable}{|p{1.5cm}|p{12cm}|@{}}
 %\caption{\normalsize .}
-%\label{table:comments:responses} 
+%\label{table:comments:responses}
 \textbf{Comment ID}&\textbf{Response}\\
 \\
 \hline
@@ -96,7 +96,7 @@ In case someone is interested in evaluating all the mutants it is sufficient to 
 
 More in general, the combination of mutants sampling with test suite augmentation might deserve some additional evaluation. What we might foresee is that, if the objective is not to reach 100\% mutation score, generating test cases that kill the subset of selected mutants might be sufficient.
 
-For example, if the objective is to reach 75\% mutation score and the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated. In the following mutants evaluation round we may observe an estimated mutation score of 70\% (which is 75\% +/ 5\%) and thus stop the process. 
+For example, if the objective is to reach 75\% mutation score and the estimated mutation score is already close enough (e.g., 69\%) it might be sufficient to generate test cases that kill all the sampled mutants (i.e., to achieve 100\% coverage of the sampled mutants). Such test cases may cover new behaviours that kill other mutants in addition to the ones already evaluated. In the following mutants evaluation round we may observe an estimated mutation score of 70\% (which is 75\% +/ 5\%) and thus stop the process.
 
 It might be interesting to evaluate if it is more cost effective to repeatedly sample mutants and generate test cases that kill them or to execute all the mutants and then generate test cases that kill enough mutants to reach 75\% mutation score.
 
@@ -114,7 +114,7 @@ Fixed.
 \hline
 PTCR-PABG-15&
 \begin{minipage}{12cm}
-We believe it is safer to exclude hardware in the loop as indicate in the SSS document. There might be many unexpected drawbacks in applying mutation testing to the real hardware. For example, we cannot predict the consequences of mutation testing altering the value used by an assembly instruction.
+We believe it is safer to exclude hardware in the loop. There might be many unexpected drawbacks in applying mutation testing to the real hardware. For example, we cannot predict the consequences of mutation testing altering the value used by an assembly instruction.
 \end{minipage}\\
 \hline
 PTCR-PABG-16&
@@ -175,7 +175,7 @@ We have added a comment.
 \hline
 PTCR-PABG-27&
 \begin{minipage}{12cm}
-A discussion section has been added (Section~\ref{sec:emp:discussion}) 
+A discussion section has been added (Section~\ref{sec:emp:discussion})
 \end{minipage}\\
 \hline
 PTCR-PABG-28&
@@ -195,7 +195,7 @@ We can update D2 after defining the data-driven mutation testing process more in
 \hline
 PTCR-PABG-31&
 \begin{minipage}{12cm}
-In WP2, we have analyzed the specifications of the ADCS interfaces and provided a data-model for them, since they were the target mentioned in the proposal. As suggested, the set of targets for data-driven mutation testing can be broader than the ADCS interface alone. More precisely we can target all the components with which the OBC interact, which are GPS, the payload PDD and PDHU components, the EPS component. The interface for PUS commands might be targeted as well; however, the modification of PUS commands characterize a different scenario (basically,  instead of modiying the working conditions under which a command is executed, we change the command sent to the system - which somehow similar to executing a different test). For this reason, changes to PUS commands will be targeted will lower priority. 
+In WP2, we have analyzed the specifications of the ADCS interfaces and provided a data-model for them, since they were the target mentioned in the proposal. As suggested, the set of targets for data-driven mutation testing can be broader than the ADCS interface alone. More precisely we can target all the components with which the OBC interact, which are GPS, the payload PDD and PDHU components, the EPS component. The interface for PUS commands might be targeted as well; however, the modification of PUS commands characterize a different scenario (basically,  instead of modiying the working conditions under which a command is executed, we change the command sent to the system - which somehow similar to executing a different test). For this reason, changes to PUS commands will be targeted will lower priority.
 \end{minipage}\\
 \hline
 PTCR-PABG-32&
@@ -233,7 +233,7 @@ PTCR-PABG-38&
 We do not have any conclusion that deviates from our initial suggestions.
 \end{minipage}\\
 \hline
-                                                
+
 \end{longtable}
 \normalsize
 

@@ -20,44 +20,44 @@ Our empirical evaluation aims to assess the effectiveness of the techniques inte
     \item[RQ1] \JMRCHANGE{(Step 4)} What are the cost savings provided by compiler optimization techniques detecting equivalent and duplicate mutants?
     We wish to determine what is the percentage of mutants reported as being equivalent and duplicate by compiler optimization techniques. After accounting for the additional compilation time entailed by such techniques, we want to identify the optimal subset of compilation options to be used in Step 4 of \APPR.
 
-    \item[RQ2] \JMRCHANGE{(Step 5)} Can a randomly selected subset of mutants be used to accurately estimate the mutation score obtained from the entire set of mutants? 
+    \item[RQ2] \JMRCHANGE{(Step 5)} Can a randomly selected subset of mutants be used to accurately estimate the mutation score obtained from the entire set of mutants?
     \CHANGED{We attempt to evaluate four mutants sampling strategies: \INDEX{proportional uniform sampling}, \INDEX{proportional method-based sampling},  \INDEX{uniform fixed-size sampling}, and \INDEX{uniform FSCI sampling}. More precisely, we aim to determine the best configuration for each sampling strategy (i.e., sampling ratio, sample size, and confidence interval). Furthermore, we need to identify which strategy offers the best trade-off between the number of mutants to be tested and accuracy.}
 %    We attempt to replicate the findings reported by Zhang et al.~\cite{zhang2013operator} and determine the optimal sampling ratio to be used in \APPR Step 5.
 
     %Additionally we may ask, do these results generalize for mutants that are generated with mutation operators that are others than the sufficient set?
 
-   % \item[RQ3] Can we identify the minimal number of randomly selected mutants enabling the accurate estimation of the mutation score for the entire set of mutants? RQ3 aims to replicate the findings reported in~\cite{gopinath2015hard}. 
+   % \item[RQ3] Can we identify the minimal number of randomly selected mutants enabling the accurate estimation of the mutation score for the entire set of mutants? RQ3 aims to replicate the findings reported in~\cite{gopinath2015hard}.
 
-    \item[RQ3]  {Do mutants generated with deletion operators (i.e., SDL and OODL) lead to a mutation score that accurately estimates the mutation score of the entire set of mutants?  
-    \REVNOV{PTCR-P-13}{Recall from Section 1.2.1.2 from D2 that SDL and \INDEX{OODL operators} present the following advantages (1) the set of SDL and OODL operators is smaller than the sufficient set thus they lead to less mutants, (2) they are simpler to implement, (3) they produce significantly less equivalent mutants, and (4) test suites that kill mutants generated with both the SDL and the \INDEX{OODL operators} kill a very high percentage of all mutants~\cite{delamaro2014experimental}.}
+    \item[RQ3]  {Do mutants generated with deletion operators (i.e., SDL and OODL) lead to a mutation score that accurately estimates the mutation score of the entire set of mutants?
+    \REVNOV{PTCR-P-13}{SDL and \INDEX{OODL operators} present the following advantages (1) the set of SDL and OODL operators is smaller than the sufficient set thus they lead to less mutants, (2) they are simpler to implement, (3) they produce significantly less equivalent mutants, and (4) test suites that kill mutants generated with both the SDL and the \INDEX{OODL operators} kill a very high percentage of all mutants~\cite{delamaro2014experimental}.}
    We want to determine if we can minimize the number of selected mutants by only relying on deletion operators. To do so, we compare the mutation score generated with SDL and OODL operators with the mutation score based on all available mutation operators. }
     %The results from RQ2, RQ3, and RQ4 will help us determine the best sampling strategy to adopt in \APPR Step 5.
-    
-    
+
+
     \item[RQ4] \JMRCHANGE{(Step 6)} Can a prioritized subset of test cases that maximizes test suite diversity be used to accurately estimate the mutation score of the entire test suite?
-    We investigate how the various distance metrics used in the PrioritizeAndReduce algorithm implemented by \APPR  (Step 6) compare in terms of accuracy. 
-    
+    We investigate how the various distance metrics used in the PrioritizeAndReduce algorithm implemented by \APPR  (Step 6) compare in terms of accuracy.
+
     %Results from RQ2 and RQ3 will guide the selection of the distance metric to be used with \APPR.
 
-    \item[RQ5] \JMRCHANGE{(Step 6)} To what extent different test suite prioritization strategies can speed up the mutation analysis process? We investigate the execution time reduction achieved by different distance metrics used in the PrioritizeAndReduce algorithm. 
-    
+    \item[RQ5] \JMRCHANGE{(Step 6)} To what extent different test suite prioritization strategies can speed up the mutation analysis process? We investigate the execution time reduction achieved by different distance metrics used in the PrioritizeAndReduce algorithm.
 
-    \item[RQ6] \JMRCHANGE{(Step 7)} Is it possible to identify thresholds, based on code coverage information, that enable the detection of nonequivalent and nonduplicate mutants? We investigate 
-    the accuracy of our strategy 
+
+    \item[RQ6] \JMRCHANGE{(Step 7)} Is it possible to identify thresholds, based on code coverage information, that enable the detection of nonequivalent and nonduplicate mutants? We investigate
+    the accuracy of our strategy
     %for identifying nonequivalent and nonduplicate mutants
-    %how accurate are the equivalent and duplicate mutants detected 
+    %how accurate are the equivalent and duplicate mutants detected
     based on threshold values for the best distance metric  (\APPR  Step 7).
-    
+
     % \item[RQ9] Do mutants generated with operators that modify the control-flow produce less equivalent mutants? This research questions aims to replicate the findings reported in~\cite{schuler2013covering}.
 
     \item[RQ7] \JMRCHANGE{(Step 8)} How does the mutation score computed by \APPR relate to the mutation score of the original test suite based on the complete set of mutants? In other words, is there any tradeoff between the gains in scalability due to \APPR and  mutation score accuracy? We therefore analyze the difference between the \APPR mutation score, which is obtained with a subset of the test suite and excludes likely equivalent and duplicate mutants, and the mutation score obtained with the entire set of mutants tested with the full test suite.
-    
+
     \item[RQ8] \REVNOV{C-P-5}{Is it possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered)?}
-    
+
     \item[RQ9] Can mutation analysis results be computed by combining results obtained with different test suites?
 
 
-    
+
 \end{itemize}
 
 %In principle we should use the same metrics used in those papers or justify why we use different ones.
@@ -72,19 +72,19 @@ To perform our experiments, we considered five software artifacts (hereafter, \e
 \REVNOV{PTCR-P-14}{The \INDEX{ASN1SCC} case study has not been considered for this initial evaluation because it represents an atypical use case for mutation testing. In this empirical evaluation we want to evaluate test suites that representative of typical space software systems test suites (i.e., manually developed with the objective of developing a high quality test suite that is traceable to requirements). In the case of ASN1SCC the test suite is automatically generated with an approach that aims to maximize the boundary conditions of the input domain being covered. Any observation made for ASN1SCC is unlikely to generalize to a typical usage scenario of the mutation testing approach. Also, for its simplicity, the test suite generated by ASN1SCC cannot be compared with a test suite generated with a more complex test generation tool that aims to maximize branch coverage. ASN1SCC will anyway considered for later stages.}
 %, and ASN1CC.
 
-\emph{\SAIL{}} is a microsatellite developed by \TWO{}  in a Public-Private-Partnership with ESA and \ExaE{}. The Payload is an AIS Receiver for ship and vessel detection from space. 
-%and the satellite weight at launch will be approximately 115kg. 
-For our empirical evaluation, we considered the onboard central control software of \SAIL{} (hereafter, simply \SAIL{}\emph{-CSW}), which consists of 924 source files with a total size of 187,116 LOC. 
-\SAIL{}\emph{-CSW} is verified by unit test suites and system test suites that run in different facilities (e.g., Software Validation Facility~\cite{Isasi2019}, FlatSat~\cite{Eickhoff:Simulate}, Protoflight Model~\cite{ecssHB10A}). 
+\emph{\SAIL{}} is a microsatellite developed by \TWO{}  in a Public-Private-Partnership with ESA and \ExaE{}. The Payload is an AIS Receiver for ship and vessel detection from space.
+%and the satellite weight at launch will be approximately 115kg.
+For our empirical evaluation, we considered the onboard central control software of \SAIL{} (hereafter, simply \SAIL{}\emph{-CSW}), which consists of 924 source files with a total size of 187,116 LOC.
+\SAIL{}\emph{-CSW} is verified by unit test suites and system test suites that run in different facilities (e.g., Software Validation Facility~\cite{Isasi2019}, FlatSat~\cite{Eickhoff:Simulate}, Protoflight Model~\cite{ecssHB10A}).
 Except for the test suite running in the \INDEX{Software Validation Facility} (SVF), which is a simulator for the onboard hardware~\cite{Isasi2019}, the other test suites require dedicated hardware.
 The SVF simulates both the target hardware and the satellite units (e.g., a magnetometer connected to the Attitude Determination And Control Subsystem unit).
 For this study, we considered the SVF test suite, which
-consists of a total of 384 carefully selected test cases targeting mainly functional and interface requirements of the system. 
+consists of a total of 384 carefully selected test cases targeting mainly functional and interface requirements of the system.
 Other requirements (e.g., timing, robustness, and performance requirements) are verified by the other system test suites.
-Unit test suites are used for preliminary development stages and later to ensure 
+Unit test suites are used for preliminary development stages and later to ensure
 higher level of code coverage for critical modules on the target hardware.
 For this study, we could not consider all the available test suites because of hardware availability; also, our evaluation required repeated executions of the provided test suites, which would not have been practically feasible with dedicated hardware devices in the loop (see Section~\ref{experimnt:setup}).
-%As this is typically the case for many embedded systems, because of the criticality of both timing constraints and functions that process sensor data, most of the testing is performed by a system test suite that requires interactions with a dedicated simulation engine~\cite{Isasi2019}. 
+%As this is typically the case for many embedded systems, because of the criticality of both timing constraints and functions that process sensor data, most of the testing is performed by a system test suite that requires interactions with a dedicated simulation engine~\cite{Isasi2019}.
 The SVF test suite already takes 10 hours to execute.
 
 
@@ -92,18 +92,18 @@ The SVF test suite already takes 10 hours to execute.
 \emph{\GCSP{}} is a network protocol library including low-level drivers (e.g., CAN, I2C).
 %an extension of \OPENCSP{}; it provides convenience wrapping of \CSP functionality,
 %definition of standard \CSP ports, and low-level drivers (e.g., CAN, I2C).
-{\PARAM{}} is a light-weight parameter system designed for \ONE satellite subsystems. 
+{\PARAM{}} is a light-weight parameter system designed for \ONE satellite subsystems.
 {\UTIL{}} is a utility library providing cross-platform APIs for use in both embedded systems and Linux development environments.
 
 %It is based around a logical memory architecture, where every parameter is referenced directly by its logical address.
- 
+
 The \INDEX{Mathematical Library for Flight Software} (\MLFS{}{})
 implements mathematical functions qualified for flight software (it complies with ECSS criticality category B).
 
-The first four columns of Table~\ref{table:caseStudies} provide additional details.  
+The first four columns of Table~\ref{table:caseStudies} provide additional details.
 These software components differ in size and complexity; they range from 3,179 (\PARAM{}) to 74,155 (\SAIL{}\emph{-CSW}) LOC (see column \emph{LOC} in Table~\ref{table:caseStudies}). We also provide information concerning a subset of \SAIL{}\emph{-CSW} (i.e., \SAIL{}$_S$) that is introduced in the following paragraphs.
 
-All the test suites considered in our study are characterized by high statement coverage as required by space software standards (e.g., category C software requires statement adequacy according to ECSS standards~\cite{ecss80C}). 
+All the test suites considered in our study are characterized by high statement coverage as required by space software standards (e.g., category C software requires statement adequacy according to ECSS standards~\cite{ecss80C}).
 %We do not report coverage for industrial case studies because of non-disclosure agreements.
 However, in our study, we do not consider dedicated test suites that require the target hardware to be executed \CHANGED{because of scalability issues, costs, and hardware safety. Indeed, our experiments imply the execution of a large number of test cases (see Section~\ref{experimnt:setup}) that cannot be parallelized when real hardware is required, as only one or few hardware components are available because of their high cost. Also, hardware often needs to be manually set-up, which would make our experiments prohibitively expensive. Finally, the automatically generated mutants may damage the hardware}.
 \CHANGED{In the case of \GCSP{}, \PARAM{}, and \UTIL{}, we considered unit and integration test suites that exercise the SUT in the development environment (a Linux-based system).
@@ -115,13 +115,13 @@ Since we exclude test cases that must be executed with hardware in the loop, the
 }
 %The statements not covered by the test suites considered in our study are covered by the excluded test suites.
 
-\NEWFSCI{The test suites considered in our experiments differ 
-regarding  
-the distribution of test cases exercising each statement (see Figure~\ref{fig:tastCaseDist}). 
+\NEWFSCI{The test suites considered in our experiments differ
+regarding
+the distribution of test cases exercising each statement (see Figure~\ref{fig:tastCaseDist}).
 %This may lead to different results across subjects concerning the scalability of \APPR and the accuracy and effectiveness of the test suite prioritization and reduction steps.
 For unit and integration test suites, test cases focus on a subset of functionalities and input ranges, as a result, the number of test cases exercising a same statement is expectedly low, between one and 18.
 For the \SAIL{}$_S$ system test suite, whose test cases exercise multiple functionalities (e.g., periodic tasks), the number of test cases exercising a same statement is much higher, between one and 121, with a median equal to 58.
-These numbers further highlight the diversity across our subjects. 
+These numbers further highlight the diversity across our subjects.
 %We discuss their impact on \APPR test suite prioritization and reduction step in Section~\ref{exp:accuracy:prioritize}.
 }
 
@@ -190,7 +190,7 @@ Except for \SAIL{}\emph{-CSW}, all subjects
 are compiled to generate executables for the development environment OS (Linux); we rely on the Gnu Compiler Collection (GCC)  for Linux X86~\cite{GCC} versions 5.3 and 6.3 for \MLFS{}{} and ONE, respectively. \SAIL{}\emph{-CSW} is compiled with the
 LEON/ERC32 RTEMS Cross Compilation System, which includes the GCC C/C++ compiler version 4.4.6 for  RTEMS-4.8 (Sparc architecture)~\cite{RTEMS}.
 
-It is important to note that the technical and test suite characteristics described above are very common in embedded software across many industry domains and cyber-physical systems, thus suggesting our results can be generalizable beyond space software. 
+It is important to note that the technical and test suite characteristics described above are very common in embedded software across many industry domains and cyber-physical systems, thus suggesting our results can be generalizable beyond space software.
 
 \input{tables/caseStudies.tex}
 
@@ -202,46 +202,46 @@ It is important to note that the technical and test suite characteristics descri
 \label{experimnt:setup}
 
 %We should describe the operators used. Potentially could be the superset that is the union of all the operators used in the papers indicated above.
-To perform the empirical evaluation, 
+To perform the empirical evaluation,
 %we have implemented the \APPR pipeline in a toolset that is available under the ESA Software Community Licence Permissive~\cite{ESAlicence} at the following URL \textbf{https://faqas.uni.lu/}.
 %%\footnote{Prior to acceptance, files are shared at {https://dropit.uni.lu/invitations?share=18629a285f6aceacd026}}.
 %For the implementation of mutation operators, we extended the SRCiror toolset~\cite{hariri2018srciror}.
-%In our analysis, 
-we consider all the operators reported in Table 1.2 from D2.
-Related studies~\cite{zhang2010operator,zhang2013operator} are performed by relying on mutation adequate test suites (i.e., test suites that kill all non-equivalent mutants). 
+%In our analysis,
+we consider all the implemented operators.
+Related studies~\cite{zhang2010operator,zhang2013operator} are performed by relying on mutation adequate test suites (i.e., test suites that kill all non-equivalent mutants).
 Such test suites are typically automatically generated using static analysis~\cite{papadakis2012mutation}.
-%Since our subject artifacts, as it is common in cyber-physical domains, either require dedicated simulators or include network components, we cannot rely on static analysis to generate mutation adequate test suites. 
-%We thus rely on the original test suites provided with the subjects. 
-\JMR{3.13}{Since we cannot leverage static analysis to generate mutation adequate test suites (see Section~1.2.1.5 from D2), 
+%Since our subject artifacts, as it is common in cyber-physical domains, either require dedicated simulators or include network components, we cannot rely on static analysis to generate mutation adequate test suites.
+%We thus rely on the original test suites provided with the subjects.
+\JMR{3.13}{Since we cannot leverage static analysis to generate mutation adequate test suites,
 we rely on the original test suites provided with the subjects.}
 As a result, to perform our study, we mutate only the statements that are covered by the considered test suites.
 
-\CHANGED{For every subject, we generated mutants by executing the \APPR toolset on Linux OS running on a MacBook Pro with 2,3 GHz 8-Core Intel Core i9. 
+\CHANGED{For every subject, we generated mutants by executing the \APPR toolset on Linux OS running on a MacBook Pro with 2,3 GHz 8-Core Intel Core i9.
 Table~\ref{table:mutants} reports, for every subject, the total number of mutants that were generated, their generation time, the number of mutants successfully compiled, the proportion of compiled mutants with respect to the overall number of mutants generated, and the time required to compile mutants using one compiler optimization level only (i.e., the one originally selected by engineers for each subject).
 %the default compiler optimization options of the subject.
-The generation of mutants is fast, it takes at most {182} seconds on the largest subject (\SAIL{}\emph{-CSW}). On average, across subjects, it takes {11} milliseconds to generate a single mutant. 
+The generation of mutants is fast, it takes at most {182} seconds on the largest subject (\SAIL{}\emph{-CSW}). On average, across subjects, it takes {11} milliseconds to generate a single mutant.
 The proportion of successfully compiled mutants is large (i.e., 86.82\% overall), though it varies from 85.35\% for \SAIL{}\emph{-CSW} to 90.91\% for \GCSP{} and \UTIL{}.
-This proportion is in line with the ones reported in related work, though there is variation. For example, industrial systems 
-%that likely contain complex instructions, 
+This proportion is in line with the ones reported in related work, though there is variation. For example, industrial systems
+%that likely contain complex instructions,
 have shown lower success rates (e.g., 81.13\% for safety-critical software components~\cite{Baker2013}) than open source, batch utilities (e.g., 96.30\% for Coreutils~\cite{hariri2016evaluating}).} \REVNOV{PTCR-17}{In the case of compiler warnings, we simply follow the policy configured for the case study. More precisely., in the case of ESAIl and MLFS all the warnings from the compiler lead to a compilation failure. In the case of GSL the compilation process proceeds.}
- 
-{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3,157 to 151,234 seconds, for an average of 0.96 seconds required to compile a single mutant, across subjects. Because of our selective compilation strategy (see Section~1.2.7 from D2), the time required by our pipeline to compile a single mutant is significantly lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC %(i.e., 22,827 LOC)  
+
+{As shown in Table~\ref{table:mutants}, the time required to compile all the mutants ranges from 3,157 to 151,234 seconds, for an average of 0.96 seconds required to compile a single mutant, across subjects. Because of our selective compilation strategy, the time required by our pipeline to compile a single mutant is significantly lower than the one required by state-of-the-art approaches, which is around 4.6 seconds per mutant, even when software components have a lower number of LOC %(i.e., 22,827 LOC)
 than our subjects~\cite{kintis2017detecting}.}
 
-% {The last three columns of Table~\ref{table:mutants} present the number and percentage of mutants successfully compiled, along with the time required to compile all the mutants using the proposed incremental compilation process (Step 3 of \APPR). 
-%In total, 86.82\% of the mutants generated among the four case study systems are successfully compiled. 
- 
+% {The last three columns of Table~\ref{table:mutants} present the number and percentage of mutants successfully compiled, along with the time required to compile all the mutants using the proposed incremental compilation process (Step 3 of \APPR).
+%In total, 86.82\% of the mutants generated among the four case study systems are successfully compiled.
+
 
 
 
 %According to previous research on mutant operator selection, we consider the superset, that is, the union of all the operators defined in the work by Offutt et al.~\cite{offutt1996experimental}, Andrews et al.~\cite{andrews2005mutation} and Kintis et al.~\cite{kintis2017detecting}. The superset consist of the AOR, LCR, ICR, ROR, SDL, UOI, and ABS.
 %
 %To asses our research questions with the different set of operators considered in the literature, we consider four interleaving subsets of the : the sufficient set (i.e., AOR, LCR, ICR, ROR, SDL, UOI, and ABS),
-%the deletion set (i.e., SDL, AOD, LOD, ROD, BOD, and SOD), the extended sufficient set (i.e., all the operators in Table~\ref{table:operators}), and the statement deletion set (i.e., the SDL operator only).  
+%the deletion set (i.e., SDL, AOD, LOD, ROD, BOD, and SOD), the extended sufficient set (i.e., all the operators in Table~\ref{table:operators}), and the statement deletion set (i.e., the SDL operator only).
 
 
 
-{To collect the data required to address research questions RQ2 to RQ8, for every subject and unique mutant generated by Step 3, we have executed all the test cases covering the mutated statement. Table~\ref{table:magnitude} provides, for every subject, the overall number of executed test cases and the total execution time required for our experiments. In total, the entire experiment took 1,912,662 minutes (31,878 hours or more than 1300 days). Test  execution time depends on the number of mutants, the number of executed test cases, and the test suite level (e.g., system test suites exercise more complex scenarios than unit or integration test suites).}  
+{To collect the data required to address research questions RQ2 to RQ8, for every subject and unique mutant generated by Step 3, we have executed all the test cases covering the mutated statement. Table~\ref{table:magnitude} provides, for every subject, the overall number of executed test cases and the total execution time required for our experiments. In total, the entire experiment took 1,912,662 minutes (31,878 hours or more than 1300 days). Test  execution time depends on the number of mutants, the number of executed test cases, and the test suite level (e.g., system test suites exercise more complex scenarios than unit or integration test suites).}
 %In our experiments, the execution times of the components tested with unit test suites \FIXME{have the same order of magnitude; indeed, they take between X and Y seconds to execute.}
 %In the case of ESAIL, instead, \FIXME{....}}
 
@@ -250,8 +250,8 @@ The HPC cluster consists of Intel Xeon E5-2680 v4 (2.4 GHz) nodes. To perform ou
 
 \input{tables/experimentsMagnitude.tex}
 
-In the following sections, we 
-%analyze differences in results 
+In the following sections, we
+%analyze differences in results
 \JMR{3.11}{discuss statistical significance}
 using a non-parametric Mann Whitney U-test (with $\alpha$ = 0.05)~\cite{Arcuri:practicalGuide:ICSE:2015}.  We discuss effect size based on Vargha and Delaney’s $A_{12}$ statistics, a non-parametric effect size measure~\cite{VDA,Arcuri:practicalGuide:ICSE:2015}. Based on $A_{12}$, effect size is considered small when $0.56 \le A_{12} < 0.64$, medium when $0.64 \le A_{12} < 0.71$, large when $A_{12} \ge 0.71$. Otherwise the compared samples are considered equivalent, that is to be drawn from the same population~\cite{VDA}.
 
@@ -277,51 +277,51 @@ using a non-parametric Mann Whitney U-test (with $\alpha$ = 0.05)~\cite{Arcuri:p
 
 \subsubsection{Design and measurements}
 
-RQ1 aims to determine the cost savings provided by 
-trivial compiler optimization techniques~\cite{papadakis2015trivial,kintis2017detecting}. To do so, we assess the number of equivalent and duplicate mutants discarded by these techniques and the additional costs introduced by the augmented compilation process. Since the mutants detected by these techniques 
-are a subset of 
+RQ1 aims to determine the cost savings provided by
+trivial compiler optimization techniques~\cite{papadakis2015trivial,kintis2017detecting}. To do so, we assess the number of equivalent and duplicate mutants discarded by these techniques and the additional costs introduced by the augmented compilation process. Since the mutants detected by these techniques
+are a subset of
 the overall set of equivalent and duplicate mutants, we refer to them as \INDEX{trivially equivalent} and \INDEX{trivially duplicate} mutants.
 
 For every subject, we compile every mutant six times, each time with a different optimization level enabled. We consider all the available \INDEX{optimization levels} for the GCC compiler, which are \emph{-O0}, \emph{-O1}, \emph{-O2}, \emph{-O3}, \emph{-Os},
-% (O2 it includes all O2 optimizations except those increasing executable size), 
+% (O2 it includes all O2 optimizations except those increasing executable size),
 and \emph{-Ofast}~\cite{GCCopt}. Level \emph{-O0} indicates that no optimization is applied. Levels \emph{-O1}, \emph{-O2}, \emph{-O3}, and \emph{-Ofast}, in this order, enable an increasing number of optimization options (e.g., level \emph{-Ofast} includes all the optimizations of level \emph{-O3} plus two additional ones, which are \emph{-ffast-math} and \emph{-fallow-store-data-races}). Level \emph{-Os} enables all \emph{-O2} optimizations except those that increase code size. This is the first reported experiment including options \emph{-Os} and \emph{-Ofast} in such an analysis.
- 
 
-To identify the most effective compiler optimization level, we consider the percentage of trivially equivalent and trivially duplicate mutants they detect. Also, to discuss how complementary different optimization levels  are and, therefore, whether they should be combined, we report the number of mutants identified as equivalent and duplicate by each compiler optimization only (hereafter called \INDEX{univocal-trivially-equivalent mutants} and \INDEX{univocal-trivially-duplicate mutants}). 
+
+To identify the most effective compiler optimization level, we consider the percentage of trivially equivalent and trivially duplicate mutants they detect. Also, to discuss how complementary different optimization levels  are and, therefore, whether they should be combined, we report the number of mutants identified as equivalent and duplicate by each compiler optimization only (hereafter called \INDEX{univocal-trivially-equivalent mutants} and \INDEX{univocal-trivially-duplicate mutants}).
 
 \CHANGED{To further assess the different optimization levels, we analyze the distribution of trivially equivalent and duplicate mutants across the different mutation operators considered in our study.}
-% and, furthermore, we manually inspect a randomly selected sample of univocal-equivalent and univocal-duplicate mutants.} 
+% and, furthermore, we manually inspect a randomly selected sample of univocal-equivalent and univocal-duplicate mutants.}
 Last, we compare our results with the ones reported in related work~\cite{papadakis2015trivial}.
 
 \CHANGED{By default, subjects are compiled with  different compiler optimization options, \emph{-Os} for \SAIL{}\emph{-CSW}, \emph{-O2} for \MLFS{}{}, \emph{-O3} for \GCSP{}, \PARAM{}, and \UTIL{}.}
-To estimate the costs entailed by the augmented compilation process, we collect, for every subject, the time required for compiling all their mutants with each of the five optimization levels enabled. To compile mutants, we rely on the optimized compilation process implemented in Step 3 of \APPR (see Section~1.2.7 from D2).
+To estimate the costs entailed by the augmented compilation process, we collect, for every subject, the time required for compiling all their mutants with each of the five optimization levels enabled. To compile mutants, we rely on the optimized compilation process implemented in Step 3 of \APPR.
 
 
 
 \subsubsection{Results}
 
-Table~\ref{table:results:compilerOptimizations} provides the results concerning the detection of trivially equivalent and trivially duplicate mutants. We report the total number of such mutants detected for each subject (column \emph{All}), their percentage with respect to the set of mutants successfully compiled (column \emph{Overall \%}), and the percentages obtained with the options included in related work (i.e., by discarding the equivalent and duplicate mutants detected by \emph{-O0}, \emph{-O1}, \emph{-O2}, and \emph{-O3}, reported in column \emph{-O0-3}). 
- The proportion of trivially equivalent mutants detected with optimization levels O0-O3 (6.22\%) is in line with related work~\cite{papadakis2015trivial} (7\%) and the range observed for the different subjects (i.e., 1.04\% to 8.90\%) largely overlaps with the range observed in related work (2\%-10\%). 
- %However, the difference in means with related work is statistically significant and effect size is medium. 
+Table~\ref{table:results:compilerOptimizations} provides the results concerning the detection of trivially equivalent and trivially duplicate mutants. We report the total number of such mutants detected for each subject (column \emph{All}), their percentage with respect to the set of mutants successfully compiled (column \emph{Overall \%}), and the percentages obtained with the options included in related work (i.e., by discarding the equivalent and duplicate mutants detected by \emph{-O0}, \emph{-O1}, \emph{-O2}, and \emph{-O3}, reported in column \emph{-O0-3}).
+ The proportion of trivially equivalent mutants detected with optimization levels O0-O3 (6.22\%) is in line with related work~\cite{papadakis2015trivial} (7\%) and the range observed for the different subjects (i.e., 1.04\% to 8.90\%) largely overlaps with the range observed in related work (2\%-10\%).
+ %However, the difference in means with related work is statistically significant and effect size is medium.
  %Such results can be explained by the fact that, in our context, domain-specific functionalities and code adhering to coding standards are less likely to lead to the generation of trivially equivalent mutants (i.e., any small change in the code tends to impact software behaviour).
- For trivially duplicate mutants, instead, we observe a slightly larger set of duplicate mutants when compared to related work. Optimization levels O0-O3 determine that 25.99\% of the mutants are trivially duplicate, while in related work the average is around 21\%. Finally,  
+ For trivially duplicate mutants, instead, we observe a slightly larger set of duplicate mutants when compared to related work. Optimization levels O0-O3 determine that 25.99\% of the mutants are trivially duplicate, while in related work the average is around 21\%. Finally,
  optimization levels \emph{-Os} and \emph{-Of} enable the detection of additional trivially equivalent and duplicate mutants, thus leading to an average of \JMR{3.12}{6.36\% and 27.43\% of the mutants being discarded, respectively (see column \emph{Overall \%})}. In particular, \textbf{we observe that the optimization level \emph{-Os}, not evaluated by related work, is the most effective}. Our results confirm the effectiveness of compiler optimizations for removing a significant percentage of equivalent and duplicate mutants.
- 
-Table~\ref{table:results:compilerOptimizationsUnivocal} provides additional details about the trivially equivalent and duplicate mutants univocally detected by the different optimization options. In total, 4.44\% and 3.34\% of these mutants are univocally detected  by one optimization level (see columns \emph{\% of Equivalent} and \emph{\% of Duplicate}); moreover, since all optimization options contribute to the univocal detection of equivalent and redundant mutants, \textbf{it is preferable to rely on all the available compiler optimization options}. 
-\UPDATE{Overall, the most effective optimization option is \emph{-Os}, which detects 50.67\% and 46.34\% of univocal-equivalent and univocal-duplicate mutants, respectively. It is followed by \emph{-O1}, detecting 18.43\% and 10.82\% of such mutants, respectively}. These results suggest that, when the number of compilation runs must be limited, then \emph{-Os} and \emph{-O1} should be prioritized over the other options. This is interesting since \textbf{stronger optimization levels such as \emph{-Ofast} and \emph{-O3} do not contribute more than \emph{-Os} to the detection trivially equivalent and duplicate mutants}. Surprisingly, the optimization level \emph{-O0}, which does not enable any compiler optimization option, can detect trivially equivalent and trivially redundant mutants not detected by other optimization levels. However, this seems to highly depend on the code surrounding the mutated statement. 
+
+Table~\ref{table:results:compilerOptimizationsUnivocal} provides additional details about the trivially equivalent and duplicate mutants univocally detected by the different optimization options. In total, 4.44\% and 3.34\% of these mutants are univocally detected  by one optimization level (see columns \emph{\% of Equivalent} and \emph{\% of Duplicate}); moreover, since all optimization options contribute to the univocal detection of equivalent and redundant mutants, \textbf{it is preferable to rely on all the available compiler optimization options}.
+\UPDATE{Overall, the most effective optimization option is \emph{-Os}, which detects 50.67\% and 46.34\% of univocal-equivalent and univocal-duplicate mutants, respectively. It is followed by \emph{-O1}, detecting 18.43\% and 10.82\% of such mutants, respectively}. These results suggest that, when the number of compilation runs must be limited, then \emph{-Os} and \emph{-O1} should be prioritized over the other options. This is interesting since \textbf{stronger optimization levels such as \emph{-Ofast} and \emph{-O3} do not contribute more than \emph{-Os} to the detection trivially equivalent and duplicate mutants}. Surprisingly, the optimization level \emph{-O0}, which does not enable any compiler optimization option, can detect trivially equivalent and trivially redundant mutants not detected by other optimization levels. However, this seems to highly depend on the code surrounding the mutated statement.
 \JMR{3.14}{For example, in one \UTIL mutant the optimization level \emph{-O0} detected that \texttt{if ( ptr )} is equivalent to \texttt{if( ptr > NULL )}, with \texttt{ptr} being a pointer, which was not detected with other optimization levels; however, the same instructions are detected as equivalent by other optimization levels when they belong to other functions (i.e., when the code surrounding them is different than the one appearing in the \UTIL mutant).}
 
 
 To enable further comparison with related work~\cite{kintis2017detecting},
-in Table~\ref{table:results:compilerOptimizationsProportionOperators}, we report the proportion of trivially equivalent and  duplicate mutants per mutation operator. The mutation operator causing the largest number of trivially equivalent mutants is UOI (e.g., 
+in Table~\ref{table:results:compilerOptimizationsProportionOperators}, we report the proportion of trivially equivalent and  duplicate mutants per mutation operator. The mutation operator causing the largest number of trivially equivalent mutants is UOI (e.g.,
 it applies a post-increment operator to the last use of a variable),
-%it post-increments the last use of a variable), 
-followed by ROR, 
-%(e.g., \FIXME{it ... }), 
-ROD, 
-%(e.g., \FIXME{it ...}), 
-and ICR. 
-%(e.g., because \FIXME{it ...}). 
+%it post-increments the last use of a variable),
+followed by ROR,
+%(e.g., \FIXME{it ... }),
+ROD,
+%(e.g., \FIXME{it ...}),
+and ICR.
+%(e.g., because \FIXME{it ...}).
 Related studies are conducted with a smaller set of operators~\cite{kintis2017detecting}; however, the operators causing the largest numbers of trivially equivalent and duplicate mutants are the same. The main difference with related work~\cite{kintis2017detecting} concerns the ABS operator, which leads to a small set of equivalent mutants in our case, the main reason being that we rely on a definition of the ABS operator that minimizes the number of equivalent mutants by simply inverting the sign of the value instead of using the \emph{abs} function~\cite{Kintis2018}. Indeed, in functions with a positive integer domain, the replacement of a value with its absolute value trivially leads to equivalent mutants. Except for the ABS operator, \textbf{our study confirms the ranking observed in related work} despite different showing proportions. In addition, our results show that \textbf{the nature of the software affects the distribution of equivalent and duplicate mutants across operators}. Indeed, \MLFS{}{}, which focuses on mathematical functions, includes larger proportions of equivalent and duplicate mutants caused by ICR and AOR. In \PARAM{}, which does not deal with mathematical functions, the number of equivalent and duplicate mutants caused by these operators is much smaller. Finally, we notice that the \textbf{SDL and OODL operators lead to a minimal set of trivially equivalent and duplicate mutants, except for ROD}.
 
 \input{tables/results_compilerOptimizationsDetails}
@@ -357,32 +357,32 @@ Table~\ref{table:results:compilerOptimizationsTime} provides the time required t
 \subsubsection{Design and measurements}
 
 
-RQ2 aims to investigate  
-%the validity of the findings reported by Zhang et al.~\cite{zhang2013operator} and, which concluded that 
+RQ2 aims to investigate
+%the validity of the findings reported by Zhang et al.~\cite{zhang2013operator} and, which concluded that
 to what extent the mutation score computed from a sample of mutants (hereafter, \INDEX{estimated mutation score}) accurately estimates the mutation score of the complete set of mutants (hereafter, \INDEX{actual mutation score}).
 
-In our study, we consider the sampling strategies which are part of \APPR, as justified earlier: \INDEX{proportional uniform sampling}, \INDEX{proportional method-based sampling},  \INDEX{uniform fixed-size sampling}, and \INDEX{uniform FSCI sampling}. 
+In our study, we consider the sampling strategies which are part of \APPR, as justified earlier: \INDEX{proportional uniform sampling}, \INDEX{proportional method-based sampling},  \INDEX{uniform fixed-size sampling}, and \INDEX{uniform FSCI sampling}.
 
 
-Because of the complexity and size of space software, combined with its high test execution cost, we are interested in selecting a very small subset of mutants. 
-For this reason, 
+Because of the complexity and size of space software, combined with its high test execution cost, we are interested in selecting a very small subset of mutants.
+For this reason,
 to evaluate  \INDEX{proportional uniform sampling} and \INDEX{proportional method-based sampling},
 we consider sampling ratios ranging from $1\%$ to $10\%$, in steps of $1\%$. Further,
- %to compare our results with those of Zhang et al., 
+ %to compare our results with those of Zhang et al.,
  we also cover the range 10\% to 100\%, in steps of $10\%$. To evaluate  \INDEX{uniform fixed-size sampling}, consistent with our earlier discussion, we consider a number of mutants in the range 100 to 1000, in steps of $100$.
 Finally, to evaluate \INDEX{proportional method-based sampling}, we consider a threshold for the confidence interval (i.e., $T_{\mathit{CI}}$) that ranges from $0.05$ to $0.10$, in steps of $0.01$, with a confidence level of $95\%$, which is a common choice. The experiments conducted to address RQ2 entail the execution of the entire test suite for every sampled mutant. Executions with a prioritized and reduced test suite are addressed in Section~\ref{exp:accuracy:prioritize}. The evaluation of different values for $T_{\mathit{CI}}$ enable us to determine the costs associated with a more accurate estimation of the mutation score, in order to better understand the trade-offs.
 
 
-We compute the actual mutation score of each system by executing the test suite against all the mutants that were successfully compiled, excluding mutants detected as being equivalent or duplicate by simple compiler optimization techniques (see RQ1). 
+We compute the actual mutation score of each system by executing the test suite against all the mutants that were successfully compiled, excluding mutants detected as being equivalent or duplicate by simple compiler optimization techniques (see RQ1).
 For each sampling ratio, to account for randomness,
 we repeat the analysis 100 times, i.e., we compute the mutation score 100 times, based on 100 randomly selected subsets of mutants.
-%we randomly select 100 subsets of mutants and compute their mutation score. 
+%we randomly select 100 subsets of mutants and compute their mutation score.
 Since it is not feasible to test all the mutants generated for \SAIL{}\emph{-CSW}, as discussed above, we focus on $\mathit{\SAIL{}}_{S}$.
 
 
 
 %
-%Computation in R: 
+%Computation in R:
 %X = set of 100 mutation scores
 %quantile(X, c(.025, .975))
 
@@ -393,21 +393,21 @@ Since it is not feasible to test all the mutants generated for \SAIL{}\emph{-CSW
 %
 Our goal is to determine if the estimated mutation score is an accurate estimate of the actual mutation score.
 This happens when the estimated mutation score differs from the actual mutation score for less than a small delta (hereafter, accuracy delta, $\delta_{acc}$) for a large percentage of the runs (e.g., 95\%).
-We thus study the distribution of the difference between the estimated and actual mutation scores across all runs. More precisely, we estimate the 2.5\% and 97.5\% quantiles\footnote{We rely on linear interpolation using the type 8 
+We thus study the distribution of the difference between the estimated and actual mutation scores across all runs. More precisely, we estimate the 2.5\% and 97.5\% quantiles\footnote{We rely on linear interpolation using the type 8
 algorithm suggested in Hyndman and Fan~\cite{Hyndman1996}. It does not make assumptions about the underlying distribution.}.
 Since these two quantiles delimit 95\% of the population,
 we consider the mutation scores to be accurately estimated when they are within a pre-defined small range of the actual score [$-\delta_{acc}$;$+\delta_{acc}$].
-In other words, we consider the estimated mutation score to be accurate when 
+In other words, we consider the estimated mutation score to be accurate when
 %the largest absolute value for the two quantiles is below $\delta_{acc}$.
 the absolute value of the largest difference between quantiles and the actual score is below $\delta_{acc}$.
-Since the range of acceptable mutation score values is small (75\%-100\%, see Section~1.2.1.1 from D2), we decided to use a threshold of 5\%, which is more conservative than that reported in related work ~\cite{gopinath2015hard}. 
+Since the range of acceptable mutation score values is small (75\%-100\%), we decided to use a threshold of 5\%, which is more conservative than that reported in related work ~\cite{gopinath2015hard}.
 
 Below, we analyze $\delta_{acc}$ for varying sampling rates. To improve readability, we discuss the results concerning the different sampling strategies separately.
 % \emph{proportional uniform sampling} and \emph{proportional method-based sampling}.
 
 % (i.e., the max difference between the actual mutation score and either the 2.5\% quantile or the 97.5\% quantile is below 0.01).
 
-%%Since mutants are selected in random order and their result do not depend on the order in which they are executed, they can be treated as  independent from each other. 
+%%Since mutants are selected in random order and their result do not depend on the order in which they are executed, they can be treated as  independent from each other.
 %%We thus perform a t-test (alpha = 0.05) to test if the null hypothesis \emph{the mean mutation score of the sampled subset of mutants is equal to the true mutation score}, is rejected.
 
 
@@ -432,14 +432,14 @@ Below, we analyze $\delta_{acc}$ for varying sampling rates. To improve readabil
 \input{tables/results_preliminary_ms}
 \input{tables/rq2}
 
-Table~\ref{table:results:accuracy:full} reports on the mutation scores obtained with the entire test suite for all subjects. 
+Table~\ref{table:results:accuracy:full} reports on the mutation scores obtained with the entire test suite for all subjects.
 As expected, the best mutation score is obtained for \MLFS{}{}, whose test suite achieves MC/DC coverage. \REVNOV{PTCR-20}{In this project, based on related work, we assume a good quality test suite to have a mutation score above 75\%. However, the objective of this report is not to evaluate the quality of the provided test suites based on the observed mutation score but to evaluate the approach for estimating the mutation score. A discussion of of the quality of the provided test suites based on the mutation score is an activity that might be left for later stages when the mutation testing approach is completed and partners had time to inspect live mutants. Indeed,
  there are a number of factors that affect the computed mutation score; for example, the presence of equivalent mutants lead to live mutants and, consequently, make the mutation score (erroneously) low. The inspection of equivalent mutants for the case studies is till ongoing, at this stage. Also, the reasons for not achieving a high mutation score may vary from case study to case study and needs an in depth investigation. For example, for GSL case studies, this seems to be related to a number of off-the-shelf components integrated in the source of the system. Such off-the-shelf-components are not expected to be tested by the test suite. A mutation score based on only non off-the-shelf-components will be computed in later stages of the project.}
 
 %Figure~\ref{fig:results:accuracy:sampling}  reports a plot with the maximum absolute value of the difference...
-Table~\ref{table:results:accuracy:regSampling} provides accuracy results (column $\delta_{acc}$) for proportional uniform sampling for a range of sampling rates~($r$). 
+Table~\ref{table:results:accuracy:regSampling} provides accuracy results (column $\delta_{acc}$) for proportional uniform sampling for a range of sampling rates~($r$).
 To enable comparisons across sampling methods, Column \emph{\#M} reports the number of mutants sampled for each sampling rate.
-As expected, a larger sampling rate leads to more accurate results (i.e., low $\delta_{acc}$). 
+As expected, a larger sampling rate leads to more accurate results (i.e., low $\delta_{acc}$).
 We notice that for test suites that ensure MC/DC coverage (i.e., \MLFS{}{}), even a very small sampling ratio (i.e., 0.01) guarantees a $\delta_{acc}$ below 5\%. However, to achieve an accurate mutation score estimate across all subjects, a minimum sampling rate of 0.09 is required.
 
 %Table~\ref{table:results:accuracy:sampling} reports, for every case study system, sampling strategy, and sampling ratio, the max difference between the actual mutation score and either the 2.5\%/97.5\% quantile.
@@ -450,7 +450,7 @@ In addition, we observe that, for $r=0.09$, the worst results (highest deltas) a
 
 \subsubsection{Results - proportional method-based sampling}
 
-Table~\ref{table:results:accuracy:methodBased} shows the accuracy results for proportional method-based sampling. 
+Table~\ref{table:results:accuracy:methodBased} shows the accuracy results for proportional method-based sampling.
 Interestingly, for two subjects (i.e., \GCSP{} and \UTIL{}), proportional method-based sampling leads to accurate estimates of the mutation score with a lower number of mutants than proportional uniform sampling (i.e., around 250).
 However, to achieve accurate results with all subjects, we need a minimal sampling rate of $r=0.09$, as for proportional uniform sampling, which, in the case of method-based sampling, leads to a slightly higher number of mutants. For this reason, we do not see any benefit in using method-based sampling.
 
@@ -468,28 +468,28 @@ However, to achieve accurate results with all subjects, we need a minimal sampli
 %\end{figure}
 \input{tables/rq3}
 
-Table~\ref{table:results:accuracy:FSCI:sampling} shows the accuracy results for uniform fixed-size sampling and uniform FSCI sampling. For each subject, we sort results according to the number of mutants. For FSCI sampling, we report the confidence interval threshold $T_\mathit{CI}$. 
+Table~\ref{table:results:accuracy:FSCI:sampling} shows the accuracy results for uniform fixed-size sampling and uniform FSCI sampling. For each subject, we sort results according to the number of mutants. For FSCI sampling, we report the confidence interval threshold $T_\mathit{CI}$.
 
-The best results (i.e., lowest number of mutants with $\delta_{acc} \le 5\%$) are obtained using  FSCI sampling with $T_\mathit{CI}=0.10$. Predictably, FSCI sampling with $T_\mathit{CI}=0.10$ guarantees $\delta_{acc} \le 5\%$ (half of $T_\mathit{CI}$); indeed, by construction, if our assumptions 
-on the limited correlation between mutants and the mutation score following a  binomial distribution hold (see Section~1.2.1.4 from D2),
+The best results (i.e., lowest number of mutants with $\delta_{acc} \le 5\%$) are obtained using  FSCI sampling with $T_\mathit{CI}=0.10$. Predictably, FSCI sampling with $T_\mathit{CI}=0.10$ guarantees $\delta_{acc} \le 5\%$ (half of $T_\mathit{CI}$); indeed, by construction, if our assumptions
+on the limited correlation between mutants and the mutation score following a binomial distribution hold,
 FSCI sampling with $T_\mathit{CI}=0.10$ is expected to guarantee $\delta_{acc} \le 5\%$ (see Appendix
 B
-%~\ref{appendix:correlation} 
+%~\ref{appendix:correlation}
 for further details on the distribution of the mutation score across subjects).
 
-In addition, our results suggest that a limited number of mutants (between 300 and 400) is required to achieve the desired $\delta_{acc}$. This sample size is much lower than the (worst case) sample size proposed by Gopinath et al., which is 1,000~\cite{gopinath2015hard}. Also, our sample size is smaller 
-than the one estimated, for a mutation score between 60\% and 80\%, by 
+In addition, our results suggest that a limited number of mutants (between 300 and 400) is required to achieve the desired $\delta_{acc}$. This sample size is much lower than the (worst case) sample size proposed by Gopinath et al., which is 1,000~\cite{gopinath2015hard}. Also, our sample size is smaller
+than the one estimated, for a mutation score between 60\% and 80\%, by
 approaches
-%a priori approaches 
-based on confidence-interval estimation, which is still around 1,000~\cite{Goncalves2012}. 
-%that could be estimated a priori for a mutation score between 60\% and 80\%, which is around 1,000~\cite{Goncalves2012}. 
+%a priori approaches
+based on confidence-interval estimation, which is still around 1,000~\cite{Goncalves2012}.
+%that could be estimated a priori for a mutation score between 60\% and 80\%, which is around 1,000~\cite{Goncalves2012}.
 However, we confirm the finding of Gopinath et al., who demonstrated that the binomial distribution %provides a conservative estimation of the
 accurately estimates the mutation score~\cite{gopinath2015hard}.
 
-To summarize, this is the first study demonstrating that \textbf{FSCI sampling is the 
+To summarize, this is the first study demonstrating that \textbf{FSCI sampling is the
 best approach for obtaining the smallest sample size
-%optimal approach for determining sample size 
-while providing guarantees on the accuracy of mutation score estimates.} 
+%optimal approach for determining sample size
+while providing guarantees on the accuracy of mutation score estimates.}
 We therefore propose a better solution than that of Gopinath et al., who provide an upper bound for the number of mutants to be considered in uniform fixed-size sampling, since we have evidence suggesting that FSCI sampling helps to select a significantly smaller sample size for a desired confidence interval.
 
 
@@ -513,7 +513,7 @@ As for RQ2, to be accurate, the mutation score obtained with a subset of operato
 
 \input{tables/results_ms_SDL}
 
-In Table~\ref{table:results:score:sdl:oodl}, column \emph{\# Mutants} shows, for each subject, the number of mutants generated with either the SDL operator or both the SDL and OODL operators. 
+In Table~\ref{table:results:score:sdl:oodl}, column \emph{\# Mutants} shows, for each subject, the number of mutants generated with either the SDL operator or both the SDL and OODL operators.
 Column \emph{Mutation score} shows the mutation score obtained when using the entire test suite to exercise the mutants generated with either all the operators, the SDL operator only, or both the SDL and OODL operators. Between parentheses, we also report the difference between the mutation score obtained with all the operators and that obtained with a subset of operators. Results show that, for some of our subjects, the mutation score obtained with the SDL operator does not accurately estimate the mutation score obtained with a broader set of operators. Though these results do not invalidate related work~\cite{delamaro2014experimental}, whose focus is on the evaluation of the strength of SDL and OODL operators, it shows that \textbf{SDL and OODL operators should not be adopted to estimate the mutation score computed with a larger set of operators}. We leave the evaluation of the strength of SDL and OODL operators to future work.
 
 
@@ -521,7 +521,7 @@ Column \emph{Mutation score} shows the mutation score obtained when using the en
 
 %is always accurate; instead, the mutation score obtained with both the SDL and OODL operators is not accurate in the case of MLFS.}
 
-%Tables~\ref{table:results:accuracy:regSamplingSDL} to~\ref{table:results:accuracy:funcSamplingSDLOODL} show the accuracy of proportional uniform and method-based sampling applied to select mutants generated either with the SDL operator only or with the SDL and OODL operators. 
+%Tables~\ref{table:results:accuracy:regSamplingSDL} to~\ref{table:results:accuracy:funcSamplingSDLOODL} show the accuracy of proportional uniform and method-based sampling applied to select mutants generated either with the SDL operator only or with the SDL and OODL operators.
 %Tables~\ref{table:results:accuracy:sampling_sdl} and~\ref{table:results:accuracy:sampling_sdl_oodl} show the accuracy of uniform fixed-size sampling and uniform FSCI sampling applied to select mutants generated either with the SDL operator only or with both the SDL and OODL operators. In all the cases, it is not possible to identify any sampling rate that enable an accurate  (i.e., $\delta_{acc} \le 5\%$) estimation of the mutation score. \FIXME{This is mostly due which might be partially due to the overall number of mutants being generated being low.}
 %
 %
@@ -581,20 +581,26 @@ Column \emph{Mutation score} shows the mutation score obtained when using the en
 
 RQ4 assesses whether the mutation score obtained with the reduced and prioritized test suite generated by \APPR (hereafter, the \MPTS) accurately estimates the actual mutation  score.
 %speeds up the mutation testing process.
-To this end, we compare the accuracy obtained with the four distance metrics (i.e., $D_J$, $D_O$, $D_E$, and $D_C$) used by the proposed \INDEX{PrioritizeAndReduce} algorithm (Figure 1.6 from D2). In addition, to determine to what extent our prioritization strategy based on code coverage contributes to the selection of test cases that kill mutants, we also compare the results obtained with a simple baseline that, for each mutant, randomly selects one test case among the ones that cover the mutant. 
+To this end, we compare the accuracy obtained with the four distance metrics (i.e., $D_J$, $D_O$, $D_E$, and $D_C$) used by the proposed \INDEX{PrioritizeAndReduce} algorithm. In addition, to determine to what extent our prioritization strategy based on code coverage contributes to the selection of test cases that kill mutants, we also compare the results obtained with a simple baseline that, for each mutant, randomly selects one test case among the ones that cover the mutant.
 
 
-For all subjects, we consider (a) the complete set of mutants, (b) the reduced subset of mutants providing accurate results (i.e., the one obtained with FSCI sampling with $T_{\mathit{CI}}=0.10$). 
-Based on RQ3 results, we exclude mutants generated with the SDL and SDL+OODL operators only. 
+For all subjects, we consider (a) the complete set of mutants, (b) the reduced subset of mutants providing accurate results (i.e., the one obtained with FSCI sampling with $T_{\mathit{CI}}=0.10$).
+Based on RQ3 results, we exclude mutants generated with the SDL and SDL+OODL operators only.
 %Since, based on related work, engineers may still be interested in evaluating the mutation score obtained with SDL operators only, we study to what extent the test suite derived by the \emph{PrioritizeAndReduce} algorithm enable us to estimate the mutation score computed with the SDL operator.
-For FSCI sampling, since we evaluate the accuracy of a reduced test suite, we derive the confidence interval using Equation 1.5 from D2. 
+For FSCI sampling, since we evaluate the accuracy of a reduced test suite, we derive the confidence interval using Equation~\ref{eq:CI}.
+
+\begin{equation}
+\label{eq:CI}
+\mathit{CI}=[\mathit{L}_{R}+P_\mathit{KErr};\mathit{U}_{R}+P_{\mathit{KErr}}]
+\end{equation}
+
 %Details about the estimated accuracy and number of mutants \ref{appendix:FSCI:reduced}.
 
 %To the end of this research question, we study if the proposed reduction/prioritization strategies can produce a mutation score that is \textit{representative} with respect to the true mutation score obtained with no test suite reduction/prioritization strategies.
 
 %We consider the same set of mutants as for RQ2.
-For each subject and each distance metric, and for each of the two sets of mutants considered, we generated ten different \MPTSs. In the case of FSCI, since it randomly selects mutants, we considered ten different sets of mutants derived with distinct executions of the FSCI algorithm. For each \MPTS, we computed the mutation score obtained. 
-Then, to determine if the mutation score of the \MPTS is accurate, we follow the same procedure adopted for RQ2, i.e., we rely on the 2.5/97.5 percentile distance from the actual mutation score. 
+For each subject and each distance metric, and for each of the two sets of mutants considered, we generated ten different \MPTSs. In the case of FSCI, since it randomly selects mutants, we considered ten different sets of mutants derived with distinct executions of the FSCI algorithm. For each \MPTS, we computed the mutation score obtained.
+Then, to determine if the mutation score of the \MPTS is accurate, we follow the same procedure adopted for RQ2, i.e., we rely on the 2.5/97.5 percentile distance from the actual mutation score.
 %In the case of the SDL set, we rely on the 2.5/97.5 percentile distance from the mutation score obtained with all the SDL mutants.
 
 
@@ -604,30 +610,30 @@ Then, to determine if the mutation score of the \MPTS is accurate, we follow the
 \input{tables/results_prioritize_accuracy_new.tex}
 
 
-Table~\ref{table:results:PriritizeAndReduce} provides the values of $\delta_{acc}$ obtained for the different subjects and distance metrics (i.e., the random baseline and the four distance metrics supported by \APPR). Rows named \emph{ALL} report the results obtained when executing the entire set of mutants, rows named \emph{FSCI}  report the results obtained  with the FSCI strategy. 
+Table~\ref{table:results:PriritizeAndReduce} provides the values of $\delta_{acc}$ obtained for the different subjects and distance metrics (i.e., the random baseline and the four distance metrics supported by \APPR). Rows named \emph{ALL} report the results obtained when executing the entire set of mutants, rows named \emph{FSCI}  report the results obtained  with the FSCI strategy.
 %column \emph{SDL} reports the results for the mutants generated with the SDL operator only.
 
 
 
-\NEWFSCI{Unsurprisingly, for all the subjects except \SAIL{}$_S$, the mutation score computed with the entire set of mutants tested with the \MPTS (i.e., row ALL) is more accurate than the mutation score computed with a subset of the mutants tested with the same test suite (i.e., row FSCI). 
+\NEWFSCI{Unsurprisingly, for all the subjects except \SAIL{}$_S$, the mutation score computed with the entire set of mutants tested with the \MPTS (i.e., row ALL) is more accurate than the mutation score computed with a subset of the mutants tested with the same test suite (i.e., row FSCI).
 %However, the distance metrics $D_E$ and $D_C$ enable the accurate estimation (i.e, $\delta_{acc}  < 5$) of the actual mutation score with FSCI.
 However, the mutation score estimated with FSCI is always accurate (i.e, $\delta_{acc}  < 5$).
 In the case of \SAIL{}$_S$, where each statement is covered by a large number of test cases (see Section~\ref{sec:empirical:subjects}),
-%\footnote{\UPDATE{In $ESAIL_S$, each statement is covered on average by 61 test cases. In the other cases, each statement is covered by 2 test cases, on average (see Section~\ref{sec:empirical:subjects}).}}, 
+%\footnote{\UPDATE{In $ESAIL_S$, each statement is covered on average by 61 test cases. In the other cases, each statement is covered by 2 test cases, on average (see Section~\ref{sec:empirical:subjects}).}},
 test suite reduction has a higher probability of retaining a test case that does not kill a mutant.
-For this reason, executing a reduced test suite with a subset of mutants selected with FSCI, which estimates the error due to test suite reduction, 
+For this reason, executing a reduced test suite with a subset of mutants selected with FSCI, which estimates the error due to test suite reduction,
 leads to a more accurate mutation score than executing a reduced test suite with the entire set of mutants without estimating such error (i.e., row ALL).
-%For this reason, FSCI, which estimates the error due to test suite reduction, 
+%For this reason, FSCI, which estimates the error due to test suite reduction,
 %performs better.
 % than the execution of the entire set of mutants without estimating such error (i.e., row ALL).
-%FSCI enables a more accurate computation of the mutation score for the \MPTS. 
+%FSCI enables a more accurate computation of the mutation score for the \MPTS.
 %\FIXME{It happens because estimation errors due to test suite reduction are minimal
-%\footnote{Figure~\ref{} shows that the number of test cases executed by FSCI with the whole test suite is similar to the one with the reduced test suite}, consequently 
+%\footnote{Figure~\ref{} shows that the number of test cases executed by FSCI with the whole test suite is similar to the one with the reduced test suite}, consequently
 %enforcing $|\mathit{CI}_E| \le T_{\mathit{CE}}$ simply augment the sample size thus improving the accuracy of the estimation.}
 }
 
 %enforcing PKErr, which is used to compute a corrected confidence interval and consequently the mutation score. The corrected confidence interval, which takes into account PKErr enable us to obtain a more accurate mutation score than the one computed with the whole test suite. Which is an additional reason for adopting FSCI.}}
- 
+
 
 %% Comment 25/02/2021:
 %% In the case of ESAIL, the higher delta is likely due to the large number of test cases covering each mutant, which increases the likelihood of removing  test cases that kill the mutant. Consequently, the mutation score may be affected. In the case of FSCI, such error in the computation score is estimated with the initial tuning to estimate PKErr, which is used to compute a corrected confidence interval and consequently the mutation score. The corrected confidence interval, which takes into account PKErr enable us to obtain a more accurate mutation score than the one computed with the whole test suite. Which is an additional reason for adopting FSCI.
@@ -637,16 +643,16 @@ leads to a more accurate mutation score than executing a reduced test suite with
 The only distance metric that consistently leads to inaccurate estimates of the mutation score (i.e., $\delta_{acc}  > 5$) across subjects is the random baseline.
 Based on a non-parametric Mann Whitney test, the difference between the random baseline (i.e., Random) and the four distance metrics implemented by \APPR (i.e., $D_*$) is always significant with a \textit{p}-value $< 0.05$. This indicates that \textbf{the \APPR distance metrics are necessary to accurately estimate the mutation score while reducing the number of test cases to  execute}.
 
-Among the proposed distance metrics, 
+Among the proposed distance metrics,
 $D_J$ and $D_O$ provide inaccurate results with \SAIL{}$_S$.
-%and less accurate results for other subjects than alternatives. 
-We conjecture the main reason is their inability to account for the number of times a statement is exercised by a test case. 
-We believe this is an important factor as system test cases that repeatedly exercise mutated statements, with different variable values, are more likely to kill mutants than test cases exercising such statements only once (e.g., because of the uncertainty regarding the 
+%and less accurate results for other subjects than alternatives.
+We conjecture the main reason is their inability to account for the number of times a statement is exercised by a test case.
+We believe this is an important factor as system test cases that repeatedly exercise mutated statements, with different variable values, are more likely to kill mutants than test cases exercising such statements only once (e.g., because of the uncertainty regarding the
 \JMR{3.16}{incorrect intermediate state
 %infected program state
-propagating to the state variables verified by test oracles, see Section~1.2.1.1 from D2}). On the other hand, unit and integration test cases, which exercise much simpler scenarios in other subjects, are more likely to kill a mutant when the mutated statement is executed only once (e.g., because the oracle is closer to the mutated statement). This is why $D_J$ and $D_O$ fare similarly to the other distance metrics for these subjects. 
+propagating to the state variables verified by test oracles}). On the other hand, unit and integration test cases, which exercise much simpler scenarios in other subjects, are more likely to kill a mutant when the mutated statement is executed only once (e.g., because the oracle is closer to the mutated statement). This is why $D_J$ and $D_O$ fare similarly to the other distance metrics for these subjects.
 %Almost every system test case exercises certain components (e.g., the handler of telecommands, which is the main entry point of the system) but only the ones executing such components repeatedly (e.g., to verify multiple combination of input values for a same telecommand) carefully exercise mutated statements. Regarding the other subjects, each unit and integration test case rather tends to focus on simple test scenarios that exercise mutated statements once or a few times.
-In contrast, $D_C$ and $D_E$ are distance metrics ensuring an accurate estimate of the mutation score and providing the lowest $\delta_{acc}$. The differences between $D_E$ and $D_C$ are always statistically significant, \UPDATE{except for \MLFS{}{}}. However, there are no practically significant differences between them. 
+In contrast, $D_C$ and $D_E$ are distance metrics ensuring an accurate estimate of the mutation score and providing the lowest $\delta_{acc}$. The differences between $D_E$ and $D_C$ are always statistically significant, \UPDATE{except for \MLFS{}{}}. However, there are no practically significant differences between them.
 Since $D_C$ provides a normalized score, which is required by Step 8, we select $D_C$ as the preferred metric to be used in \APPR.
 %the Based on $\delta_{acc}$, the metric that perform slightly better is $D_E$ (the sum of the $\delta_{acc}$ across all the case studies for all the configurations is lower than for $D_E$. \textbf{We thus select $D_E$ as the best metric to be used with \APPR}.
 
@@ -663,21 +669,21 @@ We compute time saving as the ratio of the difference in execution time from the
 In particular, as in RQ4, we consider three scenarios (1) all the mutants are selected, (2) mutants are selected with FSCI sampling, (3) mutants are selected with FSCI sampling but we execute the entire test suite, as opposed to the \MPTS. By considering scenario (3), we can estimate both the time saved thanks to mutant sampling and the additional time saved when combining it with the \MPTS.
 For the original test suite, to emulate a realistic mutation analysis process according to state-of-the-art solutions, we measure the time required to execute test cases until the mutant is killed (for live mutants it means that we execute the entire test suite). Also, we set a test case timeout equal to three times the duration of the original test case.
 
-Since the execution time of test cases depends on multiple factors such as the underlying test harness, the development practices in place (e.g., verifying multiple scenarios in a single test case), and the type of testing conducted (e.g., unit, integration, system), we also compute 
+Since the execution time of test cases depends on multiple factors such as the underlying test harness, the development practices in place (e.g., verifying multiple scenarios in a single test case), and the type of testing conducted (e.g., unit, integration, system), we also compute
 the ratio of the number of test cases not executed by the \MPTS over the total number of test cases.
 
 \subsubsection{Results}
 
-Table~\ref{table:time:original} reports, for every subject, the time required to test all the mutants with the entire test suite, in seconds. It also reports  the total number of test cases executed. 
+Table~\ref{table:time:original} reports, for every subject, the time required to test all the mutants with the entire test suite, in seconds. It also reports  the total number of test cases executed.
 We observe that mutation analysis requires a large amount of time. It takes between 13 and 73 hours for subjects tested with unit and integration test suites (which are faster to execute). When a system test suite needs to be executed (i.e., $\mathit{\SAIL{}_S}$), traditional mutation analysis becomes infeasible as shown by the 11,000 hours required to perform mutation analysis with $\mathit{\SAIL{}_S}$.
 
-Figures~\ref{fig:results:time:saving} and~\ref{fig:results:test:saving} provide boxplots depicting 
+Figures~\ref{fig:results:time:saving} and~\ref{fig:results:test:saving} provide boxplots depicting
 the saving achieved when the \MPTS is executed with all the mutants and with the FSCI-selected mutants, in terms of execution time and test cases, respectively. Each observation corresponds to the saving obtained with one of the ten executions performed on each subject, for a specific configuration (i.e., distance $D_*$ and strategy adopted for selecting mutants). In Figures~\ref{fig:results:time:saving} and~\ref{fig:results:test:saving}, horizontal dashed lines show the average across all subjects, whiskers are used to identify outliers (i.e., they are placed below/above 1.5*Inter Quartile Range of the upper quartile/lower quartile). A detailed table including min, max, mean, and median values for each subject is provided in Appendix C.
 %~\ref{appendix:details:rq5}.
 
 %Table~\ref{table:results:reduction:prioritize} reports the saving achieved when the \APPR test suite is executed with all the mutants, with the FSCI selected mutants, with the SDL mutants. For both time savings and test savings, we report the min, max, median, and mean values. Values are reported for all the case studies, for all the distance metrics, and for the three strategies considered to select mutants (i.e., selecting all the available mutants, selecting all the mutants generated with the SDL operator, and selecting mutants with the FSCI strategy).
 
-Unsurprisingly, the smallest reduction in execution time and number of executed test cases is achieved when executing the \MPTS with all the mutants. 
+Unsurprisingly, the smallest reduction in execution time and number of executed test cases is achieved when executing the \MPTS with all the mutants.
 Measuring such time reduction allows us to evaluate the benefits of test suite prioritization and selection when it is not combined with mutant selection.
 Excluding outliers, execution time reduction goes from  \UPDATE{-0.52\%} % -0.11\% was the 1st quantile not the whisker
 to 16.82\% and appears to be correlated with the reduction in number of test cases to execute, which varies from 4.80\% to 33.17\%.
@@ -691,15 +697,15 @@ A negative reduction indicates that the reduced and prioritized test suite incre
 
 Mutant sampling alone contributes to a high reduction in execution time; indeed, in Figure~\ref{fig:results:time:saving}, the boxplot \emph{FSCI 0.1-Full TS}, depicting the time saving for FSCI mutants tested with the entire test suite, shows minimum, median, and maximum values of 65.76\%, 75.10\%, and 84.72\%. Indeed, by reducing the number of mutants to execute, FSCI sampling significantly reduced the total number of test cases to execute within a [\JMRCHANGE{49.98\%} - 80.54\%] range (as shown by the boxplot in Figure~\ref{fig:results:test:saving}).
 
-The highest reduction in execution time is achieved when combining the \MPTS with FSCI sampling. It ranges from 72.09\% to 90.83\%. $D_C$ and $D_E$, which are the approaches that guarantee accurate results, lead to an execution time reduction in the ranges \JMRCHANGE{[75.25\% - 90.83\%]} and \JMRCHANGE{[73.53\% - 90.83\%]}, respectively, an impressive achievement. 
-Test case savings, 
-%show similar ranges, 
+The highest reduction in execution time is achieved when combining the \MPTS with FSCI sampling. It ranges from 72.09\% to 90.83\%. $D_C$ and $D_E$, which are the approaches that guarantee accurate results, lead to an execution time reduction in the ranges \JMRCHANGE{[75.25\% - 90.83\%]} and \JMRCHANGE{[73.53\% - 90.83\%]}, respectively, an impressive achievement.
+Test case savings,
+%show similar ranges,
 \JMRCHANGE{as well, are above 65\%, [68.28\% - 83.45\%]} and \JMRCHANGE{[68.08\% - 82.70\%]} for $D_C$ and $D_E$, respectively. Based on savings results, there is no practical difference between $D_C$ and $D_E$.
 
 %The number of test cases being executed is reduced by 84.50\% for $D_J$ and $D_O$ and by 84.08\% for $D_E$ and $D_C$. When combined with FSCI sampling the differences between the different distance metrics are thus not practically significant (27 minutes, in total, across all the case studies), the selection of the coverage distance metric $D_*$ can thus rely on RQ4 results.
 
-To conclude, \textbf{we suggest to combine FSCI sampling with the \MPTS to minimize the time required by mutation analysis}. 
-For $\mathit{\SAIL{}}_S$, 
+To conclude, \textbf{we suggest to combine FSCI sampling with the \MPTS to minimize the time required by mutation analysis}.
+For $\mathit{\SAIL{}}_S$,
 \NEWFSCI{on average, when combining the \MPTS with FSCI sampling, mutation analysis time goes from 11,000 hours to 1,531 hours, which makes mutation analysis feasible in one week with 10 computing nodes.} Note that for safety or mission critical systems, such as satellites software, the cost of using computing nodes is minimal compared to the development cost of the entire system. Indeed, to test such systems, even paying for the computational power of 100 HPC nodes to make mutation analysis feasible in half a day, is economically justifiable. \JMR{2.2}{Otherwise, without \APPR, mutation analysis leads to 11,000 hours of test cases execution, thus being practically infeasible since it would require more than 100 days to be completed, even with 100 HPC nodes.}
 
 Our results also show that when it is not feasible to collect coverage data for the mutants under test (a requirement to generate the \MPTS), \textbf{FSCI sampling alone, without a reduced test suite, may still provide a high reduction in execution time}. In the case of $\mathit{\SAIL{}}_S$, this leads to 2,920 mutation analysis hours, which require less than two days with 100 HPC nodes.
@@ -728,11 +734,11 @@ Our results also show that when it is not feasible to collect coverage data for 
 \subsection{RQ6 - Precise Detection of Equivalent and Duplicate Mutants}
 \label{sec:empirical:thrshold}
 \subsubsection{Design and measurements}
-RQ6 investigates if it is possible to identify thresholds that enable the accurate identification of mutants that are nonequivalent ($T_E$) and nonduplicate ($T_D$), following the procedure described in Section 1.2.3.7 from D2.
+RQ6 investigates if it is possible to identify thresholds that enable the accurate identification of mutants that are nonequivalent ($T_E$) and nonduplicate ($T_D$).
 
-To determine $T_E$ and $T_D$, 
+To determine $T_E$ and $T_D$,
 we rely on the optimal distance metric identified in RQ4 ($D_C$).
-%for each normalized distance metric ($D_J$, $D_O$, $D_E$, $D_C$), 
+%for each normalized distance metric ($D_J$, $D_O$, $D_E$, $D_C$),
 We analyze  precision and recall of the results obtained for  different values of $T_E$ and $T_D$.
 %being equal to $0.0$, between $0.0$ and $0.4$,  between $0.4$ and $0.8$, between $0.8$ and $1$.
 %\CHANGED{We do not discuss recall (i.e., the percentage of equivalent mutants detected by our approach) since it is not feasible to compute the overall number of equivalent, live mutants. Indeed, it would imply manually inspecting all the live mutants, 12,330 in total, across all subjects (see Table~\ref{table:results:accuracy:full}).}
@@ -743,7 +749,7 @@ To determine $T_D$, we measure
 precision as the percentage of mutant pairs with a distance above $T_D$ that are duplicate, recall as the percentage of duplicate mutant pairs that have a distance above $T_D$.
 %\CHANGED{We do not discuss recall (i.e., the percentage of equivalent mutants detected by our approach) since it is not feasible to compute the overall number of equivalent, live mutants. Indeed, it would imply manually inspecting all the live mutants, 12,330 in total, across all subjects (see Table~\ref{table:results:accuracy:full}).}
 
-Since the quality of results might be affected by both test suite reduction (i.e., less coverage data may be available) and mutants sampling (e.g., less mutants might be sampled), consistent with the finding of previous RQs, we consider the following two configurations: 
+Since the quality of results might be affected by both test suite reduction (i.e., less coverage data may be available) and mutants sampling (e.g., less mutants might be sampled), consistent with the finding of previous RQs, we consider the following two configurations:
 \begin{itemize}
 \item Execution of the original test suite with all the generated mutants (ALL)
 %\item Execution of the original test suite against a random selection of x\% mutants
@@ -771,19 +777,19 @@ Since the quality of results might be affected by both test suite reduction (i.e
 
 
 
-We determine the values of $T_E$ and $T_D$ based on the analysis of the 
+We determine the values of $T_E$ and $T_D$ based on the analysis of the
 cumulative distribution of the distance values computed to determine equivalent and duplicate mutants, for the two configurations listed above.
 Figures~\ref{fig:results:test:dde} and
 ~\ref{fig:results:test:ddd}
 show the cumulative distribution --- the Y-axis shows the percentage of mutants and mutant pairs with a distance lower or equal to the value in the X-axis.
 For both Figures~\ref{fig:results:test:dde} and
 ~\ref{fig:results:test:ddd} we can observe that the distribution of mutants is not uniform in the range 0-1 (otherwise we would have straight lines with 45 degree angle) but we observe a large proportion of mutants (Figures~\ref{fig:results:test:dde}) and mutant pairs (Figures~\ref{fig:results:test:ddd}) having small distances. For example,
-Figure~\ref{fig:results:test:dde} shows that, across all subjects, more than 60\% of the mutants have a distance below 0.05 (i.e., with $x$ equal to $0.05$, the value of $y$ is above $60$). 
-%Also, for \PARAM{}, \UTIL{}, and \MLFS{}{} more than half of the mutants have a distance equal to zero (i.e., all the test cases show the same coverage of the original program). 
+Figure~\ref{fig:results:test:dde} shows that, across all subjects, more than 60\% of the mutants have a distance below 0.05 (i.e., with $x$ equal to $0.05$, the value of $y$ is above $60$).
+%Also, for \PARAM{}, \UTIL{}, and \MLFS{}{} more than half of the mutants have a distance equal to zero (i.e., all the test cases show the same coverage of the original program).
 %This observation, i.e., a large percentage of mutants with a small distance from the original program, should be expected since mutation operators introduce small changes into the source code which unlikely lead to big changes to the program behaviour.
 %Figure~\ref{fig:results:test:ddd} shows a similar distribution for the distances computed for duplicate mutants.
 
-To evaluate precision and recall, we thus select values for $T_D$ and $T_E$ that 
+To evaluate precision and recall, we thus select values for $T_D$ and $T_E$ that
 either largely differ (i.e., $0.0$, $0.4$, and $0.8$) or delimit ranges including a large proportion of the mutants (i.e., $0$, $0.01$, and $0.05$). Table~\ref{table:results:proportion:mutants} reports the percentage of mutants and mutant pairs belonging to the ranges delimited by the selected values, for the two configurations considered in our study; the distribution of mutants in Table~\ref{table:results:proportion:mutants} is consistent with Figures~\ref{fig:results:test:dde} and
 ~\ref{fig:results:test:ddd}.
 
@@ -797,26 +803,26 @@ either largely differ (i.e., $0.0$, $0.4$, and $0.8$) or delimit ranges includin
 
 
 
-%To determine $T_E$, for each configuration listed above (i.e., ALL and FSCI/SMTS), we manually inspect a randomly selected subset of the mutants. However, 
-To compute precision and recall for different values of $T_E$, since the distribution of mutants is not uniform, we rely on stratified sampling, as follows. 
-%More precisely, we estimate precision and recall based on the number of nonequivalent mutants estimated for sets of mutants selected based on their distance, 
-We divide all the live mutants into six buckets, based on their distance from the original program, according to the ranges reported in Table~\ref{table:results:proportion:mutants}. 
-%More precisely, we considered mutants with a distance of 0 (i.e., having the same coverage as the original program), and within the ranges $(0-0.01]$, $(0.01-0.05]$, $(0.05-0.40]$,  $(0.40-0.80]$, and $(0.80-1.0]$.  
-We determine the ratio ($r_R$) of nonequivalent mutants in a specific range $R$ by randomly selecting 20 mutants (four for each subject) and inspecting them with the help of the engineers who developed the software. 
+%To determine $T_E$, for each configuration listed above (i.e., ALL and FSCI/SMTS), we manually inspect a randomly selected subset of the mutants. However,
+To compute precision and recall for different values of $T_E$, since the distribution of mutants is not uniform, we rely on stratified sampling, as follows.
+%More precisely, we estimate precision and recall based on the number of nonequivalent mutants estimated for sets of mutants selected based on their distance,
+We divide all the live mutants into six buckets, based on their distance from the original program, according to the ranges reported in Table~\ref{table:results:proportion:mutants}.
+%More precisely, we considered mutants with a distance of 0 (i.e., having the same coverage as the original program), and within the ranges $(0-0.01]$, $(0.01-0.05]$, $(0.05-0.40]$,  $(0.40-0.80]$, and $(0.80-1.0]$.
+We determine the ratio ($r_R$) of nonequivalent mutants in a specific range $R$ by randomly selecting 20 mutants (four for each subject) and inspecting them with the help of the engineers who developed the software.
 We rely on $r_R$ to estimate $e_{R}$, that is, the number of nonequivalent mutants in the entire set of mutants with a distance within the specific  range $R$
 $$e_R = r_R * n_R$$
 with $n_R$ being the number of mutants observed in the range $R$ for all the subjects\footnote{$n_R$ can be derived from Table~\ref{table:results:proportion:mutants}}.
 Based on $e_R$, we estimate the number of nonequivalent mutants above a threshold and, consequently, compute precision and recall. We perform the analysis for both selected configurations,  ALL and \APPR.
 
-%Our aim is to identify a threshold value above which  we observe a high precision and recall; 
+%Our aim is to identify a threshold value above which  we observe a high precision and recall;
 Our aim is to identify a threshold value above which  we
 maximize the number of nonequivalent mutants being selected (high recall) and maximize the number of equivalent mutants being discarded (high precision); since both precision and recall are equally important, we look for a threshold value that maximizes the harmonic mean of precision and recall (F-value).
-%90\% of the mutants are nonequivalent. 
+%90\% of the mutants are nonequivalent.
 %Note: In case a mutant is shared by multiple configurations we may assume it is resampled
 %In total, we therefore manually inspected 240 mutants (20 mutants x 6 buckets x 2 configurations)
 %In total, we manually inspected 240 mutants (20 mutants x 6 buckets x 2 configurations), a larger number than that considered in related studies~\cite{schuler2013covering}.
 
-To determine $T_D$, we repeated the same procedure as for $T_E$, except that we considered both killed and live mutants according to the procedure indicated in Section 1.2.3.7 from D2.
+To determine $T_D$, we repeated the same procedure as for $T_E$, except that we considered both killed and live mutants.
 
 In total, we manually inspected 410 mutants (186 mutants to detect equivalent mutants and 224 mutant pairs to detect duplicate ones), a larger number than that considered in related studies~\cite{schuler2013covering}. The number of inspected mutants is lower than the maximum of 480 (\{20 mutants + 20 mutant pairs\} x 6 buckets x 2 configurations) because the mutant distribution across ranges is not perfectly uniform (see Table~\ref{table:results:ratio:equivalent} for the number of observations per bucket).
 
@@ -944,40 +950,40 @@ In total, we manually inspected 410 mutants (186 mutants to detect equivalent mu
 
 
 The ratio ($r_R$) of nonequivalent mutants, for the distance ranges reported in Table~\ref{table:results:ratio:equivalent}, shows
-similar results for both configurations (ALL and \APPR). 
+similar results for both configurations (ALL and \APPR).
 The differences in distribution between mutants (Table~\ref{table:results:proportion:mutants}) and equivalent mutants  (Table~\ref{table:results:ratio:equivalent}), for both  configurations, is indeed not statistically significant and effect size is negligible.
 %The differences between the two configurations is not statistically significant and effect size is negligible.
-Such similarity suggests that nonequivalent and nonduplicate mutants follow the same distribution for both configurations. This can be explained since 
-FSCI sampling uniformly selects 
-%the mutants selected for \APPR using FSCI sampling are 
-a subset of the mutants considered by the ALL configuration, which includes all mutants. 
+Such similarity suggests that nonequivalent and nonduplicate mutants follow the same distribution for both configurations. This can be explained since
+FSCI sampling uniformly selects
+%the mutants selected for \APPR using FSCI sampling are
+a subset of the mutants considered by the ALL configuration, which includes all mutants.
 
 
 
 The 14 nonequivalent mutants leading to $d=0$ across the two configurations (seven for ALL, seven for \APPR) have the following characteristics.
-Four mutants (29\%) invalidate data buffers' preconditions (e.g., an array size is indicated as larger than it should be). Since such faults are typically detected through profiling (e.g., by using Valgrind~\cite{Valgrind}), not detecting such mutants cannot be considered a major weakness of the approach. Seven mutants (50\%) affect variables that are not used in the mutated source file (i.e., the one for which we collect code coverage). 
-%Lightweight static analysis (e.g., searching for a keyword within the source code) should enable the identification of these mutants as nonequivalent. 
-Static analysis should, in principle, enable the identification of these mutants as nonequivalent. 
+Four mutants (29\%) invalidate data buffers' preconditions (e.g., an array size is indicated as larger than it should be). Since such faults are typically detected through profiling (e.g., by using Valgrind~\cite{Valgrind}), not detecting such mutants cannot be considered a major weakness of the approach. Seven mutants (50\%) affect variables that are not used in the mutated source file (i.e., the one for which we collect code coverage).
+%Lightweight static analysis (e.g., searching for a keyword within the source code) should enable the identification of these mutants as nonequivalent.
+Static analysis should, in principle, enable the identification of these mutants as nonequivalent.
 Three mutants (21\%) concern the deletion of clauses that are not tested by our test suites; these cases might be detected by our approach after combining statement coverage with additional coverage measures (e.g., clause coverage) to compute distances, but this is left to future work. Based on the above, the percentage of nonequivalent mutants that
-may potentially indicate limitations of the test suite, cannot easily be detected by other means, 
-and are ignored with $T_E$, when set to zero, is very low 
+may potentially indicate limitations of the test suite, cannot easily be detected by other means,
+and are ignored with $T_E$, when set to zero, is very low
  (i.e., three out of 160, or 1.88\%). For this reason, \textbf{we consider the proposed $T_E$ threshold precise enough to be used for test suite evaluation in a safety context}.
- 
-Table~\ref{table:results:precision:equivalent} provides precision and recall obtained for different $T_E$ values; more precisely, we report the results obtained when all mutants are considered nonequivalent (i.e., $d\ge0$), along with the results obtained for $T_E$ being set to $0$, $0.01$, $0.05$, $0.4$, and $0.8$. 
+
+Table~\ref{table:results:precision:equivalent} provides precision and recall obtained for different $T_E$ values; more precisely, we report the results obtained when all mutants are considered nonequivalent (i.e., $d\ge0$), along with the results obtained for $T_E$ being set to $0$, $0.01$, $0.05$, $0.4$, and $0.8$.
 
 \input{tables/results_equivalence_detection.tex}
 
- We can observe that \textbf{$T_E$ set to zero enables the accurate detection of nonequivalent mutants}. Indeed, 
+ We can observe that \textbf{$T_E$ set to zero enables the accurate detection of nonequivalent mutants}. Indeed,
 for $d>0$, we achieve the highest F-value, and the highest precision and recall, given that a value of $1.00$ cannot be achieved simultaneously for precision and recall.
 These results are in line with related work~\cite{zhang2013faster} reporting that a difference in the frequency of execution of a single line of code (i.e., $d>0$) is indicative of a mutant not being equivalent to the original software.
 Moreover, these results also indicate that \textbf{FSCI mutants sampling and \MPTS selection enable the accurate identification of nonequivalent mutants based on $T_E$}.
 
 
 
-As for duplicate mutants, based on Table~\ref{table:results:precision:equivalent}, 
-mutants are highly likely to be nonduplicate and thus \textbf{it is not possible to determine a threshold to identify duplicate mutants}. Indeed, among all the considered threshold values, the highest F-value is obtained when all the mutants are considered nonduplicate (i.e., $d\ge0$). These results are in line with related work~\cite{shin2017theoretical} showing that test suites are unlikely to distinguish nonredundant mutants (i.e., many nonduplicate and nonsubsumed mutants yield the same test results). 
+As for duplicate mutants, based on Table~\ref{table:results:precision:equivalent},
+mutants are highly likely to be nonduplicate and thus \textbf{it is not possible to determine a threshold to identify duplicate mutants}. Indeed, among all the considered threshold values, the highest F-value is obtained when all the mutants are considered nonduplicate (i.e., $d\ge0$). These results are in line with related work~\cite{shin2017theoretical} showing that test suites are unlikely to distinguish nonredundant mutants (i.e., many nonduplicate and nonsubsumed mutants yield the same test results).
 %SHin et al show that 60,043 out of 242,437 mutants are detected as nonredundant.
-With test suites that do not distinguish nonredundant mutants, it is very likely that nonduplicate mutants show the same coverage in addition to showing the same results. This is the reason why in Table~\ref{table:results:ratio:equivalent}, we observe a large percentage of nonduplicate mutants having the same coverage (i.e., $d=0$). For this reason, when no methods are available to automatically generate test cases that distinguish subsumed mutants (see Section~1.2.2 from D2), we suggest that all mutants should be considered as nonduplicate when computing the mutation score:
+With test suites that do not distinguish nonredundant mutants, it is very likely that nonduplicate mutants show the same coverage in addition to showing the same results. This is the reason why in Table~\ref{table:results:ratio:equivalent}, we observe a large percentage of nonduplicate mutants having the same coverage (i.e., $d=0$). For this reason, when no methods are available to automatically generate test cases that distinguish subsumed mutants, we suggest that all mutants should be considered as nonduplicate when computing the mutation score:
 
 \begin{equation}
 \label{equation:ms:exp}
@@ -998,16 +1004,16 @@ where $\mathit{LNE}$ is the number of live, nonequivalent mutants.
 
 % Describe what it the purpose of the RQ
 \JMR{3.16}{RQ7 investigates the extent to which  the mutation score estimated by MASS with Equation~\ref{equation:ms:exp}},
-%RQ7 investigates the extent to which \APPR's mutation score estimate (i.e., the mutation score computed with Equation~\ref{equation:ms:exp}), 
-%when relying on FSCI and a reduced and prioritized test suite, 
+%RQ7 investigates the extent to which \APPR's mutation score estimate (i.e., the mutation score computed with Equation~\ref{equation:ms:exp}),
+%when relying on FSCI and a reduced and prioritized test suite,
 can accurately predict
 the actual mutation score of the system.
 
-% an over- or under- approximation of the mutation score computed with a  non-optimized mutation testing process (i.e., no mutants sampling and no test suite reduction/prioritization). 
+% an over- or under- approximation of the mutation score computed with a  non-optimized mutation testing process (i.e., no mutants sampling and no test suite reduction/prioritization).
 
 To this end, we apply \APPR to the five subjects  described in Section~\ref{sec:empirical:subjects} and compute the mutation score according to equation~\ref{equation:ms:exp}.
 \REVOCT{C-P-11}{We compare the resulting mutation scores with those obtained with a traditional, non-optimized mutation analysis process that tests all the mutants with the entire test suite and do not discard likely equivalent mutants.}
-Since we have already demonstrated that FSCI, applied to a reduced and prioritized test suite, accurately estimates the mutation score (see RQ4), 
+Since we have already demonstrated that FSCI, applied to a reduced and prioritized test suite, accurately estimates the mutation score (see RQ4),
 we discuss the percentage of live mutants that are discarded by means of $T_E$ and the effect it has on the mutation score.
 \REVOCT{C-P-11}{We aim to discuss deviations between the two approaches; in particular, given that \APPR filters out equivalent mutants, we expect the \APPR mutation score to be higher than the one of the traditional approach. Unfortunately, in our context, it is still not feasible to automatically identify equivalent and redundant mutants; for this reason, comparison of the \APPR mutation score with a ground truth mutation score is not possible. A manual investigation of the equivalent and redundant mutants reported by \APPR has been performed to address RQ6.}
 %If the percentage of equivalent mutant discarded matches the one observed for RQ6 (i.e., 65\%), whose correctness was manually verified, we can conclude that \APPR enables the accurate estimation of the mutation score.
@@ -1018,48 +1024,48 @@ we discuss the percentage of live mutants that are discarded by means of $T_E$ a
 
 \subsubsection{Results}
 From Table~\ref{table:results:mutationScore}, one can see that, on average, the percentage of live mutants that are discarded because considered equivalent is 42.28\%, which is in line with related work (i.e., 45\%~\cite{zhang2013faster}). Across our subjects, such percentage varies from 2.61\% (\SAIL{}$_S$) to 69.37\% (\MLFS{}{}), because of nondeterminism.
-%based on the nondeterministic nature of the system. 
-Indeed, complex embedded software, even when generating consistent functional results across multiple runs, may show nondeterminism 
-in their nonfunctional properties (e.g., number of tasks started) 
+%based on the nondeterministic nature of the system.
+Indeed, complex embedded software, even when generating consistent functional results across multiple runs, may show nondeterminism
+in their nonfunctional properties (e.g., number of tasks started)
 %when the test environment is not well isolated (e.g., multiple test suites are run in parallel thus affecting performance).
 when it is not possible to control the resources provisioned by the test environment.
-For example, in our environment, \SAIL{}$_S$, which is a system including real-time tasks, show different code coverage for multiple executions of a same test case. The same happens for \GCSP{}, a network library, which may execute 
+For example, in our environment, \SAIL{}$_S$, which is a system including real-time tasks, show different code coverage for multiple executions of a same test case. The same happens for \GCSP{}, a network library, which may execute
 a different set of instructions
-%different number of functions 
-based on the current network usage (e.g., ports available on the host OS). 
-%For such systems, the removal of equivalent mutants based on code coverage appears to be less effective. 
-Unsurprisingly, in our experiments, the subject having the largest number of predicted equivalent mutants removed is the mathematical library \MLFS{}{}, which should not be affected by nondeterministic behaviour due to real-time constraints or networking. 
+%different number of functions
+based on the current network usage (e.g., ports available on the host OS).
+%For such systems, the removal of equivalent mutants based on code coverage appears to be less effective.
+Unsurprisingly, in our experiments, the subject having the largest number of predicted equivalent mutants removed is the mathematical library \MLFS{}{}, which should not be affected by nondeterministic behaviour due to real-time constraints or networking.
 
 To maximize the number of equivalent mutants detected by \APPR, it is therefore advisable to minimize the sources of nondeterminism. It can be achieved, for example, by executing test cases in a dedicated testing environment, which is standard practice for space software. However, since our analysis concerned the execution of a large, entire set of mutants, not only a sampled subset, we relied on a shared HPC environment. This may have introduced unexpected delays in the execution of the simulator and altered the number of available ports, thus exacerbating nondeterminism.
 
-As expected, the removal of equivalent mutants results in the \APPR mutation score being higher than that computed with a traditional approach. On average, the score increased by 10.52 percentage points (i.e., from $70.62\%$ to $81.14\%$). 
+As expected, the removal of equivalent mutants results in the \APPR mutation score being higher than that computed with a traditional approach. On average, the score increased by 10.52 percentage points (i.e., from $70.62\%$ to $81.14\%$).
 
-To provide some additional insights about the software features that, according to \APPR mutation analysis results, 
+To provide some additional insights about the software features that, according to \APPR mutation analysis results,
 warrant to be verified with additional test cases, we report on the characteristics of
 manually inspected mutants having $d > 0$ in Table~\ref{table:results:ratio:equivalent}.
 %56 in total, I do want explain why, thus I do not put the number
 According to our analysis, live mutants concern (1) logging functions (11\%),  (2) code developed by third parties (5\%), (3) time operations (e.g., timeouts, 4\%), (4) thread synchronisations (e.g., mutex locks, 5\%), (5) memory operations (e.g., malloc and free operations, 20\%), and (6) the application logic (55\%). Most of these categories either do not need to be tested (cases 1 and 2), or concern operations that are difficult to test (cases 3, 4, and 5) and often verified by other means, e.g., test suites including hardware in the loop or through manual inspection. However, most of the live mutants concerning the application logic have enabled engineers to identify weaknesses  in test suites
-(e.g., corner cases not being tested, scenarios testable with simulators but verified only by test suites with hardware in the loop), 
+(e.g., corner cases not being tested, scenarios testable with simulators but verified only by test suites with hardware in the loop),
 which further stresses the importance of mutation analysis in this context.
-Furthermore, the manual inspection of these live mutants led to the identification of 
+Furthermore, the manual inspection of these live mutants led to the identification of
 one previously undetected bug
 \JMR{3.15} {since the test suite was not covering a specific combination of boolean clauses in a function, a problem that may occur even when MC/DC adequacy is achieved by test suites~\cite{Gay2016}.}
 
 
 % enable us to characterize the type of functions presenting live, nonequivalent mutants.
-%based on the characteristics of the mutated source code: 
+%based on the characteristics of the mutated source code:
 %(1) code that is executed with nondeterministic frequency (e.g., port opening closing), \FIXME{(2) functionalities writing to standard output,
-%The main reasons for these mutants to not be killed are the following: 
-%(1) the mutants are covered by other test suites (e.g., Unit test suite for $\SAIL{}\emph{-CSW}$ or hardware in the loop test suite for ONE case studies), 
-%(2) \FIXME{return values of functions not propagated through the code, 
-%(3) missing verification of corner cases and specific inputs, 
-%(4) missing verification of final variables and final array’s values, 
-%(5) missing verification of the negated condition on if and while closures, 
-%(6) missing verification of variable values after iteration loops, and 
+%The main reasons for these mutants to not be killed are the following:
+%(1) the mutants are covered by other test suites (e.g., Unit test suite for $\SAIL{}\emph{-CSW}$ or hardware in the loop test suite for ONE case studies),
+%(2) \FIXME{return values of functions not propagated through the code,
+%(3) missing verification of corner cases and specific inputs,
+%(4) missing verification of final variables and final array’s values,
+%(5) missing verification of the negated condition on if and while closures,
+%(6) missing verification of variable values after iteration loops, and
 %(7) missing verification of time deltas between specific instructions}.
 %
 %These results indicate that, to be used as an acceptance criterion the mutation score should be computed by relying on all the software test suites.
- 
+
 \input{tables/results_MutationScore.tex}
 
 
@@ -1074,9 +1080,9 @@ one previously undetected bug
 RQ8 aims to determine if it is possible to identify a threshold for the mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered).
 
 
-We may perform an experiment in line with the one performed in reference [78]. The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered). 
+We may perform an experiment in line with the one performed in reference [78]. The objective of the experiment would be to identify a mutation score that ensures that the fault revealing power of a test suite is greater than the one of a test suite that simply achieves statement coverage adequacy (i.e., all the statements are covered).
 
-Related work~\cite{CChekam:17} identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy. 
+Related work~\cite{CChekam:17} identify a threshold for the mutation score that ensures that a test suite with a mutation score above the given threshold detects all the mutants detected by a test suite that achieves statements coverage adequacy.
 We may perform an experiment in line with the one performed in reference~\cite{CChekam:17}.
 To replicate such study, for every case study system, we may consider the original test suite, $\mathit{TS}_o$, which achieves 100\% coverage of non dead code, and an extended test suite, $\mathit{TS}_e$, that consists of the same test cases of $\mathit{TS}_o$ plus a set of test cases automatically generated to kill the mutants. The extended test suite achieves a mutation score $ms_e$ that is greater than the mutation score $\mathit{ms}_o$ of the original test suite. For example, we may have $\mathit{ms}_o=0.7$ and $\mathit{ms}_e=0.9$.
 
@@ -1089,9 +1095,9 @@ For each range $n$ we can perform a one sample t-test to reject the null hypothe
 If the null hypothesis is rejected in favor of the alternate hypothesis then the threshold $T=(n-1)*\delta$ ensures to achieve better fault detection than statement coverage adequacy.
 Alternatively, we may perform a one sample wilcoxon-signed-rank test, which evaluates whether the median of the sample is greater than zero.
 
-\REVNOV{PTCR-7}{Unfortunately, contrary to what we wrote in the previous version of report D2, such experiment would be of little value in our context because \APPR require the test suite to achieve a maximal statements coverage. Consequently, any test suite $\mathit{TS}_e$ would have a better mutation score than $\mathit{TS}_o$. Also, based on our assumption, it makes no sense to select a test suite $\mathit{TS}_e$ that does not achieve the same statement coverage of $\mathit{TS}_o$.}
+\REVNOV{PTCR-7}{Unfortunately, such experiment would be of little value in our context because \APPR require the test suite to achieve a maximal statements coverage. Consequently, any test suite $\mathit{TS}_e$ would have a better mutation score than $\mathit{TS}_o$. Also, based on our assumption, it makes no sense to select a test suite $\mathit{TS}_e$ that does not achieve the same statement coverage of $\mathit{TS}_o$.}
 
-\REVNOV{PTCR-7}{For this reason, the experiment should be performed with a set of real faults affecting the case study system not mutants. 
+\REVNOV{PTCR-7}{For this reason, the experiment should be performed with a set of real faults affecting the case study system not mutants.
 More precisely, for each i-th test suite belonging to the range $n$ (i.e., $\mathit{TS}_{n,i}$), we should compute the fault detection rate (i.e., $fdr_{n,i}$) as the proportion of real faults detected by the test suite. Similarly to what indicated above, we may compute the \INDEX{fault detection rate delta} as $fdrd_{n,i}=fdr_{n,i}-fdr_o$. Each test suite in the range $n$ enable us to study the fault revealing power of a test suite with a mutation score above the threshold $T=(n-1)*\delta$.}
 
 \REVNOV{PTCR-7}{For each range $n$ we can perform a one sample t-test to reject the null hypothesis $fdr_{n} = 0$ in favor of the alternate hypothesis $fdr_{n} > 0$, at a 5\% alpha level.
@@ -1119,9 +1125,9 @@ In our experiments, in addition to the assessment of the ESAIL$_s$ system test s
 
 \subsubsection{Results}
 
-The mutation score of the unit test suite is 26.78\%; there are 947 killed mutants, and 2\,589 live mutants. 
+The mutation score of the unit test suite is 26.78\%; there are 947 killed mutants, and 2\,589 live mutants.
 
-In addition to the set of 2\,311 mutants killed by the system test suite, we observe that the unit test suite kills 184 additional mutants. 
+In addition to the set of 2\,311 mutants killed by the system test suite, we observe that the unit test suite kills 184 additional mutants.
 The result of mutation analysis combined for both test suites produce a mutation score of 70.56\% (an improvement of +4,8\%), which indicates that mutation analysis results can effectively be combined for different test suites (e.g., system and units).
 
 \ENDCHANGEDWPT
@@ -1131,11 +1137,11 @@ The result of mutation analysis combined for both test suites produce a mutation
 
 \JMR{2.3}{Our results show that the \APPR pipeline helps to overcome mutation analysis limitations caused by common  characteristics of embedded software, present in space systems and, more generally, in similar CPS (e.g., avionics, automotive, and industry 4.0).}
 
-\JMRCHANGE{Although the need for dedicated hardware and simulators prevent the applicability of optimizations that make use of multi-threading or other OS functions to minimize mutants compilation time~\cite{untch1993mutation}, we have shown that our selective compilation strategy (see Section~1.2.7 from D2) is sufficient to achieve an efficient mutant compilation process (see Section~\ref{experimnt:setup}).}
+\JMRCHANGE{Although the need for dedicated hardware and simulators prevent the applicability of optimizations that make use of multi-threading or other OS functions to minimize mutants compilation time~\cite{untch1993mutation}, we have shown that our selective compilation strategy is sufficient to achieve an efficient mutant compilation process (see Section~\ref{experimnt:setup}).}
 
 \REVNOV{PTCR-PABG-27}{Trivial compiler optimization approaches are useful to eliminate a large proportion of mutants that are equivalent or duplicate. Based on our results, the presence of functions to deal with signals and data transformation does not limit the effectiveness of trivial compiler optimization approaches, which, across our subjects, enable the removal of 33,38\% of the mutants (62,351 out of 184,503). Our results are in line with empirical studies in the literature~\cite{papadakis2015trivial}. However, we show that for pure mathematical software (i.e., \MLFS{}{}), their effectiveness is significantly lower (i.e., 21\%, 6,717 out of 31,526).}
 
-\REVNOV{PTCR-PABG-27}{The FSCI sampling approach with a confidence interval of 10\% is the most accurate approach for the estimation of the mutation score.} 
+\REVNOV{PTCR-PABG-27}{The FSCI sampling approach with a confidence interval of 10\% is the most accurate approach for the estimation of the mutation score.}
 \REVNOV{PTCR-PABG-26}{We rely on a confidence interval of 10\% because it ensures that the deviation between the estimated and the actual mutation score is within +/- 5\%, in line with the choice made in related work (i.e., +/- 7\%~\cite{gopinath2015hard}). Comparison with other work is complicated by the use of a different evaluation strategy and statistics (for each case study, they consider subset of mutation adequate test suites, which is not feasible in our context)~\cite{zhang2013operator}.}
 \REVNOV{PTCR-PABG-27}{Also, combined with test suite reduction and prioritization it saves, on average more than 80\% of the execution time; in other words, the mutation testing process takes only 20\% of the time required if all the mutants are executed with all the test cases that cover them. Similarly, the number of test cases being executed is reduced by more than 80\%.}
 
@@ -1143,11 +1149,11 @@ The result of mutation analysis combined for both test suites produce a mutation
 
 \REVNOV{PTCR-PABG-27}{When test suite reduction and prioritization is in place, the distance measures to be adopted are either $D_C$ and $D_E$.}
 
-\JMRCHANGE{The time required to perform a traditional mutation analysis process that does not rely on mutants sampling (Step 5 of \APPR) is particularly high. Indeed it takes between 13 and 70 hours for unit and integration test suites and 11,001 hours for the system level test suite of \SAIL{}$_S$. These numbers confirm that the thorough testing required by critical CPS software, combined with long test execution times, may exacerbate the scalability problems of mutation analysis. 
+\JMRCHANGE{The time required to perform a traditional mutation analysis process that does not rely on mutants sampling (Step 5 of \APPR) is particularly high. Indeed it takes between 13 and 70 hours for unit and integration test suites and 11,001 hours for the system level test suite of \SAIL{}$_S$. These numbers confirm that the thorough testing required by critical CPS software, combined with long test execution times, may exacerbate the scalability problems of mutation analysis.
 \APPR applies FSCI-based mutation sampling and executes a prioritized subset of the test suite to address scalability issues. Our results show that such an optimized solution helps address scalability problems to a significant extent by reducing mutation analysis time by more than 70\% across subjects. In practice, for large software systems like \SAIL{}\emph{-CSW}, such reduction can make mutation analysis practically feasible; indeed, with 100 HPC nodes available for computation, \APPR can perform the mutation analysis of \SAIL{}\emph{-CSW} in half a day. In contrast, a traditional mutation analysis approach would take more than 100 days, thus largely delaying the development and quality assurance processes. Last, we demonstrated that FSCI-based sampling, a contribution of this paper, outperforms state-of-the-art mutants sampling strategies~\cite{zhang2013operator,gopinath2015hard} both in terms of mutation score accuracy and size of the selected mutant set.}
 
-\JMRCHANGE{Finally, we confirm that a coverage-based approach (\APPR Step 7) enables the accurate identification of equivalent mutants, thus confirming related work's results~\cite{zhang2013faster} in our context. In addition, we demonstrate that such an approach still provides accurate results  
-in the presence of optimizations (i.e., test suite reduction) that may affect the code coverage achieved by mutants. 
+\JMRCHANGE{Finally, we confirm that a coverage-based approach (\APPR Step 7) enables the accurate identification of equivalent mutants, thus confirming related work's results~\cite{zhang2013faster} in our context. In addition, we demonstrate that such an approach still provides accurate results
+in the presence of optimizations (i.e., test suite reduction) that may affect the code coverage achieved by mutants.
 Coverage-based approaches, instead, are not effective in detecting likely duplicate mutants.}
 
 %\JMR{3.1}{This evaluation focused on investigating and identifying practical solutions to address the scalability of mutation analysis and the pertinence of mutation scores as an adequacy criterion in the context of embedded software for CPS. Important work remains concerning specific subjects in embedded software. For example, our work does not aim to assess if test suites can detect faults concerning the communication between heterogeneous components or the interoperability of different technologies and tools, two typical CPS problems. To address such issues, our future work includes the definition of mutation operators that alter the data exchanged by software components instead of their implementation.}
@@ -1172,14 +1178,14 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 % 	 M_{functions} = \cup_{i=1}^n Sample (M_{f_i}, r\%)
 % \end{equation}
 %
-%%Similarly to Zhang et al., we rely on the sufficient set of mutation operators for generating the complete set of mutants. 
+%%Similarly to Zhang et al., we rely on the sufficient set of mutation operators for generating the complete set of mutants.
 %
 %%\TODO{In the background section we have to explain what "the sufficient set of mutation operators" is. To me it is not clear if you are referring to the original or the updated one.}
 %
 %%Fabrizio: can we reduce the min and max based on their results?
 %
-%%Similarly to Zhang et al. we consider different sampling ratios, between $5\%$ and $95\%$, in steps of $5\%$. 
-%Differently from Zhang et al. we only consider sampling ratios ranging from $1\%$ to $10\%$, in steps of $1\%$. The reason is because for some of the software under analysis (e.g., the ESAIL system test suite), even considering a sampling ratio of $10\%$ means executing 6\,000 mutants for a test suite that finishes in 10 hours, which is more than 60\,000 hours of computation, a clearly infeasible scenario. 
+%%Similarly to Zhang et al. we consider different sampling ratios, between $5\%$ and $95\%$, in steps of $5\%$.
+%Differently from Zhang et al. we only consider sampling ratios ranging from $1\%$ to $10\%$, in steps of $1\%$. The reason is because for some of the software under analysis (e.g., the ESAIL system test suite), even considering a sampling ratio of $10\%$ means executing 6\,000 mutants for a test suite that finishes in 10 hours, which is more than 60\,000 hours of computation, a clearly infeasible scenario.
 %
 %%More precisely, we consider $5\%, 10\%, 15\%, \ldots, 95\%$ of all the mutants generated.
 %%F: 10 è il minimo per mann withnes
@@ -1189,10 +1195,10 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 %
 %To this end we study the confidence interval of the difference between the reduced set of mutants and the one for all the mutants.
 %%To this end we study the confidence interval of the mean of the two population of mutants.
-%Particularly, a confidence interval indicates that the estimated parameter (i.e., the mutation score for the sampled mutants), has a probability of $p_c$ (confidence level) of lying in it. We use a confidence level $p_c = 95\%$ in our experiments. 
+%Particularly, a confidence interval indicates that the estimated parameter (i.e., the mutation score for the sampled mutants), has a probability of $p_c$ (confidence level) of lying in it. We use a confidence level $p_c = 95\%$ in our experiments.
 %We compute the confidence interval using the Student's t method.
 %
-%%Here we should describe the mothod used to compute the CI. See my TOSEM'19 paper as a reference. 
+%%Here we should describe the mothod used to compute the CI. See my TOSEM'19 paper as a reference.
 %%Ideally, the two confidence intervals should be small and overlap.
 %Ideally, the margin of error of the confidence interval should be small. In a previous study \cite{gopinath2015hard}, a pessimistic expected margin of error for the mutation score of sampled mutants has been statistically demonstrated to be $\pm 7\%$, thus, we expect the experimental error to be lower than this value.
 %
@@ -1200,7 +1206,7 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 %
 %We repeat our comparison for the different sets of mutants generated with different p\% of mutants.
 %
-% %\TODO{Clopper-Pearson exact method, which I believe has to be used when using samples greater than 5\%, I need to study a bit more how to calculate the confidence interval}. 
+% %\TODO{Clopper-Pearson exact method, which I believe has to be used when using samples greater than 5\%, I need to study a bit more how to calculate the confidence interval}.
 %
 %In addition, to compare with Zhang et al., we also use a linear regression model to determine how well the sampling mutation score predicts the selected mutation score for varying mutation score values. More precisely, we calculate the adjusted coefficient of determination $R^2$ to determine.
 %
@@ -1223,8 +1229,8 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 
 %Since the idea is to demonstrate that the representativeness of the mutation score obtained with random sampling does not depend from the proportion of mutants, but from a fixed number of mutants, we sample our subjects with both 100 and 1\,000 randomly sampled mutants independently from the size of the SUT. For each fixed number, we repeat the experiment 100 times to account for randomness (similar to the design by Gopinath et al.~\cite{gopinath2015hard}).
 %
-%Similar to RQ1, we again account for studying the \textit{representativeness} of the mutation score by means of a confidence interval. 
-%More precisely, we study the confidence interval of the difference between the mutation score generated by the reduced set of mutants (i.e., generated with 100 and 1\,000 sampled mutants) and the mutation score generated with all the mutants. 
+%Similar to RQ1, we again account for studying the \textit{representativeness} of the mutation score by means of a confidence interval.
+%More precisely, we study the confidence interval of the difference between the mutation score generated by the reduced set of mutants (i.e., generated with 100 and 1\,000 sampled mutants) and the mutation score generated with all the mutants.
 %As stated before, to account for representativeness of these sampling approaches, the margin of error should be kept lower than 1\%.
 %
 %\TODO{Oscar: First experiment, for one program, they sampled 1\,000 mutants and calculate the mutation score (repeated 100\,000 times), then the mean distribution was plotted along with the 2.5\% and 97.5\% quantiles. The idea is that theoretically the error should not be higher than 7\% when mutation sampling is used (experimentally was 3.1\%).
@@ -1246,7 +1252,7 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 % test suite prioritization strategy.
 %The first strategy ($S_1$) consists of prioritizing test cases based on the number of times they cover the mutated statement~\cite{zhang2013faster}.
 %The second strategy ($S_2$) matches the first strategy but, in addition, for every mutant, executes first those test cases that killed other mutants on the same line.
-%The third strategy ($S_3$) consists of selecting and prioritizing test cases to maximize coverage diversity, 
+%The third strategy ($S_3$) consists of selecting and prioritizing test cases to maximize coverage diversity,
 %more specifically this strategy first select the single test case that cover the mutation more,
 %and then iteratively, select test cases with the most different coverage profile (see Section~\ref{}).
 %
@@ -1255,7 +1261,7 @@ Coverage-based approaches, instead, are not effective in detecting likely duplic
 %%Describe what we measure (ideally the same measurement of the referred papers)
 
 %For each subject $P$, strategy $S_i$ ($S_1, S_2$) and sampling ratio $r\%$ we estimate the mutation score and compare it to the true mutation score. For each 3-tuple (i.e., $P, S, r$), we repeat the experiment 10 times to account for randomness.
-%Then, to assess for \textit{representativeness}, we study the confidence interval of the difference between the mutation score obtained through a reduced/prioritized test suite (e.g., for each 3-tuple $P, S, r$), and the one obtained using a non-optimized version of the test suite. 
+%Then, to assess for \textit{representativeness}, we study the confidence interval of the difference between the mutation score obtained through a reduced/prioritized test suite (e.g., for each 3-tuple $P, S, r$), and the one obtained using a non-optimized version of the test suite.
 %Ideally, the error margin of the confidence interval should be kept small to account for representativeness.
 
 

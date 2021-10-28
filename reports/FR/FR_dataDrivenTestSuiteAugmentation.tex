@@ -5,18 +5,18 @@
 
 \subsection{Overview}
 
-\DAMTE aims to address a task (i.e., test generation at system and integration level) that is particularly difficult to address with state-of-the-art technology (e.g., test generation toolsets based on symbolic execution). In particular, the test generation backend selected for adoption in FAQAS (i.e., KLEE) requires manual intervention to specify which are the inputs to select thus preventing the automated generation of a large number of test cases. For code-driven mutation testing we have addressed this issue by relying on a template generator, which is difficult to implement for data-driven test generation because the identification of the function to test is hardly to automate (given that data-driven mutation analysis targets integration and system testing, it might be either the function with the mutation probe or another one). Also, and more importantly, it requires the compilation of the whole software under analysis through LLVM, which is often not feasible. For the reasons above, it is not feasible at the current stage to automate test generation of the whole software under test; consequently, 
+\DAMTE aims to address a task (i.e., test generation at system and integration level) that is particularly difficult to address with state-of-the-art technology (e.g., test generation toolsets based on symbolic execution). In particular, the test generation backend selected for adoption in FAQAS (i.e., KLEE) requires manual intervention to specify which are the inputs to select thus preventing the automated generation of a large number of test cases. For code-driven mutation testing we have addressed this issue by relying on a template generator, which is difficult to implement for data-driven test generation because the identification of the function to test is hardly to automate (given that data-driven mutation analysis targets integration and system testing, it might be either the function with the mutation probe or another one). Also, and more importantly, it requires the compilation of the whole software under analysis through LLVM, which is often not feasible. For the reasons above, it is not feasible at the current stage to automate test generation of the whole software under test; consequently,
 it is not possible to perform a large scale evaluation of the approach but only to focus on its feasibility analysis.
 
 To summarize, in our evaluation, we address the following research question:
 
-\emph{RQ1. Is DAMTE feasible in the context of space software?} 
+\emph{RQ1. Is DAMTE feasible in the context of space software?}
 
 
 
 \subsection{Subject of the study}
 
-To perform our empirical evaluation, we considered LibParam, which is a client-server component to manage configuration parameters in cubesats. 
+To perform our empirical evaluation, we considered LibParam, which is a client-server component to manage configuration parameters in cubesats.
 
 We rely on DAMTE to generate inputs for the \PARAM client API functions. The invocation of the \PARAM client API functions with the identified inputs enables the definition of integration test cases that exchange messages between the \PARAM client and the \PARAM server. The exchanged messages include data item instances that enable the execution of mutation operations that were not covered in the DAMAt empirical evaluation (see Section~\ref{sec:empirical:damat:rq1}).
 
@@ -27,7 +27,7 @@ Particularly, it can be seen that \PARAM reaches a Mutation Operation Coverage o
 
 \begin{table}[tb]
 \caption{Mutation Analysis Results.}
-\label{table:mutationresults:damat} 
+\label{table:mutationresults:damat}
 \center
 \footnotesize
 \begin{tabular}{|
@@ -42,12 +42,12 @@ Particularly, it can be seen that \PARAM reaches a Mutation Operation Coverage o
 @{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
 }
 \hline
-\textbf{Subject} & 
-\textbf{\# FMs} & 
-\textbf{FMC} & 
-\textbf{\#MOs-CFM} & 
-\textbf{\#CMOs} & 
-\textbf{MOC}  
+\textbf{Subject} &
+\textbf{\# FMs} &
+\textbf{FMC} &
+\textbf{\#MOs-CFM} &
+\textbf{\#CMOs} &
+\textbf{MOC}
 &\textbf{Killed}&\textbf{Live}&\textbf{MS}
 \\
 \hline
@@ -60,15 +60,15 @@ CMO=Covered Mutation Operation, MOs-CFM=Mutation Operations in covered FMs.
 \end{table}
 
 We applied DAMTE to generate test cases for mutants of the \emph{General} fault model that were not covered by the \PARAM test suite.
-The \emph{General} fault model concerns the header structure of \PARAM messages sent from the \PARAM client to the \PARAM server. 
+The \emph{General} fault model concerns the header structure of \PARAM messages sent from the \PARAM client to the \PARAM server.
 %The \emph{General} fault model thus does not concerns the header structure of \emph{REPLY} messages sent from the \PARAM server to the \PARAM client.
-The other fault model affected by a mutation operation not being covered is the fault model concerning \emph{REPLY} messages;  however, since such messages are generated by the server and received by the client, we cannot automatically generate them by applying test generation on the client.  More precisely, specific REPLY messages from the server can only be generated if an appropriate request is generated by the client; however, as described in D2, the automated generation of an appropriate request from the client is not feasible because of the communication channel that separates client and server.
+The other fault model affected by a mutation operation not being covered is the fault model concerning \emph{REPLY} messages;  however, since such messages are generated by the server and received by the client, we cannot automatically generate them by applying test generation on the client.  More precisely, specific REPLY messages from the server can only be generated if an appropriate request is generated by the client; however, the automated generation of an appropriate request from the client is not feasible because of the communication channel that separates client and server.
 
 Table~\ref{table:partial_fm} shows the specification of each analyzed mutant. It shows that the \PARAM test suite does not include input partitions covering non-nominal cases for the \emph{table ID} field (i.e., values above 20), and for the \emph{length} field (i.e., values above 180).
 
 \begin{table}[tb]
 \caption{Uncovered mutants from the General Fault Model.}
-\label{table:partial_fm} 
+\label{table:partial_fm}
 \center
 \footnotesize
 \begin{tabular}{|
@@ -83,15 +83,15 @@ Table~\ref{table:partial_fm} shows the specification of each analyzed mutant. It
 @{\hspace{0pt}}>{\raggedleft\arraybackslash}p{16mm}@{\hspace{1pt}}|
 }
 \hline
-\textbf{MutationOperationID} & 
-\textbf{FaultModel} & 
-\textbf{DataItem} & 
-\textbf{Type} & 
-\textbf{FaultClass} & 
-\textbf{Threshold} & 
-\textbf{Status} & 
-\textbf{Application} & 
-\textbf{Description}  
+\textbf{MutationOperationID} &
+\textbf{FaultModel} &
+\textbf{DataItem} &
+\textbf{Type} &
+\textbf{FaultClass} &
+\textbf{Threshold} &
+\textbf{Status} &
+\textbf{Application} &
+\textbf{Description}
 \\
 \hline
 10&General&1&LONG&FVAT&20&LIVE&NOT\_APPLIED&table ID\\
@@ -104,12 +104,12 @@ Table~\ref{table:partial_fm} shows the specification of each analyzed mutant. It
 For the generation of missing inputs we used KLEE 2.3 with LLVM 9.0.1. We performed our experiments on a MacBook Pro with 2,3 GHz 8-Core Intel Core i9.
 
 Since KLEE requires the SUT to be compiled with clang to produce the bitcode files (i.e., KLEE input) and \PARAM is not originally expected to be compiled with clang but gcc,
-%, and also to avoid incompatibilities with the original compiler (i.e., gcc). 
+%, and also to avoid incompatibilities with the original compiler (i.e., gcc).
 we evaluated two different approaches for compiling \PARAM. First, we compiled the whole library into one bitcode file, to minimize the risk of imprecise results (i.e., KLEE might simulate the output of a function if the implementation of it is not provided). Second, we isolated the function under test in a different source file, so that only the required functions are compiled with clang. In the following, we discuss both the feasibility of each compilation strategy and the quality of the identified test inputs.
 
-To drive test generation with KLEE, as presented in D2, we rely on a test template that initializes the required data structures and invokes the function under test.
+To drive test generation with KLEE, we rely on a test template that initializes the required data structures and invokes the function under test.
 The generation of the inputs that cover the mutant is enabled by the use of the DAMAt mutation probe API configured for test generation instead of mutation.
-In particular, following the procedure described in D2, we add a call to function \texttt{\_FAQAS\_mutate} in the code of the \PARAM client. In the context of test generation, function \texttt{\_FAQAS\_mutate} instead of mutating the data includes a reachability assertion (i.e., \emph{assert(false)}) that forces the generation of a specific data item instance (see D2).
+In particular, we add a call to function \texttt{\_FAQAS\_mutate} in the code of the \PARAM client. In the context of test generation, function \texttt{\_FAQAS\_mutate} instead of mutating the data includes a reachability assertion (i.e., \emph{assert(false)}) that forces the generation of a specific data item instance.
 
 \subsection{RQ1 - Feasibility}
 
@@ -151,15 +151,15 @@ In this setup, we isolated the function under test along its dependencies and co
 \emph{table ID} and \emph{length}.
 
 
-\paragraph{Table ID}\ 
+\paragraph{Table ID}\
 
-When generating inputs for \texttt{tableID}, we have first identified the API command that generates messages including the table ID. As indicated in D2, we selected function 
-\texttt{gs\_rparam\_get\_array}. Then we have identified a higher-level function that relies on function 
+When generating inputs for \texttt{tableID}, we have first identified the API command that generates messages including the table ID. We selected function
+\texttt{gs\_rparam\_get\_array}. Then we have identified a higher-level function that relies on function
 \texttt{gs\_rparam\_get\_array}; although function \texttt{gs\_rparam\_get\_array} can be directly targeted in test cases, invoking a higher-level function is easier for an engineer (less parameters are required).
-Finally, we have included in the test template all these functions and their dependencies, which are \texttt{gs\_rparam\_get}, and \texttt{csp\_hton16}. 
+Finally, we have included in the test template all these functions and their dependencies, which are \texttt{gs\_rparam\_get}, and \texttt{csp\_hton16}.
 %which are necessary for correctly running \texttt{gs\_rparam\_get\_string}.
 
-Listing~\ref{get_array} shows the source code for the function \texttt{gs\_rparam\_get\_array} with the mutation probe that enables the reachability analysis. 
+Listing~\ref{get_array} shows the source code for the function \texttt{gs\_rparam\_get\_array} with the mutation probe that enables the reachability analysis.
 %so that KLEE can generate an input for the uncovered mutation operations (e.g., FVAT for table ID).
 
 \begin{lstlisting}[style=CStyle,float=t, caption=Instrumented code for function gs\_rparam\_get\_array., label=get_array]
@@ -255,7 +255,7 @@ object 1: uint: 21
 object 1: text: .
 \end{lstlisting}
 
-\paragraph{length}\ 
+\paragraph{length}\
 
 To generate test cases that enable executing the operator affecting the \texttt{length} message item, we introduced the test template used in Listing~\ref{get_string}. In this case, we directly test the function \texttt{gs\_rparam\_get\_array} using \texttt{value\_size} as a symbolic value because function \emph{gs\_rparam\_get\_string} uses a constant value for variable \texttt{value\_size} (and therefore cannot enable test generation).
 
@@ -272,7 +272,7 @@ int main(void) {
 \end{lstlisting}
 
 Unfortunately, the execution of KLEE leads to an error stating that line 19 of Listing~\ref{get_array} produces a memory error because the symbolic value is used to  specify the dimension of a memory buffer to be allocated. The concretized symbolic value is usually assigned with a value equal to zero, which leads to an out-of-bound error; this is a known limitation of KLEE\footnote{See for example https://github.com/klee/klee/issues/1227}.
-%most probably because the tool has concretized a huge value for the \texttt{alloca} function. 
+%most probably because the tool has concretized a huge value for the \texttt{alloca} function.
 In this case, we can see that DAMTE does not work properly when the variable to be tested represents memory size.
 
 Overall, we conclude that the DAMTE approach may be feasible; however, it requires some manual effort for the configuration and execution of test cases which may limit its usefulness. The first step towards its large scale applicability is the improvement of underlying test generation tools and compiler procedures, such changes will facilitate DAMTE application to large projects without the need for manually creating test template files with dependencies.
