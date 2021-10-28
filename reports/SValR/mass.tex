@@ -104,38 +104,82 @@ configuring MASS and running GeneratePTS.sh &PASSED&PASSED&PASSED&PASSED&PASSED&
 
 \chapter{SEMUS - Validation Execution Environment Definition and Results}
 
-To validate \SEMUS we applied the methodology to the following case studies:
-
+To validate \SEMUS we applied the methodology to the case studies listed in the \emph{SPAP} document (chapter 8):
 \begin{itemize}
   \item MLFS Unit Test Suite
   \item ASN.1 Auto-generated Unit Test Suite
+  \item ESAIL Unit Test Suite
+  \item Libutil Unit Test Suite
 \end{itemize}
 
-The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:semus:results}, that shows the success/failure of every \SEMUS step on the different case studies.
+These approaches are composed of validation tasks as shown in Table~\ref{table:semus:results} (Application to Case Studies), and Table~\ref{table:semus:unit_results}
+
+% The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:mass:results}, that shows the success/failure of every \MASS step on the different case studies.
+
+% A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+
+The results provided in these tables correspond to Thursday 28/10/2021.
+
+The validation tasks are described in details in the \emph{Software Validation Specification} (SVS) document, chapter 5.
+
+A detailed description of \SEMUS unit testing is available in the \emph{Software Unit Test Plan} (\emph{SUTP}) (Chapters 15-18) and a detailed report in the \emph{Software Unit Test Report} (Chapters 8-9).
 
 \begin{table}[h]
-\caption{SEMuS Validation Report.}
-\label{table:semus:results} 
+\caption{\SEMUS Validation Report, Unit Testing.}
+\label{table:semus:unit_results}
 \scriptsize
 \centering
-\begin{tabular}{|
-@{\hspace{1pt}}p{33mm}|
-@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
->{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
-}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\textbf{Methodology Step}&\textbf{ASN.1}&\textbf{MLFS}\\ 
+\textbf{Validation Approach}&\textbf{Task}&\textbf{Result}\\
 \hline
-Generate Test Templates&PASSED&PASSED\\
-Generate Meta-Mutants&PASSED&PASSED\\
-Invoke SEMu&PASSED&PASSED\\
-Convert Ktest to Unit Test&PASSED&PASSED\\
+Unit Testing&Performing \emph{SEMuS-TD-TGMutation-1}&PASSED\\
 \hline
 \end{tabular}
 
 \end{table}
 
-A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
+
+\begin{table}[h]
+\caption{\SEMUS Validation Report, Application to Case Studies}
+\label{table:semus:results}
+\scriptsize
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\textbf{Task}&\textbf{ESAIL}&\textbf{libutil}&\textbf{ASN.1}&\textbf{MLFS}\\
+\hline
+configuring generate\_template\_config.json and running generate\_direct.py &PASSED&PASSED&PASSED&PASSED\\
+\hline
+\end{tabular}
+
+\end{table}
+
+% The idea was to verify that every step of the methodology produced the correct input/outputs. For this reason, we provide Table~\ref{table:semus:results}, that shows the success/failure of every \SEMUS step on the different case studies.
+
+% \begin{table}[h]
+% \caption{SEMuS Validation Report.}
+% \label{table:semus:results} 
+% \scriptsize
+% \centering
+% \begin{tabular}{|
+% @{\hspace{1pt}}p{33mm}|
+% @{\hspace{1pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+% }
+% \hline
+% \textbf{Methodology Step}&\textbf{ASN.1}&\textbf{MLFS}\\ 
+% \hline
+% Generate Test Templates&PASSED&PASSED\\
+% Generate Meta-Mutants&PASSED&PASSED\\
+% Invoke SEMu&PASSED&PASSED\\
+% Convert Ktest to Unit Test&PASSED&PASSED\\
+% \hline
+% \end{tabular}
+
+% \end{table}
+
+% A detailed exposition of the validation results is presented in the \emph{D4} document (Chapter 2).
 
 
 

@@ -191,8 +191,11 @@
     urlcolor=black
 }
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
+
+\newcommand{\STARTCHANGEDFR}{\color{blue}}
+\newcommand{\ENDCHANGEDFR}{\color{black}}
 
 %%%% Title
 \newcommand{\titleone}{\textsf{FAQAS Framework}}
@@ -211,6 +214,7 @@
 \newcommand{\INDEX}[1]{\index{\MakeLowercase{#1}}\EMPH{#1}}
 
 \newcommand{\MASS}{\textit{MASS}\xspace}
+\newcommand{\SEMUS}{\textit{SEMuS}\xspace}
 \newcommand{\D}{$\Delta$\xspace}
 
 \newcommand{\TRFOUR}[1]{{#1}}
@@ -308,6 +312,19 @@
 \include{procedures_DAMA}
 
 \ENDCHANGEDWPT
+
+\STARTCHANGEDFR
+
+\include{approach_SEMUS}
+
+\include{design_SEMUS}
+
+\include{specification_SEMUS}
+
+\include{procedures_SEMUS}
+
+\ENDCHANGEDFR
+
 
 \include{additional}
 

@@ -1,0 +1,24 @@
+% !TEX root =  ../MAIN.tex
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\tiny
+
+\begin{longtable}{|p{3cm}|p{3.5cm}|p{3cm}|p{5cm}|}
+
+\caption{Unit test case steps for \SEMUS.}
+\label{table:matrix:semus} \\
+
+\hline
+\textbf{Step}	&	\textbf{Description}	&	\textbf{Input}	&	\textbf{Output} \\
+\hline
+\texttt{setup}&Setups the environment for testing&None&WORKSPACE, util\_codes and scripts folder with corresponding scripts\\
+\hline
+\texttt{gen\_templates}&Generates the test templates&SUT source file; template configuration& Test templates\\
+\hline
+\texttt{test\_generation\_pipeline}&Performs test generation by invoking a single launcher&Test templates; SUT source file&C unit tests\\
+\hline
+\texttt{check\_results}&Verifies the intermediate and final outputs of each component&Test templates; Set of mutants; Meta-mutant; Generated C unit tests&Pass/Fail message\\
+\hline
+\end{longtable}
+\normalsize

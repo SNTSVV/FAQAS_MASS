@@ -76,7 +76,7 @@ Figure~\ref{fig:semus} introduces the \SEMUS architecture, and in particular the
 
 At a system level, we performed a validation of \SEMUS to assure that every functional requirement is compliant with the Software System Specifications document (SSS) document. Particularly, we verified that \SEMUS was able to parse the SUT source code, and perform correctly the following steps (as shown in Figure~\ref{fig:semus}) (1) generate test templates from SUT functions, (2) generate the meta-mutants containing all the live mutants of SUT test suite, (3) compile the meta-mutant and to invoke KLEE-SEMu to trigger the test generation step, and (4) to process the KLEE tests and to convert them to C readable unit test cases.
 
-We validated the four steps of the methodology on the MLFS and the ASN.1 case studies, we also verified that outputs are in line with system specifications. A detailed description of the validation of \SEMUS on the ASN.1 case study can be found on the SUM document on Chapter 12.
+We validated the four steps of the methodology on the MLFS, the ASN.1, the Libutil, and the ESAIL case studies, we also verified that outputs are in line with system specifications. A detailed description of the validation of \SEMUS on the ASN.1 case study can be found on the SUM document on Chapter 12.
 
 
 \subsubsection{DAMAt}

@@ -1,0 +1,20 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[h]
+\scriptsize
+\centering
+\caption{\SEMUS components with its inputs and outputs.}
+\label{table:semus:components}
+
+\begin{tabular}{lll}
+\hline 
+\textbf{Component}	&	\textbf{Inputs}	&	\textbf{Outputs}\\
+\hline 
+\emph{Test Template Generator}&SUT source code; Template configuration&Test templates\\ 
+\emph{GenerateMutants}&SUT source code&Set of mutants\\
+\emph{Pre-SEMu}&Set of mutants; Test templates&Meta-mutant\\
+\emph{KLEE-SEMu}&Meta-mutant&KLEE tests\\
+\emph{KTest to Unit Test}&KLEE tests& C Unit tests\\
+\hline
+\end{tabular}
+\end{table}

@@ -257,8 +257,12 @@
 \end{tikzpicture}}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
+
+\newcommand{\STARTCHANGEDFR}{\color{blue}}
+\newcommand{\ENDCHANGEDFR}{\color{black}}
+
 
 \newcommand{\CHANGED}[1]{{#1}}
 \newcommand{\prog}{P}
@@ -287,8 +291,9 @@
 \input{mass}
 
 \input{damat}
-
-
+\STARTCHANGEDFR
+\input{semus}
+\ENDCHANGEDFR
 
 % \newpage
 % \include{ESA_comments}

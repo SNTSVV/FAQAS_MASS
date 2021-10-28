@@ -1,0 +1,30 @@
+% !TEX root = MAIN.tex
+
+\chapter{SEMuS - Software Unit Test Case Design}
+\label{chap:spec:semus}
+
+
+\section{General}
+
+The \SEMUS unit test suite concerns all the components of the tool. It address its functional requirements. A single test design has been identified: it runs the test generation process on a example source file, and verifies the generated outputs, the procedure is detailed in the following sections.
+
+
+
+\section{SEMuS - Test Design}
+
+\subsection{Test design identifier}
+
+The test design identifier is \emph{SEMuS-TD-TGMutation-1}
+
+With this test design we aim to ensure that each component of \SEMUS is implemented according to its requirements.
+
+\subsection{Features to be tested}
+
+\input{tables/semus_components}
+
+Table~\ref{table:semus:components} shows the \SEMUS components and details its inputs and outputs. The \emph{Test Template Generator} receives as input the SUT source code and the template configuration (i.e., the JSON configuration files), and it outputs the different test templates for driving the test generation. The \emph{GenerateMutants} component receives as input the SUT source code and produces as output the set of mutants. The \emph{Pre-SEMu} receives the set of mutants, and the test templates, and generates a meta-mutant that contains all the mutants into one source code, plus the test template for the function under test. Then, the \emph{KLEE-SEMu} receives this meta-mutant, and proceeds to generate test inputs for the mutants under analysis and produces the KLEE tests, which are finally processed by the \emph{KTest to Unit Test} that generates the definitive C unit tests.
+
+
+\clearpage
+
+% \subsection{Approach refinements}
