@@ -1,0 +1,30 @@
+% !TEX root = MAIN.tex
+
+\chapter{SEMuS - Software Unit Testing Approach}
+
+
+\section{Unit Testing Strategy}
+
+Unit testing aims to verify that the functional requirements of \SEMUS units are correctly implemented. For \SEMUS, we decided to test the different components by running the test generation process on a example source file, and verifying the generated outputs.
+
+\section{Tasks and Items under Test}
+
+Testing concerns all \SEMUS components, that is, the \emph{Test Template Generator}, the \emph{Pre-SEMu}, the \emph{GenerateMutants}, the \emph{KLEE-SEMu}, and the \emph{KTest to Unit Test} components.
+
+\section{Feature to be tested}
+
+Testing concerns verifying the correct functional behavior of each of the components implemented by \SEMUS. More specifically, we focus testing on verifying the inputs and outputs of each component.
+
+\section{Test Pass - Fail Criteria}
+
+Unit testing pass if all the following are true:
+\begin{itemize}
+	\item Every step of the methodology is correctly executed.
+	\item The unit test passes.
+	\item Exceptions and unexpected messages do not appear on screen and logs.
+\end{itemize}
+
+
+\section{Manually and Automatically Generated Code}
+
+The \SEMUS does not contain any automatically generated code.

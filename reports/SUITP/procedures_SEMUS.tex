@@ -1,0 +1,43 @@
+% !TEX root = MAIN.tex
+
+\chapter{SEMuS - Software Unit Test Procedures}
+
+\section{General}
+
+A single procedure has been identified to perform unit testing of \SEMUS. It is described in the following.
+
+\section{SEMUS Test Procedure}
+
+\subsection{Test procedure Identifier}
+
+\emph{SEMuS-TD-TGMutation-1}
+
+
+\subsection{Purpose}
+
+This procedure aims to execute all the steps reported in Table~\ref{table:matrix:semus}.
+
+\subsection{Procedure steps}
+
+\subsubsection{Log}
+%describe any special methods or format for logging the results of test execution, the incidents observed, and any other event pertinent to this test;
+Since the test cases are executed within a console, the output of the test cases can be considered as is.
+In case failures need to be reported, the console output should be copy-pasted.
+\subsubsection{Set-up}
+The unit test case comes with the test cases already set-up. The only precondition is to install \SEMUS (see SUM document).
+%: describe the sequence of actions to set up the procedure execution;
+\subsubsection{Start}
+%: describe the actions to begin the procedure execution; proceed: describe the actions during the procedure execution;
+Test cases are executed by running the script \texttt{runtests.sh}.
+\subsubsection{Test Result Acquisition}
+Test results are printed out on the console.
+%: describe how the test measurements is made;
+\subsubsection{Shut Down}
+Test cases are shut down through a SIGINT (i.e., pressing \texttt{CTRL-C})
+%: describe the action to suspend testing when interruption is forced by unscheduled events;
+\subsubsection{Restart}
+Test cases can be restarted at any point by re-running the script \texttt{runtests.sh}.
+%: identify any procedural restart points and describe the actions to restart the procedure at each of these points;
+\subsubsection{Wrap-up}
+The test execution terminates autonomously, no further action is needed.
+%: describe the actions to terminate testing.
