@@ -1,0 +1,18 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+%\TODO{I changed '*2' with '+5' because in my opinion was misleading}
+
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Original source code., label=equivalent1]
+	x = 3;
+	y = 6;
+	z = x + 5;
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[style=CStyle, caption=Equivalent mutant., label=equivalent2, mathescape=true]
+	 x = 3;
+$\Delta$ z = x + 5;
+$\Delta$ y = 6;
+\end{lstlisting}
+\end{minipage}

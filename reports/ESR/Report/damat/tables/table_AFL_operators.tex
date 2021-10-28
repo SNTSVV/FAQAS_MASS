@@ -1,0 +1,45 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+%
+%\setlength\LTleft{0pt}
+%\setlength\LTright{0pt}
+%\begin{longtable}{@{\extracolsep{\fill}}|p{2.5cm}|p{5cm}|p{5cm}|@{}}
+%\toprule
+
+
+\begin{table}[h]
+\caption{Mutation Operations performed by AFL~\cite{gutmann2016fuzzing}}
+\label{table:AFL:operators}
+
+
+\tiny
+\begin{tabular}{|p{2.5cm}|p{10cm}|}
+
+\hline
+
+\textbf{Walking bit flips}& Sequential, ordered bit flips. The number of bits flipped in a row varies from one to four in steps of two. This strategy is applied till the coverage of the program under test does not change.\\
+
+\hline
+\textbf{Walking byte flips}& This method relies on 8-, 16-, or 32-bit wide bitflips with a constant stepover of one byte. \\
+
+\hline
+\textbf{Simple arithmetics}& Increment and decrement existing integer values in the input file; this is done considering every byte of the file. The chosen range for the operation is -35 to +35. It is performed in three steps. First, the fuzzer attempts to perform subtraction and addition on individual bytes. The second steps involves looking at 16-bit values, using both endians - but incrementing or decrementing them only if the operation has affected the most significant byte. The final stage follows the same logic, but for 32-bit integers.\\
+
+\hline
+\textbf{Known integers}& 
+AFL overwrites every byte in the input file with a set of interesting values (e.g., -1, 256, 1024, MAX\_INT-1, MAX\_INT), using both endians (the writes are 8-, 16-, and 32-bit wide).\\
+
+\hline
+\textbf{Stacked tweaks}& Sequence of randomly selected mutations among the following: Single-bit flips, Attempts to set "interesting" bytes, words, or dwords (both endians), Addition or subtraction of small integers considering bytes, words, or double words (both endians), Random single-byte sets, Block deletion, Block duplication via overwrite or insertion, Block memset. \\
+
+\hline
+\textbf{Test case splicing}& Consists of taking two distinct input files that differ in at least two locations, splicing them at a random location in the middle, and then applying stacked tweaks.\\
+
+\hline
+%\bottomrule                                                             
+
+\end{tabular}
+\end{table}
+%\normalsize
+
+

@@ -1,0 +1,46 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[htb]
+\caption{RQ7. \APPR Mutation Score.}
+\label{table:results:mutationScore} 
+\small
+\centering
+\begin{tabular}{|
+>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{46mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject}&\textbf{Predicted Equivalent}&\multicolumn{2}{c|}{\textbf{Mutation Score (\%)}}\\
+&\textbf{Mutants Removed (\%)}&\textbf{Traditional}&\textbf{\APPR}\\ 
+\hline
+% 1225-32=1193; 2311/(2311+1193)
+\SAIL{}$_{S}$&2.61&65.36&65.95\\
+%$\mathit{\SAIL{}}$&&\\
+% 4198-2281=1917; 10376/(10376+1917)
+
+
+% 1214-770=444; 2717/(2717+444)
+
+% 1712-371=1341; 3270/(3270+1341)
+\GCSP{}&21.67&65.64&70.92\\
+\PARAM{}&63.43&69.12&85.95\\
+% 3981-2699=1282; 17484/(17484+1282)
+\UTIL{}&54.34&71.20&84.41\\
+\MLFS{}{}&69.37&81.80&93.49\\
+\hline
+$\textbf{Average}$&42.28&70.62&81.14\\
+\hline
+\end{tabular}
+
+\end{table}
+
+%2021-06-14
+%Average MS with reduced test suite, above is with the whole TS
+% 
+%CSP 70.92
+%LIBUTIL 84.41
+%PARAM 85.95
+%MLFS 93.49
+%ESAIL 65.95

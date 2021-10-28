@@ -1,0 +1,173 @@
+% !TEX root = MAIN.tex
+
+
+\section{Empirical evaluation}
+\label{sec:summary:results}
+
+The FAQAS activity has ben evaluated through an extended empirical evaluation; below we summarize our findings. 
+
+
+\subsection{MASS}
+
+%\begin{table}[htb]
+%\caption{Code-driven mutation analysis results: MASS mutation score.}
+%\label{table:results:mass} 
+%\small
+%\centering
+%\begin{tabular}{|
+%>{\arraybackslash}p{54mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{40mm}@{\hspace{1pt}}|
+%}
+%\hline
+%\textbf{Subject}&\textbf{MASS Mutation Score (\%)}\\
+%\hline
+%
+%\SAIL{}$_{S}$ (System test suite)&65.95\\
+%
+%\SAIL{}$_{S}$ (Unit+System test suite)&70.56\\
+%
+%\GCSP{}&70.92\\
+%\PARAM{}&85.95\\
+%
+%\UTIL{}&84.41\\
+%\MLFS{}{}&93.49\\
+%% K: 3104 L: 2219-1480=739 T: 5323-1480=3843
+%ASN1SCC&80.77\\
+%\hline
+%$\textbf{Average}$&78.86\\
+%\hline
+%\end{tabular}
+%
+%\end{table}
+%
+%
+%Table~\ref{table:results:mass} provides the code-driven mutation analysis results. 
+%The mutation score computed by \MASS for the case study subjects considered in our experiments was in line with the expectations of engineers. 
+
+Both GSL and LXS have manually inspected a subset of the live mutants identified by \MASS. The inspection enabled industry partners to identify relevant shortcomings in their test suites: 
+\begin{itemize}
+\item 57\% of the live mutants are due to missing inputs. Of particular relevance are exceptional cases not being exercised by the test suite, which shows that engineers are not be able to determine all the unexpected execution conditions that the SUT shall take care of.
+\item 23\% of the live mutants were due to missing oracles. Such result is particularly relevant because it indicates that although engineers believe to have tested a relevant scenario, the absence of an appropriate oracle prevents them from automatically detecting failures that might be observed when running the test cases.
+\item The few remaining live mutants had ben reported as either equivalent or not relevant (e.g., because concerning third party software).
+\item One fault was detected. More precisely, the implementation of a test case that detects the mutant has shown that the SUT provides an erroneous result.
+\end{itemize}
+
+%In addition, based on an independent evaluation performed on a case study subject not shared with the FAQAS team, LXS has reported that 36\% of the 34 live mutants detected by \MASS spot major limitations of the test suite.
+%In their independent evaluation with libraries, industry partners did not negatively comment about the scalability of the process. However, they reported the need for a strategy to further prioritize the generated mutants for inspection.
+
+
+Finally, our results show that MASS helps addressing scalability problems to a significant extent by reducing mutation analysis time by more than 70\% across subjects. 
+In practice, for large software systems like \SAIL{}, such reduction can make mutation analysis practically feasible; indeed, with 100 HPC nodes available for computation, \MASS can perform the mutation analysis of \SAIL{}\emph{-CSW} in half a day. In contrast, a traditional mutation analysis approach would take more than 100 days, thus largely delaying the development and quality assurance processes.
+Also, we demonstrated that the FSCI sampling approach implemented by MASS leads to an accurate estimation of the mutation score. 
+
+
+
+
+\subsection{SEMuS}
+
+%\begin{table}[htb]
+%\caption{Test suite augmentation results.}
+%\label{table:results:test-gen} 
+%\centering
+%\footnotesize
+%\begin{tabular}{|
+%@{\hspace{1pt}}p{10mm}|
+%@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{18mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{35mm}@{\hspace{1pt}}|
+%>{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+% >{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
+%}
+%\hline
+%\textbf{Subject}&\textbf{Live Mutants}&\textbf{Additionally Killed Mutants}&\textbf{Original MS (\%)}&\textbf{Updated MS (\%)}\\ 
+%\hline
+%$\mathit{MLFS}$&3\,891&697&81.80&85.06\\
+%$\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
+%$\mathit{ESAIL_S}$&1\,041&NA&70.56&NA\\
+%% additionally killed: clock 2 error 4 timestamp 6 memory 21
+%$\mathit{Libutil}$&4\,198&35&81.80&81.96\\
+%\hline
+%\end{tabular}
+%
+%\end{table}
+
+The empirical evaluation demonstrated the scalability of \SEMUS for the case study subjects in which it can be successfully applied (i.e., ASN1CC, MLFS, and \UTIL). 
+Our results also demonstrated the usefulness of \SEMUS. Indeed, \SEMUS enabled the identification of two faults in our case studies. Also, the generated test cases concerned inputs that are relevant (according to specifications) but not tested by the test suites.
+
+%The main limitation of \SEMUS derives from the choice of , it is currently limited by the choice of compiling with LLVM only the source file under test (to limit the probability of compilation errors). Table~\ref{table:results:test-gen} provides an overview of some of our results.
+%
+
+
+
+\subsection{DAMAt}
+
+%\begin{table}[htb]
+%\caption{Data-driven mutation analysis results.}
+%\label{table:results:data-driven} 
+%\center
+%\footnotesize
+%\begin{tabular}{|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{18mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+%}
+%\hline
+%\textbf{Subject} & 
+%\textbf{\# FMs} & 
+%\textbf{FMC} & 
+%\textbf{\#MOs-CFM} & 
+%\textbf{\#CMOs} & 
+%\textbf{MOC}  
+%&\textbf{Killed}&\textbf{Live}&\textbf{MS}
+%\\
+%\hline
+%
+%\ADCS &10 &90.00\%   & 135 & 100 & 74.00\%   &    45&55&45.00\%\\
+%\GPS &1 &100.00\%    &  23  &  22 & 95.65\%    &      21&1&95.45\%\\
+%\PDHU &3 &100.00\%  &   29 & 24 & 82.76\%   &     24&0&100.00\%\\
+%\PARAM &6 &100.00\%  &   44 & 41 & 93.20\%  &        37&4&90.24\%\\
+%\GCSP &1 &100.00\%  &   33 & 21 & 63.64\%  &        NA&NA&NA\\
+%
+%
+%\hline
+%
+%\end{tabular}
+%
+%FM=Fault Model, FMC=Fault Model Coverage, MOs-CFM=Mutation Operations in covered FMs,
+%CMO=Covered Mutation Operation, MOC=Mutation Operation Coverage, Killed=Number of mutants killed by the test suite, Live=Number of mutants not killed by the test suite, MS=Mutation Score. The mutation score for \GCSP is not available because of nondeterminism observed while running the experiments.
+%
+%\end{table}
+%
+%
+%Table~\ref{table:results:data-driven} shows the mutation analysis results of DAMAT.
+
+The empirical evaluation of DAMAt has demonstrated the effectiveness of the approach. Indeed, LXS has indicated that 57\% out of the overall amount of 102 test suite problems detected by DAMAt were spotting major limitations of the test suite. Also, GSL has confirmed that the approach enabled the detection of relevant test suite shortcomings.
+One possible limitation of the approach is that it may introduce slow-downs that lead to non-deterministic failures when the test suite exercises brief interaction scenarios in which most of the operations performed concern the encapsulation of data into the network.
+
+Our results confirm that (1) uncovered fault models (i.e., low \INDEX{FMC}) indicate lack of coverage for certain message types (\INDEX{UMT}) and, in turn, the lack of coverage of a specific functionality (i.e., setting the pulse-width modulation in \ADCS); (2) uncovered mutation operations (i.e., low \INDEX{MOC}) highlight the lack of testing of input partitions (\INDEX{UIP}); (3) live mutants (i.e., low \INDEX{MS}) suggest poor oracle quality (\INDEX{POQ}).
+
+Based on our evaluation, we observed that live mutants can be killed by introducing oracles that (1) verify additional entries in the log files (39 instances for \ADCS, 1 instance for \GPS), (2) verify additional observable state variables (14 instances for \ADCS, 4 instances for \PARAM), and (3) verify not only the presence of error messages but also their content (2 instances for \ADCS).
+\REVOCT{C-P-18}{Such oracles may consist of additional assertions that verify data values already produced by the software under test (i.e., no modification of the SUT is needed).}
+
+%Finally we also identified the following set of test suite shortcomings: (1) the test case does not distinguish failures across data items (e.g., temperature values collected by different sensors),
+%(2) the test case does not distinguish errors across different messages (e.g., in \ADCS, the IfHK message reporting a broken sensor or the message sent by a sensor reporting malfunction), (3) the test case does not distinguish between errors in nominal and non-nominal data (e.g., it does not distinguish between VOR and FVOR), (4) the test case does not distinguish between upper and lower bounds (e.g., the mutants for VOR lead to the same assertion failures), and {(5) the test case does not distinguish between different error codes (i.e, it simply verifies that an error code is generated)}. 
+
+\subsection{DAMTE}
+
+\DAMTE aims to address a task (i.e., test generation at system and integration level) that is particularly difficult to address with state-of-the-art technology (e.g., test generation toolsets based on symbolic execution). 
+%In particular, the test generation tool adopted in FAQAS (i.e., KLEE) requires manual intervention to specify which are the inputs to select thus preventing the automated generation of a large number of test cases. 
+For this reason, FAQAS only concerned the evaluation of the feasibility of DAMTE.
+
+We relied on DAMTE to generate inputs for the \PARAM client API functions. Such inputs enable the exchange of messages between the \PARAM client and the \PARAM server. Overall, we conclude that the DAMTE approach may be feasible; however, it requires some manual effort for the configuration and execution of test cases which may limit its usefulness. The first step towards its large scale applicability is the improvement of underlying test generation tools and compiler procedures, such changes will facilitate DAMTE application to large projects without the need for manually creating test template files with dependencies.
+
+%\subsection{Summary}
+%
+%The developed toolset has thus demonstrated to be useful in industrial contexts. The common limitation cross the different tools is the usability; indeed, all the tools require relevant effort to be set-up (however, LXS has reported that if at least 6\% of the reported problems spot major limitations the benefits surmount costs). The need for manual effort mostly depends on the lack of a common development environment for different case study subjects. The identification of a reference platform for software development in industry context may facilitate the adoption of the FAQAS toolset.
+%
+%Other limitations that need further research effort to simplify the adoption of the FAQAS toolset are the prioritization of mutants to be inspected, the need for a solution to compile whole SUTs with LLVM, the need for a solution to enable test generation in the presence of floating point variables, the need for a working solution to enable test generation based on data-driven mutation analysis results. 
+

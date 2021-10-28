@@ -1,0 +1,31 @@
+% !TEX root =  ../MAIN-DataDrivenMutationAnalysis.tex
+
+\begin{table}[tb]
+\caption{Execution Overhead.}
+\label{table:overhead} 
+\footnotesize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{14mm}
+@{\hspace{2pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{22mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{24mm}@{\hspace{1pt}}|
+p{10mm}|}
+\hline
+\textbf{Subject}&\textbf{Test suite execution time}&\textbf{\APPR total execution time}\\
+
+\hline
+\ADCS	& \multirow{3}{*}{8.34 [h]} & 1,204.98 [h] \\
+\GPS    &   & 207.89 [h]\\
+\PDHU	&   & 71.19 [h]  \\
+\PARAM	& 0.02 [h] & 0.32 [h] \\
+
+\hline
+
+\end{tabular}
+\end{table}
+
+% adcs 100*(((4337921808,496312/139)-30031763)/30031763)
+% gps 100*(((748401432,807895/22)-30031763)/30031763)
+% pdhu 100*(((256269254.71111107/38)-30031763)/30031763)
+% param 1153129.75
