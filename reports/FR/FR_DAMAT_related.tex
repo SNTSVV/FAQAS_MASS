@@ -1,15 +1,15 @@
 % !TEX root = ../MAIN.tex
 
 \section{Data-driven Mutation Analysis}
-\label{sec:background}
+% \label{sec:background}
 
 \INDEX{Data-driven mutation analysis} evaluates the effectiveness of a test suite in detecting \INDEX{interoperability faults}. The CPS literature reports on four different interoperability types~\cite{Givehchi:2017}: technical (which concerns communication protocols and  infrastructure), syntactic (which concerns data format), semantic (which concerns the exchanged information, that is, errors in the processing of exchanged data), and cross-domain interoperability (which concerns interaction through business process languages such as BPEL~\cite{BPEL}).
 \REVTOOL{P-1}{For example, a technical interoperability problem may concern two components working with two different network protocols (e.g., TCP VS UDP), a syntactic interoperability problem is that of two components using different keywords to specify a field in a json~\cite{JSON} data file (e.g., "temperature" and "temp"), a semantic interoperability problem is that of a control software that does not take appropriate actions when the voltage of the board is above nominal range, cross domain interoperability is that of a web service not following the expected flow of remote calls.}
 Technical and syntactic interoperability are provided by off-the-shelf hardware and libraries
-(not tested by CPS developers) 
+(not tested by CPS developers)
  while cross-domain interoperability concerns systems integrated in online services (e.g., energy plants) but is out of scope for the type of CPSs we target in this work, which are safety-critical CPSs like flight systems, robots, and automotive systems. In this paper, we thus focus on \INDEX{semantic interoperability} faults,
  that is, faults that affect CPS components integration and are triggered (i.e., lead to failures) in the presence of specific subsets of the data that might be exchanged by CPS components. We thus aim to ensure that a test suite fails when the data exchanged by CPS components is not the one specified by test cases (e.g., through simulator configurations).
-%verifies that all the data exchanged by CPS components are correctly processed, that is, it  
+%verifies that all the data exchanged by CPS components are correctly processed, that is, it
 Related work includes mutation analysis~\cite{jia2010analysis,papadakis2019mutation} and \INDEX{fault injection}~\cite{natella2016assessing} techniques.
 
 \subsection{Mutation Analysis}
@@ -17,14 +17,14 @@ Related work includes mutation analysis~\cite{jia2010analysis,papadakis2019mutat
 
 \textbf{Mutation analysis} concerns the automated generation of faulty software versions (i.e., mutants) through automated procedures called mutation operators~\cite{jia2010analysis,papadakis2019mutation}. The effectiveness of a test suite is measured by computing the mutation score, which is the percentage of mutants leading to failures when exercised by the test suite.
 
-\INDEX{Mutation operators} introduce syntactical changes into the code of the \UPDATED{SUT}. The  \INDEX{sufficient set of operators} is implemented by most mutation analysis toolsets~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting,offutt1996experimental}. 
-Unfortunately, these operators simulate faults concerning the implementation of algorithms (e.g., a wrong logical connector), which is usually tested in unit test suites that, by definition, do not exercise the communication among components, our target in this paper. 
+\INDEX{Mutation operators} introduce syntactical changes into the code of the \UPDATED{SUT}. The  \INDEX{sufficient set of operators} is implemented by most mutation analysis toolsets~\cite{offutt1996experimental,rothermel1996experimental,andrews2005mutation,kintis2017detecting,offutt1996experimental}.
+Unfortunately, these operators simulate faults concerning the implementation of algorithms (e.g., a wrong logical connector), which is usually tested in unit test suites that, by definition, do not exercise the communication among components, our target in this paper.
 Also, as stated in the Introduction, such operators can't be used to generate faulty data with simulated or off-the-shelf components.
 \INDEX{Higher-order} mutation analysis~\cite{harman2010manifesto}, which simply combines multiple operators, has the same limitations.
 
-\UPDATED{\INDEX{Components integration} is targeted by interface~\cite{delamaro2001interface}, integration~\cite{Grechanik:16}, contract-based~\cite{Jiang:ICSM:05}, and system-level mutation analysis~\cite{mateo2010mutation}. The former three assess the quality of integration test suites by introducing changes that concern function invocations 
+\UPDATED{\INDEX{Components integration} is targeted by interface~\cite{delamaro2001interface}, integration~\cite{Grechanik:16}, contract-based~\cite{Jiang:ICSM:05}, and system-level mutation analysis~\cite{mateo2010mutation}. The former three assess the quality of integration test suites by introducing changes that concern function invocations
 (e.g., switch function arguments) and inter-procedural data-flow (e.g., alter assignments to variables returned to other components);
-they can simulate integration faults in units integrated with API invocations but 
+they can simulate integration faults in units integrated with API invocations but
 not interoperability problems concerning larger components communicating through channels (e.g., network).
 \INDEX{System-level mutation} relies on operators for GUI components, which are out of our scope, and  configuration files, by applying simple mutations, such as deleting a line of text, and are unlikely to lead to interoperability problems.}
 
@@ -32,16 +32,16 @@ not interoperability problems concerning larger components communicating through
 
 \subsection{Fault injection}
 
-\INDEX{Fault injection techniques} simulate the effect of faults by altering, at runtime, the data processed by the \UPDATED{SUT}~\cite{natella2016assessing}. Faults are introduced according to a fault model that describes the type of fault to inject, the timing of the injection, and the part of the system targeted by the injection. Different from data-driven mutation analysis, fault injection techniques aim to stress the robustness of the software,  
-%(e.g., determine if out-of-range input values can crash the system) 
+\INDEX{Fault injection techniques} simulate the effect of faults by altering, at runtime, the data processed by the \UPDATED{SUT}~\cite{natella2016assessing}. Faults are introduced according to a fault model that describes the type of fault to inject, the timing of the injection, and the part of the system targeted by the injection. Different from data-driven mutation analysis, fault injection techniques aim to stress the robustness of the software,
+%(e.g., determine if out-of-range input values can crash the system)
 not assess the quality of its test suites.
 %(e.g., determine if in-range input values lead to test failures).
 
 
 
-Faults affecting components' communication, 
-CPU, or memory can simulated by performing bit flips 
-%setting bits to zero and one, 
+Faults affecting components' communication,
+CPU, or memory can simulated by performing bit flips
+%setting bits to zero and one,
 %or toggling bits~
 \cite{tsai1999stress,barton1990fault,han1995doctor,dawson1996testing}.
 \INDEX{Communication faults} are simulated also by duplicating or deleting packets, altering their sequence, or introducing incorrect identifiers, checksums, or counters~\cite{di2015evolutionary,di2015generating}.
@@ -51,20 +51,20 @@ In general, although existing techniques may simulate a large set of faults they
 
 Approaches performing fault injections other than bit flips require a model of the data to modify.
 The modelling formalisms adopted for this purpose are grammars~\cite{ghosh1998testing,Godefroid:GrammarBasedFuzzying:2008,godefroid2012sage,bounimova2013billions}, UML class diagrams~\cite{di2015evolutionary,di2015generating}, or block models~\cite{pham2016model,PeachFuzzer}.
-Grammars are used to model textual data (e.g., XML), which is seldom exchanged by CPS components because of parsing cost. 
+Grammars are used to model textual data (e.g., XML), which is seldom exchanged by CPS components because of parsing cost.
 Block models enable specifying the representation to be used for consecutive blocks of bytes, which makes them applicable to a large set of systems; however, existing block model formalisms rely on the XML format, which is expensive to process and thus not usable with real-time systems~\cite{pham2016model,PeachFuzzer}.
 The \INDEX{UML class diagram} is a formalism that
-enables the specification of complex data structures and 
-%support the generation of data faults that break complex 
-data dependencies 
+enables the specification of complex data structures and
+%support the generation of data faults that break complex
+data dependencies
 %(e.g., using the OCL language~\cite{OCL})
-\cite{di2015evolutionary,di2015generating}; however, it requires loading the data as UML class diagram instances, which is too expensive for real-time systems. 
+\cite{di2015evolutionary,di2015generating}; however, it requires loading the data as UML class diagram instances, which is too expensive for real-time systems.
 
 \subsection{Summary}
 
 To summarize, the modification of the data exchanged by software components enables the simulation of communication and, therefore, semantic interoperability faults.
-Test suites can thus be assessed by relying on fault injection techniques to mutate data. 
-However, existing fault injection techniques do not target mutation analysis; consequently, we lack methods for the specification of fault models and metrics for the assessment of test suites. 
+Test suites can thus be assessed by relying on fault injection techniques to mutate data.
+However, existing fault injection techniques do not target mutation analysis; consequently, we lack methods for the specification of fault models and metrics for the assessment of test suites.
 Also, a larger set of procedures for the modification of data is needed.
 Finally, block models can effectively capture the structure of the data to modify but formalisms not relying on XML are needed. Our paper addresses such limitations.
 
@@ -73,16 +73,16 @@ Finally, block models can effectively capture the structure of the data to modif
 %\cite{Offutt2006} The paper discuss the idea that mutation analysis is a way to modify any software artifact such as program specifications, XML and input languages, based on its syntactic description (i.e., a grammar). More abstractly, mutation analysis can be referred to grammar-based testing, and this concept can be used to develop additional applications such as the mutation of finite state machines and use case collaboration diagrams.
 %For example, programming languages are described in grammar notation, program behavior is described in finite state machines, and allowable inputs to programs are defined by grammars. With grammar-based testing, tests are created from the grammar.
 %
-%Instead, grammar-based input testing is based on grammars that formally define the syntax of the inputs to a program, method or software component. For example, a language's grammar defines the inputs of its compiler, and the XML schema defines the inputs of a XML parser. 
+%Instead, grammar-based input testing is based on grammars that formally define the syntax of the inputs to a program, method or software component. For example, a language's grammar defines the inputs of its compiler, and the XML schema defines the inputs of a XML parser.
 %Invalid inputs can be created by mutating input grammars. When mutating grammars, the mutants are the tests and we create valid and invalid strings. There is no ground string, so the notion of killing mutants does not apply to mutating grammars.
-%In the paper, four grammar operators are defined (nonterminal replacement, terminal replacement, terminal and nonterminal deletion, and terminal and nonterminal duplication). 
+%In the paper, four grammar operators are defined (nonterminal replacement, terminal replacement, terminal and nonterminal deletion, and terminal and nonterminal duplication).
 %
 %
 %\subsection{Data Modeling}
 %\label{sec:dataModeling}
 %
-%Approaches performing data mutation often require a data model to drive mutations (e.g., to decide how to alter a specific chunk of data). 
-%However, some of the approaches do not require a data model. 
+%Approaches performing data mutation often require a data model to drive mutations (e.g., to decide how to alter a specific chunk of data).
+%However, some of the approaches do not require a data model.
 %These approaches are the ones that perform low level changes (e.g., bit flips) or that combine multiple low level changes driven by the data collected at runtime (e.g., code coverage information~\cite{gutmann2016fuzzing}).
 %The main drawback of approaches that do not require a data model is that they can hardly be used in a mutation testing context.
 %Indeed, without additional information (e.g., a data model) it is not possible to determine what should be the expected effect of modifying a randomly selected portion of an input, in turn, it is not possible to determine if the mutated data should lead to a test failure, trigger a robustness feature of the SUT, or simply go unnoticed because it does not alter the behaviour of the software (e.g., because it alters bytes that are copied as is by a data processing system).
@@ -91,12 +91,12 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %\subsubsection{Data modeling with grammars}
 %
-%Grammar-based approaches rely on a context-free grammar to specify the format of the data to be mutated. 
+%Grammar-based approaches rely on a context-free grammar to specify the format of the data to be mutated.
 %Listing~\ref{JSONgrammar} shows an example of a grammar for the JSON format in BNF notation. Listing~\ref{JSONgrammarEBNF} shows the same grammar in EBNF notation. Listing~\ref{JSONfile} shows an example JSON file.
 %
 %Grammars are used by fuzzing approaches that alter input files to perform robustness testing~\cite{ghosh1998testing} and security testing~\cite{Appelt:SQLI:ISSTA:2014,Jan:ISSTA:2016}. They might be used to perform black-box mutations~\cite{ghosh1998testing} or white-box mutations that leverage code analysis to augment the coverage of the SUT~\cite{Godefroid:GrammarBasedFuzzying:2008}.
 %% because of the large space of invalid inputs
-%The main limitation of grammars is that they cannot be used to encode integrity constraints such as size-of, offset-of, length-of, and checksums~\cite{pham2016model}. 
+%The main limitation of grammars is that they cannot be used to encode integrity constraints such as size-of, offset-of, length-of, and checksums~\cite{pham2016model}.
 %%JSONgrammar
 %
 %\input{listings/grammarJSON.tex}
@@ -145,15 +145,15 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %% An example fault model is described in Table~\ref{table:faultModel:SES}.
 %%%and are used to identify the fields that can be mutated to generate new inputs.
-%%For example, 
+%%For example,
 %%the two stereotypes \emph{Identifier} and \emph{Measure} are used to indicate that these attributes should be modified using mutation operators specified for identifiers and measurements.
 %
 %
 %In the presence of UML models, constraints between inputs and outputs can be represented using OCL.
-%These constraints are used as an oracle to validate the execution of automatically generated test cases: a violated constraint indicates that the system under test does not produce the expected output. 
+%These constraints are used as an oracle to validate the execution of automatically generated test cases: a violated constraint indicates that the system under test does not produce the expected output.
 %%The use of OCL constraints enable engineers to represent information that cannot be captured with grammars.
 %%In the case of SES-DAQ, we use OCL constraints to model the error messages expected in the presence of specific faults in the input data.
-%For example, Figure~\ref{fig:costraint:firstHeader} shows an OCL constraint that states that the frame count of a VCDU should be greater by one than the frame count of the previous VCDU on the same virtual channel. Otherwise, an error event \emph{COUNTER\_JUMP} should exist in the system output log file. 
+%For example, Figure~\ref{fig:costraint:firstHeader} shows an OCL constraint that states that the frame count of a VCDU should be greater by one than the frame count of the previous VCDU on the same virtual channel. Otherwise, an error event \emph{COUNTER\_JUMP} should exist in the system output log file.
 %In the context of data-driven mutation testing they can be used to determine if a mutant had been killed by a test case (e.g., a constraint may capture the presence of a log entry indicting the triggering a redundancy mechanism).
 %
 %
@@ -180,8 +180,8 @@ Finally, block models can effectively capture the structure of the data to modif
 %\end{figure}
 %
 %
-% 
-%%The stereotype \emph{Derived} is used to tag class attributes that need to be derived from other attributes after every mutation, in order to prevent trivial inconsistencies (e.g. it is used to update the checksum field when other fields are mutated). 
+%
+%%The stereotype \emph{Derived} is used to tag class attributes that need to be derived from other attributes after every mutation, in order to prevent trivial inconsistencies (e.g. it is used to update the checksum field when other fields are mutated).
 %%The stereotypes \emph{StreamClass} and \emph{StreamAttributes} are used to automate the loading of data from bytestreams.
 %% but are out of the scope of this paper (see~\cite{ICST15} for details).
 %
@@ -189,7 +189,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %\subsubsection{Data modeling with Block Models}
 %
-%Approaches relying on block models~\cite{PeachFuzzer,spike,pham2016model}, require that engineers specify input data according to a specific format that captures the size of specific portions of the input data. 
+%Approaches relying on block models~\cite{PeachFuzzer,spike,pham2016model}, require that engineers specify input data according to a specific format that captures the size of specific portions of the input data.
 %For example, Spike~\cite{spike} and Peach~\cite{PeachFuzzer} require input models that specify the format of data chunks and integrity constraints.
 %Figure~\ref{fig:pit} shows a portion of an example block model taken from related work~\cite{pham2016model}.
 %While being effective in fuzzing programs that process weakly-structured inputs (e.g., images and protocols), these approaches become less effective for highly-structured inputs (e.g., JavaScript).
@@ -210,26 +210,26 @@ Finally, block models can effectively capture the structure of the data to modif
 %\label{sec:data_operators}
 %
 %%As mentioned in Section~\ref{sec:dataProcess}, the software engineering literature does not include any study on data-driven mutation testing but only testing approaches based on the injection of data faults.
-%%For this reason, 
-%In this section, we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing. 
+%%For this reason,
+%In this section, we provide an overview of the fault injection techniques that have originally been developed to support software testing and can be used in the context of data-driven mutation testing.
 %More precisely, we focus on the techniques for the modification of data (hereafter, data mutation techniques) that are presented in software testing research papers.
 %
 %
-%Table~\ref{table:dataOperators} provides an overview of groups of data mutation techniques that can be applied to space software and embedded systems. 
+%Table~\ref{table:dataOperators} provides an overview of groups of data mutation techniques that can be applied to space software and embedded systems.
 %We selected the set of data-driven mutation techniques in Table~\ref{table:dataOperators} based on the different types of faults commonly affecting space and embedded systems.
 %Each technique aims to create data faults that might be observed in real systems either because of hardware errors or software errors.
-%The data-driven mutation operators, i.e., the specific functions implemented by each technique to alter the type of data they target, are described in separate tables, in the following paragraphs. 
+%The data-driven mutation operators, i.e., the specific functions implemented by each technique to alter the type of data they target, are described in separate tables, in the following paragraphs.
 %%Since, for each family of technique, multiple implementations of data-driven mutation operators are available
 %
-%In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the specific technique described,  
+%In Table~\ref{table:dataOperators}, column \emph{Name} provides the name of the specific technique described,
 % column \emph{Type of fault} indicates the type of faults each operator aims to simulate,
 % column \emph{Data model} indicates if the technique requires a model of the structure of the data to be mutated,
 % column \emph{Definition} provides a brief description of the technique, column \emph{Target} indicates the type of data targeted,
 % column \emph{Reference} provides a reference to a research paper or tool describing the technique more in detail.
-% 
+%
 %%Fabrizio: "First" and "Then" read like a story, which is not good in a Tech Report
 %Concerning the type of faults considered, we focus both on hardware and software errors.
-%Hardware errors are captured by the categories CPU Faults, Memory Faults, and Signal Faults. 
+%Hardware errors are captured by the categories CPU Faults, Memory Faults, and Signal Faults.
 %Software errors are captured by the category Data Processing Faults.
 %Category Communication Faults simulates problems that can be caused either by software or hardware errors.
 %
@@ -246,7 +246,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %\newcommand{\Superion}{\cite{Wang:GrammarAwareFuzzying:ICSE:2019}}
 %\newcommand{\AFL}{\cite{gutmann2016fuzzing}}
 %\newcommand{\SAGE}{\cite{godefroid2012sage}}
-%\newcommand{\pFuzzer}{\cite{mathis2019parser}} 
+%\newcommand{\pFuzzer}{\cite{mathis2019parser}}
 %\newcommand{\MoWF}{\cite{pham2016model}}
 %\newcommand{\DiNardoICST}{\cite{di2015generating}}
 %\newcommand{\DiNardoASE}{\cite{di2015evolutionary}}
@@ -264,7 +264,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %To summarize the data in Table~\ref{table:dataOperators}, we observe that:
 %\begin{itemize}
 %  %Note: always put a comma at the end of a list before "or" "and"
-%  \item Category CPU Faults includes techniques that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations. 
+%  \item Category CPU Faults includes techniques that perform mutations in the contents of an individual bit, byte, or word in a CPU register. The mutations in this category can target saved, floating-point, program-counter, global and stack-pointer register locations.
 %  \item Category Memory Faults includes techniques that perform mutations in the contents of an individual bit, byte, or word in a memory register. The mutations in this category can target stack, heap, global-data and user-defined memory locations.
 %  \item Category Communication Faults includes techniques that simulate packet corruption faults. The mutations in this category can target channels between components, single messages, and the addresses of the messages to be exchanged.
 %  \item Category Data Processing Faults includes techniques that mutate the data being processed by the system. Some of these techniques are white-box, they process the source code of the application to generate inputs more efficiently. Other techniques require a model of the data to be mutated. The mutations in this category can target both the input and the output parameters of the interface of a software component.
@@ -287,13 +287,13 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %%\subsubsection{Approaches generating data from scratch}
 %AFL is an instrumentation-guided fuzzer~\cite{gutmann2016fuzzing}. It integrates genetic algorithms with a form of branch coverage called state transition coverage,
-%which captures the number of times each branch is taken in an execution. 
+%which captures the number of times each branch is taken in an execution.
 %AFL aims to generate inputs that exercise all the different code paths.
 %%It is implemented by executing for every instruction of the program under test the following lines
 %%cur_location = <COMPILE_TIME_RANDOM>;
-%%coverage[cur_location ^ prev_location]++; 
+%%coverage[cur_location ^ prev_location]++;
 %%prev_location = cur_location >> 1;
-%It requires one or more starting files that contain input data normally processed by the targeted application. 
+%It requires one or more starting files that contain input data normally processed by the targeted application.
 %Each provided input is processed in a queue. For each input in the queue, AFL trims the test case to the smallest size that doesn't alter the coverage of the program. Then it repeatedly mutates the file using a set of fuzzing strategies, which are presented in Table~\ref{table:AFL:operators}.
 %If any of the generated mutations result in a change of the coverage for the software under test, the mutated input is added to the input queue.
 %
@@ -301,9 +301,9 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %\subsubsection{Grammar-based fuzzing}
 %
-%Superion~\Superion~ extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar. 
+%Superion~\Superion~ extends \emph{AFL} to drive mutations based on grammars. It takes as input an ANTLR~\cite{ANTLR} grammar.
 %It performs mutations that consist of grammar-aware trimming, dictionary-based mutations, and tree-based mutation.
-%Grammar-aware trimming is performed by generating an AST tree from the input and by deleting a randomly-selected subtree. 
+%Grammar-aware trimming is performed by generating an AST tree from the input and by deleting a randomly-selected subtree.
 %It aims to generate trimmed inputs that do not alter code coverage in the SUT.
 %Dictionary-based mutations are performed by building a dictionary using every token in the input file and by inserting the elements of the dictionary in the boundaries of every token in the input file.
 %Tree-based mutation is performed by processing two input files and replacing the subtrees of one file with the ones of another.
@@ -321,9 +321,9 @@ Finally, block models can effectively capture the structure of the data to modif
 %%\subsubsection{Approaches altering existing data}
 %
 %
-%\emph{$\mu$4SQLi}~\cite{Appelt:SQLI:ISSTA:2014} relies on a SQL grammar to generate SQL injections. 
+%\emph{$\mu$4SQLi}~\cite{Appelt:SQLI:ISSTA:2014} relies on a SQL grammar to generate SQL injections.
 %SQL injections are generated by means of a set of mutation operators, shown in Table~\ref{table:Mu4SQLI}, that alter the values of an input according to predefined patterns.
-%Similarly, SOLMI~\cite{Jan:ISSTA:2016} relies on the XML grammar to alter XML messages based on a predefined set of mutation operators and introduce potential XML injections. 
+%Similarly, SOLMI~\cite{Jan:ISSTA:2016} relies on the XML grammar to alter XML messages based on a predefined set of mutation operators and introduce potential XML injections.
 %SOLMI implements four operators that (1) introduce XML meta-characters, (2) introduce closing tags, (3) replicate XML elements, (4) replace XML content.
 %
 %
@@ -357,7 +357,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %\end{table}
 %
 %
-%Tal et al.~\cite{Tal2004} presented a syntax-based vulnerability testing technique based on mutations of ASN.1 grammars. The objective is to detect software vulnerabilities detecting anomalous behavior or crashes in the SUT (e.g., segmentation faults, buffer, heap or stack overflows, etc.) when parsing mutated PDUs. The PDUs are specified by frames (data structures), which explicitly defines the order of data fields in the PDU, as well as the exact length of each field. 
+%Tal et al.~\cite{Tal2004} presented a syntax-based vulnerability testing technique based on mutations of ASN.1 grammars. The objective is to detect software vulnerabilities detecting anomalous behavior or crashes in the SUT (e.g., segmentation faults, buffer, heap or stack overflows, etc.) when parsing mutated PDUs. The PDUs are specified by frames (data structures), which explicitly defines the order of data fields in the PDU, as well as the exact length of each field.
 %The proposed approach intercepts OSPF packets and translates it to a TXL readable file, then the mutations are applied to ASN.1 syntax contained in the TXL file. The mutation strategies applied are the following: \textbf{replacement} (replacing one field at a time with boundary and mid-way values), \textbf{removal} (removing one field at a time, and then removing pairs of fields, one pair at a time), and \textbf{permutation} (permutating pairs of fields within each SEQUENCE and SET).
 %
 %% \textbf{Syntax-based Vulnerability Testing of Frame-based Network Protocols}
@@ -368,7 +368,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %% \textbf{CMM: A combination-based mutation method for SQL injection}
 %
-%Instead, Zhao et al.~\cite{Zhao2020} presented a mutation-based fuzzing technique for eliminating SQLi vulnerabilities. The technique is called Combinatorial Mutation Method (CMM), which mixes combinatorial testing with fuzzing techniques to generate test sets for SQLi. 
+%Instead, Zhao et al.~\cite{Zhao2020} presented a mutation-based fuzzing technique for eliminating SQLi vulnerabilities. The technique is called Combinatorial Mutation Method (CMM), which mixes combinatorial testing with fuzzing techniques to generate test sets for SQLi.
 %
 %The mutations are based on the mutation methods from sqlmap (open source penetration testing tool that automates the process of detecting and exploiting SQLi flaws). The authors classifies the mutation methods provided by sqlmap in five groups:
 %
@@ -401,7 +401,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %Given the assumption that a system is composed of an application plus its environment, in the paper faults are injected into the environment thereby perturbing it, the idea is to verify if the program responds and whether there will be a security violation under this perturbation, otherwise the system is considered secure.
 %
-%The faults are injected at the points where the environment and the application interact. The environment faults becomes faults in the input, which is then inherited by an internal entity of the application. From this point onwards the environment faults propagate through the application via the internal entities. If the application does not handle the faults correctly, a security violation might occur. The direct reason for this violation appears to be faults in the internal entity. 
+%The faults are injected at the points where the environment and the application interact. The environment faults becomes faults in the input, which is then inherited by an internal entity of the application. From this point onwards the environment faults propagate through the application via the internal entities. If the application does not handle the faults correctly, a security violation might occur. The direct reason for this violation appears to be faults in the internal entity.
 %Authors classify environment faults in two categories: (1) indirect: affect programs via internal entities (primary sources of program inputs). (2) direct: affect programs via environment faults.
 %
 %
@@ -432,12 +432,12 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %%, also, it requires more knowledge about the target than purely random ones.
 %
-%SAGE adopts symbolic execution to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications. 
-%The program is first executed with concrete inputs; in order to identify a set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints. 
-%The main benefit of SAGE is that it forces the program to execute corner cases not covered by the initial inputs; for example, 
+%SAGE adopts symbolic execution to systematically generate malformed inputs~\cite{godefroid2012sage}. SAGE performs fuzzing on file- and packet-parsing applications.
+%The program is first executed with concrete inputs; in order to identify a set of constraints on inputs, then, one of the constraints in the set is negated, and new malformed inputs are generated to satisfy the new set of constraints.
+%The main benefit of SAGE is that it forces the program to execute corner cases not covered by the initial inputs; for example,
 %%Fabrizio: you wrote the following, which I could not understand please check if my sentence is correct
 %%(e.g., reached one-third of all bugs found by fuzz testing in Microsoft projects \cite{bounimova2013billions}).
-%%Oscar: yes, what you wrote is correct 
+%%Oscar: yes, what you wrote is correct
 %one-third of all the bugs found by means of fuzz testing are detected thanks to SAGE \cite{bounimova2013billions}.
 %Unfortunately, the main limitation of SAGE and symbolic execution-based fuzzers is its limited scalability, due to the high execution time required by symbolic execution.
 %
@@ -450,22 +450,22 @@ Finally, block models can effectively capture the structure of the data to modif
 %Model-based fuzzing targets program binaries that process structured inputs.
 %Model-Based Blackbox Fuzzing (MoBF) is performed using block models that capture the structure of the input data for the SUT. A solution to perform MoBF is Peach~\cite{PeachFuzzer,PeachMozilla}, which alters data of an input files according to a large, predefined set of rules. We provide an overview of the mutation operators implemented by Peach in Table~\ref{table:PeachOperators}.
 %Model-Based Whitebox Fuzzing, instead, relies on additional information about code coverage to generates valid inputs that exercise critical target locations~\cite{pham2016model}. This is done through a directed path exploration technique that prunes from the search space those paths that are exercised by invalid, malformed inputs.
-%Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities. 
+%Compared with a Model-Based Blackbox Fuzzer (MoBF) approach, the \emph{MoWF} prototype was able to expose all of 13 vulnerabilities on an empirical evaluation carried on nine subject programs, while the MoBF approach only detected 6 out of 13 vulnerabilities.
 %
 %\input{tables/pit_operators.tex}
 %
 %\subsubsection{Model-based data mutation}
 %
-%%\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}: 
+%%\emph{Generating complex and faulty test data through model-based mutation analysis (Research paper) \cite{di2015generating}}:
 %Model-based data mutation testing concerns the automated generation of invalid input data through the mutation of existing data based on a predefined set of mutation operators~\cite{di2015generating}.
-%The technique receives two inputs: field data and a data model, i.e., a UML class diagram annotated with stereotypes and OCL constraints. 
-%An example data model has been shown in Figure~\ref{fig:dataModel} while an example OCL constraint appears in Figure~\ref{fig:costraint:firstHeader}. 
-%The technique relies upon six generic mutation operators to automatically generate faulty data. 
+%The technique receives two inputs: field data and a data model, i.e., a UML class diagram annotated with stereotypes and OCL constraints.
+%An example data model has been shown in Figure~\ref{fig:dataModel} while an example OCL constraint appears in Figure~\ref{fig:costraint:firstHeader}.
+%The technique relies upon six generic mutation operators to automatically generate faulty data.
 %Table~\ref{table:dataModelMutationOperators} provides an overview of the mutation operators proposed in ~\cite{di2015generating}.
-%In model-based data mutation~\cite{di2015generating} stereotypes are used to tailor the behaviour of the generic mutation operators to the fault model for the system under test and the environment in which it is deployed. 
+%In model-based data mutation~\cite{di2015generating} stereotypes are used to tailor the behaviour of the generic mutation operators to the fault model for the system under test and the environment in which it is deployed.
 %Table~\ref{table:faultModel:SES} shows a fault model for a satellite system that processes the data presented in Figure~\ref{fig:dataModel}.
 %Mutation operators are applied to the data according to the stereotypes used in the data model.
-%Table~\ref{table:mapping} shows the mutation operators and the corresponding stereotypes. In~\cite{di2015generating}, the mutation operator \emph{Attribute Bit Flipping} is applied on all the attributes not tagged with other stereotypes. 
+%Table~\ref{table:mapping} shows the mutation operators and the corresponding stereotypes. In~\cite{di2015generating}, the mutation operator \emph{Attribute Bit Flipping} is applied on all the attributes not tagged with other stereotypes.
 %
 %\input{tables/table_stereotypes}
 %
@@ -473,8 +473,8 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %\input{tables/table_faultModel.tex}
 %
-%Data mutation may lead to the generation of inconsistent data containing trivial faults that do not comply with the given fault model (e.g., checksum errors). 
-%Inconsistent data might also be caused by mutation operators that target classes. For example the swapping of packets that belong to two different virtual channels may lead to the generation of VCDUs that contain packets with a same id, i.e. inconsistent data. To preserve data consistency the approach in \cite{di2015generating} enables software engineers to configure the behaviour of mutation operators by means of OCL queries and UML stereotypes. OCL queries are used to enable software engineers to further restrict the characteristics of the object instances on which the mutation operators can be applied.   The UML stereotype, \emph{Derived}, instead, enables software engineers to specify which attributes need to be updated after a mutation in order to prevent trivial errors. The stereotype requires that software engineers specify the name of a method that is invoked at runtime by the mutation framework to regenerate the value of the tagged attribute. The implementation of this function should be provided by the software engineer (e.g., a utility function named that recalculates the checksum of a packet). 
+%Data mutation may lead to the generation of inconsistent data containing trivial faults that do not comply with the given fault model (e.g., checksum errors).
+%Inconsistent data might also be caused by mutation operators that target classes. For example the swapping of packets that belong to two different virtual channels may lead to the generation of VCDUs that contain packets with a same id, i.e. inconsistent data. To preserve data consistency the approach in \cite{di2015generating} enables software engineers to configure the behaviour of mutation operators by means of OCL queries and UML stereotypes. OCL queries are used to enable software engineers to further restrict the characteristics of the object instances on which the mutation operators can be applied.   The UML stereotype, \emph{Derived}, instead, enables software engineers to specify which attributes need to be updated after a mutation in order to prevent trivial errors. The stereotype requires that software engineers specify the name of a method that is invoked at runtime by the mutation framework to regenerate the value of the tagged attribute. The implementation of this function should be provided by the software engineer (e.g., a utility function named that recalculates the checksum of a packet).
 %
 %Besides Di Nardo's work, there is also Aichernig et al.~\cite{Aichernig2015} tool called MoMuT::UML, which consists of a model-based mutation testing tool for UML, that uses UML state charts, class diagrams, and instance diagrams as input for the test case generation.
 %MoMuT::UML produce mutated versions of the UML model by applying a set of mutation operators to a set of name-spaces. The resulting UML-mutants are translated to OOAS (object oriented action system), OASS model parallel processes through non-deterministic choice of actions and their formal semantics are defined using the weakest precondition predicate transformer.
@@ -494,13 +494,13 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %
 %Model-based data mutation is not only applicable to UML models, in fact, Siavashi et al.~\cite{Siavashi2018} presented a model-based mutation testing approach for evaluating the authentication and authorization of web services in a multi-user context. The modeling of the web service and its security requirements are performed using an UPPAAL timed automata, the model is then mutated to create invalid behavior which is used for test generation to reveal faults in the SUT.
-% 
+%
 %In model-based mutation testing (MBMT), the original test model is altered systematically by mutation operators creating multiple versions of a model, known as mutant models. The mutants can be used for automatic generation of invalid test inputs that are executed against the SUT. The goal in MBMT is to find whether any invalid tests can pass the testing, thus they can reveal unexpected behavior (i.e., a fault) in the SUT. Hence, MBMT can expose the mistakes that are caused by missing requirements or incorrect implementation.
 %
-%In the paper, authors model a web service, its users, and their authentication and authorization requirements. The model is then mutated to create invalid test inputs that target faults in the implementation of the web service. 
+%In the paper, authors model a web service, its users, and their authentication and authorization requirements. The model is then mutated to create invalid test inputs that target faults in the implementation of the web service.
 %
-%Mutation testing extends the fault detection capabilities of MBT by exposing more vulnerabilities of systems. It changes a system's program or its specification, to create new versions of the system. 
-%Mutation operators are rules that establish the mutants by altering the syntax of the program (or the specification). The generated tests exhibit altered inputs (including faulty inputs) and input sequences against the SUT. Hence the mutants allow testing of the SUT with invalid inputs. 
+%Mutation testing extends the fault detection capabilities of MBT by exposing more vulnerabilities of systems. It changes a system's program or its specification, to create new versions of the system.
+%Mutation operators are rules that establish the mutants by altering the syntax of the program (or the specification). The generated tests exhibit altered inputs (including faulty inputs) and input sequences against the SUT. Hence the mutants allow testing of the SUT with invalid inputs.
 %
 %The paper introduces eight mutation operators for timed automatas, five operators concern to action elements, and three to guard elements of the automata.
 %
@@ -549,7 +549,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %\end{table}
 %
 %
-%A mutant $m$ of a regex $r$ can modify the accepted language in four ways: 
+%A mutant $m$ of a regex $r$ can modify the accepted language in four ways:
 %\begin{itemize}
 %  \item Arbitrary edit: some words are added to the language and other words are removed.
 %  \item Generalization: some words are added to the language and no word is removed.
@@ -575,7 +575,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %%\textbf{Worst-input mutation approach to web services vulnerability testing based on SOAP messages}
 %
-%Similarly, Chen et al.~\cite{Chen2014} introduced a model-based mutation approach for testing web service vulnerability of SOAP messages. 
+%Similarly, Chen et al.~\cite{Chen2014} introduced a model-based mutation approach for testing web service vulnerability of SOAP messages.
 %
 %The method involves partitioning the input domain into sub-domains according to the number and type of SOAP message parameters in the TCFN (test case farthest neighbor) and then selecting the candidate test case whose distance is the farthest from all executed test cases and applying it to test the Web service.
 %
@@ -592,7 +592,7 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %\subsubsection{Search-based data mutation}
 %
-%Search-based data mutation relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:  
+%Search-based data mutation relies on an evolutionary algorithm to perform model-based data mutation and optimize multiple objectives:
 %cover all the classes of the data-model, cover all the possible faults of the fault model, cover all the clauses of the input/output constraints,
 %maximise code coverage~\cite{di2015evolutionary}.
 %The coverage of each objective is encoded by means of boolean arrays; this information is used to select a minimal set of inputs that maximize the coverage of the different objectives.
@@ -623,11 +623,11 @@ Finally, block models can effectively capture the structure of the data to modif
 %
 %Literature lacks approaches to directly target equivalent and redundant mutants. However, some of the solutions implemented in existing data mutation approaches might limit the presence of equivalent and redundant mutants. We observe three main solutions: (1) driving mutations by means of code-coverage, (2) driving mutations by means of coverage of model structure, and (3) use of model-based oracles.
 %
-%Code-coverage-driven mutations are the ones implemented by many automated fuzzers such as 
+%Code-coverage-driven mutations are the ones implemented by many automated fuzzers such as
 %MoWF~\cite{pham2016model} and AFL~\cite{gutmann2016fuzzing}.
 %MoWF aims to generate mutated data that triggers the execution of specific code locations. This is done by combining symbolic execution and meta-heuristic search.
 %Since each mutated input triggers a different code location, MoWF, in principle, should always lead to mutated inputs that make the software behave differently than with the original input or with other data mutants. However, it does not ensure that the changes in the internal behaviour of the software are reflected in one of its observable outputs.
-%Similarly to MoWF, AFL generates inputs that trigger different code locations. The main difference is that it does not target only specific code locations but it aims to exercise all the branches of the program. 
+%Similarly to MoWF, AFL generates inputs that trigger different code locations. The main difference is that it does not target only specific code locations but it aims to exercise all the branches of the program.
 %Similarly to MoWF, AFL does not guarantee that changes in the internal behaviour of the software are reflected in one of its observable outputs.
 %Similarly to AFL, any approach relying on meta-heuristic search that include coverage objectives in the fitness function (e.g.,~\cite{di2015evolutionary}) can limit the presence of equivalent and redundant mutants.
 %
@@ -649,8 +649,8 @@ Finally, block models can effectively capture the structure of the data to modif
 %\label{sec:data:mutationscore}
 %
 %In the data-driven mutation testing process, the outcome of the activity \emph{Analyze Results} (see Figure~\ref{fig:data:process}) is a mutation score that is based on
-%the percentage of mutants being killed and the percentage of mutation operators applied. 
-%The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2. 
+%the percentage of mutants being killed and the percentage of mutation operators applied.
+%The former enables data-driven mutation to achieve objective O1 in Section~\ref{sec:dataProcess}, the latter objective O2.
 %The mutation score can be computed as a weighted average of the percentage of mutants being killed and the percentage of mutation operators applied, according to the following formula
 %
 %\begin{equation}
@@ -667,10 +667,10 @@ Finally, block models can effectively capture the structure of the data to modif
 %% and may vary based on the strategy adopted to perform data mutation.
 %For approaches relying on \textbf{UML models}, one possibility is to follow the approach of Di Nardo et al.~\cite{di2015generating}, which consists of mutating every model element (e.g., class or class attribute in the class diagram capturing the data model) with every mutation operator that is applicable to the specific model element, according to the fault model captured in the class diagram (see Section~\ref{sec:data_operators}).
 %The $\ONMO$ (ONMO) could be thus computed as the sum of the number of applicable mutation operators for ever every model element.
-%The $\NMOA$, (NMOA) consequently, should capture the number of mutations that were performed. In the approach of Di Nardo et al.~\cite{di2015generating}, NMOA corresponds to the number of model elements for which at least one instance had been mutated. 
+%The $\NMOA$, (NMOA) consequently, should capture the number of mutations that were performed. In the approach of Di Nardo et al.~\cite{di2015generating}, NMOA corresponds to the number of model elements for which at least one instance had been mutated.
 %
-%For the computation of ONMO and NMOA, a strategy similar to the one presented by Di Nardo et al. can be used also in the case of approaches relying on \textbf{grammars} or \textbf{block models}. Indeed, also for these two types of approaches, data mutation is performed by means of a set of mutation operators that are applied in the presence of specific data types. 
-%These data types correspond to the production rules of the grammar or the blocks defined in the block model. 
+%For the computation of ONMO and NMOA, a strategy similar to the one presented by Di Nardo et al. can be used also in the case of approaches relying on \textbf{grammars} or \textbf{block models}. Indeed, also for these two types of approaches, data mutation is performed by means of a set of mutation operators that are applied in the presence of specific data types.
+%These data types correspond to the production rules of the grammar or the blocks defined in the block model.
 %Approaches that do \textbf{not require an input model} typically work at the bit/byte level. In these cases, ONMO might be calculated as the number of available operators, or
 %as the number of bit/bytes in the inputs multiplied by the number of applicable mutation operators.
 %
