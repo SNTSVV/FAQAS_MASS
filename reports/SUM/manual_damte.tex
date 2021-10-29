@@ -1,0 +1,72 @@
+% !TEX root = MAIN.tex
+
+\chapter{DAMTE - Operations Manual}
+\label{chapter:damte:operations}
+
+\section{Set-up and Initialization}
+\label{sec:damte_setup}
+\subsection{Dependencies}
+
+\begin{itemize}
+	\item \texttt{Python 3.6.8} or higher
+	\item \texttt{GNU bash, version 4.2.46} or higher
+	\item KLEE 2.3
+	\item LLVM 9.0.1
+\end{itemize}
+
+\section{Executing DAMTE}
+
+To execute DAMTE, first the engineer should generate the data-driven mutation testing FAQAS API (i.e., FAQAS\_dataDrivenMutator.h) through the following command:
+
+\begin{lstlisting}[language=bash]
+ $ python DAMTE/mutator/src/generateDataMutator.py <BufferType> <FaultModel.csv> <TestAssessment> 
+\end{lstlisting}
+
+The procedure is similar to the one specified for \DAMA, the only difference is that the engineer should specify the argument \texttt{<TestAssessment>} which for mutation testing shall be $0$.
+
+The probes to be inserted shall be contained in the generated \texttt{FAQAS\_dataDrivenMutator.h}. Note that the environment variable \texttt{TEST\_ASSESSMENT} has to be set to 0 (i.e., \texttt{TEST\_ASSESSMENT}=0) to enable test generation.
+
+The next step consists of preparing a test template for guiding the test generation with KLEE. An example of test template follows in Listing~\ref{GSLtest}:
+
+\begin{lstlisting}[style=CStyle, caption=Test template to enable data-driven mutation testing, label=GSLtest]
+    // a little hack - this is next element, we use it check for overwrite and missing 0 termination
+    memset(alltypes_mem.string_A, 'Z', sizeof(alltypes_mem.string_A));
+    alltypes_mem.string_A[0][1] = 0;
+
+    char buf[GS_TEST_ALLTYPES_STRING_LENGTH + 10];
+
+    // get max size - no 0 termination
+    memset(alltypes_mem.string, 'B', sizeof(alltypes_mem.string));
+    memset(buf, 'A', sizeof(buf));
+    buf[GS_TEST_ALLTYPES_STRING_LENGTH + 1] = 0;
+    
+    csp_node CSP_NODE;
+    unsigned long long int tableID;
+    klee_make_symbolic(&CSP_NODE, sizeof(CSP_NODE), ”CSP_NODE”);
+    klee_make_symbolic(&tableID, sizeof(tableID), ”tableID”);
+    gs_rparam_get_string(&CSP_NODE, tableID, GS_TEST_ALLTYPES_STRING, GS_RPARAM_MAGIC_CHECKSUM, 1000, buf, GS_TEST_ALLTYPES_STRING_LENGTH);
+\end{lstlisting}
+
+Note that the arguments of the function, for which test generation is targeted, shall be declared symbolic with  KLEE API \texttt{klee\_make\_symbolic}.
+
+It is important to include the \texttt{FAQAS\_dataDrivenMutator.h} with an include statement in the same source as the test template defined above.
+
+Then, the test template plus the mutated functions shall be compiled with the following command:
+
+\begin{lstlisting}[language=bash]
+ $ clang -I klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone source.c
+\end{lstlisting}
+
+This command will generate a bitcode file that should be passed to KLEE with the following command:
+
+\begin{lstlisting}[language=bash]
+ $ klee --libc=uclibc --posix-runtime --external-calls=all
+\end{lstlisting}
+
+If test cases are generated, the results can be then checked with \texttt{ktest-tool} command:
+
+\begin{lstlisting}[language=bash]
+ $ ktest-tool klee-last/test000001.ktest
+\end{lstlisting}
+
+The output of \texttt{ktest-tool} command will represent the results in binary format.
