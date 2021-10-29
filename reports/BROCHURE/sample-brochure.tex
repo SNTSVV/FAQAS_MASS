@@ -2,7 +2,7 @@
 
 \documentclass[a4paper]{report}
 
-\usepackage[landscape,margin=10pt]{geometry}
+\usepackage[landscape,margin=15pt]{geometry}
 \usepackage{color}
 \usepackage{flowfram}
 \usepackage[colorlinks]{hyperref}
@@ -27,9 +27,9 @@
 %\vtwotonetop{1cm}{0.6\paperwidth}{[cmyk]{0.65,0.13,0,0}}{topleft}%
 %{0.4\paperwidth}{[cmyk]{0.94,0.54,0,0}}{topright}
 
-\newstaticframe{0.4\textwidth}{40cm}{2pt}{0pt}[head]
+\newstaticframe{0.4\textwidth}{39cm}{2pt}{0pt}[head]
 
-\newstaticframe{0.4\textwidth}{37cm}{2pt}{0pt}[title]
+\newstaticframe{0.4\textwidth}{34cm}{2pt}{0pt}[title]
 
 \newstaticframe{\textwidth}{0.8\textheight}{0pt}{0pt}[img]
 
@@ -54,11 +54,11 @@ University of Luxembourg}
 
 \setstaticcontents*{head}{\small\slshape\MakeUppercase{ESTEC Contract Number 4000128969/19/NL/AS}}
 
-\setstaticcontents*{title}{\Huge\slshape\MakeUppercase{Testing mission-readiness of test suites}}
+\setstaticcontents*{title}{\Huge\slshape\MakeUppercase{FAQAS: Testing\\ mission-readiness\\ of test suites}}
 
 \setstaticcontents*{img}{\includegraphics[width=14cm]{FAQAS-overview.pdf}}
 
-\setstaticcontents*{logo}{University of Luxembourg. SnT Centre. Contact: Technology Transfer Office, snt-tto@uni.lu. \hspace{10cm} \includegraphics[width=2cm]{logo-uni-lu.pdf}\hspace{2mm}\includegraphics[width=2cm]{logo-snt.pdf} }
+\setstaticcontents*{logo}{University of Luxembourg. SnT Centre. Contact: Technology Transfer Office, snt-tto@uni.lu. \hspace{10.5cm} \includegraphics[width=1.5cm]{logo-uni-lu.pdf}\hspace{1.5mm}\includegraphics[width=2cm]{logo-snt.pdf} }
 
 %{\noindent
 %\slshape\Huge\MakeUppercase{A Sample Brochure}\par
@@ -89,7 +89,7 @@ MASS reports the set of live mutants, killed mutants (i.e., mutants that are dis
 \textbf{\emph{DAMAt}}, instead, generates data-driven mutants. 
 It relies on fault models that specify how to mutate the data exchanged by SUT components through data-driven mutation operators. 
 DAMAt enables the simulation of faults that affect simulated components (e.g., sensors), which is not feasible with code-driven mutation analysis. 
-DAMAt reports the set of killed mutants (i.e., successfully alter the data, and lead to test case failures), the set of live mutants (i.e., mutants that successfully alter the data, but do not lead to test case failures), and the set of mutants not applied (i.e., mutants that, during testing, could not alter any data because the data they target was \textbf{erronously} never exercised by the SUT). 
+DAMAt reports the set of killed mutants (i.e., successfully alter the data, and lead to test case failures), the set of live mutants (i.e., mutants that successfully alter the data but do not lead to test case failures), and the set of mutants not applied (i.e., mutants that, during testing, could not alter any data because the data they target was \textbf{erronously} never exercised by the SUT). 
 %also, it provides information useful to draft a verification report, which includes the fault model coverage (i.e., percentage of fault models with at least one mutant applied), the mutation operation coverage (i.e., percentage of mutants applied), and the mutation score.
 
 \textbf{\emph{SEMuS}} automatically generates executable unit test cases based on code-driven mutation analysis results. The generated unit test cases kill mutants not detected by the original test suite. The generated test cases include test oracles that enable the detection of faults affecting the SUT.
