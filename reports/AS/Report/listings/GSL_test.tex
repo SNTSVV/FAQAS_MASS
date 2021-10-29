@@ -1,0 +1,40 @@
+% !TEX root =  ../MAIN.tex
+\begin{lstlisting}[style=CStyle, caption=Test template to enable data-driven mutation testing for libParam, label=GSLtest]
+
+    // a little hack - this is next element, we use it check for overwrite and missing 0 termiation
+    memset(alltypes_mem.string_A, 'Z', sizeof(alltypes_mem.string_A));
+    alltypes_mem.string_A[0][1] = 0;
+
+    char buf[GS_TEST_ALLTYPES_STRING_LENGTH + 10];
+
+    // get max size - no 0 termination
+    memset(alltypes_mem.string, 'B', sizeof(alltypes_mem.string));
+    memset(buf, 'A', sizeof(buf));
+    buf[GS_TEST_ALLTYPES_STRING_LENGTH + 1] = 0;
+    
+    csp_node CSP_NODE;
+    unsigned long long int tableID;
+    klee_make_symbolic(&CSP_NODE, sizeof(CSP_NODE), "CSP_NODE");
+    klee_make_symbolic(&tableID, sizeof(tableID), "tableID");
+    gs_rparam_get_string(&CSP_NODE, tableID, GS_TEST_ALLTYPES_STRING, GS_RPARAM_MAGIC_CHECKSUM, 1000, buf, GS_TEST_ALLTYPES_STRING_LENGTH);
+
+    
+\end{lstlisting}
+
+
+
+%flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+%{
+%    flag ret = TRUE;
+%    *pErrCode = 0;
+%    (void)pVal;
+%    (void)pBitStrm;
+%
+%
+%    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+%
+%    // Manually added probe 
+%    E_mutate(pVal);
+%    // Manually added probe END
+%    return ret  && E_IsConstraintValid(pVal, pErrCode);
+%}

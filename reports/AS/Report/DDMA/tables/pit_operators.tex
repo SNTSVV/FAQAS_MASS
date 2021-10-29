@@ -1,0 +1,50 @@
+% !TEX root = ../MAIN.tex
+
+\begin{table}[h]
+\begin{center}
+\footnotesize
+\begin{tabular}{|p{5cm}|p{9cm}|}
+\hline
+\textbf{Operator Name}&\textbf{Description}\\
+\hline
+ArrayVarianceMutator&Change the length of arrays. Given L the original length of the array, the length is changed in range L-N to L+N.\\
+ArrayReverseOrderMutator&Reverse the order of an array.\\
+ArrayRandomizeOrderMutator&Put array elements in random order.\\
+DWORDSliderMutator&Slides a DWORD through the blob.\\
+BitFlipperMutator&Flips a given \% of bits in blob. Default is 20\%.\\
+BlobMutator&Randomly grows a Blob block or shrinks it.\\
+DataTreeRemoveMutator&Remove nodes from data tree.\\
+DataTreeDuplicateMutator&Duplicate a node's value starting at 2x through 50x.\\
+DataTreeSwapNearNodesMutator&Swap the data of two nodes that are near each other in the data model.\\
+NumericalVarianceMutator&Produce numbers that are defaultValue - N to defaultValue + N.\\
+NumericalEdgeCaseMutator&Replace with random numbers of appropriate correct size.\\
+FiniteRandomNumbersMutator&Produce a finite number of random numbers for each \emph{Number} element.\\
+NumericalEvenDistributionMutator&Generate numbers evenly distributed through the total numerical space of the number range.\\
+NullMutator&Does nothing, just test the data produced by the fuzzer.\\
+PathValidationMutator&Does not mutate. Used to trace path of each test for path validation.\\
+SizedVarianceMutator&Change the length of sizes to count - N to count + N.\\
+SizedNumericalEdgeCasesMutator&Change the length of sizes to numerical edge cases.\\
+SizedDataVarianceMutator& Change the length of sized data to count - N to count + N. Size indicator will stay the same.\\
+SizedDataNumericalEdgeCasesMutator&Change the length of sizes to numerical edge cases.\\
+StringCaseMutator&Change the case of a string.\\
+UnicodeStringsMutator&Generate unicode strings.\\
+ValidValuesMutator&Replace with random values other than the legal ones.\\
+UnicodeBomMutator&Injects BOM markers into default value and longer strings.\\
+UnicodeBadUtf8Mutator&Generate bad UTF-8 strings.\\
+UnicodeUtf8ThreeCharMutator&Generate long UTF-8 three byte strings.\\
+StringMutator&Generate a random unicode string, for each string node, one Node at a time.\\
+XmlW3CMutator&Replace XML trees with invalid, non-well former, and valid (but random) XML trees.\\
+PathMutator&Replace a path with an erroneous path generated according to 20 different rules.\\
+HostnameMutator&Replace a hostname with an erroneous hostname generated according to 20 different rules.\\
+IpAddressMutator&Replace an IP address with an erroneous IP address generated according to 20 different rules.\\
+TimeMutator&Replace a time value with an erroneous value generated according to 3 different rules.\\
+DateMutator&Replace a date with 60 predefined erroneous dates.\\ 
+FilenameMutator&Replace a file name with an file name generated according to 10 different rules.\\
+ArrayNumericalEdgeCasesMutator&This operator is not well documented in the source code of Peach.\\
+BlobSpread&This operator is not well documented in the source code of Peach.\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Mutation Operators for the opensource version of Peach~\cite{PeachMozilla}}
+\label{table:PeachOperators}
+\end{table}%

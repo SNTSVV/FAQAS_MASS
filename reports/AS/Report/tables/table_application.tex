@@ -1,0 +1,23 @@
+% !TEX root = ../MAIN.tex
+\begin{table}[]
+\caption{Interpretation of results concerning the lack of coverage for mutation operations.}
+\label{table:damat:interpretation}
+\begin{tabular}{|p{2cm}|p{6cm}|p{6cm}|}
+\hline
+\textbf{Mutation Operator} & \textbf{If APPLIED} & \textbf{If NOT\_APPLIED} \\ \hline
+\textbf{VAT} & The value of the targeted data item was below the threshold at least once. & The value of the targeted data item was never below the threshold. It indicates that the test suite does not cover the input partition (e.g., the test suite never tests the nominal case). \\ \hline
+\textbf{VBT} & The value of the targeted data item was above the threshold at least once. & The value of the targeted data item was never above the threshold. It indicates that the test suite does not cover the input partition (e.g., the test suite never tests the nominal case). \\ \hline
+\textbf{VOR} & The value of the targeted data item was inside the range defined by Min and Max at least once. & The value of the targeted data item was never observed within the range defined by Min and Max. It indicates that the test suite does not cover the min-max input partition (e.g., the test suite never tests the nominal case). \\ \hline
+\textbf{BF} & At least a bit was flipped. If State was set to 1 this means that between Min and Max position at least a bit contained a 1. The same goes if State was set to 0. & No bits were flipped, this happens when the test suite never lead to the exchange of messages containing bits in the specified state (either $0$ or $1$). It indicates that an input partition is not covered.\\ \hline
+\textbf{INV} & It is always applied.& It is always applied.\\ \hline
+\textbf{IV} & The value of the targeted data item was different from the invalid value specified by the operator at least once.& 
+The value of the targeted data item was always equal to the invalid value specified by the operator at least once. It indicates that the test suite only test the software in the presence of a specific invalid value.\\ \hline
+\textbf{ASA} & It is always applied.& It is always applied.\\ \hline
+\textbf{SS} & It is always applied.& It is always applied.\\ \hline
+\textbf{HV} & It is always applied.& It is always applied.\\ \hline
+\textbf{FVAT} & The value of the targeted data item was above the threshold at least once. & 
+The value of the targeted data item was never above the threshold. It indicates that the test suite does not cover the input partition (e.g., it does not cover non-nominal cases).\\ \hline
+\textbf{FVBT} & The value of the targeted data item was below the threshold at least once. & The value of the targeted data item was never below the threshold. It indicates that the test suite does not cover the input partition (e.g., it does not cover non-nominal cases).\\ \hline
+\textbf{FVOR} & The value of the targeted data item was outside the range defined by Min and Max at least once. & The value of the targeted data item was never outside the range defined by Min and Max. It indicates that the test suite does not cover the input partition (e.g., it does not cover non-nominal cases). \\ \hline
+\end{tabular}
+\end{table}

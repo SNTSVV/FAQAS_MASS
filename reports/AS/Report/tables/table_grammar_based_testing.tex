@@ -1,0 +1,22 @@
+\begin{table}[h]
+\caption{List of tools for grammar-based inputs generation.}
+\label{table:grammarGeneration}
+\begin{center}
+\tiny
+\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{7cm}|}
+\hline
+\textbf{Name}&\textbf{Grammar}&\textbf{Licence}&\textbf{Description}\\
+\hline
+GramTest~\cite{GramTest}& BNF&Apache 2.0&Java-based tool that allows you to generate test cases based on BNF grammars. It covers all the production rules of the grammar.\\
+\hline
+Fuzzingbook Grammar Coverage-based Fuzzer~\cite{fuzzingbook2019:GrammarFuzzer}& BNF & MIT &Python tool that implements production rules coverage. It implements the Shortest Path Selection~\cite{Burkhardt:TestFromSyntax} optimization.\\
+\hline
+GP~\cite{GPlib,Kifetew:GBTest:2017}& Annotated BNF & Proprietary& Tool for the automated generation of inputs from Stochastic Context Free Grammars. Implemented on top of genetic programming algorithms. https://selab.fbk.eu/kifetew/downloads/gplib-607.jar\\
+\hline
+RIDDLE~\cite{ghosh1998testing}&BNF& Proprietary& Tool that adopts a grammar to describe the format of inputs; based on the grammar, random and boundary values are generated for tokens representing input parameters.\\
+\hline
+pFuzzer~\cite{mathis2019parser}& BNF & Tool that aims at producing valid inputs for input parsers \url{https://github.com/uds-se/pFuzzer}.\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}%

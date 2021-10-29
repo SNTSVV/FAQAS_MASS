@@ -1,0 +1,291 @@
+% !TEX root =  ../Main.tex
+\begin{table}[htb]
+\caption{RQ3. 
+Accuracy of proportional uniform sampling applied to select SDL mutants only.}
+\label{table:results:accuracy:regSamplingSDL} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{5mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+}
+\hline
+     & \multicolumn{2}{c|}{\textbf{\GCSP{}}} & \multicolumn{2}{c|}{\textbf{\PARAM{}}} & \multicolumn{2}{c|}{\textbf{\UTIL{}}} & \multicolumn{2}{c|}{\textbf{\MLFS{}{}}} & \multicolumn{2}{c|}{\textbf{\SAIL{}}} \\
+\hline
+\textbf{r=} & \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}               \\
+\hline           
+0.01 & 10 & 34.36    & 8 & 38.18     & 24 & 16.30   & 18 & 20.69 &       \\
+0.02 & 19 & 23.83    & 15 & 29.12    & 47 & 13.91   & 35 & 15.34 &       \\
+0.03 & 28 & 20.07    & 22 & 23.67    & 71 & 14.72   & 52 & 12.43 &       \\
+0.04 & 37 & 19.56    & 30 & 20.87    & 94 & 11.27   & 70 & 11.06 &       \\
+0.05 & 46 & 18.11    & 37 & 17.77    & 118 & 9.31    & 87 & 10.15 &       \\
+0.06 & 55 & 15.32    & 44 & 21.39    & 141 & 9.31    & 104 & 9.09  &       \\
+0.07 & 64 & 15.61    & 52 & 16.28    & 164 & 9.64    & 122 & 9.18  &       \\
+0.08 & 73 & 13.81    & 59 & 16.58    & 188 & 6.99    & 139 & 9.57  &       \\
+0.09 & 83 & 11.53    & 66 & 16.16    & 211 & 8.20    & 156 & 8.28  &       \\
+0.1  & 92 & 13.19    & 74 & 15.07    & 235 & 7.97    & 173 & 9.25  &       \\
+0.2  & 183 & 10.32    & 147 & 9.94     & 469 & 5.25    & 346 & 6.64  &       \\
+0.3  & 274 & 9.91     & 220 & 9.12     & 703 & \textbf{4.91}    & 519 & 7.13  &       \\
+0.4  & 365 & 8.48     & 292 & 8.73     & 937 & \textbf{4.43}    & 692 & 6.06  &       \\
+0.5  & 456 & 8.07     & 364 & 7.38     & 1171 & \textbf{3.61}    & 865 & 5.60  &       \\
+0.6  & 548 & 7.17     & 438 & 7.28     & 1405 & \textbf{3.50}    & 1038 & 5.25  &       \\
+0.7  & 639 & 6.90     & 510 & 5.86     & 1639 & \textbf{3.27}    & 1211 & \textbf{4.91}  &       \\
+0.8  & 730 & 6.56     & 582 & 5.79     & 1873 & \textbf{2.80}    & 1384 & \textbf{4.87}  &       \\
+0.9  & 821 & 5.86     & 655 & 5.22     & 2107 & \textbf{2.58}    & 1557 & \textbf{4.49}  &   \\
+\hline   
+\end{tabular}
+Note: \#M, number of mutants. Accurate results (i.e., $\delta_{acc} \le 5\%$) are in bold.
+\end{table}
+
+
+\begin{table}[htb]
+\caption{RQ3. 
+Accuracy of proportional method-based sampling applied to select SDL mutants only.}
+\label{table:results:accuracy:funcSamplingSDL} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{5mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+}
+\hline
+     & \multicolumn{2}{c|}{\textbf{\GCSP{}}} & \multicolumn{2}{c|}{\textbf{\PARAM{}}} & \multicolumn{2}{c|}{\textbf{\UTIL{}}} & \multicolumn{2}{c|}{\textbf{\MLFS{}{}}} & \multicolumn{2}{c|}{\textbf{\SAIL{}}} \\
+\hline
+\textbf{r=} & \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}               \\
+\hline
+0.01 & NA       			& NA       		& 4 & 28.80   			& 4 & 31.80 &       \\
+0.02 & NA       			& 2 & 69.12    & 15 & 28.80   			& 20 & 18.20 &       \\
+0.03 & 2 & 34.36    		& 8 & 44.12    & 28 & 18.09   			& 35 & 15.34 &       \\
+0.04 & 10 & 34.36    		& 9 & 35.79    & 44 & 15.16   			& 76 & 12.94 &       \\
+0.05 & 12 & 26.03    		& 9 & 35.79    & 64 & 14.00   			& 88 & 11.98 &       \\
+0.06 & 15 & 21.03    		& 19 & 24.51    & 88 & 10.62  			 & 109 & 9.94  &       \\
+0.07 & 19 & 18.57    		& 25 & 21.12    & 108 & 10.33  			 & 132 & 8.35  &       \\
+0.08 & 25 & 22.36    		& 42 & 19.12    & 135 & 6.97   			 & 146 & 8.61  &       \\
+0.09 & 40 & 14.36   		 & 46 & 19.12    & 155 & 8.19   			 & 161 & 8.88  &       \\
+0.1  & 56- 11.15     		& 57 & 15.67    & 174 & 8.41    			& 176 & 8.54  &       \\
+0.2  & 169 & 7.45     		& 153 & 10.68    & 438 & 5.97    			& 348 & 7.43  &       \\
+0.3  & 268 & 7.12     		& 238 & 9.46     & 706 & \textbf{3.17}    & 528 & 6.18  &       \\
+0.4  & 370 & 7.60     		& 307 & 8.25     & 948 & \textbf{2.85}    & 703 & 5.40  &       \\
+0.5  & 446 & 6.78     		& 377 & 8.01     & 1171 & \textbf{3.57}    & 872 & 5.53  &       \\
+0.6  & 559 & 5.38     		& 460 & 6.76     & 1445 & \textbf{2.86}    & 1053 & 5.05  &       \\
+0.7  & 653 & 5.26     		& 534 & 6.37     & 1686 & \textbf{2.67}    & 1225 & \textbf{4.45}  &       \\
+0.8  & 726 & 5.43     		& 599 & 5.86     & 1899 & \textbf{2.08}    & 1396 & \textbf{4.30}  &       \\
+0.9  & 808 & \textbf{4.47}     & 675 & 5.35     & 2120 & \textbf{2.03}    & 1567 & \textbf{4.07}  &   \\
+\hline     
+\end{tabular}
+Note: \#M, number of mutants. Accurate results (i.e., $\delta_{acc} \le 5\%$) are in bold.
+\end{table}
+
+
+\begin{table}[htb]
+\caption{RQ3. 
+Accuracy of proportional uniform sampling applied to select SDL+OODL mutants only.}
+\label{table:results:accuracy:regSamplingSDLOODL} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{5mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+}
+\hline
+     & \multicolumn{2}{c|}{\textbf{\GCSP{}}} & \multicolumn{2}{c|}{\textbf{\PARAM{}}} & \multicolumn{2}{c|}{\textbf{\UTIL{}}} & \multicolumn{2}{c|}{\textbf{\MLFS{}{}}} & \multicolumn{2}{c|}{\textbf{\SAIL{}}} \\
+\hline
+\textbf{r=} & \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}               \\
+\hline
+0.01 & 16 & 28.11    & 14 & 26.26    & 39 & 12.23   & 60 & 12.41 &       \\
+0.02 & 31 & 21.46    & 27 & 19.21    & 77 & 12.60   & 120 & 10.70 &       \\
+0.03 & 47 & 16.33    & 40 & 16.62    & 115 & 10.54   & 180 & 10.42 &       \\
+0.04 & 62 & 13.39    & 53 & 11.62    & 153 & 7.88    & 239 & 10.47 &       \\
+0.05 & 78 & 14.52    & 67 & 12.40    & 191 & 6.81    & 299 & 9.34  &       \\
+0.06 & 93 & 13.93    & 80 & 11.03    & 229 & 6.53    & 359 & 9.71  &       \\
+0.07 & 109 & 13.26    & 92 & 9.98     & 267 & 5.97    & 418 & 9.00  &       \\
+0.08 & 124 & 11.78    & 106 & 13.01    & 305 & 6.02    & 478 & 8.48  &       \\
+0.09 & 140 & 13.68    & 120 & 8.29     & 343 & 5.78    & 538 & 9.00  &       \\
+0.1  & 155 & 11.13    & 133 & 9.72     & 382 & 5.38    & 598 & 8.67  &       \\
+0.2  & 310 & 10.34    & 265 & 7.99     & 763 & \textbf{3.58}    & 1195 & 7.99  &       \\
+0.3  & 464 & 9.04     & 398 & 6.31     & 1144 & \textbf{3.59}    & 1792 & 7.52  &       \\
+0.4  & 619 & 8.03     & 529 & 5.54     & 1525 & \textbf{3.26}    & 2389 & 7.03  &       \\
+0.5  & 773 & 7.65     & 659 & 5.45     & 1906 & \textbf{2.97}    & 2986 & 7.11  &       \\
+0.6  & 928 & 7.48     & 795 & \textbf{4.53}     & 2287 & \textbf{2.41}    & 3583 & 6.90  &       \\
+0.7  & 1083 & 7.08     & 926 & \textbf{4.24}     & 2668 & \textbf{2.31}    & 4180 & 6.76  &       \\
+0.8  & 1237 & 6.79     & 1058 & \textbf{3.75}     & 3049 & \textbf{2.10}    & 4777 & 6.70  &       \\
+0.9  & 1392 & 6.38     & 1189 & \textbf{3.56}     & 3430 & \textbf{1.97}    & 5374 & 6.50  &      \\
+\hline 
+\end{tabular}
+Note: \#M, number of mutants. Accurate results (i.e., $\delta_{acc} \le 5\%$) are in bold.
+\end{table}
+
+
+\begin{table}[htb]
+\caption{RQ3. 
+Accuracy of proportional method-based sampling applied to select SDL+OODL mutants.}
+\label{table:results:accuracy:funcSamplingSDLOODL} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{5mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{6mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+  >{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+}
+\hline
+     & \multicolumn{2}{c|}{\textbf{\GCSP{}}} & \multicolumn{2}{c|}{\textbf{\PARAM{}}} & \multicolumn{2}{c|}{\textbf{\UTIL{}}} & \multicolumn{2}{c|}{\textbf{\MLFS{}{}}} & \multicolumn{2}{c|}{\textbf{\SAIL{}}} \\
+\hline
+\textbf{r=} & \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}& \textbf{\#M}&\textbf{$\delta_{acc}$}               \\
+\hline
+0.01 & NA 	   	    & NA       & 9 & 28.80   & 59 & 14.81 &       \\
+0.02 & 2 & 65.64    & 7 & 40.55    & 34 & 19.98   & 122 & 11.64 &       \\
+0.03 & 18 & 17.69    & 14 & 26.26    & 67 & 10.89   & 195 & 11.02 &       \\
+0.04 & 23 & 17.81    & 39 & 14.05    & 97 & 9.21    & 249 & 10.00 &       \\
+0.05 & 45 & 16.58    & 55 & 11.84    & 132 & 7.59    & 308 & 9.28  &       \\
+0.06 & 66 & 12.43    & 77 & 11.36    & 176 & 6.37    & 379 & 8.84  &       \\
+0.07 & 86 & 13.49    & 89 & 10.69    & 230 & 7.93    & 436 & 8.69  &       \\
+0.08 & 104 & 11.28    & 102 & 10.30    & 272 & 7.86    & 498 & 8.87  &       \\
+0.09 & 120 & 10.19    & 120 & 9.95     & 310 & 6.22    & 552 & 8.70  &       \\
+0.1  & 138 & 11.21    & 134 & 9.06     & 354 & 6.21    & 609 & 8.10  &       \\
+0.2  & 312 & 7.76     & 283 & 7.11     & 776 & \textbf{3.35}    & 1212 & 8.05  &       \\
+0.3  & 471 & 6.56     & 416 & 6.57     & 1166 & \textbf{2.95}    & 1812 & 7.44  &       \\
+0.4  & 627 & 7.33     & 548 & 5.90     & 1563 & \textbf{2.47}    & 2411 & 6.88  &       \\
+0.5  & 771 & 7.25     & 675 & 5.22     & 1935 & \textbf{2.24}    & 2993 & 6.93  &       \\
+0.6  & 943 & 6.63     & 826 & \textbf{4.63}     & 2353 & \textbf{2.03}    & 3598 & 6.73  &       \\
+0.7  & 1101 & 6.20     & 958 & \textbf{4.11}     & 2753 & \textbf{1.91}    & 4197 & 6.61  &       \\
+0.8  & 1238 & 6.01     & 1082 & \textbf{3.92}     & 3098 & \textbf{1.56}    & 4793 & 6.56  &       \\
+0.9  & 1389 & 5.67     & 1217 & \textbf{3.64}     & 3481 & \textbf{1.44}    & 5391 & 6.42  &      \\
+\hline 
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{table*}[htb]
+\caption{RQ3. Accuracy with uniform fixed-size sampling and uniform FSCI sampling applied to select SDL mutants. }
+\label{table:results:accuracy:sampling_sdl} 
+\scriptsize
+\centering
+\begin{tabular}{|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\multicolumn{3}{|c|}{\textbf{\GCSP{}}}      & \multicolumn{3}{c|}{\textbf{\PARAM{}}}      & \multicolumn{3}{c|}{\textbf{\UTIL{}}}       & \multicolumn{3}{c|}{\textbf{\MLFS{}{}}}          & \multicolumn{3}{c|}{\textbf{\SAIL{}}}       \\
+\hline
+\textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method} \\
+\hline
+100       & 12.36      & FIXED    & 100       & 12.65      & FIXED    & 100       & 9.32       & FIXED    & 100       & 9.20       & FIXED    &           &            &        \\
+200       & 9.36       & FIXED    & 200       & 9.65       & FIXED    & 200       & 7.80       & FIXED    & 199       & 11.44      & CI 0.1  &           &            &        \\
+300       & 9.53       & FIXED    & 300       & 7.63       & FIXED    & 300       & 6.97       & FIXED    & 200       & 8.46       & FIXED    &           &            &        \\
+335       & 8.88       & CI 0.1  & 367       & 7.15       & CI 0.1  & 317       & 6.81       & CI 0.1  & 244       & 9.38       & CI 0.09 &           &            &        \\
+400       & 7.36       & FIXED    & 400       & 7.25       & FIXED    & 390       & 5.91       & CI 0.09 & 300       & 7.04       & FIXED    &           &            &        \\
+412       & 8.33       & CI 0.09 & 452       & 6.48       & CI 0.09 & 400       & 5.55       & FIXED    & 310       & 8.82       & CI 0.08 &           &            &        \\
+500       & 7.57       & FIXED    & 500       & 6.43       & FIXED    & 492       & 5.05       & CI 0.08 & 400       & 6.20       & FIXED    &           &            &        \\
+520       & 7.50       & CI 0.08 & 569       & 5.51       & CI 0.08 & 500       & 5.50       & FIXED    & 405       & 8.04       & CI 0.07 &           &            &        \\
+600       & 7.53       & FIXED    & 600       & 5.87       & FIXED    & 600       & 5.47       & FIXED    & 500       & 6.41       & FIXED    &           &            &        \\
+676       & 7.09       & CI 0.07 & 700       & \textbf{4.98}       & FIXED    & 639       & \textbf{4.42}       & CI 0.07 & 551       & 6.74       & CI 0.06 &           &            &        \\
+700       & 6.79       & FIXED    & NA        & NA         & CI 0.07 & 700       & \textbf{4.73}       & FIXED    & 600       & 5.70       & FIXED    &           &            &        \\
+800       & 6.11       & FIXED    & NA        & NA         & CI 0.06 & 800       & \textbf{4.42}       & FIXED    & 700       & 6.06       & FIXED    &           &            &        \\
+900       & 5.42       & FIXED    & NA        & NA         & CI 0.05 & 865       & \textbf{4.32}       & CI 0.06 & 791       & 5.78       & CI 0.05 &           &            &        \\
+NA        & NA         & CI 0.06 &           &            &          & 900       & \textbf{4.25}       & FIXED    & 800       & 5.70       & FIXED    &           &            &        \\
+NA        & NA         & CI 0.05 &           &            &          & 1000      & \textbf{4.65}       & FIXED    & 900       & 5.59       & FIXED    &           &            &        \\
+          &            &          &           &            &          & 1242      & \textbf{3.73}       & CI 0.05 & 1000      & \textbf{4.80}       & FIXED    &           &            & \\
+\hline       
+\end{tabular}
+\end{table*}
+
+
+
+\begin{table*}[htb]
+\caption{RQ4. Accuracy with uniform fixed-size / FSCI sampling applied to select SDL+OODL mutants.}
+\label{table:results:accuracy:sampling_sdl_oodl} 
+\scriptsize
+\centering
+\begin{tabular}{|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{1pt}}|
+p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\multicolumn{3}{|c|}{\textbf{\GCSP{}}}      & \multicolumn{3}{c|}{\textbf{\PARAM{}}}      & \multicolumn{3}{c|}{\textbf{\UTIL{}}}       & \multicolumn{3}{c|}{\textbf{\MLFS{}{}}}          & \multicolumn{3}{c|}{\textbf{\SAIL{}}}       \\
+\hline
+\textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method}   & \textbf{\#Mutants} & $\delta_{acc}$ & \textbf{Method} \\
+\hline
+100       & 14.89      & FIXED    & 100       & 12.22      & FIXED    & 100       & 9.80       & FIXED    & 100       & 12.20      & FIXED    &           &            &        \\
+200       & 12.39      & FIXED    & 200       & 8.15       & FIXED    & 200       & 5.56       & FIXED    & 173       & 16.35      & CI 0.1  &           &            &        \\
+300       & 9.53       & FIXED    & 300       & 6.80       & FIXED    & 300       & 5.64       & FIXED    & 200       & 10.20      & FIXED    &           &            &        \\
+330       & 9.75       & CI 0.1  & 361       & 7.36       & CI 0.1  & 323       & 6.20       & CI 0.1  & 213       & 16.53      & CI 0.09 &           &            &        \\
+400       & 9.13       & FIXED    & 400       & 6.87       & FIXED    & 397       & 6.42       & CI 0.09 & 267       & 12.27      & CI 0.08 &           &            &        \\
+406       & 9.36       & CI 0.09 & 443       & 6.03       & CI 0.09 & 400       & 6.05       & FIXED    & 300       & 9.37       & FIXED    &           &            &        \\
+500       & 8.67       & FIXED    & 500       & 5.92       & FIXED    & 500       & 5.11       & FIXED    & 343       & 11.41      & CI 0.07 &           &            &        \\
+512       & 8.77       & CI 0.08 & 558       & 5.62       & CI 0.08 & 502       & \textbf{4.97}       & CI 0.08 & 400       & 9.09       & FIXED    &           &            &        \\
+600       & 8.95       & FIXED    & 600       & 4.96       & FIXED    & 600       & \textbf{4.63}       & FIXED    & 477       & 9.22       & CI 0.06 &           &            &        \\
+664       & 8.45       & CI 0.07 & 700       & 5.35       & FIXED    & 651       & 5.09       & CI 0.07 & 500       & 8.91       & FIXED    &           &            &        \\
+700       & 8.43       & FIXED    & 725       & 5.11       & CI 0.07 & 700       & \textbf{4.02}       & FIXED    & 600       & 8.45       & FIXED    &           &            &        \\
+800       & 7.36       & FIXED    & 800       & \textbf{4.74}       & FIXED    & 800       & \textbf{3.42}       & FIXED    & 680       & 8.90       & CI 0.05 &           &            &        \\
+900       & 7.48       & FIXED    & 900       & \textbf{4.12}       & FIXED    & 879       & \textbf{4.33}       & CI 0.06 & 700       & 8.20       & FIXED    &           &            &        \\
+900       & 7.76       & CI 0.06 & 983       & \textbf{4.17}       & CI 0.06 & 900       & \textbf{3.80}       & FIXED    & 800       & 7.95       & FIXED    &           &            &        \\
+1000      & 7.27       & FIXED    & 1000      & \textbf{4.13}       & FIXED    & 1000      & \textbf{3.70}       & FIXED    & 900       & 8.04       & FIXED    &           &            &        \\
+1295      & 6.71       & CI 0.05 & NA        & NA         & CI 0.05 & 1261      & \textbf{3.84}       & CI 0.05 & 1000      & 8.11       & FIXED    &           &            &       \\
+\hline       
+\end{tabular}
+\end{table*}
+
+

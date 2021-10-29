@@ -1,0 +1,85 @@
+% !TEX root = MAIN.tex
+
+\clearpage
+
+\section{GSL - libgcsp}
+\label{sec:caseStudies:GSL:libgcsp}
+
+\subsection{Overview of the case study}
+
+The GomSpace \INDEX{CSP library} (libgscsp) is a GomSpace extension to the open source \INDEX{CubeSat Space Protocol library}.
+The GomSpace CSP library provides:
+\begin{itemize}
+\item convenience wrapping of CSP functionality, primarily initialization.
+\item definition of standard CSP ports (used by other GomSpace products).
+\item connecting low-level drivers (e.g. CAN, I2C from Embed library) with CSP interfaces 
+\item generic CSP service dispatcher, forwards incoming connections to service handlers.
+\end{itemize}
+
+The libgscsp contains a GomSpace branch (\url{https://github.com/GomSpace/libcsp}) of the open source libcsp (\url{https://github.com/libcsp/libcsp}), located in the subfolder lib/libcsp, and an extension of the CSP library. The two libcsp branches are kept as identical as possible, as features specific to GomSpace are placed in libgscsp. The extension of the CSP library provides utility functions for GSL-specific products.
+\MREVISION{C-P-47}{In the context of FAQAS, we consider both the libcsp (GSL branch), the extension of the CSP library but not the opensource libcsp CSP library.}
+
+%Details about libgscsp are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+
+The size of libgscsp is 1\,497 LOC, %include 306, src 1776+15 = total = 1497
+while libcsp (GSL branch) is 8\,339 LOC. % 6789 + 1550
+
+\MREVISION{C-P-45}{According to the definition described in ECSS-Q-ST-80C~\cite{ecss80C}, we consider this test suite an \INDEX{integration test suite}. Indeed, every test case verifies the integration of multiple components. If we assume that every component is implemented in a separate file, libgscsp test suite matches this definition because every test case exercises multiple files. For example, the test case \texttt{TEST\_csp\_port\_bind} assess the capabilities from components csp\_conn (e.g., csp\_close) and csp\_port (e.g., csp\_port\_get\_socket).} 
+
+\MREVISION{C-P-44}{The libgscsp integration test suite consists of 89 test cases, the test infrastructure is based on the \INDEX{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libgscsp code is executed on the native machine, it does not require to be run by an hardware simulator.}
+
+ 
+
+\clearpage
+\section{GSL - libparam}
+\label{sec:caseStudies:GSL:libparam}
+
+\subsection{Overview of the case study}
+
+The \INDEX{Parameter System} (i.e., libparam) is a light-weight parameter system designed for GomSpace satellite subsystems. It is based around a logical memory architecture, where every parameter is referenced directly by its logical address. A backend system takes care of translating addresses into physical addresses.
+The features of this system include:
+\begin{itemize}
+\item Direct memory access for quick parameter reads.
+\item Simple data types: uint, int, float, double, string.
+\item Arrays of simple data types.
+\item Supports multiple stores per table, e.g. FRAM, MCU flash, file (binary or text).
+\item Remote client with support for most features (rparam).
+\item Packed GET, SET queries, supporting multiple parameter set/get in a single request. Data serialization and deserialization.
+\item Supports both little and big-endian systems.
+\item Commands for both local (param) and remote access (rparam).
+\item Parameter server for remote access over CSP.
+\item Compile-time configuration of parameter system
+\end{itemize}
+
+Details about libparam are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+\MREVISION{C-P-49}{The size of libparam is 3\,179 LOC. libparam includes a system test suite, consisting of 170 test cases, assessing functionalities from the library itself, libgscsp, libembed and libutil. The test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+In the context of FAQAS, libparam will be considered for both activities code, and data driven mutation analysis. 
+The libparam code is executed on the native machine, it does not require to be run by an hardware simulator.}
+
+
+%Details about code coverage, mutation score, and fault model for data-driven mutation testing will be provided at the end of WP2.
+
+%\subsection{Code-driven mutation testing}
+%
+%\TODO{Here we will simply add code coverage information for libparam}
+%
+%\subsection{Data-driven mutation testing}
+%
+%\TODO{To populate this section we need the following from GSL: Action 3. (deadline: end of this week is better) GSL should provide a description of the structure of the data exchanged by libparam along with a name of the function that loads the data received from the libcsp layer. GSL suggested looking for documentation inside the libparam folder, but we did not find such doc folder, actually, there is only one doc folder and it concerns the documentation for libcsp not libparam.}
+
+\clearpage
+\section{GSL - libutil}
+\label{sec:caseStudies:GSL:libutil}
+
+\subsection{Overview of the case study}
+
+The \INDEX{Utility Library} provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
+
+Details about libutil are provided in the document \emph{gs-man-nanosoft-ms100-command-and-management-sdk-3.6.2-1-g67fe6e1.pdf} uploaded on Alfresco.
+
+The size of libutil is 10\,576 LOC. \MREVISION{C-P-44}{The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+To perform the experiments in the \INDEX{UL-HPC}, we configured an Ubuntu 16.04 Singularity container to be executed with two processors and 8 GB of memory. The libutil code is executed on the native machine, it does not require to be run by an hardware simulator.}
+

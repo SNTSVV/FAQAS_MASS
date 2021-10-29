@@ -1,0 +1,476 @@
+
+Attachement du package : ‘EnvStats’
+
+The following objects are masked from ‘package:stats’:
+
+    predict, predict.lm
+
+The following object is masked from ‘package:base’:
+
+    print.default
+
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6526
+[1] "ESS:"
+[1] 0.01042119
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6536
+[1] "ESS:"
+[1] 0.01044735
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_300_esail.csv"
+[1] 300
+[1] "AUC BIN"
+[1] 92.4906
+[1] "AUC EST"
+[1] 92.46584
+[1] "\n\n"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 1e-05
+[1] "p:"
+[1] 0.6554
+[1] "ESS:"
+[1] 0.01888319
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6564
+[1] "ESS:"
+[1] 0.0189242
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_300_csp.csv"
+[1] 300
+[1] "AUC BIN"
+[1] 94.60912
+[1] "AUC EST"
+[1] 94.81165
+[1] "\n\n"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6892
+[1] "ESS:"
+[1] 0.007778669
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6912
+[1] "ESS:"
+[1] 0.007835447
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_300_param.csv"
+[1] 300
+[1] "AUC BIN"
+[1] 93.49155
+[1] "AUC EST"
+[1] 93.60633
+[1] "\n\n"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.708
+[1] "ESS:"
+[1] 0.008471867
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.712
+[1] "ESS:"
+[1] 0.008859034
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_300_libutil.csv"
+[1] 300
+[1] "AUC BIN"
+[1] 89.51919
+[1] "AUC EST"
+[1] 89.23274
+[1] "\n\n"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 4e-05
+[1] "p:"
+[1] 0.818
+[1] "ESS:"
+[1] 0.008848386
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 300
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.818
+[1] "ESS:"
+[1] 0.008849332
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_300_mlfs.csv"
+[1] 300
+[1] "AUC BIN"
+[1] 92.88621
+[1] "AUC EST"
+[1] 92.93463
+[1] "\n\n"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6506
+[1] "ESS:"
+[1] 0.01042067
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6536
+[1] "ESS:"
+[1] 0.01065716
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_400_esail.csv"
+[1] 400
+[1] "AUC BIN"
+[1] 92.88254
+[1] "AUC EST"
+[1] 92.34454
+[1] "\n\n"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6574
+[1] "ESS:"
+[1] 0.009745783
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6564
+[1] "ESS:"
+[1] 0.00975928
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_400_csp.csv"
+[1] 400
+[1] "AUC BIN"
+[1] 95.13648
+[1] "AUC EST"
+[1] 94.33563
+[1] "\n\n"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6892
+[1] "ESS:"
+[1] 0.01204211
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6912
+[1] "ESS:"
+[1] 0.0121165
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_400_param.csv"
+[1] 400
+[1] "AUC BIN"
+[1] 94.22136
+[1] "AUC EST"
+[1] 96.14868
+[1] "\n\n"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.71
+[1] "ESS:"
+[1] 0.009194178
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.712
+[1] "ESS:"
+[1] 0.009295163
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_400_libutil.csv"
+[1] 400
+[1] "AUC BIN"
+[1] 94.81662
+[1] "AUC EST"
+[1] 93.90756
+[1] "\n\n"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 8e-05
+[1] "p:"
+[1] 0.819
+[1] "ESS:"
+[1] 0.0101663
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 400
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.818
+[1] "ESS:"
+[1] 0.0102247
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_400_mlfs.csv"
+[1] 400
+[1] "AUC BIN"
+[1] 95.18861
+[1] "AUC EST"
+[1] 94.21231
+[1] "\n\n"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6526
+[1] "ESS:"
+[1] 0.01562297
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/esail_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6536
+[1] "ESS:"
+[1] 0.01565254
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_1000_esail.csv"
+[1] 1000
+[1] "AUC BIN"
+[1] 93.84442
+[1] "AUC EST"
+[1] 95.22883
+[1] "\n\n"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6544
+[1] "ESS:"
+[1] 0.006146061
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/csp_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6564
+[1] "ESS:"
+[1] 0.006330616
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_1000_csp.csv"
+[1] 1000
+[1] "AUC BIN"
+[1] 89.79468
+[1] "AUC EST"
+[1] 86.54187
+[1] "\n\n"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6892
+[1] "ESS:"
+[1] 0.008141872
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/param_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.6912
+[1] "ESS:"
+[1] 0.008419026
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_1000_param.csv"
+[1] 1000
+[1] "AUC BIN"
+[1] 91.82602
+[1] "AUC EST"
+[1] 93.48873
+[1] "\n\n"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 1e-05
+[1] "p:"
+[1] 0.71
+[1] "ESS:"
+[1] 0.007542419
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/libutil_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.712
+[1] "ESS:"
+[1] 0.007719027
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_1000_libutil.csv"
+[1] 1000
+[1] "AUC BIN"
+[1] 93.89099
+[1] "AUC EST"
+[1] 94.51112
+[1] "\n\n"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 9e-05
+[1] "p:"
+[1] 0.817
+[1] "ESS:"
+[1] 0.01089293
+[1] "Reference binomial"
+[1] "RunLen:"
+[1] 1000
+[1] "File:"
+[1] "mutationResultsAll/mlfs_cochran.csv"
+[1] "r:"
+[1] 0
+[1] "p:"
+[1] 0.818
+[1] "ESS:"
+[1] 0.01103585
+[1] "double"
+[1] "double"
+[1] "\n\nAUC Result for"
+[1] "mutationScores/MS_1000_mlfs.csv"
+[1] 1000
+[1] "AUC BIN"
+[1] 92.97886
+[1] "AUC EST"
+[1] 92.4869
+[1] "\n\n"

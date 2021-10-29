@@ -1,0 +1,38 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[tb]
+\caption{Generated and compiled mutants per subject.}
+\label{table:mutants} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{13mm}
+@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{10mm}|}
+\hline
+\textbf{}&\multicolumn{1}{c|}{\textbf{Mutants}}&\multicolumn{1}{c|}{\textbf{MGT}}&\multicolumn{1}{c|}{\textbf{Mutants}}&\multicolumn{1}{c|}{\textbf{\% of}}&\multicolumn{1}{c|}{\textbf{MCT}}\\
+\textbf{Subject}&\multicolumn{1}{c|}{\textbf{generated}}&\multicolumn{1}{c|}{\textbf{(sec)}}&\multicolumn{1}{c|}{\textbf{compiled}}&\multicolumn{1}{c|}{\textbf{compiled}}&\multicolumn{1}{c|}{\textbf{(sec)}}\\ 
+&                    &    & &\multicolumn{1}{c|}{\textbf{mutants}}&\multicolumn{1}{c|}{ }\\ 
+\hline
+\mbox{\SAIL{}\emph{-CSW}}& 142,763 & 182 &121,848& 85.35\% & 151,234\\
+% 172 + 55 + 138 +  25 + 260 + 14+  1 + 895 + 290 + 15 = 1865
+\SAIL{}$_S$& 7,212 & 9& 5,347 & 74.14\% & 7,640\\
+\GCSP{}& 8,666 & 12 &7,878&90.91\% & 11,425\\
+\PARAM{}& 7,252 & 7 &6,440&88.80\% & 9,392\\
+\UTIL{}& 22,295 & 28 &20,268&90.91\% & 30,624\\
+\MLFS{}{}& 31,526 & 20 &28,069&89.03\% &3,157\\
+%\MLFS{}{}$_V$& 31526 &T &28069&89.03\% &X\\
+\hline
+\textbf{Total*}& 212,502 & 249 & 184,503 &86.82\% &205,832\\ 
+\hline
+\end{tabular}
+\vspace{1mm}
+
+*We ignore \SAIL{}$_S$ from the total counting because it is a subset of \SAIL{}\emph{-CSW}.
+
+\textbf{Legend:} MGT = mutants generation time, MCT = mutants compilation time.
+\end{table}

@@ -1,0 +1,11 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=3rd warning example., label=srciror_3]
+/home/svf/Obsw/Source/ApplicationLayer/AdcsController/Source/adcs_DetermineSatellitePosition.c: 222:41: warning: implicit conversion from enumeration type 'cast_Status_t' (aka 'enum cast_Status_e') to different enumeration type 'prep_ResponseCode_t' (aka 'enumprep_ResponseCode_e') 
+[-Wenum-conversion]
+adem_SetDeterminedSatellitePosition(Status,*SatState_Ptr,OnBoardTime);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~ 
+1 warning generated
+\end{lstlisting}
+\end{minipage}

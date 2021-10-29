@@ -1,0 +1,64 @@
+% !TEX root = ../MAIN-DataDrivenMutationAnalysis.tex
+
+
+\begin{table*}[tb]
+\caption{Data-driven mutation operators}
+\label{table:operators}
+\scriptsize
+\begin{tabular}{|p{40mm}|p{90mm}|}
+\hline
+\textbf{Fault Class}&\textbf{Description}\\
+\hline
+Value above threshold (VAT)&
+Replaces the current value with a value above the threshold T for a delta (\D). 
+\\
+\hline
+Value below threshold (VBT)&
+Replaces the current value with a value below the threshold T for a delta (\D). 
+\\
+\hline
+Value out of range (VOR)&
+Replaces the current value with a value out of the range $[MIN;MAX]$.\\
+\hline
+Bit flip (BF)&
+A number of bits randomly chosen in the positions between MIN and MAX are flipped.
+\\
+\hline
+Invalid numeric value (INV)&
+Replace the current value with a mutated value that is legal (i.e., in the specified range) but different than current value. 
+\\
+\hline
+Illegal Value (IV)
+&
+Replace the current value with a value that is equal to the parameter \emph{VALUE}. 
+\\
+\hline
+Anomalous Signal Amplitude (ASA)
+&
+The mutated value is derived by amplifying the observed value by a factor \emph{V} and by adding/removing a constant value \D from it. 
+\\
+\hline
+Signal Shift (SS)
+&
+The mutated value is derived by adding a value \D to the observed value. 
+\\
+\hline
+Hold Value (HV)
+&
+This operator keeps repeating an observed value for $V$ times. It emulates a constant signal replacing a signal supposed to vary.
+\\
+\hline
+Fix value above threshold (FVAT)&
+In the presence of a value above the threshold, it replaces the current value with a value below the threshold T for a delta \D. 
+\\
+\hline
+Fix value below threshold (FVBT)&
+It is the counterpart of FVAT for the operator VBT.
+\\
+\hline
+Fix value out of range (FVOR)&
+In the presence of a value out of the range  $[MIN;MAX]$ it replaces the current value with a random value within the range. 
+\\
+\hline
+\end{tabular}
+\end{table*}%

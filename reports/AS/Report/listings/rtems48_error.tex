@@ -1,0 +1,10 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}]
+error: unexpected token in argument list
+__asm__ volatile (" lda [%1]1, %0\n" : "=r"(tmp) : "r"(addr));
+	^
+<inline asm>:1:13: note: instantiated into assembly here lda [%eax]1, %eax
+\end{lstlisting}
+\end{minipage}

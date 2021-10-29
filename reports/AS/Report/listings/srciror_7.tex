@@ -1,0 +1,17 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=7th warning example., label=srciror_7]
+In file included from /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:47: ././LowLevelDriverLayer/core/Public/coreApi.h:193:12: warning: inline function 'loadmem' is not defined [-Wundefined-inline]
+inline int loadmem(int addr); /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:553:18: note: used here
+	reg_status = loadmem((int)&uart->regs->status);
+In file included from /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:61: ././LowLevelDriverLayer/apbuart/Private/drv_uartFifo.h:100:20: warning: inline function 'ff_FifoIsEmpty' is not defined [-Wundefined-inline]
+extern inline bool ff_FifoIsEmpty(uint32_t const Fifo_ID); /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:653:13: note: used here
+	if (ff_FifoIsEmpty(uart->txfifoId) == true)
+In file included from /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:61: ././LowLevelDriverLayer/apbuart/Private/drv_uartFifo.h:108:24: warning: inline function 'ff_FifoBytesWaiting' is not defined [-Wundefined-inline]
+extern inline uint32_t ff_FifoBytesWaiting(uint32_t const Fifo_ID); /home/svf/Obsw/Source/LowLevelDriverLayer/apbuart/Source/drv_uart.c:1047:30: note: used here
+	NbBytesWaiting = ff_FifoBytesWaiting(uart->rxfifoId); 
+
+3 warnings generated.
+\end{lstlisting}
+\end{minipage}

@@ -1,0 +1,36 @@
+% !TEX root =  ../Main.tex
+
+\begin{table}[h]
+\caption{RQ1. Compilation Time Required by Compiler Optimization Techniques.}
+\label{table:results:compilerOptimizationsTime} 
+\scriptsize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{12mm}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+>{\raggedleft\arraybackslash}p{8mm}@{\hspace{1pt}}|
+ >{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
+}
+\hline
+\textbf{Subject} & 
+\multicolumn{7}{c|}{\textbf{Time required to compile all the mutants(sec)}}\\
+\textbf{}&
+\textbf{-O0}&\textbf{-O1} & \textbf{-O2} & \textbf{-O3} & \textbf{-Os} & \textbf{-Of}
+&\textbf{All O* (hours)} 
+\\
+\hline
+\mbox{\SAIL{}\emph{-CSW}} & 135,455 & 132,528 & 149,088 & 145,620 & 151,234 & N/A&198\\
+\GCSP{} & 11,053 & 11,256 & 11,079 & 11,425 & 10,299 & 11,424 &18\\
+\PARAM{} & 9,036 & 9,246 & 9,352 & 9,392 & 8,794 & 9,442 &16\\
+\UTIL{} & 25,228 & 26,914 & 28,564 & 30,624 & 26,845 & 29,583 &47\\
+\MLFS{}{} & 2,176 & 2,509 & 3157 & 3,167 & 3,052 & 3,164 &5\\
+\hline
+\textbf{Total}&182,948	&182,453	&201,240	&200,228	&200,224	&53,613 & 284\\
+\hline
+\end{tabular}
+
+\end{table}
