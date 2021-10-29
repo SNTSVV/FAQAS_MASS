@@ -1,0 +1,91 @@
+% !TEX root =  ../MAIN-DataDrivenMutationAnalysis.tex
+
+
+\begin{table}[tb]
+\caption{Shortcomings of CPSs test suites.}
+\label{table:shortcomings} 
+\center
+\footnotesize
+\begin{tabular}{|
+@{\hspace{1pt}}p{10mm}
+@{\hspace{1pt}}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{2pt}}|
+>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{2pt}}|
+p{2mm}|
+@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{4pt}}|
+@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{5mm}@{\hspace{2pt}}|
+p{2mm}|}
+\hline
+\textbf{Short-}      & \multicolumn{3}{c|}{\textbf{\ADCS}} & \multicolumn{3}{c|}{\textbf{\GPS}} & \multicolumn{3}{c|}{\textbf{\PDHU}} & \multicolumn{3}{c|}{\textbf{\PARAM}}& \multicolumn{3}{c|}{\textbf{\GCSP}} \\
+\textbf{coming} & \textbf{UF}&\textbf{UM} &\textbf{LM} & \textbf{UF}&\textbf{UM} &\textbf{LM} & \textbf{UF}&\textbf{UM} &\textbf{LM} & \textbf{UF}&\textbf{UM} &\textbf{LM}
+& \textbf{UF}&\textbf{UM} &\textbf{LM}\\
+\hline 
+UMT                              &1&-&-&-&-&-&-&-&-&-&-&-&-&-&-\\
+% Lack of input partitions for a functionality  & & & & & & & & & & & & \\
+UIP     &-&35&-&-&1&-&-&5&-&-&7&-&-&12&-\\
+POQ         &-&-&55&-&-&1&-&-&-&-&-&4&-&-&-\\
+LTI         &-&-&-&-&-&-&-&-&-&-&-&-&-&-&-\\
+\hline
+\textbf{Total} &1&35&55&-&1&1&-&5&-&-&7&4&-&12&-\\
+\hline
+\end{tabular}
+
+UF=Uncovered Fault model, UM=Uncovered Mutation operation, LM=Live mutant.
+\end{table}
+
+
+
+
+
+%\begin{table*}[tb]
+%\caption{Shortcomings of CPSs test suites.}
+%\label{table:shortcomings} 
+%\footnotesize
+%\centering
+%\begin{tabular}{|
+%@{\hspace{1pt}}p{60mm}
+%@{\hspace{1pt}}|
+%@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{2pt}}|
+%>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{2pt}}|
+%>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{2pt}}|
+%>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{2pt}}>{\raggedleft\arraybackslash}p{7mm}@{\hspace{4pt}}|
+%@{\hspace{-1pt}}>{\raggedleft\arraybackslash}p{6mm}@{\hspace{2pt}}|
+%p{2mm}|}
+%\hline
+%     & \multicolumn{3}{c|}{\textbf{\ADCS}} & \multicolumn{3}{c|}{\textbf{\GPS}} & \multicolumn{3}{c|}{\textbf{\PDHU}} & \multicolumn{3}{c|}{\textbf{\PARAM}} \\
+%\hline
+%\textbf{Test suite shortcoming} & \multicolumn{3}{c|}{\textbf{\#Mutants}}& \multicolumn{3}{c|}{\textbf{\#Mutants}} &\multicolumn{3}{c|}{\textbf{\#Mutants}} &\multicolumn{3}{c|}{\textbf{\#Mutants}}          \\
+% & \textbf{FMNC}&\textbf{MONC} &\textbf{LM} & \textbf{FMNC}&\textbf{MONC} &\textbf{LM} & \textbf{FMNC}&\textbf{MONC} &\textbf{LM} & \textbf{FMNC}&\textbf{MONC} &\textbf{LM}\\
+%\hline 
+%A functionality is not tested                              &37&-&-&-&-&-&-&-&-&-&-&-\\
+%% Lack of input partitions for a functionality  & & & & & & & & & & & & \\
+%Lack of simulated configurations for nominal scenarios     &-&7&-&-&-&-&-&-&-&-&1&-\\
+%Lack of simulated configurations for non-nominal scenarios &-&37&-&-&1&-&-&5&-&-&7&-\\
+%Lack of oracles concerning log-files from hardware         &-&-&30&-&-&1&-&-&-&-&-&-\\
+%Lack of oracles for return codes                           &-&-&18&-&-&-&-&-&-&-&-&-\\
+%Lack of oracles concerning non-nominal scenarios           &-&-&2&-&-&-&-&-&-&-&-&-\\
+%Lack of oracles concerning internal state variables        &-&-&1&-&-&-&-&-&-&-&-&43\\
+%\hline
+%\textbf{Total} &37&44&51&-&1&1&-&5&-&-&8&43\\
+%\hline
+%\end{tabular}
+%
+%\textbf{Legend:} FMNC=Fault model not covered, MONC=Mutation operation not covered, LM=Live mutant.
+%\end{table*}

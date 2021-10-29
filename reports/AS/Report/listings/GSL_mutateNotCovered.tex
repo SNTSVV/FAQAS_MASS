@@ -1,0 +1,49 @@
+% !TEX root =  ../MAIN.tex
+\begin{lstlisting}[style=CStyle, caption=Example of data-driven mutation probe for libParam, label=GSLmutate]
+
+static void gs_rparam_process_packet(csp_conn_t * conn, csp_packet_t * request_packet)
+{
+    csp_packet_t * reply_packet = NULL;
+    gs_rparam_query_t * reply;
+
+
+    /* Handle endian */
+    gs_rparam_query_t * request = (gs_rparam_query_t *) request_packet->data;
+
+
+    request->length = csp_ntoh16(request->length);
+    request->checksum = csp_ntoh16(request->checksum);
+
+
+    FaultModel *fm_General = _FAQAS_General_FM();
+    unsigned long long int v_General[6];
+
+    v_General[0] = (unsigned long long int) request->action;
+    v_General[1] = (unsigned long long int) request->table_id;
+    v_General[2] = (unsigned long long int) request->length;
+    v_General[3] = (unsigned long long int) request->checksum;
+    v_General[4] = (unsigned long long int) request->seq;
+    v_General[5] = (unsigned long long int) request->total;
+
+
+    _FAQAS_mutate(v_General,fm_General);
+    
+\end{lstlisting}
+
+
+
+%flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+%{
+%    flag ret = TRUE;
+%    *pErrCode = 0;
+%    (void)pVal;
+%    (void)pBitStrm;
+%
+%
+%    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+%
+%    // Manually added probe 
+%    E_mutate(pVal);
+%    // Manually added probe END
+%    return ret  && E_IsConstraintValid(pVal, pErrCode);
+%}

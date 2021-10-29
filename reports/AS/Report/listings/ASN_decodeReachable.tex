@@ -1,0 +1,80 @@
+% !TEX root =  ../MAIN.tex
+\begin{lstlisting}[style=CStyle, caption=Example of data-driven mutation probe for ASN.1 that has been added to the encoding function., label=ASN_encodeReachable]
+flag TypeNested_Encode(const TypeNested* pVal, BitStream* pBitStrm, int* pErrCode, flag bCheckConstraints)
+{
+    _FAQAS_TypeNested_cover(pVal);
+    flag ret = TRUE;
+...
+}
+
+
+void _FAQAS_TypeNested_cover(TypeNested *pVal) {
+
+	// ALREADY_MUTATED is a global variable 
+	// that traces if in the current execution we already performed data mutation
+	if ( ALREADY_MUTATED ){
+		return;
+	}
+	
+	// intVal,VAT,1
+	if ( ! has_been_mutated("TypeNested_1") ){
+		// check that the value is not already 
+		// what we want to generate
+
+		if (pVal->intVal != 6 ){
+			pVal->intVal = 6;
+			assert(false);
+			save_mutation("TypeNested_1");
+
+			return;
+		}
+	}
+	
+	// int2Val,VOR,1
+	if ( ! has_been_mutated("TypeNested_2") ){
+		// check that the value is not already 
+		// what we want to generate
+
+		if (pVal->intVal != -1 ){
+			pVal->intVal = -1;
+			assert(false);
+			save_mutation("TypeNested_2");
+
+			return;
+		}
+	}
+
+	// int2Val,VOR,2
+	if ( ! has_been_mutated("TypeNested_3") ){
+
+        printf("%lu\n", pVal -> intVal);
+
+        if (pVal->intVal != 51){
+        	    assert(false);	
+            pVal->intVal = 51;
+            save_mutation("TypeNested_3");
+
+            return;
+        }
+    }
+
+
+\end{lstlisting}
+
+
+
+%flag E_Decode(E* pVal, BitStream* pBitStrm, int* pErrCode)
+%{
+%    flag ret = TRUE;
+%    *pErrCode = 0;
+%    (void)pVal;
+%    (void)pBitStrm;
+%
+%
+%    (*(pVal))=5; ret = TRUE; *pErrCode = 0;
+%
+%    // Manually added probe 
+%    E_mutate(pVal);
+%    // Manually added probe END
+%    return ret  && E_IsConstraintValid(pVal, pErrCode);
+%}

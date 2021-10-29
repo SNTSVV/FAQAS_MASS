@@ -184,8 +184,8 @@
 %\renewcommand{\,}{$^{\cdot}$}
 
 %%%% Title
-\newcommand{\titleone}{\textsf{SR}}
-\newcommand{\titletwo}{\textsf{Summary Report}}
+\newcommand{\titleone}{\textsf{ESR}}
+\newcommand{\titletwo}{\textsf{Executive Summary Report}}
 \newcommand{\titlethree}{\textsf{}}
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
@@ -294,20 +294,13 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}} 
 
-\lhead{\fancyplain{}{\textit{}}}
-
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-ESR}
+\lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
 
-\fancyfoot[C]{%
-\begin{tikzpicture}[remember picture,overlay]
-\path [fill=sntred]    ([xshift=88pt,yshift=20pt]current page.south west) rectangle
-                       ([xshift=229pt,yshift=30pt] current page.south west);
-\path [fill=sntpurple] ([xshift=229pt,yshift=20pt] current page.south west) rectangle
-                       ([xshift=370pt,yshift=30pt] current page.south west);
-\path [fill=sntblue]   ([xshift=370pt,yshift=20pt] current page.south west) rectangle
-                       ([xshift=510pt,yshift=30pt] current page.south west);
-\end{tikzpicture}
-}
+
+
+
 
 \fancyfoot[RO]{
 \begin{tikzpicture}[remember picture,overlay]
@@ -339,7 +332,7 @@
 
 %\chapter{ESAIL Fault Model}
 %\label{appendix:esailFM}
-\includepdf[pages=-,scale=0.9,offset=0mm -75]{Report/MAIN.pdf}
+\includepdf[pages=-,scale=0.9,offset=0mm -75,pagecommand={\pagestyle{fancy}}]{Report/MAIN.pdf}
 %
 %\textbf{End of Appendix~\ref{appendix:esailFM}}
 
@@ -348,10 +341,10 @@
 %\include{ESA_comments}
 %\clearpage
 
-\printindex
+%\printindex
 
-\bibliographystyle{IEEEtran}
-\bibliography{bibliography}
+%\bibliographystyle{IEEEtran}
+%\bibliography{bibliography}
 
 
 \end{document}  

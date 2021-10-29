@@ -1,0 +1,15 @@
+% !TEX root =  ../MutationTestingSurvey.tex
+
+\begin{minipage}{12cm}
+\begin{lstlisting}[style=CStyle, caption=Example of a Test Suite for the function \texttt{isPalindrome}., label=isPalindrome_TS]
+void test() { assertTrue(isPalindrome("abba")); }
+
+void test() { assertTrue(isPalindrome("aba")); }
+
+void test() { assertFalse(isPalindrome("baba")); }
+
+void test() { assertTrue(isPalindrome("a")); }
+
+void test() { assertTrue(isPalindrome("")); }
+\end{lstlisting}
+\end{minipage}

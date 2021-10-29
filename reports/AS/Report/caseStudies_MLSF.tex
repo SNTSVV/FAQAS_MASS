@@ -1,0 +1,16 @@
+% !TEX root = MAIN.tex
+\clearpage
+
+\section{MLFS}
+\label{sec:caseStudies:GSL:MLSF}
+
+\subsection{Overview of the case study}
+
+The \INDEX{Mathematical Library for Flight Software} (MLFS) implements mathematical functions ready for qualification. 
+%\DONE{Please rewrite the following sentence}
+MLFS is born from the need of having a mathematical library ready for qualification for flight software. Well known mathematical libraries such as \texttt{libm}~\cite{libm} and \texttt{newlib}~\cite{newlib} are not completely validated with respect to specific input ranges, errors and performance, and so, they do not comply with ECSS criticality category B.
+The set of functions provided by MLFS are limited to the functions typically needed in flight software. 
+
+
+The source code size is 5\,402 LOC, while the unit test suite consists of 4\,042 tests for 92 functions.
+

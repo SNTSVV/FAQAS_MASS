@@ -1,0 +1,16 @@
+% !TEX root = ../MAIN.tex
+
+\begin{table}[h]
+\small
+\centering
+\caption{Code-driven mutation testing preliminary results for the MLFS case study.}
+\label{table:mlfs_preliminary}
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+        & \multicolumn{5}{c|}{Mutants}                                                                      & \multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Mutation Score\\ (K/K+L)\end{tabular}} \\ \cline{1-6}
+        &     &                                                        &      & \multicolumn{2}{c|}{Killed} &                                                                                   \\ \cline{1-6}
+Mutants & All & \begin{tabular}[c]{@{}l@{}}Not\\ Compiled\end{tabular} & Live & Test Failure    & Timeout   &                                                                                   \\ \hline
+Total   &  17\,696   &  2\,153   & 22      & 15\,332                & 189          & 99.86\%                                                                           \\ \hline
+\end{tabular}
+\end{table}    
+             

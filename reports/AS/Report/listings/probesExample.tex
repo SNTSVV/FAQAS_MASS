@@ -1,0 +1,21 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{minipage}{15cm}
+\begin{lstlisting}[style=CStyle, caption=Example of a data-driven mutation probes., label=probesExample, mathescape=true]
+
+
+int receiveData()
+{
+
+    std::vector<char> v = connectAndReceiveData(); //function that receives data
+
+    //MANUALLY ADDED PROBE
+    FaultModel *fm = _FAQAS_IfHK_FM();
+    _FAQAS_mutate(v->data(),fm);
+    //MANUALLY ADDED PROBE END
+
+
+}
+\end{lstlisting}
+\end{minipage}
+
