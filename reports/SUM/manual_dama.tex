@@ -30,15 +30,15 @@ The folder shall contain the following structure and files:
 	\item \texttt{data\_analysis}: a folder containing five python scripts used for the generation of the final results:
 	\begin{itemize}
 	  \item \texttt{beautify\_results.py}: this script renders the raw results from the execution of the tests in a more readable format.
-	  \item \texttt{get\_coverage.py}: this script analizes the results of the fault model coverage.
-	  \item \texttt{get\_operator\_coverage.py}: this script analizes the results of the operator coverage.
+	  \item \texttt{get\_coverage.py}: this script analyzes the results of the fault model coverage.
+	  \item \texttt{get\_operator\_coverage.py}: this script analyzes the results of the operator coverage.
 	  \item \texttt{get\_stats.py}: this script produces statistics from the mutants' execution.
 		\item \texttt{get\_final\_results.py}: this script produces a summary of the execution of \DAMA.
 	\end{itemize}
 	\item \texttt{pipeline\_scripts}: a folder containing the four scripts that make up the \DAMA pipeline:
 	\begin{itemize}
 		\item \texttt{DAMAt\_obtain\_coverage.sh}: this script obtains fault model coverage data in order to execute only the tests that cover each mutant.
-		\item \texttt{get\_mutant\_test\_list.py}: this script produces the list of test against which avery mutant shall be executed.
+		\item \texttt{get\_mutant\_test\_list.py}: this script produces the list of test against which every mutant shall be executed.
 	  \item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: this scripts compile each mutant and run it against the SUT test suite.
 		\item \texttt{DAMAt\_data\_analysis.sh}: this script executes all the data analysis steps at the end of the execution of the \DAMA pipeline
 	\end{itemize}
