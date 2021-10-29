@@ -1,0 +1,5 @@
+*.c export-subst ident
+*.h export-subst ident
+Makefile export-subst ident
+Doxyfile export-subst ident
+version.txt export-subst ident

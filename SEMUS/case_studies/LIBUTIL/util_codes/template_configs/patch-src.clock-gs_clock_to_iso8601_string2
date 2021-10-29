@@ -1,0 +1,23 @@
+--- gs_clock_to_iso8601_string2.wrapping_main.c	2021-10-12 12:36:01.936000000 +0000
++++ gs_clock_to_iso8601_string2.wrapping_main.c.fix	2021-10-12 12:37:11.280000000 +0000
+@@ -18,15 +18,15 @@
+ 
+     // Declare arguments and make input ones symbolic
+     unsigned int utc_sec;
+-    char buf;
+-    unsigned long buf_size;
++    char buf[GS_CLOCK_ISO8601_BUFFER_LENGTH];
++    //unsigned long buf_size;
+     memset(&utc_sec, 0, sizeof(utc_sec));
+-    memset(&buf_size, 0, sizeof(buf_size));
++    //memset(&buf_size, 0, sizeof(buf_size));
+     klee_make_symbolic(&utc_sec, sizeof(utc_sec), "utc_sec"); //unsigned int
+-    klee_make_symbolic(&buf_size, sizeof(buf_size), "buf_size"); //unsigned long
++    //klee_make_symbolic(&buf_size, sizeof(buf_size), "buf_size"); //unsigned long
+ 
+     // Call function under test
+-    result_faqas_semu = gs_clock_to_iso8601_string2(utc_sec, &buf, buf_size);
++    result_faqas_semu = gs_clock_to_iso8601_string2(utc_sec, buf, GS_CLOCK_ISO8601_BUFFER_LENGTH);
+ 
+     // Make some output
+     printf("FAQAS-SEMU-TEST_OUTPUT: buf = %d\n", buf);

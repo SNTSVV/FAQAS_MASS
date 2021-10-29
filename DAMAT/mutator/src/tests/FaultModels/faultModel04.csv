@@ -1,0 +1,5 @@
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+IfHK,1,1,DOUBLE,VAT,NA,NA,10.3,15.2,NA,NA
+IfHK,2,1,DOUBLE,VOR,-5.5,5.5,NA,2,NA,NA
+IfHK,3,1,DOUBLE,IV,NA,NA,NA,NA,NA,69.69
+IfHK,4,1,DOUBLE,VBT,NA,NA,0,15.5,NA,NA
