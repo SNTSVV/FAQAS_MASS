@@ -1,0 +1,12 @@
+MASS is © 2019 - 2021 University of Luxembourg
+
+Authors: 
+-	Oscar Cornejo Olivares - oscar.cornejo@uni.lu
+-	Fabrizio Pastore - fabrizio.pastore@uni.lu
+-	Lionel Briand - lionel.briand@uni.lu
+
+Licensed under ESA Software Community Licence Permissive – v2.4 (see LICENCE.txt)
+
+Copyright (C) 2021 University of Luxembourg
+
+This program includes the source code of SRCiror (folder SRCMutation/src), whose licence is provided in SRCMutation/src/LICENSE.SRCIror.txt
