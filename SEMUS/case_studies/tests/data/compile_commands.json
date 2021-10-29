@@ -1,0 +1,7 @@
+[
+    {
+        "command": "cc -c -g -Wall -Werror -Wextra -Wuninitialized -Wcast-qual -Wshadow -Wundef -fdiagnostics-show-option -D_DEBUG -I . -O0 -o ./src.o ./src.c",
+        "directory": "../WORKSPACE/DOWNLOADED",
+        "file": "../WORKSPACE/DOWNLOADED/src.c"
+	}
+]

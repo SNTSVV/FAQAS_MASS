@@ -1,0 +1,10 @@
+--- timestamp_ge.wrapping_main.c	2021-10-12 14:27:22.908000000 +0000
++++ timestamp_ge.wrapping_main.c.fix	2021-10-12 14:30:32.076000000 +0000
+@@ -28,7 +28,6 @@
+     result_faqas_semu = timestamp_ge(&base, &test);
+ 
+     // Make some output
+-    printf("FAQAS-SEMU-TEST-OUTPUT: result_faqas_semu = tv_sec: %u, tv_nsec: %u\n", base.tv_sec, base.tv_nsec);
+     printf("FAQAS-SEMU-TEST_OUTPUT: result_faqas_semu = %d\n", result_faqas_semu);
+     return (int)result_faqas_semu;
+ }
