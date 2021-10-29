@@ -1,4 +1,0 @@
-copy csp.h to csp/libparam/lib/libgscsp/lib/libcsp/include/csp
-copy csp_service_handler.c to csp/libparam/lib/libgscsp/lib/libcsp/src
-copy FAQAS_data_driven_mutator.h to csp/libparam/lib/libgscsp/lib/libcsp/src
-copy wscript to /home/vagrant/csp/libparam/lib/libgscsp
