@@ -1,4 +1,10 @@
 #!/bin/bash
+
+#
+# Copyright (c) University of Luxembourg 2020.
+# Created by Enrico VIGANO, enrico.vigano@uni.lu, SnT, 2021.
+#
+
 echo 'standard probe'
 bash -x DAMAt_probe_insertion.sh "./test_files"  "test.c" standard
 
