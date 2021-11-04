@@ -44,7 +44,7 @@ To address our research questions, we consider mutation analysis a precondition 
 $\mathit{MLFS}$&21\,375&17\,484&3\,891&81.80 \\
 $\mathit{ASN.1}$&5\,323&3\,104&2\,219&58.31 \\
 $\mathit{ESAIL_S}$ (S+U)&3\,536&2\,495&1\,041&70.56 \\
-$\mathit{Libutil}$&21\,375&17\,484&4\,198&81.80 \\ %35
+$\mathit{Libutil}$&14\,574&10\,376&4\,198&71.20 \\ %35
 \hline
 \end{tabular}
 
@@ -114,12 +114,12 @@ To assess the approach effectiveness, we verify whether SEMuS succeeds to genera
 Table~\ref{table:results:semus:testgen} shows the variations we observed in the subjects' mutation scores, the table presents the number of live mutants, the additionally killed mutants by SEMuS, the original mutation score, and the updated mutation score.
 Particularly, we observe that SEMuS kills  1\,729 additional mutants for the ASN.1 subject, increasing the mutation score from 58.31\% to 90.79\%, an impressive improvement of 32,48\%.
 Instead, we observe that SEMuS kills  697 additional mutants for the MLFS subject, increasing the mutation score from 81.80\% to 85.06\%, an improvement of 3,26\%.
-\REVFINAL{A9}{For \UTIL, SEMuS kills  35 additional mutants, increasing the mutation score from 81.80\% to 81.96\%. For \ESAIL, we simply demonstrated that SEMuS can generate test cases that kill mutants (the considered mutants were already killed by the SUT test suite).}
+\REVFINAL{A9}{For \UTIL, SEMuS kills  35 additional mutants, increasing the mutation score from 71.20\% to 71.44\%. For \ESAIL, we simply demonstrated that SEMuS can generate test cases that kill mutants (the considered mutants were already killed by the SUT test suite).}
 
 
 \REVFINAL{A9}{The lower increase in mutation score is observed with \UTIL; the main reason is that we selected only a subset of the source files for our analysis. Concerning, MLFS the lower increase in mutation score with respect to ASN.1 could be explained by the fact that the mutation score of MLFS was higher (i.e., it is more complicate to find inputs that kills mutants)} and by the following reasons: (1) possible presence of many equivalent mutants, (2) bugs in SEMuS fixed recently, and (3) known limitations of KLEE (i.e., the underlying test generation tool) concerning floating-point analysis. These limitations can be assessed in a follow-up project.
 
-\REVTOOL{C-P-20}{Concering ASN.1CC, SEMuS enabled us to identify a fault in the software; precisely, the ASN.1 test cases did not verify the value of the variable \emph{pErrCode} for functions \emph{\_IsConstraintValid}. The bug was fixed in commit 0917424187be2288c59ac04c804e991aed11a3fe\footnote{{https://github.com/ttsiodras/asn1scc/commit/0917424187be2288c59ac04c804e991aed11a3fe}} ). We also identified another limitation in the test suite; more precisely, the test cases for the function\emph{\_Encode} did not verify that, for the higher-level structure, the return code is zero when the parameter  \emph{bCheckConstraints} is set \emph{false} (basically, an input partition was not covered).}
+\REVTOOL{C-P-20}{Concerning ASN.1CC, SEMuS enabled us to identify a fault in the software; precisely, the ASN.1 test cases did not verify the value of the variable \emph{pErrCode} for functions \emph{\_IsConstraintValid}. The bug was fixed in commit 0917424187be2288c59ac04c804e991aed11a3fe\footnote{{https://github.com/ttsiodras/asn1scc/commit/0917424187be2288c59ac04c804e991aed11a3fe}} ). We also identified another limitation in the test suite; more precisely, the test cases for the function\emph{\_Encode} did not verify that, for the higher-level structure, the return code is zero when the parameter  \emph{bCheckConstraints} is set \emph{false} (basically, an input partition was not covered).}
 
 
 
@@ -151,7 +151,7 @@ $\mathit{MLFS}$&3\,891&697&81.80&85.06\\
 $\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
 $\mathit{ESAIL_S}$&1\,041&NA&70.56&NA\\
 % additionally killed: clock 2 error 4 timestamp 6 memory 21
-$\mathit{Libutil}$&4\,198&35&81.80&81.96\\
+$\mathit{Libutil}$&4\,198&35&71.20&71.44\\
 \hline
 \end{tabular}
 
