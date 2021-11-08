@@ -485,7 +485,7 @@ The contents of the folder are the following:
 \subsection{Probe comments}
 
 In place of the mutation probes, the user shall add \emph{probe comments} to the source code of the file to instrument.
-The \emph{probe comments} are regular \emph{C}/\emph{C++} comments, so they do not influence the normal execution of the source code and can be kept in the code during every step of a CD/CI pipeline.
+The \emph{probe comments} are regular \emph{C}/\emph{C++} comments, so they do not influence the normal compilation and functioning of the source code and can be kept in the code during every step of a CD/CI pipeline.
 Comments following a specific structure will be automatically replaced with the correct mutation probes and the header containing the mutation API will be included, while the rest of the file will not be modified in any way.
 
 An example of the structure of the \emph{probe comments} is reported in Listing~\ref{lst:instr_comments}.
