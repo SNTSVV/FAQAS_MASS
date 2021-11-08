@@ -1,11 +1,12 @@
+#include "mutator.h"
 #include <stdio.h>
 int main() {
 
-  // mutation_probe(Fm_1, v)
+  mutate_FM_Fm_1( v );
 
    printf("Hello, World!");
 
-   // mutation_probe(Fm_2, v)
+   mutate_FM_Fm_2( v );
 
 
    return 0;

@@ -1,0 +1,21 @@
+//start of the  mutation probe
+
+unsigned long long int $buffer[6];
+
+$buffer[0] = (unsigned long long int) target_data_structure->action;
+$buffer[1] = (unsigned long long int) target_data_structure->table_id;
+$buffer[2] = (unsigned long long int) target_data_structure->length;
+$buffer[3] = (unsigned long long int) target_data_structure->checksum;
+$buffer[4] = (unsigned long long int) target_data_structure->seq;
+$buffer[5] = (unsigned long long int) target_data_structure->total;
+
+mutate_FM_$fault_model($buffer );
+
+target_data_structure->action = (uint8_t) $buffer[0];
+target_data_structure->table_id = (uint8_t) $buffer[1];
+target_data_structure->length = (uint16_t) $buffer[2];
+target_data_structure->checksum = (uint16_t) $buffer[3];
+target_data_structure->seq = (uint16_t) $buffer[4];
+target_data_structure->total = (uint16_t) $buffer[5];
+
+//end of the mutation probe

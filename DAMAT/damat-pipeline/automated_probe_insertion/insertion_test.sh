@@ -6,7 +6,7 @@
 #
 
 echo 'standard probe'
-bash -x DAMAt_probe_insertion.sh "./test_files"  "test.c" standard
+bash -x DAMAt_probe_insertion.sh "./test_files"  "test.c" standard "mutator.h"
 
 diff ./test_files/expected_standard ./test_files/test.c
 
@@ -28,7 +28,7 @@ fi
 
 
 echo 'custom probe'
-bash -x DAMAt_probe_insertion.sh "./test_files"  "test.c" "./test_files/custom_template"
+bash -x DAMAt_probe_insertion.sh "./test_files"  "test.c" "./test_files/custom_template" "mutator.h"
 
 diff ./test_files/expected_custom ./test_files/test.c
 
