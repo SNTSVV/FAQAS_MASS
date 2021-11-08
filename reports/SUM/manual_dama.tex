@@ -537,7 +537,7 @@ The scripts will replace the \emph{probe comments} with the correct calls to the
 The string \texttt{\$fault\_model} will be automatically replaced with the fault model indicated in the probe comment, and the same will happen to \texttt{\$buffer}.
 
 In some particular cases, however, there could be the need for additional code, for example, to convert a \texttt{struct} into an array to be fed to the mutation probe.
-In those cases, the user shall write a \emph{probe template}.
+In those cases, the user shall write a \emph{probe template} and must set the path to that template as the \texttt{<template>} parameter.
 
 A \emph{probe template} is a simple text file containing the call to the mutation API and any additional line of code.
 
