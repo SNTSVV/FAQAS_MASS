@@ -87,20 +87,20 @@ export GC_FILES_RELATIVE_PATH=
 
 # specify if MASS will be executed on a HPC, possible values are "true" or "false"
 # example: HPC="true"
-export HPC=
+export HPC="false"
 
 # TCE flags to be tested 
 #example FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
-export FLAGS=
+export FLAGS=("-O0" "-O1" "-O2" "-O3" "-Ofast" "-Os")
 
 # set if MASS should be executed with a prioritized and reduced test suite
 # example PRIORITIZED="true"
-export PRIORITIZED=
+export PRIORITIZED="true"
 
 # set sampling technique, possible values are "uniform", "stratified", and "fsci"
 # note: if "uniform" or "stratified" is set, $PRIORITIZED must be "false"
 # example SAMPLING="fsci"
-export SAMPLING=
+export SAMPLING="fsci"
 
 # set sampling rate if whether "uniform" or "stratified" sampling has been selected
 #example RATE="0.003"
