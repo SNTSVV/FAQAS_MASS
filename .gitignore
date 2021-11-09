@@ -1,1 +1,13 @@
 # moved to individual repos
+reports/SR/MAIN.pdf
+.DS_Store
+DAMAT/damat-pipeline/automated_probe_insertion/test_files/test.c.bkp
+reports/D5/MAIN.pdf
+reports/ESR/Report/MAIN.pdf
+reports/ESR/MAIN.pdf
+reports/VerificationReports/CodeDrivenMutation/ASN1/MAIN.pdf
+reports/VerificationReports/CodeDrivenMutation/LIBUTIL/MAIN.pdf
+reports/VerificationReports/DataDrivenMutation/ESAIL_ADCS/MAIN.pdf
+reports/AS/Report/MAIN.pdf
+reports/SR/Report/MAIN.pdf
+reports/VerificationReports/CodeDrivenMutation/LIBUTIL/appendix.pdf

@@ -5,17 +5,17 @@
 %% The original source files were:
 %%
 %% samples.dtx  (with options: `authordraft')
-%% 
+%%
 %% IMPORTANT NOTICE:
-%% 
+%%
 %% For the copyright see the source file.
-%% 
+%%
 %% Any modified versions of this file must be renamed
 %% with new filenames distinct from sample-authordraft.tex.
-%% 
+%%
 %% For distribution of the original source see the terms
 %% for copying and modification in the file samples.dtx.
-%% 
+%%
 %% This generated file may be distributed as long as the
 %% original source files, as listed above, are part of the
 %% same distribution. (The sources need not necessarily be
@@ -32,18 +32,18 @@
 \acmConference[ICSE 2022]{The 44th International Conference on Software Engineering}{May 21–29, 2022}{Pittsburgh, PA, USA}
 
 
-%% NOTE that a single column version may required for 
+%% NOTE that a single column version may required for
 %% submission and peer review. This can be done by changing
-%% the \doucmentclass[...]{acmart} in this template to 
+%% the \doucmentclass[...]{acmart} in this template to
 %% \documentclass[manuscript,screen]{acmart}
-%% 
+%%
 %% To ensure 100% compatibility, please check the white list of
 %% approved LaTeX packages to be used with the Master Article Template at
-%% https://www.acm.org/publications/taps/whitelist-of-latex-packages 
-%% before creating your document. The white list page provides 
-%% information on how to submit additional LaTeX packages for 
+%% https://www.acm.org/publications/taps/whitelist-of-latex-packages
+%% before creating your document. The white list page provides
+%% information on how to submit additional LaTeX packages for
 %% review and adoption.
-%% Fonts used in the template cannot be substituted; margin 
+%% Fonts used in the template cannot be substituted; margin
 %% adjustments are not allowed.
 
 \usepackage[utf8]{inputenc}
@@ -60,27 +60,27 @@
 \definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{CStyle}{
-    backgroundcolor=\color{backgroundColour},   
+    backgroundcolor=\color{backgroundColour},
     commentstyle=\color{mGreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{mGray},
     stringstyle=\color{mPurple},
     basicstyle=\scriptsize\ttfamily,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2,
     language=C
 }
 
 
-\lstset{ 
+\lstset{
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
   basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
@@ -257,9 +257,12 @@
 %\renewcommand{\,}{$^{\cdot}$}
 
 %%%% Title
-\newcommand{\titleone}{\textsf{FR}}
-\newcommand{\titletwo}{\textsf{Final Report}}
-\newcommand{\titlethree}{\textsf{}}
+%%%% NEW TEMPLATE %%%%
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-SR}
+\newcommand{\titleone}{\textsf{Applicability of Mutation Testing to Flight Software}}
+\newcommand{\titletwo}{\textsf{FAQAS}}
+\newcommand{\titlethree}{\textsf{Summary Report} (SR)}
+%%%% NEW TEMPLATE END %%%%
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
@@ -358,8 +361,24 @@
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Applicability of Mutation Testing Method for Flight Software: Fault-based, Automated Quality Assurance Assessment for Space Software (FAQAS)}
+\title[]{Applicability of Mutation Testing Method for Flight Software: Fault-based, Automated Quality Assurance Assessment for Space Software (FAQAS)}
 
+
+%%%% NEW TEMPLATE %%%%
+%\pagenumbering{gobble}
+\pagenumbering{arabic}
+
+
+\fancyhf{}
+
+
+\renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
+\lfoot{\fancyplain{}{\textit{\DOCUMENTID}}}
+\rhead{\fancyplain{}{\rightmark }}
+
+
+\rfoot{Page \thepage \hspace{1pt} of \ref{TotPages}}
+%%%% NEW TEMPLATE END %%%%
 %%
 %% The "author" command and its associated commands are used to define
 %% the authors and their affiliations.
@@ -419,11 +438,13 @@
 %% of authors' names for this purpose.
 %\renewcommand{\shortauthors}{Cornejo et al.}
 
+\renewcommand{\shortauthors}{}
+
 %%
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-\textbf{Abstract.} This document is the final report of the ESA activity \EMPH{ITT-1-9873-ESA (Applicability of Mutation Testing Method for Flight Software)}, which concerns the development of a framework for the automated assessment and the automated improvement of test suites for embedded software deployed on spacecrafts. 
+\textbf{Abstract.} This document is the final report of the ESA activity \EMPH{ITT-1-9873-ESA (Applicability of Mutation Testing Method for Flight Software)}, which concerns the development of a framework for the automated assessment and the automated improvement of test suites for embedded software deployed on spacecrafts.
 
 The activity led to the development of a toolset, the \EMPH{FAQAS toolset}, which includes three tools \EMPH{MASS}, \EMPH{SEMuS}, and \EMPH{DAMAt}. MASS (Mutation Analysis for Space Software) is a tool for the assessment of test suites based on mutation analysis. Mutation analysis evaluates the quality of a test suite by generating faulty software versions called mutants and by reporting the percentage of mutants detected by the test suite. MASS scales to large software systems because it relies on mutants sampling based on confidence interval estimation.  SEMuS (Symbolic Execution Mutation testing for Space software) is a tool for the automated improvement of test suites; it automatically generates unit test cases that detect the presence of mutants. DAMAt (DAta-driven Mutation Analysis with Tables) is a tool that assesses the quality of test suites by simulating errors in the data exchanged by software components, different from MASS it simulates faults concerning components interoperability.
 
@@ -476,8 +497,11 @@ The \EMPH{scalability} and \EMPH{effectiveness} of the FAQAS toolset has been de
 %%
 %% This command processes the author and affiliation and title
 %% information and builds the first part of the formatted document.
-\maketitle
+%%%% NEW TEMPLATE %%%%
+%\maketitle
 
+\include{titlepage}
+%%%% NEW TEMPLATE END %%%%
 \input{FR_introduction}
 
 \input{FR_MASS}

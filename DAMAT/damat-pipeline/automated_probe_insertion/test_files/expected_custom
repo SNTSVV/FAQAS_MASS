@@ -1,0 +1,61 @@
+#include "mutator.h"
+#include <stdio.h>
+int main() {
+
+  //start of the  mutation probe
+
+unsigned long long int  v[8];
+
+ v[0] = (unsigned long long int) request->action;
+ v[1] = (unsigned long long int) request->table_id;
+ v[2] = (unsigned long long int) request->length;
+ v[3] = (unsigned long long int) request->checksum;
+ v[4] = (unsigned long long int) request->seq;
+ v[5] = (unsigned long long int) request->total;
+ v[6] = (unsigned long long int)request->payload.addr[0];
+ v[7] = 0;
+
+mutate_FM_Fm_1( v );
+
+request->action = (uint8_t)  v[0];
+request->table_id = (uint8_t)  v[1];
+request->length = (uint16_t)  v[2];
+request->checksum = (uint16_t)  v[3];
+request->seq = (uint16_t)  v[4];
+request->total = (uint16_t)  v[5];
+request->payload.addr[0]=(uint16_t) v[6];
+
+//end of the mutation probe
+
+
+   printf("Hello, World!");
+
+   //start of the  mutation probe
+
+unsigned long long int  v[8];
+
+ v[0] = (unsigned long long int) request->action;
+ v[1] = (unsigned long long int) request->table_id;
+ v[2] = (unsigned long long int) request->length;
+ v[3] = (unsigned long long int) request->checksum;
+ v[4] = (unsigned long long int) request->seq;
+ v[5] = (unsigned long long int) request->total;
+ v[6] = (unsigned long long int)request->payload.addr[0];
+ v[7] = 0;
+
+mutate_FM_Fm_2( v );
+
+request->action = (uint8_t)  v[0];
+request->table_id = (uint8_t)  v[1];
+request->length = (uint16_t)  v[2];
+request->checksum = (uint16_t)  v[3];
+request->seq = (uint16_t)  v[4];
+request->total = (uint16_t)  v[5];
+request->payload.addr[0]=(uint16_t) v[6];
+
+//end of the mutation probe
+
+
+
+   return 0;
+}

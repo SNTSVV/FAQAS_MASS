@@ -1,0 +1,48 @@
+% !TEX root =  ../Main.tex
+
+%\newcommand{\INDA}{10}
+%\newcommand{\INDB}{15}
+%\newcommand{\INDC}{5}
+
+%\vspace{-3mm}
+\begin{figure}[tb]
+
+\begin{algorithmic}[1]
+
+%\footnotesize
+\scriptsize
+\Require \emph{EMOS}, set of SUT executables, each one implementing one mutation operation (EMO)
+\Require \emph{TS}, the test suite of the SUT
+% (source inputs, follow-up inputs, output data).
+
+\State $\mathit{ONMO} \gets |EMOS|$ \textcolor{gray}{//The overall number of mutation operations coincides with the size of the set.} 
+\State $\mathit{NMOA} \gets 0$
+
+\State $c_{\mathit{KILL}}=0$ \textcolor{gray}{//counter for the number of mutants being killed} 
+
+\State \textbf{for each} $t$ in $TS$ 
+\State \hspace{5 mm} \textbf{execute} $t$ to track the data items exercised by t \label{alg:dataProcess:prel}
+
+\State \textbf{for each} $EMO$ in $EMOS$ \label{alg:dataProcess:repeat}
+\State \hspace{5 mm} $c_{\mathit{NMOA}}=0$ \textcolor{gray}{//counter for the number of test cases in which the operator was applied} 
+\State \hspace{5 mm} \textbf{for each} $t$ in $TS$ 
+\State \hspace{10 mm} \textbf{if} $t$ contains a data item that can be mutated with $EMO$ \label{alg:dataProcess:cover}
+\State \hspace{15 mm} \textbf{execute} $t$ with $EMO$ \label{alg:dataProcess:execute}
+\State \hspace{15 mm} \textbf{if} the operator was applied
+\State \hspace{20 mm} $c_{\mathit{NMOA}} \gets c_{\mathit{NMOA}}+1$
+\State \hspace{15 mm} \textbf{if} $t$ fails or invalid data detected  \label{alg:dataProcess:kill}
+\State \hspace{20 mm} $c_{\mathit{KILL}} \gets c_{\mathit{KILL}} +1$
+\State \hspace{20 mm} \textbf{break} \textcolor{gray}{//the mutant has been killed, skip to next mutant} \label{alg:dataProcess:stop}
+\State \hspace{5 mm} \textbf{if} $c_{\mathit{NMOA}} > 0$
+\State \hspace{10 mm} $\mathit{NMOA} \gets \mathit{NMOA} + 1$
+
+\State \Return $\mathit{ONMO},\mathit{NMOA},c_{\mathit{KILL}}$
+
+\end{algorithmic}
+\vspace{-3mm}
+\caption{Algorithm for executing data-driven mutation testing with test coverage stopping criterion}
+%\vspace{-0.2cm}
+\label{alg:dataProcess}
+\end{figure}
+
+

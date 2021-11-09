@@ -13,7 +13,7 @@ FAQAS led to the development of a toolset that includes the following components
 
 \begin{figure}[tb]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{images/FAQAS.drawio.pdf}
+\includegraphics[width=0.8\textwidth]{images/FAQAS_drawio}
 \caption{Overview of the FAQAS toolset}
 \label{fig:FAQAS:toolset}
 \end{center}
@@ -22,7 +22,7 @@ FAQAS led to the development of a toolset that includes the following components
 The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolsets.
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files.
-MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that do not lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
+MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
 SEMuS takes as input the list of live mutants detected by MASS and aims to generate test cases that kill them. After the
  execution of SEMuS, engineers have a set of additional test cases to be integrated into the SUT test suite and a list of live mutants (i.e., mutants for which SEMuS was not able to identify test inputs killing them). Live mutants shall be manually inspected by engineers to either determine if they are equivalent mutants or to manually derive a test input killing them.
  DAMAt generates as output a set of killed mutants (i.e., mutants that, during testing, successfully alter the data, and lead to test case failures), a set of live mutants (i.e., mutants that, during testing, successfully alter the data, but do not lead to test case failures), and a set of not executed mutants (i.e., mutants that, during testing, could not alter any data because the data they target is never exercised by the SUT); also, it provides information useful to draft a verification report, which includes the fault model coverage, the mutation operation coverage, and the mutation score.
@@ -35,7 +35,11 @@ We focus on the fully automated tools, that is, MASS, DAMAt, and SEMuS.
 \section{Code-driven Mutation Analysis: MASS}
 \label{sec:meth:mass}
 
-Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite. Also, we added the step \EMPH{Configure MASS} (i.e., \emph{Step 0}) to show the main configuration choices to be made by the engineer before running mutation analysis.
+Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite.
+\STARTCHANGEDFINAL
+The step \emph{Improve Test Suite} is a manual task that shall be performed by the engineers, however the \emph{Augmented SUT Test Suite} and \emph{Previously Live Mutants} outputs are created automatically by our methodology.
+\ENDCHANGEDFINAL
+Also, we added the step \EMPH{Configure MASS} (i.e., \emph{Step 0}) to show the main configuration choices to be made by the engineer before running mutation analysis.
 
 To run MASS, at a high-level, the engineer needs to make the following choices
 \begin{itemize}
@@ -43,6 +47,12 @@ To run MASS, at a high-level, the engineer needs to make the following choices
 \item \EMPH{Select the sampling strategy}. If the test suite of the SUT takes more than one hour to be executed, we suggest to rely on the \emph{FSCI} mutant sampling strategy. Otherwise, engineers can execute all the mutants (i.e., set \emph{sampling=NO})
 \item \EMPH{Enable test suite reduction and prioritization}. This choice enables MASS to further reduce test execution time by executing only a portion of the selected test cases based on statement coverage (see Section~\ref{sec:approach}). In case of system test suites testing an SUT with multiple tasks running in parallel we suggest to avoid reducing the test suite.
 \end{itemize}
+
+\STARTCHANGEDFINAL
+\input{tables/to_configure}
+
+In a nutshell the minimal set of parameters to be configured for MASS are listed and described in Table~\ref{table:to_configure}. Particularly, the SUT engineer shall specify: the building system type, the SUT paths (e.g., source code, test suite directory, code coverage directory, build script), the SUT compilation commands, and commands for executing a single test case of the test suite.
+\ENDCHANGEDFINAL
 
 For the other configuration choices for MASS, the default options are generally appropriate for most of the SUTs.
 
@@ -99,6 +109,31 @@ Within file \emph{MASS\_RESULTS}, the \EMPH{first metric} to be inspected is the
  achieving a high mutation score improves significantly the fault detection capability of a test suite~\cite{papadakis2018mutation}; also, a very high mutation score (i.e., above 0.75) ensures a higher fault detection rate than the one obtained with other coverage criteria, such as statement and branch coverage~\cite{Chekam:17}.
 
 
+\STARTCHANGEDFINAL
+
+An example of the \emph{MASS\_RESULTS} report is presented in Listing~\ref{mass_output}. The output corresponds to mutation analysis process applied to the \emph{MLFS}.
+
+\begin{lstlisting}[language=bash, label=mass_output, caption=\MASS output.]
+##### MASS Output #####
+## Total mutants generated: 28071
+## Total mutants filtered by TCE: 6918
+## Sampling type: fsci
+## Total mutants analyzed: 461
+## Total killed mutants: 369
+## Total live mutants: 92
+## Total likely equivalent mutants: 53
+## MASS mutation score (%): 90.44
+## List A of useful undetected mutants: /opt/MLFS/RESULTS/useful_list_a
+## List B of useful undetected mutants: /opt/MLFS/RESULTS/useful_list_b
+## Number of statements covered: 1973
+## Statement coverage (%): 100
+## Minimum lines covered per source file: 2
+## Maximum lines covered per source file: 138
+\end{lstlisting}
+
+The \emph{MASS\_RESULTS} report presented in Listing~\ref{mass_output} contains the following information: total mutants generated (line 3), total mutants filtered by compiler optimisations (line 4), used sampling type (line 5), total mutants analyzed (line 6), total killed mutants (line 7), total live mutants (line 8), total likely equivalent mutants (line 9), MASS mutation score (line 10), list A of useful live mutants (line 11), list B of useful live mutants (line 12), number of statements covered (line 13), statement coverage (line 14), minimum lines covered per source file (line 15), maximum lines covered per source file (line 16).
+\ENDCHANGEDFINAL
+
 The next step is the \EMPH{improvement of the test suite}. This is performed by deriving test inputs that kill live mutants.
 To this end, engineers shall inspect all the mutants appearing in the file \emph{useful\_list\_a}. For each mutant, the engineer shall implement a test case capable of killing the mutant (i.e., a test case that fails with the mutant but not with the original software).
 The file \emph{useful\_list\_a} provides a list of mutants that are likely non redundant with each other because when tested by the SUT test suite they lead to a statement coverage profile (i.e., the set of statements covered during their execution) that differs.
@@ -121,7 +156,7 @@ If mutation analysis has been performed through mutants sampling (e.g., with \em
 
 Figure~\ref{fig:semus_architecture_meth} provides the workflow of SEMuS; it has been described in Section~\ref{sec:semus}. The list of live mutants processed by SEMuS coincides with the list of mutants appearing in the file \emph{filtered\_live} presented in Section~\ref{sec:meth:mass}.
 
-The mutants for which SEMuS does not generate a test case\footnote{In our toolset, such mutants are identifies by looking for empty folders within the output folder \emph{direct/TEMPLATE/FAQAS\_SEMu-out/produced-unittests}.} shall be manually inspected by engineers to determine if they are equivalent to the original software.
+The mutants for which SEMuS does not generate a test case\footnote{In our toolset, such mutants are identified by looking for empty folders within the output folder \emph{direct/TEMPLATE/FAQAS\_SEMu-out/produced-unittests}.} shall be manually inspected by engineers to determine if they are equivalent to the original software.
 
 The test cases generated by SEMuS can instead be integrated as a regression test suite according to the \EMPH{test suite augmentation} procedure described in Section~\ref{sec:Semus:augment}. Otherwise, engineers can copy the source code of the generated test cases inside the test suite of the SUT and add assertions according to the expected output generated by SEMuS\footnote{Please recall that the output expected after the execution of a test case is written within a file with extension \emph{.expected}, as explained in Section~\ref{sec:Semus:augment}.}.
 
@@ -133,11 +168,129 @@ The test cases generated by SEMuS can instead be integrated as a regression test
 \end{center}
 \end{figure}
 
+\STARTCHANGEDFINAL
+
+The main output of SEMuS is a report file named \emph{AnalysisReport.csv}, which includes the metrics listed in Table~\ref{table:semus:metrics}. These metrics help the SUT engineer to understand at a high level, from the set of live mutants provided to the tool, the number of mutants that were killed by SEMuS (i.e., the tool has generated an input that kills the mutant), the number of mutants that were not killed by SEMuS (i.e., the tool could not generate an input to kill a mutant), and a list showing the status of each mutant (i.e., killed or live).
+
+\begin{table}[h]
+\caption{SEMuS Metrics}
+\label{table:semus:metrics}
+\center
+\begin{tabular}{|
+@{\hspace{1pt}}p{120mm}|
+}
+\hline
+\textbf{Metric name}\\
+\hline
+Number of mutants analyzed \\
+Number of killed mutants\\
+Number of live mutants\\
+Mutant statuses\\
+\hline
+\end{tabular}
+\end{table}
+
+An example of the \emph{AnalysisReport.csv} is presented in Listing~\ref{semus_output}.
+
+\begin{lstlisting}[language=bash, label=semus_output, caption=SEMuS output.]
+Number of analyzed mutants: 20
+Number of killed mutants: 2
+Number of live mutants: 18
+test.mut.2489.1_1_2.SDL.T_POS_SET_Encode.c;KILLED
+test.mut.2489.2_1_14.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2489.1_2_14.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2490.4_1_74.LVR.T_POS_SET_Encode.c;LIVE
+test.mut.2491.2_1_10.LCR.T_POS_SET_Encode.c;LIVE
+test.mut.2491.2_2_10.LOD.T_POS_SET_Encode.c;LIVE
+test.mut.2491.1_1_6.LOD.T_POS_SET_Encode.c;LIVE
+test.mut.2491.2_5_23.ROR.T_POS_SET_Encode.c;LIVE
+test.mut.2491.4_3_23.ROR.T_POS_SET_Encode.c;LIVE
+test.mut.2502.4_8_97.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2502.5_9_97.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2504.2_2_66.LOD.T_POS_SET_Encode.c;LIVE
+test.mut.2504.6_1_32.ROR.T_POS_SET_Encode.c;LIVE
+test.mut.2506.5_1_96.LVR.T_POS_SET_Encode.c;KILLED
+test.mut.2510.5_9_94.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2510.4_8_94.ICR.T_POS_SET_Encode.c;LIVE
+test.mut.2512.6_1_36.ROR.T_POS_SET_Encode.c;LIVE
+test.mut.2518.5_1_86.LVR.T_POS_SET_Encode.c;LIVE
+test.mut.2521.5_1_90.LVR.T_POS_SET_Encode.c;LIVE
+test.mut.2524.5_1_98.LVR.T_POS_SET_Encode.c;LIVE
+\end{lstlisting}
+ \ENDCHANGEDFINAL
+
+
 \clearpage
 \section{Data-driven Mutation Analysis: DAMAt}
 \label{sec:meth:damat}
 
-DAMAt shall be configured and applied according to the procedure described in Section~\ref{sec:damat}.
+DAMAt shall be configured and applied following the procedures described in Section~\ref{sec:damat}.
+
+\STARTCHANGEDFINAL
+
+The primary input for the DAMAt procedure is the fault model.
+The fault model is a \texttt{.csv} file, which must be written be the user.
+An example of the contents of the fault model file is provided in Listing~\ref{lst:fault_model_meth}
+
+\begin{lstlisting}[caption={Example of a DAMAt fault model, represented in a \texttt{.csv} file. },label={lst:fault_model_meth}]
+FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value
+GET,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+GET,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+SET,6,1,BIN,BF,0,7,NA,NA,-1,1
+SAVE,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+SAVE,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+SAVE,7,1,LONG,SS,NA,NA,NA,1,NA,NA
+SAVE,7,1,LONG,SS,NA,NA,NA,-1,NA,NA
+LOAD,6,1,LONG,SS,NA,NA,NA,1,NA,NA
+LOAD,6,1,LONG,SS,NA,NA,NA,-1,NA,NA
+LOAD,7,1,LONG,SS,NA,NA,NA,1,NA,NA
+LOAD,7,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,2,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,2,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,2,1,LONG,IV,NA,NA,NA,NA,NA,0
+REPLY,2,1,LONG,VAT,NA,NA,180,1,NA,NA
+REPLY,2,1,LONG,FVAT,NA,NA,180,1,NA,NA
+REPLY,4,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,4,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,5,1,LONG,SS,NA,NA,NA,1,NA,NA
+REPLY,5,1,LONG,SS,NA,NA,NA,-1,NA,NA
+REPLY,6,1,BIN,BF,0,7,NA,NA,-1,1
+\end{lstlisting}
+
+Every line of the file represents a mutation operator, while every column represents a configuration parameter for that operator.
+
+\begin{itemize}
+  \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
+
+  \item Column \emph{DataItem} refers to the index of the first elemente of the targeted data item in the array representing the buffer.
+
+  \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
+
+  \item Column \emph{Type} reportts about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
+
+  \item Column \emph{FaultClass} contains the type of fault that the mutation will emulate.
+
+  \item The other columns represent configuration parameters and assume different meanings depending on the mutation operator they refer to. More details on the data-driven mutation operators and their configuration can be found in Section~\ref{sec:damat}.
+\end{itemize}
+
+There are some other variables that influence the behaviour of the DAMAt tool.
+They are contained in the file \texttt{DAMAt\_configure.sh}. The value of these variable shall be set by the user.
+
+\begin{itemize}
+  \item The variable \texttt{fault\_model} shall be set to the path of the csv containing the fault model of the Software Under Test defined by the engineer.
+  This will allow the tool to generate the mutation API starting from the correct fault model.
+  \item The variable \texttt{buffer\_type} shall contain the type of the elements of the buffer that will be targeted by the mutation (i.e. \texttt{int}, \texttt{float}, \texttt{double} etc.).
+  \item The variable \texttt{singleton} shall be set to \texttt{TRUE} or \texttt{FALSE}. If set to \texttt{TRUE}, the Fault Model will be initialized in a singleton variable, to avoid memory issues.
+  \item The variable \texttt{padding} shall be set to an integer number representing the number of bytes to skip at the beginning of the target buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
+\end{itemize}
+
+The DAMAt pipeline can then be executed. The DAMAt toolset will automatically generate the mutants and execute the generated mutants againsts the test suite under evaluation.
+Every mutation operator can will generate one or more mutants.
+
+\ENDCHANGEDFINAL
+
+
+% DAMAt shall be configured and applied according to the procedure described in Section~\ref{sec:damat}.
 After the execution, DAMAt generates two files: \emph{final\_mutants\_table.csv} and \emph{mutation\_sum\_up.csv}.
 The latter provides a high-level perspective on the results of the procedure, because it contains the three metrics defined in Section~\ref{sec:mutationAnalysisResults}:
 \begin{enumerate}
@@ -154,6 +307,11 @@ A low score in one of the metrics indicate one of following scenarios, repsectiv
 \item The mutation is performed but the test suite does not fail. It may depend on two reasons: (1) the test oracles are imprecise (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is notices (i.e., the scenarios exercised are insufficient).
 \end{enumerate}
 
+\STARTCHANGEDFINAL
+
+On the other hand, \emph{final\_mutants\_table.csv}, contains a list of all generated mutants, the definition of the mutation operator that generated them and their status. It can be useful to determine how to improve the test suite.
+
+An example of \emph{final\_mutants\_table.csv} is represented in Figure~\ref{fig:damat:example:result:table}.
 
  \begin{figure}[h]
 \begin{center}
@@ -163,7 +321,15 @@ A low score in one of the metrics indicate one of following scenarios, repsectiv
 \end{center}
 \end{figure}
 
-To determine how to improve the test suite, the engineer should look at the file \emph{final\_mutants\_table.csv}, which contains a summary of the results for each mutant. Figure~\ref{fig:damat:example:result:table} provides an excertp of the content of the cvs file generated for one of the case study subjects considered in our experiments, in tabular form. Column \emph{Status} reports about  the fault model coverage; indeed, mutants reported as \emph{NOT\_COVERED} indicate that the corresponding fault model is not covered by the test suite. Since we define a different fault model for each type of message exchanged by the software under test (e.g., each message may correspond to a different PUS command), the lack of coverage for a fault model indicates that a message type has not been exercised at all by the test suite. In practice this also means that the line of code where the mutation probe has been placed was not exercised.
+Every line in the table represents a different mutant.
+
+Column \emph{MutationOpt} contains a unique numerical identifier for each mutant.
+
+The columns from \emph{FaultModel} to \emph{Value} contain the definition of the mutation operator that generated the mutant.
+
+\ENDCHANGEDFINAL
+
+Column \emph{Status} reports about  the fault model coverage; indeed, mutants reported as \emph{NOT\_COVERED} indicate that the corresponding fault model is not covered by the test suite. Since we define a different fault model for each type of message exchanged by the software under test (e.g., each message may correspond to a different PUS command), the lack of coverage for a fault model indicates that a message type has not been exercised at all by the test suite. In practice this also means that the line of code where the mutation probe has been placed was not exercised.
 To address such shortcoming, the the engineer shall define a test case that makes the SUT send that particular message type (or receive that particular message type).
 
 The column named \emph{application} reports about the \emph{mutation operation coverage}. By looking at the mutants defined as \emph{NOT\_APPLIED} the engineer can determine if some input partitions (i.e., some subsets of the input range) had not been exercised by the test suite. Table~\ref{table:damat:interpretation} describes how to interpret the result reported in the Application column, for each type of mutant.

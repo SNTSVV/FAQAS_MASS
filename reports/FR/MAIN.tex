@@ -19,7 +19,7 @@
 %	\addtolength{\topmargin}{-.875in}
 %	\addtolength{\textheight}{1.75in}
 
-\geometry{a4paper,left=20mm,top=20mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ... 
+\geometry{a4paper,left=20mm,top=20mm,total={162mm,230mm}}                   % ... or a4paper or a5paper or ...
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 
@@ -44,7 +44,7 @@
 \usepackage[T1]{fontenc}
 \makeindex[intoc]
 
-\usepackage[font=normalsize]{caption}  
+\usepackage[font=normalsize]{caption}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -71,27 +71,27 @@
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
 
 \lstdefinestyle{CStyle}{
-    backgroundcolor=\color{backgroundColour},   
+    backgroundcolor=\color{backgroundColour},
     commentstyle=\color{mGreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{mGray},
     stringstyle=\color{mPurple},
     basicstyle=\scriptsize\ttfamily,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2,
     language=C
 }
 
 
-\lstset{ 
+\lstset{
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
   basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
@@ -123,7 +123,7 @@
   columns=fullflexible,
   showstringspaces=false,
   commentstyle=\color{gray}\upshape,
-  backgroundcolor=\color{backgroundColour},   
+  backgroundcolor=\color{backgroundColour},
   commentstyle=\color{mGreen},
   keywordstyle=\color{magenta},
   numberstyle=\tiny\color{mGray},
@@ -184,9 +184,9 @@
 %\renewcommand{\,}{$^{\cdot}$}
 
 %%%% Title
-\newcommand{\titleone}{\textsf{FR}}
-\newcommand{\titletwo}{\textsf{Final Report}}
-\newcommand{\titlethree}{\textsf{}}
+\newcommand{\titleone}{\textsf{Applicability of Mutation Testing Method for Flight Software}}
+\newcommand{\titletwo}{\textsf{(FAQAS)}}
+\newcommand{\titlethree}{\textsf{Final Report (FR)}}
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
@@ -250,8 +250,8 @@
 \newcommand{\STARTCHANGEDNOV}{}
 \newcommand{\ENDCHANGEDNOV}{}
 
-\newcommand{\STARTCHANGEDFINAL}{}
-\newcommand{\ENDCHANGEDFINAL}{}
+\newcommand{\STARTCHANGEDFINAL}{\color{blue}}
+\newcommand{\ENDCHANGEDFINAL}{\color{black}}
 
 
 \newcommand{\STARTCHANGEDWPT}{}
@@ -285,8 +285,11 @@
 
 \newcommand{\APPR}{\emph{MASS}\xspace}
 
+\newcommand{\DAMA}{\textit{DAMAt}\xspace}
 
+\newcommand{\SEMU}{\textit{SEMu}\xspace}
 
+\newcommand{\FAQAS}{FAQAS-framework\xspace}
 
 %\newcommand{\CITSAIL}{\cite{ESAIL}}
 
@@ -304,7 +307,7 @@
 %\lhead{\fancyplain{}{\setlength{\unitlength}{1mm}
 %\begin{picture}(0,0)
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
-%\end{picture}}} 
+%\end{picture}}}
 
 \newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-FR}
 \lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
@@ -352,7 +355,7 @@
 \tableofcontents
 
 
-%The abstract should be a concise summary (limited to approximately 150 words) of the significant content of the report. It should reveal the salient features of the report concentrating on what was done and significant results. The opening sentence should inform the reader of the purpose and scope of the contract. 
+%The abstract should be a concise summary (limited to approximately 150 words) of the significant content of the report. It should reveal the salient features of the report concentrating on what was done and significant results. The opening sentence should inform the reader of the purpose and scope of the contract.
 
 \include{FR_introduction}
 
@@ -365,8 +368,6 @@
 \input{FR_toolsetsEvaluationDataDriven}
 
 
-
-
 \include{FR_approach}
 
 \include{FR_caseStudies}
@@ -374,13 +375,24 @@
 \include{FR_evaluation}
 \input{FR_EvaluationRemarks}
 
+
 \include{FR_Methodology}
 
 \include{FR_ecss}
 
+\STARTCHANGEDFINAL
+\include{FR_toolsetDescription}
+\ENDCHANGEDFINAL
+
+\STARTCHANGEDFINAL
+\include{FR_deliverables_sum}
+\ENDCHANGEDFINAL
+
 \include{FR_Limitations}
 
 \include{FR_ScientificOutput}
+
+
 
 \include{FR_Conclusion}
 
@@ -396,7 +408,7 @@
 %
 %\textbf{End of Appendix~\ref{appendix:esailFM}}
 
-   
+
 %\clearpage
 %\include{ESA_comments}
 %\clearpage
@@ -407,4 +419,4 @@
 \bibliography{bibliography}
 
 
-\end{document}  
+\end{document}

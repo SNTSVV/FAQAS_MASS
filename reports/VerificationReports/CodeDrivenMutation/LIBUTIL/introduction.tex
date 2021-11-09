@@ -1,0 +1,37 @@
+% !TEX root = MAIN.tex
+
+\chapter{Executive Summary}
+
+This document presents a report on the assessment of the Libutil test suite based on code-driven mutation testing via MASS and SEMuS. 
+%The Utility Library, 
+Libutil is a Utility Library developed by GomSpace; it provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
+
+% \TODO{Libutil vs Libutil}
+
+The size of Libutil is 10\,576 LOC. The Libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+
+% \TODO{have vs has}
+
+We performed the analyses with MASS and SEMuS; MASS is a mutation analysis tool for space software, while SEMuS is a test suite augmentation tool based on mutation testing. Both tools have been developed within the context of the FAQAS project.
+
+In this report, we provide (1) the configuration we used to setup our toolset with Libutil, (2) the results of the code-driven mutation analysis process, (3) information about the test cases generated based on mutation testing, and  (4) the set of mutants not killed by the approach.
+
+
+% \section{Applicable and reference documents}
+
+% \begin{itemize}
+% \end{itemize}
+
+\section{Terms, definitions and abbreviated terms}
+
+\begin{itemize}
+\item{FAQAS}: activity ITT-1-9873-ESA.
+\item{FAQAS-framework}: software system to be released at the end of WP4 of FAQAS.
+\item{MASS}: Tool for Mutation Analysis for Space Software.
+\item{SEMuS}: Tool for Mutation Testing for Space Software.
+\item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+\item{SUM}: Software User Manual, the document is delivered together with the FAQAS-framework.
+
+\end{itemize}
+
+\clearpage

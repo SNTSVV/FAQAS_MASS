@@ -1,0 +1,33 @@
+% !TEX root =  ../MAIN-DataDrivenMutationAnalysis.tex
+
+\begin{table}[tb]
+\caption{Manual effort and execution time.}
+\label{table:costs}
+\footnotesize
+\centering
+\begin{tabular}{|
+@{\hspace{1pt}}p{24mm}@{\hspace{2pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{15mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{30mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{14mm}@{\hspace{1pt}}||
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{18mm}@{\hspace{1pt}}|
+@{\hspace{1pt}}>{\raggedleft\arraybackslash}p{18mm}|}
+\hline
+% \textbf{Subject}&\textbf{\# Mutants}&\multicolumn{3}{c|}{\textbf{Lines of code}}\\
+% & & \textbf{Original} & \textbf{Mutated} & \textbf{Increment \%}\\
+\textbf{Subject}&\textbf{Configured} &\textbf{Configured} &\textbf{LoC} &\multicolumn{2}{c|}{\textbf{Execution time}}\\
+&\textbf{Operators}&\textbf{Operators / FM}&\textbf{ / FM}&\textbf{Original} &\textbf{\APPR}\\
+\hline
+\ADCS	& 142 & 14.20 & 6.10 & \multirow{3}{*}{8.34 [h]} & 1,207.32 [h]\\
+\GPS    & 23  & 23.00 & 2.72 &   & 217.45 [h]\\
+\PDHU	& 29 &  9.66   & 4.33 &   & 69.75 [h] \\
+\hline
+\PARAM	& 44 & 13.33 & 7.64 & 0.015 [h] & 0.21 [h]  \\
+\hline
+LibGCSP & 33 & 33.00 & 14 & 0.04 [h] & 0.24 [h] \\
+\hline
+%\textbf{Average} & 77.25  & 15.19 & 5.01 & & \\
+%\hline
+
+\end{tabular}
+\end{table}

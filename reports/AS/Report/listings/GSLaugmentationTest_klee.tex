@@ -1,0 +1,14 @@
+% !TEX root =  ../MAIN.tex
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CStyle, caption=Example of test case for function \emph{gs\_bswap\_16} derived from KLEE output., label=GSLaugmentationTest_klee]
+int main(){
+    uint16_t v = 256;                                                                                                                                  
+    uint16_t res;
+
+    res = gs_bswap_16(v);
+
+    assert( res == 1 );
+    return 0;
+}
+\end{lstlisting}
+\end{minipage}

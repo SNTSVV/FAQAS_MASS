@@ -4,14 +4,14 @@
 \section{Empirical evaluation}
 \label{sec:summary:results}
 
-The FAQAS activity has ben evaluated through an extended empirical evaluation; below we summarize our findings. 
+The FAQAS activity has ben evaluated through an extended empirical evaluation; below we summarize our findings.
 
 
 \subsection{MASS}
 
 %\begin{table}[htb]
 %\caption{Code-driven mutation analysis results: MASS mutation score.}
-%\label{table:results:mass} 
+%\label{table:results:mass}
 %\small
 %\centering
 %\begin{tabular}{|
@@ -41,10 +41,10 @@ The FAQAS activity has ben evaluated through an extended empirical evaluation; b
 %\end{table}
 %
 %
-%Table~\ref{table:results:mass} provides the code-driven mutation analysis results. 
-%The mutation score computed by \MASS for the case study subjects considered in our experiments was in line with the expectations of engineers. 
+%Table~\ref{table:results:mass} provides the code-driven mutation analysis results.
+%The mutation score computed by \MASS for the case study subjects considered in our experiments was in line with the expectations of engineers.
 
-Both GSL and LXS have manually inspected a subset of the live mutants identified by \MASS. The inspection enabled industry partners to identify relevant shortcomings in their test suites: 
+Both GSL and LXS have manually inspected a subset of the live mutants identified by \MASS. The inspection enabled industry partners to identify relevant shortcomings in their test suites:
 \begin{itemize}
 \item 57\% of the live mutants are due to missing inputs. Of particular relevance are exceptional cases not being exercised by the test suite, which shows that engineers are not be able to determine all the unexpected execution conditions that the SUT shall take care of.
 \item 23\% of the live mutants were due to missing oracles. Such result is particularly relevant because it indicates that although engineers believe to have tested a relevant scenario, the absence of an appropriate oracle prevents them from automatically detecting failures that might be observed when running the test cases.
@@ -56,9 +56,9 @@ Both GSL and LXS have manually inspected a subset of the live mutants identified
 %In their independent evaluation with libraries, industry partners did not negatively comment about the scalability of the process. However, they reported the need for a strategy to further prioritize the generated mutants for inspection.
 
 
-Finally, our results show that MASS helps addressing scalability problems to a significant extent by reducing mutation analysis time by more than 70\% across subjects. 
+Finally, our results show that MASS helps addressing scalability problems to a significant extent by reducing mutation analysis time by more than 70\% across subjects.
 In practice, for large software systems like \SAIL{}, such reduction can make mutation analysis practically feasible; indeed, with 100 HPC nodes available for computation, \MASS can perform the mutation analysis of \SAIL{}\emph{-CSW} in half a day. In contrast, a traditional mutation analysis approach would take more than 100 days, thus largely delaying the development and quality assurance processes.
-Also, we demonstrated that the FSCI sampling approach implemented by MASS leads to an accurate estimation of the mutation score. 
+Also, we demonstrated that the FSCI sampling approach implemented by MASS leads to an accurate estimation of the mutation score.
 
 
 
@@ -67,7 +67,7 @@ Also, we demonstrated that the FSCI sampling approach implemented by MASS leads 
 
 %\begin{table}[htb]
 %\caption{Test suite augmentation results.}
-%\label{table:results:test-gen} 
+%\label{table:results:test-gen}
 %\centering
 %\footnotesize
 %\begin{tabular}{|
@@ -78,7 +78,7 @@ Also, we demonstrated that the FSCI sampling approach implemented by MASS leads 
 % >{\raggedleft\arraybackslash}p{25mm}@{\hspace{1pt}}|
 %}
 %\hline
-%\textbf{Subject}&\textbf{Live Mutants}&\textbf{Additionally Killed Mutants}&\textbf{Original MS (\%)}&\textbf{Updated MS (\%)}\\ 
+%\textbf{Subject}&\textbf{Live Mutants}&\textbf{Additionally Killed Mutants}&\textbf{Original MS (\%)}&\textbf{Updated MS (\%)}\\
 %\hline
 %$\mathit{MLFS}$&3\,891&697&81.80&85.06\\
 %$\mathit{ASN.1}$&2\,219&1\,729&58.31&90.79\\
@@ -90,7 +90,7 @@ Also, we demonstrated that the FSCI sampling approach implemented by MASS leads 
 %
 %\end{table}
 
-The empirical evaluation demonstrated the scalability of \SEMUS for the case study subjects in which it can be successfully applied (i.e., ASN1CC, MLFS, and \UTIL). 
+The empirical evaluation demonstrated the scalability of \SEMUS for the case study subjects in which it can be successfully applied (i.e., ASN1CC, MLFS, and \UTIL).
 Our results also demonstrated the usefulness of \SEMUS. Indeed, \SEMUS enabled the identification of two faults in our case studies. Also, the generated test cases concerned inputs that are relevant (according to specifications) but not tested by the test suites.
 
 %The main limitation of \SEMUS derives from the choice of , it is currently limited by the choice of compiling with LLVM only the source file under test (to limit the probability of compilation errors). Table~\ref{table:results:test-gen} provides an overview of some of our results.
@@ -102,7 +102,7 @@ Our results also demonstrated the usefulness of \SEMUS. Indeed, \SEMUS enabled t
 
 %\begin{table}[htb]
 %\caption{Data-driven mutation analysis results.}
-%\label{table:results:data-driven} 
+%\label{table:results:data-driven}
 %\center
 %\footnotesize
 %\begin{tabular}{|
@@ -117,12 +117,12 @@ Our results also demonstrated the usefulness of \SEMUS. Indeed, \SEMUS enabled t
 %@{\hspace{0pt}}>{\raggedleft\arraybackslash}p{12mm}@{\hspace{1pt}}|
 %}
 %\hline
-%\textbf{Subject} & 
-%\textbf{\# FMs} & 
-%\textbf{FMC} & 
-%\textbf{\#MOs-CFM} & 
-%\textbf{\#CMOs} & 
-%\textbf{MOC}  
+%\textbf{Subject} &
+%\textbf{\# FMs} &
+%\textbf{FMC} &
+%\textbf{\#MOs-CFM} &
+%\textbf{\#CMOs} &
+%\textbf{MOC}
 %&\textbf{Killed}&\textbf{Live}&\textbf{MS}
 %\\
 %\hline
@@ -155,19 +155,167 @@ Based on our evaluation, we observed that live mutants can be killed by introduc
 \REVOCT{C-P-18}{Such oracles may consist of additional assertions that verify data values already produced by the software under test (i.e., no modification of the SUT is needed).}
 
 %Finally we also identified the following set of test suite shortcomings: (1) the test case does not distinguish failures across data items (e.g., temperature values collected by different sensors),
-%(2) the test case does not distinguish errors across different messages (e.g., in \ADCS, the IfHK message reporting a broken sensor or the message sent by a sensor reporting malfunction), (3) the test case does not distinguish between errors in nominal and non-nominal data (e.g., it does not distinguish between VOR and FVOR), (4) the test case does not distinguish between upper and lower bounds (e.g., the mutants for VOR lead to the same assertion failures), and {(5) the test case does not distinguish between different error codes (i.e, it simply verifies that an error code is generated)}. 
+%(2) the test case does not distinguish errors across different messages (e.g., in \ADCS, the IfHK message reporting a broken sensor or the message sent by a sensor reporting malfunction), (3) the test case does not distinguish between errors in nominal and non-nominal data (e.g., it does not distinguish between VOR and FVOR), (4) the test case does not distinguish between upper and lower bounds (e.g., the mutants for VOR lead to the same assertion failures), and {(5) the test case does not distinguish between different error codes (i.e, it simply verifies that an error code is generated)}.
 
 \subsection{DAMTE}
 
-\DAMTE aims to address a task (i.e., test generation at system and integration level) that is particularly difficult to address with state-of-the-art technology (e.g., test generation toolsets based on symbolic execution). 
-%In particular, the test generation tool adopted in FAQAS (i.e., KLEE) requires manual intervention to specify which are the inputs to select thus preventing the automated generation of a large number of test cases. 
+\DAMTE aims to address a task (i.e., test generation at system and integration level) that is particularly difficult to address with state-of-the-art technology (e.g., test generation toolsets based on symbolic execution).
+%In particular, the test generation tool adopted in FAQAS (i.e., KLEE) requires manual intervention to specify which are the inputs to select thus preventing the automated generation of a large number of test cases.
 For this reason, FAQAS only concerned the evaluation of the feasibility of DAMTE.
 
 We relied on DAMTE to generate inputs for the \PARAM client API functions. Such inputs enable the exchange of messages between the \PARAM client and the \PARAM server. Overall, we conclude that the DAMTE approach may be feasible; however, it requires some manual effort for the configuration and execution of test cases which may limit its usefulness. The first step towards its large scale applicability is the improvement of underlying test generation tools and compiler procedures, such changes will facilitate DAMTE application to large projects without the need for manually creating test template files with dependencies.
 
-%\subsection{Summary}
-%
-%The developed toolset has thus demonstrated to be useful in industrial contexts. The common limitation cross the different tools is the usability; indeed, all the tools require relevant effort to be set-up (however, LXS has reported that if at least 6\% of the reported problems spot major limitations the benefits surmount costs). The need for manual effort mostly depends on the lack of a common development environment for different case study subjects. The identification of a reference platform for software development in industry context may facilitate the adoption of the FAQAS toolset.
-%
-%Other limitations that need further research effort to simplify the adoption of the FAQAS toolset are the prioritization of mutants to be inspected, the need for a solution to compile whole SUTs with LLVM, the need for a solution to enable test generation in the presence of floating point variables, the need for a working solution to enable test generation based on data-driven mutation analysis results. 
 
+\STARTCHANGEDWPT
+
+\section{Industrial Validation Summary}
+\label{sec:validationsum}
+
+The developed toolset has demonstrated to be useful in industrial contexts. The common limitation cross the different tools is the usability; indeed, all the tools require relevant effort to be set-up (however, LXS has reported that if at least 6\% of the reported problems spot major limitations the benefits surmount costs). The need for manual effort mostly depends on the lack of a common development environment for different case study subjects. The identification of a reference platform for software development in industry context may facilitate the adoption of the FAQAS toolset.
+
+Other limitations that need further research effort to simplify the adoption of the FAQAS toolset are the prioritization of mutants to be inspected, the need for a solution to compile whole SUTs with LLVM, the need for a solution to enable test generation in the presence of floating point variables, the need for a working solution to enable test generation based on data-driven mutation analysis results.
+
+Below we report verbatim the positive and negative comments provided in the validation deliverables of the project by our industry partners.
+
+
+\subsection{Overall Comments}\ \\
+
+\textbf{POSITIVE COMMENTS}
+
+\begin{itemize}
+  \item \emph{Using the FAQAS toolset is for sure cost-effective when more than the 6\% of the detected major problems of the testsuite could have determined a software error would have gone undetected. }
+
+  \item \emph{Both these fields of research are considered from LuxSpace worth to be explored in a possible extension of the FAQAS project:
+  (*) the capability of the toolset to decrease the time of analysis of the results (*) the capability of the toolset to generate automatically additional/updated test cases that may patch the current failing testsuite.}
+\end{itemize}
+
+\subsection{MASS}\ \\
+
+\textbf{POSITIVE COMMENTS}
+
+\begin{itemize}
+
+  \item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
+
+  \item \emph{The MASS toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. }
+
+  \item \emph{The MASS tool is effective at identifying potential defects that are unanticipated by our current test suites. It is also worth mentioning that closer examination of the code inspired by this approach did seem to reveal actual defects in the software that were previously unknown.}
+
+  \item \emph{The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running MASS mutation tests in a docker container.}
+
+  \item \emph{Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+
+  \item \emph{The evaluation showed that the MASS tool would be considered as a useful addition to GomSpace’s testing processes.}
+
+  \item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality. This would lead to an overall improvement in both test suite and code quality.}
+
+\end{itemize}
+
+\textbf{NEGATIVE COMMENTS}
+
+\begin{itemize}
+
+  \item \emph{The evaluation did identify that many abbreviations and acronyms are used within the SUM, some of them without explanation in the document. An expansion of the list of abbreviations and acronyms is recommended to improve the overall user experience.}
+
+  \item \textbf{Action taken:} To address the comment above, SnT has improved the SUM accordingly.
+
+  \item \emph{The large degree of possibility is challenging for a new user to learn and can be overwhelming for first use. GomSpace recommends providing an interactive script with default values to ease this process.}
+
+  \item \emph{The initial (first-time) configuration process should be simplified to reduce the steep learning curve}
+
+  \item \textbf{Action taken:} To address the two comments above, SnT has ....
+
+\end{itemize}
+
+\subsection{DAMAt} \ \\
+
+\textbf{POSITIVE COMMENTS}
+
+\begin{itemize}
+
+  \item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
+
+  \item \emph{The DAMAt toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. The ease of configuring these parameters has increased compared to the previous MASS tool. For example: \texttt{DAMAt\_FOLDER=\$(pwd)} and using this variable further for configuration significantly saves time.}
+
+  \item \emph{Analysis of the surviving mutants shows the toolset does identify valid (potential) test cases that the test suites currently miss. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate, and in some cases poorly written test cases. Based on the results generated, the DAMAt tool is effective at identifying potential defects and missing test cases that are unanticipated by our current test suites.}
+
+  \item \emph{DAMAt can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running DAMAt mutation tests in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+
+  \item \emph{The evaluation showed that the DAMAt would be considered as a useful addition to GomSpace’s testing processes.}
+
+  \item \emph{After checking the output report, GomSpace realised that the test suite of libparam does not address certain side effects of functions. This already demonstrates the ability of the toolset to identify improvements that would raise the quality of existing test suites.}
+
+  \item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality (i.e., those with more surviving mutants) or to set certain gateway thresholds (i.e., a certain proportion of mutants must be caught before a test suite is considered high enough quality to proceed). This would lead to an overall improvement in both test suite and code quality.}
+
+\end{itemize}
+
+\textbf{NEGATIVE COMMENTS}
+
+\begin{itemize}
+
+  \item \emph{The evaluation did identify that some of the missing steps in the SUM were present in the readme of the project. Without which it was quite difficult to configure some of the steps, as there is no explanation in the document.}
+
+  \item \emph{Finally, the SUM doesn’t have sufficient information about fault models and how they are important to the process, analysis, and results. Only an example is present in the SUM. It would be useful to have some information explaining fault models, their significance, and some background of its correlation to probes, testcases etc.}
+
+  \item \textbf{Action taken:} To address the two comments above, SnT has improved the SUM accordingly.
+
+  \item \emph{To apply DAMAt, we need to manually inject probes into the code, which requires prior additional knowledge/understanding of inner working of the software under test (SUT). Moreover, the injected probes should always be used only for tests. In production, they shouldn’t be present and there is necessity of automated process that handles probes management.}
+
+  \item \emph{There is manual intervention of adding lots of probes and building a fault model which can be a time-consuming process.}
+
+  \item \emph{The addition of probes as manual step would make it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
+
+  \item \textbf{Action taken:} To address the three comments above, SnT has introduced an integration to the DAMAt pipeline that enables the user to leave simple comments in the source code that will be substituted with the mutation probes during the procedure. The integration will also reinstate the unmodified code once the execution of DAMAt is conluded.
+
+\end{itemize}
+
+\subsection{SEMUS} \ \\
+
+\textbf{POSITIVE COMMENTS}
+
+\begin{itemize}
+
+  \item \emph{The SEMUS offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. There are also scripts that are used for automatic generation of JSON files and Test templates.}
+
+  \item \emph{Analysis of the generated testcases for the mutants identified valid bug for timestamp.c as well as missing Test cases. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate and in some cases poorly written test cases.}
+
+  \item \emph{SEMUS can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running SEMUS test generation in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+
+  \item \emph{However, when it is fully executed it does help with identifying the missing test cases in test suite and as a side-effect points out to potential bugs.}
+
+  \item \emph{After checking the output report, GomSpace realised that the test suite of libutil does not address certain tests. This already demonstrates the ability of the SEMUS to identify improvements that would raise the quality of existing test suites }
+
+  \item \emph{Nevertheless, beyond the current limitations to the usability, the SEMuS tool seems promising for its effectiveness: all the generated test cases were correctly designed, in a way that they were able to detect software errors in the parts of the code whereas it was meant too}
+
+\end{itemize}
+
+\textbf{NEGATIVE  COMMENTS}
+\begin{itemize}
+  \item \emph{However, there are some typos in commands in SUM which can be corrected for error free configuration.}
+
+  \item \textbf{Action taken:} SnT has improved the SUM.
+
+  \item \emph{If you run it on Windows machine with WSL or vagrant, there are chances you might run in few troubles with respect to versioning of different libraries/container/virtual env etc.}
+
+  \item \textbf{Action taken:} SnT had not been able to replicate the problems; further investigation will be taken care of during the maintenance period.
+
+  \item \emph{Also creation of JSON file and test template can be it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
+
+  \item \emph{But keep in mind that there is manual intervention of generating large amount of JSON and test templates which can be a time-consuming process in case of large software libraries.}
+
+  \item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, the two comments above can be targeted only by a dedicated follow-on activity.
+
+  \item \emph{However the tool is still in a very prototypical form:}
+
+  \item \emph{Due to the complexity of dependencies of E-SAIL software, the tool was able to working on a limited number of functions (the tool cannot compile files than depends on other files).}
+
+  \item \emph{Due to the previous limitation, the tool was able to generate the test cases only from the killed mutants, but not from the live mutants.}
+
+  \item \emph{The tool is not working with floating point variables.}
+  \emph{All these limitations make the SEMuS tool, in this preliminary version, inadequate to be deployed in any real development environment. }
+
+  \item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, such improvements can be targeted only by a dedicated follow-on activity.
+
+\end{itemize}
+
+\ENDCHANGEDWPT

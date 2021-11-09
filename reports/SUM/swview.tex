@@ -2,7 +2,7 @@
 
 \chapter{External View of the Software}
 
-The \FAQAS is delivered as a compressed archive consisting of source files and an installer.
+The \FAQAS is delivered as a compressed archive consisting of source files and installers.
 The following bulletpoints provide a description of the archive's structure once uncompressed:
 
 \begin{itemize}
@@ -13,7 +13,7 @@ The following bulletpoints provide a description of the archive's structure once
 		\item \texttt{PythonWrappers/}: contains Python script wrappers that facilitate code-driven mutations.
 		\item \texttt{MASS/}: contains all the executable files and scripts that implement the methodology for code-driven mutation testing supported by  the FAQAS-Framework. They are listed below.
 		\begin{itemize}
-			\item \texttt{FAQAS-Setup}: contains the Bash scripts necessary to install the FAQAS-Framework.
+			\item \texttt{FAQAS-Setup}: contains the necessary Bash scripts to install the FAQAS-Framework.
 			\item \texttt{FAQAS-GenerateCodeCoverageMatrixes}: contains the Bash scripts providing procedures to collect code coverage from the SUT.
 			\item \texttt{FAQAS-GenerateMutants}: contains a Bash script that invokes the \texttt{SRCMutation} component to generate mutants.
 			\item \texttt{FAQAS-CompileOptimizedMutants}: contains the scripts (in Python and Bash)  that provide the procedures to compile mutants and filter equivalent and redundant mutants based on trivial compiler optimizations.
@@ -57,6 +57,14 @@ The following bulletpoints provide a description of the archive's structure once
 		\end{itemize}%3 end
 		\item \texttt{fault\_model.csv}: an example of a \DAMA fault model in csv format.
 		\item \texttt{tests.csv }: an example of list of test cases and nominal times in csv format.
+		\item \texttt{automated\_probe\_insertion}: this folder contains the necessary scripts for automating the probe insertion.
+		\begin{itemize}
+			\item \texttt{DAMAt\_probe\_insertion.sh}: this script backups the file to instrument and then executes \texttt{DAMAt\_insert\_probes.py}.
+			\item \texttt{DAMAt\_insert\_probes.py}: this script replaces specific comments in the file to instrument with the mutation probes.
+			\item \texttt{DAMAt\_probe\_removal.sh}: this script restores the original file from the template.
+			\item \texttt{DAMAt\_insertion\_test.sh}: this script runs the test cases for the automated probe insertion procedure.
+			\item \texttt{test\_files}: this folder contains the necessary files for executing the test cases.
+		\end{itemize}
 	\end{itemize}%2 end
 	\item \texttt{mutator}: contains the testing environment for the \DAMA API.
 	\begin{itemize}% 2

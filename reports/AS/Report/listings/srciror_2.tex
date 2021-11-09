@@ -1,0 +1,12 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=2nd warning example., label=srciror_2]
+/home/svf/Obsw/Source/ApplicationLayer/AdcsController/Source/strtod.c:122:12: warning: magnitude of floating-point constant too large for type 'double'; maximum is 1.7976931348623157E+308 [-Wliteral-range]
+return HUGE_VAL; 
+			 ^
+./_Ext/mlfs/include/mlfs.h:147:19: note: expanded from macro 'HUGE_VAL' #define HUGE_VAL (1.0e999999999)
+							^ 
+1 warning generated.
+\end{lstlisting}
+\end{minipage}

@@ -1,0 +1,17 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=9th warning example., label=srciror_9]
+/home/svf/Obsw/Source/ServiceLayer/Data_Store/Source/Store_TM.c:995:35: warning: equality comparison with extraneous parentheses [-Wparentheses-equality]
+	if((Storage_Ptr->tail == Storage_Ptr->header)) 
+			~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/svf/Obsw/Source/ServiceLayer/Data_Store/Source/Store_TM.c:995:35: note: remove extraneous parentheses around the comparison to silence this warning
+	if((Storage_Ptr->tail == Storage_Ptr->header)) 
+			~									^			~
+/home/svf/Obsw/Source/ServiceLayer/Data_Store/Source/Store_TM.c:995:35: note: use '=' to turn this equality comparison into an assignment
+	if((Storage_Ptr->tail == Storage_Ptr->header)) 
+												^~
+						  					=
+1 warning generated.
+\end{lstlisting}
+\end{minipage}

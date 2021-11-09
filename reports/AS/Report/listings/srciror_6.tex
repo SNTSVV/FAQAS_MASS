@@ -1,0 +1,10 @@
+% !TEX root = ../MAIN.tex
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language={}, caption=6th warning example., label=srciror_6]
+/home/svf/Obsw/Source/HighLevelDriverLayer/OBC_Handler/Source/ObcHandler_ProcessingTask.c:130:3 6: warning: cast to 'uint8_t *' (aka 'unsigned char *') from smaller integer type 'unsigned int' [-Wint-to-pointer-cast]
+	CurrentSampleAddress_ptr = (uint8_t*)(EEPROM_START_ADDRESS + PATTERN_OFFSET + PatternCheck[SampleIndex].Offset);
+															^
+1 warning generated.
+\end{lstlisting}
+\end{minipage}

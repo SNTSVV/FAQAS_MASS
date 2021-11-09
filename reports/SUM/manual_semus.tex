@@ -16,10 +16,10 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 %\OSCAR{llvm is installed automatically in the previous step, only clang3.8 is necessary}
 
 \begin{itemize}
-	\item Linux packages: 
-\begin{itemize}	
-	\item \texttt{docker-ce} 
-	\item \texttt{docker-ce-cli} 
+	\item Linux packages:
+\begin{itemize}
+	\item \texttt{docker-ce}
+	\item \texttt{docker-ce-cli}
 	\item \texttt{containerd.io}
 	\end{itemize}
 \end{itemize}
@@ -33,7 +33,7 @@ For this reason, we provide a Dockerfile containing all the commands necessary t
 %\DONE{Following is not clear. It seems that the end-user has a folder case\_studies/ASN to copy stuff from; however, you do not explain how to retrieve that folder. I would call it TEMPLATES rather than ASN, no?}
 %\TODO{I added a text explaining that we provide ASN and MLFS along SEMuS, and that scripts shall be copied from ASN. However, I agree with you that we should add a templates folder inside the repository.}
 
-\SEMUS needs a dedicated folder structure for running the test generation on a case study. 
+\SEMUS needs a dedicated folder structure for running the test generation on a case study.
 For this reason, the engineer shall create the following directory structure under the folder \texttt{case\_studies}, assuming the name of the case study is stored in the variable \texttt{\$SUT}:
 
 \begin{itemize}
@@ -55,7 +55,7 @@ After the creation of the folder structure, the engineer shall copy the scripts 
 
 At this step, the engineer shall also provide a compilation database file of the SUT, to be placed inside \texttt{\$SUT/scripts} with the name \texttt{compile\_commands.json}. Note that the paths defined within the database file must be full paths. The compilation database file provides the necessary compilation commands of each source for the source mutation and the test generation steps of the methodology.
 
-Next, the engineer shall copy the scripts necessary for generating the test templates for guiding the test generation. This can be done through the following commands:
+Next, the engineer shall copy the necessary scripts for generating the test templates for guiding the test generation. This can be done through the following commands:
 
 \begin{lstlisting}[language=bash]
   $ cd case_studies/ASN/util_codes
@@ -68,9 +68,9 @@ Last, the engineer shall place inside the folder \texttt{case\_studies/\$SUT/WOR
 
 \SEMUS configuration comes in two parts, that is, (1) configuring the Bash script \texttt{faqas\_semus\_config.sh}, and (2) configuring the JSON test templates.
 
-%There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS. 
+%There is one Bash script, and one JSON file that should be edited by the engineer to configure \SEMUS.
 
-The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout). 
+The Bash script enables \SEMUS to correctly identify the SUT paths (e.g., source code folder), the SUT compilation commands, output folder, and the configuration of \SEMUS itself (e.g., configuration of the heuristics, maximum memory, test generation timeout).
 
 The different JSON files indicate for each function under test, the values that should be printed out, so \SEMUS can determine if a mutant has been killed.
 
@@ -129,10 +129,10 @@ FAQAS_SEMU_GENERATED_META_MU_SRC_FILE=
 # Path of the source file (i.e., LLVM bitcode file) of the meta mutant
 FAQAS_SEMU_GENERATED_META_MU_BC_FILE=
 
-# Folder for storing intermediate files for the generated inputs 
+# Folder for storing intermediate files for the generated inputs
 FAQAS_SEMU_GENERATED_META_MU_MAKE_SYM_TOP_DIR=
 
-# Folder for storing the generated inputs 
+# Folder for storing the generated inputs
 FAQAS_SEMU_GENERATED_TESTS_TOPDIR=
 
 # Timeout in seconds for the test generation process
@@ -140,12 +140,12 @@ FAQAS_SEMU_TEST_GEN_TIMEOUT=
 
 # Configuration array for SEMu heuristics. The accepted values of 'PSS' are 'RND' for random and 'MDO' for minimum distance to output
 FAQAS_SEMU_HEURISTICS_CONFIG='{
-        "PL": 
-        "CW": 
-        "MPD": 
-        "PP": 
-        "NTPM": 
-        "PSS": 
+        "PL":
+        "CW":
+        "MPD":
+        "PP":
+        "NTPM":
+        "PSS":
 }'
 
 # Maximum test generation memory in MB
@@ -239,8 +239,8 @@ FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
 \subsubsection{Edit generate\_template\_config.json}
 \label{sec:json_config}
 
-Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}. These JSON variables are \texttt{TYPES\_TO\_INTCONVERT, TYPES\_TO\_PRINTCODE, OUT\_ARGS\_NAMES, IN\_OUT\_ARGS\_NAMES, TYPE\_TO\_INITIALIZATIONCODE}, \\ 
-\texttt{TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS, VOID\_ARG\_SUBSTITUTE\_TYPE},\\ 
+Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}. These JSON variables are \texttt{TYPES\_TO\_INTCONVERT, TYPES\_TO\_PRINTCODE, OUT\_ARGS\_NAMES, IN\_OUT\_ARGS\_NAMES, TYPE\_TO\_INITIALIZATIONCODE}, \\
+\texttt{TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS, VOID\_ARG\_SUBSTITUTE\_TYPE},\\
 \texttt{ARG\_TYPE\_TO\_ITS\_POINTER\_ELEM\_NUM}.
 
 The option TYPES\_TO\_INTCONVERT specifies a type as key and the type conversion template as value, where the placeholder for the expression to convert should be specified as the string \texttt{'{}'}, an example would be \texttt{"TYPES\_TO\_INTCONVERT": {"flag": "(int){}"}}.
@@ -251,7 +251,7 @@ The option OUT\_ARGS\_NAMES specifies the names of function arguments that are u
 
 The option IN\_OUT\_ARGS\_NAMES Specify the names of function arguments that are used both as function input and output (passed by reference) e.g. \texttt{"IN\_OUT\_ARGS\_NAMES": ["inoutArg"]}.
 
-The option TYPE\_TO\_INITIALIZATIONCODE specifies a type as key and the pre \texttt{klee\_make\_symbolic} statement initialization code as value, the placeholder for the object to initialize must be specified as the string \texttt{'{}'}\\ 
+The option TYPE\_TO\_INITIALIZATIONCODE specifies a type as key and the pre \texttt{klee\_make\_symbolic} statement initialization code as value, the placeholder for the object to initialize must be specified as the string \texttt{'{}'}\\
 e.g. \texttt{"TYPE\_TO\_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\\n{}.next->next = NULL;"}}.
 
 The option TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS specifies how to make an object symbolic (specially useful for objects that are initialized, like pointers). The object type is the dict key and a dict of field accesses and their type is the dict value. The placeholder for the object to make symbolic must be specified as the string \texttt{'{}'} e.g. \texttt{"TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}}.
@@ -303,7 +303,7 @@ To run \SEMUS, it is necessary to generate the test templates as first step; thi
 
 The previous command will generate inside the directory \texttt{case\_studies/\$SUT/util\_codes} one folder for each source under analysis, and inside of these folders, one template for each function under test.
 
-The test generation process can be started with the command shown in Listing~\ref{listing:semus_launch}. 
+The test generation process can be started with the command shown in Listing~\ref{listing:semus_launch}.
 
 Note the following:
 \begin{itemize}

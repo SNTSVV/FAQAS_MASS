@@ -1,0 +1,24 @@
+//start of the  mutation probe
+
+unsigned long long int $buffer[8];
+
+$buffer[0] = (unsigned long long int) request->action;
+$buffer[1] = (unsigned long long int) request->table_id;
+$buffer[2] = (unsigned long long int) request->length;
+$buffer[3] = (unsigned long long int) request->checksum;
+$buffer[4] = (unsigned long long int) request->seq;
+$buffer[5] = (unsigned long long int) request->total;
+$buffer[6] = (unsigned long long int)request->payload.addr[0];
+$buffer[7] = 0;
+
+mutate_FM_$fault_model($buffer );
+
+request->action = (uint8_t) $buffer[0];
+request->table_id = (uint8_t) $buffer[1];
+request->length = (uint16_t) $buffer[2];
+request->checksum = (uint16_t) $buffer[3];
+request->seq = (uint16_t) $buffer[4];
+request->total = (uint16_t) $buffer[5];
+request->payload.addr[0]=(uint16_t)$buffer[6];
+
+//end of the mutation probe

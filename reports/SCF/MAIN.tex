@@ -233,8 +233,8 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}}
 
-\lhead{\fancyplain{}{\textit{}}}
-
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-SCF}
+\lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
 
 \fancyfoot[C]{%
@@ -259,8 +259,10 @@
 \end{tikzpicture}}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
+\newcommand{\STARTCHANGEDFINAL}{\color{blue}}
+\newcommand{\ENDCHANGEDFINAL}{\color{black}}
 
 \newcommand{\CHANGED}[1]{{#1}}
 \newcommand{\prog}{P}
@@ -270,7 +272,7 @@
 
 
 \newcommand{\REVISION}[2]{{#2}}
-\newcommand{\REVTOOL}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVTOOL}[2]{\color{blue}{#2}\color{black}}
 
 \newcommand{\REVTWO}[2]{#2}
 

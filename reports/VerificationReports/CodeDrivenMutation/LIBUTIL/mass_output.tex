@@ -1,0 +1,353 @@
+% !TEX root = MAIN.tex
+
+\chapter{Mutation Analysis Results}
+\label{mass_output}
+
+% \TODO{Title should be about 'Results' not 'Process'}
+
+\DONE{Re-read the paper to fix third person singular/plural errors}
+
+In this chapter, we report the outcome of the mutation analysis process through the use of MASS. 
+Mutation analysis assess the quality of test suites by injecting artificial faults in the source code (i.e., a mutant), and then measures the number of mutated versions that are detected by the test suite. We report the result in terms of the mutation score, that is, the number of killed mutants (i.e., artificial faults detected by the test suite) divided by the total number of mutants.
+
+% \DONE{This is a verification report, which means that we need to provide action items for the company. What is the suggestions form below, should they reach 100\% code coverage?}
+
+\input{tables/source_list}
+
+\input{tables/source_i_list}
+
+Concerning the components of Libutil to be considered on the mutation analysis process, GomSpace indicated a subset of files from the library, that is not of interest for them, because they are source code belonging to third parties. In consequence, we exclude these sources from the analysis; the sources are listed in Table~\ref{table:not_interesting}. 
+Instead, the sources of interest for GomSpace are listed in Table~\ref{table:interesting}.
+
+%The code-driven mutation analysis process in Libutil targeted all the components covered by the Libutil unit test suite. 
+The Libutil unit test suite do not cover hardware-specific functions (e.g., drivers), which are covered at the system level.
+
+\section{Test Suite Code Coverage}
+
+Prior applying mutation analysis to Libutil, we calculated the code coverage of the test suite. Table~\ref{table:gslibutil_coverage} provides the code coverage information of the unit test suite for the Libutil library. Note that the code coverage reported here does not include the source files from Table~\ref{table:not_interesting}. 
+
+\begin{table}[h]
+\centering
+\scriptsize
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Coverage Type} & \textbf{Coverage Rate} \\
+\hline
+Statement     & 60.2\% (1\,754 of 2\,915 statements)\\
+Functions     & 66.1\% (201 of 304 functions)\\
+Branches      & 52.2\% (1\,025 of 1\,965 branches)\\
+\hline
+\end{tabular}
+\caption{Libutil code coverage.}
+\label{table:gslibutil_coverage}
+\end{table}
+
+
+\EMPH{Action Item 1}{To improve the quality of the unit test suite, ideally GSL should (1) improve the statement and branch coverage, and make both metrics reach 100\%, or (2) justify the elements not covered by the test suite.}
+
+% \TODO{We know that a subset of the files are third party and not of interest from the test suite; we should exclude them, no?}
+
+
+\section{MASS Results}
+
+After applying MASS to the software artifact, we report in the following the metrics produced by the tool:
+
+\begin{itemize}
+	\item MASS generates a total of 8\,572 mutants, this set of mutants was generated using the operators ABS, AOR, ICR, LCR, ROR, SDL, UOI, AOD, LOD, ROD, BOD, SOD, and LVR.
+
+	\item 2\,575 mutants are filtered by trivial compiler optimisations, that is, mutants that are equivalent with respect to the original program or redundant with respect to other mutants.
+
+	\item In total, MASS analyzed 5\,997 mutants, the process took 962 minutes (16 hours) to complete.
+
+	\item The Libutil test suite identified a total of 4\,440 mutants (i.e., killed mutants).
+
+	\item The Libutil test suite did not identify a total of 1\,557 mutants (i.e., live mutants).
+
+	\item From the set of live mutants, MASS identified additionally 842 likely equivalent mutants based on code coverage.
+
+	\item The MASS mutation score is 86.13\%.
+
+	\item The statement coverage is 60.2\%.
+	
+	\item The total number of statements covered is 1\,754.
+	
+	\item The minimum statements covered per source file is 2, and the maximum is 347 statements per source file.
+\end{itemize}
+
+\EMPH{Note}{It has been shown that test suites with mutation score greater than 75\% have a higher fault detection rate~\cite{chekam2017empirical}. This implies that the Libutil test suite has a high fault detection rate for the statements that are covered (i.e., 60.2\%). Please note that statement coverage adequacy is required for the mutation score to be representative of a high fault detection rate.}
+
+\DONE{Recompute the numbers above for the subset of files that are of interest for GSL}
+
+% \TODO{What do we conclude form the above? Are you excluding source files that are not of interest for LXS?}
+
+\subsection{Libutil Live Mutants}
+
+In this section, we provide detailed information about the first five mutants that present a behavior that largely differs from that of the original software. These mutants shall be discovered by the test suite.
+
+\subsubsection{Live Mutant \#1}
+
+\begin{itemize}
+\item \textbf{Source file:} \texttt{src/fletcher.c}
+\item \textbf{Mutant ID:} \url{fletcher.mut.65.1_1_9.LOD.gs_fletcher16_update}
+\end{itemize}
+
+\begin{lstlisting}[language=C, label=live_1, caption=Original source code.]
+void gs_fletcher16_update(gs_fletcher16_t * f16, const void * data_in, size_t size)
+{
+    if (f16 && data_in && size) {
+        const uint8_t * data = data_in;
+        for (unsigned int idx = 0; idx < size; ++idx) {
+            f16->sum1 = (uint16_t)((f16->sum1 + (*data++)) % 255);
+            f16->sum2 = (uint16_t)((f16->sum2 + f16->sum1) % 255);
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, label=live_1, caption=Mutant source code.]
+void gs_fletcher16_update(gs_fletcher16_t * f16, const void * data_in, size_t size)
+{
+    if (f16) { // first and second operand deleted
+        const uint8_t * data = data_in;
+        for (unsigned int idx = 0; idx < size; ++idx) {
+            f16->sum1 = (uint16_t)((f16->sum1 + (*data++)) % 255);
+            f16->sum2 = (uint16_t)((f16->sum2 + f16->sum1) % 255);
+        }
+    }
+}
+\end{lstlisting}
+
+
+\EMPH{Action Item 2}{It seems that the test cases are not verifying a scenario in which both parameters \texttt{f16} and \texttt{data} are null. Maybe you have done it through code inspection; however, this may lead to regressions faults not being detected by the test suite in the future (e.g., you modify the code and remove the null check). It is advisable to have such test cases in the unit test suite.}
+
+
+\subsubsection{Live Mutant \#2}
+
+\begin{itemize}
+\item \textbf{Source file:} \texttt{src/watchdog/monitor\_task.c}
+\item \textbf{Mutant ID:} \url{monitor_task.mut.57.1_1_11.LOD.gs_swwd_monitor_task_stop}
+\end{itemize}
+
+\begin{lstlisting}[language=C, label=live_2, caption=Original source code.]
+gs_error_t gs_swwd_monitor_task_stop(uint32_t timeout_s)
+{
+    gs_swwd_monitor_task_t * monitor = gs_swwd_get_monitor_task();
+    GS_CHECK_SUPPORTED(monitor != NULL); /* SWWD must be initialized */
+ 
+    /* Signal the task to stop */
+    monitor->do_stop = true;
+ 
+    /* Wait for the task to stop */                                                                                                  
+    const uint32_t timeout = GS_SWWD_CHECK_INTERVAL_MS + (timeout_s * 1000);
+    uint32_t tm = 0;
+    while(monitor->is_running && (tm < timeout)) {
+        gs_thread_sleep_ms(100);
+        tm += 100;
+    }
+ 
+    if (monitor->is_running) {
+        return GS_ERROR_BUSY;
+    }
+ 
+    return GS_OK;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, label=live_2, caption=Mutant source code.]
+gs_error_t gs_swwd_monitor_task_stop(uint32_t timeout_s)
+{
+    gs_swwd_monitor_task_t * monitor = gs_swwd_get_monitor_task();
+    GS_CHECK_SUPPORTED(monitor != NULL); /* SWWD must be initialized */
+ 
+    /* Signal the task to stop */
+    monitor->do_stop = true;
+ 
+    /* Wait for the task to stop */                                                                                                  
+    const uint32_t timeout = GS_SWWD_CHECK_INTERVAL_MS + (timeout_s * 1000);
+    uint32_t tm = 0;
+    while( (tm < timeout)) { // first while operator deleted
+        gs_thread_sleep_ms(100);
+        tm += 100;
+    }
+ 
+    if (monitor->is_running) {
+        return GS_ERROR_BUSY;
+    }
+ 
+    return GS_OK;
+}
+\end{lstlisting}
+
+
+\EMPH{Action Item 3}{It seems that you are not testing the execution of stop when the monitor is not running.}
+
+\subsubsection{Live Mutant \#3}
+
+\begin{itemize}
+\item \textbf{Source file:} \texttt{src/clock.c}
+\item \textbf{Mutant ID:} \url{clock.mut.88.2_1_31.LCR.gs_clock_from_string}
+\end{itemize}
+
+\begin{lstlisting}[language=C, label=live_3, caption=Original source code.]
+#if !__AVR__
+    // check for ISO8601
+    {
+        struct tm tm;
+        memset(&tm, 0, sizeof(tm)); // no daylight saving
+        //int res = sscanf(str, "%" SCNd32 "-%" SCNd32 "-%" SCNd32 "T%" SCNd32 ":%" SCNd32 ":%" SCNd32 "Z",
+        int res = sscanf(str, "%d-%d-%dT%d:%d:%dZ",
+                         &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
+                         &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+        if ((res == 6) &&
+            (tm.tm_year >= 1970) && (tm.tm_year <= 2038) &&
+            (tm.tm_mon >= 1) && (tm.tm_mon <= 12) &&
+            (tm.tm_mday >= 1) && (tm.tm_mday <= 31) &&
+            (tm.tm_hour >= 0) && (tm.tm_hour <= 23) &&
+            (tm.tm_min >= 0) && (tm.tm_min <= 59) &&
+            (tm.tm_sec >= 0) && (tm.tm_sec <= 60))
+        {
+            tm.tm_year -= 1900;
+            tm.tm_mon -= 1;
+ 
+#if __linux__
+            // not posix compliant
+            time_t sec = timegm(&tm);
+#else
+            // embedded platforms do not have timezones/daylight-saving - so standard mktime works
+            time_t sec = mktime(&tm);
+#endif
+            if (sec >= 0) {
+                ts->tv_sec = (uint32_t) sec;
+                ts->tv_nsec = 0;
+                return GS_OK;
+            }
+        }
+    }
+#endif
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, label=live_3, caption=Mutant source code.]
+#if !__AVR__
+    // check for ISO8601
+    {
+        struct tm tm;
+        memset(&tm, 0, sizeof(tm)); // no daylight saving
+        //int res = sscanf(str, "%" SCNd32 "-%" SCNd32 "-%" SCNd32 "T%" SCNd32 ":%" SCNd32 ":%" SCNd32 "Z",
+        int res = sscanf(str, "%d-%d-%dT%d:%d:%dZ",
+                         &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
+                         &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+        if ((res == 6) &&
+            (tm.tm_year >= 1970) && (tm.tm_year <= 2038) &&
+            (tm.tm_mon >= 1) && (tm.tm_mon <= 12) &&
+            (tm.tm_mday >= 1) || (tm.tm_mday <= 31) && // '&&'' replaced by a '||'
+            (tm.tm_hour >= 0) && (tm.tm_hour <= 23) &&
+            (tm.tm_min >= 0) && (tm.tm_min <= 59) &&
+            (tm.tm_sec >= 0) && (tm.tm_sec <= 60))
+        {
+            tm.tm_year -= 1900;
+            tm.tm_mon -= 1;
+ 
+#if __linux__
+            // not posix compliant
+            time_t sec = timegm(&tm);
+#else
+            // embedded platforms do not have timezones/daylight-saving - so standard mktime works
+            time_t sec = mktime(&tm);
+#endif
+            if (sec >= 0) {
+                ts->tv_sec = (uint32_t) sec;
+                ts->tv_nsec = 0;
+                return GS_OK;
+            }
+        }
+    }
+#endif
+\end{lstlisting}
+
+
+\EMPH{Action Item 4}{This mutant shows that you do not verify the result returned by the function when the \texttt{day} field of the date contains a value higher than 31.}
+
+
+\subsubsection{Live Mutant \#4}
+
+\begin{itemize}
+\item \textbf{Source file:} \texttt{src/error.c}
+\item \textbf{Mutant ID:} \url{error.mut.61.1_1_5.SDL.gs_error_string}
+\end{itemize}
+
+\begin{lstlisting}[language=C, label=live_4, caption=Original source code.]
+const char * gs_error_string(int error)
+{
+    switch (error) {
+        case GS_OK: return "GS_OK(0)";
+        case GS_ERROR_PERM: return GS_DEF2STRING(GS_ERROR_PERM) "(-1)";
+        case GS_ERROR_INTR: return GS_DEF2STRING(GS_ERROR_INTR) "(-4)";
+            ...
+        case GS_ERROR_AMBIGUOUS: return GS_DEF2STRING(GS_ERROR_AMBIGUOUS) "(-2009)";
+        case GS_ERROR_STATE: return GS_DEF2STRING(GS_ERROR_STATE) "(-2010)";
+    }
+    
+    // as fallback we use standard POSIX error string
+    const int posix_error = abs(error);
+    return strerror(posix_error);
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, label=live_4, caption=Mutant source code.]
+const char * gs_error_string(int error)
+{
+    switch (error) {
+        case GS_OK: return "GS_OK(0)";
+        case GS_ERROR_PERM: return GS_DEF2STRING(GS_ERROR_PERM) "(-1)";
+        case GS_ERROR_INTR: return GS_DEF2STRING(GS_ERROR_INTR) "(-4)";
+            ...
+        case GS_ERROR_AMBIGUOUS: return GS_DEF2STRING(GS_ERROR_AMBIGUOUS) "(-2009)";
+        case GS_ERROR_STATE: return GS_DEF2STRING(GS_ERROR_STATE) "(-2010)";
+    }
+   
+    // as fallback we use standard POSIX error string
+    const int posix_error = abs(error);
+    ; // return statement deleted
+}
+\end{lstlisting}
+
+
+\EMPH{Action Item 5}{This mutant shows that the return string of the function \texttt{gs\_error\_string} is never checked, maybe because it is used only in logging functions.}
+
+\subsubsection{Live Mutant \#5}
+
+\begin{itemize}
+\item \textbf{Source file:} \texttt{src/string.c}
+\item \textbf{Mutant ID:} \url{string.mut.151.2_1_28.LCR.gs_string_to_uint32}
+\end{itemize}
+
+\begin{lstlisting}[language=C, label=live_5, caption=Original source code.]
+ // check for hexadecimal notation
+if ((string[0] == '0') && ((string[1] == 'x') || (string[1] == 'X')))                                                             
+{
+    base = 16;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, label=live_5, caption=Mutant source code.]
+// check for hexadecimal notation
+if ((string[0] == '0') || ((string[1] == 'x') || (string[1] == 'X')))                                                              
+{
+    base = 16;
+}
+\end{lstlisting}
+
+
+\EMPH{Action Item 6}{To cover the mutant, the solution would be to add the following assertion in the test case \texttt{TEST\_gs\_log\_string\_to\_mask}: 
+\begin{lstlisting}[language=C, label=assertion]
+GS_ASSERT_ERROR_EQUAL(gs_log_string_to_mask("012", 0xff, &new_mask), GS_ERROR_DATA);
+\end{lstlisting}
+
+But the assertion fails, because the original GSL code returns a \texttt{GS\_OK} code. Is this a bug or an expected behaviour?
+}
+
+
+
+
+% \DONE{Report the mutants that we have already shared with them. Avoid duplicate ones.}

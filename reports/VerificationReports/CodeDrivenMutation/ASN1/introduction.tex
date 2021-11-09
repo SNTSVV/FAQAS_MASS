@@ -1,0 +1,28 @@
+% !TEX root = MAIN.tex
+
+\chapter{Executive Summary}
+
+This document is a report on the assessment of the ASN.1 test suite quality based on code-driven mutation testing via MASS and SEMuS. The source code that we analyzed was the auto-generated source code by the ASN.1 compiler, rather than in ASN1SCC software itself. On this analysis, we used ASN1SCC commit \texttt{b971b12ecbe4d07e9c86e8b330bb34f8d6d203fc}. For the given grammar, the size of the auto-generated source code is 4\,338 LOC. While the unit test suite consists of 107 auto-generated test cases.
+
+We performed the analyses with MASS and SEMuS; MASS is a mutation analysis tool for space software, while SEMuS is a test suite augmentation tool based on mutation testing. Both tools has been developed within the context of the FAQAS project.
+
+We provide in this report (1) the configuration we used to setup our toolset with ASN.1 (2) the results of the code-driven mutation analysis process, (3) information about the test cases generated based on mutation testing, and the (4) set of mutants not killed by the approach.
+
+
+% \section{Applicable and reference documents}
+
+% \begin{itemize}
+% \end{itemize}
+
+\chapter{Terms, definitions and abbreviated terms}
+
+\begin{itemize}
+\item{FAQAS}: activity ITT-1-9873-ESA.
+\item{FAQAS-framework}: software system to be released at the end of WP4 of FAQAS.
+\item{MASS}: Toolset for Mutation Analysis for Space Software.
+\item{SEMuS}: Toolset for Mutation Testing for Space Software.
+\item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+
+\end{itemize}
+
+\clearpage

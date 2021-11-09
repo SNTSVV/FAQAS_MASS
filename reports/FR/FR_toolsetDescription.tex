@@ -1,0 +1,139 @@
+% !TEX root = MAIN.tex
+
+\chapter{Toolset Package}
+\label{ch:toolset}
+This Chapter presents an overview of the structure of the tools delivered with the \FAQAS toolset.
+Below, we report the content of folder hierarchy for each tool package. The source code of each tool is available 
+in the FAQAS gitlab repository at \url{https://gitrepos.estec.esa.int/external/FAQAS}.
+The issue tracker of the whole project is available at \url{https://gitrepos.estec.esa.int /external/FAQAS/-/issues}. 
+
+\begin{itemize}
+	\item \texttt{MASS/}
+	\begin{itemize}
+		\item \texttt{SRCMutation/}: contains the source files of the component that performs code-driven mutations.
+		\item \texttt{llvm-build.sh}: build script that compiles the SRCMutation component
+		\item \texttt{PythonWrappers/}: contains Python script wrappers that facilitate code-driven mutations.
+		\item \texttt{MASS/}: contains all the executable files and scripts that implement the methodology for code-driven mutation testing supported by  the FAQAS-Framework. They are listed below.
+		\begin{itemize}
+			\item \texttt{FAQAS-Setup}: contains the necessary Bash scripts to install the FAQAS-Framework.
+			\item \texttt{FAQAS-GenerateCodeCoverageMatrixes}: contains the Bash scripts providing procedures to collect code coverage from the SUT.
+			\item \texttt{FAQAS-GenerateMutants}: contains a Bash script that invokes the \texttt{SRCMutation} component to generate mutants.
+			\item \texttt{FAQAS-CompileOptimizedMutants}: contains the scripts (in Python and Bash)  that provide the procedures to compile mutants and filter equivalent and redundant mutants based on trivial compiler optimizations.
+			\item \texttt{FAQAS-CompileAndExecuteMutants}
+			\begin{itemize}
+				\item \texttt{FAQAS-GeneratePrioritizedTestSuite}: contains the Python and Bash scripts that provide the procedures to generate prioritized and reduced test suites from the SUT.
+
+				\item \texttt{FAQAS-CompileAndExecute}: contains the Python and Bash scripts that provide the procedures to compile and execute the mutants against the SUT test suite. It also provides the procedures to determine the mutation stopping criterion (i.e., mutant sampling).
+
+				\item \texttt{FAQAS-IdentifyEquivalentAndRedundantMutants}: contains the Python and Bash scripts that provides the procedures to identify equivalent mutants based on code coverage.
+			\end{itemize}
+			\item \texttt{FAQAS-MutationScore}: contains the Python and Bash scripts that provide the procedures to compute the mutation score and provide summarized information about the code-driven mutation testing process.
+		\end{itemize}
+	\end{itemize}
+
+\REVOCT{P-02}{	\item \texttt{DAMAt/}
+\begin{itemize}%1
+	\item \texttt{damat\_pipeline}
+	\begin{itemize}%2
+		\item \texttt{DAMAt\_configure.sh}: this script defines the necessary variables for the execution of \DAMA. They shall be set by the engineer.
+		\item \texttt{DAMAt\_probe\_generation.sh}: this script set the variables necessary to generate the data mutation API and execute the python script \texttt{generateDataMutator.py} to generate them.
+		\item \texttt{DAMAt\_mutants\_launcher.sh}: this script starts the \DAMA pipeline.
+		\item \texttt{generateDataMutator.py}: this is the script that generates the \DAMA mutation API.
+		\item \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c}: these are templates used to generate the \DAMA API by \texttt{generateDataMutator.py}
+		\item \texttt{DAMAt\_compile.sh}: this is a stub of the script used to compile a mutant, which shall be completed by the engineer.
+		\item \texttt{DAMAt\_run\_tests.sh}: this is a stub of the script used to run the tests, which shall be completed by the engineer.
+		\item \texttt{data\_analysis}: a folder containing five python scripts used for the generation of the final results:
+		\begin{itemize}%3
+			\item \texttt{beautify\_results.py}: this script renders the raw results from the execution of the tests in a more readable format.
+			\item \texttt{get\_coverage.py}: this script analizes the results of the fault model coverage.
+			\item \texttt{get\_operator\_coverage.py}: this script analizes the results of the operator coverage.
+			\item \texttt{get\_stats.py}: this script produces statistics from the mutants' execution.
+			\item \texttt{get\_final\_results.py}: this script produces a summary of the execution of \DAMA.
+		\end{itemize}%3 end
+		\item \texttt{pipeline\_scripts}: a folder containing the four scripts that make up the \DAMA pipeline:
+		\begin{itemize}%3
+			\item \texttt{DAMAt\_obtain\_coverage.sh}: this script obtains fault model coverage data in order to execute only the tests that cover each mutant.
+			\item \texttt{get\_mutant\_test\_list.py}: this script produces the list of test against which avery mutant shall be executed.
+			\item \texttt{DAMAt\_compile\_and\_run\_mutants.sh}: this scripts compile each mutant and run it against the SUT test suite.
+			\item \texttt{DAMAt\_data\_analysis.sh}: this script executes all the data analysis steps at the end of the execution of the \DAMA pipeline
+		\end{itemize}%3 end
+		\item \texttt{fault\_model.csv}: an example of a \DAMA fault model in csv format.
+		\item \texttt{tests.csv }: an example of list of test cases and nominal times in csv format.
+		\item \texttt{automated\_probe\_insertion}: this folder contains the necessary scripts for automating the probe insertion.
+		\begin{itemize}
+			\item \texttt{DAMAt\_probe\_insertion.sh}: this script backups the file to instrument and then executes \texttt{DAMAt\_insert\_probes.py}.
+			\item \texttt{DAMAt\_insert\_probes.py}: this script replaces specific comments in the file to instrument with the mutation probes.
+			\item \texttt{DAMAt\_probe\_removal.sh}: this script restores the original file from the template.
+			\item \texttt{DAMAt\_insertion\_test.sh}: this script runs the test cases for the automated probe insertion procedure.
+			\item \texttt{test\_files}: this folder contains the necessary files for executing the test cases.
+		\end{itemize}
+	\end{itemize}%2 end
+	\item \texttt{mutator}: contains the testing environment for the \DAMA API.
+	\begin{itemize}% 2
+		\item \texttt{src}: contains the source code of the unit tests for \DAMA and the script for launching them.
+		\begin{itemize}% 3
+			\item \texttt{runTests.sh}: this script execute all the unit test cases.
+			\item \texttt{cleanTests.sh}: this script clean the results of previous tests.
+			\item \texttt{tests}: this folder contains the source code for the unit test cases.
+			\item \texttt{generateDataMutator.py}: this is the script that generates the \DAMA mutation API.
+			\item \texttt{DDB\_TEMPLATE\_header.c} and \texttt{DDB\_TEMPLATE\_footer.c}: these are templates used to generate the \DAMA API by \texttt{generateDataMutator.py}.
+			\item \texttt{CoverageReportHeader.csv}: contains a template used by \texttt{FMcoverage.py} and \texttt{FMcoverage2.py}.
+			\item \texttt{getCoverage.sh}, \texttt{FMcoverage.py} and \texttt{FMcoverage2.py}: these scripts evaluate the coverage when requested by a unit test.
+			\item \texttt{executeTest.sh}, \texttt{executeTest\_gcc.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute the unit tests.
+			\item \texttt{executeTestCoverage.sh}, \texttt{executeTestCoverage2.sh} and  \texttt{execute}\texttt{Test}
+			\texttt{Coverage}\texttt{\_gcc.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute the unit tests and evaluate the Fault Model coverage.
+			\item \texttt{executeTestJustOnce.sh} and \texttt{executeTestProbability.sh}: these scripts are used by \texttt{runTests.sh} to compile and execute unit tests that need particular compilation macros enabled.
+		\end{itemize}% end 3
+	\end{itemize}% end 2
+\end{itemize}% end 1
+}
+
+  \item \texttt{SEMuS/}
+  \begin{itemize}
+    \item \texttt{underlying\_test\_generation/}: contains the source files of the component that invokes KLEE-SEMu.
+    \item \texttt{pre\_semu/}: contains the source files of the component that prepares the meta-mutant file to be processed by KLEE-SEMu.
+    \item \texttt{ktest\_to\_unittest/}: contains the source files that implements the component that parses the output of KLEE (i.e., KLEE tests) and converts it to readable C unit test cases.
+    \item \texttt{case\_studies/}: contains the configuration files, SUT source codes, and SEMuS launchers for the case studies ASN.1 and MLFS.
+    \begin{itemize}
+      \item \texttt{scripts/}: contains the configuration files and launchers of the case study.
+      \item \texttt{util\_codes/}: folder containing the generated test templates for the case study.
+      \item \texttt{WORKSPACE/}: folder containing the SUT source code and list of live mutants.
+    \end{itemize}
+    \item \texttt{Dockerfile}: text document file that contains all the commands necessary to build a Docker container with all the dependencies of SEMuS.
+    \item \texttt{cd\_semu\_docker.sh}: bash script that automates the execution of the toolset through the use of Docker.
+    \item \texttt{install\_requirements.sh}: build script that installs SEMuS' requirements.
+    \item \texttt{requirements.txt}: list of Python packages to be parsed by \texttt{install\_requirements.sh}.
+  \end{itemize}
+\end{itemize}
+
+The following ECSS compliant documentation has been delivered with the software. The documentation is available on the FAQAS gitlab as well.
+
+\begin{itemize}
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-IRD}: Software Interface Requirements Document.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SCF}: Software Configuration File.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SDD}: Software Design Document.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SPAP}: Software Product Assurance and Planning.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SRelD}: Software Release Document.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SRF}: Software Reuse File
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SSS}: Software System Specification.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SUM}: Software User Manual.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SUTP}: Software Unit Test Plan.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SUTR}: Software Unit Test Report
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SValR}: Software Validation Report.
+
+	\item \emph{ITT-1-9873-ESA-FAQAS-SVS}: Software Validation Specification.
+
+\end{itemize}
+
+The content and function of every specific document is summarized in Chapter~\ref{chap:deliverables_summary}.

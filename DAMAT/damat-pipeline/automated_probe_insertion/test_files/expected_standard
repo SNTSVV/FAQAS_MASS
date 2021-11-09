@@ -1,0 +1,13 @@
+#include "mutator.h"
+#include <stdio.h>
+int main() {
+
+  mutate_FM_Fm_1( v );
+
+   printf("Hello, World!");
+
+   mutate_FM_Fm_2( v );
+
+
+   return 0;
+}

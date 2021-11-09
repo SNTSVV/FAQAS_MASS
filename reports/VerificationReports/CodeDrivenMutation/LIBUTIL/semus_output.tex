@@ -1,0 +1,133 @@
+% !TEX root = MAIN.tex
+
+\chapter{Test Suite Augmentation Results}
+
+In this chapter, we report the outcome of the test suite augmentation process based on mutation testing with SEMuS. The purpose of this process is to increment the quality of the existing test suite by adding test cases that kill the mutants not identified in the mutation analysis process (see Chapter~\ref{mass_output}). 
+In a nutshell, SEMuS works by processing the SUT source code, together with the list of live mutants, and generates test inputs with the support of a symbolic execution search engine (i.e., KLEE~\cite{cadar2008klee}).
+
+\input{tables/not_processable}
+
+Concerning the use of SEMuS applied to Libutil, we identified a subset of files that cannot be processed by SEMuS, mainly because of limitations of the underlying test generation technique (i.e., symbolic execution). Particularly, we discarded source files processing I/O operations, and source files with external dependencies. The set of source files not processable by SEMuS is presented in Table~\ref{table:not_processable}.
+
+%Concerning Libutil, we first identify the source code to be analyzed. We perform this operation for two reasons, (1) because GomSpace defined a subset of source files that were not interesting for them, and (2) because there is a subset of source files that is not compatible with SEMuS (e.g., source files processing I/O operations, source files with external dependencies).  
+
+% \TODO{The list not of interest should go to the previous chapter}
+%Now, we list the files that could not be processed because of incompatibilities with the tool:
+
+\input{tables/processable}
+
+The list the source files processable by SEMuS are shown in Table~\ref{table:processable}.
+
+\DONE{Rephase the sentence below}
+These four Libutil sources led to 109 live mutants according to the mutation analysis process performed by MASS.
+
+
+%Within the list of live mutants produced by MASS, this four sources are equivalent to 109 mutants, which were correctly processed by SEMuS.
+
+\section{SEMuS Output}
+
+After applying SEMuS to the software artifact, we report in the following the metrics produced by the tool:
+
+\begin{itemize}
+	\item The total number of analyzed mutants is 109.
+	\item The total number of killed mutants is 30.
+	\item 45 out of 109 mutants are likely equivalent based on code coverage, this set was previously identified by MASS.
+	\item 33 out of 109 mutants shall be further inspected by the SUT engineer, since SEMuS was not able to generate a test input for them.
+	\item There were no timeouts during the test generation process.
+	\item \textbf{The total number of killed mutants increased to 4470 (i.e., 4440 + 30). The updated mutation score of Libutil is 86.71\%, an overall increment of 0.58\%.}
+\end{itemize}
+
+\DONE{What is the 'final mutation score'? We should define how it is computed.}
+
+Listing~\ref{lik_equiv} presents the list of 45 likely equivalent mutants based on code coverage.
+
+\begin{lstlisting}[language=bash, label=lik_equiv, caption=Likely equivalent mutants.]
+clock.mut.37.4_3_29.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.1_1_9.LOD.gs_clock_to_iso8601_string2
+clock.mut.40.2_4_10.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.1_2_10.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.4_2_14.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.5_3_14.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.2_1_16.ICR.gs_clock_to_iso8601_string2
+clock.mut.40.1_10_35.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.1_6_31.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.3_9_38.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.4_11_38.UOI.gs_clock_to_iso8601_string2
+clock.mut.41.4_4_22.AOR.gs_clock_to_iso8601_string2
+clock.mut.41.2_1_24.ICR.gs_clock_to_iso8601_string2
+clock.mut.60.2_3_14.LOD.gs_clock_from_string
+clock.mut.69.2_5_17.ROR.gs_clock_from_string
+clock.mut.80.1_2_21.ICR.gs_clock_from_string
+clock.mut.80.2_1_21.ICR.gs_clock_from_string
+clock.mut.85.2_5_18.ROR.gs_clock_from_string
+clock.mut.86.2_2_25.ROD.gs_clock_from_string
+clock.mut.86.3_5_28.ICR.gs_clock_from_string
+clock.mut.86.6_4_28.ICR.gs_clock_from_string
+clock.mut.86.5_3_28.ICR.gs_clock_from_string
+clock.mut.86.2_1_28.ICR.gs_clock_from_string
+clock.mut.86.1_6_28.ICR.gs_clock_from_string
+clock.mut.86.4_8_52.ICR.gs_clock_from_string
+clock.mut.87.2_2_24.ROD.gs_clock_from_string
+clock.mut.87.2_1_27.ICR.gs_clock_from_string
+clock.mut.87.3_2_27.ICR.gs_clock_from_string
+clock.mut.87.2_4_44.ROD.gs_clock_from_string
+clock.mut.87.4_5_47.ICR.gs_clock_from_string
+clock.mut.88.2_2_25.ROD.gs_clock_from_string
+clock.mut.88.3_2_28.ICR.gs_clock_from_string
+clock.mut.88.2_1_28.ICR.gs_clock_from_string
+clock.mut.88.2_4_46.ROD.gs_clock_from_string
+clock.mut.88.4_5_49.ICR.gs_clock_from_string
+clock.mut.89.2_1_28.ICR.gs_clock_from_string
+clock.mut.89.4_4_49.ICR.gs_clock_from_string
+clock.mut.90.2_1_27.ICR.gs_clock_from_string
+clock.mut.90.4_4_47.ICR.gs_clock_from_string
+clock.mut.91.2_1_27.ICR.gs_clock_from_string
+clock.mut.91.6_6_44.ROR.gs_clock_from_string
+clock.mut.91.4_4_47.ICR.gs_clock_from_string
+clock.mut.93.10_1_24.AOR.gs_clock_from_string
+clock.mut.103.2_1_24.ICR.gs_clock_from_string
+timestamp.mut.44.2_5_23.ROR.timestamp_ge
+\end{lstlisting}
+
+Instead, Listing~\ref{inspection} shows the list of 33 mutants for which SEMuS was not able to generate a test input that killed the mutant. Particularly, SEMuS could not find a test input to trigger an error on the C functions \texttt{sscanf} and \texttt{snprintf} used in clock.c.
+
+\begin{lstlisting}[language=bash, label=inspection, caption=Mutants to be manually inspected.]
+clock.mut.41.1_1_9.SDL.gs_clock_to_iso8601_string2
+clock.mut.80.1_1_9.SDL.gs_clock_from_string
+clock.mut.85.2_1_24.LCR.gs_clock_from_string
+clock.mut.85.1_11_13.LOD.gs_clock_from_string
+clock.mut.86.2_1_34.LOD.gs_clock_from_string
+clock.mut.86.2_1_34.LCR.gs_clock_from_string
+clock.mut.85.1_10_13.LOD.gs_clock_from_string
+clock.mut.86.2_2_58.LCR.gs_clock_from_string
+clock.mut.85.1_9_13.LOD.gs_clock_from_string
+clock.mut.87.2_1_30.LCR.gs_clock_from_string
+clock.mut.87.2_2_51.LCR.gs_clock_from_string
+clock.mut.85.1_8_13.LOD.gs_clock_from_string
+clock.mut.88.2_1_31.LCR.gs_clock_from_string
+clock.mut.85.1_7_13.LOD.gs_clock_from_string
+clock.mut.88.2_2_53.LCR.gs_clock_from_string
+clock.mut.88.2_2_53.LOD.gs_clock_from_string
+clock.mut.85.1_6_13.LOD.gs_clock_from_string
+clock.mut.85.1_5_13.LOD.gs_clock_from_string
+clock.mut.89.2_2_53.LCR.gs_clock_from_string
+clock.mut.85.1_4_13.LOD.gs_clock_from_string
+clock.mut.89.2_2_53.LOD.gs_clock_from_string
+clock.mut.85.1_3_13.LOD.gs_clock_from_string
+clock.mut.90.2_1_30.LCR.gs_clock_from_string
+clock.mut.90.2_1_30.LOD.gs_clock_from_string
+clock.mut.90.2_2_51.LCR.gs_clock_from_string
+clock.mut.90.2_2_51.LOD.gs_clock_from_string
+clock.mut.85.1_2_13.LOD.gs_clock_from_string
+clock.mut.85.1_1_13.LOD.gs_clock_from_string
+clock.mut.91.2_1_30.LCR.gs_clock_from_string
+clock.mut.85.2_2_18.ROD.gs_clock_from_string
+clock.mut.85.4_3_18.ROR.gs_clock_from_string
+clock.mut.86.1_1_14.ROD.gs_clock_from_string
+clock.mut.88.1_1_14.ROD.gs_clock_from_string
+\end{lstlisting}
+
+\EMPH{Action Item 7}{The SUT engineer shall manually inspect each of the 33 mutants presented in Listing~\ref{inspection}, and verify the reason why the Libutil test suite is not detecting them.}
+
+
+The test cases generated by SEMuS for the 30 mutants are presented in the Appendix~\ref{appendix}. Particularly, we provide the generated test case with its expected output.

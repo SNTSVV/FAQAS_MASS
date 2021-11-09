@@ -1,0 +1,88 @@
+% !TEX root = MAIN.tex
+
+\chapter{Configuration of the toolset}
+
+\section{Probe insertion}
+
+In the \case the mutation probes were inserted into the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
+
+\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method (i.e. a function that gathers and writes the necessary data) selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
+
+Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
+
+Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as a nominal response message, the response generated in the second case is an error response message.
+
+In both cases, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
+
+An example of this probe insertion strategy is reported in Listing~\ref{lst:probe_insertion}.
+
+\begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
+
+    if(Status->ADRD || ((cmdId == 1) && (subcmdId < 3)))
+    {
+        switch(cmdId)
+        {
+        case 1:
+        {
+            switch(subcmdId)
+            {
+            case 0:
+            {
+                cr = GetIfStatus(newBlock);
+
+                //MANUALLY INSERTED PROBES
+                if(cr != CR_Failure){
+
+      		        mutate_FM_IfStatus(&newBlock);
+
+                }
+                //END PROBES
+
+            }
+            break;
+
+\end{lstlisting}
+
+\section{Fault Model}
+We defined one Fault Model for every type of message exchanged by the ADCS and CSW (and consequently for every data generation method), based on the structure of the buffer and on the data contained in it.
+They are:
+\begin{itemize}
+\item SpaceCraftHK
+\item MagnetorquerSetPWMRSPFailure
+\item SSTP
+\item SunSensorTMFailure
+\item SunSensorTM
+\item GYTMFailure
+\item IfHK
+\item IfStatus
+\item SSTPFailure
+\item MagnetorquerSetPWMRSP
+\item GYTM
+\end{itemize}
+
+The Fault Models for the \case were defined in the \emph{.csv} file format; their content is reported in Table~\ref{tab:fault_model}.
+
+
+\input{tables/fault_model}
+
+% \TODO{What file? the fault model? Maybe we shall say that for more information the reader can refer to the SUM?}
+Every line of the fault model file represents a mutation operator, while every column represents a configuration parameter for that operator.
+
+\begin{itemize}
+  \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
+
+  \item Column \emph{DataItem} refers to the index of the first element of the targeted data item in the array representing the buffer.
+
+  \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
+
+  \item Column \emph{Type} reports about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
+
+  \item Column \emph{FaultClass} contains the type of fault that the mutation will emulate, depending on the chosen mutation operator. A summary of the mutation operators can be found in Table~\ref{tab:operators}.
+
+  \item The other columns represent configuration parameters and assume different meanings depending on the mutation operator they refer to. More details on the data-driven mutation operators and their configuration can be found in Table~\ref{tab:operators}.
+
+\end{itemize}
+
+\input{tables/operators}
+
+A mutation operator can generate one or more mutants performing a \emph{Mutation Operation}.
