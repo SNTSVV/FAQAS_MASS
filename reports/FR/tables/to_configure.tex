@@ -1,0 +1,29 @@
+% !TEX root =  ../MAIN.tex
+
+\begin{table}[tb]
+\footnotesize
+\centering
+\caption{\MASS minimal set of parameters to be configured.}
+\label{table:to_configure}
+\begin{tabular}{llp{7.5cm}}
+\hline
+\textbf{Script Name}  & \textbf{Parameter} &  \textbf{Description} \\
+\hline
+& BUILD\_SYSTEM &  Specifies the building system type.\\
+& PROJ &  Path of the SUT root  directory.\\
+& PROJ\_SRC &  Path of the SUT source directory.\\
+& PROJ\_TST &  Path of the SUT test  directory.\\
+& PROJ\_COV &  Path of the directory with SUT coverage information.\\
+& PROJ\_BUILD &  Path of the directory where the compiled binary is stored.\\
+& ORIGINAL\_MAKEFILE &  Path to the original build script.\\
+& COMPILATION\_CMD &  Compilation command of the SUT.\\
+& TCE\_COMPILE\_CMD &  Compilation command for TCE analysis.\\
+& PRIORITIZED &  Specifies whether \MASS should be executed with a prioritized test suite.\\
+& SAMPLING &  Specifies the mutant sampling technique.\\
+\hline
+PrepareSUT.sh & None &  Commands shall be provided manually.\\
+\hline
+mutation\_additional\_functions.sh & run\_tst\_case  &  Implementation of the Bash function run\_tst\_case that executes the test case passed as a parameter.\\
+\hline
+\end{tabular}
+\end{table}
