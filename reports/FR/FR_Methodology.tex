@@ -35,7 +35,7 @@ We focus on the fully automated tools, that is, MASS, DAMAt, and SEMuS.
 \section{Code-driven Mutation Analysis: MASS}
 \label{sec:meth:mass}
 
-Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite.  
+Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite.
 \STARTCHANGEDFINAL
 The step \emph{Improve Test Suite} is a manual task that shall be performed by the engineers, however the \emph{Augmented SUT Test Suite} and \emph{Previously Live Mutants} outputs are created automatically by our methodology.
 \ENDCHANGEDFINAL
@@ -131,7 +131,7 @@ An example of the \emph{MASS\_RESULTS} report is presented in Listing~\ref{mass_
 ## Maximum lines covered per source file: 138
 \end{lstlisting}
 
-The \emph{MASS\_RESULTS} report presented in Listing~\ref{mass_output} contains the following information: total mutants generated (line 3), total mutants filtered by compiler optimisations (line 4), used sampling type (line 5), total mutants analyzed (line 6), total killed mutants (line 7), total live mutants (line 8), total likely equivalent mutants (line 9), MASS mutation score (line 10), list A of useful live mutants (line 11), list B of useful live mutants (line 12), number of statements covered (line 13), statement coverage (line 14), minimum lines covered per source file (line 15), maximum lines covered per source file (line 16). 
+The \emph{MASS\_RESULTS} report presented in Listing~\ref{mass_output} contains the following information: total mutants generated (line 3), total mutants filtered by compiler optimisations (line 4), used sampling type (line 5), total mutants analyzed (line 6), total killed mutants (line 7), total live mutants (line 8), total likely equivalent mutants (line 9), MASS mutation score (line 10), list A of useful live mutants (line 11), list B of useful live mutants (line 12), number of statements covered (line 13), statement coverage (line 14), minimum lines covered per source file (line 15), maximum lines covered per source file (line 16).
 \ENDCHANGEDFINAL
 
 The next step is the \EMPH{improvement of the test suite}. This is performed by deriving test inputs that kill live mutants.
@@ -178,7 +178,6 @@ DAMAt shall be configure and applied following the procedures described in Secti
 
 The primary input for the DAMAt procedure is the fault model.
 The fault model is a \texttt{.csv} file, which must be written be the user.
-Every line of the file represents a mutation operator, while every column represents a configuration parameter.
 An example of the contents of the fault model file is represented in Listing~\ref{lst:fault_model_meth}
 
 \begin{lstlisting}[caption={Example of a DAMAt fault model, represented in a \texttt{.csv} file. },label={lst:fault_model_meth}]
@@ -206,7 +205,21 @@ REPLY,5,1,LONG,SS,NA,NA,NA,-1,NA,NA
 REPLY,6,1,BIN,BF,0,7,NA,NA,-1,1
 \end{lstlisting}
 
-More details on the data-driven mutation operators and their configuration can be found in Section~\ref{sec:damat}.
+Every line of the file represents a mutation operator, while every column represents a configuration parameter for that operator.
+
+\begin{itemize}
+  \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
+
+  \item Column \emph{DataItem} refers to the index of the first elemente of the targeted data item in the array representing the buffer.
+
+  \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
+
+  \item Column \emph{Type} reportts about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
+
+  \item Column \emph{FaultClass} contains the type of fault that the mutation will emulate.
+
+  \item The other columns represent configuration parameters and assume different meanings depending on the mutation operator they refer to. More details on the data-driven mutation operators and their configuration can be found in Section~\ref{sec:damat}.
+\end{itemize}
 
 There are some other variables that influence the behaviour of the DAMAt tool.
 They are contained in the file \texttt{DAMAt\_configure.sh}. The value of these variable shall be set by the user.
@@ -242,6 +255,11 @@ A low score in one of the metrics indicate one of following scenarios, repsectiv
 \item The mutation is performed but the test suite does not fail. It may depend on two reasons: (1) the test oracles are imprecise (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is notices (i.e., the scenarios exercised are insufficient).
 \end{enumerate}
 
+\STARTCHANGEDFINAL
+
+The latter, \emph{final\_mutants\_table.csv}, contains a list of all generated mutants, the definition of the mutation operator that generated them and their status. It can be useful to determine how to improve the test suite.
+
+An example of \emph{final\_mutants\_table.csv} is represented in Figure~\ref{fig:damat:example:result:table}.
 
  \begin{figure}[h]
 \begin{center}
@@ -251,7 +269,15 @@ A low score in one of the metrics indicate one of following scenarios, repsectiv
 \end{center}
 \end{figure}
 
-To determine how to improve the test suite, the engineer should look at the file \emph{final\_mutants\_table.csv}, which contains a summary of the results for each mutant. Figure~\ref{fig:damat:example:result:table} provides an excertp of the content of the cvs file generated for one of the case study subjects considered in our experiments, in tabular form. Column \emph{Status} reports about  the fault model coverage; indeed, mutants reported as \emph{NOT\_COVERED} indicate that the corresponding fault model is not covered by the test suite. Since we define a different fault model for each type of message exchanged by the software under test (e.g., each message may correspond to a different PUS command), the lack of coverage for a fault model indicates that a message type has not been exercised at all by the test suite. In practice this also means that the line of code where the mutation probe has been placed was not exercised.
+Every line in the table represents a different mutant.
+
+Column \emph{MutationOpt} contains a unique numerical identifier for each mutant.
+
+The columns from \emph{FaultModel} to \emph{Value} contain the definition of the mutation operator that generated the mutant.
+
+\ENDCHANGEDFINAL
+
+Column \emph{Status} reports about  the fault model coverage; indeed, mutants reported as \emph{NOT\_COVERED} indicate that the corresponding fault model is not covered by the test suite. Since we define a different fault model for each type of message exchanged by the software under test (e.g., each message may correspond to a different PUS command), the lack of coverage for a fault model indicates that a message type has not been exercised at all by the test suite. In practice this also means that the line of code where the mutation probe has been placed was not exercised.
 To address such shortcoming, the the engineer shall define a test case that makes the SUT send that particular message type (or receive that particular message type).
 
 The column named \emph{application} reports about the \emph{mutation operation coverage}. By looking at the mutants defined as \emph{NOT\_APPLIED} the engineer can determine if some input partitions (i.e., some subsets of the input range) had not been exercised by the test suite. Table~\ref{table:damat:interpretation} describes how to interpret the result reported in the Application column, for each type of mutant.
