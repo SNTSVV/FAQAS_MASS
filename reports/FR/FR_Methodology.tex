@@ -35,7 +35,11 @@ We focus on the fully automated tools, that is, MASS, DAMAt, and SEMuS.
 \section{Code-driven Mutation Analysis: MASS}
 \label{sec:meth:mass}
 
-Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite. Also, we added the step \EMPH{Configure MASS} (i.e., \emph{Step 0}) to show the main configuration choices to be made by the engineer before running mutation analysis.
+Code-driven Mutation Analysis shall be performed by applying the MASS toolset following the setup procedures described in the SUM. Figure~\ref{fig:MASS} provides an overview of the MASS workflow as presented in Section~\ref{sec:approach}. In addition it provides additional blocks, draw with dotted lines, showing how the MASS output might be used to improve the test suite.  
+\STARTCHANGEDFINAL
+The step \emph{Improve Test Suite} is a manual task that shall be performed by the engineers, however the \emph{Augmented SUT Test Suite} and \emph{Previously Live Mutants} outputs are created automatically by our methodology.
+\ENDCHANGEDFINAL
+Also, we added the step \EMPH{Configure MASS} (i.e., \emph{Step 0}) to show the main configuration choices to be made by the engineer before running mutation analysis.
 
 To run MASS, at a high-level, the engineer needs to make the following choices
 \begin{itemize}
