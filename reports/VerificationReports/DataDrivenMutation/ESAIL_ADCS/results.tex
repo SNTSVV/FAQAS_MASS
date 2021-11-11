@@ -1,0 +1,30 @@
+% !TEX root = MAIN.tex
+
+\chapter{Results}
+
+\section{Metrics}
+
+Starting from the Fault Model represented in Table~\ref{tab:fault_model}, \DAMA generated 666 mutants. The mutated version of the program were executed against the \case test suite.
+
+The results were expressed with the following three metrics:
+\begin{enumerate}
+\item Fault model coverage, the percentage of fault models covered by the test suite.
+\item Mutation operation coverage, the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
+\item Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
+\end{enumerate}
+
+
+A low score in one of the metrics indicate one of following scenarios, repsectively:
+\begin{enumerate}
+\item The message type targeted by a fault model is never exercised.
+\item The message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that not all the input partitions are exercised by the test suite.
+\item The mutation is performed but the test suite does not fail. It may depend on two reasons: (1) the test oracles are imprecise (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is notices (i.e., the scenarios exercised are insufficient).
+\end{enumerate}
+
+The results for the \case are reported in Table~
+
+\section{Uncovered Fault Models}
+
+\section{Uncovered Mutants}
+
+\section{Live Mutants}
