@@ -22,7 +22,7 @@ FAQAS led to the development of a toolset that includes the following components
 The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolsets.
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files.
-MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that do not lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
+MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
 SEMuS takes as input the list of live mutants detected by MASS and aims to generate test cases that kill them. After the
  execution of SEMuS, engineers have a set of additional test cases to be integrated into the SUT test suite and a list of live mutants (i.e., mutants for which SEMuS was not able to identify test inputs killing them). Live mutants shall be manually inspected by engineers to either determine if they are equivalent mutants or to manually derive a test input killing them.
  DAMAt generates as output a set of killed mutants (i.e., mutants that, during testing, successfully alter the data, and lead to test case failures), a set of live mutants (i.e., mutants that, during testing, successfully alter the data, but do not lead to test case failures), and a set of not executed mutants (i.e., mutants that, during testing, could not alter any data because the data they target is never exercised by the SUT); also, it provides information useful to draft a verification report, which includes the fault model coverage, the mutation operation coverage, and the mutation score.
@@ -230,7 +230,7 @@ DAMAt shall be configured and applied following the procedures described in Sect
 
 The primary input for the DAMAt procedure is the fault model.
 The fault model is a \texttt{.csv} file, which must be written be the user.
-An example of the contents of the fault model file is represented in Listing~\ref{lst:fault_model_meth}
+An example of the contents of the fault model file is provided in Listing~\ref{lst:fault_model_meth}
 
 \begin{lstlisting}[caption={Example of a DAMAt fault model, represented in a \texttt{.csv} file. },label={lst:fault_model_meth}]
 FaultModel,DataItem,Span,Type,FaultClass,Min,Max,Threshold,Delta,State,Value

@@ -46,7 +46,7 @@
 %% Fonts used in the template cannot be substituted; margin
 %% adjustments are not allowed.
 
-
+%\usepackage{lastpage}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{booktabs}
@@ -258,9 +258,11 @@
 %\renewcommand{\,}{$^{\cdot}$}
 
 %%%% Title
-\newcommand{\titleone}{\textsf{FR}}
-\newcommand{\titletwo}{\textsf{Final Report}}
-\newcommand{\titlethree}{\textsf{}}
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-ESR}
+\newcommand{\titleone}{Applicability of Mutation Testing to Flight Software}
+\newcommand{\titletwo}{\textsf{Activity ID: FAQAS}}
+\newcommand{\titlethree}{\textsf{Executive Summary Report} (ESR)}
+
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
@@ -361,7 +363,19 @@
 %% allowing the author to define a "short title" to be used in page headers.
 \title[]{Applicability of Mutation Testing Method for Flight Software: Fault-based, Automated Quality Assurance Assessment for Space Software (FAQAS)}
 \renewcommand{\shortauthors}{}
-\pagenumbering{gobble}
+%\pagenumbering{gobble}
+\pagenumbering{arabic}
+
+
+\fancyhf{}
+
+
+\renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
+\lfoot{\fancyplain{}{\textit{\DOCUMENTID}}}
+\rhead{\fancyplain{}{\rightmark }}
+
+
+\rfoot{Page \thepage \hspace{1pt} of \ref{TotPages}}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -479,7 +493,9 @@
 %%
 %% This command processes the author and affiliation and title
 %% information and builds the first part of the formatted document.
-\maketitle
+%\maketitle
+
+\include{titlepage}
 
 \input{FR_introduction}
 
