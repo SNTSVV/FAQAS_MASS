@@ -4,9 +4,9 @@
 
 \section{Probe insertion}
 
-In the \case the mutation probes were inserterted in the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
+In the \case the mutation probes were inserted in the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
 
-\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
+\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method (i.e. a function that gathers and writes the necessary data) selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
 
 Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
 
@@ -44,8 +44,24 @@ An example of this probe insertion strategy is reported in Listing~\ref{lst:prob
 \end{lstlisting}
 
 \section{Fault Model}
+A different Fault Model was defined for every type of message (and consequently for every data generation method), based on the structure of the buffer and on the data contained in it.
+They are:
+\begin{itemize}
+\item SpaceCraftHK
+\item MagnetorquerSetPWMRSPFailure
+\item SSTP
+\item SunSensorTMFailure
+\item SunSensorTM
+\item GYTMFailure
+\item IfHK
+\item IfStatus
+\item SSTPFailure
+\item MagnetorquerSetPWMRSP
+\item GYTM
+\end{itemize}
 
-The Fault Model for the \case was defined in the \emph{.csv} file format. It is reported in Table~\ref{tab:fault_model}.
+The Fault Models for the \case were defined in the \emph{.csv} file format. It is reported in Table~\ref{tab:fault_model}.
+
 
 \input{tables/fault_model}
 
