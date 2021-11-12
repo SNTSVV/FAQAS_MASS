@@ -8,11 +8,11 @@ In the \case the mutation probes were inserterted in the function of the \emph{A
 
 \emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
 
-Each data generation method receive as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
+Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
 
-Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as nominal response message, the response generated in the second case is an error response message.
+Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as a nominal response message, the response generated in the second case is an error response message.
 
-In both cases a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
+In both cases, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
 
 An example of this probe insertion strategy is reported in Listing~\ref{lst:probe_insertion}.
 
@@ -54,7 +54,7 @@ Every line of the file represents a mutation operator, while every column repres
 \begin{itemize}
   \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
 
-  \item Column \emph{DataItem} refers to the index of the first elemente of the targeted data item in the array representing the buffer.
+  \item Column \emph{DataItem} refers to the index of the first element of the targeted data item in the array representing the buffer.
 
   \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
 

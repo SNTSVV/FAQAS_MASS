@@ -4,27 +4,98 @@
 
 \section{Metrics}
 
-Starting from the Fault Model represented in Table~\ref{tab:fault_model}, \DAMA generated 666 mutants. The mutated version of the program were executed against the \case test suite.
+Starting from the Fault Model represented in Table~\ref{tab:fault_model}, \DAMA generated 666 mutants. The mutated version of the program was executed against the \case test suite.
 
 The results were expressed with the following three metrics:
 \begin{enumerate}
-\item Fault model coverage, the percentage of fault models covered by the test suite.
-\item Mutation operation coverage, the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
-\item Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
+\item \textbf{FMC}: Fault model coverage, the percentage of fault models covered by the test suite.
+\item \textbf{MOC}: Mutation operation coverage, the percentage of data items that have been mutated at least once, considering only those that belong to the data buffers covered by the test suite.
+\item \textbf{MS}: Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
 \end{enumerate}
 
 
 A low score in one of the metrics indicate one of following scenarios, repsectively:
 \begin{enumerate}
-\item The message type targeted by a fault model is never exercised.
-\item The message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that not all the input partitions are exercised by the test suite.
-\item The mutation is performed but the test suite does not fail. It may depend on two reasons: (1) the test oracles are imprecise (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is notices (i.e., the scenarios exercised are insufficient).
+\item The \textbf{message type} targeted by a fault model is \textbf{never exercised}.
+\item The message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that \textbf{not all the input partitions} \textbf{are exercised} by the test suite.
+\item The mutation is performed but the test suite does not fail. It may depend on two reasons: (1) \textbf{the oracles are imprecise} (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is noticeable: \textbf{the scenarios exercised are insufficient}.
 \end{enumerate}
 
-The results for the \case are reported in Table~
+\input{tables/metrics}
+
+The aforementioned metrics for the \case are reported in Table~\ref{tab:metrics}
+
 
 \section{Uncovered Fault Models}
 
-\section{Uncovered Mutants}
+The \textbf{FMC} is \textbf{91.67\%}. There is \textbf{1} fault model that is not covered by the test suite of the \case.
+
+The uncovered Fault Model is \emph{MagnetorquerSetPWMRSP} (reported in Table~\ref{tab:fault_model} as \emph{M.SetPWMRSP}). This implies that the function implementing the mutation probe linked to this fault model has never been called during the execution of the test suite.
+
+This means that the code for that message type, reported in Listing~\ref{lst:not_covered}, was not covered.
+
+
+\begin{lstlisting}[language=C++, caption=Uncovered portion of source code, label={lst:not_covered}]
+
+case 8:
+{
+    switch(subcmdId)
+    {
+    case 0:
+    {
+        cr = SetMgtqPwm(newBlock);
+
+
+        //MANUALLY INSERTED PROBES
+        if(cr == CR_Failure){
+          mutate_FM_MagnetorquerSetPWMRSPFailure(&newBlock);
+        }
+
+        //END PROBE
+
+        if(cr == CR_Success)
+        {
+            if(newBlock[2] == 0x55)
+            {
+                // Bypass Magnetometer response
+                newBlock.resize(2);
+                cr = GetMgtqTm(newBlock);
+
+                //MANUALLY INSERTED PROBE
+                mutate_FM_MagnetorquerSetPWMRSP( &newBlock);
+                //END PROBE
+
+            }
+            else
+            {
+                cr = BuildMgtmDataRequestCmd(newBlock);
+                cr = GetMgtmTm(newBlock);
+            }
+        }
+    }
+    break;
+
+
+\end{lstlisting}
+
+\textbf{Suggested Action Item 1}: check the code coverage of the \emph{AdcsIf.c.} file and, if necessary, write a test case that exercises the missing message type.
+
+\section{Unapplied Mutants}
+
+The \emph{mutation operation coverage} was \textbf{75.00\%}. A total of \textbf{35} mutants were not applied: the function implementing the mutation probe was called, so the message type is covered by the test suite, but it was not possible to perform the corresponding mutation operation.
+The conditions for this are summarized in Table~\ref{tab:operators} for all the operators.
+The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the targeted data item.
+
+
+ \input{tables/not_applied}
+
+\textbf{Suggested Action Item 2}: check if the input partitions of the tests are covered for all the necessary scenarios.
 
 \section{Live Mutants}
+
+ The \emph{mutation score} was \textbf{42.85\%}. A total of \textbf{60} mutants were applied but not killed. This implies that the mutation was performed but it did not lead to failures in the test suite; this situation could be due to absent or not well-defined oracles, or to not properly exercised scenarios.
+ The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the targeted data item.
+
+\input{tables/live_mutants}
+
+\textbf{Suggested Action Item 2}: check if the oracles are well defined for all the data items targeted by these mutants and if the tests exercise all the necessary software states.
