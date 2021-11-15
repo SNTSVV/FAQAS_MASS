@@ -68,12 +68,13 @@ University of Luxembourg}
 
 %\chapter{}
 
-From spacecrafts to ground stations, software has a prominent role in space systems; for this reason, the success of space missions depends on the quality of the system hardware as much on the dependability of its software --- but, \textbf{how to systematically verify the quality of large test suites?} 
+From spacecrafts to ground stations, software has a prominent role in space systems; the success of space missions depends on the dependability of software but \textbf{how to systematically assess the quality of the large test suites used to verify such software?} 
 
 To address the question above, the FAQAS project consortium built an efficient toolset to 
-\textbf{measure} how a test suite detects faults automatically injected into the software system under test (SUT). Also, the FAQAS toolset automatically \textbf{generates new test cases} that discover faults missed by the original SUT test suite. The targeted SUT includes flight software and ground processing software.
+\textbf{measure} how a test suite detects faults that are automatically injected into the software system under test (SUT). Also, the FAQAS toolset automatically \textbf{generates new test cases} that discover faults missed by the original SUT test suite. The targeted SUTs include flight software and ground processing software.
 The FAQAS toolset can be used by software or ISVV suppliers to enhance their validation  \&  verification methodologies.
-The FAQAS consortium includes the \textbf{\emph{SnT Centre of the University of Luxembourg}}\footnote{https://wwwen.uni.lu/snt}, \textbf{\emph{Gomspace Luxembourg}}\footnote{https://gomspace.com/} (GSL) and \textbf{\emph{OHB Luxspace}}\footnote{https://luxspace.lu/} (LXS).
+It supports C/C++ software; it has been developed according to E40C/Q80C and released with ESA Community Licence Permissive\footnote{https://gitrepos.estec.esa.int/external/FAQAS/}.
+The FAQAS consortium includes the \textbf{\emph{SnT Centre of the University of Luxembourg}}\footnote{https://wwwen.uni.lu/snt}, \textbf{\emph{GOMspace Luxembourg}}\footnote{https://gomspace.com/} (GSL) and \textbf{\emph{OHB Luxspace}}\footnote{https://luxspace.lu/} (LXS).
 
 The FAQAS toolset includes 
 \textbf{\emph{MASS}} (Mutation Analysis for Space Software, TRL 5), 
@@ -91,7 +92,7 @@ It relies on fault models that specify how to mutate the data exchanged by SUT c
 DAMAt enables the simulation of faults that affect simulated components (e.g., sensors), which is not feasible with code-driven mutation analysis. 
 DAMAt reports the following test suites' pitfalls: message types never tested,
 mutants not applied (i.e., mutants that could not alter any data because the data they target was \textbf{erronously} never exercised by the SUT),
-live mutants (i.e., mutants that successfully alter the data but are not detected by the test suite because it lacks appropriate assertions or does not cover the required inputs).
+live mutants (i.e., mutants that successfully alter the data but are not detected by the test suite).
 % killed mutants (i.e., successfully alter the data, and lead to test case failures), the set of 
 %also, it provides information useful to draft a verification report, which includes the fault model coverage (i.e., percentage of fault models with at least one mutant applied), the mutation operation coverage (i.e., percentage of mutants applied), and the mutation score.
 
@@ -99,7 +100,8 @@ live mutants (i.e., mutants that successfully alter the data but are not detecte
 
 %SEMuS takes as input the list of live mutants detected by MASS. It generates a set of additional test cases that can be integrated into the SUT test suite. Also, it reports the list of killed mutants and the list of mutants that remain live (i.e., for which SEMuS did not generate a test case that kill them). Live mutants shall be manually inspected by engineers to either determine if they are equivalent or to manually derive a test case capable of killing them.
 
-\textbf{\emph{DAMTE}} is a manual procedure supported by an automated symbolic execution toolset; it automatically identifies the test inputs that make SUT components exchange the data targeted by data-driven mutation operators. The derived test inputs can then be manually integrated into the SUT test suite.
+\textbf{\emph{DAMTE}} is a manual procedure supported by an automated symbolic execution toolset; it automatically identifies the test inputs that make SUT components exchange the data targeted by data-driven mutation operators. 
+%The derived test inputs can then be manually integrated into the SUT test suite.
  
 The activity also included an extensive empirical evaluation demonstrating the feasibility, effectiveness, and scalability of the proposed toolsets in the space context. The toolset has been \textbf{\emph{positively evaluated}} by industry partners; indeed, it enabled the discovery of defects and proved to improve the quality of the development process.
 
