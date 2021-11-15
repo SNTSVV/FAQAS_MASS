@@ -8,6 +8,8 @@ In a nutshell, SEMuS works by processing the SUT source code, together with the 
 
 Concerning Libutil, we first identify the source code to be analyzed. We perform this operation for two reasons, (1) because GomSpace defined a subset of source files that were not interesting for them, and (2) because there is a subset of source files that is not compatible with SEMuS (e.g., source files processing I/O operations, source files with external dependencies).  
 
+\TODO{The list not of interest should go to the previous chapter}
+
 In the following, we list the files that were not of interest for GomSpace:
 
 \begin{itemize}
@@ -41,7 +43,7 @@ In the following, we list the files that were not of interest for GomSpace:
 \item src/zip/miniz/miniz.c
 \end{itemize}
 
-Now, we list the files that could not be processed because of incompatibilities of the tool:
+Now, we list the files that could not be processed because of incompatibilities with the tool:
 
 \begin{itemize}
 \item src/hexdump.c
@@ -74,6 +76,7 @@ Finally, we list the source files processed by SEMuS:
 \item src/error.c
 \end{itemize}
 
+\TODO{Rephase the sentence below}
 Within the list of live mutants produced by MASS, this four sources are equivalent to 109 mutants, which were correctly processed by SEMuS.
 
 \section{SEMuS Output}
@@ -87,6 +90,8 @@ After applying SEMuS to the artifact, we report in the following the metrics pro
 	\item There were not timeouts during the test generation process.
 	\item \textbf{The final mutation score of Libutil is 71.44\%.}
 \end{itemize}
+
+\TODO{What is the 'final mutation score'? We should define how it is computed.}
 
 Furthermore, we report the status of each processed mutant:
 
@@ -204,10 +209,16 @@ timestamp.mut.44.4_3_23.ROR.timestamp_ge.c;KILLED
 
 In the following sections, we provide the list of test cases that covers the 30 mutants killed for the sources \texttt{clock.c}, \texttt{timestamp.c}, \texttt{memory.c}, and \texttt{error.c}.
 
+\TODO{I would report the in an appendix. ALso, we should report both the test case and the oracles.}
+\TODO{You should explicitely indicate that engineers are supposed to verify if teh expected output is correct, if not, it means that the software is faulty}.
+\TODO{Did you check if the same input kills other mutants? We shall do it, so that we minimize the number of test cases reported}
+\TODO{What about the mutants for which SEMuS do not generate inputs but terminate? I would suggest to consider those mutants as likely equivalent and list them as such}
+\TODO{The mutants are not many, can we try to analyze them to draw conclusions about the quality of the test suite? For example, can you printout/grep the mutants for which we generated inputs so that we can understand if they are about boundary conditions? Does the nature of the mutation operator help us in this regard? We need to provide an evaluation of the test suite.}
+
 \newpage
 \subsection{Test Cases Generated for clock.c}
 
-In the following, we present the test cases that has been generated for the function \texttt{gs\_clock\_from\_string}.
+In the following, we present the test cases that have been generated for the function \texttt{gs\_clock\_from\_string}.
 
 \lstinputlisting{generated_test_cases/direct-src.clock/gs_clock_from_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
 

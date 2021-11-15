@@ -23,6 +23,7 @@ base->tv_nsec = 999999999
 
 The output above, which simply reflects the actual behavior of the implementation, show that the difference between zero (i.e, \emph{base = {tv\_sec= 0,tv\_nsec= 0};}) and one nanosecond  (i.e., \emph{diff = {tv\_sec= 0,tv\_nsec=1}})leads to a big integer (i.e., we observe an \EMPH{integer underflow}); instead, according to specifications, it should make the function return an error code (i.e., a value different than zero shall be assigned to \emph{result\_faqas\_semu} in the output above).
 
+\TODO{What is the action item? At least they should fix the software no?}
 
 \begin{lstlisting}[language=C, caption=Test case generated for Libutil., label=semus:testUtil]
 int main(int argc, char** argv)

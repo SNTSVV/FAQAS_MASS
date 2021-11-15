@@ -13,11 +13,14 @@ The results were expressed with the following three metrics:
 \item \textbf{MS}: Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
 \end{enumerate}
 
-
+\TODO{Why "low score" ? A score below 100\% indicates the presence of test suite shortcomings}
 A low score in one of the metrics indicate one of following scenarios, respectively:
 \begin{enumerate}
+\item \TODO{I think it should be 'one or more message types ...'}
 \item \textbf{Low score in FMC}: the \textbf{message type} targeted by a fault model is \textbf{never exercised}.
+\item \TODO{I think it should be 'for the message types covered by the test suite, not all the input part......'}
 \item \textbf{Low score in MOC}: the message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that \textbf{not all the input partitions} \textbf{are exercised} by the test suite.
+\item \TODO{'The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed).'}.
 \item \textbf{Low score in FMC}: the mutation is performed but the test suite does not fail. It may depend on two reasons: (1) \textbf{the oracles are imprecise} (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is noticeable: \textbf{the scenarios exercised are insufficient}.
 \end{enumerate}
 
@@ -77,7 +80,7 @@ case 8:
 
 \end{lstlisting}
 
-
+\TODO{I suggest to number action items, with latex it is possible to define a counter and increment it automatically in a macro}
 \textbf{Suggested Action Item}: check the code coverage of the \emph{AdcsIf.c.} file and, if necessary, write a test case that exercises the missing message type.
 
 \section{Mutation Operation Coverage}
@@ -93,6 +96,8 @@ The mutants are presented in Table~\ref{tab:not_applied}, which contains the def
 \section{Mutation Score}
 
  The \emph{mutation score} was \textbf{42.85\%}. A total of \textbf{60} mutants were applied but not killed. This implies that the mutation was performed but it did not lead to failures in the test suite; this situation could be due to absent or not well-defined oracles, or to not properly exercised scenarios.
- The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the \textbf{Suggested Action Item}.
+ These live mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the \textbf{Suggested Action Item}.
+ 
+ \TODO{For our paper, Oscar has performed an analysis on the assertions, can we leverage it to be more precise in our evaluaton? Is tehre anything from the LXS report that we can reuse?}
 
 \input{tables/live_mutants}
