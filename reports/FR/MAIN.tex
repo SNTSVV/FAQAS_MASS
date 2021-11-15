@@ -183,17 +183,10 @@
 
 %\renewcommand{\,}{$^{\cdot}$}
 
-% %%%% Title
-% \newcommand{\titleone}{\textsf{Applicability of Mutation Testing Method for Flight Software (FAQAS)}}
-% \newcommand{\titletwo}{\textsf{FR}}
-% \newcommand{\titlethree}{\textsf{Final Report}}
-
-%%%% NEW TEMPLATE %%%%
-\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-ESR}
-\newcommand{\titleone}{Applicability of Mutation Testing to Flight Software}
-\newcommand{\titletwo}{\textsf{(FR)}}
-\newcommand{\titlethree}{\textsf{Final Report} (FR)}
-%%%% NEW TEMPLATE END %%%%
+%%%% Title
+\newcommand{\titleone}{\textsf{Applicability of Mutation Testing Method for Flight Software}}
+\newcommand{\titletwo}{\textsf{(FAQAS)}}
+\newcommand{\titlethree}{\textsf{Final Report (FR)}}
 
 \newcommand{\todoinline}[1]{\todo[color=orange,inline]{ \textbf{TODO}: #1 }}
 
@@ -302,22 +295,6 @@
 
 \begin{document}
 
-%%%% NEW TEMPLATE %%%%
-%\pagenumbering{gobble}
-\pagenumbering{arabic}
-
-
-\fancyhf{}
-
-
-\renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
-\lfoot{\fancyplain{}{\textit{\DOCUMENTID}}}
-\rhead{\fancyplain{}{\rightmark }}
-
-
-\rfoot{Page \thepage \hspace{1pt} of \ref{TotPages}}
-%%%% NEW TEMPLATE END %%%%
-
 \pagestyle{fancy}
 \renewcommand{\sectionmark}[1]{\markright{\textit{#1}}}
 
@@ -332,7 +309,7 @@
 %\put(0,-4){\includegraphics[width=50pt]{logos/logo-snt}}
 %\end{picture}}}
 
-% \newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-FR}
+\newcommand{\DOCUMENTID}{ITT-1-9873-ESA-FAQAS-FR}
 \lhead{\fancyplain{}{\textit{\DOCUMENTID}}}
 \rhead{\fancyplain{}{\rightmark }}
 
