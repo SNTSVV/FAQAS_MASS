@@ -13,20 +13,20 @@ The results were expressed with the following three metrics:
 \item \textbf{MS}: Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
 \end{enumerate}
 
-\TODO{Why "low score" ? A score below 100\% indicates the presence of test suite shortcomings}
-A low score in one of the metrics indicate one of following scenarios, respectively:
+% \TODO{Why "low score" ? A score below 100\% indicates the presence of test suite shortcomings}
+A score below 100\% in one of the metrics indicate one of following scenarios, respectively:
 \begin{enumerate}
-\item \TODO{I think it should be 'one or more message types ...'}
-\item \textbf{Low score in FMC}: the \textbf{message type} targeted by a fault model is \textbf{never exercised}.
-\item \TODO{I think it should be 'for the message types covered by the test suite, not all the input part......'}
-\item \textbf{Low score in MOC}: the message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that \textbf{not all the input partitions} \textbf{are exercised} by the test suite.
-\item \TODO{'The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed).'}.
-\item \textbf{Low score in FMC}: the mutation is performed but the test suite does not fail. It may depend on two reasons: (1) \textbf{the oracles are imprecise} (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is noticeable: \textbf{the scenarios exercised are insufficient}.
+% \item \TODO{I think it should be 'one or more message types ...'}
+\item \textbf{FMC below 100\%}: one or more \textbf{message types} targeted by a fault model is \textbf{never exercised}.
+% \item \TODO{I think it should be 'for the message types covered by the test suite, not all the input part......'}
+\item \textbf{MOC below 100\%}: for the message types covered by the test suite, \textbf{not all the input partitions} \textbf{are exercised} by the test suite.
+% \item \TODO{'The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed).'}.
+\item \textbf{MS below 100\%}: The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed) It may depend on two reasons: (1) \textbf{the oracles are imprecise} (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is noticeable: \textbf{the scenarios exercised are insufficient}.
 \end{enumerate}
 
-The aforementioned metrics for the \case are reported in Table~\ref{tab:metrics}
+The aforementioned metrics for the \case are reported in Table~\ref{tab:metrics}.
 
-\TODO{Action item: the metrics above show that the test suite presents some potential shortcomings, please verift them according to the suggestions presented in teh following Sectons}
+\action The metrics in Table~\ref{tab:metrics}. show that the test suite presents some potential shortcomings, please verify them according to the suggestions presented in the following Sections.
 
 \input{tables/metrics}
 
@@ -82,16 +82,16 @@ case 8:
 
 \end{lstlisting}
 
-\TODO{I suggest to number action items, with latex it is possible to define a counter and increment it automatically in a macro}
-\textbf{Suggested Action Item}: check the code coverage of the \emph{AdcsIf.c.} file and, if necessary, write a test case that exercises the missing message type.
+% \TODO{I suggest to number action items, with latex it is possible to define a counter and increment it automatically in a macro}
+\action Check the code coverage of the \emph{AdcsIf.c.} file and, if necessary, write a test case that exercises the missing message type.
 
 \section{Mutation Operation Coverage}
 
 The \emph{mutation operation coverage} was \textbf{75.00\%}. A total of \textbf{35} mutants were not applied: the function implementing the mutation probe was called, so the message type is covered by the test suite, but it was not possible to perform the corresponding mutation operation.
 The conditions for this are summarized in Table~\ref{tab:operators} for all the operators.
-The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the \textbf{Suggested Action Item}.
+The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a suggestion on how to improve the test suite.
 
-\TODO{Action item: apply all the suggestions reported in Table~\ref{tab:not_applied}}.
+\action Apply the suggestions reported in Table~\ref{tab:not_applied}.
 
  \input{tables/not_applied}
 
@@ -99,8 +99,8 @@ The mutants are presented in Table~\ref{tab:not_applied}, which contains the def
 \section{Mutation Score}
 
  The \emph{mutation score} was \textbf{42.85\%}. A total of \textbf{60} mutants were applied but not killed. This implies that the mutation was performed but it did not lead to failures in the test suite; this situation could be due to absent or not well-defined oracles, or to not properly exercised scenarios.
- These live mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a description of the \textbf{Suggested Action Item}.
- 
- \TODO{For our paper, Oscar has performed an analysis on the assertions, can we leverage it to be more precise in our evaluaton? Is tehre anything from the LXS report that we can reuse?}
+ These live mutants are presented in Table~\ref{tab:live_mutants}, which contains the definition of the mutation operator that generated them and and a suggestion on how to improve the test suite.
+
+\action Apply the suggestions reported in Table~\ref{tab:live_mutants}.
 
 \input{tables/live_mutants}
