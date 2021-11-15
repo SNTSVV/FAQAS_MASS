@@ -54,7 +54,7 @@ University of Luxembourg}
 
 \setstaticcontents*{head}{\small\slshape\MakeUppercase{ESTEC Contract Number 4000128969/19/NL/AS}}
 
-\setstaticcontents*{title}{\Huge\slshape\MakeUppercase{FAQAS: Testing\\ mission-readiness\\ of test suites}}
+\setstaticcontents*{title}{\Huge\slshape\MakeUppercase{FAQAS:\\ Verifying and improving\\ test suites}}
 
 \setstaticcontents*{img}{\includegraphics[width=14cm]{FAQAS-overview.pdf}}
 
@@ -71,25 +71,28 @@ University of Luxembourg}
 From spacecrafts to ground stations, software has a prominent role in space systems; for this reason, the success of space missions depends on the quality of the system hardware as much on the dependability of its software --- but, \textbf{how to systematically verify the quality of large test suites?} 
 
 To address the question above, the FAQAS project consortium built an efficient toolset to 
-\textbf{measure} how a test suite detects different types of faults automatically injected into the software system under test (SUT). Also, the FAQAS toolset automatically \textbf{generates new test cases} that discover faults missed by the original SUT test suite.
+\textbf{measure} how a test suite detects faults automatically injected into the software system under test (SUT). Also, the FAQAS toolset automatically \textbf{generates new test cases} that discover faults missed by the original SUT test suite. The targeted SUT includes flight software and ground processing software.
+The FAQAS toolset can be used by software or ISVV suppliers to enhance their validation  \&  verification methodologies.
+The FAQAS consortium includes the \textbf{\emph{SnT Centre of the University of Luxembourg}}\footnote{https://wwwen.uni.lu/snt}, \textbf{\emph{Gomspace Luxembourg}}\footnote{https://gomspace.com/} (GSL) and \textbf{\emph{OHB Luxspace}}\footnote{https://luxspace.lu/} (LXS).
 
-The FAQAS consortium are the SnT Centre of the University of Luxembourg\footnote{https://wwwen.uni.lu/snt}, Gomspace Luxembourg\footnote{https://gomspace.com/} (GSL) and OHB Luxspace\footnote{https://luxspace.lu/} (LXS).
+The FAQAS toolset includes 
+\textbf{\emph{MASS}} (Mutation Analysis for Space Software, TRL 5), 
+\textbf{\emph{DAMAt}} (DAta-driven Mutation Analysis with Tables, TRL 4), 
+\textbf{\emph{SEMuS}} (Symbolic Execu\-tion-based MUtant analysis for Space software, TRL 3),
+and \textbf{\emph{DAMTE}} (DAta-driven Mutation TEsting, TRL 2).
+It generates modified versions of the SUT, some derived by modifying the implementation of the software (code-driven mutants) others by integrating an API that alters the messages exchanged by the SUT components (data-driven mutants). 
+Test suite effectiveness is measured as the percentage of mutants discovered by the test suite (i.e., the \textbf{mutation score}). The mutants that are not discovered by the test suite (i.e., it does not fail) are said to be \emph{live} and point out shortcomings.
 
-The FAQAS toolset includes four software development tools:
-\textbf{\emph{MASS}} (Mutation Analysis for Space Software), 
-\textbf{\emph{DAMAt}} (DAta-driven Mutation Analysis with Tables), 
-\textbf{\emph{SEMuS}} (Symbolic Execu\-tion-based MUtant analysis for Space software),
-and \textbf{\emph{DAMTE}} (DAta-driven Mutation TEsting).
-It generates multiple modified versions of the software system under test (SUT), some are derived by modifying the implementation of the software (code-driven mutants) other by integrating an API that alters the messages exchanged by the SUT components (data-driven mutants). 
-Test suite effectiveness is measured as the percentage of mutants discovered by the test suite (i.e., the \textbf{mutation score}). The mutants that are not discovered by the test suite (i.e., it does not fail) are said to be \emph{live} and indicate a pitfall in the test suite.
+\textbf{\emph{MASS}} generates code-driven mutants. It integrates a pipeline of solutions that make mutation analysis feasible with large SUTs. MASS (1) automatically identifies trivially equivalent mutants using an ensemble of compiler optimization options, (2) estimates the mutation score through sampling with a fixed size confidence interval approach, (3) identifies equivalent mutants based on code coverage. 
+MASS reports the set of live mutants, killed mutants (i.e., discovered by the test suite), statement coverage, and the mutation score.
 
-\textbf{\emph{MASS}} generates code-driven mutants. It integrates a pipeline of solutions that make mutation analysis feasible even with large SUTs. MASS (1) automatically identifies trivially equivalent mutants using an ensemble of compiler optimization options, (2) estimates the mutation score through sampling with a fixed size confidence interval approach (FSCI), (3) identifies equivalent mutants based on code coverage. 
-MASS reports the set of live mutants, killed mutants (i.e., mutants that are discovered by the test suite), the SUT test suite's statement coverage and the mutation score.
-
-\textbf{\emph{DAMAt}}, instead, generates data-driven mutants. 
+\textbf{\emph{DAMAt}} generates data-driven mutants. 
 It relies on fault models that specify how to mutate the data exchanged by SUT components through data-driven mutation operators. 
 DAMAt enables the simulation of faults that affect simulated components (e.g., sensors), which is not feasible with code-driven mutation analysis. 
-DAMAt reports the set of killed mutants (i.e., successfully alter the data, and lead to test case failures), the set of live mutants (i.e., mutants that successfully alter the data but do not lead to test case failures), and the set of mutants not applied (i.e., mutants that, during testing, could not alter any data because the data they target was \textbf{erronously} never exercised by the SUT). 
+DAMAt reports the following test suites' pitfalls: message types never tested,
+mutants not applied (i.e., mutants that could not alter any data because the data they target was \textbf{erronously} never exercised by the SUT),
+live mutants (i.e., mutants that successfully alter the data but are not detected by the test suite because it lacks appropriate assertions or does not cover the required inputs).
+% killed mutants (i.e., successfully alter the data, and lead to test case failures), the set of 
 %also, it provides information useful to draft a verification report, which includes the fault model coverage (i.e., percentage of fault models with at least one mutant applied), the mutation operation coverage (i.e., percentage of mutants applied), and the mutation score.
 
 \textbf{\emph{SEMuS}} automatically generates executable unit test cases based on code-driven mutation analysis results. The generated unit test cases kill mutants not detected by the original test suite. The generated test cases include test oracles that enable the detection of faults affecting the SUT.
@@ -98,7 +101,7 @@ DAMAt reports the set of killed mutants (i.e., successfully alter the data, and 
 
 \textbf{\emph{DAMTE}} is a manual procedure supported by an automated symbolic execution toolset; it automatically identifies the test inputs that make SUT components exchange the data targeted by data-driven mutation operators. The derived test inputs can then be manually integrated into the SUT test suite.
  
-The activity also included an extensive empirical evaluation demonstrating the feasibility, effectiveness, and scalability of the proposed toolsets in the space context.
+The activity also included an extensive empirical evaluation demonstrating the feasibility, effectiveness, and scalability of the proposed toolsets in the space context. The toolset has been \textbf{\emph{positively evaluated}} by industry partners; indeed, it enabled the discovery of defects and proved to improve the quality of the development process.
 
 %\chapter{Setting up Frames}
 %
