@@ -6,13 +6,13 @@ This document presents a report on the assessment of the Libutil test suite base
 %The Utility Library, 
 Libutil is a Utility Library developed by GomSpace; it provides cross-platform APIs for common functionality, for use in both embedded systems and standard PCs running Linux. 
 
-\TODO{libutil vs Libutil}
+% \TODO{Libutil vs Libutil}
 
-The size of libutil is 10\,576 LOC. The libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
+The size of Libutil is 10\,576 LOC. The Libutil unit test suite consists of 201 test cases, the test infrastructure is based on the \emph{Google C++ Testing Framework}~\cite{googletest}. The validation environment is compiled and executed through the WAF meta-build system~\cite{waf}.
 
-\TODO{have vs has}
+% \TODO{have vs has}
 
-We performed the analyses with MASS and SEMuS; MASS is a mutation analysis tool for space software, while SEMuS is a test suite augmentation tool based on mutation testing. Both tools has been developed within the context of the FAQAS project.
+We performed the analyses with MASS and SEMuS; MASS is a mutation analysis tool for space software, while SEMuS is a test suite augmentation tool based on mutation testing. Both tools have been developed within the context of the FAQAS project.
 
 In this report, we provide (1) the configuration we used to setup our toolset with Libutil, (2) the results of the code-driven mutation analysis process, (3) information about the test cases generated based on mutation testing, and  (4) the set of mutants not killed by the approach.
 
@@ -30,6 +30,7 @@ In this report, we provide (1) the configuration we used to setup our toolset wi
 \item{MASS}: Tool for Mutation Analysis for Space Software.
 \item{SEMuS}: Tool for Mutation Testing for Space Software.
 \item{SUT}: Software under test, i.e, the software that should be mutated by means of mutation testing.
+\item{SUM}: Software User Manual, the document is delivered together with the FAQAS-framework.
 
 \end{itemize}
 
