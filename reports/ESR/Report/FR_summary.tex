@@ -223,7 +223,7 @@ Below we report verbatim the positive and negative comments provided in the vali
 
   \item \emph{The initial (first-time) configuration process should be simplified to reduce the steep learning curve}
 
-  \item \textbf{Action taken:} To address the two comments above, SnT has ....
+  \item \textbf{Action taken:} To address the two comments above, SnT has modified the MASS installation step, so that some of the tool configurations are now provided with default values (e.g., use of trivial compiler optimisations, sampling technique used, prioritized test suite).
 
 \end{itemize}
 
@@ -265,7 +265,7 @@ Below we report verbatim the positive and negative comments provided in the vali
 
   \item \emph{The addition of probes as manual step would make it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
 
-  \item \textbf{Action taken:} To address the three comments above, SnT has introduced an integration to the DAMAt pipeline that enables the user to leave simple comments in the source code that will be substituted with the mutation probes during the procedure. The integration will also reinstate the unmodified code once the execution of DAMAt is conluded.
+  \item \textbf{Action taken:} To address the three comments above, SnT has introduced an integration to the DAMAt pipeline that enables the user to leave simple comments in the source code that will be substituted with the mutation probes during the procedure. The integration will also reinstate the unmodified code once the execution of DAMAt is concluded.
 
 \end{itemize}
 
@@ -297,7 +297,7 @@ Below we report verbatim the positive and negative comments provided in the vali
 
   \item \emph{If you run it on Windows machine with WSL or vagrant, there are chances you might run in few troubles with respect to versioning of different libraries/container/virtual env etc.}
 
-  \item \textbf{Action taken:} SnT had not been able to replicate the problems; further investigation will be taken care of during the maintenance period.
+  \item \textbf{Action taken:} SnT had not been able to replicate the problems; further investigation will be taken care of during the maintenance period. However, we recommend use SEMuS only in UNIX systems.
 
   \item \emph{Also creation of JSON file and test template can be it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
 
@@ -305,7 +305,7 @@ Below we report verbatim the positive and negative comments provided in the vali
 
   \item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, the two comments above can be targeted only by a dedicated follow-on activity.
 
-  \item \emph{However the tool is still in a very prototypical form:}
+  \item \emph{However the tool is still in a very prototypical form.}
 
   \item \emph{Due to the complexity of dependencies of E-SAIL software, the tool was able to working on a limited number of functions (the tool cannot compile files than depends on other files).}
 
