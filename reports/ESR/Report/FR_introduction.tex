@@ -25,13 +25,13 @@ Finally, test generation approaches are preliminary and cannot be applied in ind
 %Also, existing mutation analysis approaches cannot identify problems related to the interoperability of integrated components (integration testing), which is a major problem in 
 %Cyber-physical Systems~\cite{Givehchi:2017,Jirkovsk:2017} and, consequently, space software --- mainly due to the wide variety and heterogeneity of the technologies and standards adopted.
 
-The FAQAS activity addresses the problems above. It is a joint work between the SnT Centre of the University of Luxembourg\footnote{https://wwwen.uni.lu/snt}, Gomspace Luxembourg\footnote{https://gomspace.com/} (GSL) and OHB Luxspace\footnote{https://luxspace.lu/} (LXS).
+The FAQAS activity addresses the problems above. It is a joint work between the SnT Centre of the University of Luxembourg\footnote{https://wwwen.uni.lu/snt}, which is the prime, Gomspace Luxembourg\footnote{https://gomspace.com/} (GSL) and OHB Luxspace\footnote{https://luxspace.lu/} (LXS).
 FAQAS led to the development of a toolset that addresses the challenges above. It includes four tools:
 \EMPH{MASS} (Mutation Analysis for Space Software), 
 \EMPH{DAMAt} (DAta-driven Mutation Analysis with Tables), 
 \EMPH{SEMuS} (Symbolic Execution-based MUtant analysis for Space software),
 and \EMPH{DAMTE} (DAta-driven Mutation TEsting).
-
+FAQAS last 24 months, with a budget of 500k Euro (360k to SnT, 70k to LXS, 70k to GSL).
 
 
 % of code-driven mutation analysis in the space context. The evaluation has shown that the most effective solutions to improve scalability and mutation score accuracy are mutants sampling and equivalence metrics based on compiler optimizations, respectively. To guarantee a scalable mutation testing process and the accurate computation of the mutation score, mutants sampling should be based on sequential analysis relying on fixed-width sequential confidence interval, a research discovery done within FAQAS.
@@ -80,13 +80,13 @@ The FAQAS activity had the following two main objectives:
 \item[O2] Searching for an alternative or complementary method to build a test suite (i.e. test cases generation).
 \end{itemize}
 
-Concerning \emph{O1}, FAQAS led to the development of tools (i.e., MASS and DAMAt) that enable the assessment of test suites by simulating different types of faults (implementation errors and high-level integration problems). Empirical evaluation with software provided by project partners and ESA has shown that the toolset enable detecting relevant test suite limitations (i.e., lack of assertions to verify results, relevant inputs not being tested). Also, it showed that the inspection of mutants enable detecting bugs that affect the software. Finally, preliminary projections made by consortium partners show that the cost of test suite assessment using the FAQAS tools (mostly engineers effort) are justified by the highly-valuable benefits (e.g., detection of test suite and software limitations during early development stages, potential avoidance of failures in deployed software).
+Concerning \emph{O1}, FAQAS led to the development of tools (i.e., MASS and DAMAt) that enable the assessment of test suites by simulating different types of faults (implementation errors and high-level integration problems). Empirical evaluation with software provided by project partners and ESA has shown that the toolset enables detecting relevant test suite limitations (i.e., lack of assertions to verify results, relevant inputs not being tested). Also, it showed that the inspection of mutants enable detecting bugs that affect the software. Finally, preliminary projections made by consortium partners show that the cost of test suite assessment using the FAQAS tools (i.e., engineers' effort) are justified by the highly-valuable benefits (e.g., detection of test suite and software limitations during early development stages, potential avoidance of failures in deployed software).
 
 Concerning \emph{O2}, FAQAS has shown that tools based on symbolic execution (i.e., SEMuS and DaMTE) can automatically generate test cases that detect mutants not detected by the test suite under analysis. However, the research performed in FAQAS has shown that 
-symbolic execution engines
+symbolic execution tools
 are affected by a number of limitations (e.g., dealing with floating point instructions and external components) that limit the feasibility of fully automated test generation. Indeed, only unit test cases not involving complex floating point operations can be automatically generated with state-of-the-art solutions including the FAQAS toolset.
 
-Below, we report on how FAQAS contributed to address the detailed objectives of the actvity:
+Below, we report on how FAQAS contributed to address the \textbf{detailed objectives} of the activity:
 \begin{itemize}
 \item {\emph{\textbf{Detailed Objective 1}: To perform a comprehensive analysis and survey of mutation testing.}}
 
@@ -108,8 +108,8 @@ FAQAS has delivered a comprehensive survey of the software engineering literatur
 \item {\emph{\textbf{Detailed Objective 2}: To prototype the mutation testing process to be applied on space software.}}
 FAQAS has conducted a detailed analysis and preliminary experiments to select the existing mutation analysis, fault injection, fuzzing, and test generation tools that demonstrated to be reusable for the definition of an automated mutation testing toolset. Some results of the FAQAS evaluation are reported in the following. 
 \begin{itemize}
-\item	Most existing mutation analysis tools rely on the mutation of intermediate representation of LLVM~\cite{LLVM} generated bitcode, which is often infeasible with large space software projects. 
-\item The most advanced data mutation tool is the Peach fuzzer~\cite{PeachMozilla}; however, since it has been developed for other purposes (e.g., fuzzing web applications, protocols or desktop utilities) it presents an architecture that can hardly be adapted to mutate data in real-time space software. 
+\item	Most existing mutation analysis tools rely on the mutation of LLVM~\cite{LLVM} bitcode, which is often infeasible with space software projects. 
+\item The most advanced data mutation tool is the Peach fuzzer~\cite{PeachMozilla}; however, since it has been developed for other purposes (e.g., fuzzing web applications or desktop utilities) it presents an architecture that can hardly be adapted to mutate data in real-time space software. 
 \item The automated selection of test inputs that can kill mutants might be supported by either bounded model checking (BMC)~\cite{CBMC} or symbolic execution~\cite{cadar2008klee}; however, existing symbolic execution tools (e.g., KLEE-SEMu~\cite{SEMU}) are more stable and professional than BMC ones. 
 \item Finally, complex test inputs (e.g., sequences of hierarchical structures) might be generated by model-based approaches; however, advanced academic tools remain in a prototype state. 
 \item The analysis led to the identification of SRCIror~\cite{hariri2018srciror} and KLEE/SEMu as tools that might be extended to build the code-driven components of the FAQAS toolset. Data-driven approaches, instead, need to be built from scratch.
@@ -118,9 +118,11 @@ FAQAS has conducted a detailed analysis and preliminary experiments to select th
 \item {\emph{\textbf{Detailed Objective 6}: To define and develop the mutation testing toolset supporting this methodology.}} The FAQAS project has led to a toolset that includes \textbf{\emph{MASS}} (Mutation Analysis for Space Software, TRL 5), 
 \textbf{\emph{DAMAt}} (DAta-driven Mutation Analysis with Tables, TRL 4), 
 \textbf{\emph{SEMuS}} (Symbolic Execu\-tion-based MUtant analysis for Space software, TRL 3),
-and \textbf{\emph{DAMTE}} (DAta-driven Mutation TEsting, TRL 2). They will be detailed in the following sections.
+and \textbf{\emph{DAMTE}} (DAta-driven Mutation TEsting, TRL 2). 
+Details are provided in Section~\ref{sec:methodology}.
 
-\item {\emph{\textbf{Detailed Objective 3}: To empirically evaluate mutation testing by applying it to space software use cases.}} ESA, LXS, and GSL have provided case study subjects that include utility and networking libraries, support tools, and whole systems. They come with test suites of different nature (unit, integration, and system-level). The heterogeneity of case studies and test suites enabled the evaluation of the mutation analysis and testng approaches in a range of representative scenarios. Details are provided in Section~\ref{chapter:caseStudies}.
+
+\item {\emph{\textbf{Detailed Objective 3}: To empirically evaluate mutation testing by applying it to space software use cases.}} ESA, LXS, and GSL have provided case study subjects that include utility and networking libraries, support tools, and whole systems. They come with test suites of different nature (unit, integration, and system-level). The heterogeneity of case studies and test suites enabled the evaluation of the mutation analysis and testing approaches in a range of representative scenarios. Details are provided in Section~\ref{chapter:caseStudies}.
 
 \item {\emph{\textbf{Detailed Objective 4}: To evaluate the applicability, scalability, efficiency and effectiveness of the approach in the space domain; and to identify limitations of the approach.}} The project conducted an extensive evaluation of MASS, DAMAT, and SEMuS; also, it conducted a preliminary feasibility study for DAMTE. Our results (details in Section~\ref{sec:summary:results}) show that
 \begin{itemize}
