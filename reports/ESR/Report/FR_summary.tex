@@ -177,174 +177,145 @@ Other limitations that need further research effort to simplify the adoption of 
 
 Below we report verbatim the positive and negative comments provided in the validation deliverables of the project by our industry partners.
 
-\subsection{GOMSPACE}
 
-\subsubsection{MASS}\ \\
+\subsection{Overall Comments}\ \\
 
 \textbf{POSITIVE COMMENTS}
 
 \begin{itemize}
-\item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
+  \item \emph{Using the FAQAS toolset is for sure cost-effective when more than the 6\% of the detected major problems of the testsuite could have determined a software error would have gone undetected. }
 
+  \item \emph{Both these fields of research are considered from LuxSpace worth to be explored in a possible extension of the FAQAS project:
+  (*) the capability of the toolset to decrease the time of analysis of the results (*) the capability of the toolset to generate automatically additional/updated test cases that may patch the current failing testsuite.}
+\end{itemize}
 
+\subsection{MASS}\ \\
 
-\item \emph{The MASS toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. }
+\textbf{POSITIVE COMMENTS}
 
-\item \emph{The MASS tool is effective at identifying potential defects that are unanticipated by our current test suites. It is also worth mentioning that closer examination of the code inspired by this approach did seem to reveal actual defects in the software that were previously unknown.}
+\begin{itemize}
 
+  \item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
 
-\item \emph{The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running MASS mutation tests in a docker container.}
+  \item \emph{The MASS toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. }
 
-\item \emph{Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+  \item \emph{The MASS tool is effective at identifying potential defects that are unanticipated by our current test suites. It is also worth mentioning that closer examination of the code inspired by this approach did seem to reveal actual defects in the software that were previously unknown.}
 
-\item \emph{The evaluation showed that the MASS tool would be considered as a useful addition to GomSpace’s testing processes.}
+  \item \emph{The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running MASS mutation tests in a docker container.}
 
-\item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality. This would lead to an overall improvement in both test suite and code quality.}
+  \item \emph{Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+
+  \item \emph{The evaluation showed that the MASS tool would be considered as a useful addition to GomSpace’s testing processes.}
+
+  \item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality. This would lead to an overall improvement in both test suite and code quality.}
 
 \end{itemize}
 
 \textbf{NEGATIVE COMMENTS}
 
 \begin{itemize}
-\item \emph{The evaluation did identify that many abbreviations and acronyms are used within the SUM, some of them without explanation in the document. An expansion of the list of abbreviations and acronyms is recommended to improve the overall user experience.}
 
-\item \textbf{Action taken:} To address the comment above, SnT has improved the SUM accordingly.
+  \item \emph{The evaluation did identify that many abbreviations and acronyms are used within the SUM, some of them without explanation in the document. An expansion of the list of abbreviations and acronyms is recommended to improve the overall user experience.}
 
-\item \emph{The large degree of possibility is challenging for a new user to learn and can be overwhelming for first use. GomSpace recommends providing an interactive script with default values to ease this process.}
+  \item \textbf{Action taken:} To address the comment above, SnT has improved the SUM accordingly.
 
-\item \emph{The initial (first-time) configuration process should be simplified to reduce the steep learning curve}
+  \item \emph{The large degree of possibility is challenging for a new user to learn and can be overwhelming for first use. GomSpace recommends providing an interactive script with default values to ease this process.}
 
-\item \textbf{Action taken:} To address the two comments above, SnT has ....
+  \item \emph{The initial (first-time) configuration process should be simplified to reduce the steep learning curve}
+
+  \item \textbf{Action taken:} To address the two comments above, SnT has ....
 
 \end{itemize}
 
-\subsubsection{DAMAt} \ \\
-
-
+\subsection{DAMAt} \ \\
 
 \textbf{POSITIVE COMMENTS}
 
 \begin{itemize}
-\item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
 
+  \item \emph{The SUM contains all necessary information in a well written style. This includes an explanation of the library structure and the purpose of contained files, a description of all configuration variables within those files and instructions for running the toolset. Each important file is provided with its own subsection, allowing the end-user to get a clear understanding of the framework configuration.}
 
+  \item \emph{The DAMAt toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. The ease of configuring these parameters has increased compared to the previous MASS tool. For example: \texttt{DAMAt\_FOLDER=\$(pwd)} and using this variable further for configuration significantly saves time.}
 
-\item \emph{The DAMAt toolset offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. The ease of configuring these parameters has increased compared to the previous MASS tool. For example: \texttt{DAMAt\_FOLDER=\$(pwd)} and using this variable further for configuration significantly saves time.}
+  \item \emph{Analysis of the surviving mutants shows the toolset does identify valid (potential) test cases that the test suites currently miss. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate, and in some cases poorly written test cases. Based on the results generated, the DAMAt tool is effective at identifying potential defects and missing test cases that are unanticipated by our current test suites.}
 
+  \item \emph{DAMAt can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running DAMAt mutation tests in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
 
+  \item \emph{The evaluation showed that the DAMAt would be considered as a useful addition to GomSpace’s testing processes.}
 
-\item \emph{Analysis of the surviving mutants shows the toolset does identify valid (potential) test cases that the test suites currently miss. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate, and in some cases poorly written test cases. Based on the results generated, the DAMAt tool is effective at identifying potential defects and missing test cases that are unanticipated by our current test suites.}
+  \item \emph{After checking the output report, GomSpace realised that the test suite of libparam does not address certain side effects of functions. This already demonstrates the ability of the toolset to identify improvements that would raise the quality of existing test suites.}
 
+  \item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality (i.e., those with more surviving mutants) or to set certain gateway thresholds (i.e., a certain proportion of mutants must be caught before a test suite is considered high enough quality to proceed). This would lead to an overall improvement in both test suite and code quality.}
 
-
-\item \emph{DAMAt can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running DAMAt mutation tests in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
-
-
-
-\item \emph{The evaluation showed that the DAMAt would be considered as a useful addition to GomSpace’s testing processes.}
-
-
-
-\item \emph{After checking the output report, GomSpace realised that the test suite of libparam does not address certain side effects of functions. This already demonstrates the ability of the toolset to identify improvements that would raise the quality of existing test suites.}
-
-
-
-\item \emph{Applying this approach to other libraries maintained by GomSpace could allow managers to direct efforts towards improving test suites identified as lower quality (i.e., those with more surviving mutants) or to set certain gateway thresholds (i.e., a certain proportion of mutants must be caught before a test suite is considered high enough quality to proceed). This would lead to an overall improvement in both test suite and code quality.}
-
- \end{itemize}
-
+\end{itemize}
 
 \textbf{NEGATIVE COMMENTS}
 
 \begin{itemize}
-\item \emph{The evaluation did identify that some of the missing steps in the SUM were present in the readme of the project. Without which it was quite difficult to configure some of the steps, as there is no explanation in the document.}
 
-\item \emph{Finally, the SUM doesn’t have sufficient information about fault models and how they are important to the process, analysis, and results. Only an example is present in the SUM. It would be useful to have some information explaining fault models, their significance, and some background of its correlation to probes, testcases etc.}
+  \item \emph{The evaluation did identify that some of the missing steps in the SUM were present in the readme of the project. Without which it was quite difficult to configure some of the steps, as there is no explanation in the document.}
 
-\item \textbf{Action taken:} To address the two comments above, SnT has improved the SUM accordingly.
+  \item \emph{Finally, the SUM doesn’t have sufficient information about fault models and how they are important to the process, analysis, and results. Only an example is present in the SUM. It would be useful to have some information explaining fault models, their significance, and some background of its correlation to probes, testcases etc.}
 
-\item \emph{To apply DAMAt, we need to manually inject probes into the code, which requires prior additional knowledge/understanding of inner working of the software under test (SUT). Moreover, the injected probes should always be used only for tests. In production, they shouldn’t be present and there is necessity of automated process that handles probes management.}
+  \item \textbf{Action taken:} To address the two comments above, SnT has improved the SUM accordingly.
 
-\item \emph{There is manual intervention of adding lots of probes and building a fault model which can be a time-consuming process.}
+  \item \emph{To apply DAMAt, we need to manually inject probes into the code, which requires prior additional knowledge/understanding of inner working of the software under test (SUT). Moreover, the injected probes should always be used only for tests. In production, they shouldn’t be present and there is necessity of automated process that handles probes management.}
 
-\item \emph{The addition of probes as manual step would make it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
+  \item \emph{There is manual intervention of adding lots of probes and building a fault model which can be a time-consuming process.}
 
-\item \textbf{Action taken:} To address the three comments above, SnT has introduced an integration to the DAMAt pipeline that enables the user to leave simple comments in the source code that will be substituted with the mutation probes during the procedure. The integration will also reinstate the unmodified code once the execution of DAMAt is conluded.
+  \item \emph{The addition of probes as manual step would make it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
+
+  \item \textbf{Action taken:} To address the three comments above, SnT has introduced an integration to the DAMAt pipeline that enables the user to leave simple comments in the source code that will be substituted with the mutation probes during the procedure. The integration will also reinstate the unmodified code once the execution of DAMAt is conluded.
 
 \end{itemize}
 
-\subsubsection{SEMUS} \ \\
-
-
+\subsection{SEMUS} \ \\
 
 \textbf{POSITIVE COMMENTS}
 
 \begin{itemize}
-\item \emph{The SEMUS offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. There are also scripts that are used for automatic generation of JSON files and Test templates.}
 
+  \item \emph{The SEMUS offers many configuration options to the end-user. All these configuration options and parameters are well described in the SUM. There are also scripts that are used for automatic generation of JSON files and Test templates.}
 
+  \item \emph{Analysis of the generated testcases for the mutants identified valid bug for timestamp.c as well as missing Test cases. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate and in some cases poorly written test cases.}
 
-\item \emph{Analysis of the generated testcases for the mutants identified valid bug for timestamp.c as well as missing Test cases. This implies the presence of missing test cases, often in areas that can be considered as challenging edge cases that are difficult for a developer or dedicated software tester to anticipate and in some cases poorly written test cases.}
+  \item \emph{SEMUS can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running SEMUS test generation in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
 
-\item \emph{SEMUS can be containerized. The FAQAS team used Singularity as a container system, however it is also possible to create a Docker image that allows running SEMUS test generation in a docker container. Configuration files can be stored together with source code and mounted as volumes. In principle this makes it trivial to spawn a new instance (horizontal scaling).}
+  \item \emph{However, when it is fully executed it does help with identifying the missing test cases in test suite and as a side-effect points out to potential bugs.}
 
-\item \emph{However, when it is fully executed it does help with identifying the missing test cases in test suite and as a side-effect points out to potential bugs.}
+  \item \emph{After checking the output report, GomSpace realised that the test suite of libutil does not address certain tests. This already demonstrates the ability of the SEMUS to identify improvements that would raise the quality of existing test suites }
 
-\item \emph{After checking the output report, GomSpace realised that the test suite of libutil does not address certain tests. This already demonstrates the ability of the SEMUS to identify improvements that would raise the quality of existing test suites }
+  \item \emph{Nevertheless, beyond the current limitations to the usability, the SEMuS tool seems promising for its effectiveness: all the generated test cases were correctly designed, in a way that they were able to detect software errors in the parts of the code whereas it was meant too}
+
 \end{itemize}
-
-
-
 
 \textbf{NEGATIVE  COMMENTS}
 \begin{itemize}
-\item \emph{However, there are some typos in commands in SUM which can be corrected for error free configuration.}
+  \item \emph{However, there are some typos in commands in SUM which can be corrected for error free configuration.}
 
-\item \textbf{Action taken:} SnT has improved the SUM.
+  \item \textbf{Action taken:} SnT has improved the SUM.
 
-\item \emph{If you run it on Windows machine with WSL or vagrant, there are chances you might run in few troubles with respect to versioning of different libraries/container/virtual env etc.}
+  \item \emph{If you run it on Windows machine with WSL or vagrant, there are chances you might run in few troubles with respect to versioning of different libraries/container/virtual env etc.}
 
-\item \textbf{Action taken:} SnT had not been able to replicate the problems; further investigation will be taken care of during the maintenance period.
+  \item \textbf{Action taken:} SnT had not been able to replicate the problems; further investigation will be taken care of during the maintenance period.
 
-\item \emph{Also creation of JSON file and test template can be it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
+  \item \emph{Also creation of JSON file and test template can be it more difficult to scale especially when it is the case of microservices when there are large number of interacting microservices.}
 
-\item \emph{But keep in mind that there is manual intervention of generating large amount of JSON and test templates which can be a time-consuming process in case of large software libraries.}
+  \item \emph{But keep in mind that there is manual intervention of generating large amount of JSON and test templates which can be a time-consuming process in case of large software libraries.}
 
-\item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, the two comments above can be targeted only by a dedicated follow-on activity.
+  \item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, the two comments above can be targeted only by a dedicated follow-on activity.
+
+  \item \emph{However the tool is still in a very prototypical form:}
+
+  \item \emph{Due to the complexity of dependencies of E-SAIL software, the tool was able to working on a limited number of functions (the tool cannot compile files than depends on other files).}
+
+  \item \emph{Due to the previous limitation, the tool was able to generate the test cases only from the killed mutants, but not from the live mutants.}
+
+  \item \emph{The tool is not working with floating point variables.}
+  \emph{All these limitations make the SEMuS tool, in this preliminary version, inadequate to be deployed in any real development environment. }
+
+  \item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, such improvements can be targeted only by a dedicated follow-on activity.
 
 \end{itemize}
 
-\subsection{LUXSPACE}
-
-
-
-\textbf{OVERALL POSITIVE COMMENTS}
-
-
-\begin{itemize}
-\item \emph{Using the FAQAS toolset is for sure cost-effective when more than the 6\% of the detected major problems of the testsuite could have determined a software error would have gone undetected. }
-
-\item \emph{Both these fields of research are considered from LuxSpace worth to be explored in a possible extension of the FAQAS project:
-(*) the capability of the toolset to decrease the time of analysis of the results (*) the capability of the toolset to generate automatically additional/updated test cases that may patch the current failing testsuite.}
-\end{itemize}
-
-\subsubsection{SEMUS} \ \\
-
-\textbf{POSITIVE COMMENTS}
-
-\begin{itemize}
-\item \emph{Nevertheless, beyond the current limitations to the usability, the SEMuS tool seems promising for its effectiveness: all the generated test cases were correctly designed, in a way that they were able to detect software errors in the parts of the code whereas it was meant too}
-\end{itemize}
-
-\textbf{NEGATIVE COMMENTS}
- \begin{itemize}
-\item \emph{However the tool is still in a very prototypical form:}
-\begin{itemize}
-\item \emph{Due to the complexity of dependencies of E-SAIL software, the tool was able to working on a limited number of functions (the tool cannot compile files than depends on other files).}
-\item \emph{Due to the previous limitation, the tool was able to generate the test cases only from the killed mutants, but not from the live mutants.}
-\item \emph{The tool is not working with floating point variables.}
-\emph{All these limitations make the SEMuS tool, in this preliminary version, inadequate to be deployed in any real development environment. }
-\end{itemize}
-\item \textbf{Action:} As detailed in Section~\ref{sec:limitations}, such improvements can be targeted only by a dedicated follow-on activity.
-\end{itemize}
 \ENDCHANGEDWPT
