@@ -2,321 +2,132 @@
 
 \chapter{Test Suite Augmentation Results}
 
-In this chapter, we report the outcome of the test suite augmentation process based on mutation testing via SEMuS. The purpose of this process is to increment the quality of the existing test suite, by adding test cases that kill the mutants not identified in the mutation analysis process (see Chapter~\ref{mass_output}). 
+In this chapter, we report the outcome of the test suite augmentation process based on mutation testing with SEMuS. The purpose of this process is to increment the quality of the existing test suite by adding test cases that kill the mutants not identified in the mutation analysis process (see Chapter~\ref{mass_output}). 
 In a nutshell, SEMuS works by processing the SUT source code, together with the list of live mutants, and generates test inputs with the support of a symbolic execution search engine (i.e., KLEE~\cite{cadar2008klee}).
 
+\input{tables/not_processable}
 
-Concerning Libutil, we first identify the source code to be analyzed. We perform this operation for two reasons, (1) because GomSpace defined a subset of source files that were not interesting for them, and (2) because there is a subset of source files that is not compatible with SEMuS (e.g., source files processing I/O operations, source files with external dependencies).  
+Concerning the use of SEMuS applied to Libutil, we identified a subset of files that cannot be processed by SEMuS, mainly because of limitations of the underlying test generation technique (i.e., symbolic execution). Particularly, we discarded source files processing I/O operations, and source files with external dependencies. The set of source files not processable by SEMuS is presented in Table~\ref{table:not_processable}.
+
+%Concerning Libutil, we first identify the source code to be analyzed. We perform this operation for two reasons, (1) because GomSpace defined a subset of source files that were not interesting for them, and (2) because there is a subset of source files that is not compatible with SEMuS (e.g., source files processing I/O operations, source files with external dependencies).  
 
 % \TODO{The list not of interest should go to the previous chapter}
+%Now, we list the files that could not be processed because of incompatibilities with the tool:
+
+\input{tables/processable}
+
+The list the source files processable by SEMuS are shown in Table~\ref{table:processable}.
+
+\DONE{Rephase the sentence below}
+These four Libutil sources led to 109 live mutants according to the mutation analysis process performed by MASS.
 
 
-Now, we list the files that could not be processed because of incompatibilities with the tool:
-
-\begin{itemize}
-\item src/hexdump.c
-\item src/vmem/vmem.c
-\item src/vmem/commands.c
-\item src/zip/zip.c
-\item src/bytebuffer.c
-\item src/function\_scheduler.c
-\item src/time.c
-\item src/gosh/console.c
-\item src/gosh/command.c
-\item src/gosh/default\_commands.c
-\item src/fletcher.c
-\item src/test/cmocka.c
-\item src/test/log.c
-\item src/test/command.c
-\item src/watchdog/monitor\_task.c
-\item src/watchdog/watchdog.c
-\item src/string.c
-\item src/stdio.c
-\item src/timestamp.c
-\end{itemize}
-
-Finally, we list the source files processed by SEMuS:
-
-\begin{itemize}
-\item src/drivers/sys/memory.c
-\item src/byteorder.c
-\item src/clock.c
-\item src/error.c
-\end{itemize}
-
-\TODO{Rephase the sentence below}
-Within the list of live mutants produced by MASS, this four sources are equivalent to 109 mutants, which were correctly processed by SEMuS.
+%Within the list of live mutants produced by MASS, this four sources are equivalent to 109 mutants, which were correctly processed by SEMuS.
 
 \section{SEMuS Output}
 
-After applying SEMuS to the artifact, we report in the following the metrics produced by the tool:
+After applying SEMuS to the software artifact, we report in the following the metrics produced by the tool:
 
 \begin{itemize}
 	\item The total number of analyzed mutants is 109.
 	\item The total number of killed mutants is 30.
-	\item The total number of live mutants is 79.
-	\item There were not timeouts during the test generation process.
-	\item \textbf{The final mutation score of Libutil is 71.44\%.}
+	\item 45 out of 109 mutants are likely equivalent based on code coverage, this set was previously identified by MASS.
+	\item 33 out of 109 mutants shall be further inspected by the SUT engineer, since SEMuS was not able to generate a test input for them.
+	\item There were no timeouts during the test generation process.
+	\item \textbf{The total number of killed mutants increased to 4470 (i.e., 4440 + 30). The updated mutation score of Libutil is 86.71\%, an overall increment of 0.58\%.}
 \end{itemize}
 
-\TODO{What is the 'final mutation score'? We should define how it is computed.}
+\DONE{What is the 'final mutation score'? We should define how it is computed.}
 
-Furthermore, we report the status of each processed mutant:
+Listing~\ref{lik_equiv} presents the list of 45 likely equivalent mutants based on code coverage.
 
-\begin{lstlisting}[language=bash, label=statuses, caption=Mutants statuses.]
-clock.mut.37.4_3_29.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.1_1_9.LOD.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.2_4_10.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.1_2_10.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.4_2_14.ROR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.5_3_14.ROR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.2_1_16.ICR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.1_10_35.ROR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.1_6_31.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.3_9_38.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.40.4_11_38.UOI.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.41.1_1_9.SDL.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.41.4_4_22.AOR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.41.2_1_24.ICR.gs_clock_to_iso8601_string2.c;LIVE
-clock.mut.60.2_3_14.LOD.gs_clock_from_string.c;LIVE
-clock.mut.60.1_1_9.LOD.gs_clock_from_string.c;KILLED
-clock.mut.69.2_5_17.ROR.gs_clock_from_string.c;LIVE
-clock.mut.80.1_1_9.SDL.gs_clock_from_string.c;LIVE
-clock.mut.80.1_2_21.ICR.gs_clock_from_string.c;LIVE
-clock.mut.80.2_1_21.ICR.gs_clock_from_string.c;LIVE
-clock.mut.85.2_1_24.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_11_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.86.2_1_34.LOD.gs_clock_from_string.c;LIVE
-clock.mut.86.2_1_34.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_10_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.86.2_2_58.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_9_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.87.2_1_30.LCR.gs_clock_from_string.c;LIVE
-clock.mut.87.2_2_51.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_8_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.88.2_1_31.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_7_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.88.2_2_53.LCR.gs_clock_from_string.c;LIVE
-clock.mut.88.2_2_53.LOD.gs_clock_from_string.c;LIVE
-clock.mut.85.1_6_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.89.2_1_31.LCR.gs_clock_from_string.c;KILLED
-clock.mut.85.1_5_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.89.2_2_53.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.1_4_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.89.2_2_53.LOD.gs_clock_from_string.c;LIVE
-clock.mut.85.1_3_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.90.2_1_30.LCR.gs_clock_from_string.c;LIVE
-clock.mut.90.2_1_30.LOD.gs_clock_from_string.c;LIVE
-clock.mut.90.2_2_51.LCR.gs_clock_from_string.c;LIVE
-clock.mut.90.2_2_51.LOD.gs_clock_from_string.c;LIVE
-clock.mut.85.1_2_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.85.1_1_13.LOD.gs_clock_from_string.c;LIVE
-clock.mut.91.2_1_30.LCR.gs_clock_from_string.c;LIVE
-clock.mut.85.2_2_18.ROD.gs_clock_from_string.c;LIVE
-clock.mut.85.4_3_18.ROR.gs_clock_from_string.c;LIVE
-clock.mut.85.2_5_18.ROR.gs_clock_from_string.c;LIVE
-clock.mut.86.1_1_14.ROD.gs_clock_from_string.c;LIVE
-clock.mut.86.2_2_25.ROD.gs_clock_from_string.c;LIVE
-clock.mut.86.3_5_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.86.6_4_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.86.5_3_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.86.2_1_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.86.1_6_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.86.4_8_52.ICR.gs_clock_from_string.c;LIVE
-clock.mut.87.2_2_24.ROD.gs_clock_from_string.c;LIVE
-clock.mut.87.2_1_27.ICR.gs_clock_from_string.c;LIVE
-clock.mut.87.3_2_27.ICR.gs_clock_from_string.c;LIVE
-clock.mut.87.2_4_44.ROD.gs_clock_from_string.c;LIVE
-clock.mut.87.4_5_47.ICR.gs_clock_from_string.c;LIVE
-clock.mut.88.1_1_14.ROD.gs_clock_from_string.c;LIVE
-clock.mut.88.2_2_25.ROD.gs_clock_from_string.c;LIVE
-clock.mut.88.3_2_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.88.2_1_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.88.2_4_46.ROD.gs_clock_from_string.c;LIVE
-clock.mut.88.4_5_49.ICR.gs_clock_from_string.c;LIVE
-clock.mut.89.2_1_28.ICR.gs_clock_from_string.c;LIVE
-clock.mut.89.4_4_49.ICR.gs_clock_from_string.c;LIVE
-clock.mut.90.2_1_27.ICR.gs_clock_from_string.c;LIVE
-clock.mut.90.4_4_47.ICR.gs_clock_from_string.c;LIVE
-clock.mut.91.2_1_27.ICR.gs_clock_from_string.c;LIVE
-clock.mut.91.6_6_44.ROR.gs_clock_from_string.c;LIVE
-clock.mut.91.4_4_47.ICR.gs_clock_from_string.c;LIVE
-clock.mut.93.10_1_24.AOR.gs_clock_from_string.c;LIVE
-clock.mut.103.2_1_24.ICR.gs_clock_from_string.c;LIVE
-memory.mut.8.3_1_9.UOI.long_to_string.c;KILLED
-memory.mut.8.1_1_9.ABS.long_to_string.c;KILLED
-memory.mut.8.1_2_9.UOI.long_to_string.c;KILLED
-memory.mut.8.4_3_9.UOI.long_to_string.c;KILLED
-memory.mut.8.2_4_9.UOI.long_to_string.c;KILLED
-memory.mut.8.6_1_16.ROR.long_to_string.c;KILLED
-memory.mut.8.4_3_16.ROR.long_to_string.c;KILLED
-memory.mut.8.1_1_9.ROD.long_to_string.c;KILLED
-memory.mut.8.5_4_16.ROR.long_to_string.c;KILLED
-memory.mut.8.1_2_19.ICR.long_to_string.c;KILLED
-memory.mut.8.2_1_19.ICR.long_to_string.c;KILLED
-memory.mut.9.1_2_23.UOI.long_to_string.c;KILLED
-memory.mut.9.3_1_23.UOI.long_to_string.c;KILLED
-memory.mut.9.1_1_40.ABS.long_to_string.c;KILLED
-memory.mut.9.1_6_40.UOI.long_to_string.c;KILLED
-memory.mut.9.3_5_40.UOI.long_to_string.c;KILLED
-memory.mut.11.1_1_9.SDL.long_to_string.c;KILLED
-memory.mut.11.1_2_23.UOI.long_to_string.c;KILLED
-memory.mut.11.3_1_23.UOI.long_to_string.c;KILLED
-memory.mut.11.1_1_49.ABS.long_to_string.c;KILLED
-memory.mut.11.1_6_49.UOI.long_to_string.c;KILLED
-memory.mut.11.3_5_49.UOI.long_to_string.c;KILLED
-timestamp.mut.11.1_5_38.ROR.timestamp_add.c;KILLED
-timestamp.mut.13.2_7_56.AOR.timestamp_add.c;KILLED
-timestamp.mut.26.10_1_18.AOR.timestamp_diff.c;KILLED
-timestamp.mut.27.1_5_23.ROR.timestamp_diff.c;KILLED
-timestamp.mut.44.2_5_23.ROR.timestamp_ge.c;LIVE
-timestamp.mut.44.1_1_10.ROD.timestamp_ge.c;LIVE
-timestamp.mut.44.2_2_23.ROD.timestamp_ge.c;KILLED
-timestamp.mut.44.4_3_23.ROR.timestamp_ge.c;KILLED
+\begin{lstlisting}[language=bash, label=lik_equiv, caption=Likely equivalent mutants.]
+clock.mut.37.4_3_29.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.1_1_9.LOD.gs_clock_to_iso8601_string2
+clock.mut.40.2_4_10.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.1_2_10.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.4_2_14.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.5_3_14.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.2_1_16.ICR.gs_clock_to_iso8601_string2
+clock.mut.40.1_10_35.ROR.gs_clock_to_iso8601_string2
+clock.mut.40.1_6_31.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.3_9_38.UOI.gs_clock_to_iso8601_string2
+clock.mut.40.4_11_38.UOI.gs_clock_to_iso8601_string2
+clock.mut.41.4_4_22.AOR.gs_clock_to_iso8601_string2
+clock.mut.41.2_1_24.ICR.gs_clock_to_iso8601_string2
+clock.mut.60.2_3_14.LOD.gs_clock_from_string
+clock.mut.69.2_5_17.ROR.gs_clock_from_string
+clock.mut.80.1_2_21.ICR.gs_clock_from_string
+clock.mut.80.2_1_21.ICR.gs_clock_from_string
+clock.mut.85.2_5_18.ROR.gs_clock_from_string
+clock.mut.86.2_2_25.ROD.gs_clock_from_string
+clock.mut.86.3_5_28.ICR.gs_clock_from_string
+clock.mut.86.6_4_28.ICR.gs_clock_from_string
+clock.mut.86.5_3_28.ICR.gs_clock_from_string
+clock.mut.86.2_1_28.ICR.gs_clock_from_string
+clock.mut.86.1_6_28.ICR.gs_clock_from_string
+clock.mut.86.4_8_52.ICR.gs_clock_from_string
+clock.mut.87.2_2_24.ROD.gs_clock_from_string
+clock.mut.87.2_1_27.ICR.gs_clock_from_string
+clock.mut.87.3_2_27.ICR.gs_clock_from_string
+clock.mut.87.2_4_44.ROD.gs_clock_from_string
+clock.mut.87.4_5_47.ICR.gs_clock_from_string
+clock.mut.88.2_2_25.ROD.gs_clock_from_string
+clock.mut.88.3_2_28.ICR.gs_clock_from_string
+clock.mut.88.2_1_28.ICR.gs_clock_from_string
+clock.mut.88.2_4_46.ROD.gs_clock_from_string
+clock.mut.88.4_5_49.ICR.gs_clock_from_string
+clock.mut.89.2_1_28.ICR.gs_clock_from_string
+clock.mut.89.4_4_49.ICR.gs_clock_from_string
+clock.mut.90.2_1_27.ICR.gs_clock_from_string
+clock.mut.90.4_4_47.ICR.gs_clock_from_string
+clock.mut.91.2_1_27.ICR.gs_clock_from_string
+clock.mut.91.6_6_44.ROR.gs_clock_from_string
+clock.mut.91.4_4_47.ICR.gs_clock_from_string
+clock.mut.93.10_1_24.AOR.gs_clock_from_string
+clock.mut.103.2_1_24.ICR.gs_clock_from_string
+timestamp.mut.44.2_5_23.ROR.timestamp_ge
 \end{lstlisting}
 
-In the following sections, we provide the list of test cases that covers the 30 mutants killed for the sources \texttt{clock.c}, \texttt{timestamp.c}, \texttt{memory.c}, and \texttt{error.c}. For each test case, we also provide the oracle with the expected values for the function. Note that engineers are supposed to verify if the expected output is correct. In the case that the expected output is not correct, it means that the software is faulty.
+Instead, Listing~\ref{inspection} shows the list of 33 mutants for which SEMuS was not able to generate a test input that killed the mutant. Particularly, SEMuS could not find a test input to trigger an error on the C functions \texttt{sscanf} and \texttt{snprintf} used in clock.c.
 
-\TODO{I would report the in an appendix. ALso, we should report both the test case and the oracles.}
-\TODO{You should explicitely indicate that engineers are supposed to verify if teh expected output is correct, if not, it means that the software is faulty}.
-\TODO{Did you check if the same input kills other mutants? We shall do it, so that we minimize the number of test cases reported}
-\TODO{What about the mutants for which SEMuS do not generate inputs but terminate? I would suggest to consider those mutants as likely equivalent and list them as such}
-\TODO{The mutants are not many, can we try to analyze them to draw conclusions about the quality of the test suite? For example, can you printout/grep the mutants for which we generated inputs so that we can understand if they are about boundary conditions? Does the nature of the mutation operator help us in this regard? We need to provide an evaluation of the test suite.}
+\begin{lstlisting}[language=bash, label=inspection, caption=Mutants to be manually inspected.]
+clock.mut.41.1_1_9.SDL.gs_clock_to_iso8601_string2
+clock.mut.80.1_1_9.SDL.gs_clock_from_string
+clock.mut.85.2_1_24.LCR.gs_clock_from_string
+clock.mut.85.1_11_13.LOD.gs_clock_from_string
+clock.mut.86.2_1_34.LOD.gs_clock_from_string
+clock.mut.86.2_1_34.LCR.gs_clock_from_string
+clock.mut.85.1_10_13.LOD.gs_clock_from_string
+clock.mut.86.2_2_58.LCR.gs_clock_from_string
+clock.mut.85.1_9_13.LOD.gs_clock_from_string
+clock.mut.87.2_1_30.LCR.gs_clock_from_string
+clock.mut.87.2_2_51.LCR.gs_clock_from_string
+clock.mut.85.1_8_13.LOD.gs_clock_from_string
+clock.mut.88.2_1_31.LCR.gs_clock_from_string
+clock.mut.85.1_7_13.LOD.gs_clock_from_string
+clock.mut.88.2_2_53.LCR.gs_clock_from_string
+clock.mut.88.2_2_53.LOD.gs_clock_from_string
+clock.mut.85.1_6_13.LOD.gs_clock_from_string
+clock.mut.85.1_5_13.LOD.gs_clock_from_string
+clock.mut.89.2_2_53.LCR.gs_clock_from_string
+clock.mut.85.1_4_13.LOD.gs_clock_from_string
+clock.mut.89.2_2_53.LOD.gs_clock_from_string
+clock.mut.85.1_3_13.LOD.gs_clock_from_string
+clock.mut.90.2_1_30.LCR.gs_clock_from_string
+clock.mut.90.2_1_30.LOD.gs_clock_from_string
+clock.mut.90.2_2_51.LCR.gs_clock_from_string
+clock.mut.90.2_2_51.LOD.gs_clock_from_string
+clock.mut.85.1_2_13.LOD.gs_clock_from_string
+clock.mut.85.1_1_13.LOD.gs_clock_from_string
+clock.mut.91.2_1_30.LCR.gs_clock_from_string
+clock.mut.85.2_2_18.ROD.gs_clock_from_string
+clock.mut.85.4_3_18.ROR.gs_clock_from_string
+clock.mut.86.1_1_14.ROD.gs_clock_from_string
+clock.mut.88.1_1_14.ROD.gs_clock_from_string
+\end{lstlisting}
 
-\newpage
-\subsection{Test Cases Generated for clock.c}
-
-In the following, we present the test cases that have been generated for the function \texttt{gs\_clock\_from\_string}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.clock/gs_clock_from_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.clock/gs_clock_from_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.clock/gs_clock_from_string/FAQAS_SEMu-out/produced-unittests/test000008.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.clock/gs_clock_from_string/FAQAS_SEMu-out/produced-unittests/test000008.ktest.c.expected}
-
-\newpage
-\subsection{Test Cases Generated for memory.c}
-
-In the following, we present the test cases that has been generated for the function \texttt{long\_to\_string}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#3}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c.expected}
-\subsubsection{Test Case \#4}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000005.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000005.ktest.c.expected}
-\subsubsection{Test Case \#5}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000006.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000006.ktest.c.expected}
-\subsubsection{Test Case \#6}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000010.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000010.ktest.c.expected}
-\subsubsection{Test Case \#7}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000016.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000016.ktest.c.expected}
-\subsubsection{Test Case \#8}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000020.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000020.ktest.c.expected}
-\subsubsection{Test Case \#9}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000039.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000039.ktest.c.expected}
-\subsubsection{Test Case \#10}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000040.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000040.ktest.c.expected}
-\subsubsection{Test Case \#11}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000045.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000045.ktest.c.expected}
-\subsubsection{Test Case \#12}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000048.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000048.ktest.c.expected}
-\subsubsection{Test Case \#13}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000054.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000054.ktest.c.expected}
-\subsubsection{Test Case \#14}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000064.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000064.ktest.c.expected}
-\subsubsection{Test Case \#15}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000065.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000065.ktest.c.expected}
-\subsubsection{Test Case \#16}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000070.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000070.ktest.c.expected}
-\subsubsection{Test Case \#17}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000074.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000074.ktest.c.expected}
-\subsubsection{Test Case \#18}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000078.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000078.ktest.c.expected}
-\subsubsection{Test Case \#19}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000080.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000080.ktest.c.expected}
-\subsubsection{Test Case \#20}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000084.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000084.ktest.c.expected}
-\subsubsection{Test Case \#21}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000087.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000087.ktest.c.expected}
-\subsubsection{Test Case \#22}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000091.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000091.ktest.c.expected}
-\subsubsection{Test Case \#23}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000093.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.drivers.sys.memory/long_to_string/FAQAS_SEMu-out/produced-unittests/test000093.ktest.c.expected}
+\EMPH{Action Item 7}{The SUT engineer shall manually inspect each of the 33 mutants presented in Listing~\ref{inspection}, and verify the reason why the Libutil test suite is not detecting them.}
 
 
-\newpage
-\subsection{Test Cases Generated for error.c}
-
-In the following, we present the test cases that has been generated for the function \texttt{gs\_error\_string}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000006.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000006.ktest.c.expected}
-\subsubsection{Test Case \#3}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000009.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000009.ktest.c.expected}
-\subsubsection{Test Case \#4}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000010.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.error/gs_error_string/FAQAS_SEMu-out/produced-unittests/test000010.ktest.c.expected}
-
-
-\newpage
-\subsection{Test Cases Generated for timestamp.c}
-
-In the following, we present the test cases that has been generated for the function \texttt{timestamp\_add}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_add/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_add/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_add/FAQAS_SEMu-out/produced-unittests/test000002.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_add/FAQAS_SEMu-out/produced-unittests/test000002.ktest.c.expected}
-
-In the following, we present the test cases that has been generated for the function \texttt{timestamp\_diff}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_diff/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_diff/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_diff/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_diff/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c.expected}
-
-
-In the following, we present the test cases that has been generated for the function \texttt{timestamp\_ge}.
-
-\subsubsection{Test Case \#1}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_ge/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_ge/FAQAS_SEMu-out/produced-unittests/test000001.ktest.c.expected}
-\subsubsection{Test Case \#2}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_ge/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c}
-\lstinputlisting{generated_test_cases/direct-src.timestamp/timestamp_ge/FAQAS_SEMu-out/produced-unittests/test000003.ktest.c.expected}
+The test cases generated by SEMuS for the 30 mutants are presented in the Appendix~\ref{appendix}. Particularly, we provide the generated test case with its expected output.
