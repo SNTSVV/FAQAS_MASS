@@ -4,8 +4,7 @@
 
 % \TODO{that we used}
 
-\DONE{Did you want to say that you followed the default configuration provided in the SUM except for... ?}
-\DONE{"Specific configuration" is not a generic concept that anyone can understand, you have to clarify what do you mean with that}
+
 
 We configured MASS and SEMuS by following the default configuration provided in the Software User Manual (SUM) document, except for a couple of additional configurations, which are described in this chapter.
 
@@ -27,11 +26,11 @@ Now we report the configurations concerning the \textbf{SEMuS tool}, the additio
 Listing~\ref{libutil_com_cmd} presents the compilation command we used to enable test generation on Libutil, in particular, the variable \texttt{\$repo\_root\_dir} represents the installation path of Libutil, \texttt{\$out\_file} represents the file storing the compiled object, and \texttt{\$in\_file} represents the source being analyzed.
 
 
-We configured SEMuS to terminate the test generation after 300 seconds. The timeout implies that after 300 seconds, SEMuS will try to generate test inputs for the states reached so far, even if the symbolic execution has not reached the end of the function under test. If tests are generated, it means that the processed mutants have been killed. Otherwise, it means that SEMuS could not find test inputs that kill those mutants.
+We configured SEMuS to terminate the test generation after 300 seconds. The timeout implies that after 300 seconds, SEMuS will try to generate test inputs for the states reached so far, even if the symbolic execution has not reached the end of the function under test. If tests are generated, it means that the processed mutants have been killed. Otherwise, it means that SEMuS could not find test inputs that kill those mutants (they require manual inspection because they might be either equivalent or non-equivalent mutants).
 
-\DONE{What are the implication of the above? You should write that it still checks if the generated inputs kill the mutants, if not they are discarded.}
+%\DONE{What are the implication of the above? You should write that it still checks if the generated inputs kill the mutants, if not they are discarded.}
 
 We also set SEMuS to use a maximum of 2\,000 MB for the test generation, which means that if the test generation reaches 2\,000 MB of memory consumption, the test generation process will be stopped. The limit of 2\,000 MB was selected by following the guidelines of the underlying test generation tool (i.e., SEMu~\cite{titcheu2021killing}).
 
-\DONE{What is the motivation for the choice above? Why do we believe is a good compromise between scalability and effectiveness?}
+%\DONE{What is the motivation for the choice above? Why do we believe is a good compromise between scalability and effectiveness?}
 

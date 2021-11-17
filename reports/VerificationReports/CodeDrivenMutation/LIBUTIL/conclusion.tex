@@ -2,7 +2,7 @@
 
 \chapter{Software Defects}
 
-In this chapter, we present a software defect that we identify during the test generation process for Libutil.
+In this chapter, we present a software defect that we identified during the test generation process for Libutil.
 
 Listing~\ref{semus:testUtil}, shows the test case generated for a mutant of function \emph{timestamp\_diff} in Libutil.
 This function receives as input two parameters, \emph{base} and \emph{diff}; it subtracts \emph{diff} from \emph{base} and updates the value of \emph{base}. Both \emph{base} and \emph{diff} are of type \emph{struct gs\_timestamp\_t}, which is shown in Figure~\ref{semus:testUtil:struct}.
@@ -23,9 +23,9 @@ base->tv_nsec = 999999999
 
 The output above, which simply reflects the actual behavior of the implementation, show that the difference between zero (i.e, \emph{base = {tv\_sec= 0,tv\_nsec= 0};}) and one nanosecond  (i.e., \emph{diff = {tv\_sec= 0,tv\_nsec=1}})leads to a big integer (i.e., we observe an \EMPH{integer underflow}); instead, according to specifications, it should make the function return an error code (i.e., a value different than zero shall be assigned to \emph{result\_faqas\_semu} in the output above).
 
-\DONE{What is the action item? At least they should fix the software no?}
+%\DONE{What is the action item? At least they should fix the software no?}
 
-\EMPH{Action Item 8}{The SUT engineer shall fix the implementation of the function \texttt{timestamp\_diff} by returning an error code if the value of \texttt{diff} is greater than \texttt{base}.}
+\EMPH{Action Item 9}{GSL shall fix the implementation of the function \texttt{timestamp\_diff}; it shall return an error code if the value of \texttt{diff} is greater than \texttt{base}.}
 
 \begin{lstlisting}[language=C, caption=Test case generated for Libutil., label=semus:testUtil]
 int main(int argc, char** argv)
