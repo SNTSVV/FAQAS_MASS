@@ -25,7 +25,7 @@ if probe_structure != 'standard':
 with open(target_folder + '/' + target_file, 'rt') as file_to_modify:
     modified_file_content = file_to_modify.read()
 
-    include = '#include "' + mutator_path + '"\n'
+    include = '#include ' + mutator_path + ' \n'
     modified_file_content = include + modified_file_content
 
     list_of_probes = re.findall("mutation_probe(.*)", modified_file_content)
