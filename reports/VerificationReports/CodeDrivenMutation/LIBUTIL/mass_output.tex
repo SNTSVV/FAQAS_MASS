@@ -59,7 +59,9 @@ After applying MASS to the software artifact, we report in the following the met
 
 	\item 2\,575 mutants are filtered by trivial compiler optimisations, that is, mutants that are equivalent with respect to the original program or redundant with respect to other mutants.
 
-	\item In total, MASS analyzed 5\,997 mutants, the process took 962 minutes (16 hours) to complete.
+    \item This leads to 5\,997 (8\,572 - 2\,575) mutants to be tested by the test suite.
+
+	\item In total, MASS analyzed (i.e., tested with the SUT test suite and further processed to discover likely equivalent mutants) 5\,997 mutants, the process took 962 minutes (16 hours) to complete.
 
 	\item The Libutil test suite identified a total of 4\,440 mutants (i.e., killed mutants).
 
@@ -84,7 +86,7 @@ After applying MASS to the software artifact, we report in the following the met
 
 \subsection{Libutil Live Mutants}
 
-In this section, we provide detailed information about five mutants that present a behavior that largely differs from that of the original software. These mutants shall be discovered by the test suite.
+In this section, we provide detailed information about five mutants that present a behavior that largely differs from that of the original software. These mutants should have been discovered by the test suite.
 
 \subsubsection{Live Mutant \#1}
 
@@ -109,7 +111,7 @@ void gs_fletcher16_update(gs_fletcher16_t * f16, const void * data_in, size_t si
 \begin{lstlisting}[language=C, label=live_1, caption=Mutant source code.]
 void gs_fletcher16_update(gs_fletcher16_t * f16, const void * data_in, size_t size)
 {
-    if (f16) { // first and second operand deleted
+    if (f16) { // 2nd and 3rd parameter deleted
         const uint8_t * data = data_in;
         for (unsigned int idx = 0; idx < size; ++idx) {
             f16->sum1 = (uint16_t)((f16->sum1 + (*data++)) % 255);
@@ -167,7 +169,7 @@ gs_error_t gs_swwd_monitor_task_stop(uint32_t timeout_s)
     /* Wait for the task to stop */                                                                                                  
     const uint32_t timeout = GS_SWWD_CHECK_INTERVAL_MS + (timeout_s * 1000);
     uint32_t tm = 0;
-    while( (tm < timeout)) { // first while operator deleted
+    while( (tm < timeout)) { // 1st condition of while removed
         gs_thread_sleep_ms(100);
         tm += 100;
     }
@@ -334,7 +336,7 @@ if ((string[0] == '0') && ((string[1] == 'x') || (string[1] == 'X')))
 
 \begin{lstlisting}[language=C, label=live_5, caption=Mutant source code.]
 // check for hexadecimal notation
-if ((string[0] == '0') || ((string[1] == 'x') || (string[1] == 'X')))                                                              
+if ((string[0] == '0') || ((string[1] == 'x') || (string[1] == 'X')))// '&&' changed into '||' 
 {
     base = 16;
 }
