@@ -408,26 +408,24 @@ For DAMAt, \EMPH{test suite augmentation} shall thus be performed manually by an
 
 
 \STARTCHANGEDFINAL
-\subsection{Verification report structure}
+\subsection{Data-driven Mutation Testing: Verification Report}
 A verification report written after an execution of \DAMA shall account for all the most relevant results produced during the procedure. We propose the following structure.
 
-\begin{itemize}
-
-
-  \item \textbf{Chapter 1: Introduction}
+  \subsubsection{Introduction}
 
 
   This chapter shall briefly introduce the scope of the verification report and briefly provide essential information on its context and motivation.
-
-
+  It shall contain the following sections:
   \begin{itemize}
-    \item \emph{1.1 Executive Summary}
+
+
+    \item \emph{Executive Summary}
 
 
     This section shall contain a brief description of the document and a recount of the action taken during the described verification procedure.
 
 
-    \item \emph{1.2 Terms, definitions, and abbreviated terms}
+    \item \emph{Terms, definitions, and abbreviated terms}
 
 
     All the relevant terms, abbreviations and definition used in the documents shall be explained in this section.
@@ -436,22 +434,21 @@ A verification report written after an execution of \DAMA shall account for all 
   \end{itemize}
 
 
-  \item \textbf{Chapter 2: Configuration of the Tool-Set}
+  \subsubsection{Configuration of the Tool-Set}
 
 
   This chapter shall describe how \DAMA was configured for the particular use case for which the procedure has been performed.
-
-
+  It shall contain the following sections:
   \begin{itemize}
 
 
-    \item \emph{2.1 Probe Insertion Strategy}
+    \item \emph{Probe Insertion Strategy}
 
 
     This section shall describe and motivate where and how the mutation probes were placed in the source code. It shall briefly explain the reasoning behind choosing the target file and function and highlight any particularity of the probe insertion (i.e. additional lines of code etc.).
 
 
-    \item \emph{2.2 Fault Model}
+    \item \emph{Fault Model}
 
 
     This section shall describe the composition of the Fault Model, report it in tabular form and briefly explain what were the type of message that were targeted. It should also contain a brief explanation on how to read the fault model itself (i.e. meaning of the columns) and a table containing the definitions of the mutation operators.
@@ -460,30 +457,29 @@ A verification report written after an execution of \DAMA shall account for all 
   \end{itemize}
 
 
-  \item \textbf{Chapter 3: Results}
+  \subsubsection{Chapter 3: Results}
 
 
   This chapter shall describe the results of the \DAMA procedure. A brief introduction shall report the \emph{FMC}, \emph{MOC} and \emph{MS} metrics, and explain their meaning in the context of \DAMA.
   Then different section will address the limitation of the test suite as indicated by the metrics and suggest addiction item to improve it.
-
-
+  It shall contain the following sections as needed:
   \begin{itemize}
 
-    
-    \item \emph{3.1 Fault Model Coverage}
+
+    \item \emph{3.1 Fault Model Coverage (optional)}
 
 
-    If the \emph{Fault Model Coverage} is below 100\%, this section will report which mutation probes were not covered by the test suite and their placement in the code. The suggested action item would be devising test that cover the branches in question.
+    If the \emph{Fault Model Coverage (optional)} is below 100\%, this section will report which mutation probes were not covered by the test suite and their placement in the code. The suggested action item shall be devising test that cover the branches in question.
 
 
-    \item \emph{3.2 Mutation Operation Coverage}
+    \item \emph{3.2 Mutation Operation Coverage (optional)}
 
 
     If the \emph{Mutation Operation Coverage} is below 100\%, this section will report the number of mutants covered but not applied and their definition.
     For everyone of these mutants, the suggested action item shall be to check why the input partition related to that mutant is not covered and why.
 
 
-    \item \emph{3.3 Mutation Score}
+    \item \emph{3.3 Mutation Score (optional)}
 
 
     If the \emph{Mutation Score} is below 100\%, this section will report the number of mutants applied but not killed and their definition.
@@ -491,10 +487,5 @@ A verification report written after an execution of \DAMA shall account for all 
 
 
   \end{itemize}
-\end{itemize}
-
-
-
-
 
 \ENDCHANGEDFINAL
