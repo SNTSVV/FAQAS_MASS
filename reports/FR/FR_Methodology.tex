@@ -19,7 +19,7 @@ FAQAS led to the development of a toolset that includes the following components
 \end{center}
 \end{figure}
 
-The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolsets.
+The FAQAS activity also led to the definition and feasibility study of DAMTE, a methodology supported by the KLEE symbolic execution engine for the generation of test inputs based on data-driven mutation analysis results. However, DAMTE has shown to not be feasible in practice, with the current state-of-the-art test generation toolset.
 
 Figure~\ref{fig:FAQAS:toolset} provides an overview of the input and outputs of the FAQAS toolset. All the components take as input the software under test (SUT), its test suite, and a set of configuration files.
 MASS generates as output a set of live mutants (i.e., mutants that do not lead to a test suite failure), a set of killed mutants (i.e., mutants that lead to a test suite failure), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite, the mutation score, and the execution time of test cases.
@@ -262,11 +262,11 @@ Every line of the file represents a mutation operator, while every column repres
 \begin{itemize}
   \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
 
-  \item Column \emph{DataItem} refers to the index of the first elemente of the targeted data item in the array representing the buffer.
+  \item Column \emph{DataItem} refers to the index of the first element of the targeted data item in the array representing the buffer.
 
   \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
 
-  \item Column \emph{Type} reportts about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
+  \item Column \emph{Type} reports about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
 
   \item Column \emph{FaultClass} contains the type of fault that the mutation will emulate.
 
@@ -284,7 +284,7 @@ They are contained in the file \texttt{DAMAt\_configure.sh}. The value of these 
   \item The variable \texttt{padding} shall be set to an integer number representing the number of bytes to skip at the beginning of the target buffer. Normally it shall be set to \texttt{0}, but it can be used to skip the header of the buffer if needed.
 \end{itemize}
 
-The DAMAt pipeline can then be executed. The DAMAt toolset will automatically generate the mutants and execute the generated mutants againsts the test suite under evaluation.
+The DAMAt pipeline can then be executed. The DAMAt toolset will automatically generate the mutants and execute the generated mutants against the test suite under evaluation.
 Every mutation operator can will generate one or more mutants.
 
 \ENDCHANGEDFINAL
@@ -300,7 +300,7 @@ The latter provides a high-level perspective on the results of the procedure, be
 \end{enumerate}
 
 
-A low score in one of the metrics indicate one of following scenarios, repsectively:
+A low score in one of the metrics indicate one of following scenarios, respectively:
 \begin{enumerate}
 \item The message type targeted by a fault model is never exercised.
 \item The message type is covered by the test suite, but it is not possible to perform some of the mutation operations. It depends on the fact that not all the input partitions are exercised by the test suite.
