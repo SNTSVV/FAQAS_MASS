@@ -224,7 +224,22 @@ test.mut.2524.5_1_98.LVR.T_POS_SET_Encode.c;LIVE
 
 The \emph{Verification Report} is a document that reports on the assessment of a SUT test suite, the analysis shall be based on the FAQAS code-driven mutation testing methodology performed via MASS and SEMuS.
 
-In a nutshell, the report shall provide (1) the configuration used to setup the toolset with the SUT, (2) the results of the code-driven mutation analysis process, (3) information about the test cases generated based on mutation testing, and (4) the set of mutants not killed by the approach. More details about the content of the verification report are presented below.
+In a nutshell, the report shall provide (1) an introduction to the document, (2) the configuration used to setup the toolset with the SUT, (3) the results of the code-driven mutation analysis process, (4) information about the test cases generated based on mutation testing, and (5) the set of mutants not killed by the approach. More details about the content of the verification report are presented below.
+
+\subsection{Introduction}
+
+This section shall briefly introduce the scope of the verification report and briefly provide essential information on its context and motivation.
+It shall contain the following sections: 
+\begin{enumerate}
+    \item \emph{Executive Summary}
+
+    This section shall contain a brief description of the document and a recount of the action taken during the described verification procedure
+
+    \item \emph{ Terms, definitions, and abbreviated terms}
+
+    This section shall contain all the relevant terms, abbreviations and definition used in the documents shall be explained in this section.
+\end{enumerate}
+
 
 \subsection{Configuration of the FAQAS Toolset}
 
@@ -232,40 +247,70 @@ This section shall contain for each tool (i.e., MASS and SEMuS) the specific con
 
 \subsection{Mutation Analysis Results}
 
-This section shall contain the outcome of the mutation analysis process through the use of MASS. For starters, it shall contain a subsection specifying the components of the SUT to be considered for the analysis. Then, it shall follows a subsection describing the code coverage of the SUT test suite in terms of statement, function, and branch coverage. An action item shall be reported whether the statement or branch coverage does not reach 100\%.
-It also shall contain a subsection reporting the outcome of MASS, that is reporting the following metrics:
-\begin{itemize}
-    \item The total number of mutants generated, specifying the set of mutation operators used.
-    \item The total number of mutants discarded by trivial compiler optimisations.
-    \item The total number of mutants tested by MASS.
-    \item The total execution time of MASS.
-    \item The total number of killed mutants.
-    \item The total number of live mutants.
-    \item The total number of likely equivalent mutants.
-    \item The MASS mutation score.
-    \item The statement coverage reached by the test suite.
-    \item The total number of statements covered.
-    \item The minimum and the maximum number of statements covered per source file.
-\end{itemize}
+This section shall contain the outcome of the mutation analysis process through the use of MASS. It shall contain the following sections:
 
-To finalize, the mutation analysis results shall report a list of five live mutants, that present a behavior that largely differs from that of the original software (i.e., mutants that should have been discovered by the test suite). For each mutant, it shall be reported (1)
- the source file affected by the mutation, (2) the mutant ID, (3) the excerpt of the function affected by the mutation containing the original version of the software, (4) the excerpt of the function affected by the mutation containing the mutated version of the software, and (5) an action item explaining the problem of the test suite regarding the live mutant.
+\begin{enumerate}
+    \item \emph{Source files to be analyzed}
+
+    This section shall contain a subsection specifying the components of the SUT to be considered for the analysis.
+
+    \item \emph{Code coverage}
+
+    This section shall describe the code coverage of the SUT test suite in terms of statement, function, and branch coverage. An action item shall be reported whether the statement or branch coverage does not reach 100\%.
+
+    \item \emph{MASS output}
+
+    It also shall contain a section reporting the outcome of MASS, that is reporting the following metrics:
+    \begin{itemize}
+        \item The total number of mutants generated, specifying the set of mutation operators used.
+        \item The total number of mutants discarded by trivial compiler optimisations.
+        \item The total number of mutants tested by MASS.
+        \item The total execution time of MASS.
+        \item The total number of killed mutants.
+        \item The total number of live mutants.
+        \item The total number of likely equivalent mutants.
+        \item The MASS mutation score.
+        \item The statement coverage reached by the test suite.
+        \item The total number of statements covered.
+        \item The minimum and the maximum number of statements covered per source file.
+    \end{itemize}
+
+
+    \item \emph{Live mutants}
+
+    To finalize, the mutation analysis results shall report a list of five live mutants, that present a behavior that largely differs from that of the original software (i.e., mutants that should have been discovered by the test suite). For each mutant, it shall be reported (1) the source file affected by the mutation, (2) the mutant ID, (3) the excerpt of the function affected by the mutation containing the original version of the software, (4) the excerpt of the function affected by the mutation containing the mutated version of the software, and (5) an action item explaining the problem of the test suite regarding the live mutant.
+\end{enumerate}
+
+
+
+
 
 \subsection{Test Suite Augmentation Results}
 
-This section shall report the outcome of the test suite augmentation process based on mutation testing with SEMuS. This section shall contain a subsection listing (1) eventual non-processable source files by SEMuS (e.g., source files processing I/O operations, source files with external dependencies), and (2) source files processable by SEMuS.
-The section also shall contain a subsection detailing the following test generation metrics:
-\begin{itemize}
-    \item The total number of non-processable by SEMuS.
-    \item The total number of analyzed mutants by SEMuS.
-    \item The total number of additionally killed mutants.
-    \item The total number of mutants that are determined by MASS as likely equivalent and for which SEMuS did not generate a test inputs killing them.
-    \item The total number of mutants to be manually analyzed by SUT engineers, that is, the set of mutants for which SEMuS was not able to generate a test input for them but MASS did not report them as likely equivalent.
-    \item The total number of mutants that reached a test generation timeout during SEMuS analysis.
-    \item The updated mutation score including the additionally killed mutants by SEMuS.
-\end{itemize}
+This section shall report the outcome of the test suite augmentation process based on mutation testing with SEMuS. This section shall contain the following subsections:
 
-Furthermore, this subsection shall include the list of mutant IDs for the likely equivalent mutants, and for the mutants to be analyzed manually.
+\begin{enumerate}
+    \item \emph{Source files to be analyzed}
+
+    This subsection shall list (1) eventual non-processable source files by SEMuS (e.g., source files processing I/O operations, source files with external dependencies), and (2) source files processable by SEMuS.
+
+    \item \emph{SEMuS output}
+
+    The subsection also shall contain a subsection detailing the following test generation metrics:
+    \begin{itemize}
+        \item The total number of non-processable by SEMuS.
+        \item The total number of analyzed mutants by SEMuS.
+        \item The total number of additionally killed mutants.
+        \item The total number of mutants that are determined by MASS as likely equivalent and for which SEMuS did not generate a test inputs killing them.
+        \item The total number of mutants to be manually analyzed by SUT engineers, that is, the set of mutants for which SEMuS was not able to generate a test input for them but MASS did not report them as likely equivalent.
+        \item The total number of mutants that reached a test generation timeout during SEMuS analysis.
+        \item The updated mutation score including the additionally killed mutants by SEMuS.
+    \end{itemize}
+
+    Furthermore, this subsection shall include the list of mutant IDs for the likely equivalent mutants, and for the mutants to be analyzed manually.
+\end{enumerate}
+
+ 
 
 \subsection{Software Defects (Optional)}
 
@@ -434,7 +479,7 @@ A verification report written after an execution of \DAMA shall account for all 
   \end{itemize}
 
 
-  \subsubsection{Configuration of the Tool-Set}
+  \subsubsection{Configuration of the Toolset}
 
 
   This chapter shall describe how \DAMA was configured for the particular use case for which the procedure has been performed.
