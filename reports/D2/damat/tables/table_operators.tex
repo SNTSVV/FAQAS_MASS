@@ -5,7 +5,7 @@
 
 \begin{table*}[tb]
 \caption{Data-driven mutation operators}
-\label{table:operators}
+\label{table:operators_damat}
 \scriptsize
 \begin{longtable}{|p{20mm}|p{7mm}|p{4cm}|p{8cm}|}
 \hline
@@ -22,16 +22,16 @@ T: threshold\\
 \begin{minipage}{\MINIPW}
 Replaces the current value with a value above the threshold T for a delta (\D). It simulates a value that is out of the nominal case and shall trigger a response from the system that shall be verified by the test case (e.g., the system may continue working but an alarm shall be triggered). Not applied if the value is already above the threshold.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' =  (T+\Delta)   (\mathit{if} v \le T); v' =  v   (\mathit{otherwise})$;
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       (T+D)    & \mathit{if} v \le T\\
       v    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
 \end{minipage}
@@ -51,16 +51,16 @@ T: threshold\\
 \begin{minipage}{\MINIPW}
 Replaces the current value with a value below the threshold T for a delta (\D). It simulates a value that is out of the nominal case and shall trigger a response from the system that shall be verified by the test case (e.g., the system may continue working but an alarm shall be triggered). Not applied if the value is already below the threshold.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' =  (T-\Delta)  (\mathit{if} v \ge T); v' = v    (\mathit{otherwise})$
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       (T-D)    & \mathit{if} v \ge T\\
       v    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 \end{minipage}
 \\
@@ -81,28 +81,28 @@ MAX: maximum valid value\\
 Replaces the current value with a value out of the range $[MIN;MAX]$. It simulates a value that is out of the nominal range and shall trigger a response from the system that shall be verified by the test case (e.g., the system may continue working but an alarm shall be triggered). Not applied if the value is already out of range.
 \CHANGED{This was inspired by the \emph{ARBC} operator~\cite{di2015generating}; however, \APPR enables engineers to explicitly specify the delta.}
 
-%\EMPH{Data mutation procedure 1:} 
+%\EMPH{Data mutation procedure 1:}
 %$v' =  (MIN-\Delta)    (\mathit{if} MIN \le v \le MAX); v' = v   (\mathit{otherwise})$\\
 %
-%\EMPH{Data mutation procedure 2:} 
+%\EMPH{Data mutation procedure 2:}
 %$v' = (MAX+\Delta)   (\mathit{if} MIN \le v \le MAX); v' = v   (\mathit{otherwise})$\\
 
-\EMPH{Data mutation procedure 1:} 
+\EMPH{Data mutation procedure 1:}
 \[
-v' =  
+v' =
     \begin{cases}
       (MIN-D)    & \mathit{if} MIN \le v \le MAX\\
       v    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
-\EMPH{Data mutation procedure 2:} 
+\EMPH{Data mutation procedure 2:}
 \[
-v' =  
+v' =
     \begin{cases}
       (MAX+D)    & \mathit{if} MIN \le v \le MAX\\
       v    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
 \end{minipage}
@@ -144,7 +144,7 @@ MAX: higher valid value\\
 \end{minipage}
 &
 \begin{minipage}{\MINIPW}
-Replace the current value with a mutated value that is legal (i.e., in the specified range) but different than current value. It simulates the exchange of data that is not consistent with the state of the system. 
+Replace the current value with a mutated value that is legal (i.e., in the specified range) but different than current value. It simulates the exchange of data that is not consistent with the state of the system.
 \CHANGED{It matches the \emph{ARR} operator~\cite{di2015generating}.}
 
 \EMPH{Data mutation procedure:} Replace the current value with a different value randomly sampled in the specified range.
@@ -161,19 +161,19 @@ VALUE: illegal value that is observed\\
 \end{minipage}
 &
 \begin{minipage}{\MINIPW}
-Replace the current value with a value that is equal to the parameter \emph{VALUE}. 
+Replace the current value with a value that is equal to the parameter \emph{VALUE}.
 \CHANGED{It matches the \emph{ValidValuesMutator} operator~\cite{PeachFuzzer}.}
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' = \mathit{VALUE}    (\mathit{if} v \ne \mathit{VALUE}); v' = v   (\mathit{otherwise})$\\
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       \mathit{VALUE}    & \mathit{if} v \ne \mathit{VALUE}\\
       v    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 \end{minipage}
 \\
@@ -192,17 +192,17 @@ VALUE: value to multiply\\
 \begin{minipage}{\MINIPW}
 The mutated value is derived by amplifying the observed value by a factor \emph{V} and by adding/removing a constant value \D from it. It is used to either amplify or reduce a signal in a constant manner to simulate unusual signals. The parameter \emph{T} indicates the observed value below which instead of adding  we subtract .
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' =  T+(  (v-T)*\mathit{VALUE}  ) + \Delta  (\mathit{if}\ v \ge T); v' = T - (  (T-v)*\mathit{VALUE}  ) - \Delta   (\mathit{if}\ v < T)$;
 %\end{minipage}
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       T+(  (v-T)*\mathit{VALUE}  ) + \mathit{D}    & \mathit{if}\ v \ge T\\
       T - (  (T-v)*\mathit{VALUE}  ) - \mathit{D}   & \mathit{if}\ v < T
-    \end{cases}       
+    \end{cases}
 \]
 \end{minipage}
 \\
@@ -221,7 +221,7 @@ I,L,F,D,H
 The mutated value is derived by adding a value \D to the observed value. It simulates an anomalous shift in the signal.
 \CHANGED{This was inspired by work on signal mutation~\cite{Matinnejad19}; however, \APPR also enables engineers to rely on SS to increment (or decrement) counters and identifiers.}
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 $v' = v + \Delta$
 \end{minipage}
 \\
@@ -244,16 +244,16 @@ V: number of times to repeat the same value\\
 \begin{minipage}{\MINIPW}
 This operator keeps repeating an observed value for $V$ times. It emulates a constant signal replacing a signal supposed to vary.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' = \mathit{previous}\  v'   (\mathit{if}\ \mathit{counter} \le V) ; v' = v  \mathit{otherwise}$
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       \mathit{previous}\  v'   & \mathit{if}\ \mathit{counter} \le V\\
       v  & \mathit{otherwise}\
-    \end{cases}       
+    \end{cases}
 \]
 \end{minipage}
 \\
@@ -268,18 +268,18 @@ T: threshold\\
 \end{minipage}
 &
 \begin{minipage}{\MINIPW}
-It is the complement of VAT and implements the same mutation procedure as VBT but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly. In the presence of a value above the threshold, it replaces the current value with a value below the threshold T for a delta \D. 
+It is the complement of VAT and implements the same mutation procedure as VBT but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly. In the presence of a value above the threshold, it replaces the current value with a value below the threshold T for a delta \D.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' =  v    (\mathit{if} v > T) ; V' = (T-\Delta)    (\mathit{otherwise})$
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       v    & \mathit{if} v > T\\
       (T-D)    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
 \end{minipage}
@@ -296,18 +296,18 @@ T: threshold\\
 &
 \begin{minipage}{\MINIPW}
 It is the counterpart of FVAT for the operator VBT.
-% and implements the same mutation operation as VAT but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly. In the presence of a value below the threshold it replaces the current value with a value above the threshold T for a delta D. 
+% and implements the same mutation operation as VAT but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly. In the presence of a value below the threshold it replaces the current value with a value above the threshold T for a delta D.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' = v   (\mathit{if} v < T); v' = (T+\Delta) (\mathit{otherwise})$\\
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       v    & \mathit{if} v < T\\
       (T+D)    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
 \end{minipage}
@@ -325,19 +325,19 @@ MAX: maximum valid value\\
 \end{minipage}
 &
 \begin{minipage}{\MINIPW}
-It is the complement of VOR and implements the same mutation procedure as INV but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly. 
-%In the presence of a value out of the range  $[MIN;MAX]$ it replaces the current value with a random value within the range. 
+It is the complement of VOR and implements the same mutation procedure as INV but we named it differently because it has a different purpose. Indeed, it is used to verify that test cases exercising exceptional cases are verified correctly.
+%In the presence of a value out of the range  $[MIN;MAX]$ it replaces the current value with a random value within the range.
 
-%\EMPH{Data mutation procedure:} 
+%\EMPH{Data mutation procedure:}
 %$v' = v   (\mathit{if} MIN \le v \le MAX); v' = \mathit{random(MIN,MAX)}   (\mathit{otherwise})$
 
-\EMPH{Data mutation procedure:} 
+\EMPH{Data mutation procedure:}
 \[
-v' =  
+v' =
     \begin{cases}
       v    & \mathit{if} MIN \le v \le MAX\\\\
       \mathit{random(MIN,MAX)}    & \mathit{otherwise}\\
-    \end{cases}       
+    \end{cases}
 \]
 
 \end{minipage}

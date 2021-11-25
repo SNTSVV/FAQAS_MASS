@@ -17,15 +17,15 @@ To carry out this preliminary evaluation of mutation testing tools, we selected 
 \input{tables/mutationtools}
 
 
-The first three criteria mentioned above constitute mandatory requirements. 
+The first three criteria mentioned above constitute mandatory requirements.
 Tools not meeting these requirements are not selected for evaluation in our context because they cannot be integrated into the FAQAS framework.
 Table~\ref{table:mutationtools} provides the list of tools appearing in Table~1.1 of deliverable D1 along with the evaluation based on the criteria specified above. We do not evaluate all the criteria when one of the mandatory requirements is not met.
-For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible. 
+For what it concerns the compatibility with the ESA Software Community Licence Permissive, we consider the licenses NCSA and Apache Licence 2.0 compatible.
 Indeed, both the two licences allow for redistribution of the software, a condition that is sufficient to release a mutation testing tool as component of the FAQAS framework.
 
 For our preliminary evaluation we selected the five most recent tools that fulfill our mandatory requirements: SRCIRor, Mull, Dextool, Accmut, and Milu. Proteum has been discarded because its latest stable version dates back to December 2015; on May 2020 a few changes had been made on Proteum GitHub repository, however, the up to date version is indicated by its developer as not usable.
 
-Section~\ref{subsec:experiment_design} provides an overview of the experiment design and the case study considered. 
+Section~\ref{subsec:experiment_design} provides an overview of the experiment design and the case study considered.
 Section~\ref{subsec:background} provides a brief introduction to the static analysis framework used by all the tools assessed in our study.
 Section~\ref{subsec:srciror} to Section~\ref{subsec:dextool} describe the results achieved for each mutation testing tool considered in our study.
 
@@ -80,9 +80,9 @@ Clang is a front-end for LLVM that processes C-family languages: C, C++, Objecti
 
 \subsubsection{Overview of the mutation testing tool}
 
-SRCIRor is LLVM-based mutation testing tool that works at the level of source code (SRC), and the LLVM compiler intermediate representation (IR). 
-At a source code level SRCIRor performs mutations by using the clang compiler to parse the input files and build the abstract syntax trees (AST). 
-At the IR level SRCIRor finds and directly mutates the instructions of interest, which might be all the instructions of the SUT or a subset of them. 
+SRCIRor is LLVM-based mutation testing tool that works at the level of source code (SRC), and the LLVM compiler intermediate representation (IR).
+At a source code level SRCIRor performs mutations by using the clang compiler to parse the input files and build the abstract syntax trees (AST).
+At the IR level SRCIRor finds and directly mutates the instructions of interest, which might be all the instructions of the SUT or a subset of them.
 SRCIRor implements six types of operators, it implements Arithmetic Operators (e.g., $+, -, *, /, \%$), Relational Operators (e.g., $<, <=, >, >=, ==, !=$), Logical Operators (e.g., $\&\&, ||$), Bitwise Operators (e.g., $\&, |, \wedge$), Arithmetic Assignment Operators (e.g., $+=, -=, *=, /=, \%=$) and Bitwise Assignment Operators (e.g., $\&=, |=, \wedge=$).
 
 \begin{figure}[h]
@@ -101,17 +101,17 @@ The mutation process has been executed by applying the SRCIRor source code mutat
 From the results, we observe the generation of 105\,543 mutants. However, during the pass of SRCIRor we detected 1\,060 warnings thrown by the clang input parser.
 
 Most of the warnings are caused by SRCIRor trying to mutate memory addresses declared in C code, (e.g., mutating \texttt{0x03A6} into \texttt{(- 1)x03A6}), and unsigned integer literals (e.g., \texttt{0u}, \texttt{1u} into \texttt{(-1)u}, \texttt{1u}).
-Listing~\ref{srciror_1} to Listing~\ref{srciror_10} list the representative cases for all the warning classes found during the mutation process. 
+Listing~\ref{srciror_1} to Listing~\ref{srciror_10} list the representative cases for all the warning classes found during the mutation process.
 
-Listing~\ref{srciror_1} shows a warning due to an incompatibility with duplicate keywords declaration. 
-Listing~\ref{srciror_2} shows a warning related to the magnitude of a floating-point variable. 
-Listing~\ref{srciror_3} shows a warning due to an implicit conversion from an enumeration type. 
-Listing~\ref{srciror_4} shows a warning related to an uninitialized variable being used. 
-Listing~\ref{srciror_5} shows a warning due to a variable not being used in the source code. 
-Listing~\ref{srciror_6} shows a warning related to an invalid cast. 
-Listing~\ref{srciror_7} shows a warning related to a clang problem with inline functions. 
+Listing~\ref{srciror_1} shows a warning due to an incompatibility with duplicate keywords declaration.
+Listing~\ref{srciror_2} shows a warning related to the magnitude of a floating-point variable.
+Listing~\ref{srciror_3} shows a warning due to an implicit conversion from an enumeration type.
+Listing~\ref{srciror_4} shows a warning related to an uninitialized variable being used.
+Listing~\ref{srciror_5} shows a warning due to a variable not being used in the source code.
+Listing~\ref{srciror_6} shows a warning related to an invalid cast.
+Listing~\ref{srciror_7} shows a warning related to a clang problem with inline functions.
 Listing~\ref{srciror_8} shows multiple warnings on inline functions and invalid casts.
-Listing~\ref{srciror_9} shows a warning due to an inappropriate use of parentheses. Finally, Listing~\ref{srciror_10} shows a warning related to incompatible declarations of already existing library functions. 
+Listing~\ref{srciror_9} shows a warning due to an inappropriate use of parentheses. Finally, Listing~\ref{srciror_10} shows a warning related to incompatible declarations of already existing library functions.
 
 \input{listings/srciror_1}
 \input{listings/srciror_2}
@@ -184,16 +184,16 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 
 	\begin{itemize}
 		\item \texttt{./ApplicationLayer/SystemInit/Public/systemInit.h}: as shown in the example of the source \texttt{rtems-soft-float.c} we set to false the if condition at the line 99. The problem is that several \texttt{drvmgr.h} constant definitions are no longer available in RTEMS 5.
-		
+
 		\item \texttt{./LowLevelDriverLayer/apbuart/Source/drv\_uart.c}: commented the inclusion of the header \texttt{\textless rtems/score/types.h\textgreater}, because it does not exist anymore on RTEMS 5.
 
-		\item \texttt{./ProtocolLayer/CANDispatcher/Source/process\_Heartbeat.c}: the constant \texttt{RTEMS\_CLOCK\_GET\_TICKS\_SINCE\_BOOT} is no longer defined in RTEMS 5, so we made the following change:
-		
+		\item \texttt{./ProtocolLayer/CANDispatcher/Source/process\_Heartbeat.c}: the constant \linebreak \texttt{RTEMS\_CLOCK\_GET\_TICKS\_SINCE\_BOOT} is no longer defined in RTEMS 5, so we made the following change:
+
 		\begin{itemize}
 			\item Modified this line: \texttt{rtems\_clock\_get(RTEMS\_CLOCK\_GET\_TICKS\_SINCE\_BOOT, \&current\_time);}
 			\item By this one:        \texttt{current\_time = rtems\_clock\_get\_ticks\_since\_boot();}
 		\end{itemize}
-		
+
 		\item \texttt{./Utilities/Misc/Source/cpuLoad.c}: the class \texttt{rtems\_tcb} no longer contains a field called \texttt{real\_priority}, in RTEMS now is \texttt{Real\_priority.priority}, so we applied the change.
 	\end{itemize}
 
@@ -215,7 +215,7 @@ Mull requires compilation with clang. For this reason, we had to replace the ori
 	\input{listings/rtems5_error2}
 
 	\item \textbf{Compilation with RTEMS 4.8 and clang 9 (LLVM version)}
-	
+
 	In the fourth attempt of ESAIL compilation, we tried to build the software with the token \texttt{release=true} as suggested by LuxSpace. Even though, clang is now able to handle RTEMS libraries, still we get an error that does not allow successful ESAIL compilation:
 
 	\input{listings/rtems48_error}
@@ -259,7 +259,7 @@ In addition, it also implements the following memory mutation operators:
 	if a pointer type is specified (REMSOTP)
 	\item Remove free statement (RMFS)
 	\item Replace malloc with alloca (REM2A)
-	\item Replace calloc with alloca (REC2A) 
+	\item Replace calloc with alloca (REC2A)
 \end{itemize}
 
 
@@ -268,9 +268,11 @@ In addition, it also implements the following memory mutation operators:
 Despite Milu has been highly referenced in the literature, it is, nowadays, an outdated tool that is no longer supported by authors.
 To generate mutants with Milu it is necessary to pre-process the source files of the system under test with \texttt{gcc -E}, this option will expand all the macros contained in a single source code file.
 
-In our evaluation, the mutation process has been performed by applying the Milu source code mutator to the \texttt{adcs\_ExecuteReactionwheelDesaturation} source file of the \texttt{ApplicationLayer} component, for this example we selected the \linebreak\texttt{adcs\_ExecuteReactionwheelDesaturation} function to be mutated. We applied the default configuration of Milu, that is, applying all the first-order operators to every line in the function under analysis.
+In our evaluation, the mutation process has been performed by applying the Milu source code mutator to the \texttt{adcs\_ExecuteReactionwheelDesaturation} source file of the \texttt{ApplicationLayer} component, for this example we selected the
+% \linebreak
+\texttt{adcs\_ExecuteReactionwheelDesaturation} function to be mutated. We applied the default configuration of Milu, that is, applying all the first-order operators to every line in the function under analysis.
 
-However, the mutation process of this source file leads to a segmentation fault in the line \texttt{if(g\_strcmp0(func\_name, tmp\_node -> text) == 0)} of the \linebreak\texttt{milu\_project\_load\_function\_settings} function in Project.c. In particular, when debugging the mutation process with \texttt{gdb}, we observe that there is a variable called \texttt{tmp\_node->text} that contains corrupted data:
+However, the mutation process of this source file leads to a segmentation \linebreak fault in the line  \texttt{if(g\_strcmp0(func\_name, tmp\_node -> text) == 0)} of the \linebreak\texttt{milu\_project\_load\_function\_settings} function in Project.c. In particular, when debugging the mutation process with \texttt{gdb}, we observe that there is a variable called \texttt{tmp\_node->text} that contains corrupted data:
 
 \noindent\begin{minipage}{0.8\textwidth}
 \begin{lstlisting}[language={}]
@@ -279,7 +281,7 @@ $1 = (gchar *) 0xe <Address 0xe out of bounds>
 \end{minipage}
 
 Through a manual inspection of the Milu source code, we found that there are two functions aimed to clean the abstract syntax tree (e.g., fix\_function\_attribute and clean\_ast) that are introducing corrupted data into the AST data structure processed by Milu.
-By commenting out these two functions, it was possible to execute the mutation process of the adcs\_ExecuteReactionwheelDesaturation source file. 
+By commenting out these two functions, it was possible to execute the mutation process of the adcs\_ExecuteReactionwheelDesaturation source file.
 
 Milu produces 35 mutants belonging to the adcs\_ExecuteReactionwheelDesaturation function.
 \EMPH{However, it is not possible to compile any of the 35 mutants produced by Milu.} We observe errors during the ESAIL compilation process, in particular there are errors being thrown from the preprocessed area of the mutant. In Listing~\ref{miluerror}, an example of the error obtained during compilation is shown.
@@ -301,7 +303,6 @@ Since the evaluation for Mull has shown that it is not feasible to compile ESAIL
 
 
 \subsubsection{Accmut Evaluation Results}
-\label{subsec:dextool}
 
 \subsubsection{Overview of the mutation testing tool}
 
@@ -311,5 +312,3 @@ Accmut is a mutation testing framework for C programs built on the top of LLVM v
 
 Accmut requires the software under test to be compiled with \emph{clang}.
 Since the evaluation for Mull has shown that it is not feasible to compile ESAIL with \emph{clang}, we did not perform further experiments with Accmut.
-
-
