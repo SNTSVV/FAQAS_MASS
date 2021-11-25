@@ -45,7 +45,7 @@
 %% review and adoption.
 %% Fonts used in the template cannot be substituted; margin
 %% adjustments are not allowed.
-
+\usepackage{pdfpages}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{booktabs}
@@ -515,6 +515,23 @@ The \EMPH{scalability} and \EMPH{effectiveness} of the FAQAS toolset has been de
 
 \input{FR_summary}
 \input{FR_Conclusion}
+
+
+\appendix
+
+\clearpage
+\section{MASS Approach - Published on IEEE Transactions on Software Engineering}
+%\label{appendix:esailFM}
+\includepdf[pages=-,scale=1,offset=0mm 0]{papers/TSE-MASS.pdf}
+
+\section{DAMAt Approach - Submitted to ICSE'22}
+\includepdf[pages=-,scale=1,offset=0mm 0]{papers/ICSE22-DAMAT.pdf}
+
+\section{MASS Tool - Submitted to ICSE'22}
+\includepdf[pages=-,scale=1,offset=0mm 0]{papers/ICSE22-MASS-TOOL.pdf}
+%
+%\textbf{End of Appendix~\ref{appendix:esailFM}}
+
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
