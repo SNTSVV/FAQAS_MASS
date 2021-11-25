@@ -6,7 +6,7 @@
 
 This document is the final report of the ESA activity ITT-1-9873-ESA, which concerns the development of a framework for the automated assessment and the automated improvement of test suites for space software\footnote{In this report, we use the term space software to indicate software to be deployed on hardware that runs on-orbit.}.
 
-From spacecrafts to ground stations, software has a prominent role in space systems; for this reason, the success of space missions depends on the quality of the system hardware as much on the dependability of its software. Mission failures due to insufficient software sanity checks~\cite{Schiaparelli} are unfortunate examples, pointing to the necessity for systematic and predictable quality assurance procedures in space software.
+From spacecrafts to ground stations, software has a prominent role in space systems; for this reason, the success of space missions depends on the quality of the system software as much as on the dependability of its hardware. Mission failures due to insufficient software sanity checks~\cite{Schiaparelli} are unfortunate examples, pointing to the necessity for systematic and predictable quality assurance procedures in space software.
 
 
 Existing standards for the development of space software regulate software quality assurance and emphasize its importance.
@@ -37,7 +37,7 @@ For example, we lack mutants sampling solutions that accurately estimate the mut
 indeed, mutant sampling, which comes with a certain degree of inaccuracy, may lead to inaccurate results when applied to reduced test suites that do not have the same effectiveness of the original test suite.
 
 In addition, existing mutation analysis approaches cannot identify problems related to the interoperability of integrated components (integration testing).
-Space software, similar to software running in other types of CPSs, is often affected by problems cause by the lack of  \INDEX{interoperability of integrated components}~\cite{Givehchi:2017,Jirkovsk:2017}, mainly due to the wide variety and heterogeneity of the technologies and standards adopted.
+Space software, similar to software running in other types of CPSs, is often affected by problems caused by the lack of  \INDEX{interoperability of integrated components}~\cite{Givehchi:2017,Jirkovsk:2017}, mainly due to the wide variety and heterogeneity of the technologies and standards adopted.
 It is thus of fundamental importance to ensure the effectiveness of test suites with respect to detecting interoperability issues, for example by making sure test cases trigger the exchange of all possible data items and report failures when erroneous data is being exchanged by software components. For example, the test suite for the control software of a satellite shall identify failures due to components working with different measurement systems~\cite{MarsClimateOrbiter}.
 Unfortunately, well known, code-driven mutation operators (e.g., the sufficient set~\cite{delamaro2014designing,delamaro2014experimental}) simulate algorithmic faults by introducing small changes into the source code and are thus unlikely to simulate interoperability problems resulting in \UPDATED{exchanges of erroneous data}.
 
@@ -47,7 +47,7 @@ or to avoid damages potentially introduced by the mutation.
 
 Last, test generation approaches are in preliminary stages and cannot be applied in industrial space context. For example, SEMU, a state-of-the-art approach can generate test inputs only for batch programs that can be compiled with the LLVM infrastructure.
 
-FAQAS had the objective to assess the feasibility of mutation analysis and testing for space software by identifying feasible solutions based on existing literature. 
+FAQAS had the objective to assess the feasibility of mutation analysis and testing for space software by identifying feasible solutions based on existing literature.
 FAQAS is a joint collaboration between the SnT Centre of the University of Luxembourg\footnote{https://wwwen.uni.lu/snt}, Gomspace Luxembourg\footnote{https://gomspace.com/} (GSL) and OHB Luxspace\footnote{https://luxspace.lu/} (LXS).
 FAQAS objectives were the following:
 \begin{itemize}
@@ -66,8 +66,8 @@ FAQAS led to the following contributions:
 \item A survey of the literature on mutation analysis/testing, which is summarized in section~\ref{ch:stateOfTheArt}.
 \item The development of a toolset that includes the following tools:
 \begin{itemize}
-\item MASS (Mutation Analysis for Space Software), a tool that automatically executes code-driven mutation analysis. 
-\item DAMAt (DAta-driven Mutation Analysis with Tables), a tool that automatically executes data-driven mutation analysis. 
+\item MASS (Mutation Analysis for Space Software), a tool that automatically executes code-driven mutation analysis.
+\item DAMAt (DAta-driven Mutation Analysis with Tables), a tool that automatically executes data-driven mutation analysis.
 \item SEMuS (Symbolic Execution-based MUtant analysis for Space software), a tool that automatically generates test inputs based on code-driven mutation analysis results.
 \item DAMTE, a tool-supported methodology for the generation of test inputs based on data-driven mutation analysis results.
 \end{itemize}
@@ -75,8 +75,8 @@ FAQAS led to the following contributions:
 \end{itemize}
 
 %FAQAS led to the development of a toolset that addresses the challenges above. It includes four tools:
-%\EMPH{MASS} (Mutation Analysis for Space Software), 
-%\EMPH{DAMAt} (DAta-driven Mutation Analysis with Tables), 
+%\EMPH{MASS} (Mutation Analysis for Space Software),
+%\EMPH{DAMAt} (DAta-driven Mutation Analysis with Tables),
 %\EMPH{SEMuS} (Symbolic Execution-based MUtant analysis for Space software),
 %and \EMPH{DAMTE} (DAta-driven Mutation TEsting).
 
@@ -98,22 +98,22 @@ FAQAS led to the following contributions:
 \end{center}
 \end{figure*}
 
-Figure~\ref{fig:FAQAS:toolset:intro} provides an overview of the input and outputs of the FAQAS toolset. It relies on the idea of generating multiple modified versions of the software system under test (SUT), some are derived by modifying the implementation of the software (code-driven mutants) other by integrating a mutation API that alters the messages exchanged by the software components of the SUT (data-driven mutants). 
+Figure~\ref{fig:FAQAS:toolset:intro} provides an overview of the input and outputs of the FAQAS toolset. It relies on the idea of generating multiple modified versions of the software system under test (SUT), some are derived by modifying the implementation of the software (code-driven mutants) other by integrating a mutation API that alters the messages exchanged by the software components of the SUT (data-driven mutants).
 The SUT test suite shall be executed with all the mutants, if it is effective then it shall fail with each of them. The mutants for which a failure is not observed are said to be \EMPH{live} and indicate a pitfall in the test suite.
-All the FAQAS tools take as input the software under test (SUT), its test suite, and a set of configuration files. 
+All the FAQAS tools take as input the software under test (SUT), its test suite, and a set of configuration files.
 
-\EMPH{MASS} generates code-driven mutants. It integrates a pipeline of solutions that make mutation analysis feasible wit large SUT. The three main contributions of MASS are (1) the automated identification of trivially equivalent mutants using an ensemble of compiler optimization options, (2) the computation of the mutation score based on mutant sampling with fixed size confidence interval approach (FSCI), (3) the automated identification of equivalent mutants based on coverage. 
+\EMPH{MASS} generates code-driven mutants. It integrates a pipeline of solutions that make mutation analysis feasible wit large SUT. The three main contributions of MASS are (1) the automated identification of trivially equivalent mutants using an ensemble of compiler optimization options, (2) the computation of the mutation score based on mutant sampling with fixed size confidence interval approach (FSCI), (3) the automated identification of equivalent mutants based on coverage.
 MASS reports the set of live mutants, the set of killed mutants (i.e., mutants that are discovered by the test suite), and information useful to draft a verification report, which includes the statement coverage of the SUT test suite and the mutation score (i.e., the percentage of mutants discovered by the test suite).
 
-\EMPH{DAMAt} generates mutants for data-driven mutation analysis. Data-driven mutation analysis is a research contribution of FAQAS. Instead of mutating the implementation of the SUT, it consists of altering the data exchanged by software components. 
+\EMPH{DAMAt} generates mutants for data-driven mutation analysis. Data-driven mutation analysis is a research contribution of FAQAS. Instead of mutating the implementation of the SUT, it consists of altering the data exchanged by software components.
 DAMAt relies on fault models that specify how to mutate the data exchanged by software components through data-driven mutation operators. DAMAt can automatically alter data that is stored in data buffers (e.g., before serialization on the communication channel).
-DAMAt enables the simulation of faults that affect simulated components (e.g., sensors), which is not feasible with traditional, code-driven mutation analysis. 
+DAMAt enables the simulation of faults that affect simulated components (e.g., sensors), which is not feasible with traditional, code-driven mutation analysis.
 DAMAt generates as output a set of killed mutants (i.e., mutants that, during testing, successfully alter the data, and lead to test case failures), a set of live mutants (i.e., mutants that, during testing, successfully alter the data, but do not lead to test case failures), and a set of mutants not applied (i.e., mutants that, during testing, could not alter any data because the data they target is never exercised by the SUT); also, it provides information useful to draft a verification report, which includes the fault model coverage (i.e., percentage of fault models with at least one mutant applied), the mutation operation coverage (i.e., percentage of mutants applied), and the mutation score.
 
 \EMPH{SEMuS} automatically generates executable unit test cases based on code-driven mutation analysis results. The generated unit test cases detect mutants not detected by the original test suite. The generated test cases include test oracles that shall be manually validated by engineers, which enables detecting faults. The generated test cases can be integrated into regression test suites.
 
-SEMuS takes as input the list of live mutants detected by MASS. It generates a set of additional test cases that can be integrated into the SUT test suite. Also, it reports the list of killed mutants and the list of mutants that remain live (i.e., for which SEMuS did not generate a test case that kill them). Live mutants shall be manually inspected by engineers to either determine if they are equivalent or to manually derive a test case capable of killing them.
+SEMuS takes as input the list of live mutants detected by MASS. It generates a set of additional test cases that can be integrated into the SUT test suite. Also, it reports the list of killed mutants and the list of mutants that remain live (i.e., for which SEMuS did not generate a test case capable of killing them). Live mutants shall be manually inspected by engineers to either determine if they are equivalent or to manually derive a test case capable of killing them.
 
 \EMPH{DAMTE} is a manual procedure supported by an automated symbolic execution toolset; it automatically identifies the test inputs that make software components exchange the data targeted by data-driven mutation operators. The derived test inputs can then be manually integrated into the SUT test suite.
- 
+
 The activity also included an extensive empirical evaluation demonstrating the feasibility, effectiveness, and scalability of the proposed toolsets in the space context, as described in the following sections.
