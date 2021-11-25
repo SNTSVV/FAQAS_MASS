@@ -8,7 +8,7 @@
 This tutorial instructs on how to use \SEMUS on the Libutil Case Study provided by GomSpace Luxembourg.
 
 \section{Running \SEMUS}
-\label{sec:semus_running}
+\label{sec:semus_running_libutil}
 
 Firstly, the user needs to set up the \SEMUS toolset, please refer to Section~\ref{sec:install:semus}. For this tutorial, we have distributed to GomSpace Luxembourg a Singularity container with \SEMUS already configured and installed on it, the toolset can be found at \texttt{/opt/faqas\_semu}, being the case study installed at the relative path \texttt{faqas\_semu/case\_studies/LIBUTIL}.
 
@@ -37,7 +37,7 @@ We assume that the engineer has already properly setup and initialized the works
 
 \subsection{Step 1: configuring \SEMUS}
 
-The first step consists of configuring \SEMUS; for doing so it is necessary to provide the paths for the SUT paths, the SUT compilation commands, the output folders, and the configuration of \SEMU for guiding the symbolic search. Listing~\ref{listing:LIBUTIL:conf} provides an example of configuration file for the case study, the file can be found at \begin{footnotesize}\texttt{/opt/faqas\_semu/case\_studies/LIBUTIL/scripts/faqas\_semus\_conf.sh}\end{footnotesize}: 
+The first step consists of configuring \SEMUS; for doing so it is necessary to provide the paths for the SUT paths, the SUT compilation commands, the output folders, and the configuration of \SEMU for guiding the symbolic search. Listing~\ref{listing:LIBUTIL:conf} provides an example of configuration file for the case study, the file can be found at \begin{footnotesize}\texttt{/opt/faqas\_semu/case\_studies/LIBUTIL/scripts/faqas\_semus\_conf.sh}\end{footnotesize}:
 
 \begin{lstlisting}[language=bash,label=listing:LIBUTIL:conf,caption=faqas\_semus\_conf.sh file for LIBUTIL case study.]
 FAQAS_SEMU_CASE_STUDY_TOPDIR=../
@@ -116,7 +116,7 @@ Concerning \SEMU configuration, we can see that we have setup the tool to run fo
 
 \subsection{Step 2 and 3: configuring the \texttt{generate\_template\_config.json} files and generating test templates}
 
-For the generation of test templates we provide a Bash script that automates the invocation of the script \texttt{generate\_direct.py} for a specific source. This script is called \texttt{call\_generate\_direct.sh}, and receives the relative path to the source under test. 
+For the generation of test templates we provide a Bash script that automates the invocation of the script \texttt{generate\_direct.py} for a specific source. This script is called \texttt{call\_generate\_direct.sh}, and receives the relative path to the source under test.
 Please note that a different configuration for \texttt{generate\_template\_config.json} is required for each source file to test.
 
 %\DONE{Shall we add "Please note that a different configuration for texttt{generate\_template\_config.json} is required for each source file to test." ?}
@@ -150,7 +150,7 @@ $ case_studies/LIBUTIL/util_codes/call_generated_direct.sh src/drivers/sys/memor
 
 \subsection{Step 4: launching the test generation process}
 
-Since the test generation targets the source files \begin{small}\texttt{byteorder.c, clock.c, memory.c, error.c, timestamp.c}\end{small}, we provide in folder \texttt{case\_studies/LIBUTIL/WORKSPACE/DOWNLOADED/} the list of live mutants for each of these source files. 
+Since the test generation targets the source files \begin{small}\texttt{byteorder.c, clock.c, memory.c, error.c, timestamp.c}\end{small}, we provide in folder \texttt{case\_studies/LIBUTIL/WORKSPACE/DOWNLOADED/} the list of live mutants for each of these source files.
 Since we are executing the example in a Singularity container, we execute the test generation through the \texttt{run.sh} script, and not through the wrapper \texttt{docker\_run.sh}, as explained in Chapter~\ref{chapter:semus:operations}.
 
 The engineer shall execute one test generation command (i.e., invoke the script \emph{run.sh}) for each source file to generate test cases for. The five commands to execute in order to starting the test generation follow:
@@ -187,7 +187,7 @@ The generated test case can be executed using the following command:
  $ ./runtest.sh test000001.ktest.c
 \end{lstlisting}
 
-The command above will generate the text file \texttt{test000001.ktest.c.got}, which stores the system outputs generated during the execution of the test case. The script will also compare the observed output (i.e., the file with extension \emph{.got}) with the output generated during test generation (i.e., the file with extension \emph{.expected}) through a \emph{diff} command. If the function under test was not modified, the \texttt{runtest.sh} script should not output any difference. 
+The command above will generate the text file \texttt{test000001.ktest.c.got}, which stores the system outputs generated during the execution of the test case. The script will also compare the observed output (i.e., the file with extension \emph{.got}) with the output generated during test generation (i.e., the file with extension \emph{.expected}) through a \emph{diff} command. If the function under test was not modified, the \texttt{runtest.sh} script should not output any difference.
 
 %\DONE{I've added teh following, please check. OSCAR: it's fine for me.}
 
@@ -195,7 +195,7 @@ The command \texttt{runtest.sh} becomes handy in a CI/CD context; indeed, the te
 
 Additionally, the user may generate the summary report of \SEMUS, through the following command:
 
-\begin{lstlisting}[language={}, label=listing:semus_results]
+\begin{lstlisting}[language={}, label=listing:semus_results_2]
  $ ./generateReport.sh
 \end{lstlisting}
 

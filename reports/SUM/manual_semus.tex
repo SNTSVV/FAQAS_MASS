@@ -239,19 +239,19 @@ FAQAS_SEMU_TG_MAX_MEMORY_INHIBIT="ON"
 \subsubsection{Edit generate\_template\_config.json}
 \label{sec:json_config}
 
-Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}. These JSON variables are \texttt{TYPES\_TO\_INTCONVERT, TYPES\_TO\_PRINTCODE, OUT\_ARGS\_NAMES, IN\_OUT\_ARGS\_NAMES, TYPE\_TO\_INITIALIZATIONCODE}, \\
+Within file \texttt{generate\_template\_config.json} there are multiple variables that must be set; they are shown in Listing~\ref{listing:json:conf}. These JSON variables are \texttt{TYPES\_TO\_INTCONVERT}, \linebreak \texttt{TYPES\_TO\_PRINTCODE, OUT\_ARGS\_NAMES, IN\_OUT\_ARGS\_NAMES, TYPE\_TO\_INITIALIZATIONCODE}, \\
 \texttt{TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS, VOID\_ARG\_SUBSTITUTE\_TYPE},\\
 \texttt{ARG\_TYPE\_TO\_ITS\_POINTER\_ELEM\_NUM}.
 
 The option TYPES\_TO\_INTCONVERT specifies a type as key and the type conversion template as value, where the placeholder for the expression to convert should be specified as the string \texttt{'{}'}, an example would be \texttt{"TYPES\_TO\_INTCONVERT": {"flag": "(int){}"}}.
 
-The option TYPES\_TO\_PRINTCODE specifies a type as key and the object printing code as value, where the placeholder for the object to print must be specified as the string \texttt{'{}'}. Do not forget to escape the backslashes and double quoted in printf format, an example would be \texttt{"TYPES\_TO\_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST\_OUTPUT: X=\%d, Y=\%s\\n\", {}->x, {}->y)"}}.
+The option TYPES\_TO\_PRINTCODE specifies a type as key and the object printing code as value, where the placeholder for the object to print must be specified as the string \texttt{'{}'}. Do not forget to escape the backslashes and double quoted in printf format, an example would be \linebreak \texttt{"TYPES\_TO\_PRINTCODE": {"struct XY *": "printf(\"FAQAS-SEMU-TEST\_OUTPUT: X=\%d, Y=\%s\\n\", {}->x, {}->y)"}}.
 
 The option OUT\_ARGS\_NAMES specifies the names of function arguments that are used as function output (passed by reference for output only) e.g. \texttt{"OUT\_ARGS\_NAMES": ["pErrCode"]}.
 
 The option IN\_OUT\_ARGS\_NAMES Specify the names of function arguments that are used both as function input and output (passed by reference) e.g. \texttt{"IN\_OUT\_ARGS\_NAMES": ["inoutArg"]}.
 
-The option TYPE\_TO\_INITIALIZATIONCODE specifies a type as key and the pre \texttt{klee\_make\_symbolic} statement initialization code as value, the placeholder for the object to initialize must be specified as the string \texttt{'{}'}\\
+The option TYPE\_TO\_INITIALIZATIONCODE specifies a type as key and the \linebreak pre \texttt{klee\_make\_symbolic} statement initialization code as value, the placeholder for the object to initialize must be specified as the string \texttt{'{}'}\\
 e.g. \texttt{"TYPE\_TO\_INITIALIZATIONCODE": {"struct head": "{}.next = malloc(sizeof(struct head));\\n{}.next->next = NULL;"}}.
 
 The option TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS specifies how to make an object symbolic (specially useful for objects that are initialized, like pointers). The object type is the dict key and a dict of field accesses and their type is the dict value. The placeholder for the object to make symbolic must be specified as the string \texttt{'{}'} e.g. \texttt{"TYPE\_TO\_SYMBOLIC\_FIELDS\_ACCESS": {"struct head": {"{}.data": "char [3]", "{}.next->data": "char [3]"}}}.
