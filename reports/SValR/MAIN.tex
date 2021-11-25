@@ -214,9 +214,9 @@
 
 %When you modify only one paragraph
 %You may put: \REVFINAL{A1}{text} where the action item is listed in https://uniluxembourg.sharepoint.com/:w:/s/msteams_efbe46/EXEVBn7iskxNtZhlxvYWEVoBeCW6sZtEsgBxxwL2V9uN2A?e=KRgpUt
-\newcommand{\REVFINAL}[2]{\todo{\tiny{#1}}\color{blue}{#2}\color{black}}
+\newcommand{\REVFINAL}[2]{{#2}}
 %When you modify a big section
-\newcommand{\STARTCHANGEDFINAL}{\color{blue}}
+\newcommand{\STARTCHANGEDFINAL}{\color{black}}
 \newcommand{\ENDCHANGEDFINAL}{\color{black}}
 
 
@@ -268,7 +268,7 @@
 \end{tikzpicture}}
 
 
-\newcommand{\STARTCHANGEDWPT}{\color{blue}}
+\newcommand{\STARTCHANGEDWPT}{\color{black}}
 \newcommand{\ENDCHANGEDWPT}{\color{black}}
 
 \newcommand{\CHANGED}[1]{{#1}}
