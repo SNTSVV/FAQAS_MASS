@@ -1,0 +1,96 @@
+% !TEX root = MAIN.tex
+
+\chapter{Configuration of the toolset}
+
+\section{Probe insertion}
+
+In the \case the mutation probes were inserted into the function deals with the F40 message, i.e., \emph{GpsReceiver::SendF40}. The function is implemented in the file \emph{GpsReceiver.cpp}.
+
+\emph{GpsReceiver::SendF40} is reported in Listing~\ref{lst:probe_insertion} alog with the probe insertion strategy.
+The data was copied into a vector, mutated and then copied back into the correct variables.
+
+\begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
+
+void GpsReceiver::SendF40()
+{
+
+    ::Smp::UInt16 gpsWeek = 0;
+    ::Smp::Float64 gpsSecondsOfWeek = 0.0;
+
+    Generic::Utils::GetGpsTime(getCurrentDateTime(), gpsWeek, gpsSecondsOfWeek);
+
+    //MANUALLY INSERTED PROBE
+    std::vector<double> gps_buffer;
+
+    gps_buffer.push_back(gpsWeek);
+    gps_buffer.push_back(gpsSecondsOfWeek);
+    gps_buffer.push_back(cartNavData.x);
+    gps_buffer.push_back(cartNavData.y);
+    gps_buffer.push_back(cartNavData.z);
+    gps_buffer.push_back(cartNavData.vx);
+    gps_buffer.push_back(cartNavData.vy);
+    gps_buffer.push_back(cartNavData.vz);
+    gps_buffer.push_back(cartNavData.navigationStatus);
+    gps_buffer.push_back(cartNavData.nbOfTrackSats);
+    gps_buffer.push_back(cartNavData.pdop);
+
+    mutate_FM_F40( &gps_buffer, fm );
+
+    gpsWeek = gps_buffer[0];
+    gpsSecondsOfWeek = gps_buffer[1];
+    cartNavData.x = gps_buffer[2];
+    cartNavData.y = gps_buffer[3];
+    cartNavData.z = gps_buffer[4];
+    cartNavData.vx = gps_buffer[5];
+    cartNavData.vy = gps_buffer[6];
+    cartNavData.vz = gps_buffer[7];
+    cartNavData.navigationStatus = gps_buffer[8];
+    cartNavData.nbOfTrackSats = gps_buffer[9];
+    cartNavData.pdop = gps_buffer[10];
+    //PROBE END
+
+    std::stringstream ss;
+    ss << "F40" << std::setw(4) << gpsWeek << std::fixed << std::setw(12) << std::setprecision(5) << gpsSecondsOfWeek
+       << std::setw(2) << (unsigned)cartNavData.gpsUtc << std::showpos << std::setw(12) << std::setprecision(2)
+       << cartNavData.x << std::setw(12) << std::setprecision(2) << cartNavData.y << std::setw(12)
+       << std::setprecision(2) << cartNavData.z << std::setw(12) << std::setprecision(5) << cartNavData.vx
+       << std::setw(12) << std::setprecision(5) << cartNavData.vy << std::setw(12) << std::setprecision(5)
+       << cartNavData.vz << std::noshowpos << std::setw(1) << (unsigned)cartNavData.navigationStatus << std::setw(2)
+       << (unsigned)cartNavData.nbOfTrackSats << std::setw(4) << std::setprecision(1) << cartNavData.pdop;
+
+    Trace(1, "F40: %s", ss.str());
+
+    std::string response = ss.str();
+    ::std::vector<::Smp::UInt8> responseData(response.begin(), response.end());
+    SendMessage(40, responseData);
+}
+
+\end{lstlisting}
+
+\section{Fault Model}
+We defined a specific Fault Model for the F40 message type in the \emph{.csv} file format; its content is reported in Table~\ref{tab:fault_model}.
+
+
+\input{tables/fault_model}
+
+% \TODO{What file? the fault model? Maybe we shall say that for more information the reader can refer to the SUM?}
+Every line of the fault model file represents a mutation operator, while every column represents a configuration parameter for that operator.
+
+\begin{itemize}
+  \item Column \emph{FaultModel} contains the name of the Fault Model containing the operator. Typically the user shall define a fault model for every different kind of message exchanged through the buffer.
+
+  \item Column \emph{DataItem} refers to the index of the first element of the targeted data item in the array representing the buffer.
+
+  \item Column \emph{Span} reports the number of array elements that make up the data item target by the mutation.
+
+  \item Column \emph{Type} reports about the type of data targeted by the mutation: \texttt{INT}, \texttt{LONG}, \texttt{FLOAT}, \texttt{DOUBLE}, \texttt{BIN} or \texttt{HEX}.
+
+  \item Column \emph{FaultClass} contains the type of fault that the mutation will emulate, depending on the chosen mutation operator. A summary of the mutation operators can be found in Table~\ref{tab:operators}.
+
+  \item The other columns represent configuration parameters and assume different meanings depending on the mutation operator they refer to. More details on the data-driven mutation operators and their configuration can be found in Table~\ref{tab:operators}.
+
+\end{itemize}
+
+\input{tables/operators}
+
+A mutation operator can generate one or more mutants performing a \emph{Mutation Operation}.
