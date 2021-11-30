@@ -24,64 +24,9 @@
 \endfirsthead
 %
 \endhead
-1 & IfStatus & 0 & 1 & BIN & BF & 4 & 4 & NA & NA & -1 & 1 & Check oracle for data item containing OBC communication error\\ \hline
-2 & IfStatus & 0 & 1 & BIN & BF & 5 & 7 & NA & NA & -1 & 1 & Check oracle for data item containing  Unit communication error\\ \hline
-3 & IfStatus & 1 & 1 & BIN & BF & 0 & 4 & NA & NA & -1 & 1 & Check oracle for data item containing Unit in error\\ \hline
-4 & IfStatus & 4 & 1 & BIN & BF & 0 & 2 & NA & NA & -1 & 1 & Check oracle for data item containing Gyroscope enable\\ \hline
-5 & IfStatus & 4 & 1 & BIN & BF & 2 & 4 & NA & NA & -1 & 1 & Check oracle for data item containing Reaction Wheel enable\\ \hline
-6 & IfStatus & 4 & 1 & BIN & BF & 5 & 7 & NA & NA & -1 & 1 & 3 Check oracle for data item containing axis Magnetorquer enable\\ \hline
-8 & IfStatus & 5 & 1 & BIN & BF & 2 & 7 & NA & NA & -1 & 1 & S. Check oracle for data item containing Sensor board ADC enable\\ \hline
-9 & IfHK & 12 & 2 & DOUBLE & VAT & NA & NA & 3.6 & 0.1 & NA & NA & Check oracle for data item containing VCCb\\ \hline
-11 & IfHK & 14 & 2 & DOUBLE & VAT & NA & NA & 33.53 & 0.01 & NA & NA & Check oracle for data item containing VBUS\\ \hline
-14 & IfHK & 14 & 2 & DOUBLE & FVBT & NA & NA & 24 & 1 & NA & NA & Check oracle for data item containing VBUS\\ \hline
-15 & IfHK & 24 & 2 & DOUBLE & VAT & NA & NA & 6 & 1 & NA & NA & Check oracle for data item containing VCC Software 1\\ \hline
-20 & IfHK & 30 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 2\\ \hline
-21 & IfHK & 30 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 2\\ \hline
-22 & IfHK & 30 & 2 & DOUBLE & FVOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 2\\ \hline
-23 & IfHK & 32 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3a\\ \hline
-24 & IfHK & 32 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3a\\ \hline
-25 & IfHK & 32 & 2 & DOUBLE & FVOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3a\\ \hline
-26 & IfHK & 34 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3b\\ \hline
-27 & IfHK & 34 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3b\\ \hline
-28 & IfHK & 34 & 2 & DOUBLE & FVOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 3b\\ \hline
-29 & IfHK & 36 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 4\\ \hline
-30 & IfHK & 36 & 2 & DOUBLE & VOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 4\\ \hline
-31 & IfHK & 36 & 2 & DOUBLE & FVOR & -20 & 50 & NA & 1 & NA & NA & Check oracle for data item containing PCB Temperature 4\\ \hline
-32 & GYTM & 0 & 1 & BIN & BF & 0 & 0 & NA & NA & -1 & 1 & Check oracle for data item containing Unit identifier\\ \hline
-33 & GYTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x51 & Check oracle for data item containing Error type\\ \hline
-34 & GYTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x52 & Check oracle for data item containing Error type\\ \hline
-35 & GYTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x53 & Check oracle for data item containing Error type\\ \hline
-36 & GYTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x54 & Check oracle for data item containing Error type\\ \hline
-37 & GYTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x56 & Check oracle for data item containing Error type\\ \hline
-84 & S.SensorTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x51 & Check oracle for data item containing Error type\\ \hline
-85 & S.SensorTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x54 & Check oracle for data item containing Error type\\ \hline
-86 & S.SensorTMF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x56 & Check oracle for data item containing Error type\\ \hline
-87 & SSTP & 0 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 3\\ \hline
-88 & SSTP & 0 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 3\\ \hline
-89 & SSTP & 0 & 2 & DOUBLE & FVOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 3\\ \hline
-93 & SSTP & 4 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 6\\ \hline
-94 & SSTP & 4 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 6\\ \hline
-95 & SSTP & 4 & 2 & DOUBLE & FVOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 6\\ \hline
-96 & SSTP & 6 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 5\\ \hline
-97 & SSTP & 6 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 5\\ \hline
-98 & SSTP & 6 & 2 & DOUBLE & FVOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 5\\ \hline
-99 & SSTP & 8 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 4\\ \hline
-100 & SSTP & 8 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 4\\ \hline
-101 & SSTP & 8 & 2 & DOUBLE & FVOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 4\\ \hline
-102 & SSTP & 10 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 7\\ \hline
-103 & SSTP & 10 & 2 & DOUBLE & VOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 7\\ \hline
-104 & SSTP & 10 & 2 & DOUBLE & FVOR & -70 & 100 & NA & 1 & NA & NA & Check oracle for data item containing Temperature reading from ADC 7\\ \hline
-105 & SSTPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x51 & Check oracle for data item containing Error type\\ \hline
-106 & SSTPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x54 & Check oracle for data item containing Error type\\ \hline
-107 & SSTPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x56 & Check oracle for data item containing  type\\ \hline
-108 & SpaceCraftHK & 0 & 2 & DOUBLE & VAT & NA & NA & 3.3 & 0.1 & NA & NA & Check oracle for data item containing TMTC Software 1\\ \hline
-110 & SpaceCraftHK & 0 & 2 & DOUBLE & VBT & NA & NA & 0 & 0.1 & NA & NA & Check oracle for data item containing TMTC Software 1\\ \hline
-114 & SpaceCraftHK & 2 & 2 & DOUBLE & FVOR & 0.5 & 2.75 & NA & 0.01 & NA & NA & Check oracle for data item containing TMTC Software 2\\ \hline
-170 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x51 & Check oracle for data item containing Error type\\ \hline
-171 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x52 & Check oracle for data item containing Error type\\ \hline
-172 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x53 & Check oracle for data item containing Error type\\ \hline
-173 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x54 & Check oracle for data item containing Error type\\ \hline
-174 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x56 & Check oracle for data item containing Error type\\ \hline
-175 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x5d & Check oracle for data item containing Error type\\ \hline
-176 & M.SetPWMRSPF. & 0 & 1 & HEX & IV & NA & NA & NA & NA & NA & 0x5e & Check oracle for data item containing Error type \\ \hline
+% 1 & IfStatus & 0 & 1 & BIN & BF & 4 & 4 & NA & NA & -1 & 1 & Check oracle for data item containing OBC communication error\\ \hline
+19 & General & 4 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA & Check oracle for data item containing seq\\ \hline
+20 & General & 4 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA & Check oracle for data item containing seq\\ \hline
+21 & General & 5 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA & Check oracle for data item containing total\\ \hline
+22 & General & 5 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA & Check oracle for data item containing total\\ \hline 
 \end{longtable}}
