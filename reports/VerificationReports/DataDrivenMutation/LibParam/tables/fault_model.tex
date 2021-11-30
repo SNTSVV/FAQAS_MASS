@@ -1,0 +1,70 @@
+{
+\scriptsize
+% Please add the following required packages to your document preamble:
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}{|l|l|l|l|l|l|l|l|l|l|l|}
+\caption{Fault model for the \case}
+\label{tab:fault_model}\\
+\hline
+\textbf{FaultModel} &
+ \textbf{DataItem} &
+ \textbf{Span} &
+ \textbf{Type} &
+ \textbf{FaultClass} &
+ \textbf{Min} &
+ \textbf{Max} &
+ \textbf{Threshold} &
+ \textbf{Delta} &
+ \textbf{State} &
+ \textbf{Value} \\ \hline
+\endfirsthead
+%
+\endhead
+%
+%IfStatus & 0 & 1 & BIN & BF & 3 & 3 & NA & NA & -1 & 1 \\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x00\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x55\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0xff\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x44\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x77\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x88\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x89\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x99\\ \hline
+General & 0 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0x9a\\ \hline
+General & 1 & 1 & LONG & VAT & NA & NA & 20 & 1 & NA & NA\\ \hline
+General & 1 & 1 & LONG & FVAT & NA & NA & 20 & 1 & NA & NA\\ \hline
+General & 1 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+General & 1 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+General & 1 & 1 & LONG & HV & NA & NA & NA & NA & NA & 10\\ \hline
+General & 2 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+General & 2 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+General & 2 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0\\ \hline
+General & 2 & 1 & LONG & VAT & NA & NA & 180 & 1 & NA & NA\\ \hline
+General & 2 & 1 & LONG & FVAT & NA & NA & 180 & 1 & NA & NA\\ \hline
+General & 4 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+General & 4 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+General & 5 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+General & 5 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+GET & 6 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+GET & 6 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+SET & 6 & 1 & BIN & BF & 0 & 7 & NA & NA & -1 & 1\\ \hline
+SAVE & 6 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+SAVE & 6 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+SAVE & 7 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+SAVE & 7 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+LOAD & 6 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+LOAD & 6 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+LOAD & 7 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+LOAD & 7 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+REPLY & 2 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+REPLY & 2 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+REPLY & 2 & 1 & LONG & IV & NA & NA & NA & NA & NA & 0\\ \hline
+REPLY & 2 & 1 & LONG & VAT & NA & NA & 180 & 1 & NA & NA\\ \hline
+REPLY & 2 & 1 & LONG & FVAT & NA & NA & 180 & 1 & NA & NA\\ \hline
+REPLY & 4 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+REPLY & 4 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+REPLY & 5 & 1 & LONG & SS & NA & NA & NA & 1 & NA & NA\\ \hline
+REPLY & 5 & 1 & LONG & SS & NA & NA & NA & -1 & NA & NA\\ \hline
+REPLY & 6 & 1 & BIN & BF & 0 & 7 & NA & NA & -1 & 1\\ \hline
+\end{longtable}}
