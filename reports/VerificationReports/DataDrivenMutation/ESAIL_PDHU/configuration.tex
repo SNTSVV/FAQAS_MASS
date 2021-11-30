@@ -4,68 +4,58 @@
 
 \section{Probe insertion}
 
-In the \case the mutation probes were inserted into the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
+In the \case the mutation probes were inserted into one of the functions that handles Remote Commands over PDO (Process Data Object), i.e., \emph{PdhuPdoService::IndicationReceived}. The function is implemented in the file \emph{PdhuPdoService.cpp}.
+The OBSW initiates a remote access by sending a command (Cmd) and the PDHU processes the command and send back its answer (Ans).
 
-\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method (i.e. a function that gathers and writes the necessary data) selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
+\emph{PdhuPdoService::IndicationReceived} mainly consists of a switch command that generates a response to different commands.
 
-Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
+The layouts of the commands and answers are are composed of a signal ID that must match between command and answer and a payload with size depending on the ID.
 
-Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as a nominal response message, the response generated in the second case is an error response message.
+The vector that represents the input command is called \emph{data} and the answer is tored in a new one called \emph{newData} which contains elements of type UInt8.
 
-In both cases, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
+
+A \emph{Mutation Probe} has been inserted to mutate the data contained in the \emph{newData} for different commands.
 
 An example of this probe insertion strategy is reported in Listing~\ref{lst:probe_insertion}.
 
 \begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
 
-    if(Status->ADRD || ((cmdId == 1) && (subcmdId < 3)))
+case 0x04: //RMTCMD(O1,04) STO_GET_HEAD
+{
+    ::Smp::UInt64 sequenceId;
+    auto statusCode = Pdhu->StorageReadBack->GetHeadPointer(data[1], sequenceId);
+
+    if(statusCode == RCSC_CmdOk)
     {
-        switch(cmdId)
-        {
-        case 1:
-        {
-            switch(subcmdId)
-            {
-            case 0:
-            {
-                cr = GetIfStatus(newBlock);
+        Generic::Utils::SerializeLe(sequenceId, newData.begin() + 2, 5);
 
-                //MANUALLY INSERTED PROBES
-                if(cr != CR_Failure){
+        // MANUALLY INSERTED PROBE
+        mutate_FM_STO_GET_HEAD( &newData );
+        // END OF THE PROBE
 
-      		        mutate_FM_IfStatus(&newBlock);
-
-                }
-                //END PROBES
-
-            }
-            break;
+        }
+    else
+    {
+        newData[1] = statusCode;
+        }
+}
+break;
 
 \end{lstlisting}
 
 \section{Fault Model}
-We defined one Fault Model for every type of message exchanged by the ADCS and CSW (and consequently for every data generation method), based on the structure of the buffer and on the data contained in it.
+We defined one Fault Model for every command/answer pair of interest (according to LuxSpace), based on the structure of the buffer and on the data contained in it.
 They are:
 \begin{itemize}
-\item SpaceCraftHK
-\item MagnetorquerSetPWMRSPFailure
-\item SSTP
-\item SunSensorTMFailure
-\item SunSensorTM
-\item GYTMFailure
-\item IfHK
-\item IfStatus
-\item SSTPFailure
-\item MagnetorquerSetPWMRSP
-\item GYTM
+\item STO\_GET\_HEAD
+\item STO\_GET\_TAIL
+\item CRC\_COMPUTE
 \end{itemize}
 
 The Fault Models for the \case were defined in the \emph{.csv} file format; their content is reported in Table~\ref{tab:fault_model}.
 
-
 \input{tables/fault_model}
 
-% \TODO{What file? the fault model? Maybe we shall say that for more information the reader can refer to the SUM?}
 Every line of the fault model file represents a mutation operator, while every column represents a configuration parameter for that operator.
 
 \begin{itemize}
