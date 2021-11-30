@@ -4,64 +4,73 @@
 
 \section{Probe insertion}
 
-In the \case the mutation probes were inserted into the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
+In the \case the mutation probes were inserted into the function \emph{gs\_rparam\_process\_packet}, which take care of encapsulating the \emph{libParam} data and provide it to the communication library \emph{libGSCSP}. The function is implemented in the file \emph{libparam/src/csp\_service\_handler.c}.
 
-\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method (i.e. a function that gathers and writes the necessary data) selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
+It consist mainly of switch statements that handle the different kinds of action requested within each packet and the different kinds of payload that go along with them.
 
-Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
+For every notable switch case, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer. In addition to that, there is also a \emph{General} mutation probe that applies to all switch cases.
 
-Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as a nominal response message, the response generated in the second case is an error response message.
-
-In both cases, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
+The buffer to mutate is implemented as a custom data structure of type \emph{gs\_rparam\_query\_t}, called \texttt{request}; for this reason the data is converted into an array before mutation and converted back afterwards.
 
 An example of this probe insertion strategy is reported in Listing~\ref{lst:probe_insertion}.
 
 \begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
 
-    if(Status->ADRD || ((cmdId == 1) && (subcmdId < 3)))
-    {
-        switch(cmdId)
-        {
-        case 1:
-        {
-            switch(subcmdId)
-            {
-            case 0:
-            {
-                cr = GetIfStatus(newBlock);
+case RPARAM_SET: {
 
-                //MANUALLY INSERTED PROBES
-                if(cr != CR_Failure){
+  //start of the  mutation probe
+  unsigned long long int v_SET[7];
 
-      		        mutate_FM_IfStatus(&newBlock);
+  v_SET[0] = (unsigned long long int) request->action;
+  v_SET[1] = (unsigned long long int) request->table_id;
+  v_SET[2] = (unsigned long long int) request->length;
+  v_SET[3] = (unsigned long long int) request->checksum;
+  v_SET[4] = (unsigned long long int) request->seq;
+  v_SET[5] = (unsigned long long int) request->total;
+  v_SET[6] = (unsigned long long int)request->payload.packed[0];
 
-                }
-                //END PROBES
+  mutate_FM_SET(v_SET);
 
-            }
-            break;
+  request->action = (uint8_t) v_SET[0];
+  request->table_id = (uint8_t) v_SET[1];
+  request->length = (uint16_t) v_SET[2];
+  request->checksum = (uint16_t) v_SET[3];
+  request->seq = (uint16_t) v_SET[4];
+  request->total = (uint16_t) v_SET[5];
+  request->payload.packed[0]=(uint8_t)v_SET[6];
+
+  //end of the mutation probe
+
+          if (!validate_checksum(tinst, request->checksum)) {
+              request_packet->data[0] = RPARAM_ERROR;
+              goto out_send_status;
+          }
+
+
+          if (gs_param_deserialize(tinst, request->payload.packed, request->length, F_FROM_BIG_ENDIAN) == GS_OK) {
+              request_packet->data[0] = RPARAM_SET_OK;
+          } else {
+              request_packet->data[0] = RPARAM_ERROR;
+          }
+          goto out_send_status;
+}
 
 \end{lstlisting}
 
 \section{Fault Model}
-We defined one Fault Model for every type of message exchanged by the ADCS and CSW (and consequently for every data generation method), based on the structure of the buffer and on the data contained in it.
+
+We defined one Fault Model for every type of action performed by \emph{gs\_rparam\_process\_packet}, based on the structure of the buffer and on the data contained in it.
 They are:
 \begin{itemize}
-\item SpaceCraftHK
-\item MagnetorquerSetPWMRSPFailure
-\item SSTP
-\item SunSensorTMFailure
-\item SunSensorTM
-\item GYTMFailure
-\item IfHK
-\item IfStatus
-\item SSTPFailure
-\item MagnetorquerSetPWMRSP
-\item GYTM
+\item GET
+\item SET
+\item SAVE
+\item LOAD
 \end{itemize}
 
-The Fault Models for the \case were defined in the \emph{.csv} file format; their content is reported in Table~\ref{tab:fault_model}.
+An additional fault model (General), as mentioned, applies to all switch cases and modifies header information.
 
+The Fault Models for the \case were defined in the \emph{.csv} file format; their content is reported in Table~\ref{tab:fault_model}.
 
 \input{tables/fault_model}
 
