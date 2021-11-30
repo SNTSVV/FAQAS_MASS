@@ -1,71 +1,53 @@
 % !TEX root = MAIN.tex
 
-\chapter{Configuration of the toolset}
+\chapter{Configuration of the tool-set}
 
 \section{Probe insertion}
 
-In the \case the mutation probes were inserted into the function of the \emph{ADCS\_IF\_SW} that manages the communication between the ADCS and the OBC, i.e., \emph{ObcRecvBlockCb}. The function is implemented in the file \emph{AdcsIf.c.}
+In the \case the mutation probes were inserted into the inserted in the function \emph{csp\_service\_handler}, contained in the file \emph{libgscsp/lib/libcsp/src/csp\_service\_handler.c}
 
-\emph{ObcRecvBlockCb} mainly consists of a switch command that generates a response for the OBC after invoking a data generation method (i.e. a function that gathers and writes the necessary data) selected according to the request received on the data link. For example, method \emph{GetIfStatus} prepares a response packet containing the information about the ADCS status.
+This function handles an incoming connection and depending on the destination port, handles the packet to the corresponding service handler. The function takes as a parameter a connection structure of type \emph{csp\_conn\_}t and a \emph{LibGSCSP} packet of type \emph{csp\_packet\_t}. Both are represented by custom data structures.
 
-Each data generation method receives as input an object of type \emph{std::vector} that will be used to store the data to be sent to the OBC. The vector is called \emph{newBlock} and acts as a buffer and it contains elements of type UInt8.
+We were interested in mutating \emph{idin} field, which contain the header of the LibGSCSP packet.
 
-Each invocation of a data generation method generates a response that may either contain the desired result or an error code. The response generated in the first case is referred to as a nominal response message, the response generated in the second case is an error response message.
+The packet header is represented by the data structure \emph{csp\_id\_t}. To enable the application of \DAMA, the data is converted into an array before mutation and converted back afterwards.
 
 In both cases, a \emph{Mutation Probe} has been inserted to mutate the data contained in the buffer.
-
 An example of this probe insertion strategy is reported in Listing~\ref{lst:probe_insertion}.
 
 \begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
 
-    if(Status->ADRD || ((cmdId == 1) && (subcmdId < 3)))
-    {
-        switch(cmdId)
-        {
-        case 1:
-        {
-            switch(subcmdId)
-            {
-            case 0:
-            {
-                cr = GetIfStatus(newBlock);
+// manually inserted probe
 
-                //MANUALLY INSERTED PROBES
-                if(cr != CR_Failure){
+int damat_buffer[7];
 
-      		        mutate_FM_IfStatus(&newBlock);
+damat_buffer[0] = 0;
+damat_buffer[1] = csp_conn_pri_faqas(conn);
+damat_buffer[2] = csp_conn_src(conn);//conn->idin.src;
+damat_buffer[3] = csp_conn_dst(conn);//conn->idin.dst;
+damat_buffer[4] = csp_conn_dport(conn);//conn->idin.dport;
+damat_buffer[5] = csp_conn_sport(conn);//conn->idin.sport;
+damat_buffer[6] = csp_conn_flags(conn);//conn->idin.flags;
 
-                }
-                //END PROBES
+mutate_FM_Identifier(damat_buffer);
 
-            }
-            break;
+set_conn_idin_pri(conn,damat_buffer[1]);
+set_conn_idin_src(conn,damat_buffer[2]);
+set_conn_idin_dst(conn,damat_buffer[3]);
+set_conn_idin_dport(conn,damat_buffer[4]);
+set_conn_idin_sport(conn,damat_buffer[5]);
+set_conn_idin_flags(conn,damat_buffer[6]);
+
+// end of probe
 
 \end{lstlisting}
 
 \section{Fault Model}
-We defined one Fault Model for every type of message exchanged by the ADCS and CSW (and consequently for every data generation method), based on the structure of the buffer and on the data contained in it.
-They are:
-\begin{itemize}
-\item SpaceCraftHK
-\item MagnetorquerSetPWMRSPFailure
-\item SSTP
-\item SunSensorTMFailure
-\item SunSensorTM
-\item GYTMFailure
-\item IfHK
-\item IfStatus
-\item SSTPFailure
-\item MagnetorquerSetPWMRSP
-\item GYTM
-\end{itemize}
 
-The Fault Models for the \case were defined in the \emph{.csv} file format; their content is reported in Table~\ref{tab:fault_model}.
-
+The target of the mutation was the header of the LibGSCSP packet on so we defined a single specific Fault Model, called \emph{Identifier}; the relative mutation operators are reported in Table~\ref{tab:fault_model}.
 
 \input{tables/fault_model}
 
-% \TODO{What file? the fault model? Maybe we shall say that for more information the reader can refer to the SUM?}
 Every line of the fault model file represents a mutation operator, while every column represents a configuration parameter for that operator.
 
 \begin{itemize}
