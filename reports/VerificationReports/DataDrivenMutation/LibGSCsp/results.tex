@@ -4,7 +4,7 @@
 
 % \section{Metrics}
 
-Starting from the mutation operators represented in Table~\ref{tab:fault_model}, \DAMA generated \textbf{177} mutants. Every mutated version of the program was executed against the \case test suite.
+Starting from the mutation operators represented in Table~\ref{tab:fault_model}, \DAMA generated \textbf{33} mutants. Every mutated version of the program was executed against the \case test suite.
 
 The results were expressed with the following three metrics:
 \begin{enumerate}
@@ -34,62 +34,11 @@ The aforementioned metrics for the \case are reported in Table~\ref{tab:metrics}
 
 \section{Fault Model Coverage}
 
-The \textbf{FMC} is \textbf{91.67\%}. There is \textbf{1} fault model that is not covered by the test suite of the \case.
-
-The uncovered Fault Model is \emph{MagnetorquerSetPWMRSP} (reported in Table~\ref{tab:fault_model} as \emph{M.SetPWMRSP}). This implies that the function implementing the mutation probe linked to this fault model has never been called during the execution of the test suite.
-
-This means that the code for that message type, reported in Listing~\ref{lst:not_covered}, was not covered.
-
-
-\begin{lstlisting}[language=C++, caption=Uncovered portion of source code, label={lst:not_covered}]
-
-case 8:
-{
-    switch(subcmdId)
-    {
-    case 0:
-    {
-        cr = SetMgtqPwm(newBlock);
-
-
-        //MANUALLY INSERTED PROBES
-        if(cr == CR_Failure){
-          mutate_FM_MagnetorquerSetPWMRSPFailure(&newBlock);
-        }
-
-        //END PROBE
-
-        if(cr == CR_Success)
-        {
-            if(newBlock[2] == 0x55)
-            {
-                // Bypass Magnetometer response
-                newBlock.resize(2);
-                cr = GetMgtqTm(newBlock);
-
-                //MANUALLY INSERTED PROBE
-                mutate_FM_MagnetorquerSetPWMRSP( &newBlock);
-                //END PROBE
-
-            }
-            else
-            {
-                cr = BuildMgtmDataRequestCmd(newBlock);
-                cr = GetMgtmTm(newBlock);
-            }
-        }
-    }
-    break;
-
-
-\end{lstlisting}
-
-% \TODO{I suggest to number action items, with latex it is possible to define a counter and increment it automatically in a macro}
-\action Check the code coverage of the \emph{AdcsIf.c.} file and, if necessary, write a test case that exercises the missing message type.
+The \textbf{FMC} is \textbf{100\%}. There is no fault model that is not covered by the test suite of the \case.
 
 \section{Mutation Operation Coverage}
 
-The \emph{mutation operation coverage} was \textbf{75.00\%}. A total of \textbf{35} mutants were not applied: the function implementing the mutation probe was called, so the message type is covered by the test suite, but it was not possible to perform the corresponding mutation operation.
+The \emph{mutation operation coverage} was \textbf{63.64\%}. A total of \textbf{12} mutants were not applied: the function implementing the mutation probe was called, so the message type is covered by the test suite, but it was not possible to perform the corresponding mutation operation.
 The conditions for this are summarized in Table~\ref{tab:operators} for all the operators.
 The mutants are presented in Table~\ref{tab:not_applied}, which contains the definition of the mutation operator that generated them and a suggestion on how to improve the test suite.
 
@@ -100,9 +49,4 @@ The mutants are presented in Table~\ref{tab:not_applied}, which contains the def
 
 \section{Mutation Score}
 
- The \emph{mutation score} was \textbf{42.85\%}. A total of \textbf{60} mutants were applied but not killed. This implies that the mutation was performed but it did not lead to failures in the test suite; this situation could be due to absent or not well-defined oracles, or to not properly exercised scenarios.
- These live mutants are presented in Table~\ref{tab:live_mutants}, which contains the definition of the mutation operator that generated them and and a suggestion on how to improve the test suite.
-
-\action Apply the suggestions reported in Table~\ref{tab:live_mutants}.
-
-\input{tables/live_mutants}
+ Due to some strict time constraints in the test suite, the overhead introduced by \DAMA caused the tests to fail randomly. It was deemed impossible to compute a reliable \emph{mutation score}.
