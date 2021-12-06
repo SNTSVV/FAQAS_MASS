@@ -13,14 +13,10 @@ The results were expressed with the following three metrics:
 \item \textbf{MS}: Mutation Score, the percentage of mutants killed by the test suite (i.e., leading to at least one test case failure) among the mutants that target a fault model and for which at least one mutation operation was successfully performed.
 \end{enumerate}
 
-% \TODO{Why "low score" ? A score below 100\% indicates the presence of test suite shortcomings}
 A score below 100\% in one of the metrics indicate one of following scenarios, respectively:
 \begin{enumerate}
-% \item \TODO{I think it should be 'one or more message types ...'}
 \item \textbf{FMC below 100\%}: one or more \textbf{message types} targeted by a fault model is \textbf{never exercised}.
-% \item \TODO{I think it should be 'for the message types covered by the test suite, not all the input part......'}
 \item \textbf{MOC below 100\%}: for the message types covered by the test suite, \textbf{not all the input partitions} \textbf{are exercised} by the test suite.
-% \item \TODO{'The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed).'}.
 \item \textbf{MS below 100\%}: The test suite does not always fail in the presence of mutated data. Precisely, none of the test cases can detect the presence of mutated data even if the data is systematically mutated (i.e., the expected data is never observed) It may depend on two reasons: (1) \textbf{the oracles are imprecise} (e.g., they do not verify all the state variables), (2) the system is not brought into a state where the effect of the mutation is noticeable: \textbf{the scenarios exercised are insufficient}.
 \end{enumerate}
 
@@ -29,8 +25,6 @@ The aforementioned metrics for the \case are reported in Table~\ref{tab:metrics}
 
 
 \input{tables/metrics}
-
-\TODO{red action items}
 
 \action The metrics in Table~\ref{tab:metrics}. show that the test suite presents some potential shortcomings, please verify them according to the suggestions presented in the following Sections.
 
@@ -51,5 +45,4 @@ The mutants are presented in Table~\ref{tab:not_applied}, which contains the def
 
 \section{Mutation Score}
 
-\TODO{it sounds a bit odd, just say "All applied mutants has been killed"}
-The \emph{mutation score} was \textbf{100\%}. A total of \textbf{0} mutants were applied but not killed.
+The \emph{mutation score} was \textbf{100\%}. All applied mutants has been killed.
