@@ -4,12 +4,14 @@
 
 \section{Probe insertion}
 
-In the \case the mutation probes were inserted into the function deals with the F40 message, i.e., \emph{GpsReceiver::SendF40}. The function is implemented in the file \emph{GpsReceiver.cpp}.
+In the \case the mutation probes were inserted into the function \emph{GpsReceiver::SendF40} and it is implemented in the file \emph{GpsReceiver.cpp}.
 
-\emph{GpsReceiver::SendF40} is reported in Listing~\ref{lst:probe_insertion} alog with the probe insertion strategy.
+The function collects telemetry data about the spacecraft such as speed, position and navigation status, and then sends a message containing the data represented in a message called \emph{F40 message}.
+The data in question represents the output of the GPS receiver and it is emulated by the SVF.
+The generated message is sent to the OBSW.
+
+\emph{GpsReceiver::SendF40} is reported in Listing~\ref{lst:probe_insertion} along with the probe insertion strategy.
 The data was copied into a vector, mutated and then copied back into the correct variables.
-
-\TODO{add a little background about what SendF40 is, and what it does}
 
 \begin{lstlisting}[language=C++, caption=Probe insertion Strategy, label={lst:probe_insertion}]
 
