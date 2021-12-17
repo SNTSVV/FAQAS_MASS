@@ -1,3 +1,7 @@
+The MASS software includes the following component:
+
+SRCIRor
+
 University of Illinois/NCSA
 Open Source License
 
