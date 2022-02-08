@@ -1,4 +1,4 @@
-Copyright (c) 2021 University of Luxembourg.
+Copyright (c) 2022 University of Luxembourg.
 
 European Space Agency - ESA Software Community Licence Permissive – v2.4
 
