@@ -1,4 +1,4 @@
-MASS is © 2019 - 2021 University of Luxembourg
+MASS is © 2019 - 2022 University of Luxembourg
 
 Authors:
 -	Enrico Vigano' - enrico.vigano@uni.lu 
@@ -6,6 +6,6 @@ Authors:
 -	Fabrizio Pastore - fabrizio.pastore@uni.lu
 -	Lionel Briand - lionel.briand@uni.lu
 
-Licensed under ESA Software Community Licence Permissive – v2.4 (see LICENCE.txt)
+Licensed under ESA Software Community Licence Permissive – v2.4 (see COPYING.txt)
 
-Copyright (C) 2021 University of Luxembourg
+Copyright (C) 2022 University of Luxembourg
