@@ -8,11 +8,13 @@
 
 # Both variables INSTALL_DIR and EXECUTION_DIR must be set before using this script
 # workspace installation directory
-# INSTALL_DIR=
+# export INSTALL_DIR=
+
+if ! env | grep -q ^INSTALL_DIR;then echo "env variable INSTALL_DIR must be set" && exit 1;fi
 
 # if MASS will run inside a container, specify where it will be located inside the container
 # otherwise, leave empty
-# EXECUTION_DIR=
+# export EXECUTION_DIR=
 
 if [ -z $EXECUTION_DIR ];then
     EXECUTION_DIR=$INSTALL_DIR
