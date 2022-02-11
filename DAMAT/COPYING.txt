@@ -1,4 +1,7 @@
-European Space Agency - ESA Software Community Licence Permissive – v2.3
+Copyright (c) 2022 University of Luxembourg.
+
+European Space Agency - ESA Software Community Licence Permissive – v2.4
+
 
 1 Definitions
     1.1 “Contributor” means (a) the individual or legal entity that originally creates or later modifies the Software and (b) each subsequent individual or legal entity that creates or contributes to the creation of Modifications.
@@ -58,7 +61,7 @@ The following obligations apply in the event of any Distribution of the Software
 While Distributing the Software or Modifications, You may choose to conclude additional agreements, for free or for charge, regarding for example support, warranty, indemnity, liability or liability obligations and/or rights, provided such additional agreements are consistent with this License and do not effectively restrict the recipient’s rights under this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor or Licensor, and only if You agree to indemnify, defend, and hold each Contributor or Licensor harmless for any liability incurred by, or claims asserted against, such Contributor or Licensor by reason of your accepting any such warranty or additional liability.
 
 7  Infringements
-    7.1 If You have knowledge that exercising rights granted by this License infringes third party's intellectual property rights, including without limitation copyright and patent rights, You must take reasonable steps (such as notifying appropriate mailing lists or newsgroups) to inform ESA and those who received the Software about the infringement.
+    7.1 If You have Distributed the Software or Modifications and you have positive knowledge or reasonable cause to suspect that exercising rights granted by this License may infringe third party's intellectual property rights, including without limitation copyright and patent rights, You must take reasonable steps (such as notifying appropriate mailing lists or newsgroups) to inform ESA and those who received the Software about the infringement.
     7.2 You acknowledge that continuing to use the Software knowing that such use infringes third party rights (e.g. after receiving a third party notification of infringement) would expose you to the risk of being considered as intentionally infringing third party rights. In such event You should acquire the respective rights or modify the Software so that the Modification is non-infringing.
 
 8  Termination
