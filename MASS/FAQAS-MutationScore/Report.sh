@@ -12,7 +12,7 @@ RESULT_FILE=$APP_RUN_DIR/RESULTS/MASS_RESULTS
 touch $RESULT_FILE
 
 cp $APP_RUN_DIR/DETECTION/test_runs/useful_list_* $APP_RUN_DIR/RESULTS
-cp $APP_RUN_DIR/DETECTION/test_runs/equivalents_distance_zero $APP_RUN_DIR/RESULTS
+cp $APP_RUN_DIR/DETECTION/test_runs/equivalents_distance_zero.csv $APP_RUN_DIR/RESULTS
 cp $MUTATION_DIR/test_runs/all_killed $APP_RUN_DIR/RESULTS
 cp $MUTATION_DIR/test_runs/filtered_live $APP_RUN_DIR/RESULTS
 
@@ -21,9 +21,9 @@ all_filtered=$(cat $APP_RUN_DIR/COMPILED/all_filtered | wc -l)
 killed=$(cat $MUTATION_DIR/test_runs/all_killed | wc -l)
 live=$(cat $MUTATION_DIR/test_runs/all_live | wc -l)
 live_filtered=$(cat $MUTATION_DIR/test_runs/filtered_live | wc -l)
-zero=$(cat $APP_RUN_DIR/RESULTS/equivalents_distance_zero | wc -l)
+zero=$(cat $APP_RUN_DIR/RESULTS/equivalents_distance_zero.csv | wc -l)
 
-MASS_ms=$(echo "scale=2; 100*${killed}/(${killed}+${live_filtered})" | bc -l)
+MASS_ms=$(echo "scale=2; 100*${killed}/(${killed}+(${live_filtered}-${zero}))" | bc -l)
 
 echo "##### MASS Output #####" 2>&1 | tee -a $RESULT_FILE
 echo "## Total mutants generated: $all" 2>&1 | tee -a $RESULT_FILE
